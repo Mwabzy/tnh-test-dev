@@ -1,5 +1,3 @@
-import Footer from "@/components/footer";
-import Navbar from "@/components/Navbar";
 import { blogPosts } from "./BlogList";
 import { useParams } from "react-router";
 
