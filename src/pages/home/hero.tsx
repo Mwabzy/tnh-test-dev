@@ -3,6 +3,12 @@ import care2 from "@/assets/images/image1.png";
 import care3 from "@/assets/images/image3.png";
 import care4 from "@/assets/images/image4.jpg";
 import { Link } from "react-router";
+import { motion } from "framer-motion";
+
+const slideUp = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const Hero = () => {
   return (
@@ -10,6 +16,13 @@ const Hero = () => {
       <div className="grid xl:grid-cols-2 gap-6">
         {/* Text Content */}
         <div className="flex flex-col justify-center space-y-4">
+            <motion.div
+                  variants={slideUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                >
           <h1 className="text-3xl md:text-6xl  font-bold leading-tight font-serif">
             70+ Years of Healthcare with a difference.
           </h1>
@@ -18,6 +31,7 @@ const Hero = () => {
             provision and has deservedly earned recognition throughout East
             Africa and beyond.
           </p>
+          </motion.div>
           <div className="flex space-x-4">
             <button className="bg-white text-black px-5 py-2 rounded-lg font-semibold">
               <Link to="/clinics">Our Clinical Services</Link>
