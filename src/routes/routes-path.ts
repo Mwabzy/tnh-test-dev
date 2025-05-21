@@ -117,6 +117,11 @@ const UIRoutes = {
     path: "/blog/:id",
     component: lazyLoad(() => import("../pages/blog/BlogDetail")),
   },
+   laundryServices: {
+    name: "navigation.laundryServices",
+    path: "/laundry-services",
+    component: lazyLoad(() => import("../pages/other-services/LaundryServices")),
+  },
 };
 
 export const RoutesPath: Record<keyof typeof UIRoutes, UIRoutesType> = UIRoutes;
