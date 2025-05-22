@@ -34,7 +34,7 @@ const HeroSection = () => {
   return (
     <section className="px-6 mt-16 md:px-16 py-12 bg-white text-[#0A0A23]">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
-        <div className="flex-1">
+        <div className="flex-1 ml-15">
           <p className="text-sm font-semibold text-red-900 uppercase">
             Highest Level of Service
           </p>
@@ -42,7 +42,11 @@ const HeroSection = () => {
             We provide the best cleaning{" "}
             <span className="relative inline-block">
               <span className="relative z-10">services</span>
-              <span className="absolute left-0 bottom-1 w-full h-2 bg-red-800 opacity-80 z-0 rotate-[-2deg]" />
+              <img
+            src="https://img.freepik.com/premium-vector/stroke-with-bright-orange-watercolor-brush-cool-refreshing-color-vector-graphics_654163-400.jpg?ga=GA1.1.1163846917.1747898838&semt=ais_hybrid&w=740"
+            alt="Paint stroke background"
+            className="absolute left-0 top-1/2 -translate-y-1/2 h-18 w-150 object-contain"
+      />
             </span>
           </h1>
         </div>
@@ -73,16 +77,13 @@ const HeroSection = () => {
                 className="w-20 h-20 mb-4"
               />
             ) : (
-              <span className="w-[100] h-[100] mb-4 flex items-center justify-center">
+              <span className="w-20 h-20 mb-4 flex items-center justify-center">
                 {service.icon}
               </span>
             )}
             <h3 className="text-lg font-semibold text-[#0A0A23] leading-snug">
               {service.title}
             </h3>
-            <span className="mt-2 text--600 group-hover:translate-x-1 transition-transform">
-              →
-            </span>
           </div>
         ))}
       </div>
@@ -119,20 +120,26 @@ const steps = [
 
 const ExperienceSection = () => {
   return (
-    <section className="bg-gray-50 py-20 px-6 md:px-16">
+    <section className="bg-white py-20 px-6 md:px-16">
       <div className="max-w-7xl mx-auto text-center md:text-left">
         {/* Title */}
-        <h2 className="text-3xl md:text-5xl font-extrabold text-[#0A0A23] leading-snug">
-          The process we have been doing for{" "}
-          <span className="relative inline-block">
-            <span className="relative z-10 text-[#0A0A23]">over 25 years</span>
-            <span className="absolute left-0 bottom-1 w-full h-2 bg-red-800 opacity-80 z-0 rotate-[-2deg]" />
-          </span>{" "}
-          of service
-        </h2>
+      <h2 className="text-3xl md:text-5xl font-extrabold text-[#0A0A23] leading-snug ml-15">
+  The process we have been doing <br />
+  for{" "}
+  <span className="relative inline-block">
+    <span className="relative z-10 text-[#0A0A23]">over 25 years</span>
+    <img
+      src="https://img.freepik.com/free-psd/neon-orange-brush-stroke-background_53876-81626.jpg?t=st=1747908833~exp=1747912433~hmac=093d119a6debb16636b346ed439ddb8786a442ec5b78630898db3428650df341&w=826"
+      alt="Paint stroke background"
+      className="absolute left-0 bottom-0 h-15 w-full object-contain z-0"
+    />
+  </span>{" "}
+  of service
+</h2>
+
 
         {/* Description */}
-        <p className="text-gray-600 mt-6 max-w-3xl">
+        <p className="text-gray-600 mt-6 max-w-3xl ml-15">
           Our clinic provides a wide range of oral care services, from checkups
           to fitting braces. We use only advanced technologies to keep your
           smile looking the best. Our clinic provides a wide range of oral care
@@ -163,10 +170,44 @@ const ExperienceSection = () => {
             </div>
           ))}
         </div>
+
+         <div className="max-w-2xl space-y-6 mt-30 ml-15">
+        {/* <p className="uppercase font-bold text-sm tracking-wide">Contact Us</p> */}
+        {/* <h1 className="text-4xl font-extrabold leading-tight">
+          Discuss our services <br/> or make an{' '}
+          <span className="relative inline-block">
+            <span className="relative z-10">appointment</span>
+            <svg
+              className="absolute bottom-0 left-0 w-full h-3 z-0"
+              viewBox="0 0 100 10"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M0,6 C20,10 80,0 100,6 L100,10 L0,10 Z"
+                fill="#FFD600"
+              />
+            </svg>
+          </span>
+        </h1>
+        <p className="text-black/80 text-sm leading-relaxed">
+          We know what a sore tooth is, so do not hesitate to reach us via the phone or to make an appointment online!
+        </p>
+
+        <div className="flex flex-col ml-20 items-end gap-4 md:flex-row">
+          <button className="bg-orange-100 text-black font-semibold px-6 py-3 rounded-full shadow-md">
+            Call us: +254 703 082 000
+          </button>
+          <button className="border border-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-red-600 transition">
+            Make An Appointment
+          </button>
+        </div> */}
       </div>
-    </section>
+      </div>
+     </section>
   );
 };
+      
+    
 
 const LaundryServices = () => (
   <>
