@@ -1,4 +1,6 @@
 import { lazyLoad } from "@/components/layout/lazy-load";
+import RoomsAndWards from "@/pages/patients-visitors/RoomsAndWards";
+import path from "path";
 
 export type UIRoutesType = {
   name: string;
@@ -117,10 +119,33 @@ const UIRoutes = {
     path: "/blog/:id",
     component: lazyLoad(() => import("../pages/blog/BlogDetail")),
   },
-   laundryServices: {
+  laundryServices: {
     name: "navigation.laundryServices",
     path: "/laundry-services",
-    component: lazyLoad(() => import("../pages/other-services/LaundryServices")),
+    component: lazyLoad(
+      () => import("../pages/other-services/LaundryServices")
+    ),
+  },
+  highCriticalCare: {
+    name: "navigation.highCriticalCare",
+    path: "/high-critical-care",
+    component: lazyLoad(
+      () => import("../pages/patients-visitors/HighCriticalCare")
+    ),
+  },
+  conventionCenter: {
+    name: "navigation.conventionCenter",
+    path: "/convention-center",
+    component: lazyLoad(
+      () => import("../pages/other-services/ConventionCenter")
+    ),
+  },
+  RoomsAndWards: {
+    name: "navigation.roomsAndWards",
+    path: "/rooms-and-wards",
+    component: lazyLoad(
+      () => import("../pages/patients-visitors/RoomsAndWards")
+    ),
   },
 };
 
