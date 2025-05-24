@@ -106,7 +106,7 @@ const UIRoutes = {
     name: "navigation.medicalTourism",
     path: "/medical-tourism",
     component: lazyLoad(
-      () => import("../pages/clinical-services/CardiologyService")
+      () => import("../pages/other-services/MedicalTourism")
     ),
   },
   blogList: {
