@@ -9,6 +9,10 @@ import {
 import { Link } from "react-router";
 import { cn } from "@/lib/utils";
 import React from "react";
+import { Button } from "@/components/ui/button";
+import { Phone } from "lucide-react";
+import { useState } from "react";
+
 
 type NavigationProps = object;
 
@@ -107,11 +111,15 @@ const news_media: { title: string; href: string; description: string }[] = [
       "Information about the career opportunities available at the Nairobi Hospital.",
   },
 ];
+const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
 const Navigation: FC<NavigationProps> = () => {
   return (
     <div>
-      <Menubar className="border-none shadow-none bg-inherit">
+      <Menubar  className={cn(
+    "flex-col md:flex-row gap-4 border-none shadow-none bg-inherit",
+    isMobileMenuOpen ? "flex" : "hidden md:flex"
+  )}>
         <MenubarMenu>
           <MenubarTrigger asChild>
             <Link to="/">Home</Link>
@@ -231,6 +239,20 @@ const Navigation: FC<NavigationProps> = () => {
               ))}
             </ul>
           </MenubarContent>
+            <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
+                      <Phone className="text-red-900 w-4 h-4" />
+                      <span className="text-sm font-serif"> +254 703 082 000</span>
+                    </div>
+                    <Button
+                      onClick={() => (window.location.href = "/contact")}
+                      className="text-xs font-serif"
+                      variant="outline"
+                      size="sm"
+                    >
+                      Contact Us
+                    </Button>
+                  </div>
         </MenubarMenu>
       </Menubar>
     </div>

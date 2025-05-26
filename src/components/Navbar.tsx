@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
       {/* Navigation Menu */}
 
       <div
-        className={`absolute top-0 left-0 h-screen bg-white shadow-md transition-transform duration-300 ${
+        className={`absolute top-0 left-0 h-screen w-full bg-white shadow-md transition-transform duration-300 ${
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         } lg:relative lg:translate-x-0 lg:h-auto lg:w-auto lg:bg-transparent lg:shadow-none`}
       >
@@ -50,7 +50,7 @@ const Navbar: React.FC = () => {
         <Navigation />
       </div>
       <div>
-        <div className="flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-2">
           <div className="flex items-center gap-1">
             <Phone className="text-red-900 w-4 h-4" />
             <span className="text-sm font-serif"> +254 703 082 000</span>

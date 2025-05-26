@@ -128,16 +128,21 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
                   Related Services
                 </h2>
               </div>
-              <button className="bg-red-900 text-white py-2 px-4 rounded-lg shadow hover:bg-yellow-600">
+              <button className="hidden md:block bg-red-900  text-white py-2 px-4 rounded-lg shadow hover:bg-yellow-600">
                 All Services
               </button>
             </div>
           </div>
-          <div className="flex max-w-7xl mx-auto gap-6 items-center justify-center">
+          <div className="flex flex-col md:flex-row max-w-7xl  mx-auto gap-6 items-center justify-center">
             {relatedServices.map((service, index) => (
               <RelatedServiceCard key={index} {...service} />
             ))}
           </div>
+          <div className="flex justify-center mt-6">
+           <button className=" md:hidden bg-red-900 text-white py-2 px-4 rounded-lg shadow hover:bg-yellow-600">
+                All Services
+              </button>
+              </div>
         </section>
       </div>
     </>

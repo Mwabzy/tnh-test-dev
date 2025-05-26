@@ -22,10 +22,10 @@ const Heading: FC<HeadingProps> = ({
       style={{ backgroundImage: image_url ? `url(${image_url})` : "none" }}
     >
       <div className={`flex items-center justify-center w-full h-full ${image_url ? "bg-black/50" : ""}`}>
-        <div className="flex items-center justify-between w-full max-w-7xl">
-          <div className="w-[40%]">
+        <div className="flex flex-col  md:flex-row items-center justify-between w-full max-w-7xl px-4 gap-4 md:gap-0">
+          <div className="w-full md:w-[40%] text-center md:text-left">
             <h1
-              className={`text-6xl font-bold font-serif
+              className={`text-3xl md:text-6xl font-bold font-serif
                 ${style === "background" ? "text-white" : ""}
                 ${style === "image" ? "text-white" : ""}
                 ${style === "text" ? "text-red-900" : ""}
@@ -34,9 +34,9 @@ const Heading: FC<HeadingProps> = ({
               {title}
             </h1>
           </div>
-          <div className="w-[60%]">
+          <div className="w-full md:w-[60%] text-center md:text-left">
             <p
-              className={`text-xl
+              className={`text-base md:text-xl
                 ${style === "background" ? "text-white" : ""}
                 ${style === "image" ? "text-white" : ""}
                 ${style === "text" ? "text-gray-900" : ""}

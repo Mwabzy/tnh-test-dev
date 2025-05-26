@@ -30,7 +30,7 @@ const faqData = [
 
 export default function FAQs() {
   return (
-    <section className=" bg-orange-200 py-36 px-8 mt-8 w-full">
+    <section className=" bg-orange-200 py-20 px-8 mt-8 w-full">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
         {/* Image */}
         <div className="w-full md:w-1/2">

@@ -42,14 +42,14 @@ export default function TestimonialCarousel({
   const { name, title, image, quote } = testimonials[index];
 
   return (
-    <section className="bg-orange-200 py-36 w-full">
+    <section className="bg-orange-200 py-10 md:py-20 w-full">
       <div className="max-w-7xl mx-auto flex flex-col items-start justify-center px-6 gap-6">
-        <div className="flex items-start justify-between w-full">
-          <h2 className="flex text-5xl font-semibold text-red-900 font-serif w-full">
+        <div className="flex items-start  w-full">
+          <h2 className="flex text-3xl md:text-5xl font-semibold text-red-900 font-serif w-full">
             What Our Clients Say
           </h2>
           <div className="flex items-center justify-end w-full">
-            <div className="flex justify-between items-center">
+            <div className="hidden md:flex justify-between items-center">
               {/* Navigation Buttons */}
               <div className="flex gap-4">
                 <button
@@ -69,7 +69,7 @@ export default function TestimonialCarousel({
           </div>
         </div>
 
-        <div className="flex w-full justify-between gap-20">
+        <div className="flex flex-col md:flex-row w-full justify-between gap-5 md:gap-20">
           <div className="flex items-center gap-3 w-full">
             <div>
               <img
@@ -84,9 +84,26 @@ export default function TestimonialCarousel({
             </div>
           </div>
           <div>
-            <blockquote className="text-3xl w-full text-black font-serif">
+            <blockquote className="text-xl md:text-2xl w-full text-black font-serif">
               “{quote}”
             </blockquote>
+          </div>
+          <div className="flex md:hidden justify-between items-center">
+            {/* Navigation Buttons */}
+            <div className="flex justify-between gap-4 mx-auto">
+              <button
+                onClick={prev}
+                className="w-10 h-10 rounded-full border border-red-900 flex items-center justify-center text-red-900 hover:bg-gray-100"
+              >
+                <ChevronLeft size={15} />
+              </button>
+              <button
+                onClick={next}
+                className="w-10 h-10 rounded-full border border-red-900 flex items-center justify-center text-red-900 hover:bg-gray-100"
+              >
+                <ChevronRight size={15} />
+              </button>
+            </div>
           </div>
         </div>
       </div>
