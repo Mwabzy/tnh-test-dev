@@ -1,3 +1,5 @@
+import ContactForm from "@/components/ContactForm";
+import Heading from "@/components/Heading";
 import React from "react";
 import { Link } from "react-router";
 
@@ -18,32 +20,15 @@ type TeamMember = {
 const TeamPage: React.FC<TeamPageProps> = ({ title, description, members }) => {
   return (
     <>
-      <section className="bg-red-900 text-white p-5 md:p-16  ">
-        <div className="grid md:grid-cols gap-2 lg:px-36">
-          {/* Text Content */}
-          <div className="flex flex-col justify-center space-y-4 max-w-xl">
-            <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-              Our Team
-            </h1>
-            <p className="text-lg md:text-xl">Our team, our team, our team</p>
-          </div>
-
-          {/* <div className="">
-            <img
-              src={service.image.src}
-              className="rounded-lg  object-fill h-48 w-96 "
-              alt="Image 1"
-            />
-          </div> */}
-        </div>
-      </section>
+      <Heading
+        image_url="https://cms.thenairobihosp.org/uploads/our_team_2f0b1c7d3a.jpg"
+        style="background"
+        title={title}
+        description={description}
+      />
       <section className="py-12 px-4 bg-gray-100">
         <div className="max-w-7xl mx-auto">
-          <div className="flex space-x-10">
-            <h2 className="text-3xl font-bold text-red-900 mb-2">{title}</h2>
-            <p className="text-gray-600 mb-10 mt-4">{description} </p>
-          </div>
-          <hr className=" h-1 bg-red-900 rounded-full mb-6" />
+         
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {members.map((member, index) => (
               <TeamCard key={index} {...member} />
@@ -51,6 +36,9 @@ const TeamPage: React.FC<TeamPageProps> = ({ title, description, members }) => {
           </div>
         </div>
       </section>
+      <ContactForm
+        contactInfo={{ phone: "" }}
+      />
     </>
   );
 };

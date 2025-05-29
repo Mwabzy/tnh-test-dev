@@ -22,7 +22,7 @@ const ContactForm = ({ contactInfo }: ContactFormProps) => {
     <div className="max-w-7xl mx-auto p-4 w-full mt-8 flex flex-col gap-4 items-start">
       <div className="flex flex-col md:flex-row  items-start justify-center gap-6">
         <div className="flex flex-col items-cemter gap-6 w-full md:w-[80%] py-4">
-          <h2 className="text-4xl text-center font-serif text-red-900">Book an appointment</h2>
+          <h2 className="text-4xl  font-serif text-red-900">Book an appointment</h2>
           <p className="text-lg font-serif">
             Our dedicated customer support team is here to assist you every step of the way, ensuring you have the guidance and assistance you need.
           </p>

@@ -127,10 +127,10 @@ const Navigation: FC<NavigationProps> = () => {
               <li className="row-span-3">
                 <MenubarItem asChild>
                   <a
-                    className="flex items-start h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-red-900/50 to-red-900 hover:text-white p-6 no-underline outline-none focus:shadow-md text-white"
+                    className="flex items-start h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-red-900/50 to-red-900  p-6 no-underline outline-none focus:shadow-md text-white"
                     href="/about-us"
                   >
-                    <div className="text-lg font-medium flex items-start">
+                    <div className="text-lg font-medium flex items-start text-white hover:text-white">
                       About Us
                     </div>
                     <p className="text-sm leading-tight text-white">

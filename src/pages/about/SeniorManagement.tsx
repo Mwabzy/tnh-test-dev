@@ -201,7 +201,7 @@ const SeniorManagement: FC<TeamPageProps> = () => {
       {/* <NavigationTabs /> */}
       <TeamPage
         title="Senior Management Team"
-        description=""
+        description="Our Senior Management Team is dedicated to providing exceptional healthcare services and operational leadership at The Nairobi Hospital. With a wealth of experience and expertise, they ensure the hospital's mission is fulfilled with integrity and excellence."
         members={teamMembers}
       />
     </>
