@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router";
 import { blogPosts } from "@/pages/blog/BlogList";
+import Posts, { Post } from "./blog/Posts";
 
 const slideUp = {
   hidden: { opacity: 0, y: 50 },
@@ -8,7 +9,7 @@ const slideUp = {
 };
 
 const Blogpost = () => {
-  const blogsToShow = blogPosts.slice(0, 3);
+  const blogsToShow = blogPosts.slice(0, 3) as Post[];
   return (
     <section className="px-6 py-12 max-w-7xl mx-auto">
       <motion.div
@@ -21,10 +22,10 @@ const Blogpost = () => {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
-              Latest Blog Posts
+              Latest News
             </h2>
             <p className="text-2xl md:text-gray-600 mt-2">
-              Stay informed about the latest research in psychology.
+              Stay informed about the Nairobi Hospital.
             </p>
           </div>
           <Link
@@ -35,34 +36,8 @@ const Blogpost = () => {
           </Link>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {blogsToShow.map((post) => (
-            <div
-              key={post.id}
-              className="rounded-lg overflow-hidden shadow hover:shadow-md transition"
-            >
-              <img
-                src={post.image}
-                alt={post.title}
-                className="w-full h-56 rounded-lg transform transition duration-300 hover:scale-105 hover:brightness-90 object-cover"
-              />
-              <div className="p-4">
-                <p className="text-sm text-red-900 font-semibold">
-                  {post.category}
-                </p>
-                <h3 className="text-xl font-semibold text-gray-800 mt-2">
-                  {post.title}
-                </h3>
-                <p className="text-gray-600 mt-2 text-sm">{post.description}</p>
-                <Link
-                  to={`/blog/${post.id}`}
-                  className="inline-flex items-center text-red-900 font-medium mt-4 hover:underline"
-                >
-                  Read More <span className="ml-1 ">→</span>
-                </Link>
-              </div>
-            </div>
-          ))}
+        <div className="">
+          <Posts posts={blogsToShow} />
         </div>
       </motion.div>
     </section>

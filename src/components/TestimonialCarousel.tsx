@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // Define the shape of a single testimonial
-interface Testimonial {
+export interface Testimonial {
   name: string;
   title: string;
   image: string;
@@ -36,7 +36,7 @@ export default function TestimonialCarousel({
 
   // Check if testimonials exist and have at least one item
   if (!testimonials || testimonials.length === 0) {
-    return <div>No testimonials available</div>;
+    return <div className="max-w-7xl mx-auto">No testimonials available</div>;
   }
 
   const { name, title, image, quote } = testimonials[index];

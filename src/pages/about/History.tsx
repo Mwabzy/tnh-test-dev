@@ -1,12 +1,50 @@
+import Heading from "@/components/Heading";
 import React, { useEffect, useState } from "react";
 
 // Main History Section
 const History: React.FC = () => {
   return (
     <>
+      <Heading
+        image_url="https://cms.thenairobihosp.org/uploads/who_we_are_8fbeb1073c.jpg"
+        style="image"
+        title="Our History"
+        description="The Nairobi Hospital has a rich history. The
+              foundation stone of what was to become the leading provider of
+              healthcare services in the East African region, was laid on the
+              morning of 20th October 1952 by none other than Sir Evelyn Baring,
+              the then Governor of Kenya Colony."
+      />
+       
       <section className="bg-gray-50 py-12 px-4">
-        <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-          <div className="space-y-5 text-gray-700 text-sm leading-relaxed">
+        
+        <div>
+          <div className="max-w-7xl mx-auto bg-white  rounded-lg shadow-lg mb-7">
+          <div className="flex gap-4 item-center">
+            <div>
+              <img
+                src="https://cms.thenairobihosp.org/uploads/key_milestones_2133f54e6e.jpg"
+                alt="Milestone Visual"
+                className="rounded-md shadow"
+              />
+            </div>
+            <div className="flex flex-col justify-center">
+              <h3 className="text-2xl font-semibold text-red-900 font-serif mb-2">
+                Key Milestones
+              </h3>
+              <p className="text-gray-600 text-lg mb-4">
+                Since its inception, the Nairobi Hospital has been a “ground
+                breaker” medically, as well as socially. Below are some of our
+                key milestones:
+              </p>
+              <MilestoneCarousel />
+            </div>
+          </div>
+        </div>
+          <div className="max-w-7xl mx-auto">
+            <h1 className="text-3xl font-bold text-red-900 mb-6 text-center">
+              Our Rich History
+            </h1>
             <p>
               <strong>The Nairobi Hospital</strong> has a rich history. The
               foundation stone of what was to become the leading provider of
@@ -20,81 +58,65 @@ const History: React.FC = () => {
               historical twist resonates well with the institution’s guiding
               motto ‘Lux in Tenebris’ – Light in Darkness.
             </p>
-
-            <p>
-              Opening its doors in 1954 as the European Hospital, the
-              institution has grown from humble beginnings to a modern
-              high-technology facility with more than 363 bed-capacity, six
-              outpatient centers and a global medivac centre.
-            </p>
-
-            <p>
-              In 1956, The Nairobi Hospital’s Cicely McDonnell School of Nursing
-              was established. It was aptly named after Cicely McDonnell who had
-              made immense personal contribution to the welfare and health
-              Kenyans and set high professional standards for maternity nursing
-              in Nairobi. Indeed, most graduates from the School of Nursing are
-              absorbed into The Nairobi Hospital’s team.
-            </p>
-
-            <p>
-              The combination of highly skilled medical specialists and modern
-              medical and non-medical technology has placed the hospital in a
-              position to undertake a wide range of routine and complex
-              investigations and procedures including Open Heart Surgery, Kidney
-              Transplants, Trauma Care, Orthopaedic Surgery, Neurosurgery,
-              Laparoscopic Surgery, and Cancer Therapy among others.
-            </p>
-
-            <p>
-              Today, The Nairobi Hospital is renowned for emergency and trauma
-              care, disaster response and critical care and has excellent
-              facilities for providing high-quality clinical and nursing care.
-              The Anderson Specialty Centre opened in 2017 and has a variety of
-              Specialty clinics including Orthopaedic, Well Baby and Executive
-              Clinic.
-            </p>
           </div>
-
-          <h2 className="text-2xl font-bold text-red-700 mt-10 mb-4">
-            History of Firsts
-          </h2>
-          <p className="text-gray-600 mb-4 text-sm">
-            The Nairobi Hospital is a pacesetter in medical practice in Kenya
-            and has recorded several firsts locally and in the East and Central
-            African region with milestones that include:
-          </p>
-          <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700 mb-6">
-            <li>First private nursing training college in Kenya</li>
-            <li>First institution to offer Diploma in Theatre Nursing</li>
-            <li>First hospital to fit a duo chamber pacemaker on a patient</li>
-            <li>First institution to offer hip replacement</li>
-            <li>First eye bank in East Africa</li>
-            <li>First complete video gastroenterology system</li>
-            <li>
-              First human papillomavirus (HPV) i.e. cancer of the cervix testing
-            </li>
-            <li>First tumour markers testing facility</li>
-            <li>First hospital enterprise resource management system</li>
-            <li>First brachytherapy centre</li>
-          </ul>
-
-          <div className="grid md:grid-cols-2 gap-6 mb-12 ">
-            <img
-              src="https://cms.thenairobihosp.org/uploads/key_milestones_2133f54e6e.jpg"
-              alt="Milestone Visual"
-              className="rounded-md shadow mb-8"
-            />
-            <div className="  mb-4">
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                Key Milestones
-              </h3>
-              <p className="text-gray-600 text-sm mb-4">
-                Since its inception, the Nairobi Hospital has been a “ground
-                breaker” medically, as well as socially. Below are some of our
-                key milestones:
+          <div className="flex justify-between items-center my-11 max-w-7xl mx-auto flex-col md:flex-row">
+            <div className="w-full md:w-[50%]">
+              <h1 className="text-4xl font-medium font-serif text-left text-red-900">
+                Our Timelines
+              </h1>
+              <p className="text-gray-700 text-sm leading-relaxed mt-4">
+                Opening its doors in 1954 as the European Hospital, the
+                institution has grown from humble beginnings to a modern
+                high-technology facility with more than 363 bed-capacity, six
+                outpatient centers and a global medivac centre. In 1956, The
+                Nairobi Hospital’s Cicely McDonnell School of Nursing was
+                established. It was aptly named after Cicely McDonnell who had
+                made immense personal contribution to the welfare and health
+                Kenyans and set high professional standards for maternity
+                nursing in Nairobi. Indeed, most graduates from the School of
+                Nursing are absorbed into The Nairobi Hospital’s team. The
+                combination of highly skilled medical specialists and modern
+                medical and non-medical technology has placed the hospital in a
+                position to undertake a wide range of routine and complex
+                investigations and procedures including Open Heart Surgery,
+                Kidney Transplants, Trauma Care, Orthopaedic Surgery,
+                Neurosurgery, Laparoscopic Surgery, and Cancer Therapy among
+                others. Today, The Nairobi Hospital is renowned for emergency
+                and trauma care, disaster response and critical care and has
+                excellent facilities for providing high-quality clinical and
+                nursing care. The Anderson Specialty Centre opened in 2017 and
+                has a variety of Specialty clinics including Orthopaedic, Well
+                Baby and Executive Clinic.
               </p>
-              <MilestoneCarousel />
+            </div>
+            <div className="flex flex-col items-center justify-center w-full md:w-[40%] bg-red-900 rounded-lg shadow-lg px-6 py-4 text-white mt-8 md:mt-0">
+              <div className="p-4">
+                <h2 className="text-2xl font-medium font-serif mb-4">
+                  History of Firsts
+                </h2>
+                <p className=" mb-4 text-sm">
+                  The Nairobi Hospital is a pacesetter in medical practice in
+                  Kenya and has recorded several firsts locally and in the East
+                  and Central African region with milestones that include:
+                </p>
+                <ul className="text-gray-200 text-sm space-y-2 list-disc list-item">
+                  <li>First private nursing training college in Kenya</li>
+                  <li>First institution to offer Diploma in Theatre Nursing</li>
+                  <li>
+                    First hospital to fit a duo chamber pacemaker on a patient
+                  </li>
+                  <li>First institution to offer hip replacement</li>
+                  <li>First eye bank in East Africa</li>
+                  <li>First complete video gastroenterology system</li>
+                  <li>
+                    First human papillomavirus (HPV) i.e. cancer of the cervix
+                    testing
+                  </li>
+                  <li>First tumour markers testing facility</li>
+                  <li>First hospital enterprise resource management system</li>
+                  <li>First brachytherapy centre</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -125,8 +147,8 @@ const MilestoneCarousel: React.FC = () => {
   }, [milestones.length]);
 
   return (
-    <div>
-      <div className="border-l-4 border-red-700 pl-4 text-red-700 font-semibold text-sm transition-all duration-500 ease-in-out min-h-[48px]">
+    <div className="">
+      <div className="border-l-4 border-red-900 pl-4 text-red-900 font-semibold text-lg transition-all duration-500 ease-in-out min-h-[48px] flex items-center">
         {milestones[current]}
       </div>
 
