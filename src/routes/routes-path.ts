@@ -151,7 +151,7 @@ const UIRoutes = {
   },
   AboutCollege: {
     name: "navigation.aboutCollege",
-    path: "/college-of-health-science/about",
+    path: "/college-of-health-sciences",
     component: lazyLoad(
       () => import("../pages/college-of-health-science/About")
     ),
