@@ -1,4 +1,5 @@
 import { lazyLoad } from "@/components/layout/lazy-load";
+import AboutCollege from "@/pages/college-of-health-science/About";
 import RoomsAndWards from "@/pages/patients-visitors/RoomsAndWards";
 import path from "path";
 
@@ -114,7 +115,7 @@ const UIRoutes = {
   },
   blogList: {
     name: "navigation.blogList",
-    path: "/bloglist",
+    path: "/news",
     component: lazyLoad(() => import("../pages/blog/BlogList")),
   },
   blogDetails: {
@@ -148,6 +149,13 @@ const UIRoutes = {
     path: "/rooms-and-wards",
     component: lazyLoad(
       () => import("../pages/patients-visitors/RoomsAndWards")
+    ),
+  },
+  AboutCollege: {
+    name: "navigation.aboutCollege",
+    path: "/college-of-health-science/about",
+    component: lazyLoad(
+      () => import("../pages/college-of-health-science/About")
     ),
   },
   clinicalFaqs: {
