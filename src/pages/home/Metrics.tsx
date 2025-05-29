@@ -31,9 +31,16 @@ const Metrics = () => {
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
         className="text-center mx-10 md:text-left"
       >
-        <h2 className="text-5xl font-semibold text-red-900 mb-4 font-serif">About the Hospital</h2>
+        <h2 className="text-5xl font-semibold text-red-900 mb-4 font-serif">
+          About the Hospital
+        </h2>
         <p className="text-gray-700 mb-6">
-          Opened in 1954, The Nairobi Hospital has excelled in medical expertise, service provision and has deservedly earned recognition throughout East Africa and beyond as an advanced diagnostic, treatment and referral centre. Expansive investment in latest technology and medical equipment has enabled us establish leadership in medical procedures both in Kenya and outside.
+          Opened in 1954, The Nairobi Hospital has excelled in medical
+          expertise, service provision and has deservedly earned recognition
+          throughout East Africa and beyond as an advanced diagnostic, treatment
+          and referral centre. Expansive investment in latest technology and
+          medical equipment has enabled us establish leadership in medical
+          procedures both in Kenya and outside.
         </p>
 
         <div className="space-y-4">
@@ -47,8 +54,8 @@ const Metrics = () => {
           >
             <AnimatedCounter targetNumber={70} suffix="+" />
             <p className="text-gray-600">
-              Years of experience in patient care dedicated to
-              providing the highest quality of care.
+              Years of experience in patient care dedicated to providing the
+              highest quality of care.
             </p>
           </motion.div>
           <motion.div
@@ -58,7 +65,7 @@ const Metrics = () => {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.5 }}
             className="border-b border-red-100 pl-4"
-            />
+          />
           <motion.div
             variants={slideUp}
             initial="hidden"
@@ -69,7 +76,9 @@ const Metrics = () => {
           >
             <AnimatedCounter targetNumber={74} suffix="%" />
             <p className="text-gray-600">
-              Our patient satisfaction rate shows quality, compassion, and attention. Our post-visit surveys reflect trust, comfort, and confidence in our care.
+              Our patient satisfaction rate shows quality, compassion, and
+              attention. Our post-visit surveys reflect trust, comfort, and
+              confidence in our care.
             </p>
           </motion.div>
         </div>

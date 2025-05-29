@@ -1,4 +1,9 @@
-import { BriefcaseMedical, MarsStroke, PillBottle, SquareActivity } from "lucide-react";
+import {
+  BriefcaseMedical,
+  MarsStroke,
+  PillBottle,
+  SquareActivity,
+} from "lucide-react";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 import ServiceCard from "@/components/ServiceCard";
@@ -22,7 +27,7 @@ const ServicesSection = () => {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="flex flex-col items-start"
           >
-            <h1 className="text-5xl text-center font-serif font-bold text-red-900">
+            <h1 className="text-4xl md:text-5xl text-center md:text-left font-serif font-bold text-red-900">
               Clinical Services
             </h1>
             <p className="text-black mt-2">
@@ -48,7 +53,9 @@ const ServicesSection = () => {
           link={`/service-detail/dentistry-services`}
           title="Dentistry Services"
           description="The Nairobi Hospital’s Dental Clinic provides expert care, including cleanings, restorations, and orthodontics, ensuring optimal oral health with advanced technology."
-          icon={<BriefcaseMedical className="mt-2 mr-4 text-red-900 h-8 w-8 md:h-10 md:w-10" />}
+          icon={
+            <BriefcaseMedical className="mt-2 mr-4 text-red-900 h-8 w-8 md:h-10 md:w-10" />
+          }
           active={true}
         />
 
@@ -56,7 +63,9 @@ const ServicesSection = () => {
           link={`/service-detail/pharmacy-services`}
           title="Pharmacy Services"
           description="The Nairobi Hospital Pharmacy offers quality, safe, and efficient inpatient, outpatient, and clinical services, dispensing vetted medicines at optimal prices."
-          icon={<PillBottle className="mt-2 mr-4 text-red-900 h-8 w-8 md:h-10 md:w-10" />}
+          icon={
+            <PillBottle className="mt-2 mr-4 text-red-900 h-8 w-8 md:h-10 md:w-10" />
+          }
           active={false}
         />
 
@@ -64,7 +73,9 @@ const ServicesSection = () => {
           link={`/service-detail/gynaecology-services`}
           title="Gynaecology Services"
           description="The Nairobi Hospital’s Gynaecology Clinic offers specialized care for women’s reproductive health, including screenings, treatments, and family planning with compassion."
-          icon={<MarsStroke className="mt-2 mr-4 text-red-900 h-8 w-8 md:h-10 md:w-10" />}
+          icon={
+            <MarsStroke className="mt-2 mr-4 text-red-900 h-8 w-8 md:h-10 md:w-10" />
+          }
           active={false}
         />
 
@@ -72,10 +83,11 @@ const ServicesSection = () => {
           link={`/service-detail/antenatal-services`}
           title="Antenatal Clinic Services"
           description="The Nairobi Hospital’s Antenatal Clinic provides comprehensive care for expectant mothers, including screenings, counseling, and support throughout pregnancy."
-          icon={<SquareActivity className="mt-2 mr-4 text-red-900 h-8 w-8 md:h-10 md:w-10" />}
+          icon={
+            <SquareActivity className="mt-2 mr-4 text-red-900 h-8 w-8 md:h-10 md:w-10" />
+          }
           active={false}
         />
-        
       </motion.div>
     </div>
   );

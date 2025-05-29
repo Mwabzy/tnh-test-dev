@@ -3,7 +3,7 @@ import ContactForm, { ContactInfo } from "../ContactForm";
 import ProfileCard from "./ProfileCard";
 import RelatedServiceCard from "./RelatedServiceCard";
 import Heading from "../Heading";
-import {  Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import TestimonialCarousel from "../TestimonialCarousel";
 
 export interface ServiceTemplateProps {
@@ -40,10 +40,10 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
         style="background"
       />
 
-      <div className="flex items-start justify-center w-full max-w-7xl mx-auto mt-8">
-        <div className=" w-[70%] pr-10">
+      <div className="flex flex-col lg:flex-row items-start justify-center w-full max-w-7xl mx-auto mt-8 gap-8">
+        <div className="w-full lg:w-[70%] pr-10">
           {/* Service Overview */}
-          <section className="mb-8">
+          <section className="mb-8 mx-5">
             <h2 className="text-2xl font-semibold mb-4">
               The Nairobi Hospital Cardiology Services
             </h2>
@@ -59,11 +59,13 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
 
           {/* Additional Information */}
           <section className="mb-8">
-            <div className="space-y-6">
+            <div className="space-y-6 mx-5">
               {/* Our Team */}
               <div>
-                <h3 className="text-xl font-medium mb-4">Our Team</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <h3 className="text-xl font-medium mb-4 text-center">
+                  Our Team
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
                   {doctors.map((doctor, index) => (
                     <ProfileCard key={index} {...doctor} />
                   ))}
@@ -72,48 +74,48 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
             </div>
           </section>
         </div>
-        <div className="w-[30%]">
-          <div className="flex items-center justify-center mb-8">
+
+        <div className="w-full lg:w-[30%]">
+          <div className="flex items-center justify-center mb-8 mx-5">
             <img
               src={image}
               alt={imageAlt}
               className="w-full rounded-xl shadow-md object-cover max-h-[300px]"
             />
           </div>
-          <div className=" w-full bg-red-50 h-min rounded-xl p-6 shadow-md text-sm text-gray-800">
+          <div className="w-full bg-red-50 h-min rounded-xl p-6 shadow-md text-sm text-gray-800">
             <h3 className="font-semibold mb-4 text-xl">
               Have Additional Questions?
             </h3>
 
             <div className="flex flex-col space-y-2 items-start text-lg">
-              <span className="flex items-center justify-center gap-2">
+              <span className="flex items-center gap-2">
                 <Phone
                   className="h-5 w-5 text-red-900"
                   aria-label="Phone icon"
-                />{" "}
-                <a href="tel:+254 703082000">+254 703082000</a>
+                />
+                <a href="tel:+254703082000">+254 703082000</a>
               </span>
-              <span className="flex items-center justify-center gap-2">
+              <span className="flex items-center gap-2">
                 <Mail className="h-5 w-5 text-red-900" aria-label="Mail icon" />
-                <a href="mailto: hosp@nbihosp.org"> hosp@nbihosp.org</a>
+                <a href="mailto:hosp@nbihosp.org">hosp@nbihosp.org</a>
               </span>
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center gap-2">
                 <MapPin
-                  className="h-5 w-5 text-red-900 space-x-2"
+                  className="h-5 w-5 text-red-900"
                   aria-label="Location icon"
-                />{" "}
+                />
                 Argwings Kodhek Road, Nairobi
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="">
+
+      <div>
         {/* Primary CTA (Contact Form) */}
         <section className="mb-8">
-          <ContactForm
-            contactInfo={contact}
-          />
+          <ContactForm contactInfo={contact} />
         </section>
 
         {/* Testimonial */}
@@ -128,21 +130,21 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
                   Related Services
                 </h2>
               </div>
-              <button className="hidden md:block bg-red-900  text-white py-2 px-4 rounded-lg shadow hover:bg-yellow-600">
+              <button className="hidden md:block bg-red-900 text-white py-2 px-4 rounded-lg shadow hover:bg-yellow-600">
                 All Services
               </button>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row max-w-7xl  mx-auto gap-6 items-center justify-center">
+          <div className="flex flex-col md:flex-row max-w-7xl mx-auto gap-6 items-center justify-center">
             {relatedServices.map((service, index) => (
               <RelatedServiceCard key={index} {...service} />
             ))}
           </div>
           <div className="flex justify-center mt-6">
-           <button className=" md:hidden bg-red-900 text-white py-2 px-4 rounded-lg shadow hover:bg-yellow-600">
-                All Services
-              </button>
-              </div>
+            <button className="md:hidden bg-red-900 text-white py-2 px-4 rounded-lg shadow hover:bg-yellow-600">
+              All Services
+            </button>
+          </div>
         </section>
       </div>
     </>
