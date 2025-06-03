@@ -15,32 +15,31 @@ const History: React.FC = () => {
               morning of 20th October 1952 by none other than Sir Evelyn Baring,
               the then Governor of Kenya Colony."
       />
-       
+
       <section className="bg-gray-50 py-12 px-4">
-        
         <div>
-          <div className="max-w-7xl mx-auto bg-white  rounded-lg shadow-lg mb-7">
-          <div className="flex gap-4 item-center">
-            <div>
-              <img
-                src="https://cms.thenairobihosp.org/uploads/key_milestones_2133f54e6e.jpg"
-                alt="Milestone Visual"
-                className="rounded-md shadow"
-              />
-            </div>
-            <div className="flex flex-col justify-center">
-              <h3 className="text-2xl font-semibold text-red-900 font-serif mb-2">
-                Key Milestones
-              </h3>
-              <p className="text-gray-600 text-lg mb-4">
-                Since its inception, the Nairobi Hospital has been a “ground
-                breaker” medically, as well as socially. Below are some of our
-                key milestones:
-              </p>
-              <MilestoneCarousel />
+          <div className="max-w-7xl mx-auto bg-white  rounded-lg shadow-lg p-4 mb-7">
+            <div className="flex flex-col md:flex-row gap-4 item-center">
+              <div>
+                <img
+                  src="https://cms.thenairobihosp.org/uploads/key_milestones_2133f54e6e.jpg"
+                  alt="Milestone Visual"
+                  className="rounded-md shadow"
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <h3 className="text-2xl font-semibold text-red-900 font-serif mb-2">
+                  Key Milestones
+                </h3>
+                <p className="text-gray-600 text-lg mb-4">
+                  Since its inception, the Nairobi Hospital has been a “ground
+                  breaker” medically, as well as socially. Below are some of our
+                  key milestones:
+                </p>
+                <MilestoneCarousel />
+              </div>
             </div>
           </div>
-        </div>
           <div className="max-w-7xl mx-auto">
             <h1 className="text-3xl font-bold text-red-900 mb-6 text-center">
               Our Rich History

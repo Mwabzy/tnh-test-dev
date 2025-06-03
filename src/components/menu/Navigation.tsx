@@ -89,6 +89,49 @@ const other_services: { title: string; href: string; description: string }[] = [
 
 // news and media - new, tenders, careers
 
+const college_health_sciences: {
+  title: string;
+  href: string;
+  description: string;
+}[] = [
+  {
+    title: "About the college",
+    href: "/college/about-college",
+    description:
+      "Information about the College of Health Sciences at the Nairobi Hospital.",
+  },
+  {
+    title: "Tuition and Sponsorships",
+    href: "/college/tuition-and-sponsorships",
+    description:
+      "Information about the tuition and sponsorships available at the college.",
+  },
+  {
+    title: "Facilities and Downloads",
+    href: "/college/facilities-and-downloads",
+    description:
+      "Information about the facilities and downloads available at the College of Health Sciences.",
+  },
+  {
+    title: "Research & Publications",
+    href: "/college/research-and-publications",
+    description:
+      "Information about the research and publications from the College of Health Sciences.",
+  },
+  {
+    title: "Alumni",
+    href: "/college/student-alumni",
+    description:
+      "Information about the alumni of the College of Health Sciences.",
+  },
+  {
+    title: "FAQs",
+    href: "/college/college-faqs",
+    description:
+      "Frequently asked questions about the College of Health Sciences.",
+  },
+];
+
 const news_media: { title: string; href: string; description: string }[] = [
   {
     title: "News",
@@ -191,21 +234,40 @@ const Navigation: FC<NavigationProps> = () => {
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>
+          <MenubarTrigger>College of Health Sciences</MenubarTrigger>
+          <MenubarContent>
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+              {college_health_sciences.map((component) => (
+                <ListItem
+                  key={component.title}
+                  title={component.title}
+                  href={component.href}
+                >
+                  {component.description}
+                </ListItem>
+              ))}
+            </ul>
+          </MenubarContent>
+        </MenubarMenu>
+
+        {/* <MenubarMenu>
           <MenubarTrigger asChild>
             <Link to="/medical-tourism">Medical Tourism</Link>
           </MenubarTrigger>
-        </MenubarMenu>
-        <MenubarMenu>
+        </MenubarMenu> */}
+
+        {/* <MenubarMenu>
           <MenubarTrigger asChild>
             <Link to="/college-of-health-sciences">
               College of Health Sciences
             </Link>
           </MenubarTrigger>
-        </MenubarMenu>
+        </MenubarMenu> */}
+
         <MenubarMenu>
           <MenubarTrigger>Other Services</MenubarTrigger>
           <MenubarContent>
-            <ul className="grid w-[200px] gap-3 p-4 md:w-[300px] md:grid-cols-1 lg:w-[400px]">
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[400px] md:grid-cols-1 lg:w-[400px]">
               {other_services.map((component) => (
                 <ListItem
                   key={component.title}
@@ -221,7 +283,7 @@ const Navigation: FC<NavigationProps> = () => {
         <MenubarMenu>
           <MenubarTrigger>Notices & Opportunities</MenubarTrigger>
           <MenubarContent>
-            <ul className="grid w-[200px] gap-3 p-4 md:w-[300px] md:grid-cols-1 lg:w-[400px] ">
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[400px] md:grid-cols-1 lg:w-[400px] ">
               {news_media.map((component) => (
                 <ListItem
                   key={component.title}
@@ -233,10 +295,10 @@ const Navigation: FC<NavigationProps> = () => {
               ))}
             </ul>
           </MenubarContent>
-          <div className="block md:hidden flex items-center gap-2 mt-10">
+          <div className="flex md:hidden items-center gap-2 mt-10 ">
             <div className="flex items-center gap-1">
               <Phone className="text-red-900 w-4 h-4" />
-              <span className="text-sm font-serif"> +254 703 082 000</span>
+              <span className="text-sm font-serif ">+254 703 082 000</span>
             </div>
             <Button
               onClick={() => (window.location.href = "/contact")}

@@ -1,5 +1,3 @@
-import React from "react";
-
 const historyData = [
   {
     year: "1956",
@@ -39,7 +37,7 @@ export default function AboutCollege() {
             }}
           >
             <div className="flex flex-col gap-2 text-center">
-              <h1 className="text-white text-4xl font-black py-1.5 leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
+              <h1 className="text-white font-serif text-4xl font-black py-1.5 leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
                 About Cicely McDonell College <br />
                 Of Health Sciences
               </h1>
@@ -57,8 +55,8 @@ export default function AboutCollege() {
         </div>
       </div>
 
-      <div className="text-center mb-16 pl-5">
-        <h1 className="text-4xl text-left font-bold text-gray-700 mb-2 mt-4">
+      <div className="text-center mb-16 pl-5 flex flex-col items-center">
+        <h1 className="text-4xl text-left font-bold text-red-700 mb-2 mt-4 font-serif">
           Our History
         </h1>
         <p className="text-gray-700 max-w-2xl text-left font-bold mb-2">
@@ -80,7 +78,7 @@ export default function AboutCollege() {
               />
             </div>
             <div className="md:w-2/3 p-6">
-              <h3 className="text-xl font-semibold text-gray-900">
+              <h3 className="text-xl font-semibold text-red-900 font-serif">
                 {item.title}{" "}
                 <span className="text-sm text-gray-500">({item.year})</span>
               </h3>

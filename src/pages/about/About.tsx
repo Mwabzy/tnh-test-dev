@@ -71,7 +71,7 @@ const About: FC<AboutProps> = () => {
 
       <div className="py-8 max-w-7xl mx-auto">
         <div className="flex justify-between items-center mt-11 w-full flex-col md:flex-row">
-          <div className="w-full md:w-[50%]">
+          <div className="w-[80%] md:w-[50%]">
             <h1 className="text-4xl font-medium font-serif text-left text-red-900">
               Compassionate Care by Expert <br /> Healthcare Professionals
             </h1>
@@ -88,7 +88,7 @@ const About: FC<AboutProps> = () => {
             </p>
           </div>
 
-          <div className="flex flex-col items-center justify-center w-full md:w-[40%] bg-red-900 rounded-lg shadow-lg px-6 py-4 text-white mt-8 md:mt-0">
+          <div className="flex flex-col items-center justify-center w-[90%] md:w-[40%] bg-red-900 rounded-lg shadow-lg px-6 py-4 text-white mt-8 md:mt-0">
             <div className="p-4">
               <h2 className="text-2xl font-medium font-serif mb-4">
                 What We value

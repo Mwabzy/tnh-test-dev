@@ -200,7 +200,7 @@ const BoardOfManagement: FC<TeamPageProps> = () => {
       {/* <NavigationTabs /> */}
       <TeamPage
         title="Board of Management"
-        description="The Nairobi Hospital Board of Management is in charge of the hospital’s corporate governance and is accountable to the Kenya Hospital Association which ensures the hospital’s compliance with the law while maintaining the highest standards of corporate governance and business ethics. The board members attach great importance to the need to conduct the hospital’s business operations with integrity and in accordance with generally accepted corporate practice. They also endorse the internationally developed principles of good corporate governance.  The Nairobi Hospital Board complies with the 2/3 gender rule, with 34% female and 64% male members."
+        description="The Nairobi Hospital Board of Management is in charge of the hospital’s corporate governance and is accountable to the Kenya Hospital Association which ensures the hospital’s compliance with the law while maintaining the highest standards of corporate governance. The Nairobi Hospital Board complies with the 2/3 gender rule, with 34% female and 64% male members."
         members={teamMembers}
       />
     </>

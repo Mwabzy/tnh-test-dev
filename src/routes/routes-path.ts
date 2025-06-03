@@ -90,7 +90,7 @@ const UIRoutes = {
     path: "/news/careers",
     component: lazyLoad(() => import("../pages/new-media/Careers")),
   },
-   tenders: {
+  tenders: {
     name: "navigation.careers",
     path: "/news/tenders",
     component: lazyLoad(() => import("../pages/new-media/Tenders")),
@@ -151,19 +151,20 @@ const UIRoutes = {
       () => import("../pages/patients-visitors/RoomsAndWards")
     ),
   },
+  clinicalFaqs: {
+    name: "navigation.clinicalFaqs",
+    path: "/clinical-faqs",
+    component: lazyLoad(
+      () => import("../pages/clinical-services/ClinicalFaqs")
+    ),
+  },
   AboutCollege: {
     name: "navigation.aboutCollege",
-    path: "/college-of-health-science/about",
+    path: "/college/about-college",
     component: lazyLoad(
       () => import("../pages/college-of-health-science/About")
     ),
   },
-  clinicalFaqs: {
-    name: "navigation.clinicalFaqs",
-    path: "/clinical-faqs",
-    component: lazyLoad(() => import("../pages/clinical-services/ClinicalFaqs")),
-  }
-
 };
 
 export const RoutesPath: Record<keyof typeof UIRoutes, UIRoutesType> = UIRoutes;

@@ -50,14 +50,14 @@ const Navbar: React.FC = () => {
         <Navigation />
       </div>
       <div>
-        <div className="hidden md:block flex items-center gap-2">
-          <div className="flex items-center gap-1">
+        <div className="hidden md:block mr-6 items-center gap-2">
+          <div className="flex items-center gap-1 ">
             <Phone className="text-red-900 w-4 h-4" />
-            <span className=" text-sm font-serif"> +254 703 082 000</span>
+            <span className=" text-xs font-serif "> +254 703 082 000</span>
           </div>
           <Button
             onClick={() => (window.location.href = "/contact")}
-            className="text-xs font-serif"
+            className="text-xs font-serif ml-4 border"
             variant="outline"
             size="sm"
           >
