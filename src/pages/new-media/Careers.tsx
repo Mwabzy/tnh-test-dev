@@ -1,9 +1,4 @@
 import { FC } from "react";
-import Heading from "@/components/Heading";
-import { Badge } from "@/components/ui/badge";
-import ContactForm from "@/components/ContactForm";
-import TestimonialCarousel from "@/components/TestimonialCarousel";
-import OpportunityList from "./opportunity/OpportunityList";
 import OpportunityTemplate from "./opportunity/OpportunityTemplate";
 
 type CareersProps = {

@@ -1,7 +1,4 @@
 import { lazyLoad } from "@/components/layout/lazy-load";
-import AboutCollege from "@/pages/college-of-health-science/About";
-import RoomsAndWards from "@/pages/patients-visitors/RoomsAndWards";
-import path from "path";
 
 export type UIRoutesType = {
   name: string;
