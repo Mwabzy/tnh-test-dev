@@ -162,6 +162,14 @@ const UIRoutes = {
       () => import("../pages/college-of-health-science/About")
     ),
   },
+  TutionSponsor:{
+    name: "navigation.tutionSponsor",
+    path: "/college/tution-sponsor",
+    component: lazyLoad(
+      () => import("../pages/college-of-health-science/TutionSponsorship")
+    ),
+
+  }
 };
 
 export const RoutesPath: Record<keyof typeof UIRoutes, UIRoutesType> = UIRoutes;
