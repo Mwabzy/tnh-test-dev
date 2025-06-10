@@ -1,6 +1,5 @@
 import { useParams } from "react-router";
 import Footer from "@/components/footer";
-import Navbar from "@/components/Navbar";
 import opcData from "@/data/opcData.json";
 import {
   Accordion,
@@ -8,6 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Mail, MapPin, Phone } from "lucide-react";
 
 type AccordionItem = {
   title: string;
@@ -35,7 +35,6 @@ const OutpatientCenterDetails = () => {
 
   return (
     <>
-      <Navbar />
       <section className="bg-red-900 text-white p-5 md:p-16  ">
         <div className="grid md:grid-cols gap-2 lg:px-36">
           {/* Text Content */}
@@ -78,7 +77,7 @@ const OutpatientCenterDetails = () => {
         </div>
 
         {/* Contact Card */}
-        <div className="lg:w-[300px] w-full bg-red-50 h-min rounded-xl p-6 shadow-md text-sm text-gray-800">
+        {/* <div className="lg:w-[300px] w-full bg-red-50 h-min rounded-xl p-6 shadow-md text-sm text-gray-800">
           <h3 className="font-semibold mb-4">Have Additional Questions?</h3>
           <ul className="space-y-2">
             <li>📍 {details.location}</li>
@@ -88,6 +87,33 @@ const OutpatientCenterDetails = () => {
           <button className="mt-4 text-green-700 hover:underline">
             Contact Us →
           </button>
+        </div> */}
+        <div className="w-full lg:w-[300px] bg-red-50 h-min rounded-xl p-6 shadow-md text-sm text-gray-800">
+          <h3 className="font-semibold mb-4 text-xl">
+            Have Additional Questions?
+          </h3>
+
+          <div className="flex flex-col space-y-2 items-start text-lg">
+            <span className="flex items-center gap-2">
+              <Phone className="h-5 w-5 text-red-900" aria-label="Phone icon" />
+              <a className="text-sm " href="tel:+254703082000">
+                {details.contact}
+              </a>
+            </span>
+            <span className="flex items-center gap-2">
+              <Mail className="h-5 w-5 text-red-900" aria-label="Mail icon" />
+              <a className="text-sm" href="mailto:hosp@nbihosp.org">
+                {details.email}
+              </a>
+            </span>
+            <span className="flex items-center gap-2">
+              <MapPin
+                className="h-5 w-5 text-red-900"
+                aria-label="Location icon"
+              />
+              <span className="text-sm">{details.location}</span>
+            </span>
+          </div>
         </div>
       </div>
       <Footer />

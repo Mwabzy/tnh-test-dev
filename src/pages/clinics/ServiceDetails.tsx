@@ -5,8 +5,6 @@ import ServiceList from "@/components/services/ServiceList";
 import Heading from "@/components/Heading";
 import ServiceTemplate from "@/components/services/ServiceTemplate";
 
-
-
 type Contact = {
   phone: string;
   location: string;
@@ -80,8 +78,9 @@ const ServiceDetails = () => {
           "Personalized rehabilitation programs.",
         ]}
         contact={{
-          phone: service.contact?.phone as string,
-          emails: [{ type: "general", address: "cardiology@nbihosp.org" }],
+          phone:
+            service.contact?.phone?.trim() || ("+254 703 082 000" as string),
+          emails: [{ type: "general", address: "hosp@nbihosp.org" }],
         }}
         testimonial={{
           name: "Sarah Johnson",

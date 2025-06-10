@@ -69,7 +69,7 @@ const UIRoutes = {
   },
   outPatientCenterDetails: {
     name: "navigation.outPatientCenterDetails",
-    path: "/outpatient-centers/:id",
+    path: "/outpatient-center/:id",
     component: lazyLoad(
       () =>
         import(
