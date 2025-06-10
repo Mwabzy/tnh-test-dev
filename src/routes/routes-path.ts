@@ -170,6 +170,15 @@ const UIRoutes = {
     ),
 
   }
+  ,
+  facilitiesdownloads:{
+    name: "navigation.facilitiesdownloads",
+    path: "/college/facilitiesdownloads",
+    component: lazyLoad(
+      () =>  import("../pages/college-of-health-science/facilitiesdownloads")
+    ),
+
+  }
 };
 
 export const RoutesPath: Record<keyof typeof UIRoutes, UIRoutesType> = UIRoutes;
