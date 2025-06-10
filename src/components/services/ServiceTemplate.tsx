@@ -13,6 +13,12 @@ export interface ServiceTemplateProps {
   imageAlt: string;
   overview: string;
   features: string[];
+  title2?: string;
+  overview2?: string;
+  features2?: string[];
+  title3?: string;
+  overview3?: string;
+  features3?: string[];
   doctors: Doctor[];
   testimonial: { name: string; title: string; image: string; quote: string };
   contact: ContactInfo;
@@ -26,6 +32,12 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
   imageAlt,
   overview,
   features,
+  title2,
+  overview2,
+  features2,
+  title3,
+  overview3,
+  features3,
   doctors,
   testimonial,
   contact,
@@ -44,9 +56,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
         <div className="w-full lg:w-[70%] pr-10">
           {/* Service Overview */}
           <section className="mb-8 mx-5">
-            <h2 className="text-2xl font-semibold mb-4">
-              The Nairobi Hospital Cardiology Services
-            </h2>
+            <h2 className="text-2xl font-semibold mb-4">{title}</h2>
             <p className="text-gray-700 mb-4">{overview}</p>
             <ul className="list-disc pl-5 space-y-2">
               {features.map((feature, index) => (
@@ -56,6 +66,36 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
               ))}
             </ul>
           </section>
+          {title2 && (
+            <section className="mb-8 mx-5">
+              <h2 className="text-2xl font-semibold mb-4">{title2}</h2>
+              <p className="text-gray-700 mb-4">{overview2}</p>
+              {features2 && features2.length > 0 && (
+                <ul className="list-disc pl-5 space-y-2">
+                  {features2.map((feature, index) => (
+                    <li key={index} className="text-gray-700">
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          )}
+          {title3 && (
+            <section className="mb-8 mx-5">
+              <h2 className="text-2xl font-semibold mb-4">{title3}</h2>
+              <p className="text-gray-700 mb-4">{overview3}</p>
+              {features3 && features3.length > 0 && (
+                <ul className="list-disc pl-5 space-y-2">
+                  {features3.map((feature, index) => (
+                    <li key={index} className="text-gray-700">
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          )}
 
           {/* Additional Information */}
           <section className="mb-8">
@@ -94,11 +134,19 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
                   className="h-5 w-5 text-red-900"
                   aria-label="Phone icon"
                 />
-                <a href="tel:+254703082000">+254 703082000</a>
+                <a href={`tel:${contact?.phone?.trim() || "+254703082000"}`}>
+                  {contact?.phone?.trim() || "+254703082000"}
+                </a>
               </span>
               <span className="flex items-center gap-2">
                 <Mail className="h-5 w-5 text-red-900" aria-label="Mail icon" />
-                <a href="mailto:hosp@nbihosp.org">hosp@nbihosp.org</a>
+                <a
+                  href={`mailto:${
+                    contact?.emails?.[0]?.address?.trim() || "hosp@nbihosp.org"
+                  }`}
+                >
+                  {contact?.emails?.[0]?.address?.trim() || "hosp@nbihosp.org"}
+                </a>
               </span>
               <div className="flex items-center gap-2">
                 <MapPin

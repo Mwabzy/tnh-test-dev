@@ -162,7 +162,6 @@ const Navigation: FC<NavigationProps> = () => {
             <Link to="/">Home</Link>
           </MenubarTrigger>
         </MenubarMenu>
-
         <MenubarMenu>
           <MenubarTrigger>About Us</MenubarTrigger>
           <MenubarContent>
@@ -233,6 +232,20 @@ const Navigation: FC<NavigationProps> = () => {
             </ul>
           </MenubarContent>
         </MenubarMenu>
+
+        {/* <MenubarMenu>
+          <MenubarTrigger asChild>
+            <Link to="/medical-tourism">Medical Tourism</Link>
+          </MenubarTrigger>
+        </MenubarMenu> */}
+        {/* <MenubarMenu>
+          <MenubarTrigger asChild>
+            <Link to="/college-of-health-sciences">
+              College of Health Sciences
+            </Link>
+          </MenubarTrigger>
+        </MenubarMenu> */}
+
         <MenubarMenu>
           <MenubarTrigger>College of Health Sciences</MenubarTrigger>
           <MenubarContent>
@@ -249,21 +262,6 @@ const Navigation: FC<NavigationProps> = () => {
             </ul>
           </MenubarContent>
         </MenubarMenu>
-
-        {/* <MenubarMenu>
-          <MenubarTrigger asChild>
-            <Link to="/medical-tourism">Medical Tourism</Link>
-          </MenubarTrigger>
-        </MenubarMenu> */}
-
-        {/* <MenubarMenu>
-          <MenubarTrigger asChild>
-            <Link to="/college-of-health-sciences">
-              College of Health Sciences
-            </Link>
-          </MenubarTrigger>
-        </MenubarMenu> */}
-
         <MenubarMenu>
           <MenubarTrigger>Other Services</MenubarTrigger>
           <MenubarContent>
@@ -296,7 +294,7 @@ const Navigation: FC<NavigationProps> = () => {
             </ul>
           </MenubarContent>
           <div className="flex md:hidden items-center gap-2 mt-10 ">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 mb-0.5">
               <Phone className="text-red-900 w-4 h-4" />
               <span className="text-sm font-serif ">+254 703 082 000</span>
             </div>
