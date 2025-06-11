@@ -1,10 +1,14 @@
 
+interface FacilityProps {
+  title: string;
+  description: string;
+}
 
-const facilitiesdownloads = () => {
+const Facilitiesdownloads = () => {
   return (
     <div className="bg-gray-50 text-gray-800 p-6 md:p-12">
       <header className="text-center mb-10">
-        <h1 className="text-4xl font-bold text-indigo-700 mb-2">College of Health Sciences</h1>
+        <h1 className="text-4xl font-bold text-red-900 mb-2">College of Health Sciences</h1>
         <p className="text-xl text-gray-600">Facilities Overview</p>
       </header>
 
@@ -40,7 +44,7 @@ const facilitiesdownloads = () => {
       </section>
 
       <section className="mt-12">
-        <h2 className="text-2xl font-semibold text-indigo-600 mb-4">Opening Hours</h2>
+        <h2 className="text-2xl font-semibold text-red-900 mb-4">Opening Hours</h2>
         <ul className="list-disc list-inside space-y-1">
           <li>Monday - Friday: 8am - 5pm</li>
           <li>Saturday: 8am - 1pm</li>
@@ -49,8 +53,8 @@ const facilitiesdownloads = () => {
       </section>
 
       <section className="mt-12">
-        <h2 className="text-2xl font-semibold text-indigo-600 mb-4">Downloads</h2>
-        <ul className="list-disc list-inside space-y-1 text-blue-600">
+        <h2 className="text-2xl font-semibold text-red-900 mb-4">Downloads</h2>
+        <ul className="list-disc list-inside space-y-1 text-gray-800">
           <li><a href="#" className="hover:underline">College Brochure</a></li>
           <li><a href="#" className="hover:underline">College Application Form</a></li>
           <li><a href="#" className="hover:underline">Graduation Books</a></li>
@@ -60,13 +64,12 @@ const facilitiesdownloads = () => {
     </div>
   );
 };
-
-const Facility = ({title, description }) => (
-  <div className="bg-white rounded-xl shadow p-6">
-    <h3 className="text-xl font-bold mb-2 text-indigo-700">{title}</h3>
+const Facility: React.FC<FacilityProps> = ({ title, description }) => (
+<div className="bg-white rounded-xl shadow-xl p-6">
+    <h3 className="text-xl font-bold mb-2 text-red-900">{title}</h3>
     <p className="text-gray-700">{description}</p>
   </div>
   )
-}
 
-export default facilitiesdownloads
+
+export default Facilitiesdownloads

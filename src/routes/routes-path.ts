@@ -175,7 +175,7 @@ const UIRoutes = {
     name: "navigation.facilitiesdownloads",
     path: "/college/facilitiesdownloads",
     component: lazyLoad(
-      () =>  import("../pages/college-of-health-science/facilitiesdownloads")
+      () =>  import("../pages/college-of-health-science/Facilitiesdownloads")
     ),
 
   }
