@@ -169,9 +169,9 @@ const UIRoutes = {
       () => import("../pages/college-of-health-science/TuitionAndSponsorship")
     ),
   },
-  facilitiesdownloads: {
+  Facilitiesdownloads: {
     name: "navigation.facilitiesdownloads",
-    path: "/college/facilitiesdownloads",
+    path: "/college/facilities-and-downloads",
     component: lazyLoad(
       () => import("../pages/college-of-health-science/Facilitiesdownloads")
     ),

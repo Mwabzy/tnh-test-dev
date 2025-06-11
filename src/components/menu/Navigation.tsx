@@ -141,7 +141,7 @@ const news_media: { title: string; href: string; description: string }[] = [
   },
   {
     title: "Careers",
-    href: "/careers",
+    href: "/news/careers",
     description:
       "Information about the career opportunities available at the Nairobi Hospital.",
   },

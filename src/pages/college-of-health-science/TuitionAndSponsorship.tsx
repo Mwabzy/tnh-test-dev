@@ -82,7 +82,9 @@ const TuitionAndSponsorship = () => {
           </div>
 
           <div className="mb-8">
-            <h3 className="text-md font-semibold mb-4">Program Details</h3>
+            <h3 className="text-md font-semibold mb-4 text-red-900">
+              Program Details
+            </h3>
             <ul className="text-sm space-y-2">
               <li className="grid grid-cols-2 border-b py-2">
                 <span>Mode and duration of study</span>
@@ -159,7 +161,7 @@ const TuitionAndSponsorship = () => {
 
           {postBasicPrograms.map((program, idx) => (
             <div key={idx} className="mb-8">
-              <h3 className="text-md font-semibold mb-4">
+              <h3 className="text-md font-semibold text-red-900 mb-4">
                 {program.title} – Program Details
               </h3>
               <ul className="text-sm space-y-2">
@@ -187,7 +189,7 @@ const TuitionAndSponsorship = () => {
             </div>
           ))}
 
-          <h3 className="text-md font-semibold mb-4">
+          <h3 className="text-md font-semibold text-red-900 mb-4">
             KENYA REGISTERED NEONATAL NURSING (KRNEON) – Program Details
           </h3>
           <ul className="text-sm space-y-2">
