@@ -113,12 +113,6 @@ const college_health_sciences: {
       "Information about the facilities and downloads available at the College of Health Sciences.",
   },
   {
-    title: "Research & Publications",
-    href: "/college/research-and-publications",
-    description:
-      "Information about the research and publications from the College of Health Sciences.",
-  },
-  {
     title: "Alumni",
     href: "/college/student-alumni",
     description:

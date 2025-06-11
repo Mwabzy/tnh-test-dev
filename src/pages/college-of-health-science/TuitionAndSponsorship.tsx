@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-const TuitionSponsorship = () => {
+const TuitionAndSponsorship = () => {
   const [activeTab, setActiveTab] = useState("basic");
 
   const postBasicPrograms = [
@@ -42,7 +42,6 @@ const TuitionSponsorship = () => {
         </button>
       </div>
 
- 
       {activeTab === "basic" && (
         <div>
           <div className="flex flex-col md:flex-row items-start gap-6 mb-8">
@@ -65,30 +64,18 @@ const TuitionSponsorship = () => {
               <h3 className="text-md font-semibold mb-4 mt-8">
                 Minimum Entry Requirements
               </h3>
-              <ul className="space-y-3 text-sm text-gray-800">
-                <li className="flex items-start gap-2">
-                  <input type="checkbox" className="mt-1" />
-                  <span>
-                    KCSE mean grade of C+ (plus)
-                  </span>
+              <ul className=" list-disc space-y-3 text-sm text-gray-800">
+                <li className=" list-item ml-5 ">
+                  KCSE mean grade of C (plain)
                 </li>
-                <li className="flex items-start gap-2">
-                  <input type="checkbox" className="mt-1" />
-                  <span>
-                    Minimum of C+ in English, Biology, and Chemistry
-                  </span>
+                <li className=" list-item ml-5 ">
+                  Minimum of C+ in English, Biology, and Chemistry
                 </li>
-                <li className="flex items-start gap-2">
-                  <input type="checkbox" className="mt-1" />
-                  <span>
-                    Minimum of C in Mathematics or Physics
-                  </span>
+                <li className=" list-item ml-5 ">
+                  Minimum of C in Mathematics or Physics
                 </li>
-                <li className="flex items-start gap-2">
-                  <input type="checkbox" className="mt-1" />
-                  <span>
-                    Must be a Kenyan citizen or have a valid student visa
-                  </span>
+                <li className=" list-item ml-5 ">
+                  Must be a Kenyan citizen or have a valid student visa
                 </li>
               </ul>
             </div>
@@ -98,22 +85,21 @@ const TuitionSponsorship = () => {
             <h3 className="text-md font-semibold mb-4">Program Details</h3>
             <ul className="text-sm space-y-2">
               <li className="grid grid-cols-2 border-b py-2">
-                <span>Mode of Study</span>
-                <span className="text-gray-700">Full-time</span>
+                <span>Mode and duration of study</span>
+                <span className="text-gray-700">
+                  3 years - Full-time with physical classes
+                </span>
               </li>
-              <li className="grid grid-cols-2 border-b py-2">
-                <span>Duration</span>
-                <span className="text-gray-700">4 years</span>
-              </li>
+
               <li className="grid grid-cols-2 border-b py-2">
                 <span>Intake Periods</span>
-                <span className="text-gray-700">January & July</span>
+                <span className="text-gray-700">
+                  Twice a year in April & September
+                </span>
               </li>
               <li className="grid grid-cols-2 border-b py-2">
-                <span>Student Capacity</span>
-                <span className="text-gray-700">
-                  100 students per intake
-                </span>
+                <span>Number of applicants accepted</span>
+                <span className="text-gray-700">40 students per intake</span>
               </li>
               <li className="grid grid-cols-2 border-b py-2">
                 <span>Annual Tuition Fees</span>
@@ -121,6 +107,28 @@ const TuitionSponsorship = () => {
               </li>
             </ul>
           </div>
+          <h2 className="text-lg font-semibold mb-2">Foreign Applicants:</h2>
+
+          <ul className="list-disc pl-5 space-y-2">
+            <li>
+              If transcripts are in a language other than English, official
+              translations must be provided.
+            </li>
+            <li>
+              Such a candidate will be assessed for English language proficiency
+              through oral interviews held via a medium that is convenient and
+              reliable.
+            </li>
+            <li>
+              Must be approved/cleared by the Nursing Council of Kenya to join a
+              training program in Kenya.
+            </li>
+            <li>
+              Apply for equation of secondary school certificate through Kenya
+              National Qualification Authority.
+            </li>
+            <li>Applicants with qualifications other than KCSE.</li>
+          </ul>
         </div>
       )}
 
@@ -140,31 +148,14 @@ const TuitionSponsorship = () => {
               <p className="text-sm text-gray-700 mb-4">
                 The post-basic nursing program is designed for registered nurses
                 seeking to advance their skills in specialized areas such as
-                oncology nursing. These programs combine advanced clinical
-                training and research-based practice.
+                oncology, neonatal, perioperative, trauma and emergency nursing.
+                These programs combine advanced clinical training and
+                research-based practice.
               </p>
-
-              <h3 className="text-md font-semibold mb-4 mt-8">
-                Minimum Entry Requirements
-              </h3>
-              <ul className="space-y-3 text-sm text-gray-800">
-                <li className="flex items-start gap-2">
-                  <input type="checkbox" className="mt-1" />
-                  <span>Be a Registered Nurse</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <input type="checkbox" className="mt-1" />
-                  <span>
-                    Have one-year post-registration work experience
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <input type="checkbox" className="mt-1" />
-                  <span>Have a valid nursing practice license</span>
-                </li>
-              </ul>
             </div>
           </div>
+
+          {/* new ul layout */}
 
           {postBasicPrograms.map((program, idx) => (
             <div key={idx} className="mb-8">
@@ -195,10 +186,37 @@ const TuitionSponsorship = () => {
               </ul>
             </div>
           ))}
+
+          <h3 className="text-md font-semibold mb-4">
+            KENYA REGISTERED NEONATAL NURSING (KRNEON) – Program Details
+          </h3>
+          <ul className="text-sm space-y-2">
+            <li className="grid grid-cols-2 border-b py-2">
+              <span>Mode and duration of study</span>
+              <span className="text-gray-700">
+                3 years - Full-time with physical classes
+              </span>
+            </li>
+
+            <li className="grid grid-cols-2 border-b py-2">
+              <span>Intake Periods</span>
+              <span className="text-gray-700">
+                Twice a year in April & September
+              </span>
+            </li>
+            <li className="grid grid-cols-2 border-b py-2">
+              <span>Number of applicants accepted</span>
+              <span className="text-gray-700">40 students per intake</span>
+            </li>
+            <li className="grid grid-cols-2 border-b py-2">
+              <span>Annual Tuition Fees</span>
+              <span className="text-gray-700">Ksh 199,000</span>
+            </li>
+          </ul>
         </div>
       )}
     </div>
   );
 };
 
-export default TuitionSponsorship;
+export default TuitionAndSponsorship;

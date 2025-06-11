@@ -162,23 +162,13 @@ const UIRoutes = {
       () => import("../pages/college-of-health-science/About")
     ),
   },
-  TutionSponsor:{
-    name: "navigation.tutionSponsor",
-    path: "/college/tution-sponsor",
+  TuitionAndSponsorship: {
+    name: "navigation.tuitionSponsor",
+    path: "/college/tuition-and-sponsorships",
     component: lazyLoad(
-      () => import("../pages/college-of-health-science/TutionSponsorship")
+      () => import("../pages/college-of-health-science/TuitionAndSponsorship")
     ),
-
-  }
-  ,
-  facilitiesdownloads:{
-    name: "navigation.facilitiesdownloads",
-    path: "/college/facilitiesdownloads",
-    component: lazyLoad(
-      () =>  import("../pages/college-of-health-science/facilitiesdownloads")
-    ),
-
-  }
+  },
 };
 
 export const RoutesPath: Record<keyof typeof UIRoutes, UIRoutesType> = UIRoutes;
