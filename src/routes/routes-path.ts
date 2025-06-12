@@ -179,7 +179,7 @@ const UIRoutes = {
   Alumni: {
     name: "navigation.alumni",
     path: "/college/student-alumni",
-    component: lazyLoad(() => import("../pages/college-of-health-science/alumni")),
+    component: lazyLoad(() => import("../pages/college-of-health-science/Alumni")),
   }
 };
 
