@@ -215,11 +215,12 @@ const ClinicListing: React.FC = () => {
               center={mapCenter}
               zoom={zoomLevel}
               style={{ height: '550px', width: '100%' }}
-              className="rounded-md"
+              className="rounded-md z-10"
             >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                className=''
               />
               {filteredClinics.map((clinic) => (
                 <Marker key={clinic.id} position={clinic.coordinates}>

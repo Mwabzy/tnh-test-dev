@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return (
-    <nav className="bg-white/90 pb-4 backdrop-blur-md  h-[80px]  py-3 flex items-center justify-between sticky top-0 z-[90] shadow-lg w-full px-2">
+    <nav className="bg-white/90 pb-4 backdrop-blur-md  h-[80px]  py-3 flex items-center justify-between sticky top-0 z-50 shadow-lg w-full px-2">
       {/* Logo and Text on the Left */}
       <Logo orientation="horizontal" type="both" className="ml-7" />
 
