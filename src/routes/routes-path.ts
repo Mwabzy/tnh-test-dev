@@ -173,8 +173,18 @@ const UIRoutes = {
     name: "navigation.facilitiesdownloads",
     path: "/college/facilities-and-downloads",
     component: lazyLoad(
-      () => import("../pages/college-of-health-science/Facilitiesdownloads")
+      () => import("../pages/college-of-health-science/facilitiesdownloads")
     ),
+  },
+  Booking: {
+    name: "navigation.booking",
+    path: "/booking",
+    component: lazyLoad(() => import("../pages/DoctorBooking/DoctorBooking")),
+  },
+  ClinicListing: {
+    name: "navigation.clinicListing",
+    path: "/outpatient-clinics",
+    component: lazyLoad(() => import("../pages/clinicListing/ClinicListing")),
   },
 };
 

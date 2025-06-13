@@ -3,6 +3,7 @@ import { Menu, Phone, X } from "lucide-react";
 import Navigation from "./menu/Navigation";
 import Logo from "./menu/Logo";
 import { Button } from "./ui/button";
+import LocaleSwitcher from "./menu/LocaleSwitcher";
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
@@ -20,7 +21,7 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return (
-    <nav className="bg-white/90 pb-4 backdrop-blur-md  h-[80px]  py-3 flex items-center justify-between sticky top-0 z-50 shadow-lg w-full px-2">
+    <nav className="bg-white/90 pb-4 backdrop-blur-md  h-[80px]  py-3 flex items-center justify-between sticky top-0 z-[90] shadow-lg w-full px-2">
       {/* Logo and Text on the Left */}
       <Logo orientation="horizontal" type="both" className="ml-7" />
 
@@ -50,19 +51,17 @@ const Navbar: React.FC = () => {
         <Navigation />
       </div>
       <div>
-        <div className="hidden md:block mr-6 items-center gap-2">
-          <div className="flex items-center gap-1 ">
-            <Phone className="text-red-900 w-4 h-4" />
-            <span className=" text-xs font-serif "> +254 703 082 000</span>
-          </div>
+        <div className="hidden md:flex mr-6 items-center gap-2">
           <Button
-            onClick={() => (window.location.href = "/contact")}
-            className="text-xs font-serif ml-4 border"
-            variant="outline"
-            size="sm"
-          >
-            Contact Us
-          </Button>
+              onClick={() => (window.location.href = "/contact")}
+              className="text-xs font-serif flex items-center gap-1 py-[16.5px] bg-inherit"
+              variant="outline"
+              size="sm"
+            >
+              <Phone className="text-red-900 w-4 h-4" />
+              <span className="text-sm font-serif ">+254 703 082 000</span>
+            </Button>
+            <LocaleSwitcher />
         </div>
       </div>
       <div

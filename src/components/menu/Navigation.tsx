@@ -288,17 +288,14 @@ const Navigation: FC<NavigationProps> = () => {
             </ul>
           </MenubarContent>
           <div className="flex md:hidden items-center gap-2 mt-10 ">
-            <div className="flex items-center gap-1 mb-0.5">
-              <Phone className="text-red-900 w-4 h-4" />
-              <span className="text-sm font-serif ">+254 703 082 000</span>
-            </div>
             <Button
               onClick={() => (window.location.href = "/contact")}
-              className="text-xs font-serif"
+              className="text-xs font-serif flex items-center gap-1"
               variant="outline"
               size="sm"
             >
-              Contact Us
+              <Phone className="text-red-900 w-4 h-4" />
+              <span className="text-sm font-serif ">+254 703 082 000</span>
             </Button>
           </div>
         </MenubarMenu>
