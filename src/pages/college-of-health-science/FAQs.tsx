@@ -2,7 +2,6 @@ import Heading from "@/components/Heading";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { FunctionComponent } from "react";
 import FAQs from "../clinics/FAQs";
-import TestimonialCarousel from "@/components/TestimonialCarousel";
 import ContactForm from "@/components/ContactForm";
 
 interface CollegeFaqsProps {}
