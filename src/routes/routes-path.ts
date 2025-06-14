@@ -173,14 +173,23 @@ const UIRoutes = {
     name: "navigation.facilitiesdownloads",
     path: "/college/facilities-and-downloads",
     component: lazyLoad(
-      () => import("../pages/college-of-health-science/facilitiesdownloads")
+      () => import("../pages/college-of-health-science/Facilitiesdownloads")
     ),
   },
   Alumni: {
     name: "navigation.alumni",
     path: "/college/student-alumni",
-    component: lazyLoad(() => import("../pages/college-of-health-science/Alumni")),
-  }
+    component: lazyLoad(
+      () => import("../pages/college-of-health-science/Alumni")
+    ),
+  },
+  CollegeFAQs: {
+    name: "navigation.collesgeFAQs",
+    path: "/college/college-faqs",
+    component: lazyLoad(
+      () => import("../pages/college-of-health-science/FAQs")
+    ),
+  },
 };
 
 export const RoutesPath: Record<keyof typeof UIRoutes, UIRoutesType> = UIRoutes;
