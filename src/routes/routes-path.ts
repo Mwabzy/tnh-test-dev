@@ -173,31 +173,7 @@ const UIRoutes = {
     name: "navigation.facilitiesdownloads",
     path: "/college/facilities-and-downloads",
     component: lazyLoad(
-      () => import("../pages/college-of-health-science/Facilitiesdownloads")
-    ),
-  },
-  Booking: {
-    name: "navigation.booking",
-    path: "/booking",
-    component: lazyLoad(() => import("../pages/DoctorBooking/DoctorBooking")),
-  },
-  ClinicListing: {
-    name: "navigation.clinicListing",
-    path: "/outpatient-clinics",
-    component: lazyLoad(() => import("../pages/clinicListing/ClinicListing")),
-  },
-  Alumni: {
-    name: "navigation.alumni",
-    path: "/college/student-alumni",
-    component: lazyLoad(
-      () => import("../pages/college-of-health-science/Alumni")
-    ),
-  },
-  CollegeFAQs: {
-    name: "navigation.collesgeFAQs",
-    path: "/college/college-faqs",
-    component: lazyLoad(
-      () => import("../pages/college-of-health-science/FAQs")
+      () => import("../pages/college-of-health-science/facilitiesdownloads")
     ),
   },
   Booking: {
