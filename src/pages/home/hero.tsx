@@ -4,6 +4,7 @@ import care3 from "@/assets/images/image3.png";
 import care4 from "@/assets/images/image4.jpg";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
+import { useIntlayer } from "react-intlayer"
 
 const slideUp = {
   hidden: { opacity: 0, y: 50 },
@@ -11,6 +12,7 @@ const slideUp = {
 };
 
 const Hero = () => {
+  const content = useIntlayer("heroContent");
   return (
     <section className="bg-red-900 mt-8 text-white p-5  md:p-16 rounded-2xl mx-[1%] md:mx-[2%] w-auto">
       <div className="grid xl:grid-cols-2 gap-6">
@@ -24,7 +26,7 @@ const Hero = () => {
                   transition={{ duration: 0.6, ease: "easeOut" }}
                 >
           <h1 className="text-3xl md:text-6xl  font-bold leading-tight font-serif">
-            70+ Years of Healthcare with a difference.
+            {content.title}
           </h1>
           <p className="text-lg md:text-xl pb-4 font-sans">
             The Nairobi hospital has excelled in medical expertise, service
