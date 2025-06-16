@@ -8,11 +8,41 @@ const heroContent: Dictionary = {
                 en: "70+ Years of Healthcare with a difference.",
                 fr: "Plus de 70 ans de soins de santé avec une différence.",
                 es: "Más de 70 años de atención médica con una diferencia.",
-                de: "Über 70 Jahre Gesundheitsversorgung mit einem Unterschied.",
+                zh: "70多年与众不同的医疗服务。",
                 ru: "Более 70 лет медицинского обслуживания с отличием.",
             })
-        ]
+        ],
+        description: [
+            t({
+                en: "The Nairobi hospital has excelled in medical expertise, service provision and has deservedly earned recognition throughout East Africa and beyond.",
+                fr: "L'hôpital de Nairobi a excellé dans l'expertise médicale, la prestation de services et a mérité une reconnaissance dans toute l'Afrique de l'Est et au-delà.",
+                es: "El Hospital de Nairobi ha destacado en experiencia médica, prestación de servicios y ha merecido reconocimiento en toda África Oriental y más allá.",
+                zh: "医院在医疗专业、服务提供方面表现出色，并在整个东非及其他地区赢得了应有的认可。",
+                ru: "Больница Найроби преуспела в медицинской экспертизе, предоставлении услуг и заслуженно получила признание по всей Восточной Африке и за ее пределами.",
+            })
+        ],
+        services_button: [
+            t({
+                en: "Our Clinical Services",
+                fr: "Nos services cliniques",
+                es: "Nuestros servicios clínicos",
+                zh: "我们的临床服务",
+                ru: "Наши клинические услуги",
+            })
+        ],
+        about_button: [
+            t({
+                en: "About Us",
+                fr: "À propos de nous",
+                es: "Sobre nosotros",
+                zh: "关于我们",
+                ru: "О нас",
+            })
+        ],
     },
 }
+
+
+
 
 export default heroContent;

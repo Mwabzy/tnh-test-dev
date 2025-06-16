@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Phone } from "lucide-react";
+import { useIntlayer } from "react-intlayer";
 
 type NavigationProps = object;
 
@@ -148,16 +149,17 @@ const news_media: { title: string; href: string; description: string }[] = [
 ];
 
 const Navigation: FC<NavigationProps> = () => {
+  const content = useIntlayer("navigationContent");
   return (
     <div>
       <Menubar className="flex-col md:flex-row  border-none shadow-none bg-inherit">
         <MenubarMenu>
           <MenubarTrigger asChild>
-            <Link to="/">Home</Link>
+            <Link to="/">{content.home}</Link>
           </MenubarTrigger>
         </MenubarMenu>
         <MenubarMenu>
-          <MenubarTrigger>About Us</MenubarTrigger>
+          <MenubarTrigger>{content.about_us}</MenubarTrigger>
           <MenubarContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
@@ -211,7 +213,7 @@ const Navigation: FC<NavigationProps> = () => {
         </MenubarMenu>
 
         <MenubarMenu>
-          <MenubarTrigger>Clinical Services</MenubarTrigger>
+          <MenubarTrigger>{content.services}</MenubarTrigger>
           <MenubarContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               {patients_visitors.map((component) => (
@@ -227,21 +229,8 @@ const Navigation: FC<NavigationProps> = () => {
           </MenubarContent>
         </MenubarMenu>
 
-        {/* <MenubarMenu>
-          <MenubarTrigger asChild>
-            <Link to="/medical-tourism">Medical Tourism</Link>
-          </MenubarTrigger>
-        </MenubarMenu> */}
-        {/* <MenubarMenu>
-          <MenubarTrigger asChild>
-            <Link to="/college-of-health-sciences">
-              College of Health Sciences
-            </Link>
-          </MenubarTrigger>
-        </MenubarMenu> */}
-
         <MenubarMenu>
-          <MenubarTrigger>College of Health Sciences</MenubarTrigger>
+          <MenubarTrigger>{content.college_of_health_sciences}</MenubarTrigger>
           <MenubarContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               {college_health_sciences.map((component) => (
@@ -257,7 +246,7 @@ const Navigation: FC<NavigationProps> = () => {
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>
-          <MenubarTrigger>Other Services</MenubarTrigger>
+          <MenubarTrigger>{content.other_services}</MenubarTrigger>
           <MenubarContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[400px] md:grid-cols-1 lg:w-[400px]">
               {other_services.map((component) => (
@@ -273,7 +262,7 @@ const Navigation: FC<NavigationProps> = () => {
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>
-          <MenubarTrigger>Notices & Opportunities</MenubarTrigger>
+          <MenubarTrigger>{content.notices_and_opportunities}</MenubarTrigger>
           <MenubarContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[400px] md:grid-cols-1 lg:w-[400px] ">
               {news_media.map((component) => (

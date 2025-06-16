@@ -1,5 +1,6 @@
 import AnimatedCounter from "@/components/Animatedcounter";
 import { motion } from "framer-motion";
+import { useIntlayer } from "react-intlayer";
 
 const slideUp = {
   hidden: { opacity: 0, y: 50 },
@@ -7,6 +8,7 @@ const slideUp = {
 };
 
 const Metrics = () => {
+  const content = useIntlayer("about_the_hospital")
   return (
     <div className="max-w-7xl mx-[2%] md:mx-auto px-4 py-12 grid md:grid-cols-2 gap-10 items-center">
       <motion.div
@@ -32,15 +34,10 @@ const Metrics = () => {
         className="text-center mx-10 md:text-left"
       >
         <h2 className="text-5xl font-semibold text-red-900 mb-4 font-serif">
-          About the Hospital
+          {content.title}
         </h2>
         <p className="text-gray-700 mb-6">
-          Opened in 1954, The Nairobi Hospital has excelled in medical
-          expertise, service provision and has deservedly earned recognition
-          throughout East Africa and beyond as an advanced diagnostic, treatment
-          and referral centre. Expansive investment in latest technology and
-          medical equipment has enabled us establish leadership in medical
-          procedures both in Kenya and outside.
+          {content.description}
         </p>
 
         <div className="space-y-4">
@@ -54,8 +51,7 @@ const Metrics = () => {
           >
             <AnimatedCounter targetNumber={70} suffix="+" />
             <p className="text-gray-600">
-              Years of experience in patient care dedicated to providing the
-              highest quality of care.
+              {content.about_stat_experience}
             </p>
           </motion.div>
           <motion.div
@@ -76,9 +72,7 @@ const Metrics = () => {
           >
             <AnimatedCounter targetNumber={74} suffix="%" />
             <p className="text-gray-600">
-              Our patient satisfaction rate shows quality, compassion, and
-              attention. Our post-visit surveys reflect trust, comfort, and
-              confidence in our care.
+              {content.about_stat_patients}
             </p>
           </motion.div>
         </div>
