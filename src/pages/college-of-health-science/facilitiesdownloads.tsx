@@ -60,14 +60,95 @@ const Facilitiesdownloads = () => {
           </section>
 
           <section className="mt-12">
+
             <h2 className="text-2xl font-semibold text-red-900 mb-4">
               Opening Hours
             </h2>
-            <ul className="list-disc list-inside space-y-1 text align-middle">
-              <li>Monday - Friday: 8am - 5pm</li>
-              <li>Saturday: 8am - 1pm</li>
-              <li>Sunday and Public Holidays: Closed</li>
-            </ul>
+             <div className="mb-8 shadow-lg rounded-lg p-6 bg-white">
+              <h3 className="text-md font-semibold mb-4 text-red-900">
+                Program Details
+              </h3>
+              <ul className="text-sm space-y-2">
+                <li className="grid grid-cols-2 border-b py-2">
+                  <span>Lecture Halls</span>
+                  <span className="text-gray-700">
+                     <ul className="list-disc list-inside space-y-1 text align-middle">
+                       <li>Monday - Friday: 8am - 5pm</li>
+                       <li>Saturday: 8am - 1pm</li>
+                        <li>Sunday and Public Holidays: Closed</li>
+                    </ul>
+                    
+                  </span>
+                </li>
+
+                <li className="grid grid-cols-2 border-b py-2">
+                  <span>Skills Laboratory</span>
+                  <span className="text-gray-700">
+                      <ul className="list-disc list-inside space-y-1 text align-middle">
+                       <li>Monday - Friday: 8am - 5pm</li>
+                       <li>Saturday: 8am - 1pm</li>
+                        <li>Sunday and Public Holidays: Closed</li>
+                    </ul>
+                    Twice a year in April & September
+                  </span>
+                </li>
+                <li className="grid grid-cols-2 border-b py-2">
+                  <span>Library</span>
+                  <span className="text-gray-700">
+                      <ul className="list-disc list-inside space-y-1 text align-middle">
+                       <li>Monday - Friday: 8am - 5pm</li>
+                       <li>Saturday: 8am - 1pm</li>
+                        <li>Sunday and Public Holidays: Closed</li>
+                    </ul>
+                    40 students per intake
+                    </span>
+                </li>
+                <li className="grid grid-cols-2 border-b py-2">
+                  <span>Hostels</span>
+                  <span className="text-gray-700">
+                      <ul className="list-disc list-inside space-y-1 text align-middle">
+                       <li>Monday - Friday: 8am - 5pm</li>
+                       <li>Saturday: 8am - 1pm</li>
+                        <li>Sunday and Public Holidays: Closed</li>
+                    </ul>
+                    Ksh 199,000
+                    </span>
+                  </li>
+                 <li className="grid grid-cols-2 border-b py-2">
+                  <span>Clinical Placements</span>
+                  <span className="text-gray-700">
+                      <ul className="list-disc list-inside space-y-1 text align-middle">
+                       <li>Monday - Friday: 8am - 5pm</li>
+                       <li>Saturday: 8am - 1pm</li>
+                        <li>Sunday and Public Holidays: Closed</li>
+                    </ul>
+                    Twice a year in April & September
+                  </span>
+                </li>
+                 <li className="grid grid-cols-2 border-b py-2">
+                  <span>College Buses</span>
+                  <span className="text-gray-700">
+                     <ul className="list-disc list-inside space-y-1 text align-middle">
+                       <li>Monday - Friday: 8am - 5pm</li>
+                       <li>Saturday: 8am - 1pm</li>
+                        <li>Sunday and Public Holidays: Closed</li>
+                    </ul>
+                    Twice a year in April & September
+                  </span>
+                </li>
+                 <li className="grid grid-cols-2 border-b py-2">
+                  <span>Co-Curricular Activities</span>
+                  <span className="text-gray-700">
+                      <ul className="list-disc list-inside space-y-1 text align-middle">
+                       <li>Monday - Friday: 8am - 5pm</li>
+                       <li>Saturday: 8am - 1pm</li>
+                        <li>Sunday and Public Holidays: Closed</li>
+                    </ul>
+                    Twice a year in April & September
+                  </span>
+                </li>
+              </ul>
+            </div>
           </section>
 
           <section className="mt-12">
