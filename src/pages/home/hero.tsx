@@ -29,17 +29,15 @@ const Hero = () => {
             {content.title}
           </h1>
           <p className="text-lg md:text-xl pb-4 font-sans">
-            The Nairobi hospital has excelled in medical expertise, service
-            provision and has deservedly earned recognition throughout East
-            Africa and beyond.
+            {content.description}
           </p>
           </motion.div>
           <div className="flex space-x-4">
             <button className="bg-white text-black px-5 py-2 rounded-lg font-semibold">
-              <Link to="/clinics">Our Clinical Services</Link>
+              <Link to="/clinics">{content.services_button}</Link>
             </button>
             <Link to="/about" className="flex items-center space-x-2">
-              <span>About Us</span>
+              <span>{content.about_button}</span>
               <span className="text-xl">→</span>
             </Link>
           </div>
