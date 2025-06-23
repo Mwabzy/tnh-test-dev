@@ -7,6 +7,8 @@ import {
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 import ServiceCard from "@/components/ServiceCard";
+import { useIntlayer } from "react-intlayer"
+
 
 // Define the slideUp animation variants
 const slideUp = {
@@ -15,6 +17,7 @@ const slideUp = {
 };
 
 const ServicesSection = () => {
+  const content = useIntlayer("servicesSection");
   return (
     <div className="px-4 py-10 max-w-7xl flex flex-col mx-auto">
       <div className="flex justify-between items-center mb-8">
@@ -28,7 +31,7 @@ const ServicesSection = () => {
             className="flex flex-col items-start"
           >
             <h1 className="text-4xl md:text-5xl text-center md:text-left font-serif font-bold text-red-900">
-              Clinical Services
+              {content.title}
             </h1>
             <p className="text-black mt-2">
               The Nairobi Hospital offers a wide range of clinical services to
