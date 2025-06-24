@@ -18,6 +18,7 @@ const historyData = [
       "Our lecture halls are spacious enough to maintain COVID-19 physical distancing protocols. For teaching, we use mounted projectors.",
     image:
       "https://kampusville.com/wp-content/uploads/2024/03/Cicely-McDonell-College-of-Health-Sciences.jpg",
+      openingHours:["Monday - Friday: 8am - 5pm", "Saturday: 8am - 1pm", "Sunday and Public Holidays: Closed"],
   },
    {
     
@@ -26,6 +27,7 @@ const historyData = [
       "Our labs are equipped with state-of-the-art equipment for students to practice their nursing skills before going to the wards. Various organizations use our labs for practical skill training and examinations.",
     image:
       "https://kampusville.com/wp-content/uploads/2024/03/Cicely-McDonell-College-of-Health-Sciences.jpg",
+      openingHours:["Monday - Friday: 8am - 5pm", "Saturday: 8am - 1pm", "Sunday and Public Holidays: Closed"],
   },
    {
     
@@ -43,6 +45,7 @@ const historyData = [
       "The college has spacious rooms, reading tables and TV lounges. We offer in-house laundry services at a subsidized cost.",
     image:
       "https://kampusville.com/wp-content/uploads/2024/03/Cicely-McDonell-College-of-Health-Sciences.jpg",
+      openingHours:["Monday - Friday: 8am - 5pm", "Saturday: 8am - 1pm", "Sunday and Public Holidays: Closed"],
   },
   {
     
@@ -51,6 +54,7 @@ const historyData = [
       "Students are assigned to The Nairobi Hospital including the Outpatient Centers, Kenyatta National Hospital, Mathari Teaching & Referral Hospital and Nairobi County health centers.",
     image:
       "https://victormatara.com/wp-content/uploads/2021/09/Nairobi-Hospital-School-of-Nursing-Fees-Structure.jpeg",
+      openingHours:["Monday - Friday: 8am - 5pm", "Saturday: 8am - 1pm", "Sunday and Public Holidays: Closed"],
   },
   {
     
@@ -58,6 +62,7 @@ const historyData = [
     description:
       "There are two college buses that offer students convenient transportation to external clinical locations and external co-curricular activities.",
     image: "https://pbs.twimg.com/media/F_w6HHfWgAAKvn7.jpg:large",
+    openingHours:["Monday - Friday: 8am - 5pm", "Saturday: 8am - 1pm", "Sunday and Public Holidays: Closed"],
   },
    {
     
@@ -66,6 +71,7 @@ const historyData = [
       "The Students participate in Intercollege Activities, Pool Table Games, Table Tennis, Badminton, Chess, Monopoly and Jenga Classic. We also have religious fellowship groups.",
     image:
       "https://kampusville.com/wp-content/uploads/2024/03/Cicely-McDonell-College-of-Health-Sciences.jpg",
+      openingHours:["Monday - Friday: 8am - 5pm", "Saturday: 8am - 1pm", "Sunday and Public Holidays: Closed"],
   },
 ];
 
@@ -176,97 +182,7 @@ const Facilitiesdownloads = () => {
         </div>
       </div>
 
-          <section className="mt-12">
-
-            <h2 className="text-2xl font-semibold text-red-900 mb-4">
-              Opening Hours
-            </h2>
-             <div className="mb-8 shadow-lg rounded-lg p-6 bg-white">
-              <h3 className="text-md font-semibold mb-4 text-red-900">
-                Program Details
-              </h3>
-              <ul className="text-sm space-y-2">
-                <li className="grid grid-cols-2 border-b py-2">
-                  <span>Lecture Halls</span>
-                  <span className="text-gray-700">
-                     <ul className="list-disc list-inside space-y-1 text align-middle">
-                       <li>Monday - Friday: 8am - 5pm</li>
-                       <li>Saturday: 8am - 1pm</li>
-                        <li>Sunday and Public Holidays: Closed</li>
-                    </ul>
-                    
-                  </span>
-                </li>
-
-                <li className="grid grid-cols-2 border-b py-2">
-                  <span>Skills Laboratory</span>
-                  <span className="text-gray-700">
-                      <ul className="list-disc list-inside space-y-1 text align-middle">
-                       <li>Monday - Friday: 8am - 5pm</li>
-                       <li>Saturday: 8am - 1pm</li>
-                        <li>Sunday and Public Holidays: Closed</li>
-                    </ul>
-                    Twice a year in April & September
-                  </span>
-                </li>
-                <li className="grid grid-cols-2 border-b py-2">
-                  <span>Library</span>
-                  <span className="text-gray-700">
-                      <ul className="list-disc list-inside space-y-1 text align-middle">
-                       <li>Monday - Friday: 8am - 5pm</li>
-                       <li>Saturday: 8am - 1pm</li>
-                        <li>Sunday and Public Holidays: Closed</li>
-                    </ul>
-                    40 students per intake
-                    </span>
-                </li>
-                <li className="grid grid-cols-2 border-b py-2">
-                  <span>Hostels</span>
-                  <span className="text-gray-700">
-                      <ul className="list-disc list-inside space-y-1 text align-middle">
-                       <li>Monday - Friday: 8am - 5pm</li>
-                       <li>Saturday: 8am - 1pm</li>
-                        <li>Sunday and Public Holidays: Closed</li>
-                    </ul>
-                    Ksh 199,000
-                    </span>
-                  </li>
-                 <li className="grid grid-cols-2 border-b py-2">
-                  <span>Clinical Placements</span>
-                  <span className="text-gray-700">
-                      <ul className="list-disc list-inside space-y-1 text align-middle">
-                       <li>Monday - Friday: 8am - 5pm</li>
-                       <li>Saturday: 8am - 1pm</li>
-                        <li>Sunday and Public Holidays: Closed</li>
-                    </ul>
-                    Twice a year in April & September
-                  </span>
-                </li>
-                 <li className="grid grid-cols-2 border-b py-2">
-                  <span>College Buses</span>
-                  <span className="text-gray-700">
-                     <ul className="list-disc list-inside space-y-1 text align-middle">
-                       <li>Monday - Friday: 8am - 5pm</li>
-                       <li>Saturday: 8am - 1pm</li>
-                        <li>Sunday and Public Holidays: Closed</li>
-                    </ul>
-                    Twice a year in April & September
-                  </span>
-                </li>
-                 <li className="grid grid-cols-2 border-b py-2">
-                  <span>Co-Curricular Activities</span>
-                  <span className="text-gray-700">
-                      <ul className="list-disc list-inside space-y-1 text align-middle">
-                       <li>Monday - Friday: 8am - 5pm</li>
-                       <li>Saturday: 8am - 1pm</li>
-                        <li>Sunday and Public Holidays: Closed</li>
-                    </ul>
-                    Twice a year in April & September
-                  </span>
-                </li>
-              </ul>
-            </div>
-          </section>
+         
        
           <section className="flex flex-col items-center mt-12 gap-4 text-center">
             <h2 className="text-2xl text-center font-semibold text-red-900 mb-4">
