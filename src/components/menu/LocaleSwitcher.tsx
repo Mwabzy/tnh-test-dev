@@ -16,7 +16,7 @@ const localeOptions = [
   { value: Locales.ENGLISH, label: 'EN', flag: '🇬🇧' },
   { value: Locales.FRENCH, label: 'FR', flag: '🇫🇷' },
   { value: Locales.SPANISH, label: 'ES', flag: '🇪🇸' },
-  { value: Locales.GERMAN, label: 'DE', flag: '🇩🇪' },
+  { value: Locales.CHINESE, label: 'ZH', flag: '🇨🇳' },
   { value: Locales.RUSSIAN, label: 'RU', flag: '🇷🇺' },
 ];
 

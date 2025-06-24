@@ -6,9 +6,8 @@ const config: IntlayerConfig = {
       Locales.ENGLISH,
       Locales.FRENCH,
       Locales.SPANISH,
-      Locales.GERMAN,
+      Locales.CHINESE,
       Locales.RUSSIAN,
-      // Your other locales
     ],
     defaultLocale: Locales.ENGLISH,
   },

@@ -157,7 +157,7 @@ const ClinicListing: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
+      <div className="w-full mx-auto">
         {/* Header */}
         <h1 className="text-3xl font-bold text-gray-900 text-center mb-8">
           Outpatient Clinics in Nairobi
@@ -233,6 +233,16 @@ const ClinicListing: React.FC = () => {
                       </p>
                       <p>Email: {clinic.contact.email}</p>
                       <p>Phone: {clinic.contact.phone.join(', ')}</p>
+                      {/* share map link */}
+                      <p>
+                        <a
+                          href={`https://www.google.com/maps/search/?api=1&query=${clinic.coordinates[0]},${clinic.coordinates[1]}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Visit this clinic
+                        </a>
+                      </p>
                     </div>
                   </Popup>
                 </Marker>

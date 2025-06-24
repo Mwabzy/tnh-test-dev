@@ -25,9 +25,9 @@ interface BookingForm {
 const DoctorBooking: React.FC = () => {
   // Sample data (in real app, fetch from API)
   const doctors: Doctor[] = [
-    { id: '1', name: 'Dr. John Smith', specialty: 'Cardiology' },
-    { id: '2', name: 'Dr. Jane Doe', specialty: 'Pediatrics' },
-    { id: '3', name: 'Dr. Mike Wilson', specialty: 'Neurology' },
+    { id: '1', name: 'Dr. Samuel Mwangi', specialty: 'Cardiology' },
+    { id: '2', name: 'Dr. Jane Nyaboke', specialty: 'Pediatrics' },
+    { id: '3', name: 'Dr. Mike Muraya', specialty: 'Neurology' },
   ];
 
   const timeSlots: TimeSlot[] = [
