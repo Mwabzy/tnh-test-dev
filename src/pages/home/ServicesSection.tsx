@@ -72,12 +72,12 @@ const ServicesSection = () => {
   link={`/service-detail/pharmacy-services`}
    title={
     Array.isArray(content.pharmacyservices)
-      ? content.pharmacyservices.map(node => node.value).join('')
+      ? content.pharmacyservices.map((node: { value: string }) => node.value).join('')
       : "Pharmacy Services"
   }
   description={
     Array.isArray(content.pharmacydescription)
-      ? content.pharmacydescription.map(node => node.value).join('') 
+      ? content.pharmacydescription.map((node: { value: string }) => node.value).join('') 
       : "The Nairobi Hospital Pharmacy provides a wide range of medications and health products, ensuring safe and effective treatment options for all patients."
   }
   icon={
@@ -90,12 +90,12 @@ const ServicesSection = () => {
           link={`/service-detail/gynaecology-services`}
           title={
             Array.isArray(content.gynaecologyservices)
-              ? content.gynaecologyservices.map(node => node.value).join('')
+              ? content.gynaecologyservices.map((node: { value: string }) => node.value).join('')
               : "Gynaecology Services"
           }
           description={
             Array.isArray(content.gynaecologydescription)
-              ? content.gynaecologydescription.map(node => node.value).join('')
+              ? content.gynaecologydescription.map((node: { value: string }) => node.value).join('')
               : "The Nairobi Hospital Gynaecology Clinic offers specialized care for women’s reproductive health, including screenings, treatments, and support for various conditions."
           }
           icon={
@@ -108,12 +108,12 @@ const ServicesSection = () => {
           link={`/service-detail/antenatal-services`}
           title={
             Array.isArray(content.antenatalservices)
-              ? content.antenatalservices.map(node => node.value).join('')
+              ? content.antenatalservices.map((node: { value: string }) => node.value).join('')
               : "Antenatal Services"
           }
           description={
             Array.isArray(content.antenataldescription)
-              ? content.antenataldescription.map(node => node.value).join('')
+              ? content.antenataldescription.map((node: { value: string }) => node.value).join('')
               : "The Nairobi Hospital provides comprehensive antenatal care, ensuring the health and well-being of both mother and baby throughout pregnancy."
           }
           icon={
