@@ -7,8 +7,7 @@ import {
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 import ServiceCard from "@/components/ServiceCard";
-import { useIntlayer } from "react-intlayer"
-
+import { useIntlayer } from "react-intlayer";
 
 // Define the slideUp animation variants
 const slideUp = {
@@ -34,13 +33,13 @@ const ServicesSection = () => {
               {content.title}
             </h1>
             <p className="text-black mt-2">
-              The Nairobi Hospital offers a wide range of clinical services to
-              meet the healthcare needs of our patients.
+              {content.description ||
+                "Explore our comprehensive range of clinical services designed to meet your healthcare needs with excellence and compassion."}
             </p>
           </motion.div>
         </div>
         <button className="bg-red-900 text-white  hidden md:block px-4 py-2 rounded-md font-semibold">
-          <Link to={`/clinical-services`}>All Services</Link>
+          <Link to={`/clinical-services`}>{content.allservices}</Link>
         </button>
       </div>
 
@@ -54,28 +53,51 @@ const ServicesSection = () => {
       >
         <ServiceCard
           link={`/service-detail/dentistry-services`}
-          title="Dentistry Services"
-          description="The Nairobi Hospital’s Dental Clinic provides expert care, including cleanings, restorations, and orthodontics, ensuring optimal oral health with advanced technology."
+          title={
+            Array.isArray(content.dentalservices)
+            ? content.dentalservices.map(node => node.value).join('')
+            : "Dental Services"
+          }
+          description={
+            Array.isArray(content.dentaldescription)
+              ? content.dentaldescription.map(node => node.value).join('')
+              : "The Nairobi Hospital Dental Clinic provides comprehensive dental care, including preventive, restorative, and cosmetic services, ensuring optimal oral health for all patients."
+          }
           icon={
             <BriefcaseMedical className="mt-2 mr-4 text-red-900 h-8 w-8 md:h-10 md:w-10" />
           }
           active={true}
         />
-
-        <ServiceCard
-          link={`/service-detail/pharmacy-services`}
-          title="Pharmacy Services"
-          description="The Nairobi Hospital Pharmacy offers quality, safe, and efficient inpatient, outpatient, and clinical services, dispensing vetted medicines at optimal prices."
-          icon={
-            <PillBottle className="mt-2 mr-4 text-red-900 h-8 w-8 md:h-10 md:w-10" />
-          }
-          active={false}
-        />
-
+<ServiceCard
+  link={`/service-detail/pharmacy-services`}
+   title={
+    Array.isArray(content.pharmacyservices)
+      ? content.pharmacyservices.map(node => node.value).join('')
+      : "Pharmacy Services"
+  }
+  description={
+    Array.isArray(content.pharmacydescription)
+      ? content.pharmacydescription.map(node => node.value).join('') 
+      : "The Nairobi Hospital Pharmacy provides a wide range of medications and health products, ensuring safe and effective treatment options for all patients."
+  }
+  icon={
+    <PillBottle className="mt-2 mr-4 text-red-900 h-8 w-8 md:h-10 md:w-10" />
+  }
+  active={false}
+/>
+      
         <ServiceCard
           link={`/service-detail/gynaecology-services`}
-          title="Gynaecology Services"
-          description="The Nairobi Hospital’s Gynaecology Clinic offers specialized care for women’s reproductive health, including screenings, treatments, and family planning with compassion."
+          title={
+            Array.isArray(content.gynaecologyservices)
+              ? content.gynaecologyservices.map(node => node.value).join('')
+              : "Gynaecology Services"
+          }
+          description={
+            Array.isArray(content.gynaecologydescription)
+              ? content.gynaecologydescription.map(node => node.value).join('')
+              : "The Nairobi Hospital Gynaecology Clinic offers specialized care for women’s reproductive health, including screenings, treatments, and support for various conditions."
+          }
           icon={
             <MarsStroke className="mt-2 mr-4 text-red-900 h-8 w-8 md:h-10 md:w-10" />
           }
@@ -84,8 +106,16 @@ const ServicesSection = () => {
 
         <ServiceCard
           link={`/service-detail/antenatal-services`}
-          title="Antenatal Clinic Services"
-          description="The Nairobi Hospital’s Antenatal Clinic provides comprehensive care for expectant mothers, including screenings, counseling, and support throughout pregnancy."
+          title={
+            Array.isArray(content.antenatalservices)
+              ? content.antenatalservices.map(node => node.value).join('')
+              : "Antenatal Services"
+          }
+          description={
+            Array.isArray(content.antenataldescription)
+              ? content.antenataldescription.map(node => node.value).join('')
+              : "The Nairobi Hospital provides comprehensive antenatal care, ensuring the health and well-being of both mother and baby throughout pregnancy."
+          }
           icon={
             <SquareActivity className="mt-2 mr-4 text-red-900 h-8 w-8 md:h-10 md:w-10" />
           }

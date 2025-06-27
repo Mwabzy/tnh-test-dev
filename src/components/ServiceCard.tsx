@@ -2,8 +2,8 @@ import { FC, JSX } from "react";
 import { Link } from "react-router";
 
 interface ServiceCardProps {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   icon: JSX.Element;
   link: string;
   active: boolean;
