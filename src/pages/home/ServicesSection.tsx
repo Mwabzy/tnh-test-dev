@@ -55,12 +55,12 @@ const ServicesSection = () => {
           link={`/service-detail/dentistry-services`}
           title={
             Array.isArray(content.dentalservices)
-            ? content.dentalservices.map(node => node.value).join('')
+            ? content.dentalservices.map((node: { value: string }) => node.value).join('')
             : "Dental Services"
           }
           description={
             Array.isArray(content.dentaldescription)
-              ? content.dentaldescription.map(node => node.value).join('')
+              ? content.dentaldescription.map((node: { value: string })=> node.value).join('')
               : "The Nairobi Hospital Dental Clinic provides comprehensive dental care, including preventive, restorative, and cosmetic services, ensuring optimal oral health for all patients."
           }
           icon={
