@@ -3,10 +3,11 @@ import { Shirt } from "lucide-react";
 import { PackageCheck } from "lucide-react";
 import { Boxes } from "lucide-react";
 import Heading from "@/components/Heading";
+import { useIntlayer } from "react-intlayer";
 
 const steps = [
   {
-    title: "Washing and Disinfection",
+    title: "Washing and Cleaning",
     icon: <WashingMachine />,
     description:
       "Our clinic provides a wide range of oral care services, from checkups to fitting braces. we are ready.",
@@ -32,67 +33,62 @@ const steps = [
 ];
 
 const LaundryServices = () => {
+  const content = useIntlayer("laundry_services");
   return (
     <>
       <Heading
         image_url="https://cms.thenairobihosp.org/uploads/laundry_services_2d4f1b8c3a.jpg"
         style="image"
-        title="Laundry Services"
-        description="We provide the quality laundry services. "
+        title={Array.isArray(content.title) ? content.title[0]?.value ?? "" : content.title}
+        description={Array.isArray(content.description) ? content.description[0]?.value ?? "" : content.description}
       />
       <section className="px-6 mt-16 md:px-16 py-12 bg-white text-[#0A0A23]">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
           <div className="flex-1 text-gray-600 space-y-4">
             <h1 className="mt-3 text-4xl md:text-5xl font-extrabold leading-tight">
-              We provide the best cleaning services.
+              {content.subtitle}
             </h1>
             <p>
-              The Nairobi Hospital boasts the largest laundry in East and
-              Sub-Saharan Africa. The laundry is located at Anderson Centre and
-              is equipped with state-of-the-art equipment which includes a
-              12-chamber hygiene Tunnel washer-Africa’s largest, barrier washers
-              for handling infected/foul linen, stand alone high spin washers
-              for customized laundry and several assortment of finishing
-              equipment and back up. The Laundry does not only process linen but
-              provides holistic linen solutions to the entire hospital, it’s
-              outlets and our external customers.
+              {Array.isArray(content.subdesciption)
+                ? content.subdesciption[0]?.value ?? ""
+                : content.subdesciption}
             </p>
             <p>
-              Our team of experts who have been in the profession for years
-              focuses on helping you achieve optimal oral health.
+              {Array.isArray(content.paragraph)
+                ? content.paragraph[0]?.value ?? ""
+                : content.paragraph}
             </p>
           </div>
 
           <div className="flex-1 ml-15">
             <p className="text-md font-semibold text-red-900 uppercase">
-              Highest Level of Service
+              {Array.isArray(content.levelservice) ? content.levelservice[0]?.value ?? "" : content.levelservice}
             </p>
 
             <h1 className="text-lg mt-3 font-semibold">
-              The services we offer include:{" "}
+             {Array.isArray(content.offer) ? content.offer[0]?.value?? "": content.offer}{" "}
             </h1>
 
             <ul className="list-disc list-outside space-y-1 text-gray-700">
-              <li>Same Day Service</li>
-              <li>Express Service</li>
-              <li>Scheduled Laundry (e.g., Mon, Wed, Friday) or as agreed</li>
+              <li>{Array.isArray(content.point1) ? content.point1[0]?.value?? "":content.point1}</li>
+              <li>{Array.isArray(content.point2) ? content.point2[0]?.value?? "":content.point2}</li>
+              <li>{Array.isArray(content.point3) ? content.point3[0]?.value?? "":content.point3}</li>
             </ul>
 
             <h1 className="text-lg mt-5 font-semibold">
-              The Benefits of using our laundry:{" "}
+              {Array.isArray(content.benefits) ? content.benefits[0]?.value?? "":content.benefits}{" "}
             </h1>
             <ul className="list-disc list-outside space-y-1 text-gray-700">
-              <li>Speed / Efficiency</li>
-              <li>Quality</li>
-              <li>Affordability</li>
-              <li>Professional Results</li>
-              <li>Understanding of Current Needs (e.g., Infection Control)</li>
+              <li>{Array.isArray(content.efficiency) ? content.efficiency[0]?.value?? "":content.efficiency}</li>
+              <li>{Array.isArray(content.quality) ? content.quality[0]?.value?? "":content.quality}</li>
+              <li>{Array.isArray(content.afford) ? content.afford[0]?.value?? "":content.afford}</li>
+              <li>{Array.isArray(content.results) ? content.results[0]?.value?? "":content.results}</li>
+              <li>{Array.isArray(content.needs) ? content.needs[0]?.value?? "":content.needs}</li>
               <li>
-                Modern Equipment Allowing Customized Programs for Your Laundry
-                Items, with Backup Available
+                {Array.isArray(content.equipments) ? content.equipments[0]?.value?? "":content.equipments}
               </li>
-              <li>Textile Advice</li>
-              <li>Caring and Professional Team</li>
+              <li>{Array.isArray(content.advice) ? content.advice[0]?.value?? "":content.advice}</li>
+              <li>{Array.isArray(content.team) ? content.results[0]?.value?? "":content.team}</li>
             </ul>
           </div>
         </div>
@@ -129,54 +125,52 @@ const LaundryServices = () => {
           {/* Left Content */}
           <div className="flex-1 text-center md:text-left">
             <h2 className="text-xl md:text-3xl font-extrabold text-[#0A0A23] leading-snug">
-              The process we have been doing <br />
-              for over 20 years of service.
+           {Array.isArray(content.process) ? content.process[0]?.value?? "":content.process}
             </h2>
 
             <p className="text-gray-600 text-lg mt-6 max-w-3xl">
-              The department's regulatory compliance is guaranteed. The design
-              of our facility meets all the recommendations and requirements
-              governing a healthcare laundry...
+              {Array.isArray(content.departments)
+                ? content.departments[0]?.value ?? ""
+                : content.departments}
             </p>
 
             <p className="text-gray-600 text-lg mt-6 max-w-3xl">
-              The safety of our clients, hospital staff and patients is our
-              number 1 priority, infection prevention starts with a clean
-              environment...
+              {Array.isArray(content.safetyofclients)
+                ? content.safetyofclients[0]?.value ?? ""
+                : content.safetyofclients}
             </p>
 
             <p className="text-gray-600 text-lg mt-6 max-w-3xl">
-              “Laundry is one thing that is never noticed until it’s not done”.
+               {Array.isArray(content.laundry)
+                ? content.laundry[0]?.value ?? ""
+                : content.laundry}
             </p>
           </div>
 
           {/* Right Content */}
           <div className="flex-1 text-left">
             <h2 className="text-xl md:text-3xl font-extrabold text-[#0A0A23] leading-snug">
-              Our Partners
+             {Array.isArray(content.patners) ? content.patners[0]?.value?? "":content.patners}
             </h2>
 
             <p className="text-gray-600 mt-6 max-w-3xl">
-              We are proud to partner with a variety of organizations to provide
-              the best laundry services possible. Our partners include:
+               {Array.isArray(content.proud) ? content.proud[0]?.value?? "":content.proud}
             </p>
 
             <ul className="list-disc list-inside text-lg text-gray-600 mt-6 max-w-3xl">
-              <li>Hotels</li>
-              <li>Apartments</li>
-              <li>Guest Houses</li>
-              <li>Commercial Laundries</li>
-              <li>Hospitals</li>
-              <li>Nursing Homes</li>
-              <li>Private Clinics</li>
-              <li>Walk-ins / Individuals / Staff</li>
-              <li>Spas / Salons / Beauty Parlors</li>
+              <li>  {Array.isArray(content.proudpoint1) ? content.proudpoint1[0]?.value?? "":content.proudpoint1}</li>
+              <li> {Array.isArray(content.proudpoint2) ? content.proudpoint2[0]?.value?? "":content.proudpoint2}</li>
+              <li>  {Array.isArray(content.proudpoint3) ? content.proudpoint3[0]?.value?? "":content.proudpoint3}</li>
+              <li>  {Array.isArray(content.proudpoint4) ? content.proudpoint4[0]?.value?? "":content.proudpoint4}</li>
+              <li>{Array.isArray(content.proudpoint5) ? content.proudpoint5[0]?.value?? "":content.proudpoint5}</li>
+              <li>{Array.isArray(content.proudpoint6) ? content.proudpoint6[0]?.value?? "":content.proudpoint6}</li>
+              <li>{Array.isArray(content.proudpoint7) ? content.proudpoint7[0]?.value?? "":content.proudpoint7}</li>
+              <li>{Array.isArray(content.proudpoint8) ? content.proudpoint8[0]?.value?? "":content.proudpoint8}</li>
+              <li>{Array.isArray(content.proudpoint9) ? content.proudpoint9[0]?.value?? "":content.proudpoint9}</li>
             </ul>
 
             <p className="text-gray-600 mt-6 max-w-3xl">
-              How it works: You drop it! We clean it! You pick it! <br />
-              The Outcome: “We present You” <br />
-              Rates: Our rates are very competitive in the market.
+              {Array.isArray(content.works) ? content.works[0]?.value?? "":content.works}
             </p>
           </div>
         </div>
@@ -188,11 +182,10 @@ const LaundryServices = () => {
             Contact Us
           </p>
           <h1 className="text-4xl font-extrabold leading-tight text-[#0A0A23]">
-            Discuss our services <br /> or make a booking
+           {Array.isArray(content.serv) ? content.serv[0]?.value?? "":content.serv} <br /> {Array.isArray(content.book) ? content.book[0]?.value?? "":content.book}
           </h1>
           <p className="text-black/80 text-sm">
-            We know how important clean and fresh laundry is, so don’t hesitate
-            to give us a call or book your service online!
+            {Array.isArray(content.import) ? content.import[0]?.value?? "":content.import}
           </p>
 
           <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:justify-center">
@@ -200,10 +193,10 @@ const LaundryServices = () => {
               href="tel:+254703082000"
               className="bg-orange-200 text-black font-semibold px-6 py-3 rounded-full shadow-md"
             >
-              Call us: +254 703 082 000
+              {Array.isArray(content.call) ? content.call[0]?.value?? "":content.call}
             </a>
             <button className="border border-black px-6 py-3 rounded-full font-semibold hover:bg-black hover:text-white transition">
-              Make a booking
+              {Array.isArray(content.make) ? content.make[0]?.value?? "":content.make}
             </button>
           </div>
         </div>
