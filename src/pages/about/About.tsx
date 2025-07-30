@@ -4,24 +4,27 @@ import Opc from "../home/opc";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import InsuranceSlider from "../home/InsuranceSlider";
 import ContactForm from "@/components/ContactForm";
+import { useIntlayer } from "react-intlayer";
 
 type AboutProps = object;
 
 const About: FC<AboutProps> = () => {
+  const content = useIntlayer("aboutUsPage");
+
   return (
     <>
       <Heading
         image_url="https://cms.thenairobihosp.org/uploads/who_we_are_8fbeb1073c.jpg"
         style="image"
-        title="Who We Are"
+        title="Who we are"
         description="The Nairobi Hospital is a non-profit organization that is leading in medical expertise and service provision, with deservedly earned recognition throughout East Africa and beyond as an advanced diagnostic, treatment and referral centre."
       />
 
       <div className=" bg-orange-200">
         <div className="mx-auto max-w-7xl px-4 py-8">
           <div className="flex flex-col items-center justify-center mt-11">
-            <h1 className="text-5xl font-bold font-serif text-center text-red-900 text-lg md:text-4xl">
-              70+ Years of Healthcare <br /> with a difference.
+            <h1 className=" font-bold font-serif text-center text-red-900 text-lg md:text-4xl">
+              {content.tagLine}
             </h1>
           </div>
 
@@ -42,11 +45,10 @@ const About: FC<AboutProps> = () => {
                 />
               </div>
               <h3 className="text-lg font-semibold text-red-800 mb-2">
-                Vision
+                {content.visionTitle}
               </h3>
               <p className="text-gray-700 text-sm">
-                The renowned modern patient-centered healthcare facility in an
-                atmosphere of trust, safety and comfort.
+                {content.visionDescription}
               </p>
             </div>
             <div className="p-6 rounded-xl text-center bg-gray-50 w-full md:w-1/2 min-h-[200px]">
@@ -57,12 +59,10 @@ const About: FC<AboutProps> = () => {
                 />
               </div>
               <h3 className="text-lg font-semibold text-red-800 mb-2">
-                Mission
+                {content.missionTitle}
               </h3>
               <p className="text-gray-700 text-sm">
-                To offer exceptional multi-specialty healthcare services by
-                harnessing innovative, dynamic & integrational patient-centered
-                strategies, towards achieving sustainable growth.
+                {content.missionDescription}
               </p>
             </div>
           </div>
@@ -73,50 +73,42 @@ const About: FC<AboutProps> = () => {
         <div className="flex justify-between items-center mt-11 w-full flex-col md:flex-row">
           <div className="w-[80%] md:w-[50%]">
             <h1 className="text-4xl font-medium font-serif text-left text-red-900">
-              Compassionate Care by Expert <br /> Healthcare Professionals
+              {content.sectionTitle}
             </h1>
             <p className="text-gray-700 text-sm leading-relaxed mt-4">
-              We take pride in our highly qualified professionals who deliver
-              our mission every day, translating their knowledge and expertise
-              to internationally compliant practices in healthcare provision.
-              Courtesy, consideration and unreserved respect towards our
-              patients’ privacy, dignity and confidentiality have helped us earn
-              their trust and goodwill time and again. Our dedicated nursing
-              staff provides professional care within a friendly and comfortable
-              environment, ensuring a pleasant and anxiety-free time in hospital
-              for our patients and their families.
+              {content.sectionDescription}
             </p>
           </div>
 
           <div className="flex flex-col items-center justify-center w-[90%] md:w-[40%] bg-red-900 rounded-lg shadow-lg px-6 py-4 text-white mt-8 md:mt-0">
             <div className="p-4">
               <h2 className="text-2xl font-medium font-serif mb-4">
-                What We value
+                {content.valuesTitle}
               </h2>
               <ul className="text-gray-200 text-sm space-y-2 list-disc list-item">
                 <li>
-                  <strong>Dedication:</strong> Efficient service and great value
-                  for patients and families.
+                  <strong>{content.dedicationTitle}:</strong>
+                  {content.dedicationDescription}
                 </li>
                 <li>
-                  <strong>Empathy:</strong> Warm, friendly, and caring
-                  environment for recovery.
+                  <strong>{content.empathyTitle}:</strong>{" "}
+                  {content.empathyDescription}
                 </li>
                 <li>
-                  <strong>Inspiration:</strong> Empowering staff to achieve
-                  extraordinary goals and careers.
+                  <strong>{content.inspirationTitle}:</strong>{" "}
+                  {content.inspirationDescription}
                 </li>
                 <li>
-                  <strong>Quality:</strong> Superior performance and quality to
-                  strengthen the hospital’s core.
+                  <strong>{content.qualityTitle}:</strong>{" "}
+                  {content.qualityDescription}
                 </li>
                 <li>
-                  <strong>Partnerships:</strong> Strong internal and external
-                  collaborations.
+                  <strong>{content.partnershipsTitle}:</strong>{" "}
+                  {content.partnershipsDescription}
                 </li>
                 <li>
-                  <strong>Integrity & Accountability:</strong> Honoring
-                  commitments under high accountability.
+                  <strong>{content.integrityTitle}:</strong>{" "}
+                  {content.integrityDescription}
                 </li>
               </ul>
             </div>
@@ -126,22 +118,22 @@ const About: FC<AboutProps> = () => {
         <div className="flex flex-col items-center justify-between mt-11 w-full space-y-8 md:space-y-0 md:flex-row">
           <div className="flex flex-col items-center justify-center text-center text-red-900">
             <h2 className="text-5xl font-medium font-serif mb-4">22+</h2>
-            <p className="text-xl font-serif">Specialists</p>
+            <p className="text-xl font-serif">{content.specialists}</p>
           </div>
 
           <div className="flex flex-col items-center justify-center text-center text-red-900">
             <h2 className="text-5xl font-medium font-serif mb-4">70+</h2>
-            <p className="text-xl font-serif">Healthcare Experience</p>
+            <p className="text-xl font-serif">{content.healthcareExperience}</p>
           </div>
 
           <div className="flex flex-col items-center justify-center text-center text-red-900">
             <h2 className="text-5xl font-medium font-serif mb-4">80%</h2>
-            <p className="text-xl font-serif">Patient Satisfaction</p>
+            <p className="text-xl font-serif">{content.patientSatisfaction}</p>
           </div>
 
           <div className="flex flex-col items-center justify-center text-center text-red-900">
             <h2 className="text-5xl font-medium font-serif mb-4">40M+</h2>
-            <p className="text-xl font-serif">Patients Treated</p>
+            <p className="text-xl font-serif">{content.patientsTreated}</p>
           </div>
         </div>
       </div>
