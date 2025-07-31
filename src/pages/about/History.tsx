@@ -1,19 +1,17 @@
 import Heading from "@/components/Heading";
 import React, { useEffect, useState } from "react";
+import { useIntlayer } from "react-intlayer";
 
 // Main History Section
 const History: React.FC = () => {
+  const content = useIntlayer("historySection");
   return (
     <>
       <Heading
         image_url="https://cms.thenairobihosp.org/uploads/who_we_are_8fbeb1073c.jpg"
         style="image"
-        title="Our History"
-        description="The Nairobi Hospital has a rich history. The
-              foundation stone of what was to become the leading provider of
-              healthcare services in the East African region, was laid on the
-              morning of 20th October 1952 by none other than Sir Evelyn Baring,
-              the then Governor of Kenya Colony."
+        title={content.title}
+        description= {content.historydescription}
       />
 
       <section className="bg-gray-50 py-12 px-4">
@@ -29,12 +27,10 @@ const History: React.FC = () => {
               </div>
               <div className="flex flex-col justify-center">
                 <h3 className="text-2xl font-semibold text-red-900 font-serif mb-2">
-                  Key Milestones
+                  {content.milestonetitle}
                 </h3>
                 <p className="text-gray-600 text-lg mb-4">
-                  Since its inception, the Nairobi Hospital has been a “ground
-                  breaker” medically, as well as socially. Below are some of our
-                  key milestones:
+                 {content.milestoneDescription}
                 </p>
                 <MilestoneCarousel />
               </div>
@@ -42,78 +38,41 @@ const History: React.FC = () => {
           </div>
           <div className="max-w-7xl mx-auto">
             <h1 className="text-3xl font-bold text-red-900 mb-6 text-center">
-              Our Rich History
+              {content.richHistorytitle}
             </h1>
             <p>
-              <strong>The Nairobi Hospital</strong> has a rich history. The
-              foundation stone of what was to become the leading provider of
-              healthcare services in the East African region, was laid on the
-              morning of 20th October 1952 by none other than Sir Evelyn Baring,
-              the then Governor of Kenya Colony. This is the day our
-              independence heroes were rounded up and the fight for
-              self-determination began in earnest. At that moment of darkness in
-              the history of our country, and in spite of the events of the
-              night before, The Nairobi Hospital was born. Indeed, this
-              historical twist resonates well with the institution’s guiding
-              motto ‘Lux in Tenebris’ – Light in Darkness.
+              {content.richHistorydescription}
             </p>
           </div>
           <div className="flex justify-between items-center my-11 max-w-7xl mx-auto flex-col md:flex-row">
             <div className="w-full md:w-[50%]">
               <h1 className="text-4xl font-medium font-serif text-left text-red-900">
-                Our Timelines
+               {content.timelinetitle}
               </h1>
               <p className="text-gray-700 text-sm leading-relaxed mt-4">
-                Opening its doors in 1954 as the European Hospital, the
-                institution has grown from humble beginnings to a modern
-                high-technology facility with more than 363 bed-capacity, six
-                outpatient centers and a global medivac centre. In 1956, The
-                Nairobi Hospital’s Cicely McDonnell School of Nursing was
-                established. It was aptly named after Cicely McDonnell who had
-                made immense personal contribution to the welfare and health
-                Kenyans and set high professional standards for maternity
-                nursing in Nairobi. Indeed, most graduates from the School of
-                Nursing are absorbed into The Nairobi Hospital’s team. The
-                combination of highly skilled medical specialists and modern
-                medical and non-medical technology has placed the hospital in a
-                position to undertake a wide range of routine and complex
-                investigations and procedures including Open Heart Surgery,
-                Kidney Transplants, Trauma Care, Orthopaedic Surgery,
-                Neurosurgery, Laparoscopic Surgery, and Cancer Therapy among
-                others. Today, The Nairobi Hospital is renowned for emergency
-                and trauma care, disaster response and critical care and has
-                excellent facilities for providing high-quality clinical and
-                nursing care. The Anderson Specialty Centre opened in 2017 and
-                has a variety of Specialty clinics including Orthopaedic, Well
-                Baby and Executive Clinic.
+                {content.timelineDescription}
               </p>
             </div>
             <div className="flex flex-col items-center justify-center w-full md:w-[40%] bg-red-900 rounded-lg shadow-lg px-6 py-4 text-white mt-8 md:mt-0">
               <div className="p-4">
                 <h2 className="text-2xl font-medium font-serif mb-4">
-                  History of Firsts
+                {content.historyFirsttittle}
                 </h2>
                 <p className=" mb-4 text-sm">
-                  The Nairobi Hospital is a pacesetter in medical practice in
-                  Kenya and has recorded several firsts locally and in the East
-                  and Central African region with milestones that include:
+                  {content.historyFirstDescription}
                 </p>
                 <ul className="text-gray-200 text-sm space-y-2 list-disc list-item">
-                  <li>First private nursing training college in Kenya</li>
-                  <li>First institution to offer Diploma in Theatre Nursing</li>
-                  <li>
-                    First hospital to fit a duo chamber pacemaker on a patient
-                  </li>
-                  <li>First institution to offer hip replacement</li>
-                  <li>First eye bank in East Africa</li>
-                  <li>First complete video gastroenterology system</li>
-                  <li>
-                    First human papillomavirus (HPV) i.e. cancer of the cervix
-                    testing
-                  </li>
-                  <li>First tumour markers testing facility</li>
-                  <li>First hospital enterprise resource management system</li>
-                  <li>First brachytherapy centre</li>
+                 
+                  <li>{content.history1}</li>
+                  <li>{content.history2}</li>
+                  <li>{content.history3}</li>
+                  <li>{content.history4}</li>
+                  <li>{content.history5}</li>
+                  <li>{content.history6}</li>
+                  <li>{content.history7}</li>
+                  <li>{content.history8}</li>
+                  <li>{content.history9}</li>
+                  <li>{content.history10}</li>
                 </ul>
               </div>
             </div>
