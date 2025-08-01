@@ -7,7 +7,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import TestimonialCarousel from "../TestimonialCarousel";
 
 export interface ServiceTemplateProps {
-  title: string;
+  title?: string;
   tagline: string;
   image: string;
   imageAlt: string;
