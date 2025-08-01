@@ -1,11 +1,29 @@
 // src/pages/DoctorBooking.tsx
 import { CalendarIcon, Search } from 'lucide-react';
 import React, { useState, FormEvent } from 'react';
+import doctor_data from '@/data/doctors.json';
+
 // Define interfaces for type safety
 interface Doctor {
   id: string;
   name: string;
-  specialty: string;
+  specialization: string;
+  title: string;
+  image: string;
+  bio: string;
+  medicalQualifications: string;
+  yearsOfExperience: string;
+  languagesSpoken: string;
+  contactEmail: string;
+  contactPhone: string;
+  clinicDepartment: string;
+  schedule: string;
+  location: string;
+  licensingDetails: string;
+  servicesOffered: string[];
+  awardsAndRecognition: string;
+  researchAndPublications: string;
+  socialMedia: string;
 }
 
 interface TimeSlot {
@@ -22,21 +40,30 @@ interface BookingForm {
   patientEmail: string;
 }
 
+// Ensure each doctor has an 'id' property; generate one if missing
+const doctors: Doctor[] = doctor_data.map((doctor: Partial<Doctor>, idx) => ({
+  id: doctor.id ?? `doctor-${idx + 1}`,
+  name: doctor.name ?? 'Unknown Name',
+  specialization: doctor.specialization ?? 'General',
+  title: doctor.title ?? '',
+  image: doctor.image ?? '',
+  bio: doctor.bio ?? '',
+  medicalQualifications: doctor.medicalQualifications ?? '',
+  yearsOfExperience: doctor.yearsOfExperience ?? '',
+  languagesSpoken: doctor.languagesSpoken ?? '',
+  contactEmail: doctor.contactEmail ?? '',
+  contactPhone: doctor.contactPhone ?? '',
+  clinicDepartment: doctor.clinicDepartment ?? '',
+  schedule: doctor.schedule ?? '',
+  location: doctor.location ?? '',
+  licensingDetails: doctor.licensingDetails ?? '',
+  servicesOffered: doctor.servicesOffered ?? [],
+  awardsAndRecognition: doctor.awardsAndRecognition ?? '',
+  researchAndPublications: doctor.researchAndPublications ?? '',
+  socialMedia: doctor.socialMedia ?? '',
+}));
+
 const DoctorBooking: React.FC = () => {
-  // Sample data (in real app, fetch from API)
-  const doctors: Doctor[] = [
-    { id: '1', name: 'Dr. Samuel Mwangi', specialty: 'Cardiology' },
-    { id: '2', name: 'Dr. Jane Nyaboke', specialty: 'Pediatrics' },
-    { id: '3', name: 'Dr. Mike Muraya', specialty: 'Neurology' },
-  ];
-
-  const timeSlots: TimeSlot[] = [
-    { id: '1', date: '2025-06-15', time: '09:00 AM', available: true },
-    { id: '2', date: '2025-06-15', time: '10:00 AM', available: true },
-    { id: '3', date: '2025-06-15', time: '11:00 AM', available: false },
-    { id: '4', date: '2025-06-16', time: '02:00 PM', available: true },
-  ];
-
   // State management
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
@@ -49,17 +76,124 @@ const DoctorBooking: React.FC = () => {
   });
   const [bookingStatus, setBookingStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
+  // Function to parse schedule and generate time slots
+  const generateTimeSlots = (schedule: string): TimeSlot[] => {
+    const timeSlots: TimeSlot[] = [];
+    const today = new Date('2025-08-01T14:20:00+03:00'); // Current date: August 1, 2025, 2:20 PM EAT
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    // Handle special cases
+    if (!schedule || schedule.toLowerCase() === 'on request') {
+      return [{ id: '1', date: '2025-08-02', time: 'Contact for availability', available: false }];
+    }
+    if (schedule.toLowerCase() === 'available everyday') {
+      // Generate slots for all days, e.g., 8 AM to 5 PM
+      for (let i = 0; i < 7; i++) {
+        const date = new Date(today);
+        date.setDate(today.getDate() + i);
+        const dateStr = date.toISOString().split('T')[0];
+        for (let hour = 8; hour <= 17; hour++) {
+          const time = `${hour % 12 || 12}:00 ${hour < 12 ? 'AM' : 'PM'}`;
+          timeSlots.push({
+            id: `${dateStr}-${hour}`,
+            date: dateStr,
+            time,
+            available: true,
+          });
+        }
+      }
+      return timeSlots;
+    }
+
+    // Split multiple schedules (e.g., "Tuesday 10 am-3 pm, Friday 11 am-3 pm")
+    const scheduleParts = schedule.split(',').map((part) => part.trim());
+
+    scheduleParts.forEach((part, index) => {
+      // Enhanced regex to handle varied formats (e.g., "Noon to 5 pm", "10 am-3 pm", "8.00am-5.00pm")
+      const match = part.match(/(\w+.*?\w*)\s*(noon|\d{1,2}(?:\.\d{2})?)\s*(am|pm)?\s*(?:to|-)\s*(noon|\d{1,2}(?:\.\d{2})?)\s*(am|pm)?/i);
+      if (!match) return;
+
+      const dayRange = match[1];
+      let startTime = match[2];
+      let startPeriod = match[3]?.toLowerCase();
+      let endTime = match[4];
+      let endPeriod = match[5]?.toLowerCase();
+
+      // Handle "Noon"
+      if (startTime.toLowerCase() === 'noon') {
+        startTime = '12';
+        startPeriod = 'pm';
+      }
+      if (endTime.toLowerCase() === 'noon') {
+        endTime = '12';
+        endPeriod = 'pm';
+      }
+
+      // Parse day range (e.g., "Mon-Friday", "Monday", or "Monday to Friday")
+      let days: string[] = [];
+      const dayRangeClean = dayRange.replace(/\s*to\s*/i, '-').trim();
+      if (dayRangeClean.includes('-')) {
+        const [startDay, endDay] = dayRangeClean.split('-').map((d) => d.trim());
+        const startIndex = daysOfWeek.findIndex((day) => day.toLowerCase().startsWith(startDay.toLowerCase()));
+        const endIndex = daysOfWeek.findIndex((day) => day.toLowerCase().startsWith(endDay.toLowerCase()));
+        if (startIndex !== -1 && endIndex !== -1 && startIndex <= endIndex) {
+          days = daysOfWeek.slice(startIndex, endIndex + 1);
+        }
+      } else {
+        const dayIndex = daysOfWeek.findIndex((day) => day.toLowerCase().startsWith(dayRangeClean.toLowerCase()));
+        if (dayIndex !== -1) days = [daysOfWeek[dayIndex]];
+      }
+
+      // Parse start and end times
+      const parseTime = (timeStr: string, period?: string): number => {
+        const [hours, minutes] = timeStr.includes('.') ? timeStr.split('.').map(Number) : [parseInt(timeStr), 0];
+        let adjustedHours = hours;
+        if (period === 'pm' && adjustedHours !== 12) adjustedHours += 12;
+        if (period === 'am' && adjustedHours === 12) adjustedHours = 0;
+        return adjustedHours + (minutes / 60);
+      };
+
+      const startHour = parseTime(startTime, startPeriod);
+      const endHour = parseTime(endTime, endPeriod);
+
+      // Generate hourly time slots for the next 7 days
+      for (let i = 0; i < 7; i++) {
+        const date = new Date(today);
+        date.setDate(today.getDate() + i);
+        const dayName = daysOfWeek[date.getDay()];
+
+        if (days.includes(dayName)) {
+          for (let hour = Math.ceil(startHour); hour < endHour; hour++) {
+            const time = `${hour % 12 || 12}:00 ${hour < 12 ? 'AM' : 'PM'}`;
+            const dateStr = date.toISOString().split('T')[0];
+            timeSlots.push({
+              id: `${index}-${dateStr}-${hour}`,
+              date: dateStr,
+              time,
+              available: true,
+            });
+          }
+        }
+      }
+    });
+
+    return timeSlots.length > 0 ? timeSlots : [{ id: '1', date: '2025-08-02', time: 'No slots available', available: false }];
+  };
+
+  // Get time slots for the selected doctor
+  const timeSlots = selectedDoctor ? generateTimeSlots(selectedDoctor.schedule) : [];
+
   // Filter doctors based on search
   const filteredDoctors = doctors.filter(
     (doctor) =>
       doctor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doctor.specialty.toLowerCase().includes(searchQuery.toLowerCase())
+      doctor.specialization.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Handle form submission
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!selectedDoctor || !selectedSlot) return;
+    if (!selectedDoctor || !selectedSlot || !selectedSlot.available) return;
 
     try {
       // Simulate API call
@@ -79,8 +213,8 @@ const DoctorBooking: React.FC = () => {
       setSelectedDoctor(null);
       setSelectedSlot(null);
     } catch (error) {
-      setBookingStatus("error");
-        console.error('Booking failed:', error);
+      setBookingStatus('error');
+      console.error('Booking failed:', error);
     }
   };
 
@@ -98,7 +232,7 @@ const DoctorBooking: React.FC = () => {
             <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
             <input
               type="text"
-              placeholder="Search by doctor name or specialty"
+              placeholder="Search by doctor name or specialization"
               className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -106,26 +240,24 @@ const DoctorBooking: React.FC = () => {
           </div>
 
           {/* Doctor List */}
-          {searchQuery && (
-            <div className="mt-4 max-h-64 overflow-y-auto">
-              {filteredDoctors.length > 0 ? (
-                filteredDoctors.map((doctor) => (
-                  <div
-                    key={doctor.id}
-                    className={`p-3 cursor-pointer hover:bg-gray-100 rounded-md ${
-                      selectedDoctor?.id === doctor.id ? 'bg-blue-50' : ''
-                    }`}
-                    onClick={() => setSelectedDoctor(doctor)}
-                  >
-                    <p className="font-medium text-gray-900">{doctor.name}</p>
-                    <p className="text-sm text-gray-500">{doctor.specialty}</p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-gray-500 text-center">No doctors found</p>
-              )}
-            </div>
-          )}
+          <div className="mt-4 max-h-64 overflow-y-auto">
+            {filteredDoctors.length > 0 ? (
+              filteredDoctors.map((doctor) => (
+                <div
+                  key={doctor.id}
+                  className={`p-3 cursor-pointer hover:bg-gray-100 rounded-md ${
+                    selectedDoctor?.id === doctor.id ? 'bg-blue-50' : ''
+                  }`}
+                  onClick={() => setSelectedDoctor(doctor)}
+                >
+                  <p className="font-medium text-gray-900">{doctor.title} {doctor.name}</p>
+                  <p className="text-sm text-gray-500">{doctor.specialization}</p>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500 text-center">No doctors found</p>
+            )}
+          </div>
         </div>
 
         {/* Time Slots Section */}
@@ -155,12 +287,17 @@ const DoctorBooking: React.FC = () => {
                     </div>
                   </button>
                 ))}
+              {timeSlots.every((slot) => !slot.available) && (
+                <p className="text-gray-500 text-center col-span-full">
+                  No available time slots. Please contact the doctor for scheduling.
+                </p>
+              )}
             </div>
           </div>
         )}
 
         {/* Booking Form */}
-        {selectedDoctor && selectedSlot && (
+        {selectedDoctor && selectedSlot && selectedSlot.available && (
           <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Complete Your Booking
@@ -192,7 +329,7 @@ const DoctorBooking: React.FC = () => {
                   Email Address
                 </label>
                 <input
-                  id="email"
+                  id="patientEmail"
                   type="email"
                   required
                   className="mt-1 w-full border rounded-md p-2 focus:outline-none focus:ring-blue-500"
@@ -205,7 +342,7 @@ const DoctorBooking: React.FC = () => {
               <div className="bg-gray-50 p-4 rounded-md">
                 <p className="text-sm text-gray-600">
                   <span className="font-medium">Doctor:</span>{' '}
-                  {selectedDoctor.name} ({selectedDoctor.specialty})
+                  {selectedDoctor.name} ({selectedDoctor.specialization})
                 </p>
                 <p className="text-sm text-gray-600">
                   <span className="font-medium">Time:</span> {selectedSlot.date}{' '}
@@ -229,7 +366,7 @@ const DoctorBooking: React.FC = () => {
           </div>
         )}
         {bookingStatus === 'error' && (
-          <div className="mt-4 p-4 p-4 bg-red-100 text-red-700 rounded-md text-center">
+          <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-md text-center">
             <p>An error occurred while booking. Please try again.</p>
           </div>
         )}
