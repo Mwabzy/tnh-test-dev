@@ -23,7 +23,7 @@ const OpportunityList: FC<OpportunityListProps> = ({ opportunities }) => {
   };
 
   return (
-    <div className="w-[95%] md:w-full flex flex-col md:flex-row items-center justify-center gap-4 mx-auto container">
+    <div className="w-[95%] md:w-full flex flex-col items-center justify-center gap-4 mx-auto container">
       {opportunities.map((opportunity, index) => (
         <OpportunityItem
           key={index}

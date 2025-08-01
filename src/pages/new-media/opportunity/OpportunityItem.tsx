@@ -10,7 +10,7 @@ export interface Opportunity {
   opportunityType: string;
   datePosted: string;
   closingDate?: string;
-  
+  fileUrl: string;
 }
 
 interface OpportunityItemProps {
@@ -18,10 +18,7 @@ interface OpportunityItemProps {
   action: () => void;
 }
 
-const OpportunityItem: FC<OpportunityItemProps> = ({
-  opportunity,
-  action,
-}) => {
+const OpportunityItem: FC<OpportunityItemProps> = ({ opportunity, action }) => {
   return (
     <Card className="flex flex-col p-4 border border-gray-300 rounded w-full">
       <CardContent className="flex flex-col gap-2 items-start w-full ">
@@ -38,13 +35,16 @@ const OpportunityItem: FC<OpportunityItemProps> = ({
           <Badge className="bg-orange-200">{opportunity.location}</Badge>
           <Badge className="bg-orange-200">{opportunity.opportunityType}</Badge>
         </div>
-        <Button
-          variant="link"
+        <a
+
+          href={opportunity.fileUrl}
+          target="_blank"
+          //download
           className="px-0 font-serif text-base"
-          onClick={action}
         >
-          View More
-        </Button>
+          <span>View More</span>
+      
+        </a>
       </CardContent>
     </Card>
   );

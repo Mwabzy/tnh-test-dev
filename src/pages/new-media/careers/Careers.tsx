@@ -40,7 +40,7 @@ const Careers: FC<CareersProps> = () => {
           Current Openings
         </Badge>
         <h2 className="text-4xl font-semibold text-center font-serif mb-8">Join our team and shape <br /> the future together</h2>
-        <CareerList jobs={careersData} />
+       <CareerList jobs={careersData} />
       </div>
       {/* <TestimonialCarousel />
       <ContactForm /> */}
