@@ -48,7 +48,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Agnes Gachoki",
     title: "Chairperson, Medical Advisory Committee",
     id: "agnes-gachoki",
-    image: "https://cms.thenairobihosp.org/uploads/pic2025_3521248e46.jpg",
+    image: "https://cms.thenairobihosp.org/uploads/boardmember_f712b4f11f.jpg",
     description: [
       "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
       "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
@@ -58,10 +58,10 @@ export const teamMembers: TeamMember[] = [
     ],
   },
   {
-    name: "Prof. Timothy Byakika",
+    name: "Prof. Eng. John Mwero",
     id: "timothy-byakika",
     title: "Vice Chairman, Medical Advisory Committee",
-    image: "https://cms.thenairobihosp.org/uploads/pic2025_3521248e46.jpg",
+    image: "https://cms.thenairobihosp.org/uploads/6_Prof_Eng_John_Mwero_Board_Member_890810fa51.jpg",
     description: [
       "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
       "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
@@ -86,50 +86,9 @@ export const teamMembers: TeamMember[] = [
   },
 
   {
-    name: "Prof. Herman Manyora",
+    name: "Ms. Valerie Gaya",
     id: "herman-manyora",
     title: "Board Member",
-    image:
-      "https://cms.thenairobihosp.org/uploads/8_Prof_Herman_Manyora_Board_Member_c0a468d2b4.jpg",
-    description: [
-      "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
-      "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
-      "In addition to their core responsibilities, team members lead training sessions and workshops on topics such as stress reduction, workplace resilience, leadership development, and team dynamics. These efforts promote a culture of continuous improvement and support within healthcare and organizational environments.",
-      "At The Nairobi Hospital, the team includes experienced professionals who collaborate to provide high-quality services and operational leadership. Their approach is rooted in empathy, strategic thinking, and evidence-based methods that empower both individuals and teams.",
-      "Beyond daily operations, team members mentor emerging professionals and contribute to shaping the future of healthcare and management. They are committed to expanding access to effective tools and resources, fostering a more efficient, responsive, and inclusive system.",
-    ],
-  },
-  {
-    name: "Prof. John Adwok",
-    title: "Board Member",
-    id: "john-adwok",
-    image: "https://cms.thenairobihosp.org/uploads/pic2025_3521248e46.jpg",
-    description: [
-      "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
-      "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
-      "In addition to their core responsibilities, team members lead training sessions and workshops on topics such as stress reduction, workplace resilience, leadership development, and team dynamics. These efforts promote a culture of continuous improvement and support within healthcare and organizational environments.",
-      "At The Nairobi Hospital, the team includes experienced professionals who collaborate to provide high-quality services and operational leadership. Their approach is rooted in empathy, strategic thinking, and evidence-based methods that empower both individuals and teams.",
-      "Beyond daily operations, team members mentor emerging professionals and contribute to shaping the future of healthcare and management. They are committed to expanding access to effective tools and resources, fostering a more efficient, responsive, and inclusive system.",
-    ],
-  },
-  {
-    name: "Prof. Eng. John Mwero",
-    title: "Board Member",
-    id: "john-mwero",
-    image:
-      "https://cms.thenairobihosp.org/uploads/6_Prof_Eng_John_Mwero_Board_Member_890810fa51.jpg",
-    description: [
-      "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
-      "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
-      "In addition to their core responsibilities, team members lead training sessions and workshops on topics such as stress reduction, workplace resilience, leadership development, and team dynamics. These efforts promote a culture of continuous improvement and support within healthcare and organizational environments.",
-      "At The Nairobi Hospital, the team includes experienced professionals who collaborate to provide high-quality services and operational leadership. Their approach is rooted in empathy, strategic thinking, and evidence-based methods that empower both individuals and teams.",
-      "Beyond daily operations, team members mentor emerging professionals and contribute to shaping the future of healthcare and management. They are committed to expanding access to effective tools and resources, fostering a more efficient, responsive, and inclusive system.",
-    ],
-  },
-  {
-    name: "Ms. Valerie Gaya",
-    title: "Board Member",
-    id: "valerie-gaya",
     image:
       "https://cms.thenairobihosp.org/uploads/10_Ms_Valerie_Gaya_Board_Member_e847fa8d3d.jpg",
     description: [
@@ -143,7 +102,7 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Mr. Erick Okeyo, MBS, MKIM",
     title: "Board Member",
-    id: "erick-okeyo",
+    id: "john-adwok",
     image: "https://cms.thenairobihosp.org/uploads/pic2025_3521248e46.jpg",
     description: [
       "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
@@ -153,45 +112,86 @@ export const teamMembers: TeamMember[] = [
       "Beyond daily operations, team members mentor emerging professionals and contribute to shaping the future of healthcare and management. They are committed to expanding access to effective tools and resources, fostering a more efficient, responsive, and inclusive system.",
     ],
   },
-  {
-    name: "Dr. Joyce Mbedha, PhD",
-    title: "Board Member",
-    id: "joyce-mbedha",
-    image: "https://cms.thenairobihosp.org/uploads/pic2025_3521248e46.jpg",
-    description: [
-      "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
-      "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
-      "In addition to their core responsibilities, team members lead training sessions and workshops on topics such as stress reduction, workplace resilience, leadership development, and team dynamics. These efforts promote a culture of continuous improvement and support within healthcare and organizational environments.",
-      "At The Nairobi Hospital, the team includes experienced professionals who collaborate to provide high-quality services and operational leadership. Their approach is rooted in empathy, strategic thinking, and evidence-based methods that empower both individuals and teams.",
-      "Beyond daily operations, team members mentor emerging professionals and contribute to shaping the future of healthcare and management. They are committed to expanding access to effective tools and resources, fostering a more efficient, responsive, and inclusive system.",
-    ],
-  },
-  {
-    name: "FCPA Nguru Wachira",
-    title: "Board Member",
-    id: "nguru-wachira",
-    image: "https://cms.thenairobihosp.org/uploads/pic2025_3521248e46.jpg",
-    description: [
-      "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
-      "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
-      "In addition to their core responsibilities, team members lead training sessions and workshops on topics such as stress reduction, workplace resilience, leadership development, and team dynamics. These efforts promote a culture of continuous improvement and support within healthcare and organizational environments.",
-      "At The Nairobi Hospital, the team includes experienced professionals who collaborate to provide high-quality services and operational leadership. Their approach is rooted in empathy, strategic thinking, and evidence-based methods that empower both individuals and teams.",
-      "Beyond daily operations, team members mentor emerging professionals and contribute to shaping the future of healthcare and management. They are committed to expanding access to effective tools and resources, fostering a more efficient, responsive, and inclusive system.",
-    ],
-  },
-  {
-    name: "Dr. Job Obwaka",
-    title: "Board Member",
-    id: "job-obwaka",
-    image: "https://cms.thenairobihosp.org/uploads/pic2025_3521248e46.jpg",
-    description: [
-      "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
-      "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
-      "In addition to their core responsibilities, team members lead training sessions and workshops on topics such as stress reduction, workplace resilience, leadership development, and team dynamics. These efforts promote a culture of continuous improvement and support within healthcare and organizational environments.",
-      "At The Nairobi Hospital, the team includes experienced professionals who collaborate to provide high-quality services and operational leadership. Their approach is rooted in empathy, strategic thinking, and evidence-based methods that empower both individuals and teams.",
-      "Beyond daily operations, team members mentor emerging professionals and contribute to shaping the future of healthcare and management. They are committed to expanding access to effective tools and resources, fostering a more efficient, responsive, and inclusive system.",
-    ],
-  },
+  // {
+  //   name: "Prof. Eng. John Mwero",
+  //   title: "Board Member",
+  //   id: "john-mwero",
+  //   image:
+  //     "https://cms.thenairobihosp.org/uploads/6_Prof_Eng_John_Mwero_Board_Member_890810fa51.jpg",
+  //   description: [
+  //     "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
+  //     "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
+  //     "In addition to their core responsibilities, team members lead training sessions and workshops on topics such as stress reduction, workplace resilience, leadership development, and team dynamics. These efforts promote a culture of continuous improvement and support within healthcare and organizational environments.",
+  //     "At The Nairobi Hospital, the team includes experienced professionals who collaborate to provide high-quality services and operational leadership. Their approach is rooted in empathy, strategic thinking, and evidence-based methods that empower both individuals and teams.",
+  //     "Beyond daily operations, team members mentor emerging professionals and contribute to shaping the future of healthcare and management. They are committed to expanding access to effective tools and resources, fostering a more efficient, responsive, and inclusive system.",
+  //   ],
+  // },
+  // {
+  //   name: "Ms. Valerie Gaya",
+  //   title: "Board Member",
+  //   id: "valerie-gaya",
+  //   image:
+  //     "https://cms.thenairobihosp.org/uploads/10_Ms_Valerie_Gaya_Board_Member_e847fa8d3d.jpg",
+  //   description: [
+  //     "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
+  //     "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
+  //     "In addition to their core responsibilities, team members lead training sessions and workshops on topics such as stress reduction, workplace resilience, leadership development, and team dynamics. These efforts promote a culture of continuous improvement and support within healthcare and organizational environments.",
+  //     "At The Nairobi Hospital, the team includes experienced professionals who collaborate to provide high-quality services and operational leadership. Their approach is rooted in empathy, strategic thinking, and evidence-based methods that empower both individuals and teams.",
+  //     "Beyond daily operations, team members mentor emerging professionals and contribute to shaping the future of healthcare and management. They are committed to expanding access to effective tools and resources, fostering a more efficient, responsive, and inclusive system.",
+  //   ],
+  // },
+  // {
+  //   name: "Mr. Erick Okeyo, MBS, MKIM",
+  //   title: "Board Member",
+  //   id: "erick-okeyo",
+  //   image: "https://cms.thenairobihosp.org/uploads/pic2025_3521248e46.jpg",
+  //   description: [
+  //     "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
+  //     "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
+  //     "In addition to their core responsibilities, team members lead training sessions and workshops on topics such as stress reduction, workplace resilience, leadership development, and team dynamics. These efforts promote a culture of continuous improvement and support within healthcare and organizational environments.",
+  //     "At The Nairobi Hospital, the team includes experienced professionals who collaborate to provide high-quality services and operational leadership. Their approach is rooted in empathy, strategic thinking, and evidence-based methods that empower both individuals and teams.",
+  //     "Beyond daily operations, team members mentor emerging professionals and contribute to shaping the future of healthcare and management. They are committed to expanding access to effective tools and resources, fostering a more efficient, responsive, and inclusive system.",
+  //   ],
+  // },
+  // {
+  //   name: "Dr. Joyce Mbedha, PhD",
+  //   title: "Board Member",
+  //   id: "joyce-mbedha",
+  //   image: "https://cms.thenairobihosp.org/uploads/pic2025_3521248e46.jpg",
+  //   description: [
+  //     "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
+  //     "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
+  //     "In addition to their core responsibilities, team members lead training sessions and workshops on topics such as stress reduction, workplace resilience, leadership development, and team dynamics. These efforts promote a culture of continuous improvement and support within healthcare and organizational environments.",
+  //     "At The Nairobi Hospital, the team includes experienced professionals who collaborate to provide high-quality services and operational leadership. Their approach is rooted in empathy, strategic thinking, and evidence-based methods that empower both individuals and teams.",
+  //     "Beyond daily operations, team members mentor emerging professionals and contribute to shaping the future of healthcare and management. They are committed to expanding access to effective tools and resources, fostering a more efficient, responsive, and inclusive system.",
+  //   ],
+  // },
+  // {
+  //   name: "FCPA Nguru Wachira",
+  //   title: "Board Member",
+  //   id: "nguru-wachira",
+  //   image: "https://cms.thenairobihosp.org/uploads/pic2025_3521248e46.jpg",
+  //   description: [
+  //     "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
+  //     "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
+  //     "In addition to their core responsibilities, team members lead training sessions and workshops on topics such as stress reduction, workplace resilience, leadership development, and team dynamics. These efforts promote a culture of continuous improvement and support within healthcare and organizational environments.",
+  //     "At The Nairobi Hospital, the team includes experienced professionals who collaborate to provide high-quality services and operational leadership. Their approach is rooted in empathy, strategic thinking, and evidence-based methods that empower both individuals and teams.",
+  //     "Beyond daily operations, team members mentor emerging professionals and contribute to shaping the future of healthcare and management. They are committed to expanding access to effective tools and resources, fostering a more efficient, responsive, and inclusive system.",
+  //   ],
+  // },
+  // {
+  //   name: "Dr. Job Obwaka",
+  //   title: "Board Member",
+  //   id: "job-obwaka",
+  //   image: "https://cms.thenairobihosp.org/uploads/pic2025_3521248e46.jpg",
+  //   description: [
+  //     "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
+  //     "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
+  //     "In addition to their core responsibilities, team members lead training sessions and workshops on topics such as stress reduction, workplace resilience, leadership development, and team dynamics. These efforts promote a culture of continuous improvement and support within healthcare and organizational environments.",
+  //     "At The Nairobi Hospital, the team includes experienced professionals who collaborate to provide high-quality services and operational leadership. Their approach is rooted in empathy, strategic thinking, and evidence-based methods that empower both individuals and teams.",
+  //     "Beyond daily operations, team members mentor emerging professionals and contribute to shaping the future of healthcare and management. They are committed to expanding access to effective tools and resources, fostering a more efficient, responsive, and inclusive system.",
+  //   ],
+  // },
 ];
 
 const BoardOfManagement: FC<TeamPageProps> = () => {
