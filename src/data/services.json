@@ -1,0 +1,622 @@
+[
+  {
+    "title": "Anderson Specialty Clinics",
+    "tagline": "Advanced specialists care under one roof",
+    "image": "/assets/anderson-clinic.jpg",
+    "imageAlt": "Anderson Specialty Clinics service image",
+    "overview": "Anderson Specialty Clinics is a one stop state-of-the-art facility designed to give specialized treatment to our clients in an atmosphere of trust, safety and comfort. From preventive screenings to specialists’ interventions, our team is here for you.",
+    "features": [],
+    "title2": null,
+    "overview2": null,
+    "features2": null,
+    "title3": null,
+    "overview3": null,
+    "features3": null,
+    "doctors": [
+      {
+        "name": "Omina Brian Odari",
+        "title": "Doctor",
+        "image": "",
+        "bio": "As the medical liaison officer for The Nairobi Hospital, Dr. Omina Brian Odari specializes in global health management. With 12 years of experience, he has repaired relationships with UNSOS, International SOS, and AMREF, increasing patient referrals. He facilitated partnerships with UNISURE, Kings Hospital London-Dubai, and the Bill and Melinda Gates Foundation, and secured TNH as a primary healthcare provider for UN peacekeeping missions. Dr. Odari also established referral programs with the Malawi government and African Union, and is facilitating TNH’s participation in the East African Health Expo 2023.",
+        "specialization": "Global health management. Liaison officer",
+        "medicalQualifications": "MBCHB",
+        "yearsOfExperience": "12 years",
+        "languagesSpoken": "English, Swahili",
+        "contactEmail": "bomina@nbihosp.org",
+        "contactPhone": "+254742603205",
+        "clinicDepartment": "Clinical directorate, Medical tourism department",
+        "schedule": "Mon-Friday 8.00am-5.00pm",
+        "location": "Nairobi hospital-Main hospital",
+        "licensingDetails": "Kenya Medical practitioners and dentist board",
+        "servicesOffered": [],
+        "awardsAndRecognition": "",
+        "researchAndPublications": "",
+        "socialMedia": ""
+      },
+      {
+        "name": "Peris Mbatha Mutuku",
+        "title": "Dr.",
+        "image": "",
+        "bio": "Dr. Peris Mbatha Mutuku is a Consultant Physician and Lead Nephrologist at The Nairobi Hospital, specializing in peritoneal dialysis. With 12 years of experience, she holds an MBChB from Makerere University, an M.Med in Internal Medicine from the University of Nairobi, and fellowships from the International Society of Nephrology (ISN) and International Society of Peritoneal Dialysis (ISPD). She has critical care and aeromedical evacuation experience, and is a Trainer of Trainers in BLS, ACLS, and PHTLS. As an ISPD Early Career Committee Member representing Africa, she is affiliated with the Kenya Renal Association, African Association of Nephrology, ISN, and ISPD, with a keen interest in critical care and interventional nephrology.",
+        "specialization": "Nephrologist",
+        "medicalQualifications": "MBChB, M.Med(Int.Med); FISN (Nephrology), ISPD Fellow (Peritoneal Dialysis)",
+        "yearsOfExperience": "12 years",
+        "languagesSpoken": "English, Swahili",
+        "contactEmail": "pmutuku@nbihosp.org",
+        "contactPhone": "+254723105122",
+        "clinicDepartment": "Renal",
+        "schedule": "Tuesday 10 am-3 pm, Friday 11 am-3 pm Anderson clinic",
+        "location": "Main Hospital",
+        "licensingDetails": "Kenya Medical Practitioners Board",
+        "servicesOffered": [
+          "Consultations",
+          "Transplant services",
+          "Dialysis Services",
+          "Angioaccess establishment and removal",
+          "Renal Biopsies",
+          "Peritoneal dialysis catheter insertion"
+        ],
+        "awardsAndRecognition": "Won 1st prize for E-poster Abstract presentation of the publication: Point of Care lactate as a predictor of 7-day Morbidity and Mortality in critically ill patients presenting to the emergency department at Kenyatta National Hospital.",
+        "researchAndPublications": "Journal of Pan African Thoracic Society (JPATS). Published on 30th September 2023: Point of Care lactate as a predictor of 7-day Morbidity and Mortality in critically ill patients presenting to the emergency department at Kenyatta National Hospital.",
+        "socialMedia": "LinkedIn, X-koperism, Facebook"
+      },
+      {
+        "name": "Ngala Bryan Mwendwa",
+        "title": "Dr.",
+        "image": "",
+        "bio": "Dr. Ngala Bryan Mwendwa is a board-certified Paediatrician at The Nairobi Hospital with over 12 years of experience. A member of the Kenya Paediatric Association, he is passionate about child health and welfare, establishing himself as a regional healthcare advocate through social media. He holds an MD and MMed in Paediatrics and Child Health, providing specialized care in delivery, neonatal resuscitation, and immunizations.",
+        "specialization": "General Paediatrics",
+        "medicalQualifications": "MD, Mmed.Paeds & Child Health",
+        "yearsOfExperience": "12 years",
+        "languagesSpoken": "English, Swahili, Setswana, Russian",
+        "contactEmail": "askdrreign@gmail.com",
+        "contactPhone": "+254705916055",
+        "clinicDepartment": "The Nairobi Hospital Department of Paediatrics",
+        "schedule": "On request",
+        "location": "The Nairobi Hospital",
+        "licensingDetails": "A8800",
+        "servicesOffered": [
+          "Delivery",
+          "Neonatal resuscitation",
+          "Acute care for Paediatric patients",
+          "Immunization"
+        ],
+        "awardsAndRecognition": "International Paediatrics Association Leaders Academy",
+        "researchAndPublications": "",
+        "socialMedia": "Active on social media platforms"
+      },
+      {
+        "name": "Fahmo Mohamed Yusuf",
+        "title": "Doctor- Senior Registrar",
+        "image": "",
+        "bio": "Dr. Fahmo Mohamed Yusuf is a highly motivated Paediatrician at The Nairobi Hospital with 10 years of experience. She holds an MBChB from Emilio Aguinaldo College and an MMed from the University of Nairobi. Dedicated to providing compassionate and comprehensive care, she specializes in diagnosing and treating paediatric illnesses and injuries, with strong communication skills to build rapport with young patients and their families.",
+        "specialization": "Paediatrician",
+        "medicalQualifications": "MBChB, MMed",
+        "yearsOfExperience": "10 years",
+        "languagesSpoken": "English, Swahili, Somali",
+        "contactEmail": "fahmomym@gmail.com",
+        "contactPhone": "+254729972810",
+        "clinicDepartment": "Department of Paediatrics-The Nairobi Hospital",
+        "schedule": "Available everyday",
+        "location": "The Nairobi hospital-Main hospital",
+        "licensingDetails": "Kenya Medical Practitioners and Dentist Board-A11034",
+        "servicesOffered": [
+          "Paediatric Emergency care",
+          "Routine paediatric consultations",
+          "Well baby check-ups"
+        ],
+        "awardsAndRecognition": "",
+        "researchAndPublications": "",
+        "socialMedia": "LinkedIn-Dr. Fahmo Yusuf"
+      }
+    ],
+    "testimonial": {
+      "name": "",
+      "title": "",
+      "image": "",
+      "quote": "The service is good, I applaud the nurses and doctors for quick response when I badly needed assistance. Everyone is friendly from security, cashiers to doctors. The place is modern and clean. Parking can be a nightmare sometimes."
+    },
+    "contact": {
+      "phone": "+254 730 666860",
+      "emails": [
+        {
+          "type": "clinic",
+          "address": "andersonclinic@nbihosp.org"
+        }
+      ]
+    },
+    "relatedServices": []
+  },
+  {
+    "title": "Paediatrics Services",
+    "tagline": "Caring for your child’s health",
+    "image": "/assets/paediatrics.jpg",
+    "imageAlt": "Paediatrics service image",
+    "overview": "Our paediatrics department provides comprehensive care for children, from newborns to adolescents, offering delivery, neonatal resuscitation, acute care, immunizations, and well-baby check-ups with expertise and compassion.",
+    "features": [
+      "Paediatric emergency care",
+      "Routine consultations and well-baby check-ups",
+      "Neonatal care and delivery",
+      "Immunization programs"
+    ],
+    "title2": null,
+    "overview2": null,
+    "features2": null,
+    "title3": null,
+    "overview3": null,
+    "features3": null,
+    "doctors": [
+      {
+        "name": "Ngala Bryan Mwendwa",
+        "title": "Dr.",
+        "image": "",
+        "bio": "Dr. Ngala Bryan Mwendwa is a board-certified Paediatrician at The Nairobi Hospital with over 12 years of experience. A member of the Kenya Paediatric Association, he is passionate about child health and welfare, establishing himself as a regional healthcare advocate through social media. He holds an MD and MMed in Paediatrics and Child Health, providing specialized care in delivery, neonatal resuscitation, and immunizations.",
+        "specialization": "General Paediatrics",
+        "medicalQualifications": "MD, Mmed.Paeds & Child Health",
+        "yearsOfExperience": "12 years",
+        "languagesSpoken": "English, Swahili, Setswana, Russian",
+        "contactEmail": "askdrreign@gmail.com",
+        "contactPhone": "+254705916055",
+        "clinicDepartment": "The Nairobi Hospital Department of Paediatrics",
+        "schedule": "On request",
+        "location": "The Nairobi Hospital",
+        "licensingDetails": "A8800",
+        "servicesOffered": [
+          "Delivery",
+          "Neonatal resuscitation",
+          "Acute care for Paediatric patients",
+          "Immunization"
+        ],
+        "awardsAndRecognition": "International Paediatrics Association Leaders Academy",
+        "researchAndPublications": "",
+        "socialMedia": "Active on social media platforms"
+      },
+      {
+        "name": "Fahmo Mohamed Yusuf",
+        "title": "Doctor- Senior Registrar",
+        "image": "",
+        "bio": "Dr. Fahmo Mohamed Yusuf is a highly motivated Paediatrician at The Nairobi Hospital with 10 years of experience. She holds an MBChB from Emilio Aguinaldo College and an MMed from the University of Nairobi. Dedicated to providing compassionate and comprehensive care, she specializes in diagnosing and treating paediatric illnesses and injuries, with strong communication skills to build rapport with young patients and their families.",
+        "specialization": "Paediatrician",
+        "medicalQualifications": "MBChB, MMed",
+        "yearsOfExperience": "10 years",
+        "languagesSpoken": "English, Swahili, Somali",
+        "contactEmail": "fahmomym@gmail.com",
+        "contactPhone": "+254729972810",
+        "clinicDepartment": "Department of Paediatrics-The Nairobi Hospital",
+        "schedule": "Available everyday",
+        "location": "The Nairobi hospital-Main hospital",
+        "licensingDetails": "Kenya Medical Practitioners and Dentist Board-A11034",
+        "servicesOffered": [
+          "Paediatric Emergency care",
+          "Routine paediatric consultations",
+          "Well baby check-ups"
+        ],
+        "awardsAndRecognition": "",
+        "researchAndPublications": "",
+        "socialMedia": "LinkedIn-Dr. Fahmo Yusuf"
+      }
+    ],
+    "testimonial": {
+      "name": "",
+      "title": "",
+      "image": "",
+      "quote": ""
+    },
+    "contact": {
+      "phone": "+254729972810",
+      "emails": [
+        {
+          "type": "paediatrics",
+          "address": "fahmomym@gmail.com"
+        }
+      ]
+    },
+    "relatedServices": [
+      {
+        "title": "Antenatal Clinic",
+        "description": "Personalized care for expectant mothers.",
+        "image": "/assets/antenatal.jpg",
+        "link": "/services/antenatal"
+      }
+    ]
+  },
+  {
+    "title": "Gynecology Services",
+    "tagline": "Compassionate care for women’s health",
+    "image": "/assets/gynecology.jpg",
+    "imageAlt": "Gynecology service image",
+    "overview": "Our gynecology department offers comprehensive care for women, including reproductive health, menopause management, and minimally invasive surgeries, delivered with expertise and empathy.",
+    "features": [],
+    "title2": null,
+    "overview2": null,
+    "features2": null,
+    "title3": null,
+    "overview3": null,
+    "features3": null,
+    "doctors": [
+      {
+        "name": "Alex Gathura Kagia",
+        "title": "Dr.",
+        "image": "",
+        "bio": "Dr. Alex Gathura Kagia is an Obstetrician-Gynaecologist at The Nairobi Hospital with eight years of experience. Since 2017, he has served as a hospital Obstetrician-Gynaecologist, following roles as Senior Medical Officer at Nairobi Hospital, Medical Superintendent at Moyale District Hospital, and Medical Officer at Kathiani Sub District Hospital and Coast Provincial General Hospital. He holds an MBChB and MMed, focusing on women’s reproductive health and surgical care.",
+        "specialization": "Obstetrician-Gynaecologist",
+        "medicalQualifications": "MBChB, MMed",
+        "yearsOfExperience": "Eight years",
+        "languagesSpoken": "English, Swahili, Kikuyu",
+        "contactEmail": "akagia@nbihosp.org",
+        "contactPhone": "+254721837208",
+        "clinicDepartment": "Obstetrics-Gynaecology",
+        "schedule": "Hospital Departmental rota",
+        "location": "Anderson clinic/Labour ward",
+        "licensingDetails": "KMPDC-A6270",
+        "servicesOffered": [
+          "Antenatal & Gynaecological outpatient services",
+          "Hospital deliveries (both Normal & Caesarean)",
+          "Gynaecological surgeries both minor & major"
+        ],
+        "awardsAndRecognition": "",
+        "researchAndPublications": "Prevalence of pain symptoms suggestive of Endometriosis-EAMJ 2017",
+        "socialMedia": "LinkedIn-Alex Kagia"
+      },
+      {
+        "name": "Joram Mugo Muthui",
+        "title": "Dr.",
+        "image": "",
+        "bio": "Dr. Joram Mugo Muthui is a compassionate Obstetrician-Gynaecologist at The Nairobi Hospital with seven years of experience. He is dedicated to providing comprehensive and quality reproductive health care to women of all ages, specializing in consultations, diagnostic evaluations, and surgeries.",
+        "specialization": "Obstetrics and Gynaecology",
+        "medicalQualifications": "MBChB, Mmed (obs/gyn)",
+        "yearsOfExperience": "Seven years",
+        "languagesSpoken": "English, Kiswahili, Kikuyu",
+        "contactEmail": "mugomuthui@gmail.com",
+        "contactPhone": "+254708567303",
+        "clinicDepartment": "Obstetrics and gynaecology",
+        "schedule": "Monday to Friday, 8am to 5pm",
+        "location": "The Nairobi Hospital, Obstetrics and Gynaecology department",
+        "licensingDetails": "Kenya Medical Practitioners and Dentists Council",
+        "servicesOffered": [
+          "Consultations",
+          "Diagnostic evaluation",
+          "Surgeries"
+        ],
+        "awardsAndRecognition": "",
+        "researchAndPublications": "",
+        "socialMedia": ""
+      }
+    ],
+    "testimonial": {
+      "name": "",
+      "title": "",
+      "image": "",
+      "quote": ""
+    },
+    "contact": {
+      "phone": ""
+    },
+    "relatedServices": [
+      {
+        "title": "Antenatal Clinic",
+        "description": "Personalized care for expectant mothers.",
+        "image": "/assets/antenatal.jpg",
+        "link": "/services/antenatal"
+      }
+    ]
+  },
+  {
+    "title": "Antenatal Clinic",
+    "tagline": "Nurturing mothers, welcoming babies",
+    "image": "/assets/antenatal.jpg",
+    "imageAlt": "Antenatal clinic service image",
+    "overview": "Our antenatal clinic provides personalized care for expectant mothers, offering prenatal check-ups, ultrasound scans, and childbirth education to ensure a healthy pregnancy and delivery.",
+    "features": [],
+    "title2": null,
+    "overview2": null,
+    "features2": null,
+    "title3": null,
+    "overview3": null,
+    "features3": null,
+    "doctors": [
+      {
+        "name": "Alex Gathura Kagia",
+        "title": "Dr.",
+        "image": "",
+        "bio": "Dr. Alex Gathura Kagia is an Obstetrician-Gynaecologist at The Nairobi Hospital with eight years of experience. Since 2017, he has served as a hospital Obstetrician-Gynaecologist, following roles as Senior Medical Officer at Nairobi Hospital, Medical Superintendent at Moyale District Hospital, and Medical Officer at Kathiani Sub District Hospital and Coast Provincial General Hospital. He holds an MBChB and MMed, focusing on women’s reproductive health and surgical care.",
+        "specialization": "Obstetrician-Gynaecologist",
+        "medicalQualifications": "MBChB, MMed",
+        "yearsOfExperience": "Eight years",
+        "languagesSpoken": "English, Swahili, Kikuyu",
+        "contactEmail": "akagia@nbihosp.org",
+        "contactPhone": "+254721837208",
+        "clinicDepartment": "Obstetrics-Gynaecology",
+        "schedule": "Hospital Departmental rota",
+        "location": "Anderson clinic/Labour ward",
+        "licensingDetails": "KMPDC-A6270",
+        "servicesOffered": [
+          "Antenatal & Gynaecological outpatient services",
+          "Hospital deliveries (both Normal & Caesarean)",
+          "Gynaecological surgeries both minor & major"
+        ],
+        "awardsAndRecognition": "",
+        "researchAndPublications": "Prevalence of pain symptoms suggestive of Endometriosis-EAMJ 2017",
+        "socialMedia": "LinkedIn-Alex Kagia"
+      },
+      {
+        "name": "Joram Mugo Muthui",
+        "title": "Dr.",
+        "image": "",
+        "bio": "Dr. Joram Mugo Muthui is a compassionate Obstetrician-Gynaecologist at The Nairobi Hospital with seven years of experience. He is dedicated to providing comprehensive and quality reproductive health care to women of all ages, specializing in consultations, diagnostic evaluations, and surgeries.",
+        "specialization": "Obstetrics and Gynaecology",
+        "medicalQualifications": "MBChB, Mmed (obs/gyn)",
+        "yearsOfExperience": "Seven years",
+        "languagesSpoken": "English, Kiswahili, Kikuyu",
+        "contactEmail": "mugomuthui@gmail.com",
+        "contactPhone": "+254708567303",
+        "clinicDepartment": "Obstetrics and gynaecology",
+        "schedule": "Monday to Friday, 8am to 5pm",
+        "location": "The Nairobi Hospital, Obstetrics and Gynaecology department",
+        "licensingDetails": "Kenya Medical Practitioners and Dentists Council",
+        "servicesOffered": [
+          "Consultations",
+          "Diagnostic evaluation",
+          "Surgeries"
+        ],
+        "awardsAndRecognition": "",
+        "researchAndPublications": "",
+        "socialMedia": ""
+      }
+    ],
+    "testimonial": {
+      "name": "",
+      "title": "",
+      "image": "",
+      "quote": ""
+    },
+    "contact": {
+      "phone": ""
+    },
+    "relatedServices": [
+      {
+        "title": "Gynecology Services",
+        "description": "Comprehensive care for women’s health.",
+        "image": "/assets/gynecology.jpg",
+        "link": "/services/gynecology"
+      },
+      {
+        "title": "Paediatrics Services",
+        "description": "Comprehensive care for children, from newborns to adolescents.",
+        "image": "/assets/paediatrics.jpg",
+        "link": "/services/paediatrics"
+      }
+    ]
+  },
+  {
+    "title": "Pharmacy Services",
+    "tagline": "Quality medications for your health",
+    "image": "/assets/pharmacy.jpg",
+    "imageAlt": "Pharmacy service image",
+    "overview": "Our pharmacy provides a wide range of prescription and over-the-counter medications, ensuring quality and safety. Staffed by experienced pharmacists, we offer personalized advice and medication management to support your treatment plan.",
+    "features": [],
+    "title2": null,
+    "overview2": null,
+    "features2": null,
+    "title3": null,
+    "overview3": null,
+    "features3": null,
+    "doctors": [],
+    "testimonial": {
+      "name": "",
+      "title": "",
+      "image": "",
+      "quote": ""
+    },
+    "contact": {
+      "phone": "+254 730 666001",
+      "emails": [
+        {
+          "type": "pharmacy",
+          "address": "pharmacy@nbihosp.org"
+        }
+      ]
+    },
+    "relatedServices": []
+  },
+  {
+    "title": "Laboratory Services",
+    "tagline": "Accurate diagnostics for better care",
+    "image": "/assets/laboratory.jpg",
+    "imageAlt": "Laboratory service image",
+    "overview": "Our state-of-the-art laboratory offers comprehensive diagnostic testing, from blood work to microbiology, ensuring precise results. Our skilled technicians work round-the-clock to support timely medical decisions.",
+    "features": [],
+    "title2": null,
+    "overview2": null,
+    "features2": null,
+    "title3": null,
+    "overview3": null,
+    "features3": null,
+    "doctors": [],
+    "testimonial": {
+      "name": "",
+      "title": "",
+      "image": "",
+      "quote": ""
+    },
+    "contact": {
+      "phone": ""
+    },
+    "relatedServices": []
+  },
+  {
+    "title": "Radiology Services",
+    "tagline": "Precision imaging for your health",
+    "image": "/assets/radiology.jpg",
+    "imageAlt": "Radiology service image",
+    "overview": "Our radiology department provides advanced imaging services, including X-rays, MRIs, and CT scans, to aid accurate diagnosis. Our expert radiologists ensure high-quality images and timely reports.",
+    "features": [],
+    "title2": null,
+    "overview2": null,
+    "features2": null,
+    "title3": null,
+    "overview3": null,
+    "features3": null,
+    "doctors": [],
+    "testimonial": {
+      "name": "",
+      "title": "",
+      "image": "",
+      "quote": ""
+    },
+    "contact": {
+      "phone": ""
+    },
+    "relatedServices": []
+  },
+  {
+    "title": "Endoscopy Services",
+    "tagline": "Minimally invasive diagnostic care",
+    "image": "/assets/endoscopy.jpg",
+    "imageAlt": "Endoscopy service image",
+    "overview": "Our endoscopy unit offers advanced procedures to diagnose and treat conditions of the digestive system. Performed by skilled specialists, our services ensure patient comfort and accuracy.",
+    "features": [],
+    "title2": null,
+    "overview2": null,
+    "features2": null,
+    "title3": null,
+    "overview3": null,
+    "features3": null,
+    "doctors": [],
+    "testimonial": {
+      "name": "",
+      "title": "",
+      "image": "",
+      "quote": ""
+    },
+    "contact": {
+      "phone": ""
+    },
+    "relatedServices": []
+  },
+  {
+    "title": "Accident and Emergency Services",
+    "tagline": "Urgent care when you need it most",
+    "image": "/assets/emergency.jpg",
+    "imageAlt": "Accident and Emergency service image",
+    "overview": "Our A&E department provides 24/7 emergency care for critical conditions, with a dedicated team of trauma specialists and rapid response systems to save lives.",
+    "features": [],
+    "title2": null,
+    "overview2": null,
+    "features2": null,
+    "title3": null,
+    "overview3": null,
+    "features3": null,
+    "doctors": [],
+    "testimonial": {
+      "name": "",
+      "title": "",
+      "image": "",
+      "quote": ""
+    },
+    "contact": {
+      "phone": ""
+    },
+    "relatedServices": []
+  },
+  {
+    "title": "Physical Medicine Centre",
+    "tagline": "Restoring mobility, enhancing life",
+    "image": "/assets/physical-medicine.jpg",
+    "imageAlt": "Physical Medicine Centre service image",
+    "overview": "The Physical Medicine Centre offers rehabilitation services, including physiotherapy and occupational therapy, to restore mobility and improve quality of life for patients with injuries or chronic conditions.",
+    "features": [],
+    "title2": null,
+    "overview2": null,
+    "features2": null,
+    "title3": null,
+    "overview3": null,
+    "features3": null,
+    "doctors": [],
+    "testimonial": {
+      "name": "",
+      "title": "",
+      "image": "",
+      "quote": ""
+    },
+    "contact": {
+      "phone": ""
+    },
+    "relatedServices": []
+  },
+  {
+    "title": "Psychosocial Services",
+    "tagline": "Support for mind and soul",
+    "image": "/assets/psychosocial.jpg",
+    "imageAlt": "Psychosocial service image",
+    "overview": "Our psychosocial department provides counseling and mental health support for patients and families, addressing emotional and psychological needs with compassion and expertise.",
+    "features": [],
+    "title2": null,
+    "overview2": null,
+    "features2": null,
+    "title3": null,
+    "overview3": null,
+    "features3": null,
+    "doctors": [],
+    "testimonial": {
+      "name": "",
+      "title": "",
+      "image": "",
+      "quote": ""
+    },
+    "contact": {
+      "phone": ""
+    },
+    "relatedServices": []
+  },
+  {
+    "title": "Ambulance Services",
+    "tagline": "Rapid response, reliable transport",
+    "image": "/assets/ambulance.jpg",
+    "imageAlt": "Ambulance service image",
+    "overview": "Our ambulance services provide 24/7 emergency transport with advanced medical equipment and trained paramedics to ensure safe and timely care en route to the hospital.",
+    "features": [],
+    "title2": null,
+    "overview2": null,
+    "features2": null,
+    "title3": null,
+    "overview3": null,
+    "features3": null,
+    "doctors": [],
+    "testimonial": {
+      "name": "",
+      "title": "",
+      "image": "",
+      "quote": ""
+    },
+    "contact": {
+      "phone": ""
+    },
+    "relatedServices": []
+  },
+  {
+    "title": "Dental Services",
+    "tagline": "Healthy smiles, expert care",
+    "image": "/assets/dental.jpg",
+    "imageAlt": "Dental service image",
+    "overview": "Our dental department offers comprehensive oral care, from routine check-ups to advanced procedures like implants and orthodontics, ensuring healthy smiles for all ages.",
+    "features": [],
+    "title2": null,
+    "overview2": null,
+    "features2": null,
+    "title3": null,
+    "overview3": null,
+    "features3": null,
+    "doctors": [],
+    "testimonial": {
+      "name": "",
+      "title": "",
+      "image": "",
+      "quote": ""
+    },
+    "contact": {
+      "phone": ""
+    },
+    "relatedServices": []
+  }
+]
