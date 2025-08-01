@@ -1,0 +1,461 @@
+import { t, type Dictionary } from "intlayer";
+
+const roomsandwards_section: Dictionary = {
+    key: "roomsandwardssection",
+    content: {
+        ROOMStitle: [
+            t({
+                en: "Rooms and Wards",
+                fr: "Chambres et Salles",
+                es: "Habitaciones y Salas",
+                zh: "房间和病房",
+                ru: "Комнаты и палаты",
+            })
+        ],
+         roomsdescription: [
+            t({
+                en: "Explore our comfortable rooms and wards designed for your comfort and recovery.",
+                fr: "Découvrez nos chambres et salles confortables conçues pour votre confort et votre rétablissement.",
+                es: "Explore nuestras cómodas habitaciones y salas diseñadas para su comodidad y recuperación.",
+                zh: "探索我们为您的舒适和康复而设计的舒适房间和病房。",
+                ru: "Изучите наши удобные комнаты и палаты, созданные для вашего комфорта и восстановления.",
+            })
+        ],
+         nwingtitle: [
+            t({
+                en: "NORTH WING",
+                fr: "AILE NORD",
+                es: "ALA NORTE",
+                zh: "北翼",
+                ru: "СЕВЕРНОЕ КРЫЛО",
+            })
+        ],
+         historytitle: [
+            t({
+                en: "History",
+                fr: "Histoire",
+                es: "Historia",
+                zh: "历史",
+                ru: "История",
+            })
+        ],
+         nwingdescription: [
+            t({
+                en: "The North Wing was opened in 1974, containing six en-suite rooms and a dedicated nursing team. Due to its first-class facilities and five-star accommodation, the North Wing was aptly dubbed “The Hilton on the Hill”. In 2012, the Board of Management initiated the redevelopment of the North Wing to meet the high-end care sought by our clients. It now has 12 suites, developed to the highest international standards with the goal to exceed the guests’ expectations.",
+                fr: "L'aile nord a été ouverte en 1974, contenant six chambres avec salle de bain privative et une équipe d'infirmières dédiée. En raison de ses installations de première classe et de son hébergement cinq étoiles, l'aile nord a été surnommée à juste titre « Le Hilton sur la colline ». En 2012, le conseil d'administration a lancé la réhabilitation de l'aile nord pour répondre aux soins haut de gamme recherchés par nos clients. Elle dispose désormais de 12 suites, développées selon les normes internationales les plus élevées dans le but de dépasser les attentes des invités.",
+                es: "El Ala Norte se inauguró en 1974, con seis habitaciones con baño privado y un equipo de enfermería dedicado. Debido a sus instalaciones de primera clase y alojamiento de cinco estrellas, el Ala Norte fue acertadamente apodada “El Hilton en la Colina”. En 2012, la Junta de Administración inició la rehabilitación del Ala Norte para satisfacer la atención de alta gama que buscan nuestros clientes. Ahora cuenta con 12 suites, desarrolladas según los más altos estándares internacionales con el objetivo de superar las expectativas de los huéspedes.",
+                zh: "北翼于1974年开放，设有六间带独立卫生间的房间和一支专门的护理团队。由于其一流的设施和五星级住宿，北翼被恰当地称为“山上的希尔顿”。2012年，管理委员会启动了北翼的改建，以满足客户对高端护理的需求。现在它有12个套房，按照最高国际标准开发，旨在超越客人的期望。",
+                ru: "Северное крыло было открыто в 1974 году, включая шесть номеров с ванной комнатой и специализированную команду медсестер. Благодаря своим первоклассным удобствам и пятизвездочному размещению Северное крыло было справедливо названо «Хилтон на холме». В 2012 году Совет управления инициировал реконструкцию Северного крыла, чтобы соответствовать высококачественному уходу, который ищут наши клиенты. Теперь здесь 12 люксов, разработанных в соответствии с высочайшими международными стандартами с целью превзойти ожидания гостей.",
+            })
+        ],
+        amenitiesdescription: [
+            t({
+                en: "Amenities and Services",
+                fr: "Commodités et Services",
+                es: "Servicios y Comodidades",
+                zh: "设施和服务",
+                ru: "Удобства и услуги",
+            })
+        ],
+         nwinglist1: [
+            t({
+                en: "ICU-ready rooms for immediate medical care",
+                fr: "Chambres prêtes pour les soins intensifs",
+                es: "Habitaciones listas para UCI para atención médica inmediata",
+                zh: "ICU准备好的房间，随时提供医疗护理",
+                ru: "Комнаты, готовые к интенсивной терапии для немедленной медицинской помощи",
+            })
+        ],
+        nwinglist2: [
+            t({
+                en: "Dedicated chef providing personalized meals",
+                fr: "Chef dédié fournissant des repas personnalisés",
+                es: "Chef dedicado que proporciona comidas personalizadas",
+                zh: "专职厨师提供个性化餐饮服务",
+                ru: "Посвященный шеф-повар, предоставляющий персонализированные блюда",
+            })
+        ],
+        nwinglist3: [
+            t({
+                en: "Extensive gourmet menu tailored to dietary needs",
+                fr: "Menu gastronomique complet adapté aux besoins diététiques",
+                es: "Amplio menú gourmet adaptado a las necesidades dietéticas",
+                zh: "根据饮食需求定制的丰富美食菜单",
+                ru: "Обширное меню гурманов, адаптированное к диетическим потребностям",
+            })
+        ],
+        nwinglist4: [
+            t({
+                en: "Luxury toiletry gift pack included",
+                fr: "Pack de produits de toilette de luxe inclus",
+                es: "Pack de artículos de tocador de lujo incluido",
+                zh: "包含奢华洗漱用品礼盒",
+                ru: "Включен набор роскошных туалетных принадлежностей",
+            })
+        ],
+        nwinglist5: [
+            t({
+                en: "Wall-mounted HD TV with cable connection",
+                fr: "Téléviseur HD mural avec connexion câble",
+                es: "Televisor HD montado en la pared con conexión por cable",
+                zh: "壁挂式高清电视，配有有线连接",
+                ru: "Настенный HD-телевизор с кабельным подключением",
+            })
+        ],
+        nwinglist6: [
+            t({
+                en: "Marble bathroom with euro-style walk-in shower",
+                fr: "Salle de bain en marbre avec douche à l'italienne",
+                es: "Baño de mármol con ducha estilo europeo",
+                zh: "大理石浴室，配有欧式步入式淋浴",
+                ru: "Мраморная ванная комната с душем в европейском стиле",
+            })
+        ],
+        nwinglist7: [
+            t({
+                en: "Elegant and comfortable furnishings",
+                fr: "Mobilier élégant et confortable",
+                es: "Mobiliario elegante y cómodo",
+                zh: "优雅舒适的家具",
+                ru: "Элегантная и удобная мебель",
+            })
+        ],
+        nwinglist8: [
+            t({
+                en: "High-speed internet and direct telephone services",
+                fr: "Internet haut débit et services téléphoniques directs",
+                es: "Internet de alta velocidad y servicios telefónicos directos",
+                zh: "高速互联网和直拨电话服务",
+                ru: "Высокоскоростной интернет и услуги прямой телефонной связи",
+            })
+        ],
+        nwinglist9: [
+            t({
+                en: "24/7 security for peace of mind",
+                fr: "Sécurité 24h/24 et 7j/7 pour votre tranquillité d'esprit",
+                es: "Seguridad 24/7 para su tranquilidad",
+                zh: "24/7 安全保障，安心无忧",
+                ru: "Круглосуточная безопасность для вашего спокойствия",
+            })
+        ],
+        nwinglist10: [
+            t({
+                en: "Mini fridge stocked for convenience",
+                fr: "Mini réfrigérateur approvisionné pour plus de commodité",
+                es: "Mini nevera abastecida para mayor comodidad",
+                zh: "迷你冰箱，方便使用",
+                ru: "Мини-холодильник, заполненный для удобства",
+            })
+        ],
+        nwinglist11: [
+            t({
+                en: "Egyptian cotton bed linens for ultimate comfort",
+                fr: "Draps en coton égyptien pour un confort ultime",
+                es: "Sábanas de algodón egipcio para una comodidad suprema",
+                zh: "埃及棉床单，提供终极舒适感",
+                ru: "Постельное белье из египетского хлопка для максимального комфорта",
+            })
+        ],
+        swingtittle: [
+            t({
+                en: "SOUTH WING",
+                fr: "AILE SUD",
+                es: "ALA SUR",
+                zh: "南翼",
+                ru: "ЮЖНОЕ КРЫЛО",
+            })
+        ],
+         swingdescription: [
+            t({
+                en: "The South Wing is made up of 36 luxurious self-contained rooms in the St. Francis, St. Teresa and St. John’s wards.",
+                fr: "L'aile sud est composée de 36 chambres luxueuses et indépendantes dans les salles St. Francis, St. Teresa et St. John’s.",
+                es: "El Ala Sur está compuesta por 36 lujosas habitaciones independientes en las salas de St. Francis, St. Teresa y St. John’s.",
+                zh: "南翼由圣方济各、圣特蕾莎和圣约翰病房的36间豪华独立房间组成。",
+                ru: "Южное крыло состоит из 36 роскошных автономных номеров в палатах Святого Франциска, Святой Терезы и Святого Иоанна.",
+            })
+        ],
+        swingamenities: [
+            t({
+                en: "Amenities and Services",
+                fr: "Commodités et Services",
+                es: "Servicios y Comodidades",
+                zh: "设施和服务",
+                ru: "Удобства и услуги",
+            })
+        ],
+         swinglist1: [
+            t({
+                en: "Extensive menu with a variety of options",
+                fr: "Menu complet avec une variété d'options",
+                es: "Menú extenso con una variedad de opciones",
+                zh: "提供多种选择的丰富菜单",
+                ru: "Обширное меню с разнообразными вариантами",
+            })
+        ],
+         swinglist2: [
+            t({
+                en: "High-end toiletry gift pack included",
+                fr: "Pack de produits de toilette haut de gamme inclus",
+                es: "Pack de artículos de tocador de alta gama incluido",
+                zh: "包含高端洗漱用品礼盒",
+                ru: "Включен набор роскошных туалетных принадлежностей",
+            })
+        ],
+         swinglist3: [
+            t({
+                en: "Wall-mounted HD TV with cable connection",
+                fr: "Notre histoire",
+                es: "Nuestra Historia",
+                zh: "我们的历史",
+                ru: "Наша история",
+            })
+        ],
+         swinglist4: [
+            t({
+                en: "Bathroom with bathtub and shower facilities",
+                fr: "Notre histoire",
+                es: "Nuestra Historia",
+                zh: "我们的历史",
+                ru: "Наша история",
+            })
+        ],
+         swinglist5: [
+            t({
+                en: "Elegant and comfortable furnishings",
+                fr: "Notre histoire",
+                es: "Nuestra Historia",
+                zh: "我们的历史",
+                ru: "Наша история",
+            })
+        ],
+         swinglist6: [
+            t({
+                en: "Internet and telephone services provided",
+                fr: "Notre histoire",
+                es: "Nuestra Historia",
+                zh: "我们的历史",
+                ru: "Наша история",
+            })
+        ],
+         otherroomstittle: [
+            t({
+                en: "OTHER ROOMS/BED TYPES",
+                fr: "AUTRES CHAMBRES/TYPES DE LITS",
+                es: "OTRAS HABITACIONES/TIPOS DE CAMAS",
+                zh: "其他房间/床型",
+                ru: "ДРУГИЕ КОМНАТЫ/ТИПЫ КРОВАТЕЙ",
+            })
+        ],
+         ensuitroomstittle: [
+            t({
+                en: "En-suite Rooms",
+                fr: "Chambres avec salle de bain privative",
+                es: "Habitaciones con baño privado",
+                zh: "独立卫生间房间",
+                ru: "Номера с ванной комнатой",
+            })
+        ],
+         ensuitdescription: [
+            t({
+                en: "Stay in a self-contained private room with a Wall-mounted HD TV and cable connection.",
+                fr: "Séjournez dans une chambre privée autonome avec télévision HD murale et connexion par câble.",
+                es: "Alójese en una habitación privada independiente con televisor HD montado en la pared y conexión por cable.",
+                zh: "入住配有壁挂式高清电视和有线连接的独立私人房间。",
+                ru: "Остановитесь в автономном частном номере с настенным HD-телевизором и кабельным подключением.",
+            })
+        ],
+         privateroomstittle: [
+            t({
+                en: "Private Rooms",
+                fr: "Chambres Privées",
+                es: "Habitaciones Privadas",
+                zh: "私人房间",
+                ru: "Частные комнаты",
+            })
+        ],
+         privateroomsdescription: [
+            t({
+                en: "Patients may choose to stay in a private room with access to a shared washroom facility.",
+                fr: "Les patients peuvent choisir de séjourner dans une chambre privée avec accès à des installations de salle de bain partagées.",
+                es: "Los pacientes pueden optar por alojarse en una habitación privada con acceso a un baño compartido.",
+                zh: "患者可以选择入住私人房间，使用共享卫生间设施。",
+                ru: "Пациенты могут выбрать проживание в частном номере с доступом к общей ванной комнате.",
+            })
+        ],
+         wardbedtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+         wardbeddescription: [
+            t({
+                en: "Our wards can accommodate up to eight patients with access to shared washroom facilities.",
+                fr: "Nos salles peuvent accueillir jusqu'à huit patients avec accès à des installations de salle de bain partagées.",
+                es: "Nuestras salas pueden acomodar hasta ocho pacientes con acceso a instalaciones de baño compartidas.",
+                zh: "我们的病房可容纳多达八名患者，使用共享卫生间设施。",
+                ru: "Наши палаты могут разместить до восьми пациентов с доступом к общей ванной комнате.",
+            })
+        ],
+        pwingtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        pwingdescription: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        dulextittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        dulexdescription: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        wardbedtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        wardbedtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        wardbedtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        wardbedtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        wardbedtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        wardbedtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        wardbedtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        wardbedtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        wardbedtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        wardbedtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        wardbedtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        wardbedtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+        wardbedtittle: [
+            t({
+                en: "Ward Beds",
+                fr: "Lits de Salle",
+                es: "Camas de Sala",
+                zh: "病房床位",
+                ru: "Палатные кровати",
+            })
+        ],
+
+    }
+
+}
+
+export default roomsandwards_section;
