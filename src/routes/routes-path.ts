@@ -200,6 +200,16 @@ const UIRoutes = {
       () => import("../pages/college-of-health-science/FAQs")
     ),
   },
+  DoctorProfiles: {
+    name: "navigation.doctorProfiles",
+    path: "/doctor-profiles",
+    component: lazyLoad(() => import("../pages/about/DoctorProfiles")),
+  },
+  DoctorDetails: {
+    name: "navigation.doctorDetails",
+    path: "/doctor-details/:id",
+    component: lazyLoad(() => import("../pages/about/DoctorDetails")),
+  },
 };
 
 export const RoutesPath: Record<keyof typeof UIRoutes, UIRoutesType> = UIRoutes;

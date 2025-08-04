@@ -12,6 +12,15 @@ const servicesSection: Dictionary = {
         ru: "Кто мы",
       }),
     ],
+    headingContent: [
+      t({
+        en: "The Nairobi Hospital is a non-profit organization that is leading in medical expertise and service provision, with deservedly earned recognition throughout East Africa and beyond as an advanced diagnostic, treatment and referral centre.",
+        fr: "L'Hôpital de Nairobi est une organisation à but non lucratif qui se distingue par son expertise médicale et la qualité de ses services, reconnue à juste titre dans toute l'Afrique de l'Est et au-delà comme un centre avancé de diagnostic, de traitement et d'orientation.",
+        es: "El Hospital de Nairobi es una organización sin fines de lucro que lidera en experiencia médica y provisión de servicios, con un reconocimiento merecido en toda África Oriental y más allá como un centro avanzado de diagnóstico, tratamiento y referencia.",
+        zh: "内罗毕医院是一家非营利组织，在医疗专业知识和服务提供方面处于领先地位，因其作为先进的诊断、治疗和转诊中心而在东非及其他地区赢得了应有的认可。",
+        ru: "Больница Найроби — это некоммерческая организация, ведущая в области медицинской экспертизы и предоставления услуг, заслуженно признанная во всей Восточной Африке и за ее пределами как передовой центр диагностики, лечения и направления.",
+      }),
+    ],
     tagLine: [
       t({
         en: "70+ Years of Healthcare with a Difference",

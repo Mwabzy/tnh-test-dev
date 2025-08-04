@@ -1,19 +1,20 @@
 import { teamMembers } from "./SeniorManagement";
 import { useParams } from "react-router";
+import { FC } from "react";
 
-// export interface TeamMember {
-//   id: string;
-//   name: string;
-//   title: string;
-//   image: string;
-//   description: string[];
-// }
+export interface TeamMember {
+  id: string;
+  name: string;
+  title: string;
+  image: string;
+  description: string[];
+}
 
-// interface MemberPageProps {
-//   teamMembers: TeamMember[];
-// }
+interface MemberPageProps {
+  teamMembers: TeamMember[];
+}
 
-const MemberPage = () => {
+const MemberPage: FC<MemberPageProps> = () => {
   const { id } = useParams();
 
   const user = teamMembers.find((person) => person.id === id)!;

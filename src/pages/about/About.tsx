@@ -16,11 +16,11 @@ const About: FC<AboutProps> = () => {
       <Heading
         image_url="https://cms.thenairobihosp.org/uploads/who_we_are_8fbeb1073c.jpg"
         style="image"
-        title="Who we are"
-        description="The Nairobi Hospital is a non-profit organization that is leading in medical expertise and service provision, with deservedly earned recognition throughout East Africa and beyond as an advanced diagnostic, treatment and referral centre."
+        title={content.headingTitle[0]?.value ?? ""}
+        description={content.headingContent[0]?.value ?? ""}
       />
 
-      <div className=" bg-orange-200">
+      <div className=" bg-orange-200 5013667">
         <div className="mx-auto max-w-7xl px-4 py-8">
           <div className="flex flex-col items-center justify-center mt-11">
             <h1 className=" font-bold font-serif text-center text-red-900 text-lg md:text-4xl">

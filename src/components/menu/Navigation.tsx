@@ -62,6 +62,11 @@ const patients_visitors: {
     description:
       "Frequently asked questions about the clinical services at the Nairobi Hospital.",
   },
+  {
+    title: "Doctors' Profiles",
+    href: "/doctor-profiles",
+    description: "Get to know our doctors and their areas of expertise.",
+  },
 ];
 
 // other services
