@@ -1,5 +1,4 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { FC } from "react";
 
@@ -18,7 +17,7 @@ interface OpportunityItemProps {
   action: () => void;
 }
 
-const OpportunityItem: FC<OpportunityItemProps> = ({ opportunity, action }) => {
+const OpportunityItem: FC<OpportunityItemProps> = ({ opportunity }) => {
   return (
     <Card className="flex flex-col p-4 border border-gray-300 rounded w-full">
       <CardContent className="flex flex-col gap-2 items-start w-full ">
