@@ -27,7 +27,10 @@ const OpportunityList: FC<OpportunityListProps> = ({ opportunities }) => {
       {opportunities.map((opportunity, index) => (
         <OpportunityItem
           key={index}
-          opportunity={opportunity}
+          opportunity={{
+            ...opportunity,
+            fileUrl: opportunity.fileUrl ?? ""
+          }}
           action={action}
         />
       ))}
