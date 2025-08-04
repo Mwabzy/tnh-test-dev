@@ -1,5 +1,24 @@
 import { FC } from "react";
 import DoctorBrief from "./DoctorsCard";
+import alexkagiaImg from "@/assets/doctorsImages/alexkagia.png";
+import bwmendwaImg from "@/assets/doctorsImages/bmwendwa.png";
+import fahmoyusufImg from "@/assets/doctorsImages/fahmoyusuf.png";
+import jorammugoImg from "@/assets/doctorsImages/jorammugo.png";
+import laurynmengesaImg from "@/assets/doctorsImages/laurynmengesa.png";
+import leahopereImg from "@/assets/doctorsImages/leahopere.png";
+import mbaluImg from "@/assets/doctorsImages/mbalu.png";
+import mbanganjengoImg from "@/assets/doctorsImages/mbanganjengo.png";
+import mchiforImg from "@/assets/doctorsImages/mchifor.png";
+import ominabrianImg from "@/assets/doctorsImages/ominabrian.png";
+import peacemwigeImg from "@/assets/doctorsImages/peacemwige.png";
+import pkogeImg from "@/assets/doctorsImages/pkoge.png";
+import pkoigiImg from "@/assets/doctorsImages/pkoigi.png";
+import rahulImg from "@/assets/doctorsImages/rahul.png";
+import samuelowuorImg from "@/assets/doctorsImages/samuelowuor.png";
+//import skafoeImg from "@/assets/doctorsImages/skafoe.png";
+import smuruthuImg from "@/assets/doctorsImages/smuruthu.png";
+import tomnyabogaImg from "@/assets/doctorsImages/tomnyaboga.png";
+import zeinabahmedImg from "@/assets/doctorsImages/zeinabahmed.png";
 
 type TeamPageProps = {
   title: string;
@@ -31,7 +50,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Peris Mbatha Mutuku",
     title: "Nephrologist",
     id: "p-koge",
-    image: "pkogeImage",
+    image: pkogeImg,
     description: [
       "Dr Peris M. Koge. Consultant Physician and Lead Nephrologist at Nairobi Hospital, as well as Peritoneal Dialysis specialist. Fellow of International Society of Nephrology (ISN) EAKI-University of Nairobi and International Society of Peritoneal Dialysis (ISPD) Stellenbosch University. MMED Internal Medicine (UON), MBChB Makerere University (MUK). Has a certificate in co-counseling and developmental counseling (MUK). Has critical care and Aeromedical evacuation experience and Trainer of Trainers (TOT) in BLS, ACLS, and PHTLS (Pre-Hospital Trauma Life Support). She is an ISPD Early Career Committee Member Representing Africa. She is a Kenya Renal Association (KRA), African Association of Nephrology (AFRAN), ISN, and ISPD member. She has a keen interest in Critical Care Nephrology and interventional Nephrology.",
     ],
@@ -63,7 +82,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Omina Brian Odari",
     title: "Doctor",
     id: "p-omina",
-    image: "assets/images/doctor-profiles/p-omina.png",
+    image: ominabrianImg,
     description: [
       "Dr. Omina Brian Odari is a Medical Liaison Officer with a specialization in Global Health Management. With 12 years of experience, he currently serves as the official point of contact for The Nairobi Hospital. His contributions include:",
       "1. Repaired relationships with UNSOS and coordinated patient care, leading to increased referrals.",
@@ -97,7 +116,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Alex Gathura Kagia",
     title: "Obstetrician-Gynaecologist",
     id: "p-kagia",
-    image: "assets/images/doctor-profiles/p-kagia.png",
+    image: alexkagiaImg,
     description: [
       "Dr. Alex Gathura Kagia is a dedicated Obstetrician-Gynaecologist with 8 years of experience. His medical journey includes:",
       "• June 2017 to Date: Hospital Obstetrician-Gynaecologist at Nairobi Hospital",
@@ -128,7 +147,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Ngala Bryan Mwendwa",
     title: "General Paediatrician",
     id: "p-ngala",
-    image: "assets/images/doctor-profiles/p-ngala.png", // Update this with actual photo filename when available
+    image: bwmendwaImg,
     description: [
       "Dr. Ngala Bryan Mwendwa is a board-certified medical doctor with over 12 years of experience in General Paediatrics. He holds an MD and MMed in Paediatrics & Child Health.",
       "He is a member of the Kenya Paediatric Association and is recognized for his advocacy on child health and welfare across social media platforms, where he has built a trusted presence in the region.",
@@ -159,7 +178,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Fahmo Mohamed Yusuf",
     title: "Doctor - Senior Registrar",
     id: "p-fahmo",
-    image: "assets/images/doctor-profiles/p-fahmo.png", // Replace with actual filename of attached photo
+    image: fahmoyusufImg,
     description: [
       "Dr. Fahmo Mohamed Yusuf is a highly motivated Paediatrician with approximately 10 years of healthcare experience. She earned her MBChB/MD from Emilio Aguinaldo College and her Master’s in Medicine from the University of Nairobi.",
       "Dr. Fahmo is known for providing compassionate and comprehensive care to children, with expertise in diagnosing and managing various paediatric illnesses and injuries.",
@@ -185,7 +204,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Joram Mugo Muthui",
     title: "Obstetrician-Gynaecologist",
     id: "p-mugo",
-    image: "assets/images/doctor-profiles/p-mugo.png", // Update with actual filename if/when photo is added
+    image: jorammugoImg,
     description: [
       "Dr. Joram Mugo Muthui is a compassionate Obstetrician and Gynaecologist with seven years of experience, dedicated to providing comprehensive and quality reproductive healthcare to women of all ages.",
     ],
@@ -205,7 +224,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Lauryn Busolo Mengesa",
     title: "Obstetrician-Gynaecologist",
     id: "p-mengesa",
-    image: "assets/images/doctor-profiles/p-mengesa.png", // Update with actual filename if/when photo is added
+    image: laurynmengesaImg,
     description: [
       "Dr. Lauryn Busolo Mengesa is a highly experienced Obstetrician and Gynaecologist with 12 years in clinical practice. She earned both her undergraduate and Master’s degrees in Obstetrics and Gynaecology from the University of Nairobi, where she also served as Deputy Chief Resident.",
       "Her passion lies in Women’s Health, Fertility Medicine, and Global Surgery. She has received multiple certifications from the University of Washington in Leadership in Healthcare and Monitoring & Evaluation, and has trained in Global Surgery at the University of Oxford.",
@@ -244,7 +263,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Leah Akoth Opere",
     title: "Doctor",
     id: "p-opere",
-    image: "assets/images/doctor-profiles/p-opere.png",
+    image: leahopereImg,
     description: [
       "Dr. Leah Akoth Opere graduated from the University of Nairobi with a Bachelor’s Degree in Medicine and Surgery. She completed her internship at Mater Hospital where she developed a passion for critical care.",
       "She worked for five years in the Nairobi Hospital ICU while pursuing her Master of Medicine in Anaesthesia and Critical Care at the University of Nairobi.",
@@ -276,7 +295,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Chifor Mfu Theresia",
     title: "Paediatrician",
     id: "p-chifor",
-    image: "assets/images/doctor-profiles/p-chifor.png",
+    image: mchiforImg,
     description: [
       "Dr. Chifor is a compassionate and internationally experienced paediatrician committed to safeguarding child health through evidence-based care, accurate diagnosis, and culturally sensitive practice.",
       "She has a strong foundation in both local and global health systems and has worked across diverse contexts, offering holistic, child-centred solutions aligned with national and international paediatric guidelines.",
@@ -314,7 +333,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Damaris Kavindu Mbalu",
     title: "General Surgeon",
     id: "p-mbalu",
-    image: "assets/images/doctor-profiles/p-mbalu.png",
+    image: mbaluImg,
     description: [
       "Dr. Damaris Kavindu Mbalu is a highly experienced General Surgeon with 15 years in clinical practice. She completed her undergraduate training at Moi University, School of Medicine, and pursued her surgical residency under the College of Surgeons of East, Central and Southern Africa (COSECSA).",
       "Currently, she leads the Hospital Surgery Team at The Nairobi Hospital.",
@@ -340,7 +359,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Njengo Beatrice Mbanga",
     title: "Anaesthesiologist - Senior Registrar",
     id: "p-mbanga",
-    image: "assets/images/doctor-profiles/p-mbanga.png",
+    image: mbanganjengoImg,
     description: [
       "Dr. Njengo Beatrice Mbanga is a dedicated Anaesthesiologist with over 12 years of medical experience, including 2 years as a specialist.",
       "She completed her undergraduate training at Kilimanjaro Christian Medical College (Tumaini University) in Moshi, Tanzania.",
@@ -374,7 +393,7 @@ export const teamMembers: TeamMember[] = [
     title:
       "Consultant Obstetrician & Gynaecologist | Sub-specialist in Reproductive Endocrinology and Fertility | HOD Research",
     id: "p-koigi",
-    image: "assets/images/doctor-profiles/p-koigi.png",
+    image: pkoigiImg,
     description: [
       "Dr. Paul Kamau Koigi is a consultant Obstetrician/Gynaecologist and IVF sub-specialist with over 16 years of experience.",
       "He holds a Bachelor’s Degree, two Master’s Degrees, a Postgraduate Diploma in Sexual and Reproductive Medicine, and is currently pursuing a PhD at the University of Nairobi.",
@@ -436,7 +455,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Peace Mukami Mwige",
     title: "General Surgeon",
     id: "p-mwige",
-    image: "assets/images/doctor-profiles/p-mwige.png",
+    image: peacemwigeImg,
     description: [
       "Dr. Peace Mwige is a dedicated and skilled General Surgeon with 10 years of experience in delivering quality surgical care. She is known for her excellent communication and interpersonal skills, complemented by strong academic and clinical training.",
       "Her career goal is to apply her knowledge and experience in a multidisciplinary environment while offering evidence-based, up-to-date care to patients. Dr. Mwige is deeply committed to lifelong learning, research, and surgical excellence.",
@@ -472,7 +491,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Rahul Ramkrishna Zode",
     title: "Pathologist",
     id: "r-zode",
-    image: "assets/images/doctor-profiles/r-zode.png",
+    image: rahulImg,
     description: [
       "Dr. Rahul Ramkrishna Zode is an experienced M.D. in Pathology from Mumbai, India, with over 14.5 years of clinical and diagnostic experience. He currently serves as the Chief Pathologist at The Nairobi Hospital.",
       "Dr. Zode is a certified internal auditor for ISO 15189 standards and a member of the Indian Association of Pathologists & Microbiologists. His academic contributions include co-authoring five indexed publications.",
@@ -499,7 +518,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Sylvia Nyanyu Mruttu",
     title: "Obstetrician/Gynaecologist",
     id: "s-mruttu",
-    image: "assets/images/doctor-profiles/s-mruttu.png",
+    image: smuruthuImg,
     description: [
       "Dr. Sylvia Mruttu is a compassionate obstetrician and gynaecologist with over 12 years of clinical experience focused on enhancing women’s health and well-being.",
       "She currently serves as the Team Leader of the Department of Obstetrics and Gynaecology at The Nairobi Hospital, where she leads multidisciplinary teams to deliver high-quality, evidence-based care.",
@@ -537,7 +556,7 @@ export const teamMembers: TeamMember[] = [
     name: "Mr. Samuel Owuor Odede, OGW",
     title: "Orthopaedic Surgeon (Hip & Knee Arthroplasty)",
     id: "s-odede",
-    image: "assets/images/doctor-profiles/s-odede.png",
+    image: samuelowuorImg,
     description: [
       "Mr. Samuel Owuor Odede is a trauma surgeon and specialist in hip and knee arthroplasty with over 26 years of clinical experience.",
       "He currently serves in the Clinical Directorate and holds the position of Director, Medical Services & Research Office.",
@@ -562,7 +581,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Tom Maseno Nyaboga",
     title: "Consultant Anatomical Pathologist",
     id: "t-nyaboga",
-    image: "assets/images/doctor-profiles/t-nyaboga.png",
+    image: tomnyabogaImg,
     description: [
       "Board registered Consultant Anatomical Pathologist with 12 years of experience in diagnostic surgical pathology at a premier referral hospital laboratory.",
       "Passionate about quality in laboratory diagnosis and experienced in building quality laboratory systems aligned with ISO 15189 accreditation standards.",
@@ -597,7 +616,7 @@ export const teamMembers: TeamMember[] = [
     name: "Dr. Zeinab Ahmed Mohamed",
     title: "Senior Registrar, Pediatrician",
     id: "z-ahmed-mohamed",
-    image: "assets/images/doctor-profiles/z-ahmed-mohamed.png",
+    image: zeinabahmedImg,
     description: [
       "Highly motivated pediatrician with about 10 years of experience in healthcare.",
       "Completed both undergraduate and Masters in Pediatrics from the University of Nairobi.",
