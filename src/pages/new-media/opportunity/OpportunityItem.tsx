@@ -27,7 +27,7 @@ const OpportunityItem: FC<OpportunityItemProps> = ({ opportunity, action }) => {
             {opportunity.opportunity}
           </h3>
           <Badge className="bg-orange-200 flex">
-            Date Posted: {opportunity.datePosted}
+            Date Closed: {opportunity.closingDate}
           </Badge>
         </div>
         <p className="text-gray-600">{opportunity.description}</p>
