@@ -15,10 +15,11 @@ import pkogeImg from "@/assets/doctorsImages/pkoge.png";
 import pkoigiImg from "@/assets/doctorsImages/pkoigi.png";
 import rahulImg from "@/assets/doctorsImages/rahul.png";
 import samuelowuorImg from "@/assets/doctorsImages/samuelowuor.png";
-//import skafoeImg from "@/assets/doctorsImages/skafoe.png";
+import skafoeImg from "@/assets/doctorsImages/skafoe.png";
 import smuruthuImg from "@/assets/doctorsImages/smuruthu.png";
 import tomnyabogaImg from "@/assets/doctorsImages/tomnyaboga.png";
 import zeinabahmedImg from "@/assets/doctorsImages/zeinabahmed.png";
+import rohnipatilImg from "@/assets/doctorsImages/rohnipatil.png";
 
 type TeamPageProps = {
   title: string;
@@ -639,6 +640,73 @@ export const teamMembers: TeamMember[] = [
       "Well Baby Check-ups",
     ],
     socialMediaWebsite: ["LinkedIn - Dr. Zeinab Mohamed"],
+  },
+  {
+    id: "s-kafoe",
+    name: "Dr. Samuel Amara Kafoe",
+    title: "Pediatric Specialist",
+    image: skafoeImg,
+    description: [
+      `Dedicated Paediatric Specialist with over 5 years of experience delivering
+  outstanding patient care in busy paediatric clinics, hospitals, and facilities. Committed to
+  enhancing patient visits and health outcomes through exceptional care and support. Consistently
+  provides top-quality treatment to patients while administering vaccines, conducting physical
+  exams, and performing other procedures. Proven ability to collaborate effectively with
+  colleagues to foster a welcoming and compassionate work environment. Skilled in consulting
+  with parents during high-stress situations, ensuring they receive the necessary attention and
+  guidance.`,
+    ],
+    languages: ["English", "Swahili"],
+    email: "kafoesamuel@gmail.com",
+    phone: "0741871018",
+    clinicDepartment: "Pediatrics",
+    schedule: [],
+    location: "Main Hospitals",
+    licensingDetails: "",
+    awardsAndRecognition: [],
+    ResearchAndPublications: [],
+    servicesOffered: [],
+    socialMediaWebsite: [],
+  },
+  {
+    id: "rohini",
+    name: "Dr. Rohini Kalagouda Patil",
+    title: "Pediatrician & Pediatric Critical Care Specialist",
+    image: rohnipatilImg,
+    description: [
+      "Dr. Rohini Kalagouda Patil is a dedicated and experienced pediatrician specializing in pediatric critical care with over a decade of experience.",
+      "She is currently a valued member of The Nairobi Hospital team, where she has been serving since January 2021.",
+      "She has offered clinical care in non-critical as well as critical medical conditions including and not limited to critical neurological, cardiac, trauma and poisoning, metabolic conditions, and postsurgical patients.",
+      "She is passionate about research in the field of pediatric sepsis, hospital-acquired infections, and antimicrobial stewardship programs.",
+      "She always believes and tries to follow the principles of resilience, patience, hard work, and dedication to make a real difference to the lives of young ones in Kenya.",
+    ],
+    languages: ["Hindi", "English", "Kiswahili"],
+    email: "rpatil@nbihosp.org",
+    phone: "+254788883669",
+    clinicDepartment: "Pediatrics and Pediatric Critical Care",
+    schedule: [
+      "Outpatient - Thursday pediatric clinic 9am–2pm at the Anderson building, Specialist Clinics, first floor",
+      "Inpatient - All weekdays from 8am–4pm at The Nairobi Hospital St. Mary’s Ward, Pediatric Critical Care Unit",
+    ],
+    location: "The Nairobi Hospital",
+    licensingDetails:
+      "Medical registration number by Kenya Medical Practitioners and Dentists Council - C0000105, Specialist practice licence for 2025 - 004123",
+    awardsAndRecognition: [
+      "Medical registration number by Kenya Medical Practitioners and Dentists Council - C0000105",
+      "Specialist practice licence for 2025 - 004123",
+    ],
+    ResearchAndPublications: [
+      "Epidemiology of respiratory pathogens among children admitted based on rapid molecular tests in a private tertiary hospital in Nairobi, Kenya - a retrospective study (submitted to British Medical Journal Open Respiratory Research)",
+      "Neonatal spontaneous abdominal aortic thrombosis associated with hypernatremic dehydration and acute renal failure - A case series",
+    ],
+    servicesOffered: [
+      "Critical care for pediatric patients",
+      "Management of neurological and cardiac emergencies",
+      "Trauma and poisoning interventions",
+      "Metabolic and postoperative care",
+      "Outpatient pediatric consultations",
+    ],
+    socialMediaWebsite: [],
   },
 ];
 

@@ -10,8 +10,8 @@ const History: React.FC = () => {
       <Heading
         image_url="https://cms.thenairobihosp.org/uploads/who_we_are_8fbeb1073c.jpg"
         style="image"
-        title={content.title}
-        description= {content.historydescription}
+        title={content.title[0]?.value ?? ""}
+        description={content.historydescription[0]?.value ?? ""}
       />
 
       <section className="bg-gray-50 py-12 px-4">
@@ -30,7 +30,7 @@ const History: React.FC = () => {
                   {content.milestonetitle}
                 </h3>
                 <p className="text-gray-600 text-lg mb-4">
-                 {content.milestoneDescription}
+                  {content.milestoneDescription}
                 </p>
                 <MilestoneCarousel />
               </div>
@@ -40,14 +40,12 @@ const History: React.FC = () => {
             <h1 className="text-3xl font-bold text-red-900 mb-6 text-center">
               {content.richHistorytitle}
             </h1>
-            <p>
-              {content.richHistorydescription}
-            </p>
+            <p>{content.richHistorydescription}</p>
           </div>
           <div className="flex justify-between items-center my-11 max-w-7xl mx-auto flex-col md:flex-row">
             <div className="w-full md:w-[50%]">
               <h1 className="text-4xl font-medium font-serif text-left text-red-900">
-               {content.timelinetitle}
+                {content.timelinetitle}
               </h1>
               <p className="text-gray-700 text-sm leading-relaxed mt-4">
                 {content.timelineDescription}
@@ -56,13 +54,12 @@ const History: React.FC = () => {
             <div className="flex flex-col items-center justify-center w-full md:w-[40%] bg-red-900 rounded-lg shadow-lg px-6 py-4 text-white mt-8 md:mt-0">
               <div className="p-4">
                 <h2 className="text-2xl font-medium font-serif mb-4">
-                {content.historyFirsttittle}
+                  {content.historyFirsttittle}
                 </h2>
                 <p className=" mb-4 text-sm">
                   {content.historyFirstDescription}
                 </p>
                 <ul className="text-gray-200 text-sm space-y-2 list-disc list-item">
-                 
                   <li>{content.history1}</li>
                   <li>{content.history2}</li>
                   <li>{content.history3}</li>
