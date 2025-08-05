@@ -4,7 +4,7 @@ import { useIntlayer } from "react-intlayer";
 
 // Main History Section
 const History: React.FC = () => {
-  const content = useIntlayer("historySection");
+  const content = useIntlayer("historyContent");
   return (
     <>
       <Heading
