@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useIntlayer } from "react-intlayer";
+
 
 // Define the shape of a single testimonial
 export interface Testimonial {
@@ -40,13 +42,14 @@ export default function TestimonialCarousel({
   }
 
   const { name, title, image, quote } = testimonials[index];
-
+  const content = useIntlayer("testimonial_carousel");
+  
   return (
     <section className="bg-orange-200 py-10 md:py-20 w-full">
       <div className="max-w-7xl mx-auto flex flex-col items-start justify-center px-6 gap-6">
         <div className="flex items-start  w-full">
           <h2 className="flex text-3xl md:text-5xl font-semibold text-red-900 font-serif w-full">
-            What Our Clients Say
+            {content.clientsay}
           </h2>
           <div className="flex items-center justify-end w-full">
             <div className="hidden md:flex justify-between items-center">
