@@ -32,7 +32,6 @@ const Navbar: React.FC = () => {
       >
         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
-
       {/* Navigation Menu */}
 
       <div
@@ -48,7 +47,11 @@ const Navbar: React.FC = () => {
             <X size={24} />
           </button>
         </div>
+        <div className="px-90 py-">
+          <LocaleSwitcher />
+        </div>
         <Navigation />
+       
       </div>
       <div>
         <div className="hidden md:flex mr-6 items-center gap-2">
