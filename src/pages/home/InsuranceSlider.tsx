@@ -6,6 +6,7 @@ import madison from "@/assets/images/madison.png";
 import jubilee from "@/assets/images/jubilee.png";
 import { ChevronRight } from "lucide-react";
 import { ChevronLeft } from "lucide-react";
+import { useIntlayer } from "react-intlayer";
 
 interface Image {
   src: string;
@@ -50,10 +51,11 @@ const InsuranceSlider = () => {
     return () => clearInterval(interval);
   }, [index]);
 
+const content = useIntlayer("insurance_slider");
   return (
     <div className="flex flex-col items-center justify-center px-4 py-10 mx-5 bg-white">
       <h2 className="text-xl sm:text-3xl font-bold text-center mb-6 text-red-900">
-        Our Insurance Partners
+        {content.insurance}
       </h2>
 
       <div className="relative w-full max-w-5xl">
