@@ -48,20 +48,23 @@ const Navbar: React.FC = () => {
             <X size={24} />
           </button>
         </div>
+        <div className="md:hidden mx-10">
+          <LocaleSwitcher />
+        </div>
         <Navigation />
       </div>
       <div>
         <div className="hidden md:flex mr-6 items-center gap-2">
           <Button
-              onClick={() => (window.location.href = "/contact")}
-              className="text-xs font-serif flex items-center gap-1 py-[16.5px] bg-inherit"
-              variant="outline"
-              size="sm"
-            >
-              <Phone className="text-red-900 w-4 h-4" />
-              <span className="text-sm font-serif ">+254 703 082 000</span>
-            </Button>
-            <LocaleSwitcher />
+            onClick={() => (window.location.href = "/contact")}
+            className="text-xs font-serif flex items-center gap-1 py-[16.5px] bg-inherit"
+            variant="outline"
+            size="sm"
+          >
+            <Phone className="text-red-900 w-4 h-4" />
+            <span className="text-sm font-serif ">+254 703 082 000</span>
+          </Button>
+          <LocaleSwitcher />
         </div>
       </div>
       <div
