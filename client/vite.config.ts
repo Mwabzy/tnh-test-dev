@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss(), intlayerPlugin()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "client/src"),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
 })

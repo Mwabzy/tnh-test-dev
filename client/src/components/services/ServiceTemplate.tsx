@@ -1,4 +1,5 @@
-import { Doctor, RelatedService } from "@/types";
+import { Doctor, RelatedServices } from "@/types";
+import { ClinicalService } from "@/types";
 import ContactForm, { ContactInfo } from "../ContactForm";
 import ProfileCard from "./ProfileCard";
 import RelatedServiceCard from "./RelatedServiceCard";
@@ -7,22 +8,17 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import TestimonialCarousel from "../TestimonialCarousel";
 
 export interface ServiceTemplateProps {
+  id: number;
   title?: string;
   tagline: string;
   image: string;
   imageAlt: string;
   overview: string;
   features: string[];
-  title2?: string;
-  overview2?: string;
-  features2?: string[];
-  title3?: string;
-  overview3?: string;
-  features3?: string[];
   doctors: Doctor[];
   testimonial: { name: string; title: string; image: string; quote: string };
   contact: ContactInfo;
-  relatedServices: RelatedService[];
+  relatedServices: RelatedServices[];
 }
 
 const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
@@ -32,12 +28,6 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
   imageAlt,
   overview,
   features,
-  title2,
-  overview2,
-  features2,
-  title3,
-  overview3,
-  features3,
   doctors,
   testimonial,
   contact,
@@ -66,36 +56,6 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
               ))}
             </ul>
           </section>
-          {title2 && (
-            <section className="mb-8 mx-5">
-              <h2 className="text-2xl font-semibold mb-4">{title2}</h2>
-              <p className="text-gray-700 mb-4">{overview2}</p>
-              {features2 && features2.length > 0 && (
-                <ul className="list-disc pl-5 space-y-2">
-                  {features2.map((feature, index) => (
-                    <li key={index} className="text-gray-700">
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </section>
-          )}
-          {title3 && (
-            <section className="mb-8 mx-5">
-              <h2 className="text-2xl font-semibold mb-4">{title3}</h2>
-              <p className="text-gray-700 mb-4">{overview3}</p>
-              {features3 && features3.length > 0 && (
-                <ul className="list-disc pl-5 space-y-2">
-                  {features3.map((feature, index) => (
-                    <li key={index} className="text-gray-700">
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </section>
-          )}
 
           {/* Additional Information */}
           <section className="mb-8">

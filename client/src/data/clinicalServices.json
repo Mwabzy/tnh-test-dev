@@ -1,368 +1,120 @@
 [
   {
-    "image": {
-      "src": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-      "alt": "card-image"
-    },
-    "name": "Pharmacy Services",
-    "id": "pharmacy-services",
-    "description": "Dentistry focuses on oral health, offering services like cleanings, cavity treatments, and dental surgeries. It is practiced by licensed dentists who diagnose, prevent, and treat issues related to teeth, gums, and the mouth.",
-    "accordionItems": {
-      "item-1": {
-        "title": "What are the operating hours of the pharmacy?s",
-        "Subject": "he outpatient pharmacy is open Monday to Saturday from 8:00 AM to 8:00 PM. Inpatient pharmacy services are available 24/7."
-      },
-      "item-2": {
-        "title": "Can I fill my prescription at the Hospital Pharmacy if it’s from an outside doctor?",
-        "Subject": "Yes, we accept valid prescriptions from external licensed healthcare providers."
-      },
-      "item-3": {
-        "title": "Do you accept insurance? What types?",
-        "Subject": "Yes, we accept most major insurance providers. Please bring your insurance card when visiting the pharmacy."
-      },
-      "item-4": {
-        "title": "What payment methods are accepted?",
-        "Subject": "We accept cash, credit/debit cards, UPI payments, and mobile wallets."
-      }
-      ,
-      "contact-details": {
-        "phone number": "+254 20 283 2000",
-        "location": "Nairobi Hospital, Ground floor, Main Hospital"
-      }
-    }
-  },
-  {
-    "image": {
-      "src": "https://img.freepik.com/free-photo/medical-doctor-girl-working-with-microscope-young-female-scientist-doing-vaccine-research_1157-48128.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-      "alt": "card-image"
-    },
-    "name": "Laboratory Services",
-    "id": "laboratory-services",
-    "description": "Pharmacies offer health-related services like vaccinations, wellness check-ups, and over-the-counter medications. It is managed by licensed pharmacists who provide prescriptions, medical advice, and information on drug interactions.",
-    "long-description": "The Nairobi Hospital Laboratory is one of the most well-equipped and expertly staffed facilities in the region, offering highly specialized tests across multiple medical disciplines. Accredited by the Kenya Accreditation Services (KENAS) under ISO 15189, and certified for ISO 14001:2004 and ISO 22000:2005, the lab maintains rigorous quality assurance through daily internal controls, international external quality assurance schemes, and oversight by a quality coordinator. Led by a Consultant Pathologist/Manager, each section is supervised by Senior Technologists, with all results reviewed by a consultant pathologist. The laboratory is strategically devolved into several branches across Nairobi, including the Doctors’ Plaza, UHMC, Warwick, Galleria, Southfield, Capital Centre, Kiambu, and Rosslyn. The facility comprises multiple specialized sections. In Hematology, services include immuno-phenotyping by flow cytometry, BCR-ABL PCR testing, thrombophilia screening, hemoglobin electrophoresis, and apheresis platelet collection. The Biochemistry and Special Chemistry section boasts state-of-the-art analyzers like the Alinity ci and Cobas Pro, offering tests ranging from liver and renal profiles to drug monitoring and endocrinology, and includes the latest Cobas e 801 and c 503 analytical units for enhanced efficiency. The Immunology section specializes in autoimmune diagnostics, employing automated systems to detect a wide array of antibodies for conditions such as lupus, rheumatoid arthritis, and celiac disease. The Histopathology & Cytopathology section handles routine biopsies, pap smears, and advanced cancer immunophenotyping, while the Microbiology section uses modern tools such as MALDI-TOF, Vitek 2, and the BD BACTEC™ FX system for rapid microbial identification and antimicrobial susceptibility testing. It also houses a TB lab and multiplex PCR capabilities through the Biofire Film Array. The Molecular Diagnostics section focuses on advanced DNA/RNA-based testing for viruses, bacteria, and genetic markers, using cutting-edge platforms like Kingfisher Flex, Qiasymphony, Qiacube, COBAS systems, Rotagene Q, QuantStudio 5, and Applied Biosystems thermocyclers. These systems ensure rapid and precise sample preparation, nucleic acid extraction, amplification, and result interpretation, delivering reliable diagnostics essential for timely and effective patient care.",
-    "accordionItems": {
-      "item-1": {
-        "title": "What are the lab’s operating hours?",
-        "Subject": "Routine lab services are available Monday to Saturday from 7:00 AM to 8:00 PM. Emergency and inpatient testing is available 24/7."
-      },
-      "item-2": {
-        "title": "What are the operating hours of the laboratory?",
-        "Subject": "The laboratory operates 24/7 for inpatient services and Monday to Saturday from 8:00 AM to 8:00 PM for outpatient services."
-      },
-      "item-3": {
-        "title": "CDo you accept external doctor prescriptions for lab tests?",
-        "Subject": "Yes, we accept prescriptions from any licensed medical practitioner.."
-      },
-      "item-4": {
-        "title": "Do you perform COVID-19, dengue, and other infectious disease tests?",
-        "Subject": "Yes, we perform a wide range of infectious disease screenings including COVID-19 RT-PCR, dengue, malaria, and more."
-      },
-      "contact-details": {
-        "phone number": "+254 20 283 2000",
-        "location": "Nairobi Hospital, 1st Floor, Main Hospital"
-      }
-    }
-  },
-  {
-    "image": {
-      "src": "https://img.freepik.com/premium-photo/two-doctors-are-looking-x-rays-medical-rear-view-chief-physician-afro-american-man-caucasian-woman-looking-x-rays-mri-clear-light_141188-3575.jpg?w=996",
-      "alt": "card-image"
-    },
-    "name": "Radiology Services",
-    "id": "radiology-services",
-    "description": "Gynaecology focuses on women's reproductive health, offering services like screenings, pregnancy care, and hormonal treatments. It is practiced by licensed gynecologists who diagnose, prevent, and treat conditions related to the female.",
-    "long-description": "The Nairobi Hospital Laboratory is one of the most well-equipped and expertly staffed facilities in the region, offering highly specialized tests across multiple medical disciplines. Accredited by the Kenya Accreditation Services (KENAS) under ISO 15189, and certified for ISO 14001:2004 and ISO 22000:2005, the lab maintains rigorous quality assurance through daily internal controls, international external quality assurance schemes, and oversight by a quality coordinator. Led by a Consultant Pathologist/Manager, each section is supervised by Senior Technologists, with all results reviewed by a consultant pathologist. The laboratory is strategically devolved into several branches across Nairobi, including the Doctors’ Plaza, UHMC, Warwick, Galleria, Southfield, Capital Centre, Kiambu, and Rosslyn. The facility comprises multiple specialized sections. In Hematology, services include immuno-phenotyping by flow cytometry, BCR-ABL PCR testing, thrombophilia screening, hemoglobin electrophoresis, and apheresis platelet collection. The Biochemistry and Special Chemistry section boasts state-of-the-art analyzers like the Alinity ci and Cobas Pro, offering tests ranging from liver and renal profiles to drug monitoring and endocrinology, and includes the latest Cobas e 801 and c 503 analytical units for enhanced efficiency. The Immunology section specializes in autoimmune diagnostics, employing automated systems to detect a wide array of antibodies for conditions such as lupus, rheumatoid arthritis, and celiac disease. The Histopathology & Cytopathology section handles routine biopsies, pap smears, and advanced cancer immunophenotyping, while the Microbiology section uses modern tools such as MALDI-TOF, Vitek 2, and the BD BACTEC™ FX system for rapid microbial identification and antimicrobial susceptibility testing. It also houses a TB lab and multiplex PCR capabilities through the Biofire Film Array. The Molecular Diagnostics section focuses on advanced DNA/RNA-based testing for viruses, bacteria, and genetic markers, using cutting-edge platforms like Kingfisher Flex, Qiasymphony, Qiacube, COBAS systems, Rotagene Q, QuantStudio 5, and Applied Biosystems thermocyclers. These systems ensure rapid and precise sample preparation, nucleic acid extraction, amplification, and result interpretation, delivering reliable diagnostics essential for timely and effective patient care.",
-    "accordionItems": {
-      "item-1": {
-        "title": "What types of imaging services do you offer?",
-        "Subject": "We provide X-ray, Ultrasound, CT Scan, MRI, Mammography, DEXA (bone density), and Fluoroscopy services."
-      },
-      "item-2": {
-        "title": "What are the radiology department’s hours of operation?",
-        "Subject": "The laboratory operates 24/7 for inpatient services and Monday to Saturday from 8:00 AM to 8:00 PM for outpatient services."
-      },
-      "item-3": {
-        "title": "How long does a typical scan take?",
-        "Subject": "X-rays take about 10–15 minutes. CT/MRI scans may take 30–60 minutes, depending on the complexity."
-      },
-      "item-4": {
-        "title": "Do you offer radiology services for children or pregnant patients?",
-        "Subject": "Yes, we have pediatric imaging services and follow strict safety protocols for pregnant patients. Inform our staff ahead of time if you're expecting."
-      }
-      ,
-      "contact-details": {
-        "phone number": "+254 454544646",
-        "location": "Nairobi Hospital, Ground Floor, Main Hospital"
-      }
-    }
-  },
-  {
-    "image": {
-      "src": "https://img.freepik.com/free-photo/doctor-ophthalmologist-s-office_23-2150917689.jpg?t=st=1744633207~exp=1744636807~hmac=b885ab7a49e5c148fe5c1f6893ed2d8e997c933defd3a32bab55153ed4697ed5&w=996",
-      "alt": "card-image"
-    },
-    "name": "Endoscopy Services",
-    "id": "endoscopy-services",
-    "description": "The Antenatal Clinic is administered by Obstetricians/Gynecologists and experienced midwives who provide comprehensive care to mothers from conception, all through pregnancy until delivery.",
-    "long-description": "The Nairobi Hospital Laboratory is one of the most well-equipped and expertly staffed facilities in the region, offering highly specialized tests across multiple medical disciplines. Accredited by the Kenya Accreditation Services (KENAS) under ISO 15189, and certified for ISO 14001:2004 and ISO 22000:2005, the lab maintains rigorous quality assurance through daily internal controls, international external quality assurance schemes, and oversight by a quality coordinator. Led by a Consultant Pathologist/Manager, each section is supervised by Senior Technologists, with all results reviewed by a consultant pathologist. The laboratory is strategically devolved into several branches across Nairobi, including the Doctors’ Plaza, UHMC, Warwick, Galleria, Southfield, Capital Centre, Kiambu, and Rosslyn. The facility comprises multiple specialized sections. In Hematology, services include immuno-phenotyping by flow cytometry, BCR-ABL PCR testing, thrombophilia screening, hemoglobin electrophoresis, and apheresis platelet collection. The Biochemistry and Special Chemistry section boasts state-of-the-art analyzers like the Alinity ci and Cobas Pro, offering tests ranging from liver and renal profiles to drug monitoring and endocrinology, and includes the latest Cobas e 801 and c 503 analytical units for enhanced efficiency. The Immunology section specializes in autoimmune diagnostics, employing automated systems to detect a wide array of antibodies for conditions such as lupus, rheumatoid arthritis, and celiac disease. The Histopathology & Cytopathology section handles routine biopsies, pap smears, and advanced cancer immunophenotyping, while the Microbiology section uses modern tools such as MALDI-TOF, Vitek 2, and the BD BACTEC™ FX system for rapid microbial identification and antimicrobial susceptibility testing. It also houses a TB lab and multiplex PCR capabilities through the Biofire Film Array. The Molecular Diagnostics section focuses on advanced DNA/RNA-based testing for viruses, bacteria, and genetic markers, using cutting-edge platforms like Kingfisher Flex, Qiasymphony, Qiacube, COBAS systems, Rotagene Q, QuantStudio 5, and Applied Biosystems thermocyclers. These systems ensure rapid and precise sample preparation, nucleic acid extraction, amplification, and result interpretation, delivering reliable diagnostics essential for timely and effective patient care.",
-    "accordionItems": {
-      "item-1": {
-        "title": "What types of endoscopy procedures do you perform?",
-        "Subject": "We offer a range of procedures including gastroscopy, colonoscopy, sigmoidoscopy, bronchoscopy, cystoscopy, and endoscopic retrograde cholangiopancreatography (ERCP)."
-      },
-      "item-2": {
-        "title": "How should I prepare for my endoscopy procedure?",
-        "Subject": "Preparation varies depending on the type of procedure. For example, colonoscopy requires bowel cleansing with prescribed medication. Our team will provide specific instructions prior to your appointment."
-      },
-      "item-3": {
-        "title": "How do I schedule an endoscopy appointment?",
-        "Subject": "X-rays take about 10–15 minutes. CT/MRI scans may take 30–60 minutes, depending on the complexity."
-      },
-      "item-4": {
-        "title": "Do you accept health insurance for endoscopy procedures?",
-        "Subject": "Yes, we accept most major insurance plans. Please check with the billing department for coverage details specific to your plan."
-      }
-      ,
-      "contact-details": {
-        "phone number": "+254 32322432",
-        "location": "Nairobi Hospital, 3rd Floor, Main Hospital"
-      }
-    }
-  },
-  {
-    "image": {
-      "src": "https://img.freepik.com/free-photo/african-american-medical-team-working-healing-patient-hospital-ward-bed-man-woman-with-doctors-occupation-examining-young-adult-treatment-using-monitor-stethoscope_482257-16510.jpg?t=st=1744633876~exp=1744637476~hmac=1d03c61c663661a9a76b27bc266263ea4f3f5edb1dea6da463f13fc22fb99f4f&w=996",
-      "alt": "card-image"
-    },
-    "name": "Accident and Emergency Services",
-    "id": "accident-services",
-    "description": "The Antenatal Clinic is administered by Obstetricians/Gynecologists and experienced midwives who provide comprehensive care to mothers from conception, all through pregnancy until delivery.",
-    "long-description": "The Nairobi Hospital Laboratory is one of the most well-equipped and expertly staffed facilities in the region, offering highly specialized tests across multiple medical disciplines. Accredited by the Kenya Accreditation Services (KENAS) under ISO 15189, and certified for ISO 14001:2004 and ISO 22000:2005, the lab maintains rigorous quality assurance through daily internal controls, international external quality assurance schemes, and oversight by a quality coordinator. Led by a Consultant Pathologist/Manager, each section is supervised by Senior Technologists, with all results reviewed by a consultant pathologist. The laboratory is strategically devolved into several branches across Nairobi, including the Doctors’ Plaza, UHMC, Warwick, Galleria, Southfield, Capital Centre, Kiambu, and Rosslyn. The facility comprises multiple specialized sections. In Hematology, services include immuno-phenotyping by flow cytometry, BCR-ABL PCR testing, thrombophilia screening, hemoglobin electrophoresis, and apheresis platelet collection. The Biochemistry and Special Chemistry section boasts state-of-the-art analyzers like the Alinity ci and Cobas Pro, offering tests ranging from liver and renal profiles to drug monitoring and endocrinology, and includes the latest Cobas e 801 and c 503 analytical units for enhanced efficiency. The Immunology section specializes in autoimmune diagnostics, employing automated systems to detect a wide array of antibodies for conditions such as lupus, rheumatoid arthritis, and celiac disease. The Histopathology & Cytopathology section handles routine biopsies, pap smears, and advanced cancer immunophenotyping, while the Microbiology section uses modern tools such as MALDI-TOF, Vitek 2, and the BD BACTEC™ FX system for rapid microbial identification and antimicrobial susceptibility testing. It also houses a TB lab and multiplex PCR capabilities through the Biofire Film Array. The Molecular Diagnostics section focuses on advanced DNA/RNA-based testing for viruses, bacteria, and genetic markers, using cutting-edge platforms like Kingfisher Flex, Qiasymphony, Qiacube, COBAS systems, Rotagene Q, QuantStudio 5, and Applied Biosystems thermocyclers. These systems ensure rapid and precise sample preparation, nucleic acid extraction, amplification, and result interpretation, delivering reliable diagnostics essential for timely and effective patient care.",
-    "accordionItems": {
-      "item-1": {
-        "title": "What types of endoscopy procedures do you perform?",
-        "Subject": "We offer a range of procedures including gastroscopy, colonoscopy, sigmoidoscopy, bronchoscopy, cystoscopy, and endoscopic retrograde cholangiopancreatography (ERCP)."
-      },
-      "item-2": {
-        "title": "How should I prepare for my endoscopy procedure?",
-        "Subject": "Preparation varies depending on the type of procedure. For example, colonoscopy requires bowel cleansing with prescribed medication. Our team will provide specific instructions prior to your appointment."
-      },
-      "item-3": {
-        "title": "How do I schedule an endoscopy appointment?",
-        "Subject": "X-rays take about 10–15 minutes. CT/MRI scans may take 30–60 minutes, depending on the complexity."
-      },
-      "item-4": {
-        "title": "Do you accept health insurance for endoscopy procedures?",
-        "Subject": "Yes, we accept most major insurance plans. Please check with the billing department for coverage details specific to your plan."
-      }
-      ,
-      "contact-details": {
-        "phone number": "+254 354535453",
-        "location": "Nairobi Hospital, 2nd Floor, Main Hospital"
-      }
-    }
-  },
-
-  {
-    "image": {
-      "src": "https://img.freepik.com/free-photo/medical-assistant-helping-patient-with-physiotherapy-exercises_23-2149071451.jpg?t=st=1744633930~exp=1744637530~hmac=e294188b330eef62ae4c7ae841fed50332ff222cc47184ca73620e5af00f0431&w=996",
-      "alt": "card-image"
-    },
-    "name": "Physical Medicine Center (PMC)",
-    "id": "physical-medicine-services",
-    "description": "Pharmacies offer health-related services like vaccinations, wellness check-ups, and over-the-counter medications. It is managed by licensed pharmacists who provide prescriptions, medical advice, and information on drug interactions.",
-    "long-description": "The Nairobi Hospital Laboratory is one of the most well-equipped and expertly staffed facilities in the region, offering highly specialized tests across multiple medical disciplines. Accredited by the Kenya Accreditation Services (KENAS) under ISO 15189, and certified for ISO 14001:2004 and ISO 22000:2005, the lab maintains rigorous quality assurance through daily internal controls, international external quality assurance schemes, and oversight by a quality coordinator. Led by a Consultant Pathologist/Manager, each section is supervised by Senior Technologists, with all results reviewed by a consultant pathologist. The laboratory is strategically devolved into several branches across Nairobi, including the Doctors’ Plaza, UHMC, Warwick, Galleria, Southfield, Capital Centre, Kiambu, and Rosslyn. The facility comprises multiple specialized sections. In Hematology, services include immuno-phenotyping by flow cytometry, BCR-ABL PCR testing, thrombophilia screening, hemoglobin electrophoresis, and apheresis platelet collection. The Biochemistry and Special Chemistry section boasts state-of-the-art analyzers like the Alinity ci and Cobas Pro, offering tests ranging from liver and renal profiles to drug monitoring and endocrinology, and includes the latest Cobas e 801 and c 503 analytical units for enhanced efficiency. The Immunology section specializes in autoimmune diagnostics, employing automated systems to detect a wide array of antibodies for conditions such as lupus, rheumatoid arthritis, and celiac disease. The Histopathology & Cytopathology section handles routine biopsies, pap smears, and advanced cancer immunophenotyping, while the Microbiology section uses modern tools such as MALDI-TOF, Vitek 2, and the BD BACTEC™ FX system for rapid microbial identification and antimicrobial susceptibility testing. It also houses a TB lab and multiplex PCR capabilities through the Biofire Film Array. The Molecular Diagnostics section focuses on advanced DNA/RNA-based testing for viruses, bacteria, and genetic markers, using cutting-edge platforms like Kingfisher Flex, Qiasymphony, Qiacube, COBAS systems, Rotagene Q, QuantStudio 5, and Applied Biosystems thermocyclers. These systems ensure rapid and precise sample preparation, nucleic acid extraction, amplification, and result interpretation, delivering reliable diagnostics essential for timely and effective patient care.",
-    "accordionItems": {
-      "item-1": {
-        "title": "What types of physical medicine services do you offer?",
-        "Subject": "We offer a range of procedures including gastroscopy, colonoscopy, sigmoidoscopy, bronchoscopy, cystoscopy, and endoscopic retrograde cholangiopancreatography (ERCP)."
-      },
-      "item-2": {
-        "title": "How do I schedule an appointment for physical medicine services?",
-        "Subject": "You can schedule an appointment by calling the PMR Department directly at [insert phone number] or by visiting our front desk."
-      }
-      ,
-      "contact-details": {
-        "phone number": "+254 34576757755",
-        "location": "Nairobi Hospital, 1st Floor, Main Hospital"
-      }
-    }
-  },
-  {
-    "image": {
-      "src": "https://img.freepik.com/free-photo/people-meeting-support-group_23-2151079567.jpg?t=st=1744633974~exp=1744637574~hmac=d8dec733b4578d676c89f52ad4a752451f82e5e290fbb093451cae379512dbf8&w=996",
-      "alt": "card-image"
-    },
-    "name": "Psychosocial department",
-    "id": "psychosocial-ervices",
-    "description": "The Antenatal Clinic is administered by Obstetricians/Gynecologists and experienced midwives who provide comprehensive care to mothers from conception, all through pregnancy until delivery."
-    ,
-      "contact-details": {
-        "phone number": "+254 20 283 2000",
-        "location": "Nairobi Hospital, 1st Floor, Main Hospital"
-      }
-  },
-  {
-    "image": {
-      "src": "https://cms.thenairobihosp.org/uploads/Galleria_920x400_93e5e1d433_2796bc55a8.jpg",
-      "alt": "card-image"
-    },
-    "name": "Ambulance services",
-    "id": "ambulance-services",
-    "description": "Gynaecology focuses on women's reproductive health, offering services like screenings, pregnancy care, and hormonal treatments. It is practiced by licensed gynecologists who diagnose, prevent, and treat conditions related to the female."
-  },
-  {
-    "image": {
-      "src": "https://img.freepik.com/free-photo/happy-afro-kid-regular-check-up-teeth-dental-clinic_651396-1411.jpg?t=st=1744634041~exp=1744637641~hmac=6fcaa5bcb2893a5de97602b0c8d45bfd8a51f0de1f3bc3b6f88580bbd077c52c&w=900",
-      "alt": "card-image"
-    },
-    "name": "Dental Procedures",
-    "id": "dental-services",
-    "description": "Pharmacies offer health-related services like vaccinations, wellness check-ups, and over-the-counter medications. It is managed by licensed pharmacists who provide prescriptions, medical advice, and information on drug interactions."
-  },
-
-  {
-    "image": {
-      "src": "https://img.freepik.com/free-photo/african-american-team-working-checkup-reports-hospital-reception-desk-analyzing-patients-appointments-papers-doctor-receptionist-using-medical-forms-help-people-with-disease_482257-51268.jpg?t=st=1744634190~exp=1744637790~hmac=50ec3a09f44476e820211a70da628f307dddcac3f9c029c2a636525707022a68&w=996",
-      "alt": "card-image"
-    },
-    "name": "Anderson Speciality Clinics",
-    "id": "anderson-services",
-    "description": "Anderson Specialty Clinics is a one stop state-of-the-art facility designed to give specialized treatment to our clients in an atmosphere of trust, safety and comfort.",
-    "clinics": [
+    "id": 1,
+    "title": "Pharmacy Services",
+    "tagline": "Comprehensive Pharmaceutical Care",
+    "imageAlt": "card-image",
+    "overview": "Pharmacy services provide comprehensive pharmaceutical care, including medication dispensing, health consultations, and wellness programs. Our licensed pharmacists ensure safe and effective use of medications.",
+    "features": [
+      "Medication dispensing and management",
+      "Health consultations and wellness programs",
+      "Vaccinations and preventive care",
+      "Medication therapy management"
+    ],  
+    "doctors": [
       {
-        "image": {
-          "src": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-          "alt": "card-image"
-        },
-        "name": "Pharmacy Services",
-        "id": "pharmacy-services",
-        "description": "Dentistry focuses on oral health, offering services like cleanings, cavity treatments, and dental surgeries. It is practiced by licensed dentists who diagnose, prevent, and treat issues related to teeth, gums, and the mouth.",
-        "accordionItems": {
-          "item-1": {
-            "title": "What are the operating hours of the pharmacy?s",
-            "Subject": "he outpatient pharmacy is open Monday to Saturday from 8:00 AM to 8:00 PM. Inpatient pharmacy services are available 24/7."
-          },
-          "item-2": {
-            "title": "Can I fill my prescription at the Hospital Pharmacy if it’s from an outside doctor?",
-            "Subject": "Yes, we accept valid prescriptions from external licensed healthcare providers."
-          },
-          "item-3": {
-            "title": "Do you accept insurance? What types?",
-            "Subject": "Yes, we accept most major insurance providers. Please bring your insurance card when visiting the pharmacy."
-          },
-          "item-4": {
-            "title": "What payment methods are accepted?",
-            "Subject": "We accept cash, credit/debit cards, UPI payments, and mobile wallets."
-          }
-        }
+        "name": "Dr. Jane Doe",
+        "title": "Pharmacist",
+        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+        "description": "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education."
       },
       {
-        "image": {
-          "src": "https://img.freepik.com/free-photo/medical-doctor-girl-working-with-microscope-young-female-scientist-doing-vaccine-research_1157-48128.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-          "alt": "card-image"
-        },
+        "name": "Dr. John Smith",
+        "title": "Pharmacist",
+        "image": "https://img.freepik.com/free-photo/portrait-you",
+        "description": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
+      }
+    ],
+    "testimonial": {
+      "name": "Sarah Johnson",
+      "title": "Satisfied Patient",
+      "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+      "quote": "The pharmacy team at The Nairobi Hospital has been incredibly helpful in managing my medications. Their personalized care and attention to detail have made a significant difference in my health journey."
+    },
+    "contact": {
+      "phone": "+254 700 000 000",
+      "email": "clinicservice@nbihosp.org"      
+  },
+    "relatedServices": [
+      {
+        "id": 1,
         "name": "Laboratory Services",
-        "id": "laboratory-services",
-        "description": "Pharmacies offer health-related services like vaccinations, wellness check-ups, and over-the-counter medications. It is managed by licensed pharmacists who provide prescriptions, medical advice, and information on drug interactions.",
-        "long-description": "The Nairobi Hospital Laboratory is one of the most well-equipped and expertly staffed facilities in the region, offering highly specialized tests across multiple medical disciplines. Accredited by the Kenya Accreditation Services (KENAS) under ISO 15189, and certified for ISO 14001:2004 and ISO 22000:2005, the lab maintains rigorous quality assurance through daily internal controls, international external quality assurance schemes, and oversight by a quality coordinator. Led by a Consultant Pathologist/Manager, each section is supervised by Senior Technologists, with all results reviewed by a consultant pathologist. The laboratory is strategically devolved into several branches across Nairobi, including the Doctors’ Plaza, UHMC, Warwick, Galleria, Southfield, Capital Centre, Kiambu, and Rosslyn. The facility comprises multiple specialized sections. In Hematology, services include immuno-phenotyping by flow cytometry, BCR-ABL PCR testing, thrombophilia screening, hemoglobin electrophoresis, and apheresis platelet collection. The Biochemistry and Special Chemistry section boasts state-of-the-art analyzers like the Alinity ci and Cobas Pro, offering tests ranging from liver and renal profiles to drug monitoring and endocrinology, and includes the latest Cobas e 801 and c 503 analytical units for enhanced efficiency. The Immunology section specializes in autoimmune diagnostics, employing automated systems to detect a wide array of antibodies for conditions such as lupus, rheumatoid arthritis, and celiac disease. The Histopathology & Cytopathology section handles routine biopsies, pap smears, and advanced cancer immunophenotyping, while the Microbiology section uses modern tools such as MALDI-TOF, Vitek 2, and the BD BACTEC™ FX system for rapid microbial identification and antimicrobial susceptibility testing. It also houses a TB lab and multiplex PCR capabilities through the Biofire Film Array. The Molecular Diagnostics section focuses on advanced DNA/RNA-based testing for viruses, bacteria, and genetic markers, using cutting-edge platforms like Kingfisher Flex, Qiasymphony, Qiacube, COBAS systems, Rotagene Q, QuantStudio 5, and Applied Biosystems thermocyclers. These systems ensure rapid and precise sample preparation, nucleic acid extraction, amplification, and result interpretation, delivering reliable diagnostics essential for timely and effective patient care.",
-        "accordionItems": {
-          "item-1": {
-            "title": "What are the lab’s operating hours?",
-            "Subject": "Routine lab services are available Monday to Saturday from 7:00 AM to 8:00 PM. Emergency and inpatient testing is available 24/7."
-          },
-          "item-2": {
-            "title": "What are the operating hours of the laboratory?",
-            "Subject": "The laboratory operates 24/7 for inpatient services and Monday to Saturday from 8:00 AM to 8:00 PM for outpatient services."
-          },
-          "item-3": {
-            "title": "CDo you accept external doctor prescriptions for lab tests?",
-            "Subject": "Yes, we accept prescriptions from any licensed medical practitioner.."
-          },
-          "item-4": {
-            "title": "Do you perform COVID-19, dengue, and other infectious disease tests?",
-            "Subject": "Yes, we perform a wide range of infectious disease screenings including COVID-19 RT-PCR, dengue, malaria, and more."
-          },
-          "contact": {
-            "phone": "+254 20 283 2000",
-            "location": "Nairobi Hospital, 1st Floor, Main Hospital"
-          }
-        }
+        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+        "imageAlt": "Laboratory Services",
+        "description": "Comprehensive laboratory services for accurate diagnostics and health monitoring.", 
+        "link": "/clinics/laboratory-services"
       },
       {
-        "image": {
-          "src": "https://img.freepik.com/premium-photo/two-doctors-are-looking-x-rays-medical-rear-view-chief-physician-afro-american-man-caucasian-woman-looking-x-rays-mri-clear-light_141188-3575.jpg?w=996",
-          "alt": "card-image"
-        },
+        "id": 2,
         "name": "Radiology Services",
-        "id": "radiology-services",
-        "description": "Gynaecology focuses on women's reproductive health, offering services like screenings, pregnancy care, and hormonal treatments. It is practiced by licensed gynecologists who diagnose, prevent, and treat conditions related to the female.",
-        "long-description": "The Nairobi Hospital Laboratory is one of the most well-equipped and expertly staffed facilities in the region, offering highly specialized tests across multiple medical disciplines. Accredited by the Kenya Accreditation Services (KENAS) under ISO 15189, and certified for ISO 14001:2004 and ISO 22000:2005, the lab maintains rigorous quality assurance through daily internal controls, international external quality assurance schemes, and oversight by a quality coordinator. Led by a Consultant Pathologist/Manager, each section is supervised by Senior Technologists, with all results reviewed by a consultant pathologist. The laboratory is strategically devolved into several branches across Nairobi, including the Doctors’ Plaza, UHMC, Warwick, Galleria, Southfield, Capital Centre, Kiambu, and Rosslyn. The facility comprises multiple specialized sections. In Hematology, services include immuno-phenotyping by flow cytometry, BCR-ABL PCR testing, thrombophilia screening, hemoglobin electrophoresis, and apheresis platelet collection. The Biochemistry and Special Chemistry section boasts state-of-the-art analyzers like the Alinity ci and Cobas Pro, offering tests ranging from liver and renal profiles to drug monitoring and endocrinology, and includes the latest Cobas e 801 and c 503 analytical units for enhanced efficiency. The Immunology section specializes in autoimmune diagnostics, employing automated systems to detect a wide array of antibodies for conditions such as lupus, rheumatoid arthritis, and celiac disease. The Histopathology & Cytopathology section handles routine biopsies, pap smears, and advanced cancer immunophenotyping, while the Microbiology section uses modern tools such as MALDI-TOF, Vitek 2, and the BD BACTEC™ FX system for rapid microbial identification and antimicrobial susceptibility testing. It also houses a TB lab and multiplex PCR capabilities through the Biofire Film Array. The Molecular Diagnostics section focuses on advanced DNA/RNA-based testing for viruses, bacteria, and genetic markers, using cutting-edge platforms like Kingfisher Flex, Qiasymphony, Qiacube, COBAS systems, Rotagene Q, QuantStudio 5, and Applied Biosystems thermocyclers. These systems ensure rapid and precise sample preparation, nucleic acid extraction, amplification, and result interpretation, delivering reliable diagnostics essential for timely and effective patient care.",
-        "accordionItems": {
-          "item-1": {
-            "title": "What types of imaging services do you offer?",
-            "Subject": "We provide X-ray, Ultrasound, CT Scan, MRI, Mammography, DEXA (bone density), and Fluoroscopy services."
-          },
-          "item-2": {
-            "title": "What are the radiology department’s hours of operation?",
-            "Subject": "The laboratory operates 24/7 for inpatient services and Monday to Saturday from 8:00 AM to 8:00 PM for outpatient services."
-          },
-          "item-3": {
-            "title": "How long does a typical scan take?",
-            "Subject": "X-rays take about 10–15 minutes. CT/MRI scans may take 30–60 minutes, depending on the complexity."
-          },
-          "item-4": {
-            "title": "Do you offer radiology services for children or pregnant patients?",
-            "Subject": "Yes, we have pediatric imaging services and follow strict safety protocols for pregnant patients. Inform our staff ahead of time if you're expecting."
-          }
-        }
+        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+        "imageAlt": "Radiology Services",
+        "description": "Advanced imaging services for accurate diagnostics and treatment planning.",
+        "link": "/clinics/radiology-services"
+      }
+    ],
+    "image": {
+      "url": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+      "alt": "Pharmacy Services"
+    }    
+   },
+   {
+    "id": 2,
+    "title": "Labaratory Services",
+    "tagline": "Comprehensive Pharmaceutical Care",
+    "imageAlt": "card-image",
+    "overview": "Pharmacy services provide comprehensive pharmaceutical care, including medication dispensing, health consultations, and wellness programs. Our licensed pharmacists ensure safe and effective use of medications.",
+    "features": [
+      "Medication dispensing and management",
+      "Health consultations and wellness programs",
+      "Vaccinations and preventive care",
+      "Medication therapy management"
+    ],  
+    "doctors": [
+      {
+        "name": "Dr. Jane Doe",
+        "title": "Pharmacist",
+        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+        "description": "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education."
       },
       {
-        "image": {
-          "src": "https://img.freepik.com/free-photo/doctor-ophthalmologist-s-office_23-2150917689.jpg?t=st=1744633207~exp=1744636807~hmac=b885ab7a49e5c148fe5c1f6893ed2d8e997c933defd3a32bab55153ed4697ed5&w=996",
-          "alt": "card-image"
-        },
-        "name": "Endoscopy Services",
-        "id": "endoscopy-services",
-        "description": "The Antenatal Clinic is administered by Obstetricians/Gynecologists and experienced midwives who provide comprehensive care to mothers from conception, all through pregnancy until delivery.",
-        "long-description": "The Nairobi Hospital Laboratory is one of the most well-equipped and expertly staffed facilities in the region, offering highly specialized tests across multiple medical disciplines. Accredited by the Kenya Accreditation Services (KENAS) under ISO 15189, and certified for ISO 14001:2004 and ISO 22000:2005, the lab maintains rigorous quality assurance through daily internal controls, international external quality assurance schemes, and oversight by a quality coordinator. Led by a Consultant Pathologist/Manager, each section is supervised by Senior Technologists, with all results reviewed by a consultant pathologist. The laboratory is strategically devolved into several branches across Nairobi, including the Doctors’ Plaza, UHMC, Warwick, Galleria, Southfield, Capital Centre, Kiambu, and Rosslyn. The facility comprises multiple specialized sections. In Hematology, services include immuno-phenotyping by flow cytometry, BCR-ABL PCR testing, thrombophilia screening, hemoglobin electrophoresis, and apheresis platelet collection. The Biochemistry and Special Chemistry section boasts state-of-the-art analyzers like the Alinity ci and Cobas Pro, offering tests ranging from liver and renal profiles to drug monitoring and endocrinology, and includes the latest Cobas e 801 and c 503 analytical units for enhanced efficiency. The Immunology section specializes in autoimmune diagnostics, employing automated systems to detect a wide array of antibodies for conditions such as lupus, rheumatoid arthritis, and celiac disease. The Histopathology & Cytopathology section handles routine biopsies, pap smears, and advanced cancer immunophenotyping, while the Microbiology section uses modern tools such as MALDI-TOF, Vitek 2, and the BD BACTEC™ FX system for rapid microbial identification and antimicrobial susceptibility testing. It also houses a TB lab and multiplex PCR capabilities through the Biofire Film Array. The Molecular Diagnostics section focuses on advanced DNA/RNA-based testing for viruses, bacteria, and genetic markers, using cutting-edge platforms like Kingfisher Flex, Qiasymphony, Qiacube, COBAS systems, Rotagene Q, QuantStudio 5, and Applied Biosystems thermocyclers. These systems ensure rapid and precise sample preparation, nucleic acid extraction, amplification, and result interpretation, delivering reliable diagnostics essential for timely and effective patient care.",
-        "accordionItems": {
-          "item-1": {
-            "title": "What types of endoscopy procedures do you perform?",
-            "Subject": "We offer a range of procedures including gastroscopy, colonoscopy, sigmoidoscopy, bronchoscopy, cystoscopy, and endoscopic retrograde cholangiopancreatography (ERCP)."
-          },
-          "item-2": {
-            "title": "How should I prepare for my endoscopy procedure?",
-            "Subject": "Preparation varies depending on the type of procedure. For example, colonoscopy requires bowel cleansing with prescribed medication. Our team will provide specific instructions prior to your appointment."
-          },
-          "item-3": {
-            "title": "How do I schedule an endoscopy appointment?",
-            "Subject": "X-rays take about 10–15 minutes. CT/MRI scans may take 30–60 minutes, depending on the complexity."
-          },
-          "item-4": {
-            "title": "Do you accept health insurance for endoscopy procedures?",
-            "Subject": "Yes, we accept most major insurance plans. Please check with the billing department for coverage details specific to your plan."
-          }
-        }
+        "name": "Dr. John Smith",
+        "title": "Pharmacist",
+        "image": "https://img.freepik.com/free-photo/portrait-you",
+        "description": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
       }
-    ]
-  },
-  {
-    "image": {
-      "src": "https://www.shreeivfclinic.com/wp-content/uploads/2021/02/Cosmetic-Gynaecology.jpg",
-      "alt": "card-image"
+    ],
+    "testimonial": {
+      "name": "Sarah Johnson",
+      "title": "Satisfied Patient",
+      "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+      "quote": "The pharmacy team at The Nairobi Hospital has been incredibly helpful in managing my medications. Their personalized care and attention to detail have made a significant difference in my health journey."
     },
-    "name": "Gynaecology",
-    "id": "gynaecology-services",
-    "description": "Gynaecology focuses on women's reproductive health, offering services like screenings, pregnancy care, and hormonal treatments. It is practiced by licensed gynecologists who diagnose, prevent, and treat conditions related to the female."
+    "contact": {
+      "phone": "+254 700 000 000",
+      "email": "clinicservice@nbihosp.org"      
   },
-  {
+    "relatedServices": [
+      {
+        "id": 1,
+        "name": "Laboratory Services",
+        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+        "imageAlt": "Laboratory Services",
+        "description": "Comprehensive laboratory services for accurate diagnostics and health monitoring.", 
+        "link": "/clinics/laboratory-services"
+      },
+      {
+        "id": 2,
+        "name": "Radiology Services",
+        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+        "imageAlt": "Radiology Services",
+        "description": "Advanced imaging services for accurate diagnostics and treatment planning.",
+        "link": "/clinics/radiology-services"
+      }
+    ],
     "image": {
-      "src": "https://cms.thenairobihosp.org/uploads/bed_9c97b499a8.jpg",
-      "alt": "card-image"
-    },
-    "name": "Antenatal Clinic",
-    "id": "antenatal-services",
-    "description": "Dentistry focuses on oral health, offering services like cleanings, cavity treatments, and dental surgeries. It is practiced by licensed dentists who diagnose, prevent, and treat issues related to teeth, gums, and the mouth."
-  }
+      "url": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+      "alt": "Pharmacy Services"
+    }    
+   }
 ]

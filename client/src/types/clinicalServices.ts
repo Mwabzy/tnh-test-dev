@@ -1,4 +1,4 @@
-import { Doctor } from "./index";
+import { Doctor } from "./doctors";
 import { ContactInfo } from "./contact";
 import { Testimonial } from "./testimonial";
 
@@ -8,18 +8,22 @@ export interface ClinicalService {
   tagline: string;
   overview: string;
   features: string[];
-  doctor: Doctor[];
+  doctors: Doctor[];
   testimonial: Testimonial;
   contact: ContactInfo;
   relatedServices: {
     id: number;
-    title: string;
-    thumbnail: { url: string };
+    name: string;
+    image: string;
+    imageAlt?: string;  
+    description?: string;
+    link?: string;
   }[];
+
   image: {
     url: string;
     alt?: string;
   };
  imageAlt?: string;
-  doctors: Doctor[];
+
 }

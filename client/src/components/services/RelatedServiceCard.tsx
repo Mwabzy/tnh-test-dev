@@ -1,6 +1,6 @@
-import { RelatedService } from "@/types";
+import { RelatedServices } from "@/types";
 
-const RelatedServiceCard: React.FC<RelatedService> = ({
+const RelatedServiceCard: React.FC<RelatedServices> = ({
   title,
   description,
   image,
