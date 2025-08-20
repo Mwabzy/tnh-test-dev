@@ -15,7 +15,7 @@
     }
   },
   "attributes": {
-    "Title": {
+    "title": {
       "type": "string",
       "pluginOptions": {
         "i18n": {
@@ -23,22 +23,15 @@
         }
       }
     },
-    "Thumbnail": {
-      "type": "media",
+    "tagline": {
+      "type": "string",
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
-      },
-      "multiple": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+      }
     },
-    "ShortDescription": {
+    "overview": {
       "type": "blocks",
       "pluginOptions": {
         "i18n": {
@@ -46,7 +39,7 @@
         }
       }
     },
-    "MainImage": {
+    "image": {
       "type": "media",
       "pluginOptions": {
         "i18n": {
@@ -69,14 +62,6 @@
         }
       }
     },
-    "Tagline": {
-      "type": "string",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
-    },
     "ImageAlt": {
       "type": "string",
       "pluginOptions": {
@@ -85,49 +70,7 @@
         }
       }
     },
-    "Title2": {
-      "type": "string",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
-    },
-    "Overview2": {
-      "type": "blocks",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
-    },
-    "Features2": {
-      "type": "component",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "component": "feature.feature",
-      "repeatable": true
-    },
-    "Title3": {
-      "type": "string",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
-    },
-    "Overview3": {
-      "type": "blocks",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
-    },
-    "Features3": {
+    "Features": {
       "type": "component",
       "pluginOptions": {
         "i18n": {
@@ -147,7 +90,7 @@
       "component": "contact-info.contact-info",
       "repeatable": false
     },
-    "Testimonial": {
+    "testimonial": {
       "type": "component",
       "pluginOptions": {
         "i18n": {
