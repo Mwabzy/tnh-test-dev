@@ -1,5 +1,7 @@
 import { FC, JSX } from "react";
 import { Link } from "react-router";
+// import { ClinicalService } from "@/types";  // only needed if you use it
+import clinicalServices from "@/data/clinicalServices.json"; 
 
 interface ServiceCardProps {
   title?: string;
@@ -16,6 +18,7 @@ const ServiceCard: FC<ServiceCardProps> = ({
   link,
   active,
 }) => {
+  
   return (
     <Link to={link} className="w-full">
       <div
