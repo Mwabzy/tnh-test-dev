@@ -1,21 +1,16 @@
-// src/routes/ServiceDetail.tsx
 import { useParams } from "react-router";
 import { ClinicalService } from "@/types";
 import ServiceTemplate from "@/components/services/ServiceTemplate";
 import ServiceList from "@/components/services/ServiceList";
 import Heading from "@/components/Heading";
-import clinicalServices from "@/data/clinicalServices.json";
-import { mapToClinicalService } from "@/utils/mapToClinicalService";
+import clinicalServices from "@/data/clinicalServices.json"; // Directly import the raw data
 
 const ServiceDetail = () => {
   const { id } = useParams<{ id: string }>();
 
-  // Convert JSON into ClinicalService[]
-  const services: ClinicalService[] = (clinicalServices as any[]).map(
-    mapToClinicalService
+  const service = (clinicalServices as ClinicalService[]).find(
+    (item) => item.id === Number(id)
   );
-
-  const service = services.find((item) => item.id === Number(id));
 
   if (!service) {
     return (
@@ -24,7 +19,7 @@ const ServiceDetail = () => {
   }
 
   // If the service has nested clinics
-  if (service.relatedServices && service.relatedServices.length > 0) {
+  if (service.clinics && service.clinics.length > 0) {
     return (
       <>
         <Heading
@@ -33,13 +28,13 @@ const ServiceDetail = () => {
           description={service.tagline}
           style="image"
         />
-        <ServiceList services={service.relatedServices} />
+        <ServiceList services={service.clinics} />
       </>
     );
   }
 
   // Otherwise render full template
-  return <ServiceTemplate {...service} />;
+  return <ServiceTemplate serviceTypes={service as ClinicalService} />;
 };
 
 export default ServiceDetail;

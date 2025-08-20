@@ -10,19 +10,19 @@
       "Health consultations and wellness programs",
       "Vaccinations and preventive care",
       "Medication therapy management"
-    ],  
+    ],
     "doctors": [
       {
         "name": "Dr. Jane Doe",
         "title": "Pharmacist",
         "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "description": "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education."
+        "bio": "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education."
       },
       {
         "name": "Dr. John Smith",
         "title": "Pharmacist",
         "image": "https://img.freepik.com/free-photo/portrait-you",
-        "description": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
+        "bio": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
       }
     ],
     "testimonial": {
@@ -33,32 +33,32 @@
     },
     "contact": {
       "phone": "+254 700 000 000",
-      "email": "clinicservice@nbihosp.org"      
-  },
+      "email": "clinicservice@nbihosp.org"
+    },
     "relatedServices": [
       {
         "id": 1,
-        "name": "Laboratory Services",
+        "title": "Laboratory Services",
         "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
         "imageAlt": "Laboratory Services",
-        "description": "Comprehensive laboratory services for accurate diagnostics and health monitoring.", 
+        "bio": "Comprehensive laboratory services for accurate diagnostics and health monitoring.",
         "link": "/clinics/laboratory-services"
       },
       {
         "id": 2,
-        "name": "Radiology Services",
+        "title": "Radiology Services",
         "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
         "imageAlt": "Radiology Services",
-        "description": "Advanced imaging services for accurate diagnostics and treatment planning.",
+        "bio": "Advanced imaging services for accurate diagnostics and treatment planning.",
         "link": "/clinics/radiology-services"
       }
     ],
     "image": {
       "url": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
       "alt": "Pharmacy Services"
-    }    
-   },
-   {
+    }
+  },
+  {
     "id": 2,
     "title": "Labaratory Services",
     "tagline": "Comprehensive Pharmaceutical Care",
@@ -69,19 +69,19 @@
       "Health consultations and wellness programs",
       "Vaccinations and preventive care",
       "Medication therapy management"
-    ],  
+    ],
     "doctors": [
       {
         "name": "Dr. Jane Doe",
         "title": "Pharmacist",
         "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "description": "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education."
+        "bio": "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education."
       },
       {
         "name": "Dr. John Smith",
         "title": "Pharmacist",
         "image": "https://img.freepik.com/free-photo/portrait-you",
-        "description": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
+        "bio": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
       }
     ],
     "testimonial": {
@@ -92,29 +92,29 @@
     },
     "contact": {
       "phone": "+254 700 000 000",
-      "email": "clinicservice@nbihosp.org"      
-  },
+      "email": "clinicservice@nbihosp.org"
+    },
     "relatedServices": [
       {
         "id": 1,
-        "name": "Laboratory Services",
+        "title": "Laboratory Services",
         "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
         "imageAlt": "Laboratory Services",
-        "description": "Comprehensive laboratory services for accurate diagnostics and health monitoring.", 
+        "bio": "Comprehensive laboratory services for accurate diagnostics and health monitoring.",
         "link": "/clinics/laboratory-services"
       },
       {
         "id": 2,
-        "name": "Radiology Services",
+        "title": "Radiology Services",
         "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
         "imageAlt": "Radiology Services",
-        "description": "Advanced imaging services for accurate diagnostics and treatment planning.",
+        "bio": "Advanced imaging services for accurate diagnostics and treatment planning.",
         "link": "/clinics/radiology-services"
       }
     ],
     "image": {
       "url": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
       "alt": "Pharmacy Services"
-    }    
-   }
+    }
+  }
 ]

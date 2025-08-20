@@ -11,11 +11,12 @@ export interface ClinicalService {
   doctors: Doctor[];
   testimonial: Testimonial;
   contact: ContactInfo;
+  clinics?: ClinicalService[]; // Sub clinincs like Anderson specialty clinics
   relatedServices: {
     id: number;
-    name: string;
+    title: string;
     image: string;
-    imageAlt?: string;  
+    imageAlt?: string;
     description?: string;
     link?: string;
   }[];
@@ -24,6 +25,5 @@ export interface ClinicalService {
     url: string;
     alt?: string;
   };
- imageAlt?: string;
-
+  imageAlt?: string;
 }

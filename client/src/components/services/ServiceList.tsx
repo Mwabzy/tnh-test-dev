@@ -1,16 +1,12 @@
 import { Link } from "react-router";
 import { ClinicalService } from "@/types";
 
-
-// Define the shape of a single service item
-
-// Define the props for the ServiceList component
 interface ServiceListProps {
-    services: ClinicalService[];
+  services: ClinicalService[];
 }
 
 const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
-    return (
+  return (
     <div className="flex flex-col items-center bg-red-900 py-20 justify-center">
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 px-[5%] gap-6 justify-center">
         {services.map((item) => (

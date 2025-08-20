@@ -1,6 +1,6 @@
 import { Doctor, RelatedServices } from "@/types";
 import { ClinicalService } from "@/types";
-import ContactForm, { ContactInfo } from "../ContactForm";
+import ContactForm from "../ContactForm";
 import ProfileCard from "./ProfileCard";
 import RelatedServiceCard from "./RelatedServiceCard";
 import Heading from "../Heading";
@@ -8,35 +8,25 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import TestimonialCarousel from "../TestimonialCarousel";
 
 export interface ServiceTemplateProps {
-  id: number;
-  title?: string;
-  tagline: string;
-  image: string;
-  imageAlt: string;
-  overview: string;
-  features: string[];
-  doctors: Doctor[];
-  testimonial: { name: string; title: string; image: string; quote: string };
-  contact: ContactInfo;
-  relatedServices: RelatedServices[];
+  serviceTypes: ClinicalService;
 }
 
-const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
-  title,
-  tagline,
-  image,
-  imageAlt,
-  overview,
-  features,
-  doctors,
-  testimonial,
-  contact,
-  relatedServices,
-}) => {
+const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
+  const {
+    image,
+    title,
+    tagline,
+    overview,
+    // features,
+    doctors,
+    contact,
+    testimonial,
+    relatedServices,
+  } = serviceTypes;
   return (
     <>
       <Heading
-        image_url={image}
+        image_url={image.url}
         title={title}
         description={tagline}
         style="background"
@@ -48,13 +38,13 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
           <section className="mb-8 mx-5">
             <h2 className="text-2xl font-semibold mb-4">{title}</h2>
             <p className="text-gray-700 mb-4">{overview}</p>
-            <ul className="list-disc pl-5 space-y-2">
+            {/* <ul className="list-disc pl-5 space-y-2">
               {features.map((feature, index) => (
                 <li key={index} className="text-gray-700">
                   {feature}
                 </li>
               ))}
-            </ul>
+            </ul> */}
           </section>
 
           {/* Additional Information */}
@@ -78,8 +68,8 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({
         <div className="w-full lg:w-[30%]">
           <div className="flex items-center justify-center mb-8 mx-5">
             <img
-              src={image}
-              alt={imageAlt}
+              src={image.url}
+              alt={image.alt}
               className="w-full rounded-xl shadow-md object-cover max-h-[300px]"
             />
           </div>
