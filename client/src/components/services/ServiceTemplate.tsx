@@ -1,4 +1,4 @@
-import { Doctor, RelatedServices } from "@/types";
+//import { Doctor, RelatedServices } from "@/types";
 import { ClinicalService } from "@/types";
 import ContactForm from "../ContactForm";
 import ProfileCard from "./ProfileCard";
@@ -17,7 +17,8 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
     title,
     tagline,
     overview,
-    // features,
+   // longDescription,
+  // features,
     doctors,
     contact,
     testimonial,
@@ -26,7 +27,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
   return (
     <>
       <Heading
-        image_url={image.url}
+       // image_url={image.url}
         title={title}
         description={tagline}
         style="background"
@@ -134,7 +135,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
             </div>
           </div>
           <div className="flex flex-col md:flex-row max-w-7xl mx-auto gap-6 items-center justify-center">
-            {relatedServices.map((service, index) => (
+            {relatedServices!.map((service, index) => (
               <RelatedServiceCard key={index} {...service} />
             ))}
           </div>

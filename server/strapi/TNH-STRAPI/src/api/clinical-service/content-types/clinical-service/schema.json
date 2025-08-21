@@ -39,31 +39,8 @@
         }
       }
     },
-    "image": {
-      "type": "media",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "multiple": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
     "LongDescription": {
       "type": "blocks",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
-    },
-    "ImageAlt": {
-      "type": "string",
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -80,15 +57,11 @@
       "component": "feature.feature",
       "repeatable": true
     },
-    "contact": {
-      "type": "component",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "component": "contact-info.contact-info",
-      "repeatable": false
+    "doctors": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::doctor.doctor",
+      "inversedBy": "clinical_services"
     },
     "testimonial": {
       "type": "component",
@@ -100,11 +73,38 @@
       "component": "testimonial.testimonial",
       "repeatable": false
     },
-    "doctors": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::doctor.doctor",
-      "inversedBy": "clinical_services"
+    "contact": {
+      "type": "component",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "contact-info.contact-info",
+      "repeatable": false
+    },
+    "image": {
+      "type": "media",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "ImageAlt": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   }
 }

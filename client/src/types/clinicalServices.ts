@@ -7,12 +7,13 @@ export interface ClinicalService {
   title: string;
   tagline: string;
   overview: string;
+  //longDescription: string;
   features: string[];
   doctors: Doctor[];
   testimonial: Testimonial;
   contact: ContactInfo;
   clinics?: ClinicalService[]; // Sub clinincs like Anderson specialty clinics
-  relatedServices: {
+  relatedServices?: {
     id: number;
     title: string;
     image: string;
