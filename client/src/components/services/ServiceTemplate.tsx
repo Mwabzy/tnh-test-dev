@@ -17,17 +17,18 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
     title,
     tagline,
     overview,
-   // longDescription,
-  // features,
+    // longDescription,
+    // features,
     doctors,
     contact,
+    isbookable,
     testimonial,
     relatedServices,
   } = serviceTypes;
   return (
     <>
       <Heading
-       // image_url={image.url}
+        // image_url={image.url}
         title={title}
         description={tagline}
         style="background"
@@ -113,10 +114,12 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
 
       <div>
         {/* Primary CTA (Contact Form) */}
-        <section className="mb-8">
-          <ContactForm contactInfo={contact} />
-        </section>
 
+        {isbookable && (
+          <section className="mb-8">
+            <ContactForm contactInfo={contact} title={"Book an Appointment"} />
+          </section>
+        )}
         {/* Testimonial */}
         <TestimonialCarousel testimonials={[testimonial]} />
 

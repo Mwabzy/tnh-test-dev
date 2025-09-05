@@ -76,7 +76,7 @@ export default function AboutCollege() {
         </div>
       </div>
       <div className="border-2 max-w-7xl shadow-xl my-8 mx-4 p-4 rounded-md md:mx-auto text-gray-800">
-        <ContactForm contactInfo={{ phone: "+254 703 082 000" }} />
+        <ContactForm contactInfo={{ phone: "+254 703 082 000" }} title={"Have any enquiries?"}  />
       </div>
     </>
   );

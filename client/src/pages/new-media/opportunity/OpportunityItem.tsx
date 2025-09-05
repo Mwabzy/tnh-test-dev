@@ -22,7 +22,7 @@ const OpportunityItem: FC<OpportunityItemProps> = ({ opportunity }) => {
     <Card className="flex flex-col p-4 border border-gray-300 rounded w-full">
       <CardContent className="flex flex-col gap-2 items-start w-full ">
         <div className="flex justify-between items-center w-full">
-          <h3 className="flex text-lg font-semibold font-serif">
+          <h3 className="flex text-sm font-semibold font-serif">
             {opportunity.opportunity}
           </h3>
           <Badge className="bg-orange-200 flex">

@@ -35,6 +35,7 @@
       "phone": "+254 700 000 000",
       "email": "clinicservice@nbihosp.org"
     },
+    "isbookable": false,
     "relatedServices": [
       {
         "id": 1,
@@ -94,6 +95,7 @@
       "phone": "+254 700 000 000",
       "email": "clinicservice@nbihosp.org"
     },
+    "isbookable": true,
     "relatedServices": [
       {
         "id": 1,
