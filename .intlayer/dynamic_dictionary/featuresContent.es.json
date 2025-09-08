@@ -1,0 +1,24 @@
+{
+  "key": "featuresContent",
+  "content": {
+    "find_doctor": [
+      "Encontrar un médico"
+    ],
+    "find_doctor_description": [
+      "Conectándote con médicos de confianza en cualquier momento y lugar. Ya sea que necesites un chequeo de rutina, asesoramiento especializado o atención urgente."
+    ],
+    "clinical_services": [
+      "Nuestros servicios clínicos"
+    ],
+    "clinical_services_description": [
+      "Explora nuestra amplia gama de servicios clínicos, desde chequeos de rutina hasta tratamientos especializados. Estamos aquí para brindarte la mejor atención posible."
+    ],
+    "getting_to_hospital": [
+      "Llegar al hospital"
+    ],
+    "getting_to_hospital_description": [
+      "Queremos que su visita sea fácil. Encuentre direcciones, estacionamiento e información sobre transporte. Visite nuestra página de Ubicación y Direcciones."
+    ]
+  },
+  "locale": "es"
+}

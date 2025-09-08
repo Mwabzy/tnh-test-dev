@@ -1,0 +1,24 @@
+{
+  "key": "navigationContent",
+  "content": {
+    "home": [
+      "首页"
+    ],
+    "about_us": [
+      "关于我们"
+    ],
+    "services": [
+      "临床服务"
+    ],
+    "college_of_health_sciences": [
+      "健康科学学院"
+    ],
+    "other_services": [
+      "其他服务"
+    ],
+    "notices_and_opportunities": [
+      "通知和机会"
+    ]
+  },
+  "locale": "zh"
+}

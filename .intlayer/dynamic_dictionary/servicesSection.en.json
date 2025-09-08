@@ -1,0 +1,39 @@
+{
+  "key": "servicesSection",
+  "content": {
+    "title": [
+      "Clinical Services"
+    ],
+    "description": [
+      "The Nairobi Hospital offers a wide range of clinical services to meet the healthcare needs of our patients."
+    ],
+    "allservices": [
+      "All Services"
+    ],
+    "dentalservices": [
+      "Dental Services"
+    ],
+    "dentaldescription": [
+      "The Nairobi Hospital Dental Clinic provides comprehensive dental care, including preventive, restorative, and cosmetic services, ensuring optimal oral health for all patients."
+    ],
+    "pharmacyservices": [
+      "Pharmacy Services"
+    ],
+    "pharmacydescription": [
+      "The Nairobi Hospital Pharmacy provides a wide range of medications and health products, ensuring safe and effective treatment options for all patients."
+    ],
+    "gynaecologyservices": [
+      "Gynaecology Services"
+    ],
+    "gynaecologydescription": [
+      "The Nairobi Hospital’s Gynaecology Clinic offers specialized care for women’s reproductive health, including screenings, treatments, and family planning with compassion."
+    ],
+    "antenatalservices": [
+      "Antenatal Services"
+    ],
+    "antenataldescription": [
+      "The Nairobi Hospital’s Antenatal Clinic provides comprehensive care for expectant mothers, including screenings, counseling, and support throughout pregnancy."
+    ]
+  },
+  "locale": "en"
+}

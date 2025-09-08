@@ -1,0 +1,234 @@
+/* eslint-disable */
+export default {
+  key: "medical_tourism",
+  content: {
+    medicaltitle: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Medical Tourism",
+          fr: "Tourisme médical",
+          es: "Turismo médico",
+          zh: "医疗旅游",
+          ru: "Медицинский туризм"
+        }
+      }
+    ],
+    medicaltag: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "World-class healthcare with seamless travel support",
+          fr: "Soins de santé de classe mondiale avec un soutien de voyage sans faille",
+          es: "Atención médica de clase mundial con apoyo de viaje sin complicaciones",
+          zh: "世界级医疗服务，旅行支持无缝衔接",
+          ru: "Медицинские услуги мирового класса с беспрепятственной поддержкой путешествий"
+        }
+      }
+    ],
+    medicalview: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "At NBI Hospital, we combine cutting-edge medical expertise with personalized care for patients worldwide. Our dedicated medical tourism team ensures a hassle-free experience, from treatment planning to travel coordination.",
+          fr: "À l'hôpital NBI, nous allions une expertise médicale de pointe à des soins personnalisés pour les patients du monde entier. Notre équipe dédiée au tourisme médical garantit une expérience sans tracas, de la planification du traitement à la coordination des voyages.",
+          es: "En el Hospital NBI, combinamos experiencia médica de vanguardia con atención personalizada para pacientes de todo el mundo. Nuestro equipo dedicado al turismo médico garantiza una experiencia sin complicaciones, desde la planificación del tratamiento hasta la coordinación del viaje.",
+          zh: "在NBI医院，我们将尖端医疗专业知识与个性化护理相结合，为全球患者提供服务。我们的专门医疗旅游团队确保从治疗计划到旅行协调的无忧体验。",
+          ru: "В больнице NBI мы сочетаем передовые медицинские знания с персонализированным уходом за пациентами со всего мира. Наша команда по медицинскому туризму обеспечивает беспрепятственный опыт, начиная от планирования лечения и заканчивая координацией поездок."
+        }
+      }
+    ],
+    medicalfeature1: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Internationally accredited facilities with state-of-the-art technology.",
+          fr: "Installations accréditées au niveau international avec une technologie de pointe.",
+          es: "Instalaciones acreditadas internacionalmente con tecnología de vanguardia.",
+          zh: "国际认证的设施，配备最先进的技术。",
+          ru: "Международно аккредитованные учреждения с современными технологиями."
+        }
+      }
+    ],
+    medicalfeature2: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Multilingual staff and personalized patient coordinators.",
+          fr: "Personnel multilingue et coordinateurs de patients personnalisés.",
+          es: "Personal multilingüe y coordinadores de pacientes personalizados.",
+          zh: "多语言员工和个性化患者协调员。",
+          ru: "Многоязычный персонал и персонализированные координаторы пациентов."
+        }
+      }
+    ],
+    medicalfeature3: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Affordable, transparent pricing with no hidden costs.",
+          fr: "Tarification abordable et transparente sans coûts cachés.",
+          es: "Precios asequibles y transparentes sin costos ocultos.",
+          zh: "价格实惠透明，无隐藏费用。",
+          ru: "Доступные и прозрачные цены без скрытых затрат."
+        }
+      }
+    ],
+    medicalfeature4: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Seamless visa, travel, and accommodation support.",
+          fr: "Soutien sans faille pour les visas, les voyages et l'hébergement.",
+          es: "Apoyo sin problemas para visas, viajes y alojamiento.",
+          zh: "无缝签证、旅行和住宿支持。",
+          ru: "Беспрепятственная поддержка виз, путешествий и проживания."
+        }
+      }
+    ],
+    servoffer: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Services Offered (Highlighted services):",
+          fr: "Services offerts (services mis en évidence) :",
+          es: "Servicios ofrecidos (servicios destacados):",
+          zh: "提供的服务（突出服务）：",
+          ru: "Предлагаемые услуги (выделенные услуги):"
+        }
+      }
+    ],
+    medicalfeature5: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Cardiology and Heart Surgery",
+          fr: "Cardiologie et chirurgie cardiaque",
+          es: "Cardiología y cirugía cardíaca",
+          zh: "心脏病学和心脏手术",
+          ru: "Кардиология и сердечно-сосудистая хирургия"
+        }
+      }
+    ],
+    medicalfeature6: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Orthopedic Surgery",
+          fr: "Chirurgie orthopédique",
+          es: "Cirugía ortopédica",
+          zh: "骨科手术",
+          ru: "Ортопедическая хирургия"
+        }
+      }
+    ],
+    medicalfeature7: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Neurology and Neurosurgery",
+          fr: "Neurologie et neurochirurgie",
+          es: "Neurología y neurocirugía",
+          zh: "神经学和神经外科",
+          ru: "Неврология и нейрохирургия"
+        }
+      }
+    ],
+    medicalfeature8: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Oncology and Cancer Treatment",
+          fr: "Oncologie et traitement du cancer",
+          es: "Oncología y tratamiento del cáncer",
+          zh: "肿瘤学和癌症治疗",
+          ru: "Онкология и лечение рака"
+        }
+      }
+    ],
+    treatprocess: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Treatment Process (Journey):",
+          fr: "Processus de traitement (parcours) :",
+          es: "Proceso de tratamiento (viaje):",
+          zh: "治疗过程（旅程）：",
+          ru: "Процесс лечения (путешествие):"
+        }
+      }
+    ],
+    medicalfeature9: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Submit inquiry via contact form.",
+          fr: "Soumettre une demande via le formulaire de contact.",
+          es: "Enviar consulta a través del formulario de contacto.",
+          zh: "通过联系表单提交查询。",
+          ru: "Отправить запрос через контактную форму."
+        }
+      }
+    ],
+    medicalfeature10: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Receive personalized treatment plan and quote.",
+          fr: "Recevoir un plan de traitement personnalisé et un devis.",
+          es: "Recibir un plan de tratamiento personalizado y una cotización.",
+          zh: "接收个性化治疗计划和报价。",
+          ru: "Получить персонализированный план лечения и смету."
+        }
+      }
+    ],
+    medicalfeature11: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Travel arrangements and visa support provided.",
+          fr: "Organisation des voyages et soutien aux visas fournis.",
+          es: "Se proporcionan arreglos de viaje y apoyo para visas.",
+          zh: "提供旅行安排和签证支持。",
+          ru: "Предоставляются организационные мероприятия по поездке и поддержка визы."
+        }
+      }
+    ],
+    careertitle1: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Medical Tourism Coordinator",
+          fr: "Coordinateur de tourisme médical",
+          es: "Coordinador de turismo médico",
+          zh: "医疗旅游协调员",
+          ru: "Координатор медицинского туризма"
+        }
+      }
+    ],
+    testimoni: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Patient",
+          fr: "Patient",
+          es: "Paciente",
+          zh: "病人",
+          ru: "Пациент"
+        }
+      }
+    ],
+    careertitle2: [
+      {
+        nodeType: "translation",
+        translation: {
+          en: "Neurology Services",
+          fr: "Services de neurologie",
+          es: "Servicios de neurología",
+          zh: "神经学服务",
+          ru: "Неврологические услуги"
+        }
+      }
+    ]
+  }
+} as const;

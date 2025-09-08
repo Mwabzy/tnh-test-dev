@@ -1,0 +1,9 @@
+{
+  "key": "services",
+  "content": {
+    "clinical_services": [
+      "Nuestros servicios clínicos"
+    ]
+  },
+  "locale": "es"
+}

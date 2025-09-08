@@ -1,0 +1,24 @@
+{
+  "key": "featuresContent",
+  "content": {
+    "find_doctor": [
+      "Find a Doctor"
+    ],
+    "find_doctor_description": [
+      "Connecting you to trusted Doctors anytime, anywhere. Whether you need a routine check-up, specialist advice, or urgent care."
+    ],
+    "clinical_services": [
+      "Our Clinical Services"
+    ],
+    "clinical_services_description": [
+      "Explore our wide range of clinical services, from routine check-ups to specialized treatments. We are here to provide you with the best care possible."
+    ],
+    "getting_to_hospital": [
+      "Getting to the Hospital"
+    ],
+    "getting_to_hospital_description": [
+      "We want your visit to be easy. Find directions, parking, and transport info. Visit our Location & Directions page."
+    ]
+  },
+  "locale": "en"
+}

@@ -1,0 +1,29 @@
+{
+  "key": "admission_charges",
+  "content": {
+    "guideline1": "Guidelines for Admission and Planned Theatre Bookings",
+    "guideline2": "Patients are required to present negative COVID-19 test results, not older than 3 days upon admission.",
+    "guideline3": "Patients booked for day surgeries must present themselves at the hospital two hours prior to the time of the planned surgery.",
+    "guideline4": "Patients booked for elective surgeries must present themselves at the hospital by 6:30 am on the day of the surgery.",
+    "guideline5": "Patients booked for emergency surgeries must present themselves at the hospital as soon as possible.",
+    "guideline6": "Patients who are booked for elective surgeries must have a pre-operative assessment done at least 48 hours prior to the surgery.",
+    "guideline7": "Patients who are booked for emergency surgeries must have a pre-operative assessment done as soon as possible.",
+    "guideline8": "Patients who are booked for day surgeries must have a pre-operative assessment done at least 24 hours prior to the surgery.",
+    "admissiontitle": [
+      "Admission Charges"
+    ],
+    "admissionsubtitle": [
+      "Admissions & Discharge"
+    ],
+    "admissiondesc": [
+      "Explore our admission charges and ensure a smooth experience during your stay."
+    ],
+    "admissionp": [
+      "Please observe the following guidelines for admission and planned theatre bookings, whether surgical or medical."
+    ],
+    "admnote": [
+      "The discharge process should take a maximum of 2 hours where all the required documents are available. Should it take longer, please contact the nurse in charge of the ward you were admitted in for assistance."
+    ]
+  },
+  "locale": "en"
+}

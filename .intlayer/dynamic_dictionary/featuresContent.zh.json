@@ -1,0 +1,24 @@
+{
+  "key": "featuresContent",
+  "content": {
+    "find_doctor": [
+      "寻找医生"
+    ],
+    "find_doctor_description": [
+      "随时随地为您连接可信赖的医生。无论您需要常规检查、专家建议还是紧急护理。"
+    ],
+    "clinical_services": [
+      "我们的临床服务"
+    ],
+    "clinical_services_description": [
+      "探索我们广泛的临床服务，从常规检查到专业治疗。我们在这里为您提供最佳护理。"
+    ],
+    "getting_to_hospital": [
+      "前往医院"
+    ],
+    "getting_to_hospital_description": [
+      "我们希望您的访问变得轻松。查找方向、停车和交通信息。请访问我们的地点和方向页面。"
+    ]
+  },
+  "locale": "zh"
+}

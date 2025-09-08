@@ -1,0 +1,117 @@
+{
+  "key": "roomsandwardssection",
+  "content": {
+    "ROOMStitle": [
+      "Habitaciones y Salas"
+    ],
+    "roomsdescription": [
+      "Explore nuestras cómodas habitaciones y salas diseñadas para su comodidad y recuperación."
+    ],
+    "nwingtitle": [
+      "ALA NORTE"
+    ],
+    "historytitle": [
+      "Historia"
+    ],
+    "nwingdescription": [
+      "El Ala Norte se inauguró en 1974, con seis habitaciones con baño privado y un equipo de enfermería dedicado. Debido a sus instalaciones de primera clase y alojamiento de cinco estrellas, el Ala Norte fue acertadamente apodada “El Hilton en la Colina”. En 2012, la Junta de Administración inició la rehabilitación del Ala Norte para satisfacer la atención de alta gama que buscan nuestros clientes. Ahora cuenta con 12 suites, desarrolladas según los más altos estándares internacionales con el objetivo de superar las expectativas de los huéspedes."
+    ],
+    "amenitiesdescription": [
+      "Servicios y Comodidades"
+    ],
+    "nwinglist1": [
+      "Habitaciones listas para UCI para atención médica inmediata"
+    ],
+    "nwinglist2": [
+      "Chef dedicado que proporciona comidas personalizadas"
+    ],
+    "nwinglist3": [
+      "Amplio menú gourmet adaptado a las necesidades dietéticas"
+    ],
+    "nwinglist4": [
+      "Pack de artículos de tocador de lujo incluido"
+    ],
+    "nwinglist5": [
+      "Televisor HD montado en la pared con conexión por cable"
+    ],
+    "nwinglist6": [
+      "Baño de mármol con ducha estilo europeo"
+    ],
+    "nwinglist7": [
+      "Mobiliario elegante y cómodo"
+    ],
+    "nwinglist8": [
+      "Internet de alta velocidad y servicios telefónicos directos"
+    ],
+    "nwinglist9": [
+      "Seguridad 24/7 para su tranquilidad"
+    ],
+    "nwinglist10": [
+      "Mini nevera abastecida para mayor comodidad"
+    ],
+    "nwinglist11": [
+      "Sábanas de algodón egipcio para una comodidad suprema"
+    ],
+    "swingtittle": [
+      "ALA SUR"
+    ],
+    "swingdescription": [
+      "El Ala Sur está compuesta por 36 lujosas habitaciones independientes en las salas de St. Francis, St. Teresa y St. John’s."
+    ],
+    "swingamenities": [
+      "Servicios y Comodidades"
+    ],
+    "swinglist1": [
+      "Menú extenso con una variedad de opciones"
+    ],
+    "swinglist2": [
+      "Pack de artículos de tocador de alta gama incluido"
+    ],
+    "swinglist3": [
+      "Nuestra Historia"
+    ],
+    "swinglist4": [
+      "Nuestra Historia"
+    ],
+    "swinglist5": [
+      "Nuestra Historia"
+    ],
+    "swinglist6": [
+      "Nuestra Historia"
+    ],
+    "otherroomstittle": [
+      "OTRAS HABITACIONES/TIPOS DE CAMAS"
+    ],
+    "ensuitroomstittle": [
+      "Habitaciones con baño privado"
+    ],
+    "ensuitdescription": [
+      "Alójese en una habitación privada independiente con televisor HD montado en la pared y conexión por cable."
+    ],
+    "privateroomstittle": [
+      "Habitaciones Privadas"
+    ],
+    "privateroomsdescription": [
+      "Los pacientes pueden optar por alojarse en una habitación privada con acceso a un baño compartido."
+    ],
+    "wardbedtittle": [
+      "Camas de Sala"
+    ],
+    "wardbeddescription": [
+      "Nuestras salas pueden acomodar hasta ocho pacientes con acceso a instalaciones de baño compartidas."
+    ],
+    "pwingtittle": [
+      "Camas de Sala"
+    ],
+    "pwingdescription": [
+      "Camas de Sala"
+    ],
+    "dulextittle": [
+      "Camas de Sala"
+    ],
+    "dulexdescription": [
+      "Camas de Sala"
+    ]
+  },
+  "locale": "es"
+}
