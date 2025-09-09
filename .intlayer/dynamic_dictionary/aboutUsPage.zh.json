@@ -1,0 +1,81 @@
+{
+  "key": "aboutUsPage",
+  "content": {
+    "headingTitle": [
+      "我们是谁"
+    ],
+    "tagLine": [
+      "70多年的医疗保健与众不同"
+    ],
+    "visionTitle": [
+      "想象"
+    ],
+    "visionDescription": [
+      "以信任、安全和舒适的氛围著称的现代以患者为中心的医疗设施。"
+    ],
+    "missionTitle": [
+      "使命"
+    ],
+    "missionDescription": [
+      "通过利用创新、动态和综合的以患者为中心的策略，提供卓越的多专业医疗服务，实现可持续增长。"
+    ],
+    "sectionTitle": [
+      "由专业医疗人员提供的富有同情心的护理"
+    ],
+    "sectionDescription": [
+      "我们为高素质的专业人员感到自豪，他们每天都 在履行我们的使命，将他们的知识和专业技能转化为符合国际标准的医疗实践。对患者隐私、尊严和保密性的礼貌、考虑和无保留尊重帮助我们一次又一次地赢得了他们的信任和善意。我们敬业的护理人员在友好舒适的环境中提供专业护理，确保患者及其家人在医院度过愉快无忧的时光。"
+    ],
+    "valuesTitle": [
+      "我们重视什么"
+    ],
+    "dedicationTitle": [
+      "奉献精神"
+    ],
+    "dedicationDescription": [
+      "为患者和家庭提供高效的服务和极大的价值。"
+    ],
+    "empathyTitle": [
+      "同理心"
+    ],
+    "empathyDescription": [
+      "与患者和家属进行温暖、友好和关怀的互动。"
+    ],
+    "inspirationTitle": [
+      "灵感"
+    ],
+    "inspirationDescription": [
+      "赋予员工实现非凡目标和职业生涯的能力。"
+    ],
+    "qualityTitle": [
+      "质量"
+    ],
+    "qualityDescription": [
+      "卓越的表现和质量以加强医院的核心。"
+    ],
+    "partnershipsTitle": [
+      "合作伙伴关系"
+    ],
+    "partnershipsDescription": [
+      "强大的内部和外部合作。"
+    ],
+    "integrityTitle": [
+      "诚信与问责"
+    ],
+    "integrityDescription": [
+      "在高度问责的情况下履行承诺。"
+    ],
+    "specialists": [
+      "专家"
+    ],
+    "healthcareExperience": [
+      "医疗经验"
+    ],
+    "patientSatisfaction": [
+      "患者满意度"
+    ],
+    "patientsTreated": [
+      "治疗的患者"
+    ]
+  },
+  "locale": "zh"
+}

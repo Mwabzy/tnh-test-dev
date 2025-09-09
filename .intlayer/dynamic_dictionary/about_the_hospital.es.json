@@ -1,0 +1,18 @@
+{
+  "key": "about_the_hospital",
+  "content": {
+    "title": [
+      "Acerca del Hospital de Nairobi"
+    ],
+    "description": [
+      "El Hospital de Nairobi ha destacado en experiencia médica, prestación de servicios y ha merecido reconocimiento en toda África Oriental y más allá como un centro avanzado de diagnóstico, tratamiento y referencia. Una inversión expansiva en la última tecnología y equipos médicos nos ha permitido establecer liderazgo en procedimientos médicos tanto en Kenia como fuera de ella."
+    ],
+    "about_stat_experience": [
+      "Años de experiencia en atención al paciente dedicados a proporcionar la más alta calidad de atención."
+    ],
+    "about_stat_patients": [
+      "Nuestra tasa de satisfacción del paciente muestra calidad, compasión y atención. Nuestras encuestas posteriores a la visita reflejan confianza, comodidad y confianza en nuestra atención."
+    ]
+  },
+  "locale": "es"
+}

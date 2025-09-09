@@ -1,0 +1,101 @@
+{
+  "internationalization": {
+    "locales": [
+      "en",
+      "fr",
+      "es",
+      "zh",
+      "ru"
+    ],
+    "requiredLocales": [],
+    "strictMode": "inclusive",
+    "defaultLocale": "en"
+  },
+  "middleware": {
+    "headerName": "x-intlayer-locale",
+    "cookieName": "INTLAYER_LOCALE",
+    "prefixDefault": false,
+    "basePath": "",
+    "serverSetCookie": "always",
+    "noPrefix": false
+  },
+  "content": {
+    "fileExtensions": [
+      ".content.ts",
+      ".content.js",
+      ".content.cjs",
+      ".content.cjx",
+      ".content.mjs",
+      ".content.mjx",
+      ".content.json",
+      ".content.tsx",
+      ".content.jsx"
+    ],
+    "baseDir": "C:\\Users\\User\\Desktop\\tnh-test-dev",
+    "excludedPath": [
+      "node_modules"
+    ],
+    "watch": true,
+    "contentDir": [
+      "C:\\Users\\User\\Desktop\\tnh-test-dev\\src"
+    ],
+    "dictionariesDir": "C:\\Users\\User\\Desktop\\tnh-test-dev\\.intlayer\\dictionary",
+    "moduleAugmentationDir": "C:\\Users\\User\\Desktop\\tnh-test-dev\\.intlayer\\types",
+    "dictionaryOutput": [
+      "intlayer"
+    ],
+    "unmergedDictionariesDir": "C:\\Users\\User\\Desktop\\tnh-test-dev\\.intlayer\\unmerged_dictionary",
+    "dynamicDictionariesDir": "C:\\Users\\User\\Desktop\\tnh-test-dev\\.intlayer\\dynamic_dictionary",
+    "i18nextResourcesDir": "C:\\Users\\User\\Desktop\\tnh-test-dev\\i18next_resources",
+    "reactIntlMessagesDir": "C:\\Users\\User\\Desktop\\tnh-test-dev\\intl_messages",
+    "typesDir": "C:\\Users\\User\\Desktop\\tnh-test-dev\\.intlayer\\types",
+    "mainDir": "C:\\Users\\User\\Desktop\\tnh-test-dev\\.intlayer\\main",
+    "configDir": "C:\\Users\\User\\Desktop\\tnh-test-dev\\.intlayer\\config",
+    "watchedFilesPattern": [
+      "/**/*.content.ts",
+      "/**/*.content.js",
+      "/**/*.content.cjs",
+      "/**/*.content.cjx",
+      "/**/*.content.mjs",
+      "/**/*.content.mjx",
+      "/**/*.content.json",
+      "/**/*.content.tsx",
+      "/**/*.content.jsx"
+    ],
+    "watchedFilesPatternWithPath": [
+      "C:/Users/User/Desktop/tnh-test-dev/src/**/*.content.ts",
+      "C:/Users/User/Desktop/tnh-test-dev/src/**/*.content.js",
+      "C:/Users/User/Desktop/tnh-test-dev/src/**/*.content.cjs",
+      "C:/Users/User/Desktop/tnh-test-dev/src/**/*.content.cjx",
+      "C:/Users/User/Desktop/tnh-test-dev/src/**/*.content.mjs",
+      "C:/Users/User/Desktop/tnh-test-dev/src/**/*.content.mjx",
+      "C:/Users/User/Desktop/tnh-test-dev/src/**/*.content.json",
+      "C:/Users/User/Desktop/tnh-test-dev/src/**/*.content.tsx",
+      "C:/Users/User/Desktop/tnh-test-dev/src/**/*.content.jsx"
+    ],
+    "outputFilesPatternWithPath": "C:/Users/User/Desktop/tnh-test-dev/.intlayer/dictionary/**/*.json"
+  },
+  "editor": {
+    "applicationURL": "",
+    "editorURL": "http://localhost:8000",
+    "cmsURL": "https://intlayer.org",
+    "backendURL": "https://back.intlayer.org",
+    "port": 8000,
+    "enabled": true,
+    "dictionaryPriorityStrategy": "local_first",
+    "hotReload": false
+  },
+  "log": {
+    "mode": "default",
+    "prefix": "\u001b[90m[intlayer] \u001b[0m"
+  },
+  "ai": {},
+  "build": {
+    "optimize": false,
+    "activateDynamicImport": false,
+    "traversePattern": [
+      "**/*.{js,ts,mjs,cjs,jsx,tsx,mjx,cjx,vue,svelte,svte}",
+      "!**/node_modules/**"
+    ]
+  }
+}

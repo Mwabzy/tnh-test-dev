@@ -1,0 +1,69 @@
+{
+  "key": "high_critical_care",
+  "content": {
+    "high_critical_care_title": [
+      "Cuidados Críticos Altos"
+    ],
+    "hccdescription": [
+      "Explore nuestros servicios de cuidados críticos altos para pacientes que requieren atención y monitoreo especializados."
+    ],
+    "hcccintro": [
+      "Introducción"
+    ],
+    "hccp1": [
+      "La unidad de cuidados intensivos ultra-moderna ha sido diseñada de acuerdo con los estándares JCI. Está equipada con vidrio inteligente, lo que hace obsoletos los cortinas y la hace compatible con el control de infecciones. Las habitaciones también están equipadas con puertas herméticas que son aceptadas internacionalmente en las instituciones de salud, ya que son antimicrobianas y resistentes a los arañazos."
+    ],
+    "hcch2": [
+      "Servicios"
+    ],
+    "hccp2": [
+      "Fototerapia y calentamiento de bebés a término después del parto. Ventilación de neonatos (capacidad de 23 neonatos) sala de aislamiento (acomoda a 2 neonatos)."
+    ],
+    "hccp3": [
+      "Capacidad"
+    ],
+    "hccp4": [
+      "La unidad de cuidados intensivos tiene una capacidad total de 16 habitaciones; 3 de las cuales son habitaciones de aislamiento con presión negativa y 2 son antecámaras."
+    ],
+    "hcch3": [
+      "Capacitación"
+    ],
+    "hccp5": [
+      "Todos los enfermeros y médicos reciben capacitación regular en ACLS (Soporte Vital Cardiaco Avanzado) y están equipados con las prácticas basadas en evidencia más actualizadas de acuerdo con los Protocolos de Reanimación Americana."
+    ],
+    "hcch4": [
+      "Personal"
+    ],
+    "hccp6": [
+      "La unidad de cuidados intensivos está gestionada por 10 médicos y 54 enfermeras registradas, de las cuales 37 son enfermeras especializadas en cuidados críticos."
+    ],
+    "hccquestion": [
+      "¿Tiene preguntas adicionales?"
+    ],
+    "hccvisitinghours": [
+      "Horas de visita"
+    ],
+    "hccvisitinghoursdetails": [
+      "2:00 p.m. - 4:00 p.m.: Un visitante por paciente."
+    ],
+    "nicutitle1": [
+      "Cuidados Intensivos Neonatales (NICU)"
+    ],
+    "nicutext1": [
+      "Debido al aumento del número de partos resultante de la mejora de la tecnología, el número de neonatos prematuros en el hospital ha aumentado, lo que ha hecho necesario establecer una Unidad de Cuidados Intensivos Neonatales (NICU) ultra-moderna, que se encuentra en la nueva sala de maternidad."
+    ],
+    "nicutitle2": [
+      "Unidad de Cuidados Intensivos (HDU)"
+    ],
+    "nicutext2": [
+      "La Unidad de Cuidados Intensivos ofrece a los pacientes un lugar para hacer la transición desde la Unidad de Cuidados Críticos mientras aún necesitan una estrecha monitorización. De manera similar, los pacientes que no requieren admisión en la UCI pero que están demasiado enfermos para estar en las salas son admitidos en la unidad. Está compuesta por cinco camas de hospital y dos habitaciones de aislamiento."
+    ],
+    "nicutitle3": [
+      "Unidad de Cuidados Intensivos para COVID-19"
+    ],
+    "nicutext3": [
+      "El Centro de Tratamiento UN-TNH fue creado para atender tanto al personal de la ONU como a los kenianos con necesidades complejas de manejo del COVID-19. Cuenta con 18 camas de UCI y 45 camas de UCI intermedia, todas convertibles en camas de UCI. El centro incluye diálisis y ECMO, una primicia en África Oriental y Central."
+    ]
+  },
+  "locale": "es"
+}

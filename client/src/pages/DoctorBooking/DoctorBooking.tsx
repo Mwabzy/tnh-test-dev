@@ -335,6 +335,7 @@ const handleSubmit = async (e: FormEvent) => {
                   id="patientEmail"
                   type="email"
                   required
+                  pattern="^[^\s@]+@[^\s@]+\.[cC][oO][mM]$"
                   className="mt-1 w-full border rounded-md p-2 focus:outline-none focus:ring-blue-500"
                   value={formData.patientEmail}
                   onChange={(e) =>

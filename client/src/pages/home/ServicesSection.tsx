@@ -29,7 +29,7 @@ const ServicesSection = () => {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="flex flex-col items-start"
           >
-            <h1 className="text-4xl md:text-5xl text-center md:text-left font-serif font-bold text-red-900">
+            <h1 className="text-3xl md:text-5xl text-center md:text-left font-serif font-bold text-red-900">
               {content.title}
             </h1>
             <p className="text-black mt-2">

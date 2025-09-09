@@ -15,7 +15,7 @@ const RoomsAndWards: FC<RoomsAndWardsProps> = () => {
         description="Explore our comfortable rooms and wards designed for your comfort and recovery."
       />
       {/* <div className="flex flex-col items-center justify-center my-10"></div> */}
-      <div className="p-6 space-y-6 max-w-3/4 mx-auto">
+      <div className="p-6 space-y-6 w-full md:max-w-3/4 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
           <div className="lg:col-span-2 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

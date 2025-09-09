@@ -12,7 +12,7 @@ export interface ClinicalService {
   doctors: Doctor[];
   testimonial?: Testimonial[];
   contact: ContactInfo;
-  //bookingAllowed?: boolean;
+  isbookable: boolean;
   clinics?: ClinicalService[]; // Sub clinincs like Anderson specialty clinics
   relatedServices?: {
     id: number;

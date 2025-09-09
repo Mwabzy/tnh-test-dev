@@ -33,7 +33,7 @@ const Metrics = () => {
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
         className="text-center mx-10 md:text-left"
       >
-        <h2 className="text-5xl font-semibold text-red-900 mb-4 font-serif">
+        <h2 className="text-3xl md:text-5xl font-semibold text-red-900 mb-4 font-serif">
           {content.title}
         </h2>
         <p className="text-gray-700 mb-6">

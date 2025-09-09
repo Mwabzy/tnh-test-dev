@@ -1,0 +1,63 @@
+{
+  "key": "medical_tourism",
+  "content": {
+    "medicaltitle": [
+      "Turismo médico"
+    ],
+    "medicaltag": [
+      "Atención médica de clase mundial con apoyo de viaje sin complicaciones"
+    ],
+    "medicalview": [
+      "En el Hospital NBI, combinamos experiencia médica de vanguardia con atención personalizada para pacientes de todo el mundo. Nuestro equipo dedicado al turismo médico garantiza una experiencia sin complicaciones, desde la planificación del tratamiento hasta la coordinación del viaje."
+    ],
+    "medicalfeature1": [
+      "Instalaciones acreditadas internacionalmente con tecnología de vanguardia."
+    ],
+    "medicalfeature2": [
+      "Personal multilingüe y coordinadores de pacientes personalizados."
+    ],
+    "medicalfeature3": [
+      "Precios asequibles y transparentes sin costos ocultos."
+    ],
+    "medicalfeature4": [
+      "Apoyo sin problemas para visas, viajes y alojamiento."
+    ],
+    "servoffer": [
+      "Servicios ofrecidos (servicios destacados):"
+    ],
+    "medicalfeature5": [
+      "Cardiología y cirugía cardíaca"
+    ],
+    "medicalfeature6": [
+      "Cirugía ortopédica"
+    ],
+    "medicalfeature7": [
+      "Neurología y neurocirugía"
+    ],
+    "medicalfeature8": [
+      "Oncología y tratamiento del cáncer"
+    ],
+    "treatprocess": [
+      "Proceso de tratamiento (viaje):"
+    ],
+    "medicalfeature9": [
+      "Enviar consulta a través del formulario de contacto."
+    ],
+    "medicalfeature10": [
+      "Recibir un plan de tratamiento personalizado y una cotización."
+    ],
+    "medicalfeature11": [
+      "Se proporcionan arreglos de viaje y apoyo para visas."
+    ],
+    "careertitle1": [
+      "Coordinador de turismo médico"
+    ],
+    "testimoni": [
+      "Paciente"
+    ],
+    "careertitle2": [
+      "Servicios de neurología"
+    ]
+  },
+  "locale": "es"
+}

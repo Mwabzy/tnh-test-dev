@@ -1,0 +1,117 @@
+{
+  "key": "roomsandwardssection",
+  "content": {
+    "ROOMStitle": [
+      "房间和病房"
+    ],
+    "roomsdescription": [
+      "探索我们为您的舒适和康复而设计的舒适房间和病房。"
+    ],
+    "nwingtitle": [
+      "北翼"
+    ],
+    "historytitle": [
+      "历史"
+    ],
+    "nwingdescription": [
+      "北翼于1974年开放，设有六间带独立卫生间的房间和一支专门的护理团队。由于其一流的设施和五星级住宿，北翼被恰当地称为“山上的希尔顿”。2012年，管理委员会启动了北翼的改建，以满足客户对高端护理的需求。现在它有12个套房，按照最高国际标准开发，旨在超越客人的期望。"
+    ],
+    "amenitiesdescription": [
+      "设施和服务"
+    ],
+    "nwinglist1": [
+      "ICU准备好的房间，随时提供医疗护理"
+    ],
+    "nwinglist2": [
+      "专职厨师提供个性化餐饮服务"
+    ],
+    "nwinglist3": [
+      "根据饮食需求定制的丰富美食菜单"
+    ],
+    "nwinglist4": [
+      "包含奢华洗漱用品礼盒"
+    ],
+    "nwinglist5": [
+      "壁挂式高清电视，配有有线连接"
+    ],
+    "nwinglist6": [
+      "大理石浴室，配有欧式步入式淋浴"
+    ],
+    "nwinglist7": [
+      "优雅舒适的家具"
+    ],
+    "nwinglist8": [
+      "高速互联网和直拨电话服务"
+    ],
+    "nwinglist9": [
+      "24/7 安全保障，安心无忧"
+    ],
+    "nwinglist10": [
+      "迷你冰箱，方便使用"
+    ],
+    "nwinglist11": [
+      "埃及棉床单，提供终极舒适感"
+    ],
+    "swingtittle": [
+      "南翼"
+    ],
+    "swingdescription": [
+      "南翼由圣方济各、圣特蕾莎和圣约翰病房的36间豪华独立房间组成。"
+    ],
+    "swingamenities": [
+      "设施和服务"
+    ],
+    "swinglist1": [
+      "提供多种选择的丰富菜单"
+    ],
+    "swinglist2": [
+      "包含高端洗漱用品礼盒"
+    ],
+    "swinglist3": [
+      "我们的历史"
+    ],
+    "swinglist4": [
+      "我们的历史"
+    ],
+    "swinglist5": [
+      "我们的历史"
+    ],
+    "swinglist6": [
+      "我们的历史"
+    ],
+    "otherroomstittle": [
+      "其他房间/床型"
+    ],
+    "ensuitroomstittle": [
+      "独立卫生间房间"
+    ],
+    "ensuitdescription": [
+      "入住配有壁挂式高清电视和有线连接的独立私人房间。"
+    ],
+    "privateroomstittle": [
+      "私人房间"
+    ],
+    "privateroomsdescription": [
+      "患者可以选择入住私人房间，使用共享卫生间设施。"
+    ],
+    "wardbedtittle": [
+      "病房床位"
+    ],
+    "wardbeddescription": [
+      "我们的病房可容纳多达八名患者，使用共享卫生间设施。"
+    ],
+    "pwingtittle": [
+      "病房床位"
+    ],
+    "pwingdescription": [
+      "病房床位"
+    ],
+    "dulextittle": [
+      "病房床位"
+    ],
+    "dulexdescription": [
+      "病房床位"
+    ]
+  },
+  "locale": "zh"
+}

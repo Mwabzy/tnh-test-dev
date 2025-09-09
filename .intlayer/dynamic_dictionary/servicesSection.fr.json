@@ -1,0 +1,39 @@
+{
+  "key": "servicesSection",
+  "content": {
+    "title": [
+      "Services cliniques"
+    ],
+    "description": [
+      "L'hôpital de Nairobi offre une large gamme de services cliniques pour répondre aux besoins de santé de nos patients."
+    ],
+    "allservices": [
+      "Tous les services"
+    ],
+    "dentalservices": [
+      "Services dentaires"
+    ],
+    "dentaldescription": [
+      "La clinique dentaire de l'Hôpital de Nairobi offre des soins dentaires complets, y compris des services préventifs, réparateurs et esthétiques, garantissant une santé bucco-dentaire optimale pour tous les patients."
+    ],
+    "pharmacyservices": [
+      "Services de pharmacie"
+    ],
+    "pharmacydescription": [
+      "La pharmacie de l'Hôpital de Nairobi propose une large gamme de médicaments et de produits de santé, garantissant des options de traitement sûres et efficaces pour tous les patients."
+    ],
+    "gynaecologyservices": [
+      "Services de gynécologie"
+    ],
+    "gynaecologydescription": [
+      "La clinique de gynécologie de l'Hôpital de Nairobi offre des soins spécialisés pour la santé reproductive des femmes, y compris des dépistages, des traitements et la planification familiale avec compassion."
+    ],
+    "antenatalservices": [
+      "Services prénatals"
+    ],
+    "antenataldescription": [
+      "La clinique prénatale de l'Hôpital de Nairobi offre des soins complets pour les futures mères, y compris des dépistages, des conseils et un soutien tout au long de la grossesse."
+    ]
+  },
+  "locale": "fr"
+}

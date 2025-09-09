@@ -1,0 +1,18 @@
+{
+  "key": "about_the_hospital",
+  "content": {
+    "title": [
+      "About The Nairobi Hospital"
+    ],
+    "description": [
+      "Opened in 1954, The Nairobi Hospital has excelled in medical expertise, service provision and has deservedly earned recognition throughout East Africa and beyond as an advanced diagnostic, treatment and referral centre. Expansive investment in latest technology and medical equipment has enabled us establish leadership in medical procedures both in Kenya and outside."
+    ],
+    "about_stat_experience": [
+      "Years of experience in patient care dedicated to providing the highest quality of care."
+    ],
+    "about_stat_patients": [
+      "Our patient satisfaction rate shows quality, compassion, and attention. Our post-visit surveys reflect trust, comfort, and confidence in our care."
+    ]
+  },
+  "locale": "en"
+}
