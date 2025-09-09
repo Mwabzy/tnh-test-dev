@@ -17,8 +17,8 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
     title,
     tagline,
     overview,
-   // longDescription,
-  // features,
+    // longDescription,
+    // features,
     doctors,
     contact,
     testimonial,
@@ -27,7 +27,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
   return (
     <>
       <Heading
-       // image_url={image.url}
+        image_url={image.url}
         title={title}
         description={tagline}
         style="background"
@@ -118,7 +118,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
         </section>
 
         {/* Testimonial */}
-        <TestimonialCarousel testimonials={[testimonial]} />
+        {testimonial && <TestimonialCarousel testimonials={testimonial} />}
 
         {/* Related Services */}
         <section className="bg-red-50 py-12 px-6">

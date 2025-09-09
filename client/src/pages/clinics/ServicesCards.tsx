@@ -1,46 +1,32 @@
-//import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ClinicalService } from "@/types";
-import clinicalServices from "@/data/clinicalServices.json";
 import ServiceList from "@/components/services/ServiceList";
 
 const ServiceCards = () => {
-  const services = clinicalServices as ClinicalService[];
-  // const [services, setServices] = useState<ClinicalService[]>([]);
-  // const [loading, setLoading] = useState(true);
+  const [services, setServices] = useState<ClinicalService[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  //  useEffect(() => {
-  //   const fetchServices = async () => {
-  //     try {
-  //       const res = await fetch("http://localhost:1337/api/clinical-services"); 
-  //       const data = await res.json();
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await fetch("http://localhost:5003/clinical-services");
+        const data = await res.json();
 
-  //       // Strapi usually returns data in { data: [...] } format
-  //       const formatted = data.data.map((item: any) => ({
-  //         id: item.id,
-  //         ...item.attributes,
-  //       }));
-  //         console.log("Fetched services:", formatted);
-  //       setServices(formatted);
-  //     } catch (error) {
-  //       console.error("Error fetching services:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+        console.log("Fetched services:", data);
+        setServices(data);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   fetchServices();
-  // }, []);
+    fetchServices();
+  }, []);
 
+  if (loading) return <p>Loading services...</p>;
 
-  // if (loading) return <p>Loading services...</p>;
-
-  
-
-  return (
-    <>
-      <ServiceList services={services as ClinicalService[]} />
-    </>
-  );
+  return <ServiceList services={services} />;
 };
 
 export default ServiceCards;

@@ -1,4 +1,4 @@
-interface EmailEntry {
+export interface EmailEntry {
   type: string;
   address: string;
 }

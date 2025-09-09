@@ -25,12 +25,14 @@
         "bio": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
       }
     ],
-    "testimonial": {
-      "name": "Sarah Johnson",
-      "title": "Satisfied Patient",
-      "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-      "quote": "The pharmacy team at The Nairobi Hospital has been incredibly helpful in managing my medications. Their personalized care and attention to detail have made a significant difference in my health journey."
-    },
+    "testimonial": [
+      {
+        "name": "Sarah Johnson",
+        "title": "Satisfied Patient",
+        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+        "quote": "The pharmacy team at The Nairobi Hospital has been incredibly helpful in managing my medications. Their personalized care and attention to detail have made a significant difference in my health journey."
+      }
+    ],
     "contact": {
       "phone": "+254 700 000 000",
       "email": "clinicservice@nbihosp.org"
@@ -60,7 +62,7 @@
   },
   {
     "id": 2,
-    "title": "Labaratory Services",
+    "title": "Laboratory Services",
     "tagline": "Comprehensive Pharmaceutical Care",
     "imageAlt": "card-image",
     "overview": "Pharmacy services provide comprehensive pharmaceutical care, including medication dispensing, health consultations, and wellness programs. Our licensed pharmacists ensure safe and effective use of medications.",
@@ -84,12 +86,14 @@
         "bio": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
       }
     ],
-    "testimonial": {
-      "name": "Sarah Johnson",
-      "title": "Satisfied Patient",
-      "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-      "quote": "The pharmacy team at The Nairobi Hospital has been incredibly helpful in managing my medications. Their personalized care and attention to detail have made a significant difference in my health journey."
-    },
+    "testimonial": [
+      {
+        "name": "Sarah Johnson",
+        "title": "Satisfied Patient",
+        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+        "quote": "The pharmacy team at The Nairobi Hospital has been incredibly helpful in managing my medications. Their personalized care and attention to detail have made a significant difference in my health journey."
+      }
+    ],
     "contact": {
       "phone": "+254 700 000 000",
       "email": "clinicservice@nbihosp.org"

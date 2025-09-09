@@ -16,8 +16,8 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
           >
             <img
               className="rounded-t-lg w-full h-56 object-cover"
-              src={item.image?.url || "/placeholder.png"}
-              alt={item.imageAlt || "Service image"}
+              src={item.image.url || "/placeholder.png"}
+              alt={item.image.alt || "Service image"}
             />
             <div className="p-5">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white font-serif">
