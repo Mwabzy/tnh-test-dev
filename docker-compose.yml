@@ -1,0 +1,50 @@
+name: tnhwebdev
+
+volumes:
+    dev_app_data:
+        name: web_app_data_dev
+    static_files:
+        name: web_static_files_dev
+    media_files:
+        name: web_media_files_dev
+
+services:
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile.dev
+        image: thnweb:development
+        restart: unless-stopped
+        container_name: tnhweb-backend
+        command: /app/docker/django/start.sh backend
+        depends_on:
+            - postgres
+        env_file:
+            - backend/.env
+        ports:
+            - 8000:8000
+        volumes:
+            - ./backend:/app:rw
+            - static_files:/app/staticfiles:rw
+
+    postgres:
+        image: postgres:16.4-bullseye
+        hostname: portal-postgres
+        container_name: tnhweb_postgres
+        volumes:
+            - dev_app_data:/var/lib/postgresql/data
+        env_file:
+            - backend/.env
+        restart: unless-stopped
+
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile.dev
+        container_name: tnhweb-frontend
+        ports:
+            - 5173:5173
+        volumes:
+            - ./frontend:/app:rw
+        depends_on:
+            - backend
