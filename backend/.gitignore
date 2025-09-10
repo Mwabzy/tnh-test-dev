@@ -1,0 +1,4 @@
+.env
+tnhwebenv
+__pycache__/
+*.pyc

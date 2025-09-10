@@ -1,0 +1,14 @@
+# Build Stage
+FROM node:23-alpine AS build
+
+WORKDIR /app
+
+# Add a non-root user, set permissions, install dependencies, and build the app all in one step to minimize layers
+RUN addgroup -S app && adduser -S app -G app
+
+COPY package*.json . 
+COPY .env /app/.env
+RUN npm install --legacy-peer-deps
+COPY . .
+
+CMD [ "npm", "run", "dev" ]

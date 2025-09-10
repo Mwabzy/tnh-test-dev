@@ -11,7 +11,8 @@ const careersData = [
     opportunityType: "Full-time",
     datePosted: "2023-10-01",
     closingDate: "3rd August 2025",
-    fileUrl: "https://cms.thenairobihosp.org/uploads/Systems_Analyst_Admin_and_LIMS_74e768fba3.pdf?updated_at=2025-07-21T10:36:40.613Z",
+    fileUrl:
+      "https://cms.thenairobihosp.org/uploads/Systems_Analyst_Admin_and_LIMS_74e768fba3.pdf?updated_at=2025-07-21T10:36:40.613Z",
   },
   {
     opportunity: "Senior Registrar",
@@ -20,7 +21,8 @@ const careersData = [
     opportunityType: "2 Years Contract",
     datePosted: "2023-10-05",
     closingDate: "31st July 2025",
-    fileUrl: "https://cms.thenairobihosp.org/uploads/Full_Advert_Senior_Registrar_Paediatrics_2025_874b73241f.pdf?updated_at=2025-07-24T04:43:12.005Z",
+    fileUrl:
+      "https://cms.thenairobihosp.org/uploads/Full_Advert_Senior_Registrar_Paediatrics_2025_874b73241f.pdf?updated_at=2025-07-24T04:43:12.005Z",
   },
   {
     opportunity: "Locum Specialist",
@@ -29,7 +31,8 @@ const careersData = [
     opportunityType: "Part-time",
     datePosted: "2023-10-05",
     closingDate: "31st July 2025",
-    fileUrl: "https://cms.thenairobihosp.org/uploads/Advert_Locum_Specialist_Radiologist_395e9c3c6e.pdf?updated_at=2025-07-24T10:12:02.222Z",
+    fileUrl:
+      "https://cms.thenairobihosp.org/uploads/Advert_Locum_Specialist_Radiologist_395e9c3c6e.pdf?updated_at=2025-07-24T10:12:02.222Z",
   },
   {
     opportunity: "Clinical Radiation",
@@ -38,7 +41,8 @@ const careersData = [
     opportunityType: "Part-time",
     datePosted: "2023-10-05",
     closingDate: "31st July 2025",
-    fileUrl: "https://cms.thenairobihosp.org/uploads/Adverts_CLINICAL_ONCOLOGIST_JULY_2025_85737ed402.pdf?updated_at=2025-07-25T12:55:17.948Z",
+    fileUrl:
+      "https://cms.thenairobihosp.org/uploads/Adverts_CLINICAL_ONCOLOGIST_JULY_2025_85737ed402.pdf?updated_at=2025-07-25T12:55:17.948Z",
   },
 ];
 
@@ -53,13 +57,15 @@ const Careers: FC<CareersProps> = () => {
             name: "Jane Doe",
             title: "Software Engineer",
             quote: "Working here has been a transformative experience.",
-            image: "https://www.freepik.com/free-psd/happy-woman-dancing-isolated_269178755.htm#fromView=search&page=1&position=11&uuid=4341da1b-d692-4ffc-88ff-f2b7a82b674c&query=peoplee.jpg",
+            image:
+              "https://www.freepik.com/free-psd/happy-woman-dancing-isolated_269178755.htm#fromView=search&page=1&position=11&uuid=4341da1b-d692-4ffc-88ff-f2b7a82b674c&query=peoplee.jpg",
           },
           {
             name: "John Smith",
             title: "Product Manager",
             quote: "The team is incredibly supportive and innovative.",
-            image: "https://www.freepik.com/free-photo/portrait-smart-professional-african-american-man-standing-with-hands-crossed-chest-confident-pose_16080284.htm#fromView=search&page=1&position=10&uuid=4341da1b-d692-4ffc-88ff-f2b7a82b674c&query=people",
+            image:
+              "https://www.freepik.com/free-photo/portrait-smart-professional-african-american-man-standing-with-hands-crossed-chest-confident-pose_16080284.htm#fromView=search&page=1&position=10&uuid=4341da1b-d692-4ffc-88ff-f2b7a82b674c&query=people",
           },
         ]}
         contactInfo={{

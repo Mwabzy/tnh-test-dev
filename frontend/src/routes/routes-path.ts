@@ -179,7 +179,7 @@ const UIRoutes = {
   Booking: {
     name: "navigation.booking",
     path: "/booking",
-    component: lazyLoad(() => import("../pages/DoctorBooking/DoctorBooking")),
+    component: lazyLoad(() => import("../pages/doctorbooking/doctorbooking")),
   },
   ClinicListing: {
     name: "navigation.clinicListing",

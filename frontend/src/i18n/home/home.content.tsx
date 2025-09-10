@@ -1,6 +1,5 @@
 import { t, type Dictionary } from "intlayer";
 
-
 const heroContent: Dictionary = {
   key: "heroContent",
   content: {
@@ -25,52 +24,51 @@ const heroContent: Dictionary = {
       {
         title: t({
           en: "Healthcare You Can Trust",
-            fr: "Soins de santé en lesquels vous pouvez avoir confiance",
-            es: "Atención médica en la que puedes confiar",
-            zh: "您可以信赖的医疗服务",
-            ru: "Медицинское обслуживание, которому вы можете доверять",
+          fr: "Soins de santé en lesquels vous pouvez avoir confiance",
+          es: "Atención médica en la que puedes confiar",
+          zh: "您可以信赖的医疗服务",
+          ru: "Медицинское обслуживание, которому вы можете доверять",
         }),
         description: t({
-        en: "Providing compassionate care with cutting-edge technology, ensuring every patient receives the best treatment and support",
-        fr: "Nous offrons des soins compatissants avec une technologie de pointe, garantissant que chaque patient reçoit le meilleur traitement et soutien.",
-        es: "Brindando atención compasiva con tecnología de punta, asegurando que cada paciente reciba el mejor tratamiento y apoyo.",
-        zh: "提供富有同情心的护理和尖端技术，确保每位患者都能获得最佳的治疗和支持。",
-        ru: "Предоставление сострадательной помощи с использованием передовых технологий, обеспечивая каждому пациенту лучшее лечение и поддержку.",
+          en: "Providing compassionate care with cutting-edge technology, ensuring every patient receives the best treatment and support",
+          fr: "Nous offrons des soins compatissants avec une technologie de pointe, garantissant que chaque patient reçoit le meilleur traitement et soutien.",
+          es: "Brindando atención compasiva con tecnología de punta, asegurando que cada paciente reciba el mejor tratamiento y apoyo.",
+          zh: "提供富有同情心的护理和尖端技术，确保每位患者都能获得最佳的治疗和支持。",
+          ru: "Предоставление сострадательной помощи с использованием передовых технологий, обеспечивая каждому пациенту лучшее лечение и поддержку.",
         }),
         imageKey: "care2",
       },
       {
         title: t({
           en: "Your Health, Our Priority",
-            fr: "Votre santé, notre priorité",
-            es: "Tu salud, nuestra prioridad",
-            zh: "您的健康，我们的首要任务",
-            ru: "Ваше здоровье - наш приоритет",
-
+          fr: "Votre santé, notre priorité",
+          es: "Tu salud, nuestra prioridad",
+          zh: "您的健康，我们的首要任务",
+          ru: "Ваше здоровье - наш приоритет",
         }),
         description: t({
           en: "From prevention to recovery, we are dedicated to walking with you every step of the way toward a healthier future.",
-            fr: "De la prévention à la guérison, nous nous engageons à vous accompagner à chaque étape vers un avenir plus sain.",
-            es: "Desde la prevención hasta la recuperación, estamos dedicados a caminar contigo en cada paso del camino hacia un futuro más saludable.",
-            zh: "从预防到康复，我们致力于在通往更健康未来的每一步与您同行。",
-            ru: "От профилактики до восстановления мы стремимся идти с вами на каждом этапе пути к более здоровому будущему.",
+          fr: "De la prévention à la guérison, nous nous engageons à vous accompagner à chaque étape vers un avenir plus sain.",
+          es: "Desde la prevención hasta la recuperación, estamos dedicados a caminar contigo en cada paso del camino hacia un futuro más saludable.",
+          zh: "从预防到康复，我们致力于在通往更健康未来的每一步与您同行。",
+          ru: "От профилактики до восстановления мы стремимся идти с вами на каждом этапе пути к более здоровому будущему.",
         }),
         imageKey: "care3",
       },
       {
         title: t({
           en: "Compassion. Care. Commitment.",
-            fr: "Compassion. Soin. Engagement.",
-            es: "Compasión. Cuidado. Compromiso.",
-            zh: "同情。关怀。承诺。",
-            ru: "Сострадание. Забота. Обязательство.",
+          fr: "Compassion. Soin. Engagement.",
+          es: "Compasión. Cuidado. Compromiso.",
+          zh: "同情。关怀。承诺。",
+          ru: "Сострадание. Забота. Обязательство.",
         }),
         description: t({
           en: "we offer hope, healing, and a supportive environment where patients come first.",
-            fr: "Nous offrons espoir, guérison et un environnement de soutien où les patients passent en premier.",
-            es: "Ofrecemos esperanza, sanación y un entorno de apoyo donde los pacientes son lo primero.",
-            zh: "我们提供希望、治愈和一个以患者为先的支持环境。",
-            ru: "Мы предлагаем надежду, исцеление и поддерживающую среду, где пациенты стоят на первом месте.",
+          fr: "Nous offrons espoir, guérison et un environnement de soutien où les patients passent en premier.",
+          es: "Ofrecemos esperanza, sanación y un entorno de apoyo donde los pacientes son lo primero.",
+          zh: "我们提供希望、治愈和一个以患者为先的支持环境。",
+          ru: "Мы предлагаем надежду, исцеление и поддерживающую среду, где пациенты стоят на первом месте.",
         }),
         imageKey: "care4",
       },
