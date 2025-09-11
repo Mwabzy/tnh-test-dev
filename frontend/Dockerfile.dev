@@ -1,14 +1,17 @@
 # Build Stage
 FROM node:23-alpine AS build
 
-WORKDIR /app
+# Install required build tools
+RUN apk add --no-cache python3 make g++
 
-# Add a non-root user, set permissions, install dependencies, and build the app all in one step to minimize layers
-RUN addgroup -S app && adduser -S app -G app
+WORKDIR /app
 
 COPY package*.json . 
 COPY .env /app/.env
-RUN npm install --legacy-peer-deps
+
+# Clean install
+RUN rm -rf node_modules package-lock.json && npm install
+
 COPY . .
 
 CMD [ "npm", "run", "dev" ]
