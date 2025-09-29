@@ -1,17 +1,17 @@
-import care1 from "@/assets/images/image2.jpg";
-import care2 from "@/assets/images/image1.png";
-import care3 from "@/assets/images/image3.png";
-import care4 from "@/assets/images/image4.jpg";
+import heroimage1 from "@/assets/heroimages/heroimage1.jpg";
+import heroimage2 from "@/assets/heroimages/heroimage2.jpg";
+// import heroimage3 from "@/assets/heroimages/heroimage3.png";
+// import heroimage4 from "@/assets/heroimages/heroimage4.png";
+
 import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIntlayer } from "react-intlayer";
 import { useState, useEffect } from "react";
+import { h } from "node_modules/framer-motion/dist/types.d-DsEeKk6G";
 
 const imageMap: Record<string, string> = {
-  care1: (care1 as any).src || care1,
-  care2: (care2 as any).src || care2,
-  care3: (care3 as any).src || care3,
-  care4: (care4 as any).src || care4,
+  heroimage1: (heroimage1 as any).src || heroimage1,
+  heroimage2: (heroimage2 as any).src || heroimage2,
 };
 
 const Hero = () => {
@@ -20,8 +20,8 @@ const Hero = () => {
 
   const slides = heroData?.slides || [];
   const [index, setIndex] = useState(0);
+  console.log("Slides:", slides);
 
-  // auto-rotation
   useEffect(() => {
     if (!slides.length) return;
     const timer = setInterval(() => {
@@ -34,54 +34,61 @@ const Hero = () => {
 
   const currentSlide = slides[index];
   const imageKey = currentSlide?.imageKey;
-  const currentImage = imageMap[imageKey] || imageMap["care1"];
+  const currentImage = imageMap[imageKey] || imageMap["heroimage2"];
 
   return (
-    <section className="bg-red-900 mt-8 text-white p-5 md:p-16 rounded-2xl mx-[1%] md:mx-[2%] w-auto">
-      <div className="grid xl:grid-cols-2 gap-6 items-center">
-        {/* Text */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={index + "-text"}
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 50 }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col justify-center space-y-4"
-          >
-            <h1 className="text-3xl md:text-6xl font-bold leading-tight font-serif">
-              {currentSlide?.title}
-            </h1>
-            <p className="text-lg md:text-xl pb-4 font-sans">
-              {currentSlide?.description}
-            </p>
+    <section className="relative w-full h-[80vh] overflow-hidden rounded-2xl mt-8 mx-[1%] md:mx-[2%]">
+      {/* Background image slider */}
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={imageKey}
+          src={currentImage}
+          alt="Hero background"
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 1.05 }}
+          transition={{ duration: 1 }}
+          className="absolute inset-0 w-full h-full object-cover"
+        />{" "}
+        *
+      </AnimatePresence>
 
-            {/* Static Buttons */}
-            <div className="flex space-x-4">
-              <button className="bg-white text-black px-5 py-2 rounded-lg font-semibold">
-                <Link to="/clinics">{heroData?.services_button}</Link>
-              </button>
-              <Link to="/about" className="flex items-center space-x-2">
-                <span>{heroData?.about_button}</span>
-                <span className="text-xl">→</span>
-              </Link>
-            </div>
-          </motion.div>
-        </AnimatePresence>
+      {/* Gradient overlay left side */}
+      <div className="absolute inset-0 bg-gradient-to-r from-red-900 via-red-900/90 to-transparent" />
 
-        {/* Image */}
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={imageKey} // <-- force re-render on slide change
-            src={currentImage}
-            alt="Hero Slide"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.8 }}
-            className="rounded-2xl w-full h-[65vh] object-cover shadow-lg"
-          />
-        </AnimatePresence>
+      {/* Content */}
+      <div className="relative z-10 flex items-center h-full px-6 md:px-16">
+        <div className="max-w-2xl text-white">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={index + "-text"}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 50 }}
+              transition={{ duration: 0.8 }}
+              className="space-y-6"
+            >
+              <h1 className="text-3xl md:text-6xl font-bold leading-tight font-serif">
+                {currentSlide?.title}
+              </h1>
+              <p className="text-lg md:text-xl font-sans">
+                {currentSlide?.description}
+              </p>
+              <div className="flex space-x-4">
+                <Link
+                  to="/clinics"
+                  className="bg-white text-black px-5 py-2 rounded-lg font-semibold shadow"
+                >
+                  {heroData?.services_button}
+                </Link>
+                <Link to="/about" className="flex items-center space-x-2">
+                  <span>{heroData?.about_button}</span>
+                  <span className="text-xl">→</span>
+                </Link>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </section>
   );
