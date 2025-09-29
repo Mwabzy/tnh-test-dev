@@ -1,17 +1,15 @@
-import heroimage1 from "@/assets/heroimages/heroimage1.jpg";
-import heroimage2 from "@/assets/heroimages/heroimage2.jpg";
-// import heroimage3 from "@/assets/heroimages/heroimage3.png";
-// import heroimage4 from "@/assets/heroimages/heroimage4.png";
+import accident  from "@/assets/heroimages/heroimage1.jpg";
+import hospitalview from "@/assets/heroimages/heroimage2.jpg";
 
-import { Link } from "react-router";
+import { Link } from "react-router"; // Assuming react-router-dom
 import { motion, AnimatePresence } from "framer-motion";
 import { useIntlayer } from "react-intlayer";
 import { useState, useEffect } from "react";
-import { h } from "node_modules/framer-motion/dist/types.d-DsEeKk6G";
 
+// Modern bundlers often handle this, so you might just be able to use the import directly.
 const imageMap: Record<string, string> = {
-  heroimage1: (heroimage1 as any).src || heroimage1,
-  heroimage2: (heroimage2 as any).src || heroimage2,
+  accident: accident,
+  hospitalview: hospitalview,
 };
 
 const Hero = () => {
@@ -20,7 +18,6 @@ const Hero = () => {
 
   const slides = heroData?.slides || [];
   const [index, setIndex] = useState(0);
-  console.log("Slides:", slides);
 
   useEffect(() => {
     if (!slides.length) return;
@@ -34,14 +31,14 @@ const Hero = () => {
 
   const currentSlide = slides[index];
   const imageKey = currentSlide?.imageKey;
-  const currentImage = imageMap[imageKey] || imageMap["heroimage2"];
+  const currentImage = imageMap[imageKey] || imageMap["hospitalview"];
 
   return (
     <section className="relative w-full h-[80vh] overflow-hidden rounded-2xl mt-8 mx-[1%] md:mx-[2%]">
       {/* Background image slider */}
       <AnimatePresence mode="wait">
         <motion.img
-          key={imageKey}
+          key={index} // <-- THE FIX IS HERE
           src={currentImage}
           alt="Hero background"
           initial={{ opacity: 0, scale: 1.05 }}
@@ -49,19 +46,18 @@ const Hero = () => {
           exit={{ opacity: 0, scale: 1.05 }}
           transition={{ duration: 1 }}
           className="absolute inset-0 w-full h-full object-cover"
-        />{" "}
-        *
+        />
       </AnimatePresence>
 
       {/* Gradient overlay left side */}
-      <div className="absolute inset-0 bg-gradient-to-r from-red-900 via-red-900/90 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-red-900 via-red-900/60 to-transparent" />
 
       {/* Content */}
-      <div className="relative z-10 flex items-center h-full px-6 md:px-16">
+      <div className="relative z-10 flex items-center h-full w-full px-6 md:px-16">
         <div className="max-w-2xl text-white">
           <AnimatePresence mode="wait">
             <motion.div
-              key={index + "-text"}
+              key={index + "-text"} // This key was already correct
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 50 }}
