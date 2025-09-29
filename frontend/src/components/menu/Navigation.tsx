@@ -166,70 +166,192 @@ const Navigation: FC<NavigationProps> = () => {
         <MenubarMenu>
           <MenubarTrigger>{content.about_us}</MenubarTrigger>
           <MenubarContent>
-            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
-                <MenubarItem asChild>
-                  <a
-                    className="flex items-start h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-red-900/50 to-red-900  p-6 no-underline outline-none focus:shadow-md text-white"
-                    href="/about-us"
-                  >
-                    <div className="text-lg font-medium flex items-start text-white hover:text-white">
-                      About Us
-                    </div>
-                    <p className="text-sm leading-tight text-white">
-                      The Nairobi Hospital is a leading healthcare institution
-                      in Kenya, providing comprehensive medical services and
-                      education.
-                    </p>
-                  </a>
-                </MenubarItem>
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6 w-full max-w-[1000px]">
+              {/* Column 1: Our Story */}
+              <li>
+                <h3 className="font-bold mb-2">Our Story</h3>
+                <ul className="space-y-1">
+                  <ListItem title="Our History" href="/about/history" />
+                  <ListItem
+                    title="Vision, Mission & Core Values"
+                    href="/about/vision-mission"
+                  />
+                </ul>
               </li>
-              <ListItem href="/about-us/history" title="History">
-                The history of the Nairobi Hospital.
-              </ListItem>
-              <ListItem
-                href="/about-us/board-of-management"
-                title="Board of Management"
-              >
-                The board overseeing the Nairobi Hospital's operations.
-              </ListItem>
-              <ListItem
-                href="/about-us/board-of-trustees"
-                title="Board of Trustees"
-              >
-                The board responsible for the governance of the Nairobi
-                Hospital.
-              </ListItem>
-              <ListItem
-                href="/about-us/senior-management"
-                title="Senior Management"
-              >
-                The senior management team overseeing the Nairobi Hospital's
-                operations.
-              </ListItem>
-              <ListItem
-                href="/about-us/accreditation-certification"
-                title="Accreditation & Certification"
-              >
-                Information about the accreditation of the Nairobi Hospital.
-              </ListItem>
+
+              {/* Column 2: Corporate Governance */}
+              <li>
+                <h3 className="font-bold mb-2">Corporate Governance</h3>
+                <ul className="space-y-1">
+                  <ListItem
+                    title="Board Governance Structure"
+                    href="/about/board-structure"
+                  />
+                  <ListItem title="Trustees" href="/about/trustees" />
+                  <ListItem
+                    title="Board of Management"
+                    href="/about/board-management"
+                  />
+                  <ListItem
+                    title="Senior Management"
+                    href="/about/senior-management"
+                  />
+                </ul>
+              </li>
+
+              {/* Column 3: Accreditations & Quality */}
+              <li>
+                <h3 className="font-bold mb-2">Accreditations & Quality</h3>
+                <ul className="space-y-1">
+                  <ListItem
+                    title="Local Accreditations"
+                    href="/about/local-accreditations"
+                  />
+                  <ListItem
+                    title="International Certifications"
+                    href="/about/international-certifications"
+                  />
+                  <ListItem
+                    title="Quality & Patient Safety"
+                    href="/about/quality-safety"
+                  />
+                </ul>
+              </li>
+
+              {/* Column 4: Institutional Documents */}
+              <li>
+                <h3 className="font-bold mb-2">Institutional Documents</h3>
+                <ul className="space-y-1">
+                  <ListItem
+                    title="Annual Reports"
+                    href="/about/annual-reports"
+                  />
+                  <ListItem
+                    title="Strategic Plan"
+                    href="/about/strategic-plan"
+                  />
+                  <ListItem
+                    title="Corporate Social Responsibility"
+                    href="/about/csr"
+                  />
+                </ul>
+              </li>
             </ul>
           </MenubarContent>
         </MenubarMenu>
 
         <MenubarMenu>
           <MenubarTrigger>{content.services}</MenubarTrigger>
-          <MenubarContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              {patients_visitors.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {component.description}
-                </ListItem>
-              ))}
+          <MenubarContent className="absolute left-0 top-full w-screen bg-white shadow-lg border-t z-50">
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+              {/* Column 1: Clinical Services */}
+              <li>
+                <h3 className="font-bold mb-2">Clinical Services</h3>
+                <ul className="space-y-1">
+                  <ListItem
+                    title="Medical Departments & Specialties"
+                    href="/clinical/medical-specialties"
+                  />
+                  <ListItem
+                    title="Diagnostic Services"
+                    href="/clinical/diagnostic"
+                  />
+                  <ListItem
+                    title="Pharmacy Services"
+                    href="/clinical/pharmacy"
+                  />
+                  <ListItem title="Nursing Services" href="/clinical/nursing" />
+                </ul>
+              </li>
+
+              {/* Column 2: Outpatient Services */}
+              <li>
+                <h3 className="font-bold mb-2">Outpatient Services</h3>
+                <ul className="space-y-1">
+                  <ListItem
+                    title="A&E Outpatient Centre"
+                    href="/outpatient/a-e"
+                  />
+                  <ListItem
+                    title="Roselyn Outpatient Centre"
+                    href="/outpatient/roselyn"
+                  />
+                  <ListItem
+                    title="Warwick Outpatient Centre"
+                    href="/outpatient/warwick"
+                  />
+                  <ListItem
+                    title="Galleria Outpatient Centre"
+                    href="/outpatient/galleria"
+                  />
+                  <ListItem
+                    title="Southfield Outpatient Centre"
+                    href="/outpatient/southfield"
+                  />
+                  <ListItem
+                    title="Kiambu Outpatient Centre"
+                    href="/outpatient/kiambu"
+                  />
+                  <ListItem
+                    title="Capital Outpatient Centre"
+                    href="/outpatient/capital"
+                  />
+                </ul>
+              </li>
+
+              {/* Column 3: Inpatient & Critical Care */}
+              <li>
+                <h3 className="font-bold mb-2">Inpatient & Critical Care</h3>
+                <ul className="space-y-1">
+                  <ListItem
+                    title="Admission Process"
+                    href="/inpatient/admission"
+                  />
+                  <ListItem
+                    title="Rooms & Wards"
+                    href="/inpatient/rooms-wards"
+                  />
+                  <ListItem
+                    title="Critical Care Units (ICU, HDU, NICU, CCU)"
+                    href="/inpatient/critical-care"
+                  />
+                  <ListItem
+                    title="Theatre & Surgery"
+                    href="/inpatient/surgery"
+                  />
+                  <ListItem
+                    title="Physiotherapy & Rehab"
+                    href="/inpatient/physiotherapy"
+                  />
+                  <ListItem
+                    title="Palliative Care"
+                    href="/inpatient/palliative"
+                  />
+                </ul>
+              </li>
+
+              {/* Column 4: International Patients */}
+              <li>
+                <h3 className="font-bold mb-2">International Patients</h3>
+                <ul className="space-y-1">
+                  <ListItem
+                    title="Medical Tourism Overview"
+                    href="/international/overview"
+                  />
+                  <ListItem
+                    title="Travel Support & Visas"
+                    href="/international/visas"
+                  />
+                  <ListItem
+                    title="Language Services"
+                    href="/international/language"
+                  />
+                  <ListItem
+                    title="Concierge & Accommodation"
+                    href="/international/concierge"
+                  />
+                </ul>
+              </li>
             </ul>
           </MenubarContent>
         </MenubarMenu>
@@ -244,7 +366,7 @@ const Navigation: FC<NavigationProps> = () => {
                   title={component.title}
                   href={component.href}
                 >
-                  {component.description}
+                  {/* {component.description} */}
                 </ListItem>
               ))}
             </ul>
@@ -260,7 +382,7 @@ const Navigation: FC<NavigationProps> = () => {
                   title={component.title}
                   href={component.href}
                 >
-                  {component.description}
+                  {/* {component.description} */}
                 </ListItem>
               ))}
             </ul>
@@ -268,19 +390,55 @@ const Navigation: FC<NavigationProps> = () => {
         </MenubarMenu>
         <MenubarMenu>
           <MenubarTrigger>{content.notices_and_opportunities}</MenubarTrigger>
-          <MenubarContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[400px] md:grid-cols-1 lg:w-[400px] ">
-              {news_media.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {component.description}
-                </ListItem>
-              ))}
+          <MenubarContent className="absolute left-0 top-full w-screen bg-white shadow-lg border-t z-50">
+            <ul className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+              {/* Column 1: News & Media */}
+              <li>
+                <h3 className="font-bold mb-2">News & Media</h3>
+                <ul className="space-y-1">
+                  <ListItem title="Latest News" href="/news/latest" />
+                  <ListItem
+                    title="Events & Announcements"
+                    href="/news/events"
+                  />
+                  <ListItem
+                    title="Health Articles & Blogs"
+                    href="/news/articles"
+                  />
+                </ul>
+              </li>
+
+              {/* Column 2: Tenders */}
+              <li>
+                <h3 className="font-bold mb-2">Tenders</h3>
+                <ul className="space-y-1">
+                  <ListItem title="Open Tenders" href="/tenders/open" />
+                  <ListItem
+                    title="Supplier Information"
+                    href="/tenders/suppliers"
+                  />
+                  <ListItem
+                    title="Procurement Guidelines"
+                    href="/tenders/guidelines"
+                  />
+                </ul>
+              </li>
+
+              {/* Column 3: Careers */}
+              <li>
+                <h3 className="font-bold mb-2">Careers</h3>
+                <ul className="space-y-1">
+                  <ListItem title="Job Vacancies" href="/careers/jobs" />
+                  <ListItem
+                    title="Volunteer Opportunities"
+                    href="/careers/volunteer"
+                  />
+                  <ListItem title="Submit Your CV" href="/careers/submit-cv" />
+                </ul>
+              </li>
             </ul>
           </MenubarContent>
+
           <div className="flex md:hidden items-center gap-2 mt-10 ">
             <Button
               onClick={() => (window.location.href = "/contact")}
