@@ -30,7 +30,11 @@ const Hero = () => {
   if (!slides.length) return null;
 
   const currentSlide = slides[index];
-  const imageKey = currentSlide?.imageKey;
+
+   const rawImageKey = currentSlide?.imageKey;
+  const imageKey =
+    typeof rawImageKey === "string" ? rawImageKey : rawImageKey?.key;
+ 
   const currentImage = imageMap[imageKey] || imageMap["hospitalview"];
 
   return (
@@ -46,6 +50,8 @@ const Hero = () => {
           exit={{ opacity: 0, scale: 1.05 }}
           transition={{ duration: 1 }}
           className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+
         />
       </AnimatePresence>
 
