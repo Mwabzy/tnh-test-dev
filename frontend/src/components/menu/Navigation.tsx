@@ -107,7 +107,7 @@ const college_health_sciences: {
       "Information about the College of Health Sciences at the Nairobi Hospital.",
   },
   {
-    title: "Tuition and Sponsorships",
+    title: "Programmes, Admission & Sponsorships",
     href: "/college/tuition-and-sponsorships",
     description:
       "Information about the tuition and sponsorships available at the college.",
@@ -119,7 +119,7 @@ const college_health_sciences: {
       "Information about the facilities and downloads available at the College of Health Sciences.",
   },
   {
-    title: "Alumni",
+    title: "Alumni Network",
     href: "/college/student-alumni",
     description:
       "Information about the alumni of the College of Health Sciences.",
@@ -166,61 +166,66 @@ const Navigation: FC<NavigationProps> = () => {
         <MenubarMenu>
           <MenubarTrigger>{content.about_us}</MenubarTrigger>
           <MenubarContent>
-            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6 w-full max-w-[1000px]">
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 px-8 py-6 w-full">
               {/* Column 1: Our Story */}
-              <li>
-                <h3 className="font-bold mb-2">Our Story</h3>
+              <li className="border-r border-gray-300 pr-4">
+                <h3 className="font-bold ml-2 mb-2">OUR STORY</h3>
                 <ul className="space-y-1">
-                  <ListItem title="Our History" href="/about/history" />
+                  <ListItem title="Our History" href="/about-us/history" />
                   <ListItem
                     title="Vision, Mission & Core Values"
-                    href="/about/vision-mission"
+                    href="/about-us"
                   />
                 </ul>
               </li>
 
               {/* Column 2: Corporate Governance */}
-              <li>
-                <h3 className="font-bold mb-2">Corporate Governance</h3>
+              <li className="border-r border-gray-300 pr-4">
+                <h3 className="font-bold ml-2 mb-2">CORPORATE GOVERNANCE</h3>
                 <ul className="space-y-1">
                   <ListItem
-                    title="Board Governance Structure"
+                    title="Board of Governance Structure"
                     href="/about/board-structure"
                   />
-                  <ListItem title="Trustees" href="/about/trustees" />
+                  <ListItem
+                    title="Board of Trustees"
+                    href="/about-us/board-of-trustees"
+                  />
                   <ListItem
                     title="Board of Management"
-                    href="/about/board-management"
+                    href="/about-us/board-of-management"
                   />
                   <ListItem
                     title="Senior Management"
-                    href="/about/senior-management"
+                    href="/about-us/senior-management"
                   />
                 </ul>
               </li>
 
               {/* Column 3: Accreditations & Quality */}
-              <li>
-                <h3 className="font-bold mb-2">Accreditations & Quality</h3>
+              <li className="border-r border-gray-300 pr-4">
+                <h3 className="font-bold ml-2 mb-2">
+                  ACCREDITATIONS & QUALITY
+                </h3>
                 <ul className="space-y-1">
                   <ListItem
                     title="Local Accreditations"
-                    href="/about/local-accreditations"
+                    href="/about-us/accreditation-certification"
                   />
                   <ListItem
                     title="International Certifications"
-                    href="/about/international-certifications"
+                    href="/about-us/accreditation-certification"
                   />
                   <ListItem
                     title="Quality & Patient Safety"
-                    href="/about/quality-safety"
+                    href="/about-us/accreditation-certification"
                   />
                 </ul>
               </li>
 
               {/* Column 4: Institutional Documents */}
-              <li>
-                <h3 className="font-bold mb-2">Institutional Documents</h3>
+              <li className="border-r border-gray-300 pr-4">
+                <h3 className="font-bold ml-2 mb-2">INSTITUTIONAL DOCUMENTS</h3>
                 <ul className="space-y-1">
                   <ListItem
                     title="Annual Reports"
@@ -242,11 +247,11 @@ const Navigation: FC<NavigationProps> = () => {
 
         <MenubarMenu>
           <MenubarTrigger>{content.services}</MenubarTrigger>
-          <MenubarContent className="absolute left-0 top-full w-screen bg-white shadow-lg border-t z-50">
-            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+          <MenubarContent>
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-8 py-6 w-full">
               {/* Column 1: Clinical Services */}
-              <li>
-                <h3 className="font-bold mb-2">Clinical Services</h3>
+              <li className="border-r border-gray-300 pr-4">
+                <h3 className="font-bold ml-2 mb-2">CLINICAL SERVICES</h3>
                 <ul className="space-y-1">
                   <ListItem
                     title="Medical Departments & Specialties"
@@ -265,43 +270,45 @@ const Navigation: FC<NavigationProps> = () => {
               </li>
 
               {/* Column 2: Outpatient Services */}
-              <li>
-                <h3 className="font-bold mb-2">Outpatient Services</h3>
+              <li className="border-r border-gray-300 pr-4">
+                <h3 className="font-bold ml-2 mb-2">OUTPATIENT SERVICES</h3>
                 <ul className="space-y-1">
                   <ListItem
                     title="A&E Outpatient Centre"
                     href="/outpatient/a-e"
                   />
                   <ListItem
-                    title="Roselyn Outpatient Centre"
-                    href="/outpatient/roselyn"
+                    title="Rosslyn Outpatient Centre"
+                    href="/outpatient-center/rosslyn-opc"
                   />
                   <ListItem
                     title="Warwick Outpatient Centre"
-                    href="/outpatient/warwick"
+                    href="/outpatient-center/warwick-opc"
                   />
                   <ListItem
                     title="Galleria Outpatient Centre"
-                    href="/outpatient/galleria"
+                    href="/outpatient-center/galleria-opc"
                   />
                   <ListItem
                     title="Southfield Outpatient Centre"
-                    href="/outpatient/southfield"
+                    href="/outpatient-center/southfield-opc"
                   />
                   <ListItem
                     title="Kiambu Outpatient Centre"
-                    href="/outpatient/kiambu"
+                    href="/outpatient-center/kiambu-opc"
                   />
                   <ListItem
                     title="Capital Outpatient Centre"
-                    href="/outpatient/capital"
+                    href="/outpatient-center/capital-opc"
                   />
                 </ul>
               </li>
 
               {/* Column 3: Inpatient & Critical Care */}
-              <li>
-                <h3 className="font-bold mb-2">Inpatient & Critical Care</h3>
+              <li className="border-r border-gray-300 pr-4">
+                <h3 className="font-bold ml-2 mb-2">
+                  INPATIENT & CRITICAL CARE
+                </h3>
                 <ul className="space-y-1">
                   <ListItem
                     title="Admission Process"
@@ -331,8 +338,8 @@ const Navigation: FC<NavigationProps> = () => {
               </li>
 
               {/* Column 4: International Patients */}
-              <li>
-                <h3 className="font-bold mb-2">International Patients</h3>
+              <li className="border-r border-gray-300 pr-4">
+                <h3 className="font-bold ml-2 mb-2">INTERNATIONAL PATIENTS</h3>
                 <ul className="space-y-1">
                   <ListItem
                     title="Medical Tourism Overview"
@@ -357,44 +364,122 @@ const Navigation: FC<NavigationProps> = () => {
         </MenubarMenu>
 
         <MenubarMenu>
+          <MenubarTrigger>Doctors & Medical Staff</MenubarTrigger>
+          <MenubarContent>
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 px-8 py-6 w-fit mx-auto justify-center">
+              <li className="border-r border-gray-300 pr-4">
+                <ul className="space-y-1">
+                  <h3 className="font-bold ml-2 mb-2">FIND A DOCTOR</h3>
+                  <ListItem title="Doctors’ Profiles" href="#" />
+                  <ListItem title="Book an Appointment" href="#" />
+                </ul>
+              </li>
+
+              <li className="border-r border-gray-300 pr-4">
+                <ul className="space-y-1">
+                  <h3 className="font-bold ml-2 mb-2">MEDICAL TEAM</h3>
+                  <ListItem title="Visiting Consultants" href="#" />
+                  <ListItem title="Nursing & Allied Health Staff" href="#" />
+                </ul>
+              </li>
+
+              <li className="border-r border-gray-300 pr-4">
+                <ul className="space-y-1">
+                  <h3 className="font-bold ml-2 mb-2">CAREERS IN MEDICINE</h3>
+                  <ListItem title="Join Our Medical Team" href="#" />
+                  <ListItem
+                    title="Internship & Residency Programmes"
+                    href="#"
+                  />
+                  <ListItem title="CME Programmes" href="#" />
+                </ul>
+              </li>
+            </ul>
+          </MenubarContent>
+        </MenubarMenu>
+
+        <MenubarMenu>
           <MenubarTrigger>{content.college_of_health_sciences}</MenubarTrigger>
           <MenubarContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              {college_health_sciences.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {/* {component.description} */}
-                </ListItem>
-              ))}
+            <ul className="flex flex-col md:flex-row gap-4 px-8 py-6 justify-center items-start">
+              {/* Column 1: About school & programmes*/}
+              <li className="border-r border-gray-300 pr-4">
+                <ul className="space-y-1">
+                  <h3 className="font-bold ml-2 mb-2">SCHOOL INFORMATION</h3>
+                  <ListItem
+                    title="About the college"
+                    href="/college/about-college"
+                  />
+                  <ListItem
+                    title="Programmes, Admission & Sponsorships"
+                    href="/college/tuition-and-sponsorships"
+                  />
+                  <ListItem
+                    title="Facilities and Downloads"
+                    href="/college/facilities-and-downloads"
+                  />
+                </ul>
+              </li>
+
+              {/* Column 2 */}
+              <li className="border-r border-gray-300 pr-4">
+                <ul className="space-y-1">
+                  <h3 className="font-bold ml-2 mb-2">EXTRAS</h3>
+                  <ListItem
+                    title="Alumni Network"
+                    href="/college/student-alumni"
+                  />
+                  <ListItem title="FAQs" href="/college/college-faqs" />
+                </ul>
+              </li>
             </ul>
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>
           <MenubarTrigger>{content.other_services}</MenubarTrigger>
           <MenubarContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[400px] md:grid-cols-1 lg:w-[400px]">
-              {other_services.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {/* {component.description} */}
-                </ListItem>
-              ))}
+            <ul className="flex flex-col md:flex-row gap-4 px-8 py-6 justify-center items-start">
+              {/* Column 1: Facilities*/}
+              <li className="border-r border-gray-300 pr-4">
+                <h3 className="font-bold ml-2 mb-2">HOSPITAL FACILITIES</h3>
+                <ul className="space-y-1">
+                  <ListItem
+                    title="Convention & Conference Centre"
+                    href="/convention-center"
+                  />
+                  <ListItem title="Parking & Transport" href="#" />
+                  <ListItem title="Security & Safety" href="#" />
+                </ul>
+              </li>
+
+              {/* Column 2: Support Services */}
+              <li className="border-r border-gray-300 pr-4">
+                <h3 className="font-bold ml-2 mb-2">SUPPORT SERVICES</h3>
+                <ul className="space-y-1">
+                  <ListItem
+                    title="Laundry & Housekeeping"
+                    href="/laundry-services"
+                  />
+                  <ListItem
+                    title="Catering Services"
+                    href="/about-us/board-of-trustees"
+                  />
+                  <ListItem
+                    title="Patient Support Services"
+                    href="/about-us/board-of-management"
+                  />
+                </ul>
+              </li>
             </ul>
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>
           <MenubarTrigger>{content.notices_and_opportunities}</MenubarTrigger>
-          <MenubarContent className="absolute left-0 top-full w-screen bg-white shadow-lg border-t z-50">
-            <ul className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+          <MenubarContent>
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 px-8 py-6 w-fit mx-auto justify-center">
               {/* Column 1: News & Media */}
-              <li>
-                <h3 className="font-bold mb-2">News & Media</h3>
+              <li className="border-r border-gray-300 pl-8">
+                <h3 className="font-bold ml-2 mb-2">NEWS & MEDIA</h3>
                 <ul className="space-y-1">
                   <ListItem title="Latest News" href="/news/latest" />
                   <ListItem
@@ -409,8 +494,8 @@ const Navigation: FC<NavigationProps> = () => {
               </li>
 
               {/* Column 2: Tenders */}
-              <li>
-                <h3 className="font-bold mb-2">Tenders</h3>
+              <li className="border-r border-gray-300 pl-4">
+                <h3 className="font-bold ml-2 mb-2">TENDERS</h3>
                 <ul className="space-y-1">
                   <ListItem title="Open Tenders" href="/tenders/open" />
                   <ListItem
@@ -425,8 +510,8 @@ const Navigation: FC<NavigationProps> = () => {
               </li>
 
               {/* Column 3: Careers */}
-              <li>
-                <h3 className="font-bold mb-2">Careers</h3>
+              <li className="border-r border-gray-300 pr-4">
+                <h3 className="font-bold ml-2 mb-2">CAREERS</h3>
                 <ul className="space-y-1">
                   <ListItem title="Job Vacancies" href="/careers/jobs" />
                   <ListItem
@@ -438,19 +523,18 @@ const Navigation: FC<NavigationProps> = () => {
               </li>
             </ul>
           </MenubarContent>
-
-          <div className="flex md:hidden items-center gap-2 mt-10 ">
-            <Button
-              onClick={() => (window.location.href = "/contact")}
-              className="text-xs font-serif flex items-center gap-1"
-              variant="outline"
-              size="sm"
-            >
-              <Phone className="text-red-900 w-4 h-4" />
-              <span className="text-sm font-serif ">+254 703 082 000</span>
-            </Button>
-          </div>
         </MenubarMenu>
+        <div className="flex md:hidden items-center gap-2 mt-10 ">
+          <Button
+            onClick={() => (window.location.href = "/contact")}
+            className="text-xs font-serif flex items-center gap-1"
+            variant="outline"
+            size="sm"
+          >
+            <Phone className="text-red-900 w-4 h-4" />
+            <span className="text-sm font-serif ">+254 703 082 000</span>
+          </Button>
+        </div>
       </Menubar>
     </div>
   );
@@ -474,7 +558,7 @@ const ListItem = React.forwardRef<
           {...props}
         >
           <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <p className="line-clamp-2 text-3xl leading-snug text-muted-foreground">
             {children}
           </p>
         </a>
