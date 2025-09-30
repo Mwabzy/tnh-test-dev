@@ -31,9 +31,9 @@ const Hero = () => {
 
   const currentSlide = slides[index];
 
-   const rawImageKey = currentSlide?.imageKey;
+  const rawImageKey = currentSlide?.imageKey;
   const imageKey =
-    typeof rawImageKey === "string" ? rawImageKey : rawImageKey?.key;
+  typeof rawImageKey === "string" ? rawImageKey : rawImageKey?.key;
  
   const currentImage = imageMap[imageKey] || imageMap["hospitalview"];
 
