@@ -3,6 +3,24 @@ import { t, type Dictionary } from "intlayer";
 const featuresContent: Dictionary = {
     key: "featuresContent",
     content: {
+        quickaccess:[
+t({
+en: "Quick Access to Our Key Services",
+fr: "Accès rapide à nos services clés",
+es: "Acceso rápido a nuestros servicios clave",
+zh: "快速访问我们的关键服务",
+ru: "Быстрый доступ к нашим ключевым услугам"
+})
+],
+quickaccess_description:[
+t({
+en: "Explore our main features designed to enhance your healthcare experience.",
+fr: "Découvrez nos principales fonctionnalités conçues pour améliorer votre expérience de soins de santé.",
+es: "Explore nuestras principales características diseñadas para mejorar su experiencia de atención médica.",
+zh: "探索旨在提升您的医疗体验的主要功能。",
+ru: "Изучите наши основные функции, разработанные для улучшения вашего опыта в области здравоохранения."
+})
+],
         find_doctor: [
             t({
                 en: "Find a Doctor",

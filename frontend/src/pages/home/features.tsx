@@ -11,6 +11,15 @@ const Features = () => {
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div className="text-center mb-12">
+      <h2 className="text-3xl font-extrabold text-red-900 mb-4">
+      Quick Access to Our Key Services
+  </h2>
+    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+    Explore our main features designed to enhance your healthcare experience.
+</p>
+</div>
         
         <div className="grid gap-20 md:grid-cols-3 text-center">
           {/* Card 1 */}
@@ -20,7 +29,7 @@ const Features = () => {
             <p className="mt-2 text-sm text-gray-600">{content.find_doctor_description}</p>
             <button
               onClick={() => navigate("/booking")}
-              className="mt-4 w-full py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-900 transition"
+              className="mt-4 w-full py-2 rounded-lg bg-red-900 text-white font-medium hover:bg-yellow-600 transition"
             >
               Search
             </button>
@@ -33,7 +42,7 @@ const Features = () => {
             <p className="mt-2 text-sm text-gray-600">{content.clinical_services_description}</p>
             <button
               onClick={() => navigate("/clinical-services")}
-              className="mt-4 w-full py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-900 transition"
+              className="mt-4 w-full py-2 rounded-lg bg-red-900 text-white font-medium hover:bg-yellow-600 transition"
             >
               Learn More
             </button>

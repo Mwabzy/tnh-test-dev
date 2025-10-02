@@ -4,7 +4,6 @@ import Opc from "./opc";
 import Features from "./features";
 import InsuranceSlider from "./InsuranceSlider";
 import ServicesSection from "./ServicesSection";
-import Metrics from "./Metrics";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import Blogpost from "@/components/blogpost";
 
@@ -15,7 +14,7 @@ const Home: FC<HomeProps> = () => {
     <>
       <Hero />
       <Features />
-      <Metrics />
+      {/* /<Metrics /> */}
       <ServicesSection />
       <Opc />
       <TestimonialCarousel
