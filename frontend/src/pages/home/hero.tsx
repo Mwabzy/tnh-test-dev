@@ -56,7 +56,10 @@ const Hero = () => {
       </AnimatePresence>
 
       {/* Gradient overlay left side */}
-      <div className="absolute inset-0 bg-gradient-to-r from-red-900 via-red-900/60 to-transparent" />
+      <div className="    md:absolute inset-0 bg-gradient-to-r from-red-900 via-red-900/60 to-transparent" />
+      {/* Gradient overlay right side for small screens */} 
+       <div className="absolute inset-0 bg-gradient-to-r from-red-900 via-red-900/60 to-transparent md:hidden" />
+
 
       {/* Content */}
       <div className="relative z-10 flex items-center h-full w-full px-6 md:px-16">
