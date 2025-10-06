@@ -3,10 +3,9 @@ import Hero from "./hero";
 import Opc from "./opc";
 import Features from "./features";
 import InsuranceSlider from "./InsuranceSlider";
-import ServicesSection from "./ServicesSection";
-import Metrics from "./Metrics";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import Blogpost from "@/components/blogpost";
+import Services from "./ClinicalServices";
 
 type HomeProps = object;
 
@@ -15,8 +14,9 @@ const Home: FC<HomeProps> = () => {
     <>
       <Hero />
       <Features />
-      <Metrics />
-      <ServicesSection />
+      {/* /<Metrics /> */}
+      {/* <ServicesSection /> */}
+      <Services/>
       <Opc />
       <TestimonialCarousel
         testimonials={[
