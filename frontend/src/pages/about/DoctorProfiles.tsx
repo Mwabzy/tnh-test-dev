@@ -1,5 +1,6 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import DoctorBrief from "./DoctorsCard";
+
 import alexkagiaImg from "@/assets/doctorsImages/alexkagia.png";
 import bwmendwaImg from "@/assets/doctorsImages/bmwendwa.png";
 import fahmoyusufImg from "@/assets/doctorsImages/fahmoyusuf.png";
@@ -21,6 +22,7 @@ import tomnyabogaImg from "@/assets/doctorsImages/tomnyaboga.png";
 import zeinabahmedImg from "@/assets/doctorsImages/zeinabahmed.png";
 import rohnipatilImg from "@/assets/doctorsImages/rohnipatil.png";
 
+// --- TYPES ---
 type TeamPageProps = {
   title: string;
   description: string;
@@ -46,6 +48,7 @@ type TeamMember = {
   socialMediaWebsite?: string[];
 };
 
+// --- DATA ---
 export const teamMembers: TeamMember[] = [
   {
     name: "Dr. Peris Mbatha Mutuku",
@@ -710,14 +713,84 @@ export const teamMembers: TeamMember[] = [
   },
 ];
 
-const DoctorProfiles: FC<TeamPageProps> = () => {
+const ITEMS_PER_PAGE = 9;
+
+const DoctorProfiles: FC = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const filteredMembers = teamMembers.filter(
+    (member) =>
+      member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      member.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredMembers.length / ITEMS_PER_PAGE);
+
+  const paginatedMembers = filteredMembers.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const handleSearch = () => {
+    setCurrentPage(1); // reset to first page when searching
+  };
+
+  const handlePrev = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+
   return (
     <>
       <DoctorBrief
         title="Doctors' Profiles"
         description="Get to know our doctors and their areas of expertise."
-        members={teamMembers}
-      />
+        members={paginatedMembers}
+      >
+        {/* 🔍 Search bar with button */}
+        <div className="flex justify-center mt-6 mb-10 gap-2 px-4">
+          <input
+            type="text"
+            placeholder="Search by name or specialty..."
+            className="w-full max-w-md px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-700"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button
+            onClick={handleSearch}
+            className="bg-red-900 text-white px-4 py-2 rounded-md hover:bg-red-700 transition"
+          >
+            Search
+          </button>
+        </div>
+
+        {/* 📄 Pagination controls */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-4 my-6">
+            <button
+              onClick={handlePrev}
+              disabled={currentPage === 1}
+              className="px-3 py-1 border border-gray-300 rounded-md text-sm disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <span className="text-sm text-gray-700">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={handleNext}
+              disabled={currentPage === totalPages}
+              className="px-3 py-1 border border-gray-300 rounded-md text-sm disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        )}
+      </DoctorBrief>
     </>
   );
 };

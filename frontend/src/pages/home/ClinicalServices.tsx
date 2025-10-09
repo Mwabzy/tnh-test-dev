@@ -5,17 +5,17 @@ const Services = () => {
   const servicesToShow = clinicalServices.slice(0, 3);
   return (
     <div className="flex flex-col items-center justify-center mt-10">
-      
-       <div className="text-center mb-12">
-      <h2 className="text-3xl font-extrabold text-red-900 mb-4">
-      Our Key Services
-  </h2>
-    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
- Comprehensive healthcare services delivered by world-class medical professionals using state-of-the-art technology
-</p>
-</div>
+      <div className="text-center mb-12">
+        <h2 className="text-3xl font-extrabold text-red-900 mb-4">
+          Our Key Services
+        </h2>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          Comprehensive healthcare services delivered by world-class medical
+          professionals using state-of-the-art technology
+        </p>
+      </div>
 
-      <div className="flex flex-wrap items-center px-[5%] gap-6 justify-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-[5%]">
         {servicesToShow.map((item) => (
           <div
             key={item.name}
@@ -49,30 +49,29 @@ const Services = () => {
       </div>
       {clinicalServices.length > 4 && (
         <div className="flex flex-col mt-15 md:flex-row items-center justify-between bg-white shadow-md rounded-xl p-6">
-      {/* Text Section */}
-      <div className="text-center md:text-left">
-        <h3 className="text-xl font-semibold text-gray-900">
-          Explore All Our Services
-        </h3>
-        <p className="text-gray-600 mt-1">
-          Discover our complete range of medical specialties
-        </p>
-      </div>
+          {/* Text Section */}
+          <div className="text-center md:text-left">
+            <h3 className="text-xl font-semibold text-gray-900">
+              Explore All Our Services
+            </h3>
+            <p className="text-gray-600 mt-1">
+              Discover our complete range of medical specialties
+            </p>
+          </div>
 
-      {/* Button Section */}
-      <Link
-        to="/clinics"
-        className="mt-4 md:mt-0 inline-flex items-center px-3 py-2 
+          {/* Button Section */}
+          <Link
+            to="/clinics"
+            className="mt-4 md:mt-0 inline-flex items-center px-3 py-2 
                    text-white ml-6 rounded-lg text-sm font-medium transition 
                    bg-gradient-to-r from-red-700 to-yellow-600 hover:from-yellow-600 focus:ring-4 focus:outline-none hover:to-red-900 shadow-lg shadow-red-900/50"
-      >
-        View All Services
-        <span className="ml-2">→</span>
-      </Link>
-    </div>
-   
+          >
+            View All Services
+            <span className="ml-2">→</span>
+          </Link>
+        </div>
       )}
-       </div>
+    </div>
   );
 };
 

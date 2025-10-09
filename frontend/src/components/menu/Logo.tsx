@@ -12,7 +12,7 @@ interface LogoProps {
 }
 
 const sizeMap = {
-  small: { logo: 40, text: 100 },
+  small: { logo: 50, text: 150 },
   medium: { logo: 60, text: 200 },
   large: { logo: 80, text: 300 },
 };
