@@ -34,12 +34,12 @@ const DoctorBrief: React.FC<TeamPageProps> = ({
         description={description}
       />
 
-      {/* ✅ Render children (the search bar) */}
+      {/* (the search bar) */}
       {children}
 
       <section className="py-12 px-4 bg-gray-100">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid  place-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
             {members.map((member, index) => (
               <TeamCard key={index} {...member} />
             ))}
