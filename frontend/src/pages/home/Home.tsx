@@ -17,7 +17,7 @@ const Home: FC<HomeProps> = () => {
       {/* /<Metrics /> */}
       {/* <ServicesSection /> */}
       <Services/>
-      <Opc />
+      {/* <Opc /> */}
       <TestimonialCarousel
         testimonials={[
           {

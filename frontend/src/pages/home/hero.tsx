@@ -18,6 +18,7 @@ const Hero = () => {
   const slides = heroData?.slides || [];
   const [index, setIndex] = useState(0);
 
+  //  Auto-rotation 
   useEffect(() => {
     if (!slides.length) return;
     const timer = setInterval(() => {
@@ -32,13 +33,16 @@ const Hero = () => {
   const rawImageKey = currentSlide?.imageKey;
   const imageKey =
     typeof rawImageKey === "string" ? rawImageKey : rawImageKey?.key;
-
   const currentImage = imageMap[imageKey] || imageMap["hospitalview"];
+
+  //  navigation handlers
+  const handlePrev = () => setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  const handleNext = () => setIndex((prev) => (prev + 1) % slides.length);
 
   return (
     <>
-      {/* DESKTOP SECTION - hidden on mobile */}
-      <section className="hidden md:block relative max-w-screen h-[80vh] overflow-hidden rounded-2xl mt-8 mx-[1%] md:mx-[2%]">
+      {/* DESKTOP SECTION */}
+      <section className="hidden md:block relative max-w-screen h-[80vh] overflow-hidden rounded-2xl mt-8 mx-[2%]">
         <AnimatePresence mode="wait">
           <motion.img
             key={index}
@@ -53,27 +57,23 @@ const Hero = () => {
           />
         </AnimatePresence>
 
-        {/* Gradient: left to right for desktop */}
         <div className="absolute inset-0 bg-gradient-to-r from-red-900 via-red-900/60 to-transparent" />
 
-        {/* Content */}
-        <div className="relative z-10 flex items-center h-full w-full px-6 md:px-16">
-          <div className="max-w-2xl text-white">
+        <div className="relative z-10 flex items-center h-full w-full px-16">
+          <div className="max-w-2xl ml-8 text-white">
             <AnimatePresence mode="wait">
               <motion.div
-                key={index + "-text"}
+                key={index + '-text'}
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 50 }}
                 transition={{ duration: 0.8 }}
                 className="space-y-6"
               >
-                <h1 className="text-3xl md:text-6xl font-bold leading-tight font-serif">
+                <h1 className="text-6xl font-bold leading-tight font-serif">
                   {currentSlide?.title}
                 </h1>
-                <p className="text-lg md:text-xl font-sans">
-                  {currentSlide?.description}
-                </p>
+                <p className="text-xl font-sans">{currentSlide?.description}</p>
                 <div className="flex space-x-4">
                   <Link
                     to="/clinics"
@@ -90,10 +90,35 @@ const Hero = () => {
             </AnimatePresence>
           </div>
         </div>
+
+        {/* DESKTOP ARROWS */}
+        <button
+          onClick={handlePrev}
+          aria-label="Previous slide"
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-black/40 hover:bg-black/60 text-white z-20"
+        >
+          {/* Left arrow icon */}
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+               stroke="currentColor" strokeWidth="2" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <button
+          onClick={handleNext}
+          aria-label="Next slide"
+          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-black/40 hover:bg-black/60 text-white z-20"
+        >
+          {/* Right arrow icon */}
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+               stroke="currentColor" strokeWidth="2" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
       </section>
 
-      {/* MOBILE SECTION - hidden on desktop */}
-      <section className="block md:hidden relative max-w-screen h-[80vh] overflow-hidden rounded-2xl mt-8 mx-[1%] md:mx-[2%]">
+      {/* MOBILE SECTION */}
+      <section className="block md:hidden relative max-w-screen h-[80vh] overflow-hidden rounded-2xl mt-8 mx-[2%]">
         <AnimatePresence mode="wait">
           <motion.img
             key={index}
@@ -108,27 +133,23 @@ const Hero = () => {
           />
         </AnimatePresence>
 
-        {/* Gradient: top to bottom for mobile */}
         <div className="absolute inset-0 bg-gradient-to-b from-red-900 via-red-900/60 to-transparent" />
 
-        {/* Content */}
         <div className="relative z-10 flex py-6 h-full w-full px-6">
           <div className="max-w-2xl text-white">
             <AnimatePresence mode="wait">
               <motion.div
-                key={index + "-text"}
+                key={index + '-text-mobile'}
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 50 }}
                 transition={{ duration: 0.8 }}
                 className="space-y-6"
               >
-                <h1 className="text-3xl md:text-6xl font-bold leading-tight font-serif">
+                <h1 className="text-3xl font-bold leading-tight font-serif">
                   {currentSlide?.title}
                 </h1>
-                <p className="text-lg md:text-xl font-sans">
-                  {currentSlide?.description}
-                </p>
+                <p className="text-lg font-sans">{currentSlide?.description}</p>
                 <div className="flex space-x-4">
                   <Link
                     to="/clinics"
@@ -144,6 +165,30 @@ const Hero = () => {
               </motion.div>
             </AnimatePresence>
           </div>
+        </div>
+
+        {/* MOBILE ARROWS */}
+        <div className="absolute bottom-6 left-0 right-0 flex justify-between px-6 z-20">
+          <button
+            onClick={handlePrev}
+            aria-label="Previous slide"
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/70"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+                 stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            onClick={handleNext}
+            aria-label="Next slide"
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/70"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+                 stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       </section>
     </>

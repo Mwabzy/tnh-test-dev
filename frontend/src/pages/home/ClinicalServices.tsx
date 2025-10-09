@@ -48,10 +48,10 @@ const Services = () => {
         ))}
       </div>
       {clinicalServices.length > 4 && (
-        <div className="flex flex-col mt-15 md:flex-row items-center justify-between bg-white shadow-md rounded-xl p-6">
+        <div className="flex flex-col mt-15 md:flex-row items-center justify-between bg-white shadow-md rounded-xl p-6 mb-10">
           {/* Text Section */}
           <div className="text-center md:text-left">
-            <h3 className="text-xl font-semibold text-gray-900">
+            <h3 className="text-xl  font-semibold text-gray-900">
               Explore All Our Services
             </h3>
             <p className="text-gray-600 mt-1">
