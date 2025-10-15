@@ -19,7 +19,7 @@ const Services = () => {
         {servicesToShow.map((item) => (
           <div
             key={item.name}
-            className="max-w-sm bg-white border border-gray-200 rounded-lg  dark:bg-gray-800 dark:border-gray-700 shadow-2xl border-yellow-00 border-y-yellow-600"
+            className="max-w-sm bg-white  rounded-lg  dark:bg-gray-800"
           >
             <img
               className="rounded-t-lg w-full h-56 object-cover"
@@ -37,12 +37,10 @@ const Services = () => {
               <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
                 {item.description}
               </p>
-              <Link
-                to={`/service-detail/${item.id}`}
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-900 rounded-lg hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-600 dark:bg-red-900 dark:hover:bg-red-900 dark:focus:ring-red-800 shadow-lg shadow-red-900/50 "
-              >
-                Read more
-              </Link>
+            <Link to={`/service-detail/${item.id}`} className="text-red-900 font-semibold mt-4 inline-flex items-center group">
+                    Read More
+                    <svg className="w-4 h-4 ml-1 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </Link>
             </div>
           </div>
         ))}
@@ -64,7 +62,7 @@ const Services = () => {
             to="/clinics"
             className="mt-4 md:mt-0 inline-flex items-center px-3 py-2 
                    text-white ml-6 rounded-lg text-sm font-medium transition 
-                   bg-gradient-to-r from-red-700 to-yellow-600 hover:from-yellow-600 focus:ring-4 focus:outline-none hover:to-red-900 shadow-lg shadow-red-900/50"
+                   bg-red-900  hover:bg-yellow-600 transition"
           >
             View All Services
             <span className="ml-2">→</span>
