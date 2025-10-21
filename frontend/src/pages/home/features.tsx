@@ -22,7 +22,7 @@ const Features = () => {
 
         <div className="grid gap-20 md:grid-cols-3 text-center">
           {/* Card 1 */}
-          <div className="flex flex-col items-center justify-between bg-white shadow-md rounded-xl p-6 hover:shadow-xl transition-shadow duration-300 ease-in-out">
+          <div className="flex flex-col items-center justify-between bg-white border-1 border-red-900 shadow-md rounded-xl p-6 hover:shadow-xl transition-shadow duration-300 ease-in-out">
             <img src={doctor} alt="Icon 1" className="h-12 w-12 mb-4" />
             <h3 className="text-lg font-semibold text-gray-900">
               {content.find_doctor}
@@ -39,7 +39,7 @@ const Features = () => {
           </div>
 
           {/* Card 2 */}
-          <div className="flex flex-col items-center justify-between bg-white shadow-md rounded-xl p-6 hover:shadow-xl transition-shadow duration-300 ease-in-out">
+          <div className="flex flex-col items-center justify-between bg-white border-1 border-red-900 shadow-md rounded-xl p-6 hover:shadow-xl transition-shadow duration-300 ease-in-out">
             <img src={patient} alt="Icon 2" className="h-12 w-12 mb-4" />
             <h3 className="text-lg font-semibold text-gray-900">
               {content.clinical_services}
@@ -56,7 +56,7 @@ const Features = () => {
           </div>
 
           {/* Card 3 */}
-          <div className="flex flex-col items-center justify-between bg-white shadow-md rounded-xl p-6 hover:shadow-xl transition-shadow duration-300 ease-in-out">
+          <div className="flex flex-col items-center justify-between bg-white border-1 border-red-900 shadow-md rounded-xl p-6 hover:shadow-xl transition-shadow duration-300 ease-in-out">
             <img src={location} alt="Icon 3" className="h-12 w-12 mb-4" />
             <h3 className="text-lg font-semibold text-gray-900">
               {content.getting_to_hospital}
