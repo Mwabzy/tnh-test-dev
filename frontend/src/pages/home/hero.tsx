@@ -23,9 +23,11 @@ const Hero = () => {
     if (!slides.length) return;
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 15000);
     return () => clearInterval(timer);
-  }, [slides.length]);
+
+    
+  }, []);
 
   if (!slides.length) return null;
 
@@ -39,6 +41,8 @@ const Hero = () => {
   const handlePrev = () => setIndex((prev) => (prev - 1 + slides.length) % slides.length);
   const handleNext = () => setIndex((prev) => (prev + 1) % slides.length);
 
+  
+
   return (
     <>
       {/* DESKTOP SECTION */}
@@ -51,13 +55,13 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 1.8, ease: "easeInOut" }}
             className="absolute inset-0 w-full h-full object-cover"
             loading="eager"
           />
         </AnimatePresence>
 
-        <div className="absolute inset-0 bg-gradient-to-r from-red-900 via-red-900/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-red-900 via-red-900/60 to-transparent z-10" />
 
         <div className="relative z-10 flex items-center h-full w-full px-16">
           <div className="max-w-2xl ml-8 text-white">
@@ -67,7 +71,7 @@ const Hero = () => {
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 50 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}  
                 className="space-y-6"
               >
                 <h1 className="text-6xl font-bold leading-tight font-serif">
@@ -127,7 +131,7 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 1.8, ease: "easeInOut" }}
             className="absolute inset-0 w-full h-full object-cover"
             loading="eager"
           />
@@ -143,7 +147,7 @@ const Hero = () => {
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 50 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
                 className="space-y-6"
               >
                 <h1 className="text-3xl font-bold leading-tight font-serif">
