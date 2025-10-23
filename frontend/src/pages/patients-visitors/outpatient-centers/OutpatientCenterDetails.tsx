@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import Footer from "@/components/footer";
+
 import opcData from "@/data/opcData.json";
 import {
   Accordion,
@@ -116,7 +116,6 @@ const OutpatientCenterDetails = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

@@ -32,7 +32,7 @@ const Features = () => {
             </p>
             <button
               onClick={() => navigate("/doctor-profiles")}
-              className="mt-4 w-full py-2 rounded-lg bg-red-900 text-white font-medium hover:bg-yellow-600 transition"
+              className="mt-4 w-full py-2 rounded-lg bg-yellow-600 hover:bg-red-900 cursor-pointer text-white font-medium  transition"
             >
               Search
             </button>
@@ -49,7 +49,7 @@ const Features = () => {
             </p>
             <button
               onClick={() => navigate("/medical-tourism")}
-              className="mt-4 w-full py-2 rounded-lg bg-red-900 text-white font-medium hover:bg-yellow-600 transition"
+              className="mt-4 w-full py-2 rounded-lg bg-yellow-600 hover:bg-red-900 cursor-pointer text-white font-medium transition"
             >
               Learn More
             </button>
@@ -66,7 +66,7 @@ const Features = () => {
             </p>
             <button
               onClick={() => navigate("/outpatient-clinics")}
-              className="mt-4 w-full py-2 rounded-lg bg-red-900 text-white font-medium hover:bg-yellow-600 transition"
+              className="mt-4 w-full py-2 rounded-lg bg-yellow-600 hover:bg-red-900 cursor-pointer text-white font-medium  transition"
             >
               Get Directions
             </button>
