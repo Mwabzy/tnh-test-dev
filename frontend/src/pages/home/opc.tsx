@@ -94,7 +94,7 @@ const Opc: React.FC = () => {
                   alt={center.name}
                   className="object-cover w-full h-full"
                 />
-                <div className="absolute inset-0 bg-black/30 flex flex-col justify-end p-4 text-white">
+                <div className="bg-gradient-to-t from-black to-transparent absolute inset-0 flex flex-col justify-end p-4 text-white">
                   <h3 className="font-semibold text-lg flex items-center justify-between">
                     {center.name} <span className="text-xl font-light">›</span>
                   </h3>

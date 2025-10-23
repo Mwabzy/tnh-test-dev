@@ -64,7 +64,7 @@ const Blogpost = () => {
       >
         <div className="flex flex-col md:flex-row justify-between md:items-center mb-8">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+            <h2 className="text-3xl font-serif md:text-4xl font-bold text-red-900">
               {content.bloglatest}
             </h2>
             <p className="text-lg text-gray-600 mt-2">
@@ -97,7 +97,7 @@ const Blogpost = () => {
                     <span className="bg-red-900 text-white text-xs font-medium px-2.5 py-0.5 rounded-full">Featured</span>
                     </div>
 
-                    <div className="bg-gray-100 border-1 border-red-900  text-black max-w-full bg-opacity-70 p-4 rounded-2xl">
+                    <div className="bg-gray-100 border-1 border-red-900  text-red-900 max-w-full bg-opacity-70 p-4 rounded-2xl">
                     <h3 className="text-xl md:text-2xl font-bold mb-2  ">
                         <Link to={`/blog/${featuredPost.id}`} className="hover:underline ">{featuredPost.title}</Link>
                     </h3>
@@ -116,8 +116,8 @@ const Blogpost = () => {
                         <span className="bg-red-900 text-white text-xs font-medium px-2.5 py-0.5 rounded-full">{post.tag}</span>
                         <span className="text-xs text-gray-500">{post.date}</span>
                     </div>
-                    <h3 className="font-bold text-lg text-gray-800 mb-2">
-                        {post.title}
+                    <h3 className="font-bold text-lg text-red-900 mb-2">
+                        {post.title} 
                     </h3>
                     <p className="text-gray-600 text-sm">
                         {post.description}

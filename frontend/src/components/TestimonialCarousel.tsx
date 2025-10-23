@@ -45,7 +45,7 @@ export default function TestimonialCarousel({
   const content = useIntlayer("testimonial_carousel");
   
   return (
-    <section className="bg-orange-200 py-10 md:py-20 w-full">
+    <section className="bg-orange-200 py-14 md:py-20 w-full">
       <div className="max-w-7xl mx-auto flex flex-col items-start justify-center px-6 gap-6">
         <div className="flex items-start  w-full">
           <h2 className="flex text-3xl md:text-5xl font-semibold text-red-900 font-serif w-full">
@@ -72,25 +72,17 @@ export default function TestimonialCarousel({
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row w-full justify-between gap-5 md:gap-20">
-          <div className="flex items-center gap-3 w-full">
-            <div>
-              <img
-                src={image}
-                alt={name}
-                className="w-[66px] h-[77px] rounded-md object-cover"
-              />
-            </div>
-            <div>
+        <div className="flex flex-col w-full gap-2">
+        
+           <blockquote className="text-xl md:text-2xl w-full text-black font-serif">
+              “{quote}”
+            </blockquote>
+
+            <div className="mt-2">
               <h3 className="text-lg font-semibold text-red-900">{name}</h3>
               <p className="text-gray-600">{title}</p>
             </div>
-          </div>
-          <div>
-            <blockquote className="text-xl md:text-2xl w-full text-black font-serif">
-              “{quote}”
-            </blockquote>
-          </div>
+          
           <div className="flex md:hidden justify-between items-center">
             {/* Navigation Buttons */}
             <div className="flex justify-between gap-4 mx-auto">
