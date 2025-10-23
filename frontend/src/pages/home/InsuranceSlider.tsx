@@ -4,10 +4,10 @@ import Uap from "@/assets/images/UAP-LOGO.png";
 import cigma from "@/assets/images/cigna.png";
 import madison from "@/assets/images/madison.png";
 import jubilee from "@/assets/images/jubilee.png";
-import minet from "@assets/images/minet.png";
-import oldmutual from "@assets/images/oldmutual.png";
-import cicgroup from "@assets/images/cicgroup.png";
-import aar from "@assets/images/aarinsurance.png";
+import minet from "@/assets/images/minet.png";
+import oldmutual from "@/assets/images/oldmutual.png";
+import cicgroup from "@/assets/images/cicgroup.png";
+import aar from "@/assets/images/aarinsurance.png";
 
 import { useIntlayer } from "react-intlayer";
 
