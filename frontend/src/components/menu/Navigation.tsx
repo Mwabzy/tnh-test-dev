@@ -19,6 +19,8 @@ import {
   Newspaper,
   Building2,
 } from "lucide-react";
+import anderson from "@/assets/opc_images/anderson.jpg";
+
 
 import { useIntlayer } from "react-intlayer";
 
@@ -46,12 +48,13 @@ const Navigation: FC<NavigationProps> = () => {
             {content.about_us}
           </MenubarTrigger>
           <MenubarContent>
-            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 px-8 py-6 w-full">
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-x-6 gap-y-3 px-10 py-6 items-start w-fit mx-auto">
+
               {/* Column 1: Our Story */}
-              <li className="border-r border-gray-300 pr-4">
+              <li className="pr-4">
                 {" "}
-                <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">OUR STORY</h3>{" "}
-                <ul className="space-y-1">
+                <h3 className="font-bold text-red-900 text-xs font-serif ml-2 mb-2">OUR STORY</h3>{" "}
+                <ul className="space-y-1 text-base">
                   {" "}
                   <ListItem title="Our History" href="/about-us/history" />{" "}
                   <ListItem title="Vision" href="/about-us" />{" "}
@@ -60,12 +63,12 @@ const Navigation: FC<NavigationProps> = () => {
                 </ul>{" "}
               </li>
               {/* Column 2: Corporate Governance */}
-              <li className="border-r border-gray-300 pr-4">
+              <li className="pr-4">
                 {" "}
-                <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">
+                <h3 className="font-bold text-red-900 text-xs font-serif ml-2 mb-2">
                   CORPORATE GOVERNANCE
                 </h3>{" "}
-                <ul className="space-y-1">
+                <ul className="space-y-1 text-base">
                   {" "}
                   <ListItem
                     title="Board of Governance Structure"
@@ -86,13 +89,13 @@ const Navigation: FC<NavigationProps> = () => {
                 </ul>{" "}
               </li>
               {/* Column 3: Accreditations & Quality */}
-              <li className="border-r border-gray-300 pr-4">
+              <li className="pr-4">
                 {" "}
-                <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">
+                <h3 className="font-bold text-red-900 text-xs font-serif ml-2 mb-2">
                   {" "}
                   ACCREDITATIONS & QUALITY{" "}
                 </h3>{" "}
-                <ul className="space-y-1">
+                <ul className="space-y-1 text-base">
                   {" "}
                   <ListItem
                     title="Local Accreditations"
@@ -111,10 +114,10 @@ const Navigation: FC<NavigationProps> = () => {
               {/* Column 4: Institutional Documents */}
               <li className="pr-4">
                 {" "}
-                <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">
+                <h3 className="font-bold text-red-900 text-xs font-serif ml-2 mb-2">
                   INSTITUTIONAL DOCUMENTS
                 </h3>{" "}
-                <ul className="space-y-1">
+                <ul className="space-y-1 text-base">
                   {" "}
                   <ListItem
                     title="Annual Reports"
@@ -130,7 +133,31 @@ const Navigation: FC<NavigationProps> = () => {
                   />{" "}
                 </ul>{" "}
               </li>{" "}
-            </ul>
+           
+               {/* Column 5 (Image Section) */}
+<div className="flex justify-center items-start">
+  <Link
+    to="/about-us"
+    className="relative block w-48 h-32 rounded-md overflow-hidden shadow-md group"
+  >
+    {/* Image */}
+    <img
+      src={anderson}
+      alt="Leadership & Governance"
+      className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+    />
+
+    {/* Gradient overlay */}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+
+    {/* Text overlay */}
+    <p className="absolute bottom-2 left-2 text-white text-xs font-medium leading-snug">
+      Leadership & Governance at the<br />Nairobi Hospital
+    </p>
+  </Link>
+</div>
+
+     </ul>
           </MenubarContent>
         </MenubarMenu>
 
@@ -141,16 +168,17 @@ const Navigation: FC<NavigationProps> = () => {
             Clinical Services
           </MenubarTrigger>
           <MenubarContent>
-            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-8 py-6 w-full">
+            <ul className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-5 gap-x-6 gap-y-3 px-10 py-6 items-start w-fit mx-auto">
+
               {/* Column 1: Clinical Services */}
-              <li className="border-r border-gray-300 pr-4">
+              <li className="pr-4">
                 {" "}
-                <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">CLINICAL SERVICES</h3>{" "}
-                <ul className="space-y-1">
+                <h3 className="font-bold text-red-900 text-xs font-serif ml-2 mb-2">CLINICAL SERVICES</h3>{" "}
+                <ul className="space-y-1 text-base">
                   {" "}
                   <ListItem
                     title="Medical Departments & Specialties"
-                    href="/clinical/medical-specialties"
+                    href="/clinical-services/MedicalDepartment"
                   />{" "}
                   <ListItem
                     title="Diagnostic Services"
@@ -169,12 +197,12 @@ const Navigation: FC<NavigationProps> = () => {
               </li>
 
               {/* Column 2: Doctors & Medical Staff */}
-              <li className="border-r border-gray-300 pr-4">
+              <li className="pr-4">
                 {" "}
-                <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">
+                <h3 className="font-bold text-red-900 text-xs font-serif ml-2 mb-2">
                   DOCTORS & MEDICAL STAFF
                 </h3>{" "}
-                <ul className="space-y-1">
+                <ul className="space-y-1 text-base">
                   {" "}
                   <ListItem
                     title="Doctors' Profiles"
@@ -191,12 +219,12 @@ const Navigation: FC<NavigationProps> = () => {
                 </ul>{" "}
               </li>
               {/* Column 3: Outpatient Services */}
-              <li className="border-r border-gray-300 pr-4">
+              <li className=" pr-4">
                 {" "}
-                <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">
+                <h3 className="font-bold text-red-900 text-xs font-serif ml-2 mb-2">
                   OUTPATIENT SERVICES
                 </h3>{" "}
-                <ul className="space-y-1">
+                <ul className="space-y-1 text-base">
                   {" "}
                   <ListItem
                     title="A&E Outpatient Centre"
@@ -231,11 +259,11 @@ const Navigation: FC<NavigationProps> = () => {
               {/* Column 4: Inpatient & Critical Care */}
               <li className="pr-4">
                 {" "}
-                <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">
+                <h3 className="font-bold text-red-900 text-xs font-serif ml-2 mb-2">
                   {" "}
                   INPATIENT & CRITICAL CARE{" "}
                 </h3>{" "}
-                <ul className="space-y-1">
+                <ul className="space-y-1 text-base">
                   {" "}
                   <ListItem
                     title="Admission Process"
@@ -263,6 +291,28 @@ const Navigation: FC<NavigationProps> = () => {
                   />{" "}
                 </ul>{" "}
               </li>
+                             {/* Column 5 (Image Section) */}
+<div className="flex justify-center items-start">
+  <Link
+    to="/clinical/medical-specialties"
+    className="relative block w-48 h-32 rounded-md overflow-hidden shadow-md group"
+  >
+    {/* Image */}
+    <img
+      src={anderson}
+      alt="Leadership & Governance"
+      className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+    />
+
+    {/* Gradient overlay */}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+
+    {/* Text overlay */}
+    <p className="absolute bottom-2 left-2 text-white text-xs font-medium leading-snug">
+      Leadership & Governance at the<br />Nairobi Hospital
+    </p>
+  </Link>
+</div>
             </ul>
           </MenubarContent>
         </MenubarMenu>
@@ -274,11 +324,11 @@ const Navigation: FC<NavigationProps> = () => {
             {content.college_of_health_sciences}
           </MenubarTrigger>
           <MenubarContent>
-            <ul className="flex flex-col md:flex-row gap-4 px-8 py-6 justify-center items-start">
+            <ul className="flex flex-col md:flex-row lg:grid-cols-3 gap-x-6 gap-y-3 px-10 py-6 items-start w-fit mx-auto">
               {/* Column 1: About school & programmes*/}
-              <li className="border-r border-gray-300 pr-4">
-                <ul className="space-y-1">
-                  <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">SCHOOL INFORMATION</h3>
+              <li className="pr-4">
+                <ul className="space-y-1 text-base">
+                  <h3 className="font-bold text-red-900 text-xs font-serif ml-2 mb-2">SCHOOL INFORMATION</h3>
                   <ListItem
                     title="About the college"
                     href="/college/about-college"
@@ -295,8 +345,8 @@ const Navigation: FC<NavigationProps> = () => {
               </li>
               {/* Column 2 */}
               <li className="pr-4">
-                <ul className="space-y-1">
-                  <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">EXTRAS</h3>
+                <ul className="space-y-1 text-base">
+                  <h3 className="font-bold text-red-900 text-xs font-serif ml-2 mb-2">EXTRAS</h3>
                   <ListItem
                     title="Alumni Network"
                     href="/college/student-alumni"
@@ -304,6 +354,28 @@ const Navigation: FC<NavigationProps> = () => {
                   <ListItem title="FAQs" href="/college/college-faqs" />
                 </ul>
               </li>
+                    {/* Column 5 (Image Section) */}
+<div className="flex justify-center items-start">
+  <Link
+    to="/college/student-alumni"
+    className="relative block w-48 h-32 rounded-md overflow-hidden shadow-md group"
+  >
+    {/* Image */}
+    <img
+      src={anderson}
+      alt="Leadership & Governance"
+      className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+    />
+
+    {/* Gradient overlay */}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+
+    {/* Text overlay */}
+    <p className="absolute bottom-2 left-2 text-white text-xs font-medium leading-snug">
+      Leadership & Governance at the<br />Nairobi Hospital
+    </p>
+  </Link>
+</div>
             </ul>
           </MenubarContent>
         </MenubarMenu>
@@ -326,11 +398,11 @@ const Navigation: FC<NavigationProps> = () => {
             {content.notices_and_opportunities}
           </MenubarTrigger>
           <MenubarContent>
-            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-8 py-6 w-fit mx-auto justify-center">
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-3 px-10 py-6 items-start w-fit mx-auto">
               {/* Column 1: News & Media */}{" "}
-              <li className="border-r border-gray-300 pl-4">
-                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">NEWS & MEDIA</h3>
-                <ul className="space-y-1">
+              <li className="pr-4">
+                <h3 className="font-bold ml-2 mb-2 text-xs text-red-900 font-serif">NEWS & MEDIA</h3>
+                <ul className="space-y-1 text-base">
                   <ListItem title="Latest News" href="/news/latest" />
                   <ListItem
                     title="Events & Announcements"
@@ -343,10 +415,10 @@ const Navigation: FC<NavigationProps> = () => {
                 </ul>
               </li>
               {/* Column 2: Tenders */}
-              <li className="border-r border-gray-300 pl-4">
+              <li className="pr-4">
                 {" "}
-                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">TENDERS</h3>{" "}
-                <ul className="space-y-1">
+                <h3 className="font-bold ml-2 mb-2 text-red-900 text-xs font-serif">TENDERS</h3>{" "}
+                <ul className="space-y-1 text-base">
                   <ListItem title="Open Tenders" href="/tenders/open" />
                   <ListItem
                     title="Supplier Information"
@@ -360,8 +432,8 @@ const Navigation: FC<NavigationProps> = () => {
               </li>{" "}
               {/* Column 3: Careers */}
               <li className="pr-4">
-                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">CAREERS</h3>
-                <ul className="space-y-1">
+                <h3 className="font-bold ml-2 mb-2 text-xs text-red-900 font-serif">CAREERS</h3>
+                <ul className="space-y-1 text-base">
                   <ListItem title="Job Vacancies" href="/careers/jobs" />
                   <ListItem
                     title="Volunteer Opportunities"
@@ -370,6 +442,29 @@ const Navigation: FC<NavigationProps> = () => {
                   <ListItem title="Submit Your CV" href="/careers/submit-cv" />
                 </ul>
               </li>
+                                       
+     {/* Column 5 (Image Section) */}
+<div className="flex justify-center items-start">
+  <Link
+    to="/careers/volunteer"
+    className="relative block w-48 h-32 rounded-md overflow-hidden shadow-md group"
+  >
+    {/* Image */}
+    <img
+      src={anderson}
+      alt="Leadership & Governance"
+      className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+    />
+
+    {/* Gradient overlay */}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+
+    {/* Text overlay */}
+    <p className="absolute bottom-2 left-2 text-white text-xs font-medium leading-snug">
+      Leadership & Governance at the<br />Nairobi Hospital
+    </p>
+  </Link>
+</div>
             </ul>
           </MenubarContent>
         </MenubarMenu>
@@ -381,11 +476,11 @@ const Navigation: FC<NavigationProps> = () => {
             {content.other_services}
           </MenubarTrigger>
           <MenubarContent>
-            <ul className="flex flex-col md:flex-row gap-4 px-8 py-6 justify-center items-start">
+            <ul className="flex flex-col md:flex-row lg:grid-cols-3 gap-x-6 gap-y-3 px-10 py-6 items-start w-fit mx-auto">
               {/* Column 1: Facilities*/}
-              <li className="border-r border-gray-300 pr-4">
-                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">HOSPITAL FACILITIES</h3>
-                <ul className="space-y-1">
+              <li className="pr-4">
+                <h3 className="font-bold ml-2 mb-2 text-xs text-red-900 font-serif">HOSPITAL FACILITIES</h3>
+                <ul className="space-y-1 text-base">
                   <ListItem
                     title="Convention & Conference Centre"
                     href="/convention-center"
@@ -396,8 +491,8 @@ const Navigation: FC<NavigationProps> = () => {
               </li>{" "}
               {/* Column 2: Support Services */}
               <li className=" pr-4">
-                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">SUPPORT SERVICES</h3>
-                <ul className="space-y-1">
+                <h3 className="font-bold ml-2 mb-2 text-xs text-red-900 font-serif">SUPPORT SERVICES</h3>
+                <ul className="space-y-1 text-base">
                   {" "}
                   <ListItem
                     title="Laundry & Housekeeping"
@@ -413,6 +508,28 @@ const Navigation: FC<NavigationProps> = () => {
                   />
                 </ul>
               </li>
+                                                   {/* Column 5 (Image Section) */}
+<div className="flex justify-center items-start">
+  <Link
+    to="/about-us/board-of-management"
+    className="relative block w-48 h-32 rounded-md overflow-hidden shadow-md group"
+  >
+    {/* Image */}
+    <img
+      src={anderson}
+      alt="Leadership & Governance"
+      className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+    />
+
+    {/* Gradient overlay */}
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+
+    {/* Text overlay */}
+    <p className="absolute bottom-2 left-2 text-white text-xs font-medium leading-snug">
+      Leadership & Governance at the<br />Nairobi Hospital
+    </p>
+  </Link>
+</div>
             </ul>
             {/* facilities dropdown */}
           </MenubarContent>

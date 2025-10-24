@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import DoctorBrief from "./DoctorsCard";
+import DoctorsCard from "./DoctorsCard";
 
 import alexkagiaImg from "@/assets/doctorsImages/alexkagia.png";
 import bwmendwaImg from "@/assets/doctorsImages/bmwendwa.png";
@@ -746,7 +746,7 @@ const DoctorProfiles: FC = () => {
 
   return (
     <>
-      <DoctorBrief
+      <DoctorsCard
         title="Doctors' Profiles"
         description="Get to know our doctors and their areas of expertise."
         members={paginatedMembers}
@@ -790,7 +790,7 @@ const DoctorProfiles: FC = () => {
             </button>
           </div>
         )}
-      </DoctorBrief>
+      </DoctorsCard>
     </>
   );
 };

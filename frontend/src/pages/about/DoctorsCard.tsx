@@ -19,7 +19,7 @@ type TeamMember = {
 };
 
 // layout for the whole page
-const DoctorBrief: React.FC<TeamPageProps> = ({
+const DoctorsCard: React.FC<TeamPageProps> = ({
   title,
   description,
   members,
@@ -84,4 +84,4 @@ const TeamCard: React.FC<TeamMember> = ({ name, title, id, image }) => (
   </div>
 );
 
-export default DoctorBrief;
+export default DoctorsCard;
