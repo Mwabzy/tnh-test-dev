@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 
-import galleria from "@/assets/opc_images/galleria.jpg";
+import Pagination from "@/components/ui/pagination";
 import capital from "@/assets/opc_images/capital.jpg";
 import anderson from "@/assets/opc_images/anderson.jpg";
 
@@ -196,7 +196,7 @@ const MedicalDepartment = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <Card className="overflow-hidden border  rounded-2xl shadow-sm">
+            <Card className="overflow-hidden border rounded-2xl shadow-sm">
               <img
                 src={clinic.imageUrl}
                 alt={clinic.title}
@@ -214,7 +214,7 @@ const MedicalDepartment = () => {
                     Book Appointment
                   </Button>
                   <Button className="bg-yellow-600  hover:bg-red-900  text-white">
-                    View Details
+                    Find a Doctor
                   </Button>
                 </div>
               </CardContent>
@@ -223,11 +223,7 @@ const MedicalDepartment = () => {
         ))}
 
         {/* Pagination */}
-         const totalPages = Math.ceil(filteredClinics.length / itemsPerPage);
-        const paginatedClinics = filteredClinics.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-        );
+        
       </main>
     </div>
   );
