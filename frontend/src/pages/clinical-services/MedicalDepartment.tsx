@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { Link } from "react-router";
 
 import Pagination from "@/components/ui/pagination";
 import capital from "@/assets/opc_images/capital.jpg";
@@ -200,7 +201,7 @@ const MedicalDepartment = () => {
               <img
                 src={clinic.imageUrl}
                 alt={clinic.title}
-                className="w-full h-56 py-0 object-cover"
+                className="w-full h-56 object-cover"
               />
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold font-serif text-red-900 mb-2">
@@ -210,19 +211,28 @@ const MedicalDepartment = () => {
                   {clinic.description}
                 </p>
                 <div className="flex gap-3">
+
+                  <Link to="/booking">
                   <Button variant="outline" className="text-red-900 border-red-900">
                     Book Appointment
                   </Button>
+                  </Link>
+                  
+                  <Link to="/booking">
                   <Button className="bg-yellow-600  hover:bg-red-900  text-white">
                     Find a Doctor
                   </Button>
+                  </Link>
+                  
+
+
                 </div>
               </CardContent>
             </Card>
           </motion.div>
         ))}
-
         {/* Pagination */}
+        <Pagination totalPages={3} currentPage={1} onPageChange={() => {}} />
         
       </main>
     </div>
