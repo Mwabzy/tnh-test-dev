@@ -50,7 +50,9 @@ const Navigation: FC<NavigationProps> = () => {
               {/* Column 1: Our Story */}
               <li className="border-r border-gray-300 pr-4">
                 {" "}
-                <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">OUR STORY</h3>{" "}
+                <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">
+                  OUR STORY
+                </h3>{" "}
                 <ul className="space-y-1">
                   {" "}
                   <ListItem title="Our History" href="/about-us/history" />{" "}
@@ -145,26 +147,31 @@ const Navigation: FC<NavigationProps> = () => {
               {/* Column 1: Clinical Services */}
               <li className="border-r border-gray-300 pr-4">
                 {" "}
-                <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">CLINICAL SERVICES</h3>{" "}
+                <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">
+                  CLINICAL SERVICES
+                </h3>{" "}
                 <ul className="space-y-1">
                   {" "}
                   <ListItem
                     title="Medical Departments & Specialties"
-                    href="/clinical/medical-specialties"
+                    href="/clinical-services"
                   />{" "}
                   <ListItem
                     title="Diagnostic Services"
-                    href="/clinical/diagnostic"
+                    href="/clinical-services"
                   />{" "}
                   <ListItem
                     title="Pharmacy Services"
-                    href="/clinical/pharmacy"
+                    href="/clinical-services"
                   />{" "}
-                  <ListItem title="Nursing Services" href="/clinical/nursing" />{" "}
+                  <ListItem
+                    title="Nursing Services"
+                    href="/clinical-services"
+                  />{" "}
                 </ul>{" "}
                 <ListItem
                   title="International Patients"
-                  href="/clinical/support-services"
+                  href="/medical-tourism"
                 />{" "}
               </li>
 
@@ -278,7 +285,9 @@ const Navigation: FC<NavigationProps> = () => {
               {/* Column 1: About school & programmes*/}
               <li className="border-r border-gray-300 pr-4">
                 <ul className="space-y-1">
-                  <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">SCHOOL INFORMATION</h3>
+                  <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">
+                    SCHOOL INFORMATION
+                  </h3>
                   <ListItem
                     title="About the college"
                     href="/college/about-college"
@@ -296,7 +305,9 @@ const Navigation: FC<NavigationProps> = () => {
               {/* Column 2 */}
               <li className="pr-4">
                 <ul className="space-y-1">
-                  <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">EXTRAS</h3>
+                  <h3 className="font-bold text-red-900 font-serif ml-2 mb-2">
+                    EXTRAS
+                  </h3>
                   <ListItem
                     title="Alumni Network"
                     href="/college/student-alumni"
@@ -329,7 +340,9 @@ const Navigation: FC<NavigationProps> = () => {
             <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-8 py-6 w-fit mx-auto justify-center">
               {/* Column 1: News & Media */}{" "}
               <li className="border-r border-gray-300 pl-4">
-                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">NEWS & MEDIA</h3>
+                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">
+                  NEWS & MEDIA
+                </h3>
                 <ul className="space-y-1">
                   <ListItem title="Latest News" href="/news/latest" />
                   <ListItem
@@ -345,7 +358,9 @@ const Navigation: FC<NavigationProps> = () => {
               {/* Column 2: Tenders */}
               <li className="border-r border-gray-300 pl-4">
                 {" "}
-                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">TENDERS</h3>{" "}
+                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">
+                  TENDERS
+                </h3>{" "}
                 <ul className="space-y-1">
                   <ListItem title="Open Tenders" href="/tenders/open" />
                   <ListItem
@@ -360,7 +375,9 @@ const Navigation: FC<NavigationProps> = () => {
               </li>{" "}
               {/* Column 3: Careers */}
               <li className="pr-4">
-                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">CAREERS</h3>
+                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">
+                  CAREERS
+                </h3>
                 <ul className="space-y-1">
                   <ListItem title="Job Vacancies" href="/careers/jobs" />
                   <ListItem
@@ -384,7 +401,9 @@ const Navigation: FC<NavigationProps> = () => {
             <ul className="flex flex-col md:flex-row gap-4 px-8 py-6 justify-center items-start">
               {/* Column 1: Facilities*/}
               <li className="border-r border-gray-300 pr-4">
-                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">HOSPITAL FACILITIES</h3>
+                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">
+                  HOSPITAL FACILITIES
+                </h3>
                 <ul className="space-y-1">
                   <ListItem
                     title="Convention & Conference Centre"
@@ -396,7 +415,9 @@ const Navigation: FC<NavigationProps> = () => {
               </li>{" "}
               {/* Column 2: Support Services */}
               <li className=" pr-4">
-                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">SUPPORT SERVICES</h3>
+                <h3 className="font-bold ml-2 mb-2 text-red-900 font-serif">
+                  SUPPORT SERVICES
+                </h3>
                 <ul className="space-y-1">
                   {" "}
                   <ListItem

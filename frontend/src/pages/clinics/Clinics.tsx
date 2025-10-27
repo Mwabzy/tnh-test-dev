@@ -1,8 +1,9 @@
 import ServicesBrief from "./ServicesBrief";
-import ServiceCards from "./ServicesCards";
+
 import ContactForm from "@/components/ContactForm";
 import FAQs from "./FAQs";
 import Heading from "@/components/Heading";
+import ServiceList from "@/pages/clinics/ServiceList";
 
 const Clinics = () => {
   return (
@@ -13,7 +14,7 @@ const Clinics = () => {
         style="text"
       />
       <ServicesBrief />
-      <ServiceCards />
+      <ServiceList />
       <ContactForm
         contactInfo={{
           phone: "+254 703 082 000",

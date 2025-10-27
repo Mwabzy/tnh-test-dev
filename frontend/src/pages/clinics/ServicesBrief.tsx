@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { ClinicalService } from "@/types";
-//import clinicalServices from "@/data/clinicalServices.json";
+import clinicalServices from "@/data/clinicalServices2.json";
 
 const ServicesBrief = () => {
   const [services, setServices] = useState<ClinicalService[]>([]);
@@ -28,20 +28,26 @@ const ServicesBrief = () => {
   if (loading) return <p>Loading services brief...</p>;
 
   return (
-    <div className="rounded-lg p-6 md:p-10 text-center  bg-orange-200 dark:border-gray-700 shadow-xl mx-[7%] mb-20">
+    <div className="rounded-lg p-6 md:p-10 text-center bg-orange-200 dark:border-gray-700 shadow-xl mx-[7%] mb-20">
       <h2 className="text-2xl md:text-4xl font-bold mb-6 text-red-900">
         Our Clinical Services
       </h2>
 
-      <div className="flex flex-col md:grid-cols-2 lg:flex-row lg:flex-wrap justify-center gap-4 text-red-900">
-        {services.map((item) => (
-          <div key={item.title}>
-            <Link to={`/service-detail/${item.id}`}>
-              <li>{item.title}</li>
+      <ul className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-red-900">
+        {clinicalServices.map((item) => (
+          <li
+            key={item.title}
+            className="flex items-center before:content-['•'] before:mr-2 text-red-900 before:text-lg"
+          >
+            <Link
+              to={`/service-detail/${item.id}`}
+              className="hover:text-red-700 transition-colors"
+            >
+              {item.title}
             </Link>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };

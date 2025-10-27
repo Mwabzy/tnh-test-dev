@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ClinicalService } from "@/types";
-import ServiceList from "@/components/services/ServiceList";
+import ServiceList from "@/pages/clinics/ServiceList";
 
 const ServiceCards = () => {
   const [services, setServices] = useState<ClinicalService[]>([]);
@@ -26,7 +26,7 @@ const ServiceCards = () => {
 
   if (loading) return <p>Loading services...</p>;
 
-  return <ServiceList services={services} />;
+  return <ServiceList />;
 };
 
 export default ServiceCards;

@@ -28,6 +28,7 @@
     "lightningcss": "^1.29.3",
     "lucide-react": "^0.483.0",
     "react": "^19.0.0",
+    "react-calendar": "^6.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
     "react-intlayer": "^5.5.9",

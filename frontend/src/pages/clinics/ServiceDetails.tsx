@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { ClinicalService } from "@/types";
 import ServiceTemplate from "@/components/services/ServiceTemplate";
-import ServiceList from "@/components/services/ServiceList";
+import ServiceList from "@/pages/clinics/ServiceList";
 import Heading from "@/components/Heading";
 //import clinicalServices from "@/data/clinicalServices.json";
 

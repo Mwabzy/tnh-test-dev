@@ -1,6 +1,5 @@
 import { FC, useState } from "react";
-import ContactForm from "@/components/ContactForm";
-import hospitalview from "@/assets/heroimages/heroimage2.jpg";
+import DoctorBrief from "./DoctorsCardprev";
 
 import alexkagiaImg from "@/assets/doctorsImages/alexkagia.png";
 import bwmendwaImg from "@/assets/doctorsImages/bmwendwa.png";
@@ -22,9 +21,13 @@ import smuruthuImg from "@/assets/doctorsImages/smuruthu.png";
 import tomnyabogaImg from "@/assets/doctorsImages/tomnyaboga.png";
 import zeinabahmedImg from "@/assets/doctorsImages/zeinabahmed.png";
 import rohnipatilImg from "@/assets/doctorsImages/rohnipatil.png";
-import Heading from "@/components/Heading";
-import { FaUserMd, FaCalendarCheck } from "react-icons/fa";
-import { Link } from "react-router";
+
+// --- TYPES ---
+type TeamPageProps = {
+  title: string;
+  description: string;
+  members: TeamMember[];
+};
 
 type TeamMember = {
   name: string;
@@ -45,6 +48,7 @@ type TeamMember = {
   socialMediaWebsite?: string[];
 };
 
+// --- DATA ---
 export const teamMembers: TeamMember[] = [
   {
     name: "Dr. Peris Mbatha Mutuku",
@@ -709,251 +713,84 @@ export const teamMembers: TeamMember[] = [
   },
 ];
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 9;
 
 const DoctorProfiles: FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [specialtyClinic, setSpecialtyClinic] = useState("");
-  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
-  const [firstLetter, setFirstLetter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const locations = [
-    "Main Hospital",
-    "Anderson Specialty",
-    "Capital Center OPC",
-    "Galleria OPC",
-    "Kiambu OPC",
-    "Roslyn Riviera OPC",
-    "South Field OPC",
-    "Warwick OPC",
-  ];
-
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-  // Filtering Logic
-  const filteredMembers = teamMembers.filter((member) => {
-    const matchesSearch =
+  const filteredMembers = teamMembers.filter(
+    (member) =>
       member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      member.title.toLowerCase().includes(searchTerm.toLowerCase());
+      member.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-    const matchesClinic = specialtyClinic
-      ? member.clinicDepartment
-          ?.toLowerCase()
-          .includes(specialtyClinic.toLowerCase())
-      : true;
-
-    const matchesLocation =
-      selectedLocations.length > 0
-        ? selectedLocations.includes(member.location)
-        : true;
-
-    const matchesFirstLetter = firstLetter
-      ? member.name.charAt(0).toLowerCase() === firstLetter.toLowerCase()
-      : true;
-
-    return (
-      matchesSearch && matchesClinic && matchesLocation && matchesFirstLetter
-    );
-  });
-
-  // Pagination
   const totalPages = Math.ceil(filteredMembers.length / ITEMS_PER_PAGE);
+
   const paginatedMembers = filteredMembers.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
 
-  const handlePrev = () => currentPage > 1 && setCurrentPage((p) => p - 1);
-  const handleNext = () =>
-    currentPage < totalPages && setCurrentPage((p) => p + 1);
-
-  const toggleLocation = (loc: string) => {
-    setSelectedLocations((prev) =>
-      prev.includes(loc) ? prev.filter((l) => l !== loc) : [...prev, loc]
-    );
+  const handleSearch = () => {
+    setCurrentPage(1); // reset to first page when searching
   };
 
-  const resetFilters = () => {
-    setSearchTerm("");
-    setSpecialtyClinic("");
-    setSelectedLocations([]);
-    setFirstLetter("");
-    setCurrentPage(1);
+  const handlePrev = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
 
   return (
     <>
-      <Heading
-        image_url={hospitalview}
-        style="background"
+      <DoctorBrief
         title="Doctors' Profiles"
         description="Get to know our doctors and their areas of expertise."
-      />
-
-      <div className="flex flex-col lg:flex-row gap-6 mt-6 md:mx-40 mb-10 ">
-        {/* Filters Sidebar */}
-        <div className="w-full lg:w-1/4 bg-gray-50 rounded-lg p-4 md:sticky md:top-28 ">
-          <h3 className="font-semibold font-sans text-md mb-4">
-            Narrow your search
-          </h3>
-
-          {/* By Doctor’s Name */}
-          <div className="mb-4">
-            <label className="block text-sm font-sans font-medium mb-1">
-              By Doctor’s Name
-            </label>
-            <input
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search name..."
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-            />
-          </div>
-
-          {/* By Specialty Clinic */}
-          <div className="mb-4">
-            <label className="block text-sm font-sans font-medium mb-1">
-              By Specialty Clinic
-            </label>
-            <input
-              value={specialtyClinic}
-              onChange={(e) => setSpecialtyClinic(e.target.value)}
-              placeholder="e.g. Renal Unit"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-            />
-          </div>
-
-          {/* By Location */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">
-              By Location
-            </label>
-            {locations.map((loc) => (
-              <div key={loc} className="flex items-center mb-1">
-                <input
-                  type="checkbox"
-                  checked={selectedLocations.includes(loc)}
-                  onChange={() => toggleLocation(loc)}
-                  className="mr-2"
-                />
-                <span className="text-sm">{loc}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Filter by First Name */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">
-              Filter Doctors by First Name
-            </label>
-            <div className="flex flex-wrap gap-1">
-              {alphabet.map((letter) => (
-                <button
-                  key={letter}
-                  onClick={() => setFirstLetter(letter)}
-                  className={`w-6 h-6 rounded-full text-xs border border-gray-300 ${
-                    firstLetter === letter
-                      ? "bg-red-900 text-white"
-                      : "bg-white hover:bg-gray-200"
-                  }`}
-                >
-                  {letter}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Reset Filters */}
+        members={paginatedMembers}
+      >
+        {/* 🔍 Search bar with button */}
+        <div className="flex justify-center mt-6 mb-10 gap-2 px-4">
+          <input
+            type="text"
+            placeholder="Search by name or specialty..."
+            className="w-full max-w-md px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-700"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <button
-            onClick={resetFilters}
-            className="mt-4 w-full bg-gray-300 hover:bg-gray-400 text-sm py-2 rounded-md"
+            onClick={handleSearch}
+            className="bg-red-900 text-white px-4 py-2 rounded-md hover:bg-red-700 transition"
           >
-            Reset all filters
+            Search
           </button>
         </div>
 
-        {/* Doctors List */}
-        <div className="flex-1">
-          {paginatedMembers.length > 0 ? (
-            paginatedMembers.map((member, idx) => (
-              <div
-                key={idx}
-                className="flex flex-col md:flex-row bg-white border border-gray-200 rounded-lg shadow-sm mb-6 overflow-hidden hover:shadow-md transition"
-              >
-                {/* Doctor Image */}
-                <div className="p-2">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h:3/4 md:w-50 md:h-50 object-cover"
-                  />
-                </div>
-
-                {/* Doctor Info */}
-                <div className="md:w-2/3 p-6 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-lg font-semibold font-serif text-red-800">
-                      {member.name}
-                    </h3>
-                    <p className="text-gray-700 font-serif font-medium mb-2">
-                      {member.title}, {member.location}
-                    </p>
-                    <p className="text-gray-600 text-sm font-sans leading-relaxed">
-                      {member.description[0].slice(0, 320)}...
-                    </p>
-                  </div>
-
-                  <div className="flex flex-wrap gap-3 mt-4 ">
-                    <Link
-                      to="/booking-calendar"
-                      className="flex items-center justify-center gap-2 text-red-900  px-4 py-2 rounded-md text-sm hover:bg-red-900 hover:text-white transition"
-                    >
-                      <FaCalendarCheck />
-                      Book Appointment
-                    </Link>
-                    <Link
-                      to={`/doctor-details/${member.id}`}
-                      className="flex items-center justify-center gap-2 text-red-900  px-4 py-2 rounded-md text-sm hover:bg-red-900 hover:text-white transition"
-                    >
-                      <FaUserMd />
-                      View Profile
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p className="text-center text-gray-500 mt-10">
-              No doctors found matching your filters.
-            </p>
-          )}
-
-          {/* Pagination */}
-          {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-4 mt-6">
-              <button
-                onClick={handlePrev}
-                disabled={currentPage === 1}
-                className="px-3 py-1 border border-gray-300 rounded-md text-sm disabled:opacity-50"
-              >
-                Previous
-              </button>
-              <span className="text-sm text-gray-700">
-                Page {currentPage} of {totalPages}
-              </span>
-              <button
-                onClick={handleNext}
-                disabled={currentPage === totalPages}
-                className="px-3 py-1 border border-gray-300 rounded-md text-sm disabled:opacity-50"
-              >
-                Next
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-      <ContactForm contactInfo={{ phone: "" }} />
+        {/* 📄 Pagination controls */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-4 my-6">
+            <button
+              onClick={handlePrev}
+              disabled={currentPage === 1}
+              className="px-3 py-1 border border-gray-300 rounded-md text-sm disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <span className="text-sm text-gray-700">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={handleNext}
+              disabled={currentPage === totalPages}
+              className="px-3 py-1 border border-gray-300 rounded-md text-sm disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        )}
+      </DoctorBrief>
     </>
   );
 };
