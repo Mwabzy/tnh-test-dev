@@ -48,7 +48,7 @@ const InsuranceSlider = () => {
           {[...images, ...images].map((image, i) => (
             <div
               key={i}
-              className="flex-shrink-0 w-40 sm:w-48 lg:w-56 border rounded-lg p-4 shadow-md flex justify-center items-center bg-white"
+              className="flex-shrink-0 w-40 sm:w-48 lg:w-56 border  p-4  flex justify-center items-center bg-white"
             >
               <img
                 src={image.src}
