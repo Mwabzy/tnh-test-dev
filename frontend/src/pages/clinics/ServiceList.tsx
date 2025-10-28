@@ -17,13 +17,13 @@ const ALL_LOCATIONS = [
   "Warwick OPC",
 ];
 
-const ITEMS_PER_PAGE = 6; // 👈 show 6 services per page
+const ITEMS_PER_PAGE = 6;
 
 const ServiceList: React.FC = () => {
   const [search, setSearch] = useState("");
   const [locations, setLocations] = useState<string[]>([]);
   const [letterFilter, setLetterFilter] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1); // 👈 pagination state
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Filter logic
   const filteredServices = services.filter((service) => {

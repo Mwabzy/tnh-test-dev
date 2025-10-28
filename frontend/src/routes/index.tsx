@@ -38,14 +38,7 @@ export function AppRoutes(): JSX.Element {
       />
 
       {/* Protected dashboard pages without Navbar & Footer */}
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <DashboardLayout />
-          </ProtectedRoute>
-        }
-      >
+      <Route path="/dashboard" element={<DashboardLayout />}>
         <Route index element={<DashboardHome />} />
         <Route path="clinical-services" element={<ClinicalServices />} />
       </Route>

@@ -1,5 +1,5 @@
-import ServicesBrief from "./ServicesBrief";
-
+//import ServicesBrief from "./ServicesBrief";
+import hospitalview from "@/assets/heroimages/heroimage2.jpg";
 import ContactForm from "@/components/ContactForm";
 import FAQs from "./FAQs";
 import Heading from "@/components/Heading";
@@ -9,11 +9,12 @@ const Clinics = () => {
   return (
     <div>
       <Heading
+        image_url={hospitalview}
         title="Clinical Services"
-        description="The Nairobi Hospital is a non-profit organization that is leading in medical expertise and service provision, with deservedly earned recognition throughout East Africa and beyond as an advanced diagnostic, treatment and referral centre."
-        style="text"
+        description="Overview of the clinical services offered at The Nairobi Hospital."
+        style="background"
       />
-      <ServicesBrief />
+      {/* <ServicesBrief /> */}
       <ServiceList />
       <ContactForm
         contactInfo={{

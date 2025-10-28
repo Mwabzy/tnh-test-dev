@@ -29,8 +29,6 @@ const UIRoutes = {
     component: lazyLoad(() => import("../pages/clinics/Clinics")),
   },
 
-
-
   serviceDetails: {
     name: "navigation.serviceDetails",
     path: "/service-detail/:id",
@@ -190,7 +188,7 @@ const UIRoutes = {
     path: "/outpatient-clinics",
     component: lazyLoad(() => import("../pages/clinicListing/ClinicListing")),
   },
-  MedicalDepartment: {  
+  MedicalDepartment: {
     name: "navigation.medicalDepartment",
     path: "/clinical-services/MedicalDepartment",
     component: lazyLoad(

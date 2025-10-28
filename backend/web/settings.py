@@ -35,10 +35,12 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
-    'authentication'
+    'authentication',
+    'clinics'
 ]
 
 MIDDLEWARE = [
+     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -46,7 +48,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
+
 
 ROOT_URLCONF = 'web.urls'
 
@@ -98,7 +102,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+      'rest_framework.permissions.IsAuthenticated',
+     #'rest_framework.permissions.AllowAny',
     ],
 }
 
@@ -126,7 +131,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = "authentication.User"
+AUTH_USER_MODEL = "authentication.CustomUser"
 
 # Email Settings
 EMAIL_BACKEND=env("EMAIL_BACKEND", default=None)
@@ -140,3 +145,5 @@ MICROSOFT_TENANT_ID = env("MICROSOFT_TENANT_ID", default=None)
 MICROSOFT_CLIENT_ID = env("MICROSOFT_CLIENT_ID", default=None)
 MICROSOFT_CLIENT_SECRET = env("MICROSOFT_CLIENT_SECRET", default=None)
 MICROSOFT_EMAIL_SENDER = env("MICROSOFT_EMAIL_SENDER", default=None)
+
+#CORS_ALLOW_ALL_ORIGINS = True

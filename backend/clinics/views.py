@@ -9,7 +9,7 @@ from .serializers import (
 from rest_framework.permissions import AllowAny
 
 class ClinicalServiceViewSet(viewsets.ModelViewSet):
- #   permission_classes = [AllowAny]
+    permission_classes = [AllowAny]
     queryset = ClinicalService.objects.all()
     serializer_class = ClinicalServiceSerializer
 

@@ -1,5 +1,5 @@
-const USER_API = "http://localhost:5003/auth";
-const CLINICS_API = "http://localhost:5003/clinical-services";
+const USER_API = "http://localhost:5000/auth/";
+const CLINICS_API = "http://localhost:8000/clinical-services/";
 
 // Auth
 
@@ -30,7 +30,7 @@ function getAuthToken() {
 function authHeaders() {
   return {
     "Content-Type": "application/json",
-    Authorization: getAuthToken(), // 👈 NO 'Bearer' prefix
+    Authorization: getAuthToken(),
   };
 }
 
@@ -53,7 +53,7 @@ export async function fetchClinicalServiceById(id: number) {
 }
 
 export async function createClinicalService(data: any) {
-  console.log("🛰️ Creating Clinical Service with data:", data);
+  console.log(" Creating Clinical Service with data:", data);
   const res = await fetch(CLINICS_API, {
     method: "POST",
     headers: authHeaders(),

@@ -1,11 +1,7 @@
-from rest_framework.routers import DefaultRouter
 from django.urls import path
-from authentication.views import UserViewSet
+from .views import RegisterView, LoginView
 
-router = DefaultRouter()
-
-router.register('users', UserViewSet, basename='user')
-
-app_name = 'authentication'
-
-urlpatterns = router.urls
+urlpatterns = [
+    path('register/', RegisterView.as_view(), name='register'),
+    path('login/', LoginView.as_view(), name='login'),
+]
