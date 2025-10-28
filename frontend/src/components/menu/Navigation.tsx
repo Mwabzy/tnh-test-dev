@@ -182,7 +182,38 @@ const Navigation: FC<NavigationProps> = () => {
                     href="/clinical-services"
                   />{" "}
                   <ListItem
-                    title="Diagnostic Services"
+                    title="Accident and Emergency Services"
+                    href="/clinical-services"
+                  />{" "}
+                  <ListItem
+                    title="Physical Medicine"
+                    href="/clinical-services"
+                  />{" "}
+                  <ListItem
+                    title="Antenatal Clinic"
+                    href="/clinical-services"
+                  />{" "}
+                </ul>{" "}
+                <ListItem
+                  title="International Patients"
+                  href="/clinical-services"
+                />{" "}
+              </li>
+
+              {/* Column 2: Doctors & Medical Staff */}
+              <li className="pr-4">
+                {" "}
+                <h3 className="font-bold text-white text-xs font-serif ml-2 mb-2">
+                  DOCTORS
+                </h3>{" "}
+                <ul className="space-y-1 text-base">
+                  {" "}
+                  <ListItem
+                    title="Laboratory Services"
+                    href="/clinical-services"
+                  />{" "}
+                  <ListItem
+                    title="Radiology Services"
                     href="/clinical-services"
                   />{" "}
                   <ListItem
@@ -190,35 +221,8 @@ const Navigation: FC<NavigationProps> = () => {
                     href="/clinical-services"
                   />{" "}
                   <ListItem
-                    title="Nursing Services"
+                    title="Endoscopy Services"
                     href="/clinical-services"
-                  />{" "}
-                </ul>{" "}
-                <ListItem
-                  title="International Patients"
-                  href="/medical-tourism"
-                />{" "}
-              </li>
-
-              {/* Column 2: Doctors & Medical Staff */}
-              <li className="pr-4">
-                {" "}
-                <h3 className="font-bold text-red-900 text-xs font-serif ml-2 mb-2">
-                  DOCTORS & MEDICAL STAFF
-                </h3>{" "}
-                <ul className="space-y-1 text-base">
-                  {" "}
-                  <ListItem
-                    title="Doctors' Profiles"
-                    href="/doctor-profiles"
-                  />{" "}
-                  <ListItem
-                    title="Visiting Consultants"
-                    href="/medical-team/visiting-consultants"
-                  />{" "}
-                  <ListItem
-                    title="Nursing & Allied Health Staff"
-                    href="/medical-team/nursing-allied-health"
                   />{" "}
                 </ul>{" "}
               </li>
