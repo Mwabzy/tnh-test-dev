@@ -4,31 +4,46 @@ import { ClinicalService } from "@/types";
 import ServiceTemplate from "@/components/services/ServiceTemplate";
 import ServiceList from "@/pages/clinics/ServiceList";
 import Heading from "@/components/Heading";
-//import clinicalServices from "@/data/clinicalServices.json";
+import clinicalServices from "@/data/clinicalServices2.json";
 
 const ServiceDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [service, setService] = useState<ClinicalService | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchService = async () => {
-      try {
-        const res = await fetch(
-          `http://localhost:5003/clinical-services/${id}`
-        );
-        const data = await res.json();
+  /* 
+     API Fetch
+*/
+  // useEffect(() => {
+  //   const fetchServiceFromAPI = async () => {
+  //     try {
+  //       const res = await fetch(`http://localhost:5003/clinical-services/${id}`);
+  //       const data = await res.json();
+  //       console.log("Fetched service from API:", data);
+  //       setService(data);
+  //     } catch (error) {
+  //       console.error("Error fetching service from API:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   if (id) fetchServiceFromAPI();
+  // }, [id]);
 
-        console.log("Fetched service:", data);
-        setService(data);
-      } catch (error) {
-        console.error("Error fetching service:", error);
-      } finally {
+  /* 
+     JSON Fetch  */
+  useEffect(() => {
+    const fetchServiceFromJSON = () => {
+      if (id) {
+        const foundService = clinicalServices.find(
+          (s: ClinicalService) => String(s.id) === id
+        );
+        console.log("Fetched service from JSON:", foundService);
+        setService(foundService || null);
         setLoading(false);
       }
     };
-
-    if (id) fetchService();
+    fetchServiceFromJSON();
   }, [id]);
 
   if (loading) return <p>Loading service...</p>;
@@ -43,7 +58,7 @@ const ServiceDetail = () => {
     return (
       <>
         <Heading
-          image_url={service.image.url}
+          image_url={service.images[2].url}
           title={service.title}
           description={service.tagline}
           style="image"

@@ -1,6 +1,9 @@
 export interface RelatedServices {
+  id: number;
   title: string;
-  description?: string;
-  image: string;
-  link?: string;
+  overview?: string;
+  images: {
+    url: string;
+    alt?: string;
+  }[];
 }

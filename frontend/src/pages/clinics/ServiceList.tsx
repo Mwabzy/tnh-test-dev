@@ -1,38 +1,42 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router";
 import { ClinicalService } from "@/types";
-import { FaCalendarCheck, FaUserMd } from "react-icons/fa";
+import { FaCalendarCheck, FaChevronRight } from "react-icons/fa";
+
 import clinicalServices from "@/data/clinicalServices2.json";
 
-const services: ClinicalService[] = clinicalServices as ClinicalService[];
-
-const ALL_LOCATIONS = [
-  "Main Hospital",
-  "Anderson Specialty",
-  "Capital Center OPC",
-  "Galleria OPC",
-  "Kiambu OPC",
-  "Roslyn Riviera OPC",
-  "South Field OPC",
-  "Warwick OPC",
-];
+interface ServiceListProps {
+  services?: ClinicalService[]; // 👈 make it optional
+}
 
 const ITEMS_PER_PAGE = 6;
 
-const ServiceList: React.FC = () => {
+const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
+  const data: ClinicalService[] = (services ??
+    clinicalServices) as ClinicalService[];
   const [search, setSearch] = useState("");
   const [locations, setLocations] = useState<string[]>([]);
   const [letterFilter, setLetterFilter] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
+  //Generate locations dynamically
+  const allLocations = useMemo(() => {
+    const locSet = new Set<string>();
+    data.forEach((service) =>
+      service.locations?.forEach((loc) => locSet.add(loc))
+    );
+    return Array.from(locSet).sort();
+  }, []);
+
   // Filter logic
-  const filteredServices = services.filter((service) => {
-    const matchesSearch =
-      service.title.toLowerCase().includes(search.toLowerCase()) ||
-      service.tagline.toLowerCase().includes(search.toLowerCase());
+  const filteredServices = data.filter((service) => {
+    const matchesSearch = service.title
+      .toLowerCase()
+      .includes(search.toLowerCase());
 
     const matchesLocation =
-      locations.length === 0 || locations.includes(service.location);
+      locations.length === 0 ||
+      service.locations?.some((loc) => locations.includes(loc));
 
     const matchesLetter =
       !letterFilter || service.title.charAt(0).toUpperCase() === letterFilter;
@@ -51,7 +55,7 @@ const ServiceList: React.FC = () => {
   const goToPage = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
-      window.scrollTo({ top: 0, behavior: "smooth" }); // scroll up on page change
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -70,9 +74,9 @@ const ServiceList: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-50 py-16 px-6 flex flex-col md:flex-row justify-center max-w-7xl mx-auto md:mx-40 gap-8">
+    <div className="bg-gray-50 py-16 px-6 flex flex-col md:flex-row justify-center max-w-7xl mx-auto  gap-8">
       {/* Filters sidebar */}
-      <aside className="w-full md:w-64 md:sticky md:top-20  mb-8 md:mb-0">
+      <aside className="w-full md:w-64 md:sticky md:top-20 mb-8 md:mb-0">
         <button
           onClick={resetFilters}
           className="mb-6 text-sm bg-gray-200 hover:bg-gray-300 rounded px-4 py-2 w-full"
@@ -80,6 +84,7 @@ const ServiceList: React.FC = () => {
           Reset all filters
         </button>
 
+        {/* Search by specialty */}
         <div className="mb-6">
           <label htmlFor="search" className="block font-semibold mb-2">
             By Specialty
@@ -97,9 +102,10 @@ const ServiceList: React.FC = () => {
           />
         </div>
 
+        {/*Location Filter */}
         <div className="mb-6">
           <p className="font-semibold mb-2">By Location</p>
-          {ALL_LOCATIONS.map((loc) => (
+          {allLocations.map((loc) => (
             <label
               key={loc}
               className="flex items-center space-x-2 mb-1 text-sm cursor-pointer"
@@ -115,6 +121,7 @@ const ServiceList: React.FC = () => {
           ))}
         </div>
 
+        {/* First Letter Filter */}
         <div>
           <p className="font-semibold mb-2">Filter Specialty by First Letter</p>
           <div className="flex flex-wrap gap-2">
@@ -141,7 +148,7 @@ const ServiceList: React.FC = () => {
       {/* Cards */}
       <main className="flex-1">
         <p className="mb-6 text-sm text-gray-700">
-          Displaying {filteredServices.length} of {services.length} Specialty
+          Displaying {filteredServices.length} of {data.length} Specialty
           Clinics
         </p>
 
@@ -151,11 +158,14 @@ const ServiceList: React.FC = () => {
               key={item.id}
               className="bg-white rounded-lg shadow-md overflow-hidden"
             >
-              <img
-                className="w-full h-60 object-cover rounded-t-lg"
-                src={item.image.url}
-                alt={item.image.alt || "Service image"}
-              />
+              {item.images?.length > 0 && (
+                <img
+                  className="w-full h-60 object-cover rounded-t-lg"
+                  src={item.images[0].url}
+                  alt={item.images[0].alt || "Service image"}
+                />
+              )}
+
               <div className="p-6">
                 <h5 className="text-xl font-semibold text-red-900 mb-3 font-serif">
                   {item.title}
@@ -164,21 +174,27 @@ const ServiceList: React.FC = () => {
                   {item.overview}
                 </p>
 
-                <div className="flex gap-4">
-                  <Link
-                    to="/booking-calendar"
-                    className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900 hover:text-white transition"
-                  >
-                    <FaCalendarCheck />
-                    Book Appointment
-                  </Link>
+                {item.locations && (
+                  <p className="text-sm text-gray-600 mb-4">
+                    <strong>Available at:</strong> {item.locations.join(", ")}
+                  </p>
+                )}
+
+                <div className="flex flex-col sm:flex-row gap-4 ">
+                  {item.isBookable && (
+                    <Link
+                      to="/booking-calendar"
+                      className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900  hover:text-white transition w-full sm:w-auto"
+                    >
+                      Book Appointment <FaCalendarCheck />
+                    </Link>
+                  )}
 
                   <Link
-                    to={`/doctor-profiles`}
-                    className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900 hover:text-white transition"
+                    to={`/service-detail/${item.id}`}
+                    className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900 hover:text-white transition w-full sm:w-auto"
                   >
-                    <FaUserMd />
-                    Find a Doctor
+                    Read More <FaChevronRight />
                   </Link>
                 </div>
               </div>
@@ -186,9 +202,9 @@ const ServiceList: React.FC = () => {
           ))}
         </div>
 
-        {/* Pagination controls */}
+        {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-3 mt-10">
+          <div className="flex justify-center items-center gap-3 mt-10 md:mr-100">
             <button
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
