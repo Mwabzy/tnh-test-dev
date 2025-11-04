@@ -1,5 +1,5 @@
-import accident from "@/assets/heroimages/heroimage1.jpg";
-import hospitalview from "@/assets/heroimages/heroimage2.jpg";
+import accident from "../../assets/heroimages/heroimage1.JPG";
+import hospitalview from "../../assets/heroimages/heroimage2.JPG";
 
 import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";

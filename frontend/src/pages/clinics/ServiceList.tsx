@@ -26,7 +26,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
       service.locations?.forEach((loc) => locSet.add(loc))
     );
     return Array.from(locSet).sort();
-  }, []);
+  }, [data]);
 
   // Filter logic
   const filteredServices = data.filter((service) => {
@@ -74,7 +74,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
   };
 
   return (
-    <div className="bg-gray-50 py-16 px-6 flex flex-col md:flex-row justify-center max-w-7xl mx-auto  gap-8">
+    <div className=" py-16 px-6 flex flex-col md:flex-row justify-center max-w-7xl mx-auto  gap-8">
       {/* Filters sidebar */}
       <aside className="w-full md:w-64 md:sticky md:top-20 mb-8 md:mb-0">
         <button
@@ -86,7 +86,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
 
         {/* Search by specialty */}
         <div className="mb-6">
-          <label htmlFor="search" className="block font-semibold mb-2">
+          <label htmlFor="search" className="block font-semibold mb-2 font-serif">
             By Specialty
           </label>
           <input
@@ -104,7 +104,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
 
         {/*Location Filter */}
         <div className="mb-6">
-          <p className="font-semibold mb-2">By Location</p>
+          <p className="font-semibold mb-2 font-serif">By Location</p>
           {allLocations.map((loc) => (
             <label
               key={loc}
@@ -123,7 +123,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
 
         {/* First Letter Filter */}
         <div>
-          <p className="font-semibold mb-2">Filter Specialty by First Letter</p>
+          <p className="font-semibold mb-2 font-serif">Filter Specialty by First Letter</p>
           <div className="flex flex-wrap gap-2">
             {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
               <button
@@ -183,7 +183,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
                 <div className="flex flex-col sm:flex-row gap-4 ">
                   {item.isBookable && (
                     <Link
-                      to="/booking-calendar"
+                      to={`/booking-calendar?serviceId=${item.id}`}
                       className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900  hover:text-white transition w-full sm:w-auto"
                     >
                       Book Appointment <FaCalendarCheck />
