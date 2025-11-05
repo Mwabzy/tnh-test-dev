@@ -41,7 +41,7 @@ export default function TestimonialCarousel({
     return <div className="max-w-7xl mx-auto">No testimonials available</div>;
   }
 
-  const { name, title, image, quote } = testimonials[index];
+  const { name, title, quote } = testimonials[index];
   const content = useIntlayer("testimonial_carousel");
   
   return (

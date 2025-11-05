@@ -203,6 +203,13 @@ const UIRoutes = {
       () => import("../pages/college-of-health-science/Alumni")
     ),
   },
+  ContactUs: {
+    name: "navigation.contactus",
+    path: "/contact-us",
+    component: lazyLoad(
+     () => import("../pages/about/ContactUs")
+    ),
+  },
   CollegeFAQs: {
     name: "navigation.collesgeFAQs",
     path: "/college/college-faqs",
@@ -225,6 +232,7 @@ const UIRoutes = {
     path: "/booking-calendar",
     component: lazyLoad(() => import("../pages/doctorbooking/bookingcalendar")),
   },
+  
 };
 
 export const RoutesPath: Record<keyof typeof UIRoutes, UIRoutesType> = UIRoutes;

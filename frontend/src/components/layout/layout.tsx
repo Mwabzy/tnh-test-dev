@@ -8,6 +8,7 @@ type LayoutProps = object;
 
 const Layout: FC<LayoutProps> = () => {
   return <div>
+    
     <Quicklinks/>
     <Navbar />
     <Outlet />

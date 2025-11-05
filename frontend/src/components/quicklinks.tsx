@@ -1,14 +1,13 @@
 import { Phone, Clock, MapPin } from "lucide-react";
 import { Link } from "react-router";
 
-export default function TopBar() {
+export default function Quicklinks() {
   return (
-    <div className="w-full bg-[#8B1C1C] text-white text-sm">
+    <div className="w-full sticky self-start top-0 z-50 bg-[#8B1C1C] text-white text-sm">
       <div className="flex items-center justify-start px-15 py-2">
         {/* Left Section */}
         <div className="flex items-center space-x-6">
           {/* Phone */}
-
           <Link to="href:tel:+254202845000">
             <div className="flex items-center space-x-2">
               <Phone className="w-4 h-4 text-yellow-400" />
