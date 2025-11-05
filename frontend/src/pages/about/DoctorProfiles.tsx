@@ -130,7 +130,7 @@ export const teamMembers: TeamMember[] = [
     phone: "0721837208; 0745049760",
     clinicDepartment: "Obstetrics-Gynaecology",
     schedule: ["Hospital Departmental Rota"],
-    location: "Anderson Clinic / Labour Ward",
+    location: "Anderson Clinic",
     licensingDetails: "KMPDC - A6270",
     awardsAndRecognition: [],
     ResearchAndPublications: [
@@ -660,7 +660,7 @@ export const teamMembers: TeamMember[] = [
     phone: "0741871018",
     clinicDepartment: "Pediatrics",
     schedule: [],
-    location: "Main Hospitals",
+    location: "Main Hospital",
     licensingDetails: "",
     awardsAndRecognition: [],
     ResearchAndPublications: [],
@@ -793,69 +793,73 @@ const DoctorProfiles: FC = () => {
 
       <div className="flex flex-col lg:flex-row gap-6 mt-6 md:mx-40 mb-10 ">
         {/* Filters Sidebar */}
-        <div className="w-full lg:w-1/4 bg-gray-50 rounded-lg p-4 md:sticky md:top-28 ">
-          <h3 className="font-semibold font-sans text-md mb-4">
+        <div className="w-full lg:w-1/4 bg-white rounded-lg shadow-md border p-6 md:sticky md:top-28 h-fit">
+          <h3 className="font-bold font-serif text-xl text-red-900 mb-6 pb-3">
             Narrow your search
           </h3>
 
-          {/* By Doctor’s Name */}
-          <div className="mb-4">
-            <label className="block text-sm font-sans font-medium mb-1">
-              By Doctor’s Name
+          {/* By Doctor's Name */}
+          <div className="mb-6">
+            <label className="block text-base font-serif font-semibold text-gray-800 mb-3">
+              By Doctor's Name
             </label>
             <input
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search name..."
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+              className="w-full border-2 border-gray-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 rounded-md px-4 py-2 text-sm transition-colors duration-200"
             />
           </div>
 
           {/* By Specialty Clinic */}
-          <div className="mb-4">
-            <label className="block text-sm font-sans font-medium mb-1">
+          <div className="mb-6">
+            <label className="block text-base font-serif font-semibold text-gray-800 mb-3">
               By Specialty Clinic
             </label>
             <input
               value={specialtyClinic}
               onChange={(e) => setSpecialtyClinic(e.target.value)}
               placeholder="e.g. Renal Unit"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+              className="w-full border-2 border-gray-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 rounded-md px-4 py-2 text-sm transition-colors duration-200"
             />
           </div>
 
           {/* By Location */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">
+          <div className="mb-6">
+            <label className="block text-base font-serif font-semibold text-gray-800 mb-3">
               By Location
             </label>
-            {locations.map((loc) => (
-              <div key={loc} className="flex items-center mb-1">
-                <input
-                  type="checkbox"
-                  checked={selectedLocations.includes(loc)}
-                  onChange={() => toggleLocation(loc)}
-                  className="mr-2"
-                />
-                <span className="text-sm">{loc}</span>
-              </div>
-            ))}
+            <div className="space-y-2">
+              {locations.map((loc) => (
+                <div key={loc} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={selectedLocations.includes(loc)}
+                    onChange={() => toggleLocation(loc)}
+                    className="mr-3 w-4 h-4 text-red-600 border-2 border-gray-300 rounded focus:ring-red-500 focus:ring-2"
+                  />
+                  <span className="text-sm text-gray-700 hover:text-red-900 cursor-pointer select-none" onClick={() => toggleLocation(loc)}>
+                    {loc}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Filter by First Name */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">
-              Filter Doctors by First Name
+          <div className="mb-6">
+            <label className="block text-base font-serif font-semibold text-gray-800 mb-3">
+              Filter by First Name
             </label>
-            <div className="flex flex-wrap gap-1">
+            <div className="grid grid-cols-6 gap-2">
               {alphabet.map((letter) => (
                 <button
                   key={letter}
                   onClick={() => setFirstLetter(letter)}
-                  className={`w-6 h-6 rounded-full text-xs border border-gray-300 ${
+                  className={`w-8 h-8 rounded-full text-sm font-medium border-2 transition-all duration-200 ${
                     firstLetter === letter
-                      ? "bg-red-900 text-white"
-                      : "bg-white hover:bg-gray-200"
+                      ? "bg-red-900 text-white border-red-900 shadow-md transform scale-105"
+                      : "bg-white text-gray-700 border-gray-300 hover:bg-red-50 hover:border-red-300 hover:text-red-900"
                   }`}
                 >
                   {letter}
@@ -867,7 +871,7 @@ const DoctorProfiles: FC = () => {
           {/* Reset Filters */}
           <button
             onClick={resetFilters}
-            className="mt-4 w-full bg-gray-300 hover:bg-gray-400 text-sm py-2 rounded-md"
+            className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-4 rounded-md transition-all duration-200 transform hover:scale-105 shadow-sm hover:shadow-md border border-gray-300"
           >
             Reset all filters
           </button>
@@ -906,7 +910,7 @@ const DoctorProfiles: FC = () => {
 
                   <div className="flex flex-wrap gap-3 mt-4 ">
                     <Link
-                      to="/booking-calendar"
+                      to={`/booking-calendar?doctorId=${member.id}&doctorName=${encodeURIComponent(member.name)}&doctorTitle=${encodeURIComponent(member.title)}`}
                       className="flex items-center justify-center gap-2 text-red-900  px-4 py-2 rounded-md text-sm hover:bg-red-900 hover:text-white transition"
                     >
                       <FaCalendarCheck />

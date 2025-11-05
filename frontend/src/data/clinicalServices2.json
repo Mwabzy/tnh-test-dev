@@ -2,20 +2,26 @@
   {
     "id": 1,
     "title": "Pharmacy Services",
-    "tagline": "Comprehensive Pharmaceutical Care",
-    "imageAlt": "card-image",
-    "overview": "Pharmacy services provide comprehensive pharmaceutical care, including medication dispensing, health consultations, and wellness programs. Our licensed pharmacists ensure safe and effective use of medications.",
+    "tagline": "Your health, our expertise in every prescription.",
+    "overview": "Comprehensive pharmacy care offering safe medication dispensing, consultations, and wellness support for all patients.",
+    "detailedDescription": "Our pharmacy ensures personalized medication management, vaccination services, and expert counseling to optimize your health outcomes.",
     "features": [
-      "Medication dispensing and management",
-      "Health consultations and wellness programs",
-      "Vaccinations and preventive care",
-      "Medication therapy management"
+      {
+        "title": "Medication dispensing and management",
+        "description": "Accurate dispensing of prescriptions with guidance on usage and interactions."
+      },
+      { "title": "Health consultations and wellness programs" },
+      {
+        "title": "Vaccinations and preventive care",
+        "description": "Immunization services for children and adults to prevent diseases."
+      },
+      { "title": "Medication therapy management" }
     ],
     "doctors": [
       {
         "name": "Dr. Jane Doe",
         "title": "Pharmacist",
-        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
         "bio": "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education."
       },
       {
@@ -25,412 +31,294 @@
         "bio": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
       }
     ],
-    "testimonial": [
+    "testimonials": [
       {
         "name": "Sarah Johnson",
         "title": "Satisfied Patient",
-        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "quote": "The pharmacy team at The Nairobi Hospital has been incredibly helpful in managing my medications. Their personalized care and attention to detail have made a significant difference in my health journey."
+        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
+        "quote": "The pharmacy team at The Nairobi Hospital has been incredibly helpful in managing my medications."
       }
     ],
     "contact": {
       "phone": "+254 700 000 000",
       "email": "clinicservice@nbihosp.org"
     },
-    "isbookable": false,
-    "relatedServices": [
+    "isBookable": false,
+    "hasReadMore": false,
+    "timingsOnOverview": "Mon–Fri 8am–5pm",
+    "images": [
       {
-        "id": 1,
-        "title": "Laboratory Services",
-        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "imageAlt": "Laboratory Services",
-        "bio": "Comprehensive laboratory services for accurate diagnostics and health monitoring.",
-        "link": "/clinics/laboratory-services"
-      },
-      {
-        "id": 2,
-        "title": "Radiology Services",
-        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "imageAlt": "Radiology Services",
-        "bio": "Advanced imaging services for accurate diagnostics and treatment planning.",
-        "link": "/clinics/radiology-services"
+        "url": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg",
+        "alt": "Pharmacy Services"
       }
     ],
-    "image": {
-      "url": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-      "alt": "Pharmacy Services"
-    }
+    "locations": ["Main Hospital", "Anderson Specialty", "Capital Center OPC"]
   },
   {
     "id": 2,
     "title": "Laboratory Services",
-    "tagline": "Comprehensive Pharmaceutical Care",
-    "imageAlt": "card-image",
-    "overview": "Pharmacy services provide comprehensive pharmaceutical care, including medication dispensing, health consultations, and wellness programs. Our licensed pharmacists ensure safe and effective use of medications.",
+    "tagline": "Accurate results for better health decisions.",
+    "overview": "State-of-the-art lab offering fast, precise diagnostic tests to support effective medical decisions.",
+    "detailedDescription": "Our laboratory uses advanced equipment to deliver accurate results, aiding in disease diagnosis, monitoring, and preventive care.",
     "features": [
-      "Medication dispensing and management",
-      "Health consultations and wellness programs",
-      "Vaccinations and preventive care",
-      "Medication therapy management"
+      {
+        "title": "Comprehensive diagnostic testing",
+        "description": "Full range of blood, urine, and molecular tests for accurate diagnosis."
+      },
+      { "title": "Fast and reliable results" },
+      { "title": "State-of-the-art equipment" },
+      {
+        "title": "Qualified laboratory technologists",
+        "description": "Experienced technologists ensure proper sample handling and analysis."
+      }
     ],
     "doctors": [
       {
         "name": "Dr. Jane Doe",
-        "title": "Pharmacist",
-        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "bio": "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education."
-      },
-      {
-        "name": "Dr. John Smith",
-        "title": "Pharmacist",
-        "image": "https://img.freepik.com/free-photo/portrait-you",
-        "bio": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
+        "title": "Lab Technologist",
+        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
+        "bio": "Dr. Jane Doe is a laboratory scientist specializing in clinical chemistry and hematology."
       }
     ],
-    "testimonial": [
+    "testimonials": [
       {
-        "name": "Sarah Johnson",
+        "name": "Michael Kimani",
         "title": "Satisfied Patient",
-        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "quote": "The pharmacy team at The Nairobi Hospital has been incredibly helpful in managing my medications. Their personalized care and attention to detail have made a significant difference in my health journey."
+        "quote": "The laboratory services are efficient and reliable. I always get my results on time."
       }
     ],
     "contact": {
-      "phone": "+254 700 000 000",
-      "email": "clinicservice@nbihosp.org"
+      "phone": "+254 700 000 001",
+      "email": "labservices@nbihosp.org"
     },
-    "isbookable": true,
-    "relatedServices": [
+    "isBookable": true,
+    "hasReadMore": true,
+    "timingsOnOverview": "Mon–Sat 7am–6pm",
+    "images": [
       {
-        "id": 1,
-        "title": "Laboratory Services",
-        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "imageAlt": "Laboratory Services",
-        "bio": "Comprehensive laboratory services for accurate diagnostics and health monitoring.",
-        "link": "/clinics/laboratory-services"
-      },
-      {
-        "id": 2,
-        "title": "Radiology Services",
-        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "imageAlt": "Radiology Services",
-        "bio": "Advanced imaging services for accurate diagnostics and treatment planning.",
-        "link": "/clinics/radiology-services"
+        "url": "https://img.freepik.com/free-photo/medical-doctor-girl-working-with-microscope-young-female-scientist-doing-vaccine-research_1157-48128.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+        "alt": "Laboratory Services"
       }
     ],
-    "image": {
-      "url": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-      "alt": "Pharmacy Services"
-    }
+    "locations": ["Main Hospital", "Galleria OPC", "Kiambu OPC"]
   },
   {
     "id": 3,
     "title": "Radiology Services",
-    "tagline": "Comprehensive Pharmaceutical Care",
-    "imageAlt": "card-image",
-    "overview": "Pharmacy services provide comprehensive pharmaceutical care, including medication dispensing, health consultations, and wellness programs. Our licensed pharmacists ensure safe and effective use of medications.",
+    "tagline": "Advanced imaging for precise diagnosis.",
+    "overview": "High-quality imaging services including MRI, CT, and X-rays to support accurate medical diagnoses.",
+    "detailedDescription": "Our radiology department provides advanced imaging for precise diagnosis, aiding treatment planning with minimal patient discomfort.",
     "features": [
-      "Medication dispensing and management",
-      "Health consultations and wellness programs",
-      "Vaccinations and preventive care",
-      "Medication therapy management"
+      { "title": "MRI and CT scanning" },
+      {
+        "title": "Ultrasound imaging",
+        "description": "Safe and detailed imaging for internal organs and prenatal care."
+      },
+      { "title": "Digital X-ray" },
+      { "title": "Interventional radiology" }
     ],
     "doctors": [
       {
         "name": "Dr. Jane Doe",
-        "title": "Pharmacist",
-        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "bio": "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education."
-      },
-      {
-        "name": "Dr. John Smith",
-        "title": "Pharmacist",
-        "image": "https://img.freepik.com/free-photo/portrait-you",
-        "bio": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
+        "title": "Radiologist",
+        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
+        "bio": "Expert in radiologic imaging with focus on oncology diagnostics."
       }
     ],
-    "testimonial": [
+    "testimonials": [
       {
-        "name": "Sarah Johnson",
-        "title": "Satisfied Patient",
-        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "quote": "The pharmacy team at The Nairobi Hospital has been incredibly helpful in managing my medications. Their personalized care and attention to detail have made a significant difference in my health journey."
+        "name": "Peter Otieno",
+        "title": "Patient",
+        "quote": "Radiology services were efficient, and the staff was very professional."
       }
     ],
     "contact": {
-      "phone": "+254 700 000 000",
-      "email": "clinicservice@nbihosp.org"
+      "phone": "+254 700 000 002",
+      "email": "radiology@nbihosp.org"
     },
-    "isbookable": true,
-    "relatedServices": [
+    "isBookable": true,
+    "hasReadMore": true,
+    "timingsOnOverview": "Mon–Sat 8am–5pm",
+    "images": [
       {
-        "id": 1,
-        "title": "Laboratory Services",
-        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "imageAlt": "Laboratory Services",
-        "bio": "Comprehensive laboratory services for accurate diagnostics and health monitoring.",
-        "link": "/clinics/laboratory-services"
-      },
-      {
-        "id": 2,
-        "title": "Radiology Services",
-        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "imageAlt": "Radiology Services",
-        "bio": "Advanced imaging services for accurate diagnostics and treatment planning.",
-        "link": "/clinics/radiology-services"
+        "url": "https://img.freepik.com/premium-photo/two-doctors-are-looking-x-rays-medical-rear-view-chief-physician-afro-american-man-caucasian-woman-looking-x-rays-mri-clear-light_141188-3575.jpg?w=996",
+        "alt": "Radiology Services"
       }
     ],
-    "image": {
-      "url": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-      "alt": "Pharmacy Services"
-    }
+    "locations": ["Main Hospital", "Roslyn Riviera OPC"]
   },
   {
     "id": 4,
     "title": "Dental Services",
-    "tagline": "Comprehensive Pharmaceutical Care",
-    "imageAlt": "card-image",
-    "overview": "Pharmacy services provide comprehensive pharmaceutical care, including medication dispensing, health consultations, and wellness programs. Our licensed pharmacists ensure safe and effective use of medications.",
+    "tagline": "Bright smiles, healthy teeth, happy patients.",
+    "overview": "Full-spectrum dental care for all ages, offering cleanings, restorative, and cosmetic dentistry services.",
+    "detailedDescription": "Our dental clinic provides gentle, professional care including orthodontics, pediatric dentistry, and cosmetic procedures for lasting oral health.",
     "features": [
-      "Medication dispensing and management",
-      "Health consultations and wellness programs",
-      "Vaccinations and preventive care",
-      "Medication therapy management"
+      { "title": "General dentistry" },
+      {
+        "title": "Cosmetic dentistry",
+        "description": "Enhancing smiles with whitening, veneers, and aesthetic restorations."
+      },
+      { "title": "Orthodontics" },
+      {
+        "title": "Pediatric dental care",
+        "description": "Child-focused dental care ensuring healthy teeth from early years."
+      }
     ],
     "doctors": [
       {
         "name": "Dr. Jane Doe",
-        "title": "Pharmacist",
-        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "bio": "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education."
-      },
-      {
-        "name": "Dr. John Smith",
-        "title": "Pharmacist",
-        "image": "https://img.freepik.com/free-photo/portrait-you",
-        "bio": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
+        "title": "Dentist",
+        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
+        "bio": "Dr. Jane Doe is a dentist with 12 years of experience in restorative and cosmetic dentistry."
       }
     ],
-    "testimonial": [
+    "testimonials": [
       {
-        "name": "Sarah Johnson",
-        "title": "Satisfied Patient",
-        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "quote": "The pharmacy team at The Nairobi Hospital has been incredibly helpful in managing my medications. Their personalized care and attention to detail have made a significant difference in my health journey."
+        "name": "Emily Njeri",
+        "title": "Patient",
+        "quote": "The dental team was amazing — gentle, professional, and thorough."
       }
     ],
-    "contact": {
-      "phone": "+254 700 000 000",
-      "email": "clinicservice@nbihosp.org"
-    },
-    "isbookable": true,
-    "relatedServices": [
+    "contact": { "phone": "+254 700 000 003", "email": "dental@nbihosp.org" },
+    "isBookable": true,
+    "hasReadMore": true,
+    "timingsOnOverview": "Mon–Fri 9am–5pm",
+    "images": [
       {
-        "id": 1,
-        "title": "Laboratory Services",
-        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "imageAlt": "Laboratory Services",
-        "bio": "Comprehensive laboratory services for accurate diagnostics and health monitoring.",
-        "link": "/clinics/laboratory-services"
-      },
-      {
-        "id": 2,
-        "title": "Radiology Services",
-        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "imageAlt": "Radiology Services",
-        "bio": "Advanced imaging services for accurate diagnostics and treatment planning.",
-        "link": "/clinics/radiology-services"
+        "url": "https://img.freepik.com/free-photo/happy-afro-kid-regular-check-up-teeth-dental-clinic_651396-1411.jpg?t=st=1744634041~exp=1744637641~hmac=6fcaa5bcb2893a5de97602b0c8d45bfd8a51f0de1f3bc3b6f88580bbd077c52c&w=900",
+        "alt": "Dental Services"
       }
     ],
-    "image": {
-      "url": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-      "alt": "Pharmacy Services"
-    }
+    "locations": ["Main Hospital", "Capital Center OPC", "South Field OPC"]
   },
   {
     "id": 5,
-    "title": "Antaenatal Services",
-    "tagline": "Comprehensive Pharmaceutical Care",
-    "imageAlt": "card-image",
-    "overview": "Pharmacy services provide comprehensive pharmaceutical care, including medication dispensing, health consultations, and wellness programs. Our licensed pharmacists ensure safe and effective use of medications.",
+    "title": "Antenatal Services",
+    "tagline": "Caring for you and your baby every step of the way.",
+    "overview": "Comprehensive prenatal care including check-ups, ultrasounds, counseling, and birth preparation support.",
+    "detailedDescription": "Our antenatal services focus on maternal and fetal health, offering routine monitoring, nutrition advice, and preparation for safe delivery.",
     "features": [
-      "Medication dispensing and management",
-      "Health consultations and wellness programs",
-      "Vaccinations and preventive care",
-      "Medication therapy management"
+      { "title": "Routine check-ups" },
+      {
+        "title": "Ultrasound and fetal monitoring",
+        "description": "Ensures accurate tracking of baby’s growth and health throughout pregnancy."
+      },
+      { "title": "Nutrition and wellness counseling" },
+      { "title": "Birth preparation classes" }
     ],
     "doctors": [
       {
         "name": "Dr. Jane Doe",
-        "title": "Pharmacist",
-        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "bio": "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education."
-      },
-      {
-        "name": "Dr. John Smith",
-        "title": "Pharmacist",
-        "image": "https://img.freepik.com/free-photo/portrait-you",
-        "bio": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
+        "title": "Obstetrician",
+        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
+        "bio": "Specialist in maternal and fetal medicine with over 15 years of experience."
       }
     ],
-    "testimonial": [
+    "testimonials": [
       {
-        "name": "Sarah Johnson",
-        "title": "Satisfied Patient",
-        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "quote": "The pharmacy team at The Nairobi Hospital has been incredibly helpful in managing my medications. Their personalized care and attention to detail have made a significant difference in my health journey."
+        "name": "Grace Mwende",
+        "title": "Patient",
+        "quote": "The antenatal clinic provided exceptional care throughout my pregnancy."
       }
     ],
     "contact": {
-      "phone": "+254 700 000 000",
-      "email": "clinicservice@nbihosp.org"
+      "phone": "+254 700 000 004",
+      "email": "antenatal@nbihosp.org"
     },
-    "isbookable": true,
-    "relatedServices": [
+    "isBookable": true,
+    "hasReadMore": false,
+    "timingsOnOverview": "Mon–Fri 8am–4pm",
+    "images": [
       {
-        "id": 1,
-        "title": "Laboratory Services",
-        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "imageAlt": "Laboratory Services",
-        "bio": "Comprehensive laboratory services for accurate diagnostics and health monitoring.",
-        "link": "/clinics/laboratory-services"
-      },
-      {
-        "id": 2,
-        "title": "Radiology Services",
-        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "imageAlt": "Radiology Services",
-        "bio": "Advanced imaging services for accurate diagnostics and treatment planning.",
-        "link": "/clinics/radiology-services"
+        "url": "https://cms.thenairobihosp.org/uploads/bed_9c97b499a8.jpg",
+        "alt": "Antenatal Services"
       }
     ],
-    "image": {
-      "url": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-      "alt": "Pharmacy Services"
-    }
+    "locations": ["Main Hospital", "Kiambu OPC"]
   },
   {
     "id": 6,
     "title": "Physiotherapy Services",
-    "tagline": "Comprehensive Pharmaceutical Care",
-    "imageAlt": "card-image",
-    "overview": "Pharmacy services provide comprehensive pharmaceutical care, including medication dispensing, health consultations, and wellness programs. Our licensed pharmacists ensure safe and effective use of medications.",
+    "tagline": "Regain mobility, restore strength, live fully.",
+    "overview": "Therapy programs to restore strength, improve mobility, and aid recovery from injuries or surgeries.",
+    "detailedDescription": "Our physiotherapy department offers individualized rehabilitation plans, including post-surgery recovery, sports injury management, and chronic pain relief.",
     "features": [
-      "Medication dispensing and management",
-      "Health consultations and wellness programs",
-      "Vaccinations and preventive care",
-      "Medication therapy management"
+      {
+        "title": "Post-surgery rehabilitation",
+        "description": "Tailored exercises to regain mobility and strength after operations."
+      },
+      { "title": "Sports injury management" },
+      { "title": "Chronic pain treatment" },
+      { "title": "Orthopedic therapy" }
     ],
     "doctors": [
       {
-        "name": "Dr. Jane Doe",
-        "title": "Pharmacist",
-        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "bio": "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education."
-      },
-      {
         "name": "Dr. John Smith",
-        "title": "Pharmacist",
+        "title": "Physiotherapist",
         "image": "https://img.freepik.com/free-photo/portrait-you",
-        "bio": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
+        "bio": "Dr. John Smith specializes in orthopedic and sports rehabilitation."
       }
     ],
-    "testimonial": [
+    "testimonials": [
       {
-        "name": "Sarah Johnson",
-        "title": "Satisfied Patient",
-        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "quote": "The pharmacy team at The Nairobi Hospital has been incredibly helpful in managing my medications. Their personalized care and attention to detail have made a significant difference in my health journey."
+        "name": "Kevin Otieno",
+        "title": "Patient",
+        "quote": "The physiotherapy sessions helped me regain strength faster than expected."
       }
     ],
-    "contact": {
-      "phone": "+254 700 000 000",
-      "email": "clinicservice@nbihosp.org"
-    },
-    "isbookable": true,
-    "relatedServices": [
+    "contact": { "phone": "+254 700 000 005", "email": "physio@nbihosp.org" },
+    "isBookable": true,
+    "hasReadMore": true,
+    "timingsOnOverview": "Mon–Sat 7am–5pm",
+    "images": [
       {
-        "id": 1,
-        "title": "Laboratory Services",
-        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "imageAlt": "Laboratory Services",
-        "bio": "Comprehensive laboratory services for accurate diagnostics and health monitoring.",
-        "link": "/clinics/laboratory-services"
-      },
-      {
-        "id": 2,
-        "title": "Radiology Services",
-        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "imageAlt": "Radiology Services",
-        "bio": "Advanced imaging services for accurate diagnostics and treatment planning.",
-        "link": "/clinics/radiology-services"
+        "url": "https://img.freepik.com/free-photo/medical-assistant-helping-patient-with-physiotherapy-exercises_23-2149071451.jpg?t=st=1744633930~exp=1744637530~hmac=e294188b330eef62ae4c7ae841fed50332ff222cc47184ca73620e5af00f0431&w=996",
+        "alt": "Physiotherapy Services"
       }
     ],
-    "image": {
-      "url": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-      "alt": "Pharmacy Services"
-    }
+    "locations": ["Main Hospital", "Warwick OPC", "Galleria OPC"]
   },
   {
     "id": 7,
     "title": "Oncology Services",
-    "tagline": "Comprehensive Pharmaceutical Care",
-    "imageAlt": "card-image",
-    "overview": "Pharmacy services provide comprehensive pharmaceutical care, including medication dispensing, health consultations, and wellness programs. Our licensed pharmacists ensure safe and effective use of medications.",
+    "tagline": "Compassionate care for every stage of treatment.",
+    "overview": "Comprehensive cancer care including diagnosis, chemotherapy, radiation, and patient support services.",
+    "detailedDescription": "Our oncology department provides advanced, patient-centered care covering diagnosis, treatment planning, therapy, and emotional support throughout the cancer journey.",
     "features": [
-      "Medication dispensing and management",
-      "Health consultations and wellness programs",
-      "Vaccinations and preventive care",
-      "Medication therapy management"
+      { "title": "Cancer diagnosis and treatment" },
+      {
+        "title": "Chemotherapy and radiation",
+        "description": "Safe and monitored treatment plans tailored to each patient."
+      },
+      { "title": "Supportive care services" },
+      { "title": "Patient education programs" }
     ],
     "doctors": [
       {
         "name": "Dr. Jane Doe",
-        "title": "Pharmacist",
-        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "bio": "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education."
-      },
-      {
-        "name": "Dr. John Smith",
-        "title": "Pharmacist",
-        "image": "https://img.freepik.com/free-photo/portrait-you",
-        "bio": "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans."
+        "title": "Oncologist",
+        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
+        "bio": "Dr. Jane Doe specializes in medical oncology and patient-centered cancer care."
       }
     ],
-    "testimonial": [
+    "testimonials": [
       {
-        "name": "Sarah Johnson",
-        "title": "Satisfied Patient",
-        "image": "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "quote": "The pharmacy team at The Nairobi Hospital has been incredibly helpful in managing my medications. Their personalized care and attention to detail have made a significant difference in my health journey."
+        "name": "Linda Wambui",
+        "title": "Patient",
+        "quote": "The oncology team provided compassionate care and clear guidance throughout my treatment."
       }
     ],
-    "contact": {
-      "phone": "+254 700 000 000",
-      "email": "clinicservice@nbihosp.org"
-    },
-    "isbookable": true,
-    "relatedServices": [
+    "contact": { "phone": "+254 700 000 006", "email": "oncology@nbihosp.org" },
+    "isBookable": true,
+    "hasReadMore": true,
+    "timingsOnOverview": "Mon–Fri 8am–4pm",
+    "images": [
       {
-        "id": 1,
-        "title": "Laboratory Services",
-        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "imageAlt": "Laboratory Services",
-        "bio": "Comprehensive laboratory services for accurate diagnostics and health monitoring.",
-        "link": "/clinics/laboratory-services"
-      },
-      {
-        "id": 2,
-        "title": "Radiology Services",
-        "image": "https://img.freepik.com/free-photo/medical-doctor-looking-x-ray-film_23-2148756260.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-        "imageAlt": "Radiology Services",
-        "bio": "Advanced imaging services for accurate diagnostics and treatment planning.",
-        "link": "/clinics/radiology-services"
+        "url": "https://img.freepik.com/free-photo/african-american-medical-team-working-healing-patient-hospital-ward-bed-man-woman-with-doctors-occupation-examining-young-adult-treatment-using-monitor-stethoscope_482257-16510.jpg?t=st=1744633876~exp=1744637476~hmac=1d03c61c663661a9a76b27bc266263ea4f3f5edb1dea6da463f13fc22fb99f4f&w=996",
+        "alt": "Oncology Services"
       }
     ],
-    "image": {
-      "url": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
-      "alt": "Pharmacy Services"
-    }
+    "locations": ["Main Hospital", "Anderson Specialty", "Roslyn Riviera OPC"]
   }
 ]
