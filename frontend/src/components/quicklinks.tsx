@@ -27,11 +27,12 @@ export default function Quicklinks() {
           </Link>
 
           {/* Location */}
-
+          <Link to={'/contact-us'}>
           <div className="flex items-center space-x-2">
             <MapPin className="w-4 h-4 text-yellow-400" />
             <span>Contact Us</span>
           </div>
+          </Link>
         </div>
 
         {/* Right Section */}

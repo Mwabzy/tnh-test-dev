@@ -20,6 +20,8 @@ import {
   Building2,
 } from "lucide-react";
 import anderson from "@/assets/opc_images/anderson.jpg";
+import { useState } from "react";
+
 
 import { useIntlayer } from "react-intlayer";
 
@@ -27,6 +29,13 @@ type NavigationProps = object;
 
 const Navigation: FC<NavigationProps> = () => {
   const content = useIntlayer("navigationContent");
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+const toggleMenu = (menuName: string) => {
+  setOpenMenu(openMenu === menuName ? null : menuName);
+};
+
   return (
     <div>
       <Menubar className="flex-col md:flex-row border-none shadow-none bg-inherit text-sm font-medium">
@@ -47,7 +56,7 @@ const Navigation: FC<NavigationProps> = () => {
             {content.about_us}
           </MenubarTrigger>
           <MenubarContent>
-            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-x-6 gap-y-3 px-10 py-6 items-start w-fit mx-auto">
+                <ul className="flex flex-col space-y-3 p-4 md:grid md:grid-cols-2 lg:grid-cols-5 md:gap-x-6 md:gap-y-3 md:px-10 md:py-6 w-full md:w-fit mx-auto">
               {/* Column 1: Our Story */}
               <li className="pr-4">
                 {" "}

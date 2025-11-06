@@ -14,8 +14,8 @@ export default function ContactUs() {
               title={content.headingTitle[0]?.value ?? ""}
               description={content.headingContent[0]?.value ?? ""}
             />
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-800 mb-3">
+      <div className="text-center mt-12 mb-12">
+        <h1 className="text-4xl font-bold font-serif text-gray-800 mb-3">
           Get in Touch
         </h1>
         <p className="text-gray-600 max-w-xl mx-auto">
@@ -35,7 +35,7 @@ export default function ContactUs() {
               <input
                 type="text"
                 placeholder="Your name"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-red-900 focus:outline-none"
               />
             </div>
 
@@ -46,7 +46,7 @@ export default function ContactUs() {
               <input
                 type="email"
                 placeholder="you@example.com"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-red-900 focus:outline-none"
               />
             </div>
 
@@ -57,13 +57,13 @@ export default function ContactUs() {
               <textarea
                 placeholder="Write your message..."
                 rows={5}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-red-900 focus:outline-none"
               ></textarea>
             </div>
 
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition duration-300"
+              className="w-full flex items-center justify-center gap-2 bg-red-900 hover:bg-yellow-600 text-white font-semibold py-3 rounded-xl transition duration-300"
             >
               <Send size={18} />
               Send Message
@@ -74,18 +74,18 @@ export default function ContactUs() {
         {/* Contact Info */}
         <div className="space-y-8">
           <div className="bg-white rounded-2xl shadow-md p-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Contact Information</h2>
+            <h2 className="text-2xl font-serif font-semibold text-gray-800 mb-4">Contact Information</h2>
             <div className="space-y-4 text-gray-700">
               <div className="flex items-center gap-3">
-                <Phone className="text-blue-600" />
-                <span>+254 712 345 678</span>
+                <Phone className="text-red-900" />
+                <span>+254 20 2845000</span>
               </div>
               <div className="flex items-center gap-3">
-                <Mail className="text-blue-600" />
-                <span>support@nnbihosp.org</span>
+                <Mail className="text-red-900" />
+                <span>support@nbihosp.org</span>
               </div>
               <div className="flex items-center gap-3">
-                <MapPin className="text-blue-600" />
+                <MapPin className="text-red-900" />
                 <span>Nairobi, Kenya</span>
               </div>
             </div>
@@ -94,7 +94,7 @@ export default function ContactUs() {
           {/* Google Map Placeholder */}
           <div className="rounded-2xl overflow-hidden shadow-md">
             <iframe
-              title="ExchangeHub Map"
+              title="The Nairobi Hospital"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15955.197838524713!2d36.8219466!3d-1.2920659!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f10d9d3c4b1bf%3A0x1f50a17f53eb35f1!2sNairobi!5e0!3m2!1sen!2ske!4v1618971782902!5m2!1sen!2ske"
               width="100%"
               height="280"
