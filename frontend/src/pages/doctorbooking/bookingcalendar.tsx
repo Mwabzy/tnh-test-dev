@@ -33,25 +33,28 @@ const CalendarWithTimes: React.FC<CalendarWithTimesProps> = ({
       <div className="flex flex-col lg:flex-row gap-12 items-start">
         {/* Calendar - larger size with proper spacing */}
         <div className="shrink-0 w-full lg:w-auto">
-          <Calendar 
+          <Calendar
             mode="single"
             selected={selectedDate || undefined}
             onSelect={handleDateChange}
             className="rounded-md border p-6 mx-auto w-fit"
-            disabled={(date) => date < new Date()}
+            disabled={(date: Date) => date < new Date()}
             showOutsideDays={true}
             classNames={{
               month: "space-y-4",
               caption_label: "text-lg font-semibold text-gray-800",
               table: "w-full border-collapse mt-2",
               head_row: "flex mb-2",
-              head_cell: "text-muted-foreground rounded-md w-14 font-medium text-sm py-2 text-center",
+              head_cell:
+                "text-muted-foreground rounded-md w-14 font-medium text-sm py-2 text-center",
               row: "flex w-full mt-1",
               cell: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md",
               day: "inline-flex items-center justify-center rounded-md text-sm font-normal h-14 w-14 p-0 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground transition-colors aria-selected:opacity-100",
-              day_selected: "bg-red-900 text-white hover:bg-red-800 focus:bg-red-800 font-semibold",
+              day_selected:
+                "bg-red-900 text-white hover:bg-red-800 focus:bg-red-800 font-semibold",
               day_today: "bg-accent text-accent-foreground font-semibold",
-              day_outside: "text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
+              day_outside:
+                "text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
               day_disabled: "text-muted-foreground opacity-50",
             }}
           />
@@ -92,13 +95,13 @@ const BookingPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
-  
+
   // Check if booking from service or doctor
   const serviceIdParam = searchParams.get("serviceId");
   const doctorIdParam = searchParams.get("doctorId");
   const doctorNameParam = searchParams.get("doctorName");
   const doctorTitleParam = searchParams.get("doctorTitle");
-  
+
   const serviceId = serviceIdParam ? Number(serviceIdParam) : null;
   const isDoctorBooking = Boolean(doctorIdParam);
 
@@ -116,42 +119,43 @@ const BookingPage: React.FC = () => {
   // Get doctor information for doctor bookings
   const doctorInfo = useMemo(() => {
     if (!isDoctorBooking || !doctorIdParam) return null;
-    
-    const doctor = teamMembers.find(member => member.id === doctorIdParam);
-    
+
+    const doctor = teamMembers.find((member) => member.id === doctorIdParam);
+
     if (doctor) {
       return {
         id: doctor.id,
         name: doctor.name,
         title: doctor.title,
-        services: doctor.servicesOffered.length > 0 ? doctor.servicesOffered : [
-          "General Consultation",
-          "Follow-up Consultation", 
-          "Specialist Assessment",
-          "Treatment Planning"
-        ],
-        locations: [doctor.location] // Use the doctor's primary location
+        services:
+          doctor.servicesOffered.length > 0
+            ? doctor.servicesOffered
+            : [
+                "General Consultation",
+                "Follow-up Consultation",
+                "Specialist Assessment",
+                "Treatment Planning",
+              ],
+        locations: [doctor.location], // Use the doctor's primary location
       };
     }
-    
+
     // Fallback if doctor not found
     return {
       id: doctorIdParam,
       name: doctorNameParam || "Doctor",
-      title: doctorTitleParam || "Specialist", 
+      title: doctorTitleParam || "Specialist",
       services: [
         "General Consultation",
-        "Follow-up Consultation", 
+        "Follow-up Consultation",
         "Specialist Assessment",
-        "Treatment Planning"
+        "Treatment Planning",
       ],
-      locations: ["Main Hospital"]
+      locations: ["Main Hospital"],
     };
   }, [isDoctorBooking, doctorIdParam, doctorNameParam, doctorTitleParam]);
 
-  const [selectedLocation, setSelectedLocation] = useState<string | null>(
-    null
-  );
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
@@ -161,10 +165,14 @@ const BookingPage: React.FC = () => {
 
   const handleConfirm = () => {
     // For now, just show a simple mock confirmation. Integration with backend can be added later.
-    const serviceName = isDoctorBooking ? selectedService : selectedServiceFromList?.title;
-    
+    const serviceName = isDoctorBooking
+      ? selectedService
+      : selectedServiceFromList?.title;
+
     if (!serviceName || !selectedLocation || !selectedDate || !selectedTime) {
-      alert("Please select service, location, date and time before confirming.");
+      alert(
+        "Please select service, location, date and time before confirming."
+      );
       return;
     }
 
@@ -180,10 +188,10 @@ const BookingPage: React.FC = () => {
     };
 
     console.log("Booking confirmed", booking);
-    const confirmationMessage = isDoctorBooking 
+    const confirmationMessage = isDoctorBooking
       ? `Booking confirmed with ${booking.doctor} for ${booking.service} on ${booking.date} at ${booking.time} at ${booking.location}`
       : `Booking confirmed for ${booking.service} on ${booking.date} at ${booking.time} at ${booking.location}`;
-    
+
     alert(confirmationMessage);
     // Optionally navigate to a thank-you page or reset state
     navigate("/", { replace: true });
@@ -192,13 +200,17 @@ const BookingPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto py-12 px-4">
       <h2 className="text-2xl font-semibold text-red-900 mb-4">
-        {isDoctorBooking ? `Book with ${doctorInfo?.name}` : "Book an Appointment"}
+        {isDoctorBooking
+          ? `Book with ${doctorInfo?.name}`
+          : "Book an Appointment"}
       </h2>
 
       {/* Doctor Information (when booking from doctor profile) */}
       {isDoctorBooking && doctorInfo && (
         <div className="bg-white p-4 rounded shadow mb-6">
-          <h3 className="font-semibold text-lg text-red-800">{doctorInfo.name}</h3>
+          <h3 className="font-semibold text-lg text-red-800">
+            {doctorInfo.name}
+          </h3>
           <p className="text-sm text-gray-700">{doctorInfo.title}</p>
           <p className="text-sm text-gray-600 mt-2">
             Available at: {doctorInfo.locations.join(", ")}
@@ -247,8 +259,12 @@ const BookingPage: React.FC = () => {
       {/* Show selected service summary (regular service booking) */}
       {!isDoctorBooking && selectedServiceFromList && (
         <div className="bg-white p-4 rounded shadow mb-6">
-          <h3 className="font-semibold text-lg">{selectedServiceFromList.title}</h3>
-          <p className="text-sm text-gray-700">{selectedServiceFromList.overview}</p>
+          <h3 className="font-semibold text-lg">
+            {selectedServiceFromList.title}
+          </h3>
+          <p className="text-sm text-gray-700">
+            {selectedServiceFromList.overview}
+          </p>
           {selectedServiceFromList.locations && (
             <p className="text-sm text-gray-600 mt-2">
               Available at: {selectedServiceFromList.locations.join(", ")}
@@ -304,7 +320,7 @@ const BookingPage: React.FC = () => {
       {/* Calendar and time slots once location selected */}
       {selectedLocation && (
         <div className="mb-6">
-          <CalendarWithTimes 
+          <CalendarWithTimes
             onDateSelected={(d) => setSelectedDate(d)}
             selectedTime={selectedTime}
             onTimeSelected={(t) => setSelectedTime(t)}

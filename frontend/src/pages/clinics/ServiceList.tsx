@@ -48,7 +48,6 @@ const ServiceList: React.FC<ServiceListProps> = () => {
     );
     return Array.from(locSet).sort();
   }, [data]);
-  }, [data]);
 
   // Filter logic
   const filteredServices = data.filter((service) => {
@@ -116,7 +115,10 @@ const ServiceList: React.FC<ServiceListProps> = () => {
 
         {/* Search by specialty */}
         <div className="mb-6">
-          <label htmlFor="search" className="block font-semibold mb-2 font-serif">
+          <label
+            htmlFor="search"
+            className="block font-semibold mb-2 font-serif"
+          >
             By Specialty
           </label>
           <input
@@ -153,7 +155,9 @@ const ServiceList: React.FC<ServiceListProps> = () => {
 
         {/* First Letter Filter */}
         <div>
-          <p className="font-semibold mb-2 font-serif">Filter Specialty by First Letter</p>
+          <p className="font-semibold mb-2 font-serif">
+            Filter Specialty by First Letter
+          </p>
           <div className="flex flex-wrap gap-2">
             {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
               <button
