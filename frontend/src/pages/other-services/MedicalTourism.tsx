@@ -4,8 +4,9 @@ import { ClinicalService } from "@/types";
 
 const MedicalTourism: React.FC = () => {
   const content = useIntlayer("medical_tourism");
+
   const serviceData: ClinicalService = {
-    id: 1, // Temporary static ID
+    id: 1,
     title: Array.isArray(content.medicaltitle)
       ? content.medicaltitle[0]?.value ?? ""
       : content.medicaltitle,
@@ -15,20 +16,30 @@ const MedicalTourism: React.FC = () => {
     overview: Array.isArray(content.medicalview)
       ? content.medicalview[0]?.value ?? ""
       : content.medicalview,
+
     features: [
-      Array.isArray(content.medicalfeature1)
-        ? content.medicalfeature1[0]?.value ?? ""
-        : content.medicalfeature1,
-      Array.isArray(content.medicalfeature2)
-        ? content.medicalfeature2[0]?.value ?? ""
-        : content.medicalfeature2,
-      Array.isArray(content.medicalfeature3)
-        ? content.medicalfeature3[0]?.value ?? ""
-        : content.medicalfeature3,
-      Array.isArray(content.medicalfeature4)
-        ? content.medicalfeature4[0]?.value ?? ""
-        : content.medicalfeature4,
+      {
+        title: Array.isArray(content.medicalfeature1)
+          ? content.medicalfeature1[0]?.value ?? ""
+          : content.medicalfeature1,
+      },
+      {
+        title: Array.isArray(content.medicalfeature2)
+          ? content.medicalfeature2[0]?.value ?? ""
+          : content.medicalfeature2,
+      },
+      {
+        title: Array.isArray(content.medicalfeature3)
+          ? content.medicalfeature3[0]?.value ?? ""
+          : content.medicalfeature3,
+      },
+      {
+        title: Array.isArray(content.medicalfeature4)
+          ? content.medicalfeature4[0]?.value ?? ""
+          : content.medicalfeature4,
+      },
     ],
+
     doctors: [
       {
         name: "Dr. Sarah Kimani, Medical Tourism Coordinator",
@@ -47,7 +58,8 @@ const MedicalTourism: React.FC = () => {
         bio: "Leads surgical team with 15 years of experience.",
       },
     ],
-    testimonial: [
+
+    testimonials: [
       {
         name: "Ahmed, 45, UAE",
         title: Array.isArray(content.testimoni)
@@ -59,35 +71,25 @@ const MedicalTourism: React.FC = () => {
           "The team made my surgery and recovery stress-free. I felt at home!",
       },
     ],
+
     contact: {
       phone: "+254 555 987 6543",
-      emails: [{ type: "general", address: "medtourism@nbihosp.org" }],
+      email: "medtourism@nbihosp.org",
     },
-    isbookable: true, // You can set this based on logic or content
-    relatedServices: [
+
+    isBookable: false,
+    hasReadMore: true,
+
+    images: [
       {
-        id: 2,
-        title: Array.isArray(content.careertitle2)
-          ? content.careertitle2[0]?.value ?? ""
-          : content.careertitle2,
-        description: "Expert care for brain and nervous system conditions.",
-        image:
-          "https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.1.0",
-        link: "/services/neurology",
-      },
-      {
-        id: 3,
-        title: "Rehabilitation Programs",
-        description: "Personalized recovery plans for optimal health.",
-        image:
-          "https://images.unsplash.com/photo-1504813184591-01572f98c85f?q=80&w=3271&auto=format&fit=crop&ixlib=rb-4.1.0",
-        link: "/services/rehabilitation",
+        url: "https://img.freepik.com/free-photo/stethoscope-globe-blue-background_23-2147817245.jpg",
+        alt: "Cardiologist performing an EKG",
       },
     ],
-    image: {
-      url: "https://img.freepik.com/free-photo/stethoscope-globe-blue-background_23-2147817245.jpg",
-      alt: "Cardiologist performing an EKG",
-    },
+    locations: ["Nairobi, Kenya"],
+
+    detailedDescription:
+      "We assist international patients with travel, treatment coordination, and world-class healthcare services.",
   };
 
   return <ServiceTemplate serviceTypes={serviceData} />;

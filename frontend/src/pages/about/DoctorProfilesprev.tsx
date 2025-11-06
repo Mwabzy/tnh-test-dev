@@ -22,13 +22,6 @@ import tomnyabogaImg from "@/assets/doctorsImages/tomnyaboga.png";
 import zeinabahmedImg from "@/assets/doctorsImages/zeinabahmed.png";
 import rohnipatilImg from "@/assets/doctorsImages/rohnipatil.png";
 
-// --- TYPES ---
-type TeamPageProps = {
-  title: string;
-  description: string;
-  members: TeamMember[];
-};
-
 type TeamMember = {
   name: string;
   title: string;

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Navigation from "./menu/Navigation";
 import Logo from "./menu/Logo";
-import { Button } from "./ui/button";
 import LocaleSwitcher from "./menu/LocaleSwitcher";
 
 const Navbar: React.FC = () => {

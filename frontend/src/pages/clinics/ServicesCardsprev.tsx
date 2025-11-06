@@ -9,7 +9,7 @@ const ServiceCards = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await fetch("http://localhost:5003/clinical-services");
+        const res = await fetch("http://localhost:8000/clinical-services");
         const data = await res.json();
 
         console.log("Fetched services:", data);
@@ -26,7 +26,7 @@ const ServiceCards = () => {
 
   if (loading) return <p>Loading services...</p>;
 
-  return <ServiceList />;
+  return <ServiceList services={services} />;
 };
 
 export default ServiceCards;

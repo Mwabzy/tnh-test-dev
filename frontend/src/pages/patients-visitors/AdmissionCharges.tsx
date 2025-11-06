@@ -25,8 +25,8 @@ const AdmissionCharges: FC<AdmissionChargesProps> = () => {
       <Heading
         image_url="https://cms.thenairobihosp.org/uploads/admission_charges_8fbeb1073c.jpg"
         style="image"
-        title={content.admissiontitle}
-        description={content.admissiondesc}
+        title="Admission Charges"
+        description="Explore our admission charges and ensure a smooth experience during your stay."
       />
       <section className="max-w-4xl mx-auto px-4 py-10">
         <div className="flex items-center gap-2 mb-6">

@@ -1,5 +1,5 @@
 import { Doctor } from "./doctors";
-import { ContactInfo } from "./contact";
+import { ContactInfo } from "./clinicalServices";
 import { Testimonial } from "./testimonial";
 
 export interface ClinicalService {

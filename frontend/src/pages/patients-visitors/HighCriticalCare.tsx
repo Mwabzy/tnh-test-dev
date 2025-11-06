@@ -17,25 +17,23 @@ const HighCriticalCare: FC = () => {
       <Heading
         image_url="https://cms.thenairobihosp.org/uploads/high_critical_care_8fbeb1073c.jpg"
         style="image"
-        title={content.high_critical_care_title}
-        description={content.hccdescription}
+        title="High Critical Care"
+        description="Explore our high critical care services for patients requiring specialized attention and monitoring."
       />{" "}
       <div className="p-6 space-y-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-2xl p-5 border border-gray-200">
               <h2 className="text-xl font-bold text-red-900 mb-3">
-               {content.hcccintro}
+                {content.hcccintro}
               </h2>
-              <p className="text-gray-700">
-               {content.hccp1}
-              </p>
+              <p className="text-gray-700">{content.hccp1}</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-white shadow-xl rounded-2xl p-5 border border-gray-200">
                 <h2 className="text-xl font-bold text-red-900 mb-3">
-                {content.hcch2}
+                  {content.hcch2}
                 </h2>
                 <p className="text-gray-700 whitespace-pre-line">
                   {content.hccp2}
@@ -43,11 +41,9 @@ const HighCriticalCare: FC = () => {
               </div>
               <div className="bg-white shadow-xl rounded-2xl p-5 border border-gray-200">
                 <h2 className="text-xl font-bold text-red-900 mb-3">
-                 {content.hccp3}
+                  {content.hccp3}
                 </h2>
-                <p className="text-gray-700">
-                  {content.hccp4}
-                </p>
+                <p className="text-gray-700">{content.hccp4}</p>
               </div>
             </div>
 
@@ -56,17 +52,13 @@ const HighCriticalCare: FC = () => {
                 <h2 className="text-xl font-bold text-red-900 mb-3">
                   {content.hcch3}
                 </h2>
-                <p className="text-gray-700">
-                  {content.hccp5}
-                </p>
+                <p className="text-gray-700">{content.hccp5}</p>
               </div>
               <div className="bg-white shadow-xl rounded-2xl p-5 border border-gray-200">
                 <h2 className="text-xl font-bold text-red-900 mb-3">
                   {content.hcch4}
                 </h2>
-                <p className="text-gray-700">
-                  {content.hccp6}
-                </p>
+                <p className="text-gray-700">{content.hccp6}</p>
               </div>
             </div>
           </div>
@@ -114,9 +106,7 @@ const HighCriticalCare: FC = () => {
                 <h2 className="text-xl font-bold text-red-900 mb-3 text-center">
                   {content.hccvisitinghours}
                 </h2>
-                <p className="text-gray-700 text-center">
-                  {content.visitorperpatient}
-                </p>
+                <p className="text-gray-700 text-center">2</p>
                 <p className="text-gray-700 text-center">
                   {content.hccvisitinghoursdetails}
                 </p>
@@ -128,21 +118,15 @@ const HighCriticalCare: FC = () => {
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="nicu">
             <AccordionTrigger>{content.nicutitle1}</AccordionTrigger>
-            <AccordionContent>
-              {content.nicutext1}
-            </AccordionContent>
+            <AccordionContent>{content.nicutext1}</AccordionContent>
           </AccordionItem>
           <AccordionItem value="hdu">
             <AccordionTrigger>{content.nicutitle2}</AccordionTrigger>
-            <AccordionContent>
-              {content.nicutext2}
-            </AccordionContent>
+            <AccordionContent>{content.nicutext2}</AccordionContent>
           </AccordionItem>
           <AccordionItem value="covid">
             <AccordionTrigger>{content.nicutitle3}</AccordionTrigger>
-            <AccordionContent>
-              {content.nicutext3}
-            </AccordionContent>
+            <AccordionContent>{content.nicutext3}</AccordionContent>
           </AccordionItem>
         </Accordion>
       </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { ClinicalService } from "@/types";
-import clinicalServices from "@/data/clinicalServices2.json";
+//import clinicalServices from "@/data/clinicalServices2.json";
 
 const ServicesBrief = () => {
   const [services, setServices] = useState<ClinicalService[]>([]);
@@ -10,7 +10,7 @@ const ServicesBrief = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await fetch("http://localhost:5003/clinical-services");
+        const res = await fetch("http://localhost:8000/clinical-services/");
         const data = await res.json();
 
         console.log("Fetched services:", data);
@@ -34,7 +34,7 @@ const ServicesBrief = () => {
       </h2>
 
       <ul className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-red-900">
-        {clinicalServices.map((item) => (
+        {services.map((item) => (
           <li
             key={item.title}
             className="flex items-center before:content-['•'] before:mr-2 text-red-900 before:text-lg"

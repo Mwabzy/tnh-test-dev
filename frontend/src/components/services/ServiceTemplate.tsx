@@ -23,6 +23,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
     features,
     isBookable,
     testimonials,
+    locations,
   } = serviceTypes;
 
   const mainImage = images?.[0];
@@ -130,7 +131,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                   className="h-5 w-5 text-red-900"
                   aria-label="Location icon"
                 />
-                {contact?.address || "Argwings Kodhek Road, Nairobi"}
+                {locations || "Argwings Kodhek Road, Nairobi"}
               </div>
             </div>
           </div>
