@@ -17,48 +17,50 @@ interface OutpatientCenter {
 }
 
 const outpatientCenters: OutpatientCenter[] = [
-  {
-    id: "galleria-opc",
-    name: "Galleria OPC",
-    location: "Langata Road, Nairobi",
-    imageUrl: galleria,
+    {
+    id: "anderson-opc",
+    name: "Anderson Specialty Center",
+    location: "Argwings Kodhek Road, Gate 1, Main Hospital",
+    imageUrl: anderson,
   },
-  {
-    id: "kiambu-opc",
-    name: "Kiambu OPC",
-    location: "Kiambu Road, Nairobi",
-    imageUrl: kiambu,
-  },
-  {
+    {
     id: "capital-opc",
     name: "Capital Center OPC",
-    location: "Mombasa Road",
+    location: "Capital Centre, 1st floor, above DTB Bank, Mombasa Road.",
     imageUrl: capital,
   },
   {
     id: "galleria-opc",
+    name: "Galleria Mall OPC",
+    location: "Galleria Shopping Mall, 2nd Floor, Lang’ata Road",
+    imageUrl: galleria,
+  },
+  {
+    id: "kiambu-opc",
+    name: "Kiambu Mall OPC",
+    location: "Kiambu Mall, 2nd Floor, Kiambu Road",
+    imageUrl: kiambu,
+  },
+ {
+    id: "rosslyn-opc",
+    name: "Rosslyn Riviera OPC",
+    location: "Rosslyn Riviera Mall, 3rd Floor, Limuru Rd",
+    imageUrl: rosslyn,
+  },
+  {
+    id: "galleria-opc",
     name: "South Field Mall OPC",
-    location: "Outering Road, Nairobi",
+    location: "Southfield Mall, 2nd Floor, Airport North Road, Embakasi",
     imageUrl: southfield,
   },
   {
     id: "warwick-opc",
     name: "Warwick Center OPC",
-    location: "Gigiri, Nairobi",
+    location: "Warwick Centre, UN Avenue, Gigiri",
     imageUrl: warwick,
   },
-  {
-    id: "rosslyn-opc",
-    name: "Rosslyn Riviera OPC",
-    location: "Limuru Road, Nairobi",
-    imageUrl: rosslyn,
-  },
-  {
-    id: "anderson-opc",
-    name: "Anderson Specialty",
-    location: "Argwings Kodhek Rd, Nairobi",
-    imageUrl: anderson,
-  },
+ 
+
 ];
 
 const Opc: React.FC = () => {

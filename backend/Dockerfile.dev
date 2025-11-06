@@ -36,6 +36,7 @@ RUN chmod +x docker/django/entrypoint.sh docker/django/start.sh
 # Switch to non-root user
 USER app_user
 
-# Set entrypoint and command
-ENTRYPOINT ["docker/django/entrypoint.sh"]
-CMD ["docker/django/start.sh", "backend"]
+# Set entrypoint and command (use bash with absolute paths to avoid CRLF/shebang exec issues
+# when mounting files from Windows into a Linux container)
+ENTRYPOINT ["bash", "/app/docker/django/entrypoint.sh"]
+CMD ["/app/docker/django/start.sh", "backend"]

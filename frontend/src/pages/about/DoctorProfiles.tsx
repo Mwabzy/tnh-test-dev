@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import ContactForm from "@/components/ContactForm";
-import hospitalview from "@/assets/heroimages/heroimage2.jpg";
+import hospitalview from "@/assets/heroimages/heroimage2.JPG";
 
 import alexkagiaImg from "@/assets/doctorsImages/alexkagia.png";
 import bwmendwaImg from "@/assets/doctorsImages/bmwendwa.png";

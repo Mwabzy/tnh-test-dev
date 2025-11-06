@@ -39,10 +39,10 @@ interface Clinic {
 const clinics: Clinic[] = [
   {
     id: '1',
-    name: 'Galleria Mall Outpatient Clinic',
+    name: 'Chandaria Accident & Emergency Centre',
     address: {
-      building: 'Galleria Shopping Mall, 2nd Floor',
-      street: 'Lang’ata Road, opposite Bomas of Kenya',
+      building: 'The Nairobi Hospital',
+      street: 'Argwings Kodhek Road, Gate 1, Chandaria Accident & Emergency',
       city: 'Nairobi',
       zip: '00100',
     },

@@ -2,7 +2,7 @@ import ContactForm from "@/components/ContactForm";
 import Heading from "@/components/Heading";
 import React from "react";
 import { Link } from "react-router";
-import hospitalview from "@/assets/heroimages/heroimage2.jpg";
+import hospitalview from "@/assets/heroimages/heroimage2.JPG";
 
 type TeamPageProps = {
   title: string;
