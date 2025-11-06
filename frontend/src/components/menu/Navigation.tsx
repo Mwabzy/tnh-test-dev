@@ -57,9 +57,7 @@ const Navigation: FC<NavigationProps> = () => {
                 <ul className="space-y-1 text-base">
                   {" "}
                   <ListItem title="Our History" href="/about-us/history" />{" "}
-                  <ListItem title="Vision" href="/about-us" />{" "}
-                  <ListItem title="Mission" href="/about-us" />
-                  <ListItem title="Core Values" href="/about-us" />
+                  <ListItem title="Vision, Mission & Core Values" href="/about-us" />{" "}
                 </ul>{" "}
               </li>
               {/* Column 2: Corporate Governance */}
@@ -70,10 +68,6 @@ const Navigation: FC<NavigationProps> = () => {
                 </h3>{" "}
                 <ul className="space-y-1 text-base">
                   {" "}
-                  <ListItem
-                    title="Board of Governance Structure"
-                    href="/about/board-structure"
-                  />{" "}
                   <ListItem
                     title="Board of Trustees"
                     href="/about-us/board-of-trustees"
@@ -119,10 +113,6 @@ const Navigation: FC<NavigationProps> = () => {
                 </h3>{" "}
                 <ul className="space-y-1 text-base">
                   {" "}
-                  <ListItem
-                    title="Annual Reports"
-                    href="/about/annual-reports"
-                  />{" "}
                   <ListItem
                     title="Strategic Plan"
                     href="/about/strategic-plan"
@@ -178,36 +168,17 @@ const Navigation: FC<NavigationProps> = () => {
                 <ul className="space-y-1 text-base">
                   {" "}
                   <ListItem
-                    title="Specialty Clinics"
+                    title="Anderson Specialty Clinics"
                     href="/clinical-services"
                   />{" "}
                   <ListItem
-                    title="Accident and Emergency Services"
+                    title="Accident and Emergency"
                     href="/clinical-services"
                   />{" "}
                   <ListItem
-                    title="Physical Medicine"
+                    title="Pharmacy Services"
                     href="/clinical-services"
                   />{" "}
-                  <ListItem
-                    title="Antenatal Clinic"
-                    href="/clinical-services"
-                  />{" "}
-                </ul>{" "}
-                <ListItem
-                  title="International Patients"
-                  href="/clinical-services"
-                />{" "}
-              </li>
-
-              {/* Column 2: Doctors & Medical Staff */}
-              <li className="pr-4">
-                {" "}
-                <h3 className="font-bold text-white text-xs font-serif ml-2 mb-2">
-                  DOCTORS
-                </h3>{" "}
-                <ul className="space-y-1 text-base">
-                  {" "}
                   <ListItem
                     title="Laboratory Services"
                     href="/clinical-services"
@@ -217,15 +188,55 @@ const Navigation: FC<NavigationProps> = () => {
                     href="/clinical-services"
                   />{" "}
                   <ListItem
-                    title="Pharmacy Services"
+                    title="Endoscopy Services"
                     href="/clinical-services"
                   />{" "}
                   <ListItem
-                    title="Endoscopy Services"
+                    title="Dental Procedures"
                     href="/clinical-services"
                   />{" "}
                 </ul>{" "}
               </li>
+
+              {/* Column 2: Clinical Services */}
+              <li className="pr-4">
+  {" "}
+  <h3 className="font-bold text-red-900 text-xs font-serif ml-2 mb-2">
+    ADDITIONAL CLINICAL SERVICES
+  </h3>{" "}
+  <ul className="space-y-1 text-base">
+    {" "}
+    <ListItem
+      title="Physical Medicine Centre"
+      href="/clinical-services"
+    />{" "}
+    <ListItem
+      title="Psychosocial Department"
+      href="/clinical-services"
+    />{" "}
+    <ListItem
+      title="Cath Lab Services"
+      href="/clinical-services"
+    />{" "}
+    <ListItem
+      title="Antenatal Services"
+      href="/clinical-services"
+    />{" "}
+    <ListItem
+      title="Renal Services"
+      href="/clinical-services"
+    />{" "}
+    <ListItem
+      title="Oncology Services"
+      href="/clinical-services"
+    />{" "}
+    <ListItem
+      title="International Patients"
+      href="/clinical-services"
+    />{" "}
+  </ul>{" "}
+</li>
+
               {/* Column 3: Outpatient Services */}
               <li className=" pr-4">
                 {" "}
@@ -235,32 +246,32 @@ const Navigation: FC<NavigationProps> = () => {
                 <ul className="space-y-1 text-base">
                   {" "}
                   <ListItem
-                    title="A&E Outpatient Centre"
+                    title="Chandaria A&E Centre"
                     href="/outpatient/a-e"
                   />{" "}
                   <ListItem
-                    title="Rosslyn Outpatient Centre"
-                    href="/outpatient-center/rosslyn-opc"
-                  />{" "}
-                  <ListItem
-                    title="Warwick Outpatient Centre"
-                    href="/outpatient-center/warwick-opc"
+                    title="Capital Outpatient Centre"
+                    href="/outpatient-center/capital-opc"
                   />{" "}
                   <ListItem
                     title="Galleria Outpatient Centre"
                     href="/outpatient-center/galleria-opc"
                   />{" "}
                   <ListItem
-                    title="Southfield Outpatient Centre"
-                    href="/outpatient-center/southfield-opc"
-                  />{" "}
-                  <ListItem
                     title="Kiambu Outpatient Centre"
                     href="/outpatient-center/kiambu-opc"
                   />{" "}
                   <ListItem
-                    title="Capital Outpatient Centre"
-                    href="/outpatient-center/capital-opc"
+                    title="Rosslyn Outpatient Centre"
+                    href="/outpatient-center/rosslyn-opc"
+                  />{" "}
+                  <ListItem
+                    title="Southfield OPC"
+                    href="/outpatient-center/southfield-opc"
+                  />{" "}
+                  <ListItem
+                    title="Warwick Outpatient Centre"
+                    href="/outpatient-center/warwick-opc"
                   />{" "}
                 </ul>{" "}
               </li>
@@ -282,12 +293,16 @@ const Navigation: FC<NavigationProps> = () => {
                     href="/inpatient/rooms-wards"
                   />{" "}
                   <ListItem
-                    title="Critical Care Units (ICU, HDU, NICU, CCU)"
+                    title="Critical Care Services"
                     href="/inpatient/critical-care"
                   />{" "}
                   <ListItem
                     title="Theatre & Surgery"
                     href="/inpatient/surgery"
+                  />{" "}
+                  <ListItem
+                    title="CQI / Infection Control"
+                    href="/inpatient/palliative"
                   />{" "}
                   <ListItem
                     title="Physiotherapy & Rehab"
