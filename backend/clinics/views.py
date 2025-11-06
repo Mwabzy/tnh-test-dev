@@ -1,12 +1,7 @@
 from rest_framework import viewsets
-from .models import (
-    ClinicalService, Doctor, Contact, Testimonial, RelatedService
-)
-from .serializers import (
-    ClinicalServiceSerializer, DoctorSerializer, ContactSerializer,
-    TestimonialSerializer, RelatedServiceSerializer
-)
 from rest_framework.permissions import AllowAny
+from .models import ClinicalService, Doctor, Contact, Testimonial
+from .serializers import ClinicalServiceSerializer, DoctorSerializer, ContactSerializer, TestimonialSerializer
 
 class ClinicalServiceViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
@@ -24,7 +19,3 @@ class ContactViewSet(viewsets.ModelViewSet):
 class TestimonialViewSet(viewsets.ModelViewSet):
     queryset = Testimonial.objects.all()
     serializer_class = TestimonialSerializer
-
-class RelatedServiceViewSet(viewsets.ModelViewSet):
-    queryset = RelatedService.objects.all()
-    serializer_class = RelatedServiceSerializer

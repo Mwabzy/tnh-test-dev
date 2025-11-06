@@ -18,11 +18,11 @@ const DashboardHome = () => {
         </div>
         <div className="bg-white p-6 rounded shadow">
           <h2 className="text-xl font-semibold">Doctors</h2>
-          <p className="text-4xl mt-4">12</p> {/* example static number */}
+          <p className="text-4xl mt-4">12</p>
         </div>
         <div className="bg-white p-6 rounded shadow">
           <h2 className="text-xl font-semibold">Pending Updates</h2>
-          <p className="text-4xl mt-4">3</p> {/* example static number */}
+          <p className="text-4xl mt-4">3</p>
         </div>
       </div>
     </div>

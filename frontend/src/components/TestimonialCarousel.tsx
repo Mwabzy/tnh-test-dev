@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useIntlayer } from "react-intlayer";
 
-
 // Define the shape of a single testimonial
 export interface Testimonial {
   name: string;
-  title: string;
-  image: string;
+  title?: string;
+  image?: string;
   quote: string;
 }
 
@@ -43,7 +42,7 @@ export default function TestimonialCarousel({
 
   const { name, title, image, quote } = testimonials[index];
   const content = useIntlayer("testimonial_carousel");
-  
+
   return (
     <section className="bg-orange-200 py-14 md:py-20 w-full">
       <div className="max-w-7xl mx-auto flex flex-col items-start justify-center px-6 gap-6">
@@ -73,16 +72,15 @@ export default function TestimonialCarousel({
         </div>
 
         <div className="flex flex-col w-full gap-2">
-        
-           <blockquote className="text-xl md:text-2xl w-full text-black font-serif">
-              “{quote}”
-            </blockquote>
+          <blockquote className="text-xl md:text-2xl w-full text-black font-serif">
+            “{quote}”
+          </blockquote>
 
-            <div className="mt-2">
-              <h3 className="text-lg font-semibold text-red-900">{name}</h3>
-              <p className="text-gray-600">{title}</p>
-            </div>
-          
+          <div className="mt-2">
+            <h3 className="text-lg font-semibold text-red-900">{name}</h3>
+            <p className="text-gray-600">{title}</p>
+          </div>
+
           <div className="flex md:hidden justify-between items-center">
             {/* Navigation Buttons */}
             <div className="flex justify-between gap-4 mx-auto">

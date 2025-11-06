@@ -1,11 +1,5 @@
 from django.contrib import admin
-from clinics.models import (
-    ClinicalService,
-    Contact,
-    Doctor,
-    Testimonial,
-    RelatedService
-)
+from clinics.models import ClinicalService, Contact, Doctor, Testimonial
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
@@ -14,21 +8,16 @@ class ContactAdmin(admin.ModelAdmin):
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'title')
+    list_display = ('id', 'name', 'title', 'image')  # image instead of photo
     search_fields = ('name', 'title')
 
 @admin.register(Testimonial)
 class TestimonialAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'rating')
-    search_fields = ('author',)
-
-@admin.register(RelatedService)
-class RelatedServiceAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title')
-    search_fields = ('title',)
+    list_display = ('id', 'name', 'title')  # name instead of author
+    search_fields = ('name',)
 
 @admin.register(ClinicalService)
 class ClinicalServiceAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'tagline', 'is_bookable')
+    list_display = ('id', 'title', 'tagline', 'isBookable', 'hasReadMore')
     search_fields = ('title', 'tagline')
-    filter_horizontal = ('doctors', 'testimonials', 'clinics', 'related_services')
+    filter_horizontal = ('doctors', 'testimonials', 'clinics')

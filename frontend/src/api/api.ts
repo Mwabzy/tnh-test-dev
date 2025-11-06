@@ -1,10 +1,9 @@
-const USER_API = "http://localhost:5000/auth/";
+const USER_API = "http://localhost:8000/auth/";
 const CLINICS_API = "http://localhost:8000/clinical-services/";
 
 // Auth
-
 export const loginUser = async (username: string, password: string) => {
-  const res = await fetch(`${USER_API}/login`, {
+  const res = await fetch(`${USER_API}login/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
@@ -12,11 +11,15 @@ export const loginUser = async (username: string, password: string) => {
   return res.json();
 };
 
-export const registerUser = async (username: string, password: string) => {
-  const res = await fetch(`${USER_API}/register`, {
+export const registerUser = async (
+  username: string,
+  email: string,
+  password: string
+) => {
+  const res = await fetch(`${USER_API}register/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ username, email, password }),
   });
   return res.json();
 };
@@ -30,7 +33,7 @@ function getAuthToken() {
 function authHeaders() {
   return {
     "Content-Type": "application/json",
-    Authorization: getAuthToken(),
+    Authorization: `Bearer ${getAuthToken()}`,
   };
 }
 
@@ -45,7 +48,7 @@ export async function fetchClinicalServices() {
 }
 
 export async function fetchClinicalServiceById(id: number) {
-  const res = await fetch(`${CLINICS_API}/${id}`, {
+  const res = await fetch(`${CLINICS_API}${id}/`, {
     headers: authHeaders(),
   });
   if (!res.ok) throw new Error("Failed to fetch clinical service");
@@ -64,7 +67,7 @@ export async function createClinicalService(data: any) {
 }
 
 export async function updateClinicalService(id: number, data: any) {
-  const res = await fetch(`${CLINICS_API}/${id}`, {
+  const res = await fetch(`${CLINICS_API}${id}/`, {
     method: "PATCH",
     headers: authHeaders(),
     body: JSON.stringify(data),
@@ -74,7 +77,7 @@ export async function updateClinicalService(id: number, data: any) {
 }
 
 export async function deleteClinicalService(id: number) {
-  const res = await fetch(`${CLINICS_API}/${id}`, {
+  const res = await fetch(`${CLINICS_API}${id}/`, {
     method: "DELETE",
     headers: authHeaders(),
   });

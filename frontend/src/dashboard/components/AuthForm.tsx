@@ -7,8 +7,10 @@ interface AuthFormProps {
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({ onAuthSuccess }) => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -16,25 +18,66 @@ const AuthForm: React.FC<AuthFormProps> = ({ onAuthSuccess }) => {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    if (!email.includes("@") || password.length < 6) {
-      setError("Invalid email or password.");
-      return;
+    setError("");
+
+    if (isRegistering) {
+      if (!username.trim()) {
+        setError("Username is required.");
+        return;
+      }
+      if (!email.trim()) {
+        setError("Email is required.");
+        return;
+      }
+      if (!email.includes("@") || !email.includes(".")) {
+        setError("Please enter a valid email address.");
+        return;
+      }
+      if (password.length < 6) {
+        setError("Password must be at least 6 characters long.");
+        return;
+      }
+      if (password !== confirmPassword) {
+        setError("Passwords do not match.");
+        return;
+      }
+    } else {
+      if (!username.trim()) {
+        setError("Username is required.");
+        return;
+      }
+      if (password.length < 6) {
+        setError("Password must be at least 6 characters long.");
+        return;
+      }
     }
 
     setLoading(true);
-    setError("");
 
     try {
-      const data = isRegistering
-        ? await registerUser(email, password)
-        : await loginUser(email, password);
+      let data;
+
+      if (isRegistering) {
+        data = await registerUser(username, email, password);
+      } else {
+        data = await loginUser(username, password);
+      }
 
       if (data.token) {
+        console.log("Token received:", data.token);
+        console.log("User data", data.user);
         localStorage.setItem("token", data.token);
+        try {
+          const storedToken = localStorage.getItem("token");
+          console.log("Token in localStorage after setting:", storedToken);
+        } catch (err) {
+          console.error("Error setting token in localStorage:", err);
+        }
+
         onAuthSuccess(data.token);
         navigate("/dashboard");
       } else {
-        setError(" Authentication failed.");
+        setError(data.message || "Authentication failed.");
       }
     } catch (err: any) {
       setError(err.message || "Something went wrong.");
@@ -55,26 +98,47 @@ const AuthForm: React.FC<AuthFormProps> = ({ onAuthSuccess }) => {
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
       <input
-        type="email"
-        placeholder="Email"
+        type="text"
+        placeholder="Username"
         className="w-full px-4 py-2 mb-3 border rounded"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
       />
+
+      {isRegistering && (
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full px-4 py-2 mb-3 border rounded"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      )}
+
       <input
         type="password"
         placeholder="Password"
-        className="w-full px-4 py-2 mb-4 border rounded"
+        className="w-full px-4 py-2 mb-3 border rounded"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
 
+      {isRegistering && (
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          className="w-full px-4 py-2 mb-4 border rounded"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+      )}
+
       <button
-        className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-300 cursor-pointer"
+        className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-400 cursor-pointer"
         onClick={handleSubmit}
         disabled={loading}
       >
-        {loading ? "Submitting..." : "Submit"}
+        {loading ? "Submitting..." : isRegistering ? "Sign Up" : "Login"}
       </button>
 
       <hr className="my-6" />
@@ -87,7 +151,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ onAuthSuccess }) => {
         </p>
         <button
           className="text-red-600 font-semibold mt-2 cursor-pointer"
-          onClick={() => setIsRegistering(!isRegistering)}
+          onClick={() => {
+            setError("");
+            setIsRegistering(!isRegistering);
+          }}
         >
           {isRegistering ? "Sign In" : "Sign Up"}
         </button>

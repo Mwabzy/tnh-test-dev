@@ -2,9 +2,12 @@ from pathlib import Path
 import environ
 import os
 from datetime import timedelta
+import dj_database_url
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 env_file = os.getenv("ENV_FILE", ".env")
+
 # Initialize environ
 env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, env_file))
@@ -71,15 +74,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'web.wsgi.application'
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": env("POSTGRES_DATABASE", default=None),
+#         "USER": env("POSTGRES_USER", default=None),
+#         "PASSWORD": env("POSTGRES_PASSWORD", default=None),
+#         "HOST": env("POSTGRES_HOST", default=None),
+#         "PORT": env.int("POSTGRES_PORT", default=None),
+#     },
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("POSTGRES_DATABASE", default=None),
-        "USER": env("POSTGRES_USER", default=None),
-        "PASSWORD": env("POSTGRES_PASSWORD", default=None),
-        "HOST": env("POSTGRES_HOST", default=None),
-        "PORT": env.int("POSTGRES_PORT", default=None),
-    },
+    "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -107,16 +114,13 @@ REST_FRAMEWORK = {
     ],
 }
 
+
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Access token expires in 1 hour
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # Refresh token expires in 7 days
-    'ROTATE_REFRESH_TOKENS': True,                  # Issue new refresh token on refresh
-    'BLACKLIST_AFTER_ROTATION': True,               # Blacklist old refresh tokens
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': env("SECRET_KEY", default=None),
+    'SIGNING_KEY': SECRET_KEY,
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
-
 
 LANGUAGE_CODE = 'en-us'
 
@@ -146,4 +150,4 @@ MICROSOFT_CLIENT_ID = env("MICROSOFT_CLIENT_ID", default=None)
 MICROSOFT_CLIENT_SECRET = env("MICROSOFT_CLIENT_SECRET", default=None)
 MICROSOFT_EMAIL_SENDER = env("MICROSOFT_EMAIL_SENDER", default=None)
 
-#CORS_ALLOW_ALL_ORIGINS = True
+CRSF_TRUDSTRED_ORIGINS = env.list("CRSF_TRUSTED_ORIGINS_DEPLOY")

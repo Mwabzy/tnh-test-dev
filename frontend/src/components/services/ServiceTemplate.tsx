@@ -22,7 +22,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
     contact,
     features,
     isBookable,
-    testimonial,
+    testimonials,
   } = serviceTypes;
 
   const mainImage = images?.[0];
@@ -142,8 +142,8 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
         {isBookable && (
           <ContactForm contactInfo={contact} title="Book an Appointment" />
         )}
-        {testimonial && testimonial.length > 0 && (
-          <TestimonialCarousel testimonials={testimonial} />
+        {testimonials && testimonials.length > 0 && (
+          <TestimonialCarousel testimonials={testimonials} />
         )}
 
         {/* Related Services */}

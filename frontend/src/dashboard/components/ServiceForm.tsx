@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { ClinicalService, ContactInfo, EmailEntry } from "@/types";
+import {
+  ClinicalService,
+  ContactInfo,
+  Doctor,
+  Feature,
+  Image,
+  Testimonial,
+} from "@/types";
 
 interface Props {
   initialData?: ClinicalService | null;
@@ -13,115 +20,108 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   const [title, setTitle] = useState(initialData?.title || "");
   const [tagline, setTagline] = useState(initialData?.tagline || "");
   const [overview, setOverview] = useState(initialData?.overview || "");
-  const [features, setFeatures] = useState<string[]>(
+  const [detailedDescription, setDetailedDescription] = useState(
+    initialData?.detailedDescription || ""
+  );
+  const [features, setFeatures] = useState<Feature[]>(
     initialData?.features || []
   );
-  const [doctors, setDoctors] = useState(initialData?.doctors || []);
-
+  const [doctors, setDoctors] = useState<Doctor[]>(initialData?.doctors || []);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(
+    initialData?.testimonials || []
+  );
   const [contact, setContact] = useState<ContactInfo>({
     phone: initialData?.contact?.phone || "",
-    emails: initialData?.contact?.emails || [],
+    email: initialData?.contact?.email || "",
   });
-  const [relatedServices, setRelatedServices] = useState(
-    initialData?.relatedServices || []
+  const [isBookable, setIsBookable] = useState(
+    initialData?.isBookable ?? false
   );
-  const [imageUrl, setImageUrl] = useState(initialData?.image?.url || "");
-  const [imageAlt, setImageAlt] = useState(initialData?.image?.alt || "");
+  const [hasReadMore, setHasReadMore] = useState(
+    initialData?.hasReadMore ?? false
+  );
+  const [images, setImages] = useState<Image[]>(initialData?.images || []);
+  const [locations, setLocations] = useState<string[]>(
+    initialData?.locations || []
+  );
 
-  // --- Features handlers ---
-  const handleFeatureChange = (index: number, value: string) => {
+  // --- Feature handlers ---
+  const handleFeatureChange = (
+    index: number,
+    key: keyof Feature,
+    value: string
+  ) => {
     const newFeatures = [...features];
-    newFeatures[index] = value;
+    newFeatures[index] = { ...newFeatures[index], [key]: value };
     setFeatures(newFeatures);
   };
 
-  const addFeature = () => setFeatures([...features, ""]);
+  const addFeature = () =>
+    setFeatures([...features, { title: "", description: "" }]);
   const removeFeature = (index: number) =>
     setFeatures(features.filter((_, i) => i !== index));
 
-  // --- Testimonial handlers ---
-  // const handleTestimonialChange = (
-  //   index: number,
-  //   key: keyof (typeof testimonial)[0],
-  //   value: string
-  // ) => {
-  //   const newTestimonial = [...testimonial];
-  //   newTestimonial[index][key] = value;
-  //   setTestimonial(newTestimonial);
-  // };
-
+  // --- Doctor handlers ---
   const handleDoctorChange = (
     index: number,
-    key: keyof (typeof doctors)[0],
+    key: keyof Doctor,
     value: string
   ) => {
-    const updatedDoctors = [...doctors];
-    // @ts-ignore
-    updatedDoctors[index][key] = value;
-    setDoctors(updatedDoctors);
+    const updated = [...doctors];
+    updated[index] = { ...updated[index], [key]: value };
+    setDoctors(updated);
   };
 
-  const addDoctor = () => {
+  const addDoctor = () =>
     setDoctors([...doctors, { name: "", title: "", image: "", bio: "" }]);
-  };
-
-  const removeDoctor = (index: number) => {
+  const removeDoctor = (index: number) =>
     setDoctors(doctors.filter((_, i) => i !== index));
-  };
 
-  // const addTestimonial = () =>
-  //   setTestimonial([
-  //     ...testimonial,
-  //     { name: "", title: "", image: "", quote: "" },
-  //   ]);
-  // const removeTestimonial = (index: number) =>
-  //   setTestimonial(testimonial.filter((_, i) => i !== index));
-
-  // --- Contact emails handlers ---
-  const handleEmailChange = (
+  // --- Testimonial handlers ---
+  const handleTestimonialChange = (
     index: number,
-    key: keyof EmailEntry,
+    key: keyof Testimonial,
     value: string
   ) => {
-    const updatedEmails = [...(contact.emails || [])];
-    updatedEmails[index] = { ...updatedEmails[index], [key]: value };
-    setContact({ ...contact, emails: updatedEmails });
+    const updated = [...testimonials];
+    updated[index] = { ...updated[index], [key]: value };
+    setTestimonials(updated);
   };
 
-  const addEmailField = () => {
-    setContact({
-      ...contact,
-      emails: [...(contact.emails || []), { type: "", address: "" }],
-    });
-  };
+  const addTestimonial = () =>
+    setTestimonials([
+      ...testimonials,
+      { name: "", title: "", image: "", quote: "" },
+    ]);
+  const removeTestimonial = (index: number) =>
+    setTestimonials(testimonials.filter((_, i) => i !== index));
 
-  const removeEmailField = (index: number) => {
-    const updatedEmails = [...(contact.emails || [])];
-    updatedEmails.splice(index, 1);
-    setContact({ ...contact, emails: updatedEmails });
-  };
-
-  // --- Related services handlers ---
-  const handleRelatedServiceChange = (
+  // --- Image handlers ---
+  const handleImageChange = (
     index: number,
-    key: keyof (typeof relatedServices)[0],
-    value: string | number
+    key: keyof Image,
+    value: string
   ) => {
-    const newRelated = [...relatedServices];
-    // @ts-ignore
-    newRelated[index][key] = value;
-    setRelatedServices(newRelated);
+    const updated = [...images];
+    updated[index] = { ...updated[index], [key]: value };
+    setImages(updated);
   };
 
-  const addRelatedService = () => {
-    setRelatedServices([...relatedServices, { id: 0, title: "", image: "" }]);
-  };
+  const addImage = () => setImages([...images, { url: "", alt: "" }]);
+  const removeImage = (index: number) =>
+    setImages(images.filter((_, i) => i !== index));
 
-  const removeRelatedService = (index: number) => {
-    setRelatedServices(relatedServices.filter((_, i) => i !== index));
+  // --- Location handlers ---
+  const handleLocationChange = (index: number, value: string) => {
+    const updated = [...locations];
+    updated[index] = value;
+    setLocations(updated);
   };
+  const addLocation = () => setLocations([...locations, ""]);
+  const removeLocation = (index: number) =>
+    setLocations(locations.filter((_, i) => i !== index));
 
-  // --- Submit ---
+  // --- Submit handler ---
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -135,18 +135,24 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       title,
       tagline,
       overview,
+      detailedDescription,
       features,
       doctors,
-      // testimonial: testimonial.filter((t) => t.name || t.quote), // filter empty
+      testimonials,
       contact,
-      relatedServices,
-      image: { url: imageUrl, alt: imageAlt },
+      isBookable,
+      hasReadMore,
+      timingsOnOverview: initialData?.timingsOnOverview || "",
+      clinics: initialData?.clinics || [],
+      images,
+      locations,
     };
+
     onSave(newService);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-6">
       <div>
         <label className="font-semibold">
           Title {requiredMark}
@@ -183,22 +189,40 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       </div>
 
       <div>
+        <label className="font-semibold">Detailed Description</label>
+        <textarea
+          className="border p-2 w-full"
+          value={detailedDescription}
+          onChange={(e) => setDetailedDescription(e.target.value)}
+        />
+      </div>
+
+      {/* --- Features --- */}
+      <div>
         <label className="font-semibold">Features</label>
-        {features.map((feature, i) => (
-          <div key={i} className="flex gap-2 mb-1">
+        {features.map((f, i) => (
+          <div key={i} className="space-y-1 border p-2 mb-2 rounded">
             <input
               type="text"
-              className="border p-2 flex-grow"
-              value={feature}
-              onChange={(e) => handleFeatureChange(i, e.target.value)}
-              placeholder={`Feature #${i + 1}`}
+              placeholder="Feature title"
+              className="border p-1 w-full"
+              value={f.title}
+              onChange={(e) => handleFeatureChange(i, "title", e.target.value)}
+            />
+            <textarea
+              placeholder="Description (optional)"
+              className="border p-1 w-full"
+              value={f.description || ""}
+              onChange={(e) =>
+                handleFeatureChange(i, "description", e.target.value)
+              }
             />
             <button
               type="button"
               onClick={() => removeFeature(i)}
-              className="px-2 text-red-500"
+              className="text-red-500 text-sm"
             >
-              ✕
+              ✕ Remove
             </button>
           </div>
         ))}
@@ -211,43 +235,44 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </button>
       </div>
 
+      {/* --- Doctors --- */}
       <div>
         <label className="font-semibold">Doctors</label>
-        {doctors.map((doctor, i) => (
+        {doctors.map((d, i) => (
           <div key={i} className="border p-2 mb-2 rounded space-y-1">
             <input
               type="text"
               placeholder="Name"
               className="border p-1 w-full"
-              value={doctor.name}
+              value={d.name}
               onChange={(e) => handleDoctorChange(i, "name", e.target.value)}
             />
             <input
               type="text"
               placeholder="Title"
               className="border p-1 w-full"
-              value={doctor.title}
+              value={d.title}
               onChange={(e) => handleDoctorChange(i, "title", e.target.value)}
             />
             <input
               type="text"
               placeholder="Image URL"
               className="border p-1 w-full"
-              value={doctor.image}
+              value={d.image}
               onChange={(e) => handleDoctorChange(i, "image", e.target.value)}
             />
             <textarea
               placeholder="Bio"
               className="border p-1 w-full"
-              value={doctor.bio}
+              value={d.bio}
               onChange={(e) => handleDoctorChange(i, "bio", e.target.value)}
             />
             <button
               type="button"
               onClick={() => removeDoctor(i)}
-              className="px-2 text-red-500"
+              className="text-red-500 text-sm"
             >
-              Remove Doctor
+              ✕ Remove
             </button>
           </div>
         ))}
@@ -260,9 +285,10 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </button>
       </div>
 
-      {/* <div>
+      {/* --- Testimonials --- */}
+      <div>
         <label className="font-semibold">Testimonials</label>
-        {testimonial.map((t, i) => (
+        {testimonials.map((t, i) => (
           <div key={i} className="border p-2 mb-2 rounded space-y-1">
             <input
               type="text"
@@ -286,7 +312,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
               type="text"
               placeholder="Image URL"
               className="border p-1 w-full"
-              value={t.image}
+              value={t.image || ""}
               onChange={(e) =>
                 handleTestimonialChange(i, "image", e.target.value)
               }
@@ -302,9 +328,9 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
             <button
               type="button"
               onClick={() => removeTestimonial(i)}
-              className="px-2 text-red-500"
+              className="text-red-500 text-sm"
             >
-              Remove Testimonial
+              ✕ Remove
             </button>
           </div>
         ))}
@@ -315,8 +341,9 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         >
           + Add Testimonial
         </button>
-      </div> */}
+      </div>
 
+      {/* --- Contact Info --- */}
       <div>
         <label className="font-semibold">Contact Info</label>
         <input
@@ -326,77 +353,38 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
           value={contact.phone}
           onChange={(e) => setContact({ ...contact, phone: e.target.value })}
         />
-        {contact.emails?.map((email, index) => (
-          <div key={index} className="flex gap-2 my-1">
-            <input
-              type="text"
-              placeholder="Type (Work, Personal)"
-              className="border p-2 w-1/2"
-              value={email.type}
-              onChange={(e) => handleEmailChange(index, "type", e.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="Email Address"
-              className="border p-2 flex-grow"
-              value={email.address}
-              onChange={(e) =>
-                handleEmailChange(index, "address", e.target.value)
-              }
-            />
-            <button
-              type="button"
-              onClick={() => removeEmailField(index)}
-              className="px-2 text-red-500"
-            >
-              ✕
-            </button>
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={addEmailField}
-          className="text-blue-600 text-sm underline"
-        >
-          + Add Email
-        </button>
+        <input
+          type="email"
+          placeholder="Email"
+          className="border p-2 w-full mt-2"
+          value={contact.email || ""}
+          onChange={(e) => setContact({ ...contact, email: e.target.value })}
+        />
       </div>
 
+      {/* --- Images --- */}
       <div>
-        <label className="font-semibold">Related Services</label>
-        {relatedServices.map((r, i) => (
+        <label className="font-semibold">Images</label>
+        {images.map((img, i) => (
           <div key={i} className="flex gap-2 mb-1">
-            <input
-              type="number"
-              placeholder="ID"
-              className="border p-2 w-16"
-              value={r.id}
-              onChange={(e) =>
-                handleRelatedServiceChange(i, "id", Number(e.target.value))
-              }
-            />
-            <input
-              type="text"
-              placeholder="Title"
-              className="border p-2 flex-grow"
-              value={r.title}
-              onChange={(e) =>
-                handleRelatedServiceChange(i, "title", e.target.value)
-              }
-            />
             <input
               type="text"
               placeholder="Image URL"
               className="border p-2 flex-grow"
-              value={r.image}
-              onChange={(e) =>
-                handleRelatedServiceChange(i, "image", e.target.value)
-              }
+              value={img.url}
+              onChange={(e) => handleImageChange(i, "url", e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Alt text"
+              className="border p-2 flex-grow"
+              value={img.alt || ""}
+              onChange={(e) => handleImageChange(i, "alt", e.target.value)}
             />
             <button
               type="button"
-              onClick={() => removeRelatedService(i)}
-              className="px-2 text-red-500"
+              onClick={() => removeImage(i)}
+              className="text-red-500"
             >
               ✕
             </button>
@@ -404,30 +392,61 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         ))}
         <button
           type="button"
-          onClick={addRelatedService}
+          onClick={addImage}
           className="text-blue-600 text-sm underline"
         >
-          + Add Related Service
+          + Add Image
         </button>
       </div>
 
+      {/* --- Locations --- */}
       <div>
-        <label className="font-semibold">Image URL</label>
-        <input
-          type="text"
-          className="border p-2 w-full"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
-        />
+        <label className="font-semibold">Locations</label>
+        {locations.map((loc, i) => (
+          <div key={i} className="flex gap-2 mb-1">
+            <input
+              type="text"
+              className="border p-2 flex-grow"
+              value={loc}
+              onChange={(e) => handleLocationChange(i, e.target.value)}
+            />
+            <button
+              type="button"
+              onClick={() => removeLocation(i)}
+              className="text-red-500"
+            >
+              ✕
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={addLocation}
+          className="text-blue-600 text-sm underline"
+        >
+          + Add Location
+        </button>
       </div>
-      <div>
-        <label className="font-semibold">Image Alt Text</label>
-        <input
-          type="text"
-          className="border p-2 w-full"
-          value={imageAlt}
-          onChange={(e) => setImageAlt(e.target.value)}
-        />
+
+      {/* --- Toggles --- */}
+      <div className="flex gap-4">
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={isBookable}
+            onChange={(e) => setIsBookable(e.target.checked)}
+          />
+          Is Bookable
+        </label>
+
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={hasReadMore}
+            onChange={(e) => setHasReadMore(e.target.checked)}
+          />
+          Has Read More
+        </label>
       </div>
 
       <div className="flex justify-end gap-2">

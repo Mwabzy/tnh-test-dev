@@ -1,31 +1,30 @@
-interface Image {
+export interface Image {
   url: string;
   alt?: string;
 }
 
-interface Feature {
+export interface Feature {
   title: string;
   description?: string;
 }
 
-interface Doctor {
+export interface Doctor {
   name: string;
   title: string;
   image: string;
   bio: string;
 }
 
-interface Testimonial {
+export interface Testimonial {
   name: string;
   title: string;
-  image: string;
+  image?: string;
   quote: string;
 }
 
-interface ContactInfo {
+export interface ContactInfo {
   phone: string;
   email?: string;
-  address?: string;
 }
 
 export interface ClinicalService {
@@ -36,7 +35,7 @@ export interface ClinicalService {
   detailedDescription?: string;
   features: Feature[];
   doctors?: Doctor[];
-  testimonial?: Testimonial[];
+  testimonials?: Testimonial[];
   contact: ContactInfo;
   isBookable: boolean;
   hasReadMore: boolean;

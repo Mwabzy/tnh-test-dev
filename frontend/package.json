@@ -24,6 +24,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.9.4",
     "intlayer": "^5.5.9",
+    "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "lightningcss": "^1.29.3",
     "lucide-react": "^0.483.0",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@types/jwt-decode": "^3.1.0",
     "@types/node": "^22.13.13",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",

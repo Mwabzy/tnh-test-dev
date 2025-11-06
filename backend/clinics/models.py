@@ -12,45 +12,37 @@ class Doctor(models.Model):
     name = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     bio = models.TextField(blank=True, null=True)
-    photo = models.URLField(blank=True, null=True)
+    image = models.URLField(blank=True, null=True)  
 
     def __str__(self):
         return self.name
 
 class Testimonial(models.Model):
-    author = models.CharField(max_length=100)
+    name = models.CharField(max_length=100) 
     quote = models.TextField()
+    title = models.CharField(max_length=100, blank=True, null=True)
+    image = models.URLField(blank=True, null=True) 
     rating = models.PositiveIntegerField(default=5)
 
     def __str__(self):
-        return f"{self.author} ({self.rating}/5)"
-
-class RelatedService(models.Model):
-    title = models.CharField(max_length=100)
-    image = models.URLField()
-    image_alt = models.CharField(max_length=255, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    link = models.URLField(blank=True, null=True)
-
-    def __str__(self):
-        return self.title
+        return f"{self.name} ({self.rating}/5)"
 
 class ClinicalService(models.Model):
     title = models.CharField(max_length=100)
     tagline = models.CharField(max_length=255)
     overview = models.TextField()
-    features = models.JSONField(default=list)
+    detailedDescription = models.TextField(blank=True, null=True)
+    features = models.JSONField(default=list) 
 
     doctors = models.ManyToManyField(Doctor, blank=True)
     testimonials = models.ManyToManyField(Testimonial, blank=True)
-
     contact = models.OneToOneField(Contact, on_delete=models.SET_NULL, null=True, blank=True)
-    is_bookable = models.BooleanField(default=False)
+    isBookable = models.BooleanField(default=False)
+    hasReadMore = models.BooleanField(default=False)
 
     clinics = models.ManyToManyField("self", symmetrical=False, blank=True, related_name="parent_services")
-    related_services = models.ManyToManyField(RelatedService, blank=True)
-
-    image = models.JSONField(blank=True, null=True)
+    images = models.JSONField(blank=True, null=True)  
+    locations = models.JSONField(blank=True, default=list)  
 
     def __str__(self):
         return self.title
