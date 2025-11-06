@@ -48,6 +48,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
     );
     return Array.from(locSet).sort();
   }, [data]);
+  }, [data]);
 
   // Filter logic
   const filteredServices = data.filter((service) => {
@@ -115,7 +116,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
 
         {/* Search by specialty */}
         <div className="mb-6">
-          <label htmlFor="search" className="block font-semibold mb-2">
+          <label htmlFor="search" className="block font-semibold mb-2 font-serif">
             By Specialty
           </label>
           <input
@@ -133,7 +134,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
 
         {/*Location Filter */}
         <div className="mb-6">
-          <p className="font-semibold mb-2">By Location</p>
+          <p className="font-semibold mb-2 font-serif">By Location</p>
           {allLocations.map((loc) => (
             <label
               key={loc}
@@ -152,7 +153,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
 
         {/* First Letter Filter */}
         <div>
-          <p className="font-semibold mb-2">Filter Specialty by First Letter</p>
+          <p className="font-semibold mb-2 font-serif">Filter Specialty by First Letter</p>
           <div className="flex flex-wrap gap-2">
             {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
               <button
@@ -212,7 +213,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
                 <div className="flex flex-col sm:flex-row gap-4 ">
                   {item.isBookable && (
                     <Link
-                      to="/booking-calendar"
+                      to={`/booking-calendar?serviceId=${item.id}`}
                       className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900  hover:text-white transition w-full sm:w-auto"
                     >
                       Book Appointment <FaCalendarCheck />

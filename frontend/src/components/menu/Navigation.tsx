@@ -178,7 +178,7 @@ const Navigation: FC<NavigationProps> = () => {
                 <ul className="space-y-1 text-base">
                   {" "}
                   <ListItem
-                    title="Medical Departments & Anderson Specialties"
+                    title="Specialty Clinics"
                     href="/clinical-services"
                   />{" "}
                   <ListItem
