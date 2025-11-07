@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 # Exit on error (equivalent to set -o errexit)

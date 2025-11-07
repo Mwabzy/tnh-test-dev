@@ -2,7 +2,7 @@ from pathlib import Path
 import environ
 import os
 from datetime import timedelta
-#import dj_database_url
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -74,20 +74,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'web.wsgi.application'
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": env("POSTGRES_DATABASE", default=None),
-        "USER": env("POSTGRES_USER", default=None),
-        "PASSWORD": env("POSTGRES_PASSWORD", default=None),
-        "HOST": env("POSTGRES_HOST", default=None),
-        "PORT": env.int("POSTGRES_PORT", default=None),
-    },
-}
-
 # DATABASES = {
-#     "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": env("POSTGRES_DATABASE", default=None),
+#         "USER": env("POSTGRES_USER", default=None),
+#         "PASSWORD": env("POSTGRES_PASSWORD", default=None),
+#         "HOST": env("POSTGRES_HOST", default=None),
+#         "PORT": env.int("POSTGRES_PORT", default=None),
+#     },
 # }
+
+DATABASES = {
+    "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -150,4 +150,4 @@ MICROSOFT_CLIENT_ID = env("MICROSOFT_CLIENT_ID", default=None)
 MICROSOFT_CLIENT_SECRET = env("MICROSOFT_CLIENT_SECRET", default=None)
 MICROSOFT_EMAIL_SENDER = env("MICROSOFT_EMAIL_SENDER", default=None)
 
-CRSF_TRUDSTRED_ORIGINS = env.list("CRSF_TRUSTED_ORIGINS_DEPLOY")
+CSRF_TRUSTRED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS_DEPLOY")
