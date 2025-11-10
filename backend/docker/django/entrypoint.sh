@@ -1,4 +1,4 @@
-until postgres_ready; do
+
 #!/bin/bash
 
 # Exit on error (equivalent to set -o errexit)
