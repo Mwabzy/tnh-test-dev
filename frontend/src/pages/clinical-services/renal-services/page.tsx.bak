@@ -1,0 +1,333 @@
+import { FC } from 'react';
+import { motion } from 'framer-motion';
+import { Clock, MessageSquare, Phone, Calendar, Activity, Shield, HeartPulse, DownloadCloud, ArrowUpRight, Link2 } from 'lucide-react';
+import { useNavigate } from 'react-router';
+import Heading from '@/components/Heading';
+import Heading from '@/components/Heading';
+
+const Feature = ({ icon, title, description }: { icon: React.ReactNode; title: string; description?: string }) => (
+  <motion.div 
+    whileHover={{ y: -5 }}
+    className="flex items-start space-x-4 bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300"
+  >
+    <div className="p-3 bg-red-50 rounded-xl text-red-700 shrink-0">{icon}</div>
+    <div>
+      <h4 className="font-semibold text-gray-900 text-lg">{title}</h4>
+      {description && <p className="text-sm text-gray-600 mt-2 leading-relaxed">{description}</p>}
+    </div>
+  </motion.div>
+);
+
+const Feature = ({ icon, title, description }: { icon: React.ReactNode; title: string; description?: string }) => (
+  <motion.div 
+    whileHover={{ y: -5 }}
+    className="flex items-start space-x-4 bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300"
+  >
+    <div className="p-3 bg-red-50 rounded-xl text-red-700 shrink-0">{icon}</div>
+    <div>
+      <h4 className="font-semibold text-gray-900 text-lg">{title}</h4>
+      {description && <p className="text-sm text-gray-600 mt-2 leading-relaxed">{description}</p>}
+    </div>
+  </motion.div>
+);
+
+type RenalService = {
+  id: string;
+  title: string;
+  description: string;
+  features: string[];
+  image: string;
+};
+
+const services: RenalService[] = [
+  { 
+    id: 'dialysis',
+    title: 'Dialysis Services',
+    description: 'State-of-the-art hemodialysis and peritoneal dialysis with 24/7 expert nephrology support.',
+    features: [
+      'Modern Fresenius dialysis machines',
+      'Dedicated dialysis nurses',
+      'Flexible scheduling including nocturnal dialysis',
+      'Holiday dialysis for travelers'
+    ],
+    image: '/src/assets/images/care1.jpg'
+  },
+  {
+    id: 'transplant',
+    title: 'Transplant Program',
+    description: 'Comprehensive transplant evaluation and coordinated care with experienced transplant teams.',
+    features: [
+      'Pre-transplant assessment',
+      'Living donor program',
+      'Post-transplant care',
+      'Long-term follow-up'
+    ],
+    image: '/src/assets/images/care2.jpg'
+  },
+  {
+    id: 'ckd',
+    title: 'CKD Management',
+    description: 'Evidence-based care for all stages of chronic kidney disease to slow progression and maintain quality of life.',
+    features: [
+      'Regular nephrology clinics',
+      'Dietary counseling',
+      'Medication management',
+      'Lifestyle modification support'
+    ],
+    image: '/src/assets/images/care3.jpg'
+  }
+];
+
+const stats = [
+  { value: '24/7', label: 'Emergency Care', icon: Clock },
+  { value: '15+', label: 'Dialysis Stations', icon: Activity },
+  { value: '98%', label: 'Patient Satisfaction', icon: HeartPulse },
+  { value: '500+', label: 'Annual Procedures', icon: Shield }
+];
+
+const team = [
+  { name: 'Dr. Sarah Kimani', role: 'Head of Nephrology', specialty: 'Transplant Medicine' },
+  { name: 'Dr. James Omondi', role: 'Senior Nephrologist', specialty: 'Interventional Nephrology' },
+  { name: 'Dr. Lucy Wanjiku', role: 'Nephrologist', specialty: 'CKD Management' }
+];
+
+const equipment = [
+  { name: 'Fresenius 5008S CorDiax', category: 'Dialysis Machine', features: ['Online HDF', 'Single-needle capability', 'Advanced monitoring'] },
+  { name: 'Prismaflex System', category: 'CRRT Machine', features: ['Multiple therapies', 'Integrated safety features', 'Precise fluid management'] },
+  { name: 'Transonic HD03', category: 'Access Flow Monitor', features: ['Real-time monitoring', 'Early detection', 'Non-invasive measurement'] }
+];
+
+const RenalServices: FC = () => {
+  const navigate = useNavigate();
+  
+  return (
+    <div className="bg-white">
+      {/* Hero Section */}
+      <Heading
+        image_url="/src/assets/heroimages/renal.jpg"
+        title="World-Class Renal Care"
+        description="Comprehensive nephrology services with cutting-edge technology and expert care teams at The Nairobi Hospital"
+        style="background"
+      />
+
+      <div className="container mx-auto px-4 py-12">
+        {/* Modern Stats Section */}
+        <div className="relative mb-24">
+          <div className="absolute inset-0 bg-gradient-to-r from-red-900 to-red-800 transform skew-y-3"></div>
+          <div className="relative bg-white py-12 transform -skew-y-3">
+            <div className="transform skew-y-3">
+              <div className="max-w-7xl mx-auto px-4">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                  {stats.map((stat, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="text-center"
+                    >
+                      <p className="text-4xl font-bold text-red-900 mb-2">{stat.value}</p>
+                      <p className="text-gray-600">{stat.label}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Introduction with Image */}
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-24">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-6">
+              Excellence in
+              <span className="text-red-900"> Renal Care</span>
+            </h2>
+            <p className="text-gray-600 text-lg leading-relaxed mb-6">
+              Our Renal Centre combines expert nephrology care with state-of-the-art technology, providing comprehensive services from dialysis to transplant support.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <button
+                onClick={() => navigate('/contact')}
+                className="px-6 py-3 bg-red-900 text-white rounded-lg hover:bg-red-800 transition-colors inline-flex items-center gap-2"
+              >
+                <MessageSquare className="w-5 h-5" />
+                Contact Team
+              </button>
+              <button
+                onClick={() => navigate('/book-appointment')}
+                className="px-6 py-3 border-2 border-red-900 text-red-900 rounded-lg hover:bg-red-50 transition-colors inline-flex items-center gap-2"
+              >
+                <Calendar className="w-5 h-5" />
+                Book Consultation
+              </button>
+            </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="relative"
+          >
+            <img
+              src={services[0].image}
+              alt="Advanced renal care facilities"
+              className="rounded-2xl shadow-2xl w-full h-[400px] object-cover"
+            />
+            <div className="absolute -bottom-6 -left-6 bg-red-900 text-white p-4 rounded-lg shadow-lg">
+              <p className="text-lg font-semibold">24/7 Emergency Care</p>
+              <p className="text-sm opacity-90">Comprehensive dialysis support</p>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Services Section */}
+        <div className="mb-24">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-serif font-bold text-gray-900 mb-4">Comprehensive Renal Services</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              State-of-the-art facilities and expert care for all your kidney health needs
+            </p>
+          </div>
+
+          <div className="space-y-16">
+            {services.map((service, idx) => (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+                className={`grid md:grid-cols-2 gap-12 items-center ${idx % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
+              >
+                <div className="relative overflow-hidden rounded-2xl">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full h-[400px] object-cover transform hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent">
+                    <div className="absolute bottom-0 left-0 p-6">
+                      <h3 className="text-2xl font-bold text-white">{service.title}</h3>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-6">
+                  <h3 className="text-2xl font-bold text-gray-900">{service.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{service.description}</p>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {service.features.map((feature) => (
+                      <li key={feature} className="flex items-center gap-3 text-gray-700">
+                        <Shield className="w-5 h-5 text-red-700 flex-shrink-0" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Equipment Showcase */}
+        <section className="mb-16 bg-gray-50 -mx-4 px-4 py-16">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-serif font-bold text-gray-900">Advanced Technology</h2>
+            <p className="mt-4 text-gray-600">Our center is equipped with the latest dialysis and monitoring equipment</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {equipment.map((item) => (
+              <div key={item.name} className="bg-white rounded-xl p-6 shadow-sm">
+                <h4 className="font-bold text-gray-900">{item.name}</h4>
+                <div className="text-sm text-red-700 mb-3">{item.category}</div>
+                <ul className="space-y-2">
+                  {item.features.map((feature) => (
+                    <li key={feature} className="flex items-center gap-2 text-sm text-gray-600">
+                      <Shield className="w-4 h-4 text-red-700" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Team */}
+        <section className="mb-16">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-serif font-bold text-gray-900">Expert Care Team</h2>
+            <p className="mt-4 text-gray-600">Experienced nephrologists dedicated to your kidney health</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {team.map((member) => (
+              <div key={member.name} className="text-center">
+                <div className="w-32 h-32 mx-auto bg-red-100 rounded-full flex items-center justify-center mb-4">
+                  <span className="text-2xl font-bold text-red-700">
+                    {member.name.split(' ').map(n => n[0]).join('')}
+                  </span>
+                </div>
+                <h4 className="font-bold text-gray-900">{member.name}</h4>
+                <div className="text-red-700">{member.role}</div>
+                <div className="text-sm text-gray-600 mt-1">{member.specialty}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Contact & Resources */}
+        <section id="contact" className="grid md:grid-cols-2 gap-8 bg-gray-50 rounded-2xl p-8">
+          <div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Contact Our Team</h3>
+            <div className="space-y-4">
+              <p className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-red-700" />
+                <span>Emergency: +254 20 2845000</span>
+              </p>
+              <p className="flex items-center gap-3">
+                <Clock className="w-5 h-5 text-red-700" />
+                <span>Dialysis Unit: 24/7</span>
+              </p>
+              <p className="flex items-center gap-3">
+                <MessageSquare className="w-5 h-5 text-red-700" />
+                <span>Consultation Hours: Mon-Fri, 8am-5pm</span>
+              </p>
+            </div>
+            <div className="mt-6 flex gap-4">
+              <a href="#book" className="inline-flex items-center gap-2 px-6 py-3 bg-red-700 text-white rounded-lg hover:bg-red-800 transition">
+                <Calendar className="w-5 h-5" />
+                Book Appointment
+              </a>
+              <a href="/assets/brochures/renal.pdf" className="inline-flex items-center gap-2 px-6 py-3 border border-red-700 text-red-700 rounded-lg hover:bg-red-50 transition">
+                <DownloadCloud className="w-5 h-5" />
+                Download Guide
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Patient Resources</h3>
+            <ul className="space-y-3 text-gray-600">
+              <li>• Pre-dialysis education programs</li>
+              <li>• Dietary consultation services</li>
+              <li>• Support groups and counseling</li>
+              <li>• Insurance and NHIF coordination</li>
+              <li>• Home dialysis training</li>
+              <li>• Travel dialysis arrangement</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+};
+
+export default RenalServices;

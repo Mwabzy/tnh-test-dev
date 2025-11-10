@@ -173,27 +173,27 @@ const Navigation: FC<NavigationProps> = () => {
                   />{" "}
                   <ListItem
                     title="Accident and Emergency"
-                    href="/clinical-services"
+                    href="/clinical-services/accident-emergency"
                   />{" "}
                   <ListItem
                     title="Pharmacy Services"
-                    href="/clinical-services"
+                    href="/clinical-services/pharmacy-services"
                   />{" "}
                   <ListItem
                     title="Laboratory Services"
-                    href="/clinical-services"
+                    href="/clinical-services/laboratory-services"
                   />{" "}
                   <ListItem
                     title="Radiology Services"
-                    href="/clinical-services"
+                    href="/clinical-services/radiology-services"
                   />{" "}
                   <ListItem
                     title="Endoscopy Services"
-                    href="/clinical-services"
+                    href="/clinical-services/endoscopy-services"
                   />{" "}
                   <ListItem
                     title="Dental Procedures"
-                    href="/clinical-services"
+                    href="/clinical-services/dental-procedures"
                   />{" "}
                 </ul>{" "}
               </li>
@@ -202,37 +202,33 @@ const Navigation: FC<NavigationProps> = () => {
               <li className="pr-4">
   {" "}
   <h3 className="font-bold text-red-900 text-xs font-serif ml-2 mb-2">
-    ADDITIONAL CLINICAL SERVICES
+    CLINICAL SERVICES
   </h3>{" "}
   <ul className="space-y-1 text-base">
-    {" "}
+    { " " }
     <ListItem
       title="Physical Medicine Centre"
-      href="/clinical-services"
+      href="/clinical-services/physical-medicine-center"
     />{" "}
     <ListItem
       title="Psychosocial Department"
-      href="/clinical-services"
+      href="/clinical-services/psychosocial-department"
     />{" "}
     <ListItem
       title="Cath Lab Services"
-      href="/clinical-services"
+      href="/clinical-services/cath-lab-services"
     />{" "}
     <ListItem
       title="Antenatal Services"
-      href="/clinical-services"
+      href="/clinical-services/antenatal-services"
     />{" "}
     <ListItem
       title="Renal Services"
-      href="/clinical-services"
+      href="/clinical-services/renal-services"
     />{" "}
     <ListItem
       title="Oncology Services"
-      href="/clinical-services"
-    />{" "}
-    <ListItem
-      title="International Patients"
-      href="/clinical-services"
+      href="/clinical-services/oncology-services"
     />{" "}
   </ul>{" "}
 </li>
@@ -266,7 +262,7 @@ const Navigation: FC<NavigationProps> = () => {
                     href="/outpatient-center/rosslyn-opc"
                   />{" "}
                   <ListItem
-                    title="Southfield OPC"
+                    title="Southfield Outpatient Centre"
                     href="/outpatient-center/southfield-opc"
                   />{" "}
                   <ListItem
@@ -289,7 +285,7 @@ const Navigation: FC<NavigationProps> = () => {
                     href="/inpatient/admission"
                   />{" "}
                   <ListItem
-                    title="Rooms & Wards"
+                    title="Rooms and Wards"
                     href="/inpatient/rooms-wards"
                   />{" "}
                   <ListItem
@@ -301,16 +297,8 @@ const Navigation: FC<NavigationProps> = () => {
                     href="/inpatient/surgery"
                   />{" "}
                   <ListItem
-                    title="CQI / Infection Control"
-                    href="/inpatient/palliative"
-                  />{" "}
-                  <ListItem
-                    title="Physiotherapy & Rehab"
-                    href="/inpatient/physiotherapy"
-                  />{" "}
-                  <ListItem
-                    title="Palliative Care"
-                    href="/inpatient/palliative"
+                    title="Infection Control"
+                    href="/inpatient/infection-control"
                   />{" "}
                 </ul>{" "}
               </li>

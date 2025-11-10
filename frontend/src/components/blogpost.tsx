@@ -23,7 +23,7 @@ const posts = [
     date: "December 15, 2024",
     title: "New State-of-the-Art Cardiac Surgery Wing Opens",
     description: "The Nairobi Hospital unveils its new cardiac surgery facility, featuring the latest in cardiovascular technology and expanding our capacity to serve more patients.",
-    imageUrl: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=6000", // Replace with your actual image
+    imageUrl: "https://mma.prnewswire.com/media/930108/Frost_Sullivan_Operating_Room_Healthcare.jpg?p=facebook", // Replace with your actual image
   },
   {
     id: 2,

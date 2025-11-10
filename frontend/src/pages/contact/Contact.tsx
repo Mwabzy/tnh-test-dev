@@ -1,7 +1,7 @@
 import Heading from "@/components/Heading";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import { FC } from "react";
-import InsuranceSlider from "../home/InsuranceSlider";
+import InsuranceSlider from '@/components/InsuranceSlider';
 import OpcList from "../patients-visitors/outpatient-centers/OutpatientCenterList";
 import ContactForm from "@/components/ContactForm";
 

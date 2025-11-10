@@ -2,7 +2,7 @@ import Heading from "@/components/Heading";
 import { FC } from "react";
 import Opc from "../home/opc";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
-import InsuranceSlider from "../home/InsuranceSlider";
+import InsuranceSlider from '@/components/InsuranceSlider';
 import ContactForm from "@/components/ContactForm";
 import { useIntlayer } from "react-intlayer";
 

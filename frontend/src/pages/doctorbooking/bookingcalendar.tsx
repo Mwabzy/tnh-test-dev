@@ -221,7 +221,7 @@ const BookingPage: React.FC = () => {
       {/* Service selector for doctor bookings */}
       {isDoctorBooking && doctorInfo && (
         <div className="mb-6">
-          <label className="block font-medium mb-2">Select Service</label>
+          <label className="block font-medium mb-2">Select Clinic</label>
           <select
             className="w-full border rounded px-3 py-2"
             value={selectedService ?? ""}

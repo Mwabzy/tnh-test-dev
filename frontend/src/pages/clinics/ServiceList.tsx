@@ -1,7 +1,9 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router";
 import { ClinicalService } from "@/types";
 import { FaCalendarCheck, FaChevronRight } from "react-icons/fa";
+
+import clinicalServices from "@/data/clinicalServices2.json";
 
 interface ServiceListProps {
   services?: ClinicalService[]; // 👈 make it optional
@@ -9,38 +11,15 @@ interface ServiceListProps {
 
 const ITEMS_PER_PAGE = 6;
 
-const ServiceList: React.FC<ServiceListProps> = () => {
-  const [data, setData] = useState<ClinicalService[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
+  const data: ClinicalService[] = (services ??
+    clinicalServices) as ClinicalService[];
   const [search, setSearch] = useState("");
   const [locations, setLocations] = useState<string[]>([]);
   const [letterFilter, setLetterFilter] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Fetching data from the API
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8000/clinical-services/"
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        const result: ClinicalService[] = await response.json();
-        setData(result);
-        setLoading(false);
-      } catch (err) {
-        setError("Failed to fetch data from the server");
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  // Generate locations dynamically
+  //Generate locations dynamically
   const allLocations = useMemo(() => {
     const locSet = new Set<string>();
     data.forEach((service) =>
@@ -94,16 +73,8 @@ const ServiceList: React.FC<ServiceListProps> = () => {
     setCurrentPage(1);
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   return (
-    <div className="bg-gray-50 py-16 px-6 flex flex-col md:flex-row justify-center max-w-7xl mx-auto gap-8">
+    <div className=" py-16 px-6 flex flex-col md:flex-row justify-center max-w-7xl mx-auto  gap-8">
       {/* Filters sidebar */}
       <aside className="w-full md:w-64 md:sticky md:top-20 mb-8 md:mb-0">
         <button
@@ -115,10 +86,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
 
         {/* Search by specialty */}
         <div className="mb-6">
-          <label
-            htmlFor="search"
-            className="block font-semibold mb-2 font-serif"
-          >
+          <label htmlFor="search" className="block font-semibold mb-2 font-serif">
             By Specialty
           </label>
           <input
@@ -155,9 +123,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
 
         {/* First Letter Filter */}
         <div>
-          <p className="font-semibold mb-2 font-serif">
-            Filter Specialty by First Letter
-          </p>
+          <p className="font-semibold mb-2 font-serif">Filter Specialty by First Letter</p>
           <div className="flex flex-wrap gap-2">
             {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
               <button

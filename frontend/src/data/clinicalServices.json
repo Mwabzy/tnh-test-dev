@@ -1,12 +1,12 @@
 [
   {
     "image": {
-      "src": "https://img.freepik.com/free-photo/african-american-pharmacist-working-drugstore-hospital-pharmacy-african-healthcare_627829-14281.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+      "src": "https://www.payette.com/wp-content/uploads/2018/12/mgh-mri-room-1024x627.jpg",
       "alt": "card-image"
     },
-    "name": "Pharmacy Services",
+    "name": "Radiology Services",
     "id": "pharmacy-services",
-    "description": "Dentistry focuses on oral health, offering services like cleanings, cavity treatments, and dental surgeries.",
+    "description": "The Nairobi Hospital provide advanced, high-resolution imaging using state-of-the-art technology to ensure accurate diagnosis and comprehensive evaluation of a wide range of medical conditions.",
     "accordionItems": {
       "item-1": {
         "title": "What are the operating hours of the pharmacy?s",
@@ -33,12 +33,12 @@
   },
   {
     "image": {
-      "src": "https://img.freepik.com/free-photo/medical-doctor-girl-working-with-microscope-young-female-scientist-doing-vaccine-research_1157-48128.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+      "src": "https://sicweb.com/media/com_rsseo/images/webp/2593d33a32bcfbec3e24ed9ae79f423b.webp",
       "alt": "card-image"
     },
     "name": "Laboratory Services",
     "id": "laboratory-services",
-    "description": "Pharmacies offer health-related services like vaccinations, wellness check-ups, and over-the-counter medications.",
+    "description": "Our state of the art laboratory serve as a premier referral center, offering comprehensive, accurate, and timely diagnostic testing across a wide range of medical specialties to support patient care and clinical decision-making.",
     "long-description": "The Nairobi Hospital Laboratory is one of the most well-equipped and expertly staffed facilities in the region, offering highly specialized tests across multiple medical disciplines. Accredited by the Kenya Accreditation Services (KENAS) under ISO 15189, and certified for ISO 14001:2004 and ISO 22000:2005, the lab maintains rigorous quality assurance through daily internal controls, international external quality assurance schemes, and oversight by a quality coordinator. Led by a Consultant Pathologist/Manager, each section is supervised by Senior Technologists, with all results reviewed by a consultant pathologist. The laboratory is strategically devolved into several branches across Nairobi, including the Doctors’ Plaza, UHMC, Warwick, Galleria, Southfield, Capital Centre, Kiambu, and Rosslyn. The facility comprises multiple specialized sections. In Hematology, services include immuno-phenotyping by flow cytometry, BCR-ABL PCR testing, thrombophilia screening, hemoglobin electrophoresis, and apheresis platelet collection. The Biochemistry and Special Chemistry section boasts state-of-the-art analyzers like the Alinity ci and Cobas Pro, offering tests ranging from liver and renal profiles to drug monitoring and endocrinology, and includes the latest Cobas e 801 and c 503 analytical units for enhanced efficiency. The Immunology section specializes in autoimmune diagnostics, employing automated systems to detect a wide array of antibodies for conditions such as lupus, rheumatoid arthritis, and celiac disease. The Histopathology & Cytopathology section handles routine biopsies, pap smears, and advanced cancer immunophenotyping, while the Microbiology section uses modern tools such as MALDI-TOF, Vitek 2, and the BD BACTEC™ FX system for rapid microbial identification and antimicrobial susceptibility testing. It also houses a TB lab and multiplex PCR capabilities through the Biofire Film Array. The Molecular Diagnostics section focuses on advanced DNA/RNA-based testing for viruses, bacteria, and genetic markers, using cutting-edge platforms like Kingfisher Flex, Qiasymphony, Qiacube, COBAS systems, Rotagene Q, QuantStudio 5, and Applied Biosystems thermocyclers. These systems ensure rapid and precise sample preparation, nucleic acid extraction, amplification, and result interpretation, delivering reliable diagnostics essential for timely and effective patient care.",
     "accordionItems": {
       "item-1": {
@@ -65,12 +65,12 @@
   },
   {
     "image": {
-      "src": "https://img.freepik.com/premium-photo/two-doctors-are-looking-x-rays-medical-rear-view-chief-physician-afro-american-man-caucasian-woman-looking-x-rays-mri-clear-light_141188-3575.jpg?w=996",
+      "src": "https://noorahospital.org/wp-content/uploads/2024/06/cath-1024x683.jpg",
       "alt": "card-image"
     },
-    "name": "Radiology Services",
+    "name": "Cath Lab Services",
     "id": "radiology-services",
-    "description": "Gynaecology focuses on women's reproductive health, offering services like screenings and hormonal treatments.",
+    "description": "Catheterization (Cath) Lab Services at The Nairobi Hospital provide advanced cardiac care, including diagnostic and interventional procedures, using state-of-the-art technology to manage heart conditions with precision and safety.",
     "long-description": "The Nairobi Hospital Laboratory is one of the most well-equipped and expertly staffed facilities in the region, offering highly specialized tests across multiple medical disciplines. Accredited by the Kenya Accreditation Services (KENAS) under ISO 15189, and certified for ISO 14001:2004 and ISO 22000:2005, the lab maintains rigorous quality assurance through daily internal controls, international external quality assurance schemes, and oversight by a quality coordinator. Led by a Consultant Pathologist/Manager, each section is supervised by Senior Technologists, with all results reviewed by a consultant pathologist. The laboratory is strategically devolved into several branches across Nairobi, including the Doctors’ Plaza, UHMC, Warwick, Galleria, Southfield, Capital Centre, Kiambu, and Rosslyn. The facility comprises multiple specialized sections. In Hematology, services include immuno-phenotyping by flow cytometry, BCR-ABL PCR testing, thrombophilia screening, hemoglobin electrophoresis, and apheresis platelet collection. The Biochemistry and Special Chemistry section boasts state-of-the-art analyzers like the Alinity ci and Cobas Pro, offering tests ranging from liver and renal profiles to drug monitoring and endocrinology, and includes the latest Cobas e 801 and c 503 analytical units for enhanced efficiency. The Immunology section specializes in autoimmune diagnostics, employing automated systems to detect a wide array of antibodies for conditions such as lupus, rheumatoid arthritis, and celiac disease. The Histopathology & Cytopathology section handles routine biopsies, pap smears, and advanced cancer immunophenotyping, while the Microbiology section uses modern tools such as MALDI-TOF, Vitek 2, and the BD BACTEC™ FX system for rapid microbial identification and antimicrobial susceptibility testing. It also houses a TB lab and multiplex PCR capabilities through the Biofire Film Array. The Molecular Diagnostics section focuses on advanced DNA/RNA-based testing for viruses, bacteria, and genetic markers, using cutting-edge platforms like Kingfisher Flex, Qiasymphony, Qiacube, COBAS systems, Rotagene Q, QuantStudio 5, and Applied Biosystems thermocyclers. These systems ensure rapid and precise sample preparation, nucleic acid extraction, amplification, and result interpretation, delivering reliable diagnostics essential for timely and effective patient care.",
     "accordionItems": {
       "item-1": {
