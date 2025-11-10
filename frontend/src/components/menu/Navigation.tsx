@@ -30,11 +30,11 @@ type NavigationProps = object;
 const Navigation: FC<NavigationProps> = () => {
   const content = useIntlayer("navigationContent");
   const [openMenu, setOpenMenu] = useState<string | null>(null);
-const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+//const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
-const toggleMenu = (menuName: string) => {
-  setOpenMenu(openMenu === menuName ? null : menuName);
-};
+//const toggleMenu = (menuName: string) => {
+  //setOpenMenu(openMenu === menuName ? null : menuName);
+//};
 
   return (
     <div>
