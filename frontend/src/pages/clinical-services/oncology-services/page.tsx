@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { DownloadCloud } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 const services = [
   {
@@ -366,8 +368,29 @@ const OncologyServicesPage: FC = () => {
           </div>
         </section>
 
-        {/* Insurance Partners */}
-        <InsuranceSlider />
+  {/* Client Testimonials */}
+        {/* Clinical Team (inserted before ClientsSay) */}
+        <TeamSection
+          title="Oncology Clinical Team"
+          team={[
+            { name: 'Dr. Grace Mwangi', title: 'Lead Medical Oncologist', image: '/src/assets/images/image1.png', bio: 'Drives chemotherapy and systemic therapy programmes.' },
+            { name: 'Dr. Robert Kimani', title: 'Radiation Oncologist', image: '/src/assets/images/image2.png', bio: 'Leads radiotherapy and image-guided treatment.' },
+            { name: 'Prof. David Otieno', title: 'Surgical Oncologist', image: '/src/assets/images/image3.png', bio: 'Senior surgeon for complex cancer cases.' },
+            { name: 'Ms. Mercy Karanja', title: 'Oncology Nurse Lead', image: '/src/assets/images/image4.png', bio: 'Coordinates nursing care and infusion suites.' },
+          ]}
+        />
+
+        <ClientsSay
+          title="What our clients say about Oncology Services"
+          testimonials={[
+            { quote: 'Compassionate care throughout my treatment.', name: 'A. Mwangi', avatar: '/src/assets/images/image1.png' },
+            { quote: 'Multidisciplinary team provided excellent support.', name: 'B. Ndegwa', avatar: '/src/assets/images/image2.png' },
+            { quote: 'Clear explanations and great nursing care.', name: 'C. Waweru', avatar: '/src/assets/images/image3.png' },
+          ]}
+        />
+
+  {/* Insurance Partners */}
+  <InsuranceSlider />
       </main>
     </div>
   );

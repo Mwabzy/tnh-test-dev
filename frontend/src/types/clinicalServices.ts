@@ -35,6 +35,7 @@ export interface ClinicalService {
   detailedDescription?: string;
   features: Feature[];
   doctors?: Doctor[];
+  doctorIds?: string[];
   testimonials?: Testimonial[];
   contact: ContactInfo;
   isBookable: boolean;

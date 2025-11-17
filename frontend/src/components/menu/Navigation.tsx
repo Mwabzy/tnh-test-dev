@@ -20,7 +20,7 @@ import {
   Building2,
 } from "lucide-react";
 import anderson from "@/assets/opc_images/anderson.jpg";
-import { useState } from "react";
+// useState removed because menu-open state isn't used currently. Reintroduce when mobile toggle is implemented.
 
 
 import { useIntlayer } from "react-intlayer";
@@ -29,12 +29,9 @@ type NavigationProps = object;
 
 const Navigation: FC<NavigationProps> = () => {
   const content = useIntlayer("navigationContent");
-  const [openMenu, setOpenMenu] = useState<string | null>(null);
-const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-
-const toggleMenu = (menuName: string) => {
-  setOpenMenu(openMenu === menuName ? null : menuName);
-};
+  // menu open state not required currently; keep markup static. Reintroduce state if interactive mobile menu is added.
+// Mobile detection and toggle were declared here previously but are unused.
+// If mobile behavior is needed later, re-introduce logic to use `openMenu`.
 
   return (
     <div>
@@ -48,6 +45,8 @@ const toggleMenu = (menuName: string) => {
             </Link>
           </MenubarTrigger>
         </MenubarMenu>
+
+        
 
         {/* About Us */}
         <MenubarMenu>
@@ -200,10 +199,6 @@ const toggleMenu = (menuName: string) => {
                     title="Endoscopy Services"
                     href="/clinical-services/endoscopy-services"
                   />{" "}
-                  <ListItem
-                    title="Dental Procedures"
-                    href="/clinical-services/dental-procedures"
-                  />{" "}
                 </ul>{" "}
               </li>
 
@@ -228,10 +223,6 @@ const toggleMenu = (menuName: string) => {
       href="/clinical-services/cath-lab-services"
     />{" "}
     <ListItem
-      title="Antenatal Services"
-      href="/clinical-services/antenatal-services"
-    />{" "}
-    <ListItem
       title="Renal Services"
       href="/clinical-services/renal-services"
     />{" "}
@@ -239,6 +230,10 @@ const toggleMenu = (menuName: string) => {
       title="Oncology Services"
       href="/clinical-services/oncology-services"
     />{" "}
+    <ListItem
+                    title="Dental Procedures"
+                    href="/clinical-services/dental-procedures"
+                  />{" "}
   </ul>{" "}
 </li>
 

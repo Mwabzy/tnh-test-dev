@@ -1,8 +1,10 @@
 import Heading from '@/components/Heading';
-import { Clock, ClipboardCheck, BadgeCheck, Building2 } from 'lucide-react';
+import { Clock, ClipboardCheck, BadgeCheck, Building2, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 const Feature = ({ icon, title, description }: { icon: React.ReactNode; title: string; description?: string }) => (
   <motion.div 
@@ -251,32 +253,68 @@ const PharmacyServices: React.FC = () => {
               {
                 title: "Prescription Services",
                 description: "Quick and accurate dispensing of both local and international prescriptions",
-                image: "https://parnellpharmacy.co.uk/wp-content/uploads/2023/08/private-prescriptions-1.jpg"
+                image: "https://parnellpharmacy.co.uk/wp-content/uploads/2023/08/private-prescriptions-1.jpg",
+                features: [
+                  "15-minute standard dispensing",
+                  "Electronic prescription processing",
+                  "Multi-language labeling",
+                  "Insurance billing support"
+                ]
               },
               {
                 title: "Clinical Pharmacy",
                 description: "Expert medication therapy management and patient counseling",
-                image: "https://images.ctfassets.net/4f3rgqwzdznj/3rld1UJjhfV0sLTAQCBvuT/266143e35e8b9dc7891095b8c7b0d4bc/pharmacist_consultation_with_patient-1179644653.jpg"
+                image: "https://images.ctfassets.net/4f3rgqwzdznj/3rld1UJjhfV0sLTAQCBvuT/266143e35e8b9dc7891095b8c7b0d4bc/pharmacist_consultation_with_patient-1179644653.jpg",
+                features: [
+                  "Medication therapy review",
+                  "Drug interaction checks",
+                  "Patient education sessions",
+                  "Treatment monitoring"
+                ]
               },
               {
                 title: "Specialty Medications",
                 description: "Access to rare and specialized medications through our global network",
-                image: "https://cdn.sanity.io/images/0vv8moc6/pharmacytimes/72a7d55e5a4aa645b9ff3ebedbdb84a50612ff20-7098x4781.jpg?w=7098&max-h=4781&fit=crop&auto=format"
+                image: "https://cdn.sanity.io/images/0vv8moc6/pharmacytimes/72a7d55e5a4aa645b9ff3ebedbdb84a50612ff20-7098x4781.jpg",
+                features: [
+                  "Rare disease medications",
+                  "Biological products",
+                  "Cold chain management",
+                  "Import facilitation"
+                ]
               },
               {
-                title: "Home Delivery",
+                title: "Home Delivery Service",
                 description: "Convenient medication delivery service to your doorstep",
-                image: "https://newagepsychiatry.com/wp-content/uploads/2022/02/Screen-Shot-2022-02-16-at-12.40.41-PM-1.png"
+                image: "https://newagepsychiatry.com/wp-content/uploads/2022/02/Screen-Shot-2022-02-16-at-12.40.41-PM-1.png",
+                features: [
+                  "Same-day delivery option",
+                  "Temperature-controlled transport",
+                  "Real-time tracking",
+                  "Contactless delivery"
+                ]
               },
               {
-                title: "Medication Review",
-                description: "Comprehensive medication review and interaction checking",
-                image: "https://www.adelaidemedicalcentre.nhs.uk/Public/F83020/Image/f94c4cc8-4e3b-45c4-9141-ff6a2844917f.jpg"
+                title: "Medication Management",
+                description: "Comprehensive medication review and optimization services",
+                image: "https://www.adelaidemedicalcentre.nhs.uk/Public/F83020/Image/f94c4cc8-4e3b-45c4-9141-ff6a2844917f.jpg",
+                features: [
+                  "Medication synchronization",
+                  "Compliance packaging",
+                  "Automated refill reminders",
+                  "Side effect monitoring"
+                ]
               },
               {
                 title: "24/7 Emergency Service",
                 description: "Round-the-clock access to essential medications",
-                image: "https://cdn-assets-eu.frontify.com/s3/frontify-enterprise-files-eu/eyJvYXV0aCI6eyJjbGllbnRfaWQiOiJmcm9udGlmeS1maW5kZXIifSwicGF0aCI6ImloaC1oZWFsdGhjYXJlLWJlcmhhZFwvYWNjb3VudHNcL2MzXC80MDAwNjI0XC9wcm9qZWN0c1wvMjA5XC9hc3NldHNcL2YxXC8zODY0OFwvNDRmYjlmYTBlZGJmMTk5N2MxMzRmNTllNTM1NzE5Y2QtMTY1ODMwMjcwOS5qcGcifQ:ihh-healthcare-berhad:wqBvnL1AfZeG9_D_vTmAAVOrgeuaAizUCPgVcBmzNRo?format=webp"
+                image: "https://cdn-assets-eu.frontify.com/s3/frontify-enterprise-files-eu/eyJvYXV0aCI6eyJjbGllbnRfaWQiOiJmcm9udGlmeS1maW5kZXIifSwicGF0aCI6ImloaC1oZWFsdGhjYXJlLWJlcmhhZFwvYWNjb3VudHNcL2MzXC80MDAwNjI0XC9wcm9qZWN0c1wvMjA5XC9hc3NldHNcL2YxXC8zODY0OFwvNDRmYjlmYTBlZGJmMTk5N2MxMzRmNTllNTM1NzE5Y2QtMTY1ODMwMjcwOS5qcGcifQ:ihh-healthcare-berhad:wqBvnL1AfZeG9_D_vTmAAVOrgeuaAizUCPgVcBmzNRo?format=webp",
+                features: [
+                  "Critical medications access",
+                  "Emergency consultations",
+                  "Urgent care coordination",
+                  "After-hours support"
+                ]
               }
             ].map((service, index) => (
               <motion.div
@@ -285,19 +323,29 @@ const PharmacyServices: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="group relative rounded-xl overflow-hidden"
+                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
               >
-                <div className="aspect-w-16 aspect-h-9">
+                <div className="relative h-48 overflow-hidden">
                   <img
                     src={service.image}
                     alt={service.title}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
+                    <div className="absolute bottom-0 p-4">
+                      <h3 className="text-xl font-semibold text-white mb-1">{service.title}</h3>
+                    </div>
+                  </div>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-0 p-6 text-white">
-                    <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-                    <p className="text-sm opacity-90">{service.description}</p>
+                <div className="p-6">
+                  <p className="text-gray-600 text-sm mb-4">{service.description}</p>
+                  <div className="space-y-2">
+                    {service.features.map((feature, i) => (
+                      <div key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                        <ChevronRight className="w-4 h-4 text-red-900 mt-1 flex-shrink-0" />
+                        <span>{feature}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </motion.div>
@@ -474,8 +522,29 @@ const PharmacyServices: React.FC = () => {
           </div>
         </div>
 
-        {/* Insurance Partners */}
-        <InsuranceSlider />
+  {/* Clinical Team (inserted before ClientsSay) */}
+  <TeamSection
+    title="Pharmacy Team"
+    team={[
+      { name: 'Mr. David Mwangi', title: 'Head Pharmacist', image: '/src/assets/images/image1.png', bio: 'Leads pharmacy operations and clinical pharmacy services.' },
+      { name: 'Ms. Aisha Limo', title: 'Clinical Pharmacist', image: '/src/assets/images/image2.png', bio: 'Provides medication counselling and MTP support.' },
+      { name: 'Mr. Peter Njoroge', title: 'Pharmacy Logistics Lead', image: '/src/assets/images/image3.png', bio: 'Oversees supply chain and dispensing accuracy.' },
+      { name: 'Ms. Mercy Wanjiru', title: 'Home Delivery Coordinator', image: '/src/assets/images/image4.png', bio: 'Manages home delivery and patient follow-up.' },
+    ]}
+  />
+
+  {/* Client Testimonials */}
+  <ClientsSay
+    title="What our clients say about Pharmacy"
+    testimonials={[
+      { quote: 'Pharmacy staff were efficient and very helpful.', name: 'Michael K.', avatar: '/src/assets/images/image1.png', subtitle: 'Outpatient' },
+      { quote: 'Fast prescription service and friendly pharmacists.', name: 'Aisha L.', avatar: '/src/assets/images/image2.png', subtitle: 'Inpatient' },
+      { quote: 'Convenient home delivery and accurate dispensing.', name: 'Peter N.', avatar: '/src/assets/images/image3.png' },
+    ]}
+  />
+
+  {/* Insurance Partners */}
+  <InsuranceSlider />
       </div>
     </div>
   );

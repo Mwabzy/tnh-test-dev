@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
 import { ClipboardCheck, Shield, ChartBar, Microscope, BookOpen, Users2, ChevronRight } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 const InfectionControl: FC = () => {
   return (
@@ -316,8 +318,29 @@ const InfectionControl: FC = () => {
           </div>
         </section>
 
-        {/* Insurance Partners */}
-        <InsuranceSlider />
+  {/* Client Testimonials */}
+        {/* Clinical Team (inserted before ClientsSay) */}
+        <TeamSection
+          title="Quality & Infection Control Team"
+          team={[
+            { name: 'Dr. Victor Kilonzo', title: 'Head of Infection Control', image: '/src/assets/images/image1.png', bio: 'Leads infection surveillance and prevention programmes.' },
+            { name: 'Ms. Hannah Muthoni', title: 'Quality Manager', image: '/src/assets/images/image2.png', bio: 'Oversees quality improvement and audits.' },
+            { name: 'Dr. George Otieno', title: 'Microbiologist', image: '/src/assets/images/image3.png', bio: 'Provides microbiology oversight and guidance.' },
+            { name: 'Ms. Grace Wairimu', title: 'Training Coordinator', image: '/src/assets/images/image4.png', bio: 'Coordinates staff training and competency assessments.' },
+          ]}
+        />
+
+        <ClientsSay
+          title="What our clients say about Infection Control"
+          testimonials={[
+            { quote: 'Strict adherence to safety protocols made me feel safe.', name: 'V. Kilonzo', avatar: '/src/assets/images/image1.png' },
+            { quote: 'Professional sterilization and hygiene practices.', name: 'H. Muthoni', avatar: '/src/assets/images/image2.png' },
+            { quote: 'Clear information on infection prevention at discharge.', name: 'G. Otieno', avatar: '/src/assets/images/image3.png' },
+          ]}
+        />
+
+  {/* Insurance Partners */}
+  <InsuranceSlider />
       </main>
     </div>
   );

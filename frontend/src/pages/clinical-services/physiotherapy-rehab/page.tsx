@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
 import { Activity, Clock, Phone, Users, Target, Brain, ChevronRight } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 const PhysiotherapyRehab: FC = () => {
   return (
@@ -335,8 +337,29 @@ const PhysiotherapyRehab: FC = () => {
           </div>
         </section>
 
-        {/* Insurance Partners */}
-        <InsuranceSlider />
+        {/* Clinical Team (inserted before ClientsSay) */}
+        <TeamSection
+          title="Physiotherapy & Rehab Team"
+          team={[
+            { name: 'Ms. Nancy Kiprono', title: 'Head Physiotherapist', image: '/src/assets/images/image1.png', bio: 'Leads physiotherapy programs and clinical governance.' },
+            { name: 'Mr. Isaac Mutua', title: 'Senior Therapist', image: '/src/assets/images/image2.png', bio: 'Specialises in neurological rehabilitation.' },
+            { name: 'Ms. Angela Wanyeki', title: 'Hydrotherapy Lead', image: '/src/assets/images/image3.png', bio: 'Manages hydrotherapy and pool-based rehab.' },
+            { name: 'Mr. Joseph Karanja', title: 'Exercise Physiologist', image: '/src/assets/images/image4.png', bio: 'Focus on exercise prescription and performance.' },
+          ]}
+        />
+
+        {/* Client Testimonials */}
+        <ClientsSay
+          title="What our clients say about Physiotherapy & Rehab"
+          testimonials={[
+            { quote: 'Rehab sessions improved my strength and mobility.', name: 'N. Kiprono', avatar: '/src/assets/images/image1.png' },
+            { quote: 'Personalized therapy plans with measurable progress.', name: 'I. Mutua', avatar: '/src/assets/images/image2.png' },
+            { quote: 'Friendly therapists and great facilities.', name: 'A. Wanyeki', avatar: '/src/assets/images/image3.png' },
+          ]}
+        />
+
+  {/* Insurance Partners */}
+  <InsuranceSlider />
       </main>
     </div>
   );

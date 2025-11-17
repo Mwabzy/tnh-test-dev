@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
 import { FileText, Clock, Phone, CalendarDays, ClipboardList, ChevronRight } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 const AdmissionProcess: FC = () => {
   return (
@@ -264,8 +266,29 @@ const AdmissionProcess: FC = () => {
           </div>
         </section>
 
-        {/* Insurance Partners */}
-        <InsuranceSlider />
+  {/* Clinical Team (inserted before ClientsSay) */}
+  <TeamSection
+    title="Admissions & Booking Team"
+    team={[
+      { name: 'Ms. Patricia Ouma', title: 'Admissions Manager', image: '/src/assets/images/image1.png', bio: 'Leads admissions, pre-authorisation and patient flow.' },
+      { name: 'Mr. Henry Wekesa', title: 'Insurance Lead', image: '/src/assets/images/image2.png', bio: 'Handles insurance queries and pre-authorisations.' },
+      { name: 'Ms. Lydia Kamunge', title: 'Patient Liaison', image: '/src/assets/images/image3.png', bio: 'Assists with navigation and family support.' },
+      { name: 'Mr. James Kariuki', title: 'Financial Counsellor', image: '/src/assets/images/image4.png', bio: 'Provides payment options and financial planning.' },
+    ]}
+  />
+
+  {/* Client Testimonials */}
+  <ClientsSay
+    title="What our clients say about Admission & Booking"
+    testimonials={[
+      { quote: 'Smooth admission experience and helpful staff.', name: 'P. Ouma', avatar: '/src/assets/images/image1.png' },
+      { quote: 'Clear pre-admission guidance and fast processing.', name: 'H. Wekesa', avatar: '/src/assets/images/image2.png' },
+      { quote: 'Efficient payment and insurance handling.', name: 'L. Kamunge', avatar: '/src/assets/images/image3.png' },
+    ]}
+  />
+
+  {/* Insurance Partners */}
+  <InsuranceSlider />
       </main>
     </div>
   );

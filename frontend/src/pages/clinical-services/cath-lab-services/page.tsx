@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
 import { Download, Heart, Activity, Clock, Award, ShieldCheck, ChevronRight } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 const CathLabServices: FC = () => {
   return (
@@ -311,6 +313,27 @@ const CathLabServices: FC = () => {
             </aside>
           </div>
         </section>
+
+  {/* Clinical Team (inserted before ClientsSay) */}
+  <TeamSection
+    title="Cath Lab Team"
+    team={[
+      { name: 'Dr. Peter Njoroge', title: 'Interventional Cardiologist', image: '/src/assets/images/image1.png', bio: 'Leads cath lab procedures and interventional services.' },
+      { name: 'Dr. Susan Wekesa', title: 'Cardiac Imaging Lead', image: '/src/assets/images/image2.png', bio: 'Specialist in complex cardiac imaging.' },
+      { name: 'Ms. Mercy Achieng', title: 'Cath Lab Nurse Lead', image: '/src/assets/images/image3.png', bio: 'Coordinates peri-procedure nursing care.' },
+      { name: 'Mr. Daniel Otieno', title: 'Cath Lab Technologist', image: '/src/assets/images/image4.png', bio: 'Ensures equipment readiness and monitoring.' },
+    ]}
+  />
+
+  {/* Client Testimonials */}
+  <ClientsSay
+    title="What our clients say about Cath Lab Services"
+    testimonials={[
+      { quote: 'Timely procedures with excellent follow-up care.', name: 'P. Njoroge', avatar: '/src/assets/images/image1.png' },
+      { quote: 'Skilled team and reassuring environment.', name: 'S. Wekesa', avatar: '/src/assets/images/image2.png' },
+      { quote: 'Efficient scheduling and clear communication.', name: 'M. Kariuki', avatar: '/src/assets/images/image3.png' },
+    ]}
+  />
 
         {/* Insurance Partners */}
         <InsuranceSlider />

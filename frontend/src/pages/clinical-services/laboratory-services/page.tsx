@@ -17,6 +17,8 @@ import TestimonialCarousel from '@/components/TestimonialCarousel';
 import testimonials from '@/data/testimonials.json';
 import { useNavigate } from 'react-router';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 interface LabServiceProps {
   title: string;
@@ -602,7 +604,28 @@ const LaboratoryServices = () => {
           </div>
         </div>
       </div>
-        <InsuranceSlider />
+  {/* Clinical Team (inserted before ClientsSay) */}
+  <TeamSection
+    title="Our Laboratory Team"
+    team={[
+      { name: 'Dr. Rahul Zode', title: 'Chief Pathologist', image: '/src/assets/images/image1.png', bio: 'Leads diagnostic and molecular services.' },
+      { name: 'Dr. Sarah Kamau', title: 'Molecular Pathologist', image: '/src/assets/images/image2.png', bio: 'Specialist in molecular diagnostics.' },
+      { name: 'Mr. Samuel Otieno', title: 'Lab Operations Manager', image: '/src/assets/images/image3.png', bio: 'Oversees lab workflows and QA.' },
+      { name: 'Ms. Grace Njeri', title: 'Senior Biomedical Scientist', image: '/src/assets/images/image4.png', bio: 'Expert in automated assay management.' },
+    ]}
+  />
+
+  {/* Client Testimonials */}
+  <ClientsSay
+    title="What our clients say about Laboratory Services"
+    testimonials={[
+      { quote: 'Accurate results and quick turnaround.', name: 'N. Wanjiru', avatar: '/src/assets/images/image1.png' },
+      { quote: 'Professional phlebotomy team and clear reporting.', name: 'J. Mwangi', avatar: '/src/assets/images/image2.png' },
+      { quote: 'Convenient sample collection and reliable follow-up.', name: 'L. Otieno', avatar: '/src/assets/images/image3.png' },
+    ]}
+  />
+
+  <InsuranceSlider />
       </div>
     </div>
   );

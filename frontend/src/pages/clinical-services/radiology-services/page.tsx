@@ -1,6 +1,8 @@
 import Heading from '@/components/Heading';
 import { motion } from 'framer-motion';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 const RadiologyServices: React.FC = () => {
   const services = [
@@ -236,8 +238,29 @@ const RadiologyServices: React.FC = () => {
           </div>
         </div>
 
-        {/* Insurance Partners */}
-        <InsuranceSlider />
+        {/* Clinical Team (inserted before ClientsSay) */}
+  <TeamSection
+    title="Meet the Radiology Team"
+    team={[
+      { name: 'Dr. Mary Onyinkwa', title: 'Chief Radiologist', image: '/src/assets/doctorsImages/rohnipatil.png', bio: 'Head of Radiology with subspecialty expertise.' },
+      { name: 'Dr. Peter Kamau', title: 'Interventional Radiologist', image: '/src/assets/images/image2.png', bio: 'Leads image-guided procedures and interventional services.' },
+      { name: 'Dr. Amina Hassan', title: 'Neuroradiologist', image: '/src/assets/images/image3.png', bio: 'Specialist in neuroimaging and advanced MRI techniques.' },
+      { name: 'Mr. Paul Njoroge', title: 'Lead Radiographer', image: '/src/assets/images/image1.png', bio: 'Senior radiographer coordinating imaging operations.' },
+    ]}
+  />
+
+  {/* Client Testimonials */}
+  <ClientsSay
+    title="What our clients say about Radiology"
+    testimonials={[
+      { quote: 'Quick imaging and timely reports that helped my care plan.', name: 'L. Wambui', avatar: '/src/assets/images/image1.png' },
+      { quote: 'Friendly radiographers and clear explanations.', name: 'D. Kamau', avatar: '/src/assets/images/image2.png' },
+      { quote: 'Easy booking and fast turnaround for scans.', name: 'O. Mutiso', avatar: '/src/assets/images/image3.png' },
+    ]}
+  />
+
+  {/* Insurance Partners */}
+  <InsuranceSlider />
       </div>
     </div>
   );

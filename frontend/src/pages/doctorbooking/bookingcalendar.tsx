@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { useLocation, useNavigate } from "react-router";
 import clinicalServices from "@/data/clinicalServices2.json";
+import clinicTimings from "@/data/clinicTimings.json";
 import { ClinicalService } from "@/types";
 import { teamMembers } from "@/pages/about/DoctorProfiles";
 
@@ -9,17 +10,18 @@ interface CalendarWithTimesProps {
   onDateSelected?: (date: Date) => void;
   selectedTime?: string | null;
   onTimeSelected?: (time: string) => void;
+  availableSlots?: string[];
+  isDateAvailable?: (date: Date) => boolean;
 }
 
 const CalendarWithTimes: React.FC<CalendarWithTimesProps> = ({
   onDateSelected,
   selectedTime,
   onTimeSelected,
+  availableSlots = [],
+  isDateAvailable,
 }) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
-  // Example hourly slots (customize as needed)
-  const timeSlots = Array.from({ length: 12 }, (_, i) => `${i + 8}:00`); // 8 AM to 8 PM
 
   const handleDateChange = (date: Date | undefined) => {
     if (date) {
@@ -31,30 +33,21 @@ const CalendarWithTimes: React.FC<CalendarWithTimesProps> = ({
   return (
     <div className="mt-5 overflow-hidden">
       <div className="flex flex-col lg:flex-row gap-12 items-start">
-        {/* Calendar - larger size with proper spacing */}
         <div className="shrink-0 w-full lg:w-auto">
           <Calendar
             mode="single"
             selected={selectedDate || undefined}
             onSelect={handleDateChange}
-            className="rounded-md border p-6 mx-auto w-fit"
-            disabled={(date: Date) => date < new Date()}
+            className="rounded-md border p-4 mx-auto w-fit max-w-sm"
+            disabled={(date: Date) => date < new Date() || (isDateAvailable ? !isDateAvailable(date) : false)}
             showOutsideDays={true}
             classNames={{
               month: "space-y-4",
-              caption_label: "text-lg font-semibold text-gray-800",
-              table: "w-full border-collapse mt-2",
-              head_row: "flex mb-2",
-              head_cell:
-                "text-muted-foreground rounded-md w-14 font-medium text-sm py-2 text-center",
-              row: "flex w-full mt-1",
               cell: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md",
-              day: "inline-flex items-center justify-center rounded-md text-sm font-normal h-14 w-14 p-0 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground transition-colors aria-selected:opacity-100",
-              day_selected:
-                "bg-red-900 text-white hover:bg-red-800 focus:bg-red-800 font-semibold",
+              day: "inline-flex items-center justify-center rounded-md text-sm font-normal h-11 w-11 p-0 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground transition-colors aria-selected:opacity-100",
+              day_selected: "bg-red-900 text-white hover:bg-red-800 focus:bg-red-800 font-semibold",
               day_today: "bg-accent text-accent-foreground font-semibold",
-              day_outside:
-                "text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
+              day_outside: "text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
               day_disabled: "text-muted-foreground opacity-50",
             }}
           />
@@ -63,27 +56,24 @@ const CalendarWithTimes: React.FC<CalendarWithTimesProps> = ({
         {/* Available Times */}
         {selectedDate && (
           <div className="flex-1 min-w-0 w-full">
-            <h3 className="text-xl font-semibold mb-4 text-red-900">
-              Available times
-            </h3>
-            <p className="text-sm text-gray-600 mb-6">
-              {selectedDate.toDateString()}
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-w-2xl">
-              {timeSlots.map((time) => (
-                <button
-                  key={time}
-                  onClick={() => onTimeSelected?.(time)}
-                  className={`px-4 py-3 border rounded-md text-center font-medium transition-all duration-200 ${
-                    selectedTime === time
-                      ? "bg-red-900 text-white border-red-900"
-                      : "border-gray-300 hover:bg-red-50 hover:border-red-300 hover:shadow-sm"
-                  }`}
-                >
-                  {time}
-                </button>
-              ))}
-            </div>
+            <h3 className="text-xl font-semibold mb-2 text-red-900">Available times</h3>
+            <p className="text-sm text-gray-600 mb-4">{selectedDate.toDateString()}</p>
+
+            {availableSlots.length === 0 ? (
+              <div className="text-sm text-gray-500">No slots available for this date and location.</div>
+            ) : (
+              <div className="flex flex-wrap gap-3">
+                {availableSlots.map((time) => (
+                  <button
+                    key={time}
+                    onClick={() => onTimeSelected?.(time)}
+                    className={`px-4 py-3 text-sm rounded-md border transition ${selectedTime === time ? 'bg-red-900 text-white border-red-900' : 'bg-white border-gray-200 hover:bg-red-50 hover:border-red-300'}`}
+                  >
+                    {time}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -162,6 +152,10 @@ const BookingPage: React.FC = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [additionalInfo, setAdditionalInfo] = useState("");
+
+  // derived UI state
+  const isReadyForDetails = Boolean(selectedLocation && selectedDate && selectedTime);
 
   const handleConfirm = () => {
     // For now, just show a simple mock confirmation. Integration with backend can be added later.
@@ -185,6 +179,7 @@ const BookingPage: React.FC = () => {
       name,
       phone,
       email,
+      additionalInfo,
     };
 
     console.log("Booking confirmed", booking);
@@ -197,175 +192,223 @@ const BookingPage: React.FC = () => {
     navigate("/", { replace: true });
   };
 
+  // Helper: compute slots for an arbitrary date + location using clinicTimings
+  const getSlotsForDate = (date: Date | null, location: string | null) => {
+    if (!date || !location) return [] as string[];
+    try {
+      const dayName = date.toLocaleDateString("en-US", { weekday: "long" });
+
+      const svcId = selectedServiceId ?? (serviceId ?? null);
+      if (svcId && (clinicTimings as any).services && (clinicTimings as any).services[svcId]) {
+        const byLocation = (clinicTimings as any).services[svcId];
+        const normalize = (s: string) => s.trim().toLowerCase();
+
+        // Try exact key
+        const exactKey = Object.keys(byLocation).find((k) => normalize(k) === normalize(location));
+        if (exactKey && byLocation[exactKey] && byLocation[exactKey][dayName]) {
+          return byLocation[exactKey][dayName] as string[];
+        }
+
+        // If location contains multiple comma-separated names, try each
+        const candidates = location.split(",").map((s) => s.trim()).filter(Boolean);
+        for (const cand of candidates) {
+          const key = Object.keys(byLocation).find((k) => normalize(k) === normalize(cand));
+          if (key && byLocation[key] && byLocation[key][dayName]) return byLocation[key][dayName] as string[];
+        }
+
+        // Try fuzzy includes
+        const fuzzyKey = Object.keys(byLocation).find((k) => normalize(k).includes(normalize(location)) || normalize(location).includes(normalize(k)));
+        if (fuzzyKey && byLocation[fuzzyKey] && byLocation[fuzzyKey][dayName]) {
+          return byLocation[fuzzyKey][dayName] as string[];
+        }
+
+        // fallback to any location that has the day
+        for (const l in byLocation) {
+          if (Object.prototype.hasOwnProperty.call(byLocation, l)) {
+            const loc = byLocation[l];
+            if (loc && loc[dayName] && loc[dayName].length) return loc[dayName] as string[];
+          }
+        }
+      }
+
+      return [] as string[];
+    } catch (e) {
+      return [] as string[];
+    }
+  };
+
+  // compute available slots for selected date & location using clinicTimings
+  const availableSlots = useMemo(() => {
+    return getSlotsForDate(selectedDate, selectedLocation);
+  }, [selectedDate, selectedLocation, selectedServiceId, serviceId]);
+
   return (
-    <div className="max-w-4xl mx-auto py-12 px-4">
-      <h2 className="text-2xl font-semibold text-red-900 mb-4">
-        {isDoctorBooking
-          ? `Book with ${doctorInfo?.name}`
-          : "Book an Appointment"}
-      </h2>
-
-      {/* Doctor Information (when booking from doctor profile) */}
-      {isDoctorBooking && doctorInfo && (
-        <div className="bg-white p-4 rounded shadow mb-6">
-          <h3 className="font-semibold text-lg text-red-800">
-            {doctorInfo.name}
-          </h3>
-          <p className="text-sm text-gray-700">{doctorInfo.title}</p>
-          <p className="text-sm text-gray-600 mt-2">
-            Available at: {doctorInfo.locations.join(", ")}
-          </p>
-        </div>
-      )}
-
-      {/* Service selector for doctor bookings */}
-      {isDoctorBooking && doctorInfo && (
-        <div className="mb-6">
-          <label className="block font-medium mb-2">Select Clinic</label>
-          <select
-            className="w-full border rounded px-3 py-2"
-            value={selectedService ?? ""}
-            onChange={(e) => setSelectedService(e.target.value)}
-          >
-            <option value="">-- choose a service --</option>
-            {doctorInfo.services.map((service, idx) => (
-              <option key={idx} value={service}>
-                {service}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-
-      {/* Service selector if none provided (regular service booking) */}
-      {!isDoctorBooking && !selectedServiceFromList && (
-        <div className="mb-6">
-          <label className="block font-medium mb-2">Select Service</label>
-          <select
-            className="w-full border rounded px-3 py-2"
-            value={selectedServiceId ?? ""}
-            onChange={(e) => setSelectedServiceId(Number(e.target.value))}
-          >
-            <option value="">-- choose a service --</option>
-            {services.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.title}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-
-      {/* Show selected service summary (regular service booking) */}
-      {!isDoctorBooking && selectedServiceFromList && (
-        <div className="bg-white p-4 rounded shadow mb-6">
-          <h3 className="font-semibold text-lg">
-            {selectedServiceFromList.title}
-          </h3>
-          <p className="text-sm text-gray-700">
-            {selectedServiceFromList.overview}
-          </p>
-          {selectedServiceFromList.locations && (
-            <p className="text-sm text-gray-600 mt-2">
-              Available at: {selectedServiceFromList.locations.join(", ")}
-            </p>
-          )}
-        </div>
-      )}
-
-      {/* Location selector for doctor bookings */}
-      {isDoctorBooking && doctorInfo && selectedService && (
-        <div className="mb-6">
-          <label className="block font-medium mb-2">Select Location</label>
-          <div className="flex gap-3 flex-wrap">
-            {doctorInfo.locations.map((loc: string) => (
-              <button
-                key={loc}
-                onClick={() => setSelectedLocation(loc)}
-                className={`px-4 py-2 rounded border ${
-                  selectedLocation === loc
-                    ? "bg-red-900 text-white border-red-900"
-                    : "border-gray-300 hover:bg-gray-100"
-                }`}
-              >
-                {loc}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Location selector for regular service bookings */}
-      {!isDoctorBooking && selectedServiceFromList && (
-        <div className="mb-6">
-          <label className="block font-medium mb-2">Select Location</label>
-          <div className="flex gap-3 flex-wrap">
-            {(selectedServiceFromList.locations || []).map((loc: string) => (
-              <button
-                key={loc}
-                onClick={() => setSelectedLocation(loc)}
-                className={`px-4 py-2 rounded border ${
-                  selectedLocation === loc
-                    ? "bg-red-900 text-white border-red-900"
-                    : "border-gray-300 hover:bg-gray-100"
-                }`}
-              >
-                {loc}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Calendar and time slots once location selected */}
-      {selectedLocation && (
-        <div className="mb-6">
-          <CalendarWithTimes
-            onDateSelected={(d) => setSelectedDate(d)}
-            selectedTime={selectedTime}
-            onTimeSelected={(t) => setSelectedTime(t)}
-          />
-        </div>
-      )}
-
-      {/* User details */}
-      <div className="bg-white p-4 rounded shadow mb-6">
-        <h4 className="font-semibold mb-3">Your details</h4>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <input
-            placeholder="Full name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="border rounded px-3 py-2"
-          />
-          <input
-            placeholder="Phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="border rounded px-3 py-2"
-          />
-          <input
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border rounded px-3 py-2"
-          />
-        </div>
+    <div className="max-w-6xl mx-auto py-12 px-4">
+      <div className="mb-6">
+        <h2 className="text-2xl font-semibold text-red-900">
+          {isDoctorBooking ? `Book with ${doctorInfo?.name}` : "Book an Appointment"}
+        </h2>
+        <p className="text-sm text-gray-600 mt-1">
+          A simple, secure booking experience — choose a service or doctor, pick a clinic, then select a convenient date and time.
+        </p>
       </div>
 
-      <div className="flex gap-3">
-        <button
-          onClick={handleConfirm}
-          className="px-4 py-2 bg-red-900 text-white rounded"
-        >
-          Confirm Booking
-        </button>
-        <button
-          onClick={() => navigate(-1)}
-          className="px-4 py-2 border rounded"
-        >
-          Cancel
-        </button>
+      {/* Step indicator */}
+      <div className="flex gap-2 mb-8 text-sm">
+        <span className={`px-3 py-1 rounded-full ${(isDoctorBooking || selectedServiceId) ? 'bg-red-900 text-white' : 'bg-gray-200 text-gray-700'}`}>1. Service</span>
+        <span className={`px-3 py-1 rounded-full ${selectedLocation ? 'bg-red-900 text-white' : 'bg-gray-200 text-gray-700'}`}>2. Clinic</span>
+        <span className={`px-3 py-1 rounded-full ${selectedDate ? 'bg-red-900 text-white' : 'bg-gray-200 text-gray-700'}`}>3. Date</span>
+        <span className={`px-3 py-1 rounded-full ${selectedTime ? 'bg-red-900 text-white' : 'bg-gray-200 text-gray-700'}`}>4. Time</span>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left column: main flow */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Doctor Info / Service Summary */}
+          {isDoctorBooking && doctorInfo && (
+            <div className="bg-white p-4 rounded-lg shadow">
+              <div className="flex items-start gap-4">
+                <div>
+                  <h3 className="font-semibold text-lg text-red-800">{doctorInfo.name}</h3>
+                  <p className="text-sm text-gray-700">{doctorInfo.title}</p>
+                  <p className="text-sm text-gray-600 mt-2">Available at: {doctorInfo.locations.join(", ")}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Service / Clinic selection */}
+          <div className="bg-white p-4 rounded-lg shadow">
+            {!isDoctorBooking && (
+              <div className="mb-4">
+                <label className="block font-medium mb-2">Step 1: Select Service</label>
+                <select
+                  className="w-full border rounded px-3 py-2"
+                  value={selectedServiceId ?? ""}
+                  onChange={(e) => setSelectedServiceId(Number(e.target.value))}
+                >
+                  <option value="">-- choose a service --</option>
+                  {services.map((s) => (
+                    <option key={s.id} value={s.id}>{s.title}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {isDoctorBooking && doctorInfo && (
+              <div className="mb-4">
+                <label className="block font-medium mb-2">Step 1: Select Service</label>
+                <select
+                  className="w-full border rounded px-3 py-2"
+                  value={selectedService ?? ""}
+                  onChange={(e) => setSelectedService(e.target.value)}
+                >
+                  <option value="">-- choose a service --</option>
+                  {doctorInfo.services.map((service, idx) => (
+                    <option key={idx} value={service}>{service}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* Location selector - dropdown */}
+            {(isDoctorBooking && doctorInfo && selectedService) || (!isDoctorBooking && selectedServiceFromList) ? (
+              <div>
+                <label className="block font-medium mb-2">Step 2: Select Clinic</label>
+                <select
+                  className="w-full border rounded px-3 py-2"
+                  value={selectedLocation ?? ""}
+                  onChange={(e) => setSelectedLocation(e.target.value)}
+                >
+                  <option value="">-- choose a clinic --</option>
+                  {((isDoctorBooking && doctorInfo ? doctorInfo.locations : selectedServiceFromList?.locations) || []).map((loc: string) => (
+                    <option key={loc} value={loc}>{loc}</option>
+                  ))}
+                </select>
+              </div>
+            ) : (
+              <div className="p-3 bg-gray-100 rounded border border-gray-300 text-sm text-gray-500">
+                Step 2: Select a service first to choose a clinic.
+              </div>
+            )}
+          </div>
+
+          {/* Calendar and time slots */}
+          {selectedLocation ? (
+            <div className="bg-white p-4 rounded-lg shadow">
+              <h2 className="text-lg font-semibold mb-4">Step 3: Select Date & Time</h2>
+              <CalendarWithTimes
+                onDateSelected={(d) => setSelectedDate(d)}
+                selectedTime={selectedTime}
+                onTimeSelected={(t) => setSelectedTime(t)}
+                availableSlots={availableSlots}
+                isDateAvailable={(d) => getSlotsForDate(d, selectedLocation).length > 0}
+              />
+            </div>
+          ) : (
+            <div className="bg-white p-6 rounded-lg shadow">
+              <h2 className="text-lg font-semibold mb-2 text-gray-500">Step 3: Select Date & Time</h2>
+              <p className="text-sm text-gray-500">Choose a service and clinic to see available dates and times.</p>
+            </div>
+          )}
+        </div>
+
+        {/* Right column: summary & details form */}
+        <aside className="space-y-6">
+          <div className="bg-gradient-to-br from-red-50 to-red-100 p-5 rounded-lg shadow-md border-l-4 border-red-900">
+            <h4 className="font-bold text-lg mb-4 text-red-900">Booking Summary</h4>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3 pb-3 border-b border-red-200">
+                <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-red-900 text-white text-sm font-semibold">1</span>
+                <div>
+                  <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Service</p>
+                  <p className="text-sm font-medium text-red-900">{isDoctorBooking ? (selectedService || '—') : (selectedServiceFromList?.title || '—')}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 pb-3 border-b border-red-200">
+                <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-red-900 text-white text-sm font-semibold">2</span>
+                <div>
+                  <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Clinic</p>
+                  <p className="text-sm font-medium text-red-900">{selectedLocation || '—'}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 pb-3 border-b border-red-200">
+                <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-red-900 text-white text-sm font-semibold">3</span>
+                <div>
+                  <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Date</p>
+                  <p className="text-sm font-medium text-red-900">{selectedDate ? selectedDate.toDateString() : '—'}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-red-900 text-white text-sm font-semibold">4</span>
+                <div>
+                  <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Time</p>
+                  <p className="text-sm font-medium text-red-900">{selectedTime || '—'}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-4 rounded-lg shadow">
+            <h4 className="font-semibold text-md mb-3">Step 4: Your Details</h4>
+            {isReadyForDetails ? (
+              <form className="space-y-3" onSubmit={(e) => { e.preventDefault(); handleConfirm(); }}>
+                <input placeholder="Full name" value={name} onChange={(e) => setName(e.target.value)} className="w-full border rounded px-3 py-2" />
+                <input placeholder="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full border rounded px-3 py-2" />
+                <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border rounded px-3 py-2" />
+                <textarea placeholder="Additional information (symptoms, notes, preferences)" value={additionalInfo} onChange={(e) => setAdditionalInfo(e.target.value)} rows={4} className="w-full border rounded px-3 py-2" />
+
+                <button type="submit" disabled={!name || !phone || !email} className={`w-full py-2 rounded ${(!name || !phone || !email) ? 'bg-gray-300 text-gray-700 cursor-not-allowed' : 'bg-red-900 text-white hover:bg-red-800'}`}>
+                  Confirm Booking
+                </button>
+              </form>
+            ) : (
+              <div className="p-3 bg-gray-100 rounded border border-gray-300 text-sm text-gray-500">
+                Select a date and time to enter your details and confirm the booking.
+              </div>
+            )}
+          </div>
+        </aside>
       </div>
     </div>
   );

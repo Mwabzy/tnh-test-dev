@@ -2,6 +2,8 @@ import { FC } from 'react';
 import Heading from '@/components/Heading';
 import { Download, Star } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 // Images - you'll need to replace these with actual images
 import clinicalPsychologyImage from '@/assets/images/care1.jpg';
@@ -165,6 +167,27 @@ const PsychosocialDepartment: FC = () => {
             </aside>
           </div>
         </section>
+
+  {/* Clinical Team (inserted before ClientsSay) */}
+  <TeamSection
+    title="Psychosocial Care Team"
+    team={[
+      { name: 'Dr. Mary Wanjiru', title: 'Clinical Psychologist', image: '/src/assets/images/image1.png', bio: 'Leads clinical psychology services and therapy programs.' },
+      { name: 'Ms. Faith Njeri', title: 'Senior Counselor', image: '/src/assets/images/image2.png', bio: 'Experienced in individual and family counseling.' },
+      { name: 'Dr. Paul Kiptoo', title: 'Psychiatrist', image: '/src/assets/images/image3.png', bio: 'Provides medical management for complex cases.' },
+      { name: 'Ms. Jane Mwangi', title: 'Group Therapy Lead', image: '/src/assets/images/image4.png', bio: 'Facilitates therapeutic groups and workshops.' },
+    ]}
+  />
+
+  {/* Client Testimonials */}
+  <ClientsSay
+    title="What our clients say about Psychosocial Services"
+    testimonials={[
+      { quote: 'Compassionate counseling that helped me cope.', name: 'A. Mburu', avatar: '/src/assets/images/image1.png' },
+      { quote: 'Therapists were professional and understanding.', name: 'E. Mutheu', avatar: '/src/assets/images/image2.png' },
+      { quote: 'Great support groups and resources.', name: 'S. Kilonzo', avatar: '/src/assets/images/image3.png' },
+    ]}
+  />
 
         {/* Insurance Partners */}
         <InsuranceSlider />

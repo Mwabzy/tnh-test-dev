@@ -2,6 +2,8 @@ import { FC } from 'react';
 import Heading from '@/components/Heading';
 import { Download, Star } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 // Images
 import physicalTherapyImage from '@/assets/images/care1.jpg';
@@ -162,8 +164,29 @@ const PhysicalMedicineCenter: FC = () => {
           </div>
         </section>
 
-        {/* Insurance Partners */}
-        <InsuranceSlider />
+  {/* Clinical Team (inserted before ClientsSay) */}
+  <TeamSection
+    title="Physical Medicine Team"
+    team={[
+      { name: 'Dr. Grace Otieno', title: 'Clinical Lead', image: '/src/assets/images/image1.png', bio: 'Oversees multidisciplinary rehabilitation programs.' },
+      { name: 'Ms. Lydia Mwikali', title: 'Senior Physiotherapist', image: '/src/assets/images/image2.png', bio: 'Specialises in orthopaedic and sports rehab.' },
+      { name: 'Mr. Joseph Kariuki', title: 'Hydrotherapy Lead', image: '/src/assets/images/image3.png', bio: 'Manages hydrotherapy and aquatic rehabilitation.' },
+      { name: 'Ms. Anne Wanjiru', title: 'Occupational Therapist', image: '/src/assets/images/image4.png', bio: 'Focuses on daily-living skills and adaptive equipment.' },
+    ]}
+  />
+
+  {/* Client Testimonials */}
+  <ClientsSay
+    title="What our clients say about Physical Medicine"
+    testimonials={[
+      { quote: 'Rehab program helped me regain mobility.', name: 'C. Njoroge', avatar: '/src/assets/images/image1.png' },
+      { quote: 'Skilled therapists and personalized plan.', name: 'L. Omondi', avatar: '/src/assets/images/image2.png' },
+      { quote: 'Excellent progress tracking and support.', name: 'Z. Karanja', avatar: '/src/assets/images/image3.png' },
+    ]}
+  />
+
+  {/* Insurance Partners */}
+  <InsuranceSlider />
       </main>
     </div>
   );

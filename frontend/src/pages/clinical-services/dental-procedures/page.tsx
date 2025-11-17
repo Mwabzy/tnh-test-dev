@@ -1,6 +1,9 @@
 import { FC } from 'react';
 import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
+import TeamSection from '@/components/TeamSection';
+import ClientsSay from '@/components/ClientsSay';
+import InsuranceSlider from '@/components/InsuranceSlider';
 import { Shield, Award, Sparkles, Clock, HeartPulse, Microscope } from 'lucide-react';
 
 const DentalProcedures: FC = () => {
@@ -321,162 +324,29 @@ const DentalProcedures: FC = () => {
         </div>
       </div>
 
-      {/* Team Section */}
-      <div className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-3xl font-serif font-bold text-gray-900 mb-4"
-            >
-              Our Dental Specialists
-              <div className="mt-4 w-20 h-1 bg-yellow-600 mx-auto"></div>
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-gray-600 max-w-2xl mx-auto"
-            >
-              Meet our team of experienced dental professionals dedicated to
-              providing you with the highest quality of care.
-            </motion.p>
-          </div>
+      {/* Team Section (shared) */}
+      <TeamSection
+        title="Our Dental Specialists"
+        team={[
+          { name: 'Dr. Louisa Mareri', title: 'Lead Dentist', image: 'https://www.dentistokc.com/blog/wp-content/uploads/2022/02/AdobeStock_245685948__1644929547_44535.jpg', bio: 'Expert in cosmetic and restorative dentistry with 12 years experience.' },
+          { name: 'Dr. Sarah Njeri', title: 'Orthodontist', image: 'https://static.wixstatic.com/media/8c9d66_219fdd42715e4363bfddbb2e1ba1c3c1~mv2.jpg/v1/fill/w_250,h_325,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/S_Mixon_edited.jpg', bio: 'Specialist in orthodontics and clear aligner treatment.' },
+          { name: 'Dr. Michael Omondi', title: 'Periodontist', image: 'https://thumbs.dreamstime.com/b/portrait-smiling-handsome-black-dentist-doctor-digital-tablet-hands-posing-clinic-interior-young-african-american-male-220602356.jpg', bio: 'Periodontics expert focusing on gum health and implant maintenance.' },
+          { name: 'Dr. Emmanuel Kariuki', title: 'Endodontist', image: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7', bio: 'Endodontics specialist with a gentle approach to root canal therapy.' }
+        ]}
+      />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Dr. Louisa Mareri",
-                role: "Lead Dentist",
-                speciality: "Cosmetic Dentistry",
-                image: "https://www.dentistokc.com/blog/wp-content/uploads/2022/02/AdobeStock_245685948__1644929547_44535.jpg",
-                qualification: "BDS, MDS - Prosthodontics"
-              },
-              {
-                name: "Dr. Sarah Njeri",
-                role: "Orthodontist",
-                speciality: "Orthodontics & Aligners",
-                image: "https://static.wixstatic.com/media/8c9d66_219fdd42715e4363bfddbb2e1ba1c3c1~mv2.jpg/v1/fill/w_250,h_325,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/S_Mixon_edited.jpg",
-                qualification: "BDS, MDS - Orthodontics"
-              },
-              {
-                name: "Dr. Michael Omondi",
-                role: "Periodontist",
-                speciality: "Gum Care Specialist",
-                image: "https://thumbs.dreamstime.com/b/portrait-smiling-handsome-black-dentist-doctor-digital-tablet-hands-posing-clinic-interior-young-african-american-male-220602356.jpg",
-                qualification: "BDS, MDS - Periodontics"
-              }
-            ].map((doctor, index) => (
-              <motion.div
-                key={doctor.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
-              >
-                <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={doctor.image}
-                    alt={doctor.name}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/75 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h3 className="text-xl font-bold mb-1">{doctor.name}</h3>
-                    <p className="text-sm text-gray-200">{doctor.role}</p>
-                  </div>
-                </div>
-                <div className="p-6">
-                                      <p className="text-sm text-red-900">{doctor.speciality}</p>
-                  <p className="text-sm text-gray-600">{doctor.qualification}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* Testimonials (shared) */}
+      <ClientsSay
+        title="Patient Stories"
+        testimonials={[
+          { quote: "The dental team was incredibly professional and made my procedure completely painless.", name: 'Alice Wanjiku', avatar: '/src/assets/images/image1.png', subtitle: 'Cosmetic Dentistry' },
+          { quote: "State-of-the-art facility with caring staff. My dental implant procedure was smooth.", name: 'James Kiprop', avatar: '/src/assets/images/image2.png', subtitle: 'Dental Implants' },
+          { quote: "Very impressed with the modern technology and expertise. The clear aligners have transformed my smile!", name: 'Mary Akinyi', avatar: '/src/assets/images/image3.png', subtitle: 'Orthodontics' }
+        ]}
+      />
 
-      {/* Testimonials */}
-      <div className="py-16 bg-gradient-to-br from-yellow-50 to-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-3xl font-serif font-bold text-gray-900 mb-4"
-            >
-              Patient Stories
-              <div className="mt-4 w-20 h-1 bg-yellow-600 mx-auto"></div>
-            </motion.h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                quote: "The dental team was incredibly professional and made my procedure completely painless. Best dental experience I've had!",
-                name: "Alice Wanjiku",
-                treatment: "Cosmetic Dentistry",
-                rating: 5
-              },
-              {
-                quote: "State-of-the-art facility with caring staff. My dental implant procedure was smooth and the results are amazing.",
-                name: "James Kiprop",
-                treatment: "Dental Implants",
-                rating: 5
-              },
-              {
-                quote: "Very impressed with the modern technology and expertise. The clear aligners have transformed my smile!",
-                name: "Mary Akinyi",
-                treatment: "Orthodontics",
-                rating: 5
-              }
-            ].map((testimonial, index) => (
-              <motion.div
-                key={testimonial.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <div className="mb-4">
-                  <div className="flex gap-1 text-yellow-400 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <svg
-                        key={i}
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <p className="text-gray-600 italic mb-4">"{testimonial.quote}"</p>
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="font-semibold text-gray-900">{testimonial.name}</p>
-                      <p className="text-sm text-red-900">{testimonial.treatment}</p>
-                    </div>
-                    <div className="text-red-900">
-                      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* Insurance Partners (shared) */}
+      <InsuranceSlider />
 
       {/* Safety & Comfort Section */}
       <div className="py-16 bg-white">

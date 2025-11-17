@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
 import { Stethoscope, Clock, Phone, ClipboardCheck, HeartPulse, ChevronRight } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 const TheatreAndSurgery: FC = () => {
   return (
@@ -307,8 +309,29 @@ const TheatreAndSurgery: FC = () => {
           </div>
         </section>
 
-        {/* Insurance Partners */}
-        <InsuranceSlider />
+  {/* Clinical Team (inserted before ClientsSay) */}
+        <TeamSection
+          title="Surgical Team"
+          team={[
+            { name: 'Prof. John Kihara', title: 'Lead Surgeon', image: '/src/assets/images/image1.png', bio: 'Renowned surgeon across multiple specialties.' },
+            { name: 'Dr. Faith Naliaka', title: 'Chief Anaesthesiologist', image: '/src/assets/images/image2.png', bio: 'Leads anaesthesia and perioperative care.' },
+            { name: 'Ms. Susan Wanyoike', title: 'Theatre Nursing Lead', image: '/src/assets/images/image3.png', bio: 'Coordinates theatre nursing and sterile processes.' },
+            { name: 'Mr. Paul Mwangi', title: 'Theatre Technician', image: '/src/assets/images/image4.png', bio: 'Ensures equipment and instrument readiness.' },
+          ]}
+        />
+
+        {/* Client Testimonials */}
+        <ClientsSay
+          title="What our clients say about Theatre & Surgery"
+          testimonials={[
+            { quote: 'Highly skilled surgeons and a supportive perioperative team.', name: 'J. Kihara', avatar: '/src/assets/images/image1.png' },
+            { quote: 'Excellent anaesthesia care and quick recovery support.', name: 'F. Naliaka', avatar: '/src/assets/images/image2.png' },
+            { quote: 'Well-coordinated care from pre-op to discharge.', name: 'S. Wanyoike', avatar: '/src/assets/images/image3.png' },
+          ]}
+        />
+
+  {/* Insurance Partners */}
+  <InsuranceSlider />
       </main>
     </div>
   );

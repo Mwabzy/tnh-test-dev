@@ -3,6 +3,9 @@ import { FC } from 'react';
 import { Activity, Users, Phone, Clock, MonitorSmartphone, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
+import TeamSection from '@/components/TeamSection';
+import ClientsSay from '@/components/ClientsSay';
+import InsuranceSlider from '@/components/InsuranceSlider';
 
 // Content arrays removed; programs and team are now defined inline to match the Critical Care layout
 
@@ -194,7 +197,7 @@ const PsychosocialDepartment: FC = () => {
         {/* Team & Support */}
         <section className="container mx-auto px-4 mt-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Medical Team */}
+            {/* Medical Team (kept summary) */}
             <motion.div
               className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"
               initial={{ opacity: 0, x: -20 }}
@@ -241,6 +244,19 @@ const PsychosocialDepartment: FC = () => {
           </div>
         </section>
 
+        {/* Shared Team section (visual cards) */}
+        <div className="container mx-auto px-4 mt-12">
+          <TeamSection
+            title="Our Psychosocial Team"
+            team={[
+              { name: 'Dr. Grace Mutua', title: 'Clinical Psychologist', image: '/src/assets/doctorsImages/doctor1.png', bio: 'Clinical Psychologist specialising in trauma-informed therapy.' },
+              { name: 'Mr. Peter Ouma', title: 'Social Worker', image: '/src/assets/doctorsImages/doctor2.png', bio: 'Community liaison and family support specialist.' },
+              { name: 'Ms. Naomi Wanjiru', title: 'Clinical Counselor', image: '/src/assets/doctorsImages/doctor3.png', bio: 'Experienced counselor in grief and bereavement support.' },
+              { name: 'Nurse Jane Otieno', title: 'Liaison Nurse', image: '/src/assets/doctorsImages/doctor4.png', bio: 'Coordinates care between clinical teams and families.' }
+            ]}
+          />
+        </div>
+
         {/* Contact & Support */}
         <section className="container mx-auto px-4 mt-16">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
@@ -272,6 +288,24 @@ const PsychosocialDepartment: FC = () => {
             </div>
           </div>
         </section>
+
+        {/* Testimonials (shared) */}
+        <div className="container mx-auto px-4 mt-12">
+          <ClientsSay
+            title="What our clients say"
+            testimonials={[
+              { quote: 'The counselling I received helped my family and I through a very difficult time.', name: 'S. Mwangi', avatar: '/src/assets/images/image1.png', subtitle: 'Patient' },
+              { quote: 'Compassionate and practical support that made discharge and follow-up easy.', name: 'R. Otieno', avatar: '/src/assets/images/image2.png', subtitle: 'Patient' },
+              { quote: 'Excellent team, well coordinated care and clear communication.', name: 'M. Njeri', avatar: '/src/assets/images/image3.png', subtitle: 'Family Member' }
+            ]}
+          />
+
+          {/* Insurance Partners (shared) */}
+          <div className="mt-8">
+            <InsuranceSlider />
+          </div>
+        </div>
+
       </main>
     </div>
   );

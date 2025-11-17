@@ -38,6 +38,8 @@ interface BookingForm {
   timeSlotId: string;
   patientName: string;
   patientEmail: string;
+  service?: string;
+  additionalInfo?: string;
 }
 
 // Ensure each doctor has an 'id' property; generate one if missing
@@ -73,6 +75,8 @@ const DoctorBooking: React.FC = () => {
     timeSlotId: '',
     patientName: '',
     patientEmail: '',
+    service: '',
+    additionalInfo: '',
   });
   const [bookingStatus, setBookingStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -183,6 +187,16 @@ const DoctorBooking: React.FC = () => {
   // Get time slots for the selected doctor
   const timeSlots = selectedDoctor ? generateTimeSlots(selectedDoctor.schedule) : [];
 
+  // When selectedDoctor changes, prefill service if available
+  React.useEffect(() => {
+    if (selectedDoctor) {
+      const svc = selectedDoctor.servicesOffered && selectedDoctor.servicesOffered.length > 0 ? selectedDoctor.servicesOffered[0] : '';
+      setFormData((prev) => ({ ...prev, doctorId: selectedDoctor.id, service: svc }));
+    } else {
+      setFormData((prev) => ({ ...prev, doctorId: '', service: '' }));
+    }
+  }, [selectedDoctor]);
+
   // Filter doctors based on search
   const filteredDoctors = doctors.filter(
     (doctor) =>
@@ -202,9 +216,12 @@ const handleSubmit = async (e: FormEvent) => {
       body: JSON.stringify({
         patientName: formData.patientName,
         patientEmail: formData.patientEmail,
+        doctorId: selectedDoctor.id,
         doctorName: selectedDoctor.name,
-        doctorEmail: selectedDoctor.contactEmail, // <-- comes from doctors.json
+        doctorEmail: selectedDoctor.contactEmail,
         timeSlot: `${selectedSlot.date} ${selectedSlot.time}`,
+        service: formData.service,
+        additionalInfo: formData.additionalInfo,
       }),
     });
 
@@ -280,7 +297,7 @@ const handleSubmit = async (e: FormEvent) => {
                         ? 'bg-blue-500 text-white'
                         : 'bg-white text-gray-700 hover:bg-gray-50'
                     }`}
-                    onClick={() => setSelectedSlot(slot)}
+                    onClick={() => { setSelectedSlot(slot); setFormData(prev => ({ ...prev, timeSlotId: slot.id })); }}
                     disabled={!slot.available}
                   >
                     <CalendarIcon className="h-5 w-5 mr-2" />
@@ -306,44 +323,68 @@ const handleSubmit = async (e: FormEvent) => {
               Complete Your Booking
             </h2>
             <div className="space-y-4">
-              <div>
-                <label
-                  htmlFor="patientName"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Full Name
-                </label>
-                <input
-                  id="patientName"
-                  type="text"
-                  required
-                  className="mt-1 w-full border rounded-md p-2 focus:outline-none focus:ring-blue-500"
-                  value={formData.patientName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, patientName: e.target.value })
-                  }
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    htmlFor="patientName"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Full Name
+                  </label>
+                  <input
+                    id="patientName"
+                    type="text"
+                    required
+                    className="mt-1 w-full border rounded-md p-2 focus:outline-none focus:ring-blue-500"
+                    value={formData.patientName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, patientName: e.target.value })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="patientEmail"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Email Address
+                  </label>
+                  <input
+                    id="patientEmail"
+                    type="email"
+                    required
+                    className="mt-1 w-full border rounded-md p-2 focus:outline-none focus:ring-blue-500"
+                    value={formData.patientEmail}
+                    onChange={(e) =>
+                      setFormData({ ...formData, patientEmail: e.target.value })
+                    }
+                  />
+                </div>
               </div>
+
+              {/* Service selector narrowed to this doctor's services */}
               <div>
-                <label
-                  htmlFor="patientEmail"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Email Address
+                <label htmlFor="service" className="block text-sm font-medium text-gray-700">
+                  Select Service
                 </label>
-                <input
-                  id="patientEmail"
-                  type="email"
-                  required
-                  pattern="^[^\s@]+@[^\s@]+\.[cC][oO][mM]$"
+                <select
+                  id="service"
+                  value={formData.service}
+                  onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                   className="mt-1 w-full border rounded-md p-2 focus:outline-none focus:ring-blue-500"
-                  value={formData.patientEmail}
-                  onChange={(e) =>
-                    setFormData({ ...formData, patientEmail: e.target.value })
-                  }
-                />
+                >
+                  {selectedDoctor.servicesOffered && selectedDoctor.servicesOffered.length > 0 ? (
+                    selectedDoctor.servicesOffered.map((s, i) => (
+                      <option key={i} value={s}>{s}</option>
+                    ))
+                  ) : (
+                    <option value="">General Consultation</option>
+                  )}
+                </select>
               </div>
-              <div className="bg-gray-50 p-4 rounded-md">
+
+              <div className="bg-white p-2 rounded-md border">
                 <p className="text-sm text-gray-600">
                   <span className="font-medium">Doctor:</span>{' '}
                   {selectedDoctor.name} ({selectedDoctor.specialization})
@@ -352,6 +393,20 @@ const handleSubmit = async (e: FormEvent) => {
                   <span className="font-medium">Time:</span> {selectedSlot.date}{' '}
                   {selectedSlot.time}
                 </p>
+              </div>
+
+              <div>
+                <label htmlFor="additionalInfo" className="block text-sm font-medium text-gray-700">
+                  Additional Information
+                </label>
+                <textarea
+                  id="additionalInfo"
+                  rows={4}
+                  className="mt-1 w-full border rounded-md p-2 focus:outline-none focus:ring-blue-500"
+                  placeholder="Enter any relevant details (symptoms, history, preferred contact)..."
+                  value={formData.additionalInfo}
+                  onChange={(e) => setFormData({ ...formData, additionalInfo: e.target.value })}
+                />
               </div>
               <button
                 type="submit"

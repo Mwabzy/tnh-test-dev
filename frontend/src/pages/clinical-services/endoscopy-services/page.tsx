@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
 import { Shield, Award, Activity } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 const EndoscopyServices: FC = () => {
   const procedures = [
@@ -450,8 +452,29 @@ const EndoscopyServices: FC = () => {
           {/* Appointment CTA */}
         </div>
 
-        {/* Insurance Partners */}
-        <InsuranceSlider />
+  {/* Clinical Team (inserted before ClientsSay) */}
+  <TeamSection
+    title="Endoscopy Clinical Team"
+    team={[
+      { name: 'Dr. Sarah Kamau', title: 'Lead Endoscopist', image: '/src/assets/images/image1.png', bio: 'Expert in diagnostic and therapeutic endoscopy.' },
+      { name: 'Dr. James Omondi', title: 'Gastroenterologist', image: '/src/assets/images/image2.png', bio: 'Specialist in upper and lower GI procedures.' },
+      { name: 'Dr. Anne Njeri', title: 'Senior Endoscopist', image: '/src/assets/images/image3.png', bio: 'Focus on complex endoscopic therapy.' },
+      { name: 'Ms. Faith Mwangi', title: 'Endoscopy Nurse Lead', image: '/src/assets/images/image4.png', bio: 'Manages nursing care and patient prep.' },
+    ]}
+  />
+
+  {/* Client Testimonials */}
+  <ClientsSay
+    title="What our clients say about Endoscopy"
+    testimonials={[
+      { quote: 'Procedure was explained clearly and I felt comfortable.', name: 'K. Maina', avatar: '/src/assets/images/image1.png' },
+      { quote: 'Efficient service and kind staff.', name: 'B. Chebet', avatar: '/src/assets/images/image2.png' },
+      { quote: 'Smooth pre-op and quick recovery guidance.', name: 'T. Mwikali', avatar: '/src/assets/images/image3.png' },
+    ]}
+  />
+
+  {/* Insurance Partners */}
+  <InsuranceSlider />
       </div>
     </div>
   );

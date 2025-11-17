@@ -31,13 +31,36 @@ const DoctorDetails: FC = () => {
         Doctor not found.
       </p>
     );
+  // compute image src safely (handle external URLs)
+  const imageSrc = user.image && (user.image as string).startsWith("http") ? user.image : `/${user.image}`;
+
+  // Ensure `description`, `awardsAndRecognition`, and `ResearchAndPublications` are arrays
+  const descriptionArray: string[] = Array.isArray(user.description)
+    ? user.description
+    : user.description
+    ? [user.description]
+    : [];
+
+  const awards: string[] = Array.isArray(user.awardsAndRecognition)
+    ? user.awardsAndRecognition
+    : user.awardsAndRecognition
+    ? [user.awardsAndRecognition]
+    : [];
+
+  const publications: string[] = Array.isArray(user.ResearchAndPublications)
+    ? user.ResearchAndPublications
+    : user.ResearchAndPublications
+    ? [user.ResearchAndPublications]
+    : [];
+
+  const firstParagraph = descriptionArray.length > 0 ? descriptionArray[0] : (user.bio || "");
 
   return (
     <div className="bg-gray-50 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg p-8 md:p-12">
         <div className="flex flex-col md:flex-row items-start gap-8">
           <img
-            src={`/${user.image}`}
+            src={imageSrc}
             alt={user.name}
             className="w-52 h-64 object-cover rounded-2xl shadow-xl border-2 border-gray-500"
           />
@@ -48,7 +71,7 @@ const DoctorDetails: FC = () => {
             <p className="text-xl text-red-700 mt-1 italic">{user.title}</p>
 
             <p className="mt-5 text-gray-700 leading-relaxed max-w-xl">
-              {user.description[0]}
+              {firstParagraph}
             </p>
 
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-800">
@@ -90,16 +113,20 @@ const DoctorDetails: FC = () => {
 
             <div className="mt-6">
               <span className="font-semibold text-gray-700">Languages:</span>{" "}
-              <span className="text-gray-700">{user.languages.join(", ")}</span>
+              <span className="text-gray-700">{(user.languages && user.languages.join) ? user.languages.join(", ") : (user.languages || user.languagesSpoken || "")}</span>
             </div>
 
             <div className="mt-6">
               <span className="font-semibold text-gray-700">Schedule:</span>
-              <ul className="list-disc list-inside mt-1 text-gray-700 space-y-1">
-                {user.schedule.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
+              {Array.isArray(user.schedule) ? (
+                <ul className="list-disc list-inside mt-1 text-gray-700 space-y-1">
+                  {user.schedule.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-700 mt-1">{user.schedule || ""}</p>
+              )}
             </div>
           </div>
         </div>
@@ -109,7 +136,7 @@ const DoctorDetails: FC = () => {
             About {user.name}
           </h2>
           <div className="space-y-5 text-gray-700 leading-relaxed max-w-4xl">
-            {user.description.slice(1).map((para, i) => (
+            {descriptionArray.slice(1).map((para: string, i: number) => (
               <p key={i}>{para}</p>
             ))}
           </div>
@@ -132,7 +159,7 @@ const DoctorDetails: FC = () => {
               Awards & Recognition
             </h3>
             <ul className="list-disc list-inside text-gray-700 space-y-1">
-              {user.awardsAndRecognition.map((award, i) => (
+              {awards.map((award: string, i: number) => (
                 <li key={i}>{award}</li>
               ))}
             </ul>
@@ -143,7 +170,7 @@ const DoctorDetails: FC = () => {
               Research & Publications
             </h3>
             <ul className="list-disc list-inside text-gray-700 space-y-1">
-              {user.ResearchAndPublications.map((pub, i) => (
+              {publications.map((pub: string, i: number) => (
                 <li key={i}>{pub}</li>
               ))}
             </ul>

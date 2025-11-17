@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
 import { Heart, Activity, Users, Phone, Clock, MonitorSmartphone, ChevronRight } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 const CriticalCare: FC = () => {
   return (
@@ -333,8 +335,29 @@ const CriticalCare: FC = () => {
           </div>
         </section>
 
-        {/* Insurance Partners */}
-        <InsuranceSlider />
+  {/* Client Testimonials */}
+        {/* Clinical Team (inserted before ClientsSay) */}
+        <TeamSection
+          title="Critical Care Team"
+          team={[
+            { name: 'Dr. Rebecca Njoro', title: 'Head of Critical Care', image: '/src/assets/images/image1.png', bio: 'Clinical lead for ICU services and critical care policy.' },
+            { name: 'Dr. Samuel Awuor', title: 'Intensivist', image: '/src/assets/images/image2.png', bio: 'Specialist in multi-organ support and critical illness.' },
+            { name: 'Ms. Mercy Mburu', title: 'Critical Care Nurse Lead', image: '/src/assets/images/image3.png', bio: 'Coordinates nursing teams and sedation protocols.' },
+            { name: 'Mr. Tom Ochieng', title: 'Respiratory Therapist', image: '/src/assets/images/image4.png', bio: 'Expert in ventilatory support and airway management.' },
+          ]}
+        />
+
+        <ClientsSay
+          title="What our clients say about Critical Care"
+          testimonials={[
+            { quote: 'Exceptional ICU team, highly skilled and attentive.', name: 'R. Njoro', avatar: '/src/assets/images/image1.png' },
+            { quote: 'Our family was kept informed and cared for.', name: 'S. Awuor', avatar: '/src/assets/images/image2.png' },
+            { quote: 'Life-saving interventions with great professionalism.', name: 'T. Mburu', avatar: '/src/assets/images/image3.png' },
+          ]}
+        />
+
+  {/* Insurance Partners */}
+  <InsuranceSlider />
       </main>
     </div>
   );
