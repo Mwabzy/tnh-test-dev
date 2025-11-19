@@ -18,6 +18,7 @@ const Sidebar: FC = () => {
   };
 
   const sections = [
+    { title: "Clinical Services", key: "clinical", items: clinicalSection },
     { title: "About pages", key: "about", items: aboutPages },
     { title: "Other Services", key: "other", items: otherServices },
     { title: "College", key: "college", items: collegeHealthSciences },
@@ -33,38 +34,7 @@ const Sidebar: FC = () => {
         </h2>
       </Link>
       <nav>
-        {/* Clinical Services */}
-        <div className="mb-4">
-          <button
-            onClick={() => toggleSection("clinical")}
-            className="w-full text-left font-semibold text-gray-700 p-2 hover:bg-yellow-500 rounded-lg flex justify-between"
-          >
-            Clinical Services
-            <span>{openSection === "clinical" ? "-" : "+"}</span>
-          </button>
-          {openSection === "clinical" && (
-            <ul className="ml-2 mt-2">
-              {clinicalSection.map((item) => (
-                <li key={item.title}>
-                  <NavLink
-                    to={item.href}
-                    className={({ isActive }) =>
-                      `block p-2 rounded ${
-                        isActive
-                          ? "bg-red-300 text-white"
-                          : "hover:bg-yellow-500"
-                      }`
-                    }
-                  >
-                    {item.title}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        {/* Other Sections */}
+        {/* Sidebar sections */}
         {sections.map((section) => (
           <div key={section.key} className="mb-4">
             <button
@@ -79,9 +49,7 @@ const Sidebar: FC = () => {
                 {section.items.map((item) => (
                   <li key={item.title}>
                     <NavLink
-                      to={`/dashboard/${section.key}/${item.title
-                        .toLowerCase()
-                        .replace(/\s+/g, "-")}`}
+                      to={item.href}
                       className={({ isActive }) =>
                         `block p-2 rounded ${
                           isActive

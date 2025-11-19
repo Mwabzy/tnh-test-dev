@@ -233,9 +233,7 @@ const UIRoutes = {
   ContactUs: {
     name: "navigation.contactus",
     path: "/contact-us",
-    component: lazyLoad(
-     () => import("../pages/about/ContactUs")
-    ),
+    component: lazyLoad(() => import("../pages/about/ContactUs")),
   },
   CollegeFAQs: {
     name: "navigation.collesgeFAQs",

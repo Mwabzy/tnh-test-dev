@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import ContactForm from "@/components/ContactForm";
-import hospitalview from "@/assets/heroimages/heroimage2.JPG";
+import hospitalview from "@/assets/heroimages/heroimage2.jpg";
 
 import alexkagiaImg from "@/assets/doctorsImages/alexkagia.png";
 import bwmendwaImg from "@/assets/doctorsImages/bmwendwa.png";
@@ -68,9 +68,7 @@ export const teamMembers: TeamMember[] = [
       "Journal of Pan African Thoracic Society (JPATS). Published on 30th September 2023",
       "Point of Care lactate as a predictor of 7-day Morbidity and Mortality in critically ill patients presenting to the emergency department at Kenyatta National Hospital.",
     ],
-    servicesOffered: [
-      "Nephrology Clinic",
-    ],
+    servicesOffered: ["Nephrology Clinic"],
     socialMediaWebsite: ["LinkedIn", "X-koperism", "Facebook"],
   },
   {
@@ -99,9 +97,7 @@ export const teamMembers: TeamMember[] = [
     licensingDetails: "Kenya Medical Practitioners and Dentists Board",
     awardsAndRecognition: [],
     ResearchAndPublications: [],
-    servicesOffered: [
-      "Medical liaison services",
-    ],
+    servicesOffered: ["Medical liaison services"],
   },
   {
     name: "Dr. Alex Gathura Kagia",
@@ -127,10 +123,7 @@ export const teamMembers: TeamMember[] = [
     ResearchAndPublications: [
       "Prevalence of pain symptoms suggestive of Endometriosis - EAMJ, 2017",
     ],
-    servicesOffered: [
-      "Antenatal Clinic",
-      "Gynaecology Clinic",
-    ],
+    servicesOffered: ["Antenatal Clinic", "Gynaecology Clinic"],
     socialMediaWebsite: ["LinkedIn-Alex Kagia"],
   },
   {
@@ -156,9 +149,7 @@ export const teamMembers: TeamMember[] = [
     ResearchAndPublications: [
       "List of key research projects or publications (if any)",
     ],
-    servicesOffered: [
-      "Paediatrics Clinic",
-    ],
+    servicesOffered: ["Paediatrics Clinic"],
     socialMediaWebsite: [],
   },
   {
@@ -180,10 +171,7 @@ export const teamMembers: TeamMember[] = [
     licensingDetails: "Kenya Medical Practitioners and Dentists Board - A11034",
     awardsAndRecognition: [],
     ResearchAndPublications: [],
-    servicesOffered: [
-      "Paediatrics Clinic",
-      "Well-baby Clinic",
-    ],
+    servicesOffered: ["Paediatrics Clinic", "Well-baby Clinic"],
     socialMediaWebsite: ["LinkedIn - Dr. Fahmo Yusuf"],
   },
   {
@@ -238,10 +226,7 @@ export const teamMembers: TeamMember[] = [
       "Awaiting Publication: Return to fertility after use of subcutaneous depot medroxyprogesterone acetate 104 mg – Narrative Review",
       "Awaiting Publication: Association between hypertensive disorders in pregnancy and adverse outcomes among women with SARS-CoV-2 – Nested Case-Control Study",
     ],
-    servicesOffered: [
-      "Antenatal & Obstetrics Clinic",
-      "Gynaecology Clinic",
-    ],
+    servicesOffered: ["Antenatal & Obstetrics Clinic", "Gynaecology Clinic"],
     socialMediaWebsite: ["@daktari_mengesa"],
   },
   {
@@ -265,9 +250,7 @@ export const teamMembers: TeamMember[] = [
     ResearchAndPublications: [
       "Predictors of weaning success in mechanically ventilated patients at KNH critical care unit.",
     ],
-    servicesOffered: [
-      "Anaesthesiology Clinic",
-    ],
+    servicesOffered: ["Anaesthesiology Clinic"],
     socialMediaWebsite: [],
   },
   {
@@ -300,9 +283,7 @@ export const teamMembers: TeamMember[] = [
       "Exploration of feeding practices in Bomachoge Borabu sub-county Nairobi (Poster presented at KPA 2023)",
       "Antimicrobial prescription practices amongst neonates with early onset neonatal sepsis in Mboppi and Bonaberi Baptist hospitals Cameroon (Thesis)",
     ],
-    servicesOffered: [
-      "Pediatric Clinic",
-    ],
+    servicesOffered: ["Pediatric Clinic"],
     socialMediaWebsite: ["Terry Chifor"],
   },
   {
@@ -357,9 +338,7 @@ export const teamMembers: TeamMember[] = [
     licensingDetails: "KMPDC - A8695",
     awardsAndRecognition: [],
     ResearchAndPublications: [],
-    servicesOffered: [
-      "Anaesthesiology Clinic",
-    ],
+    servicesOffered: ["Anaesthesiology Clinic"],
     socialMediaWebsite: [],
   },
   {
@@ -406,9 +385,7 @@ export const teamMembers: TeamMember[] = [
       "100+ peer-reviewed publications",
       "Top 5 publications: https://www.glowm.com/author-contribution/type/continuous/item/15233",
     ],
-    servicesOffered: [
-      "Obstetrics & Gynaecology Clinic",
-    ],
+    servicesOffered: ["Obstetrics & Gynaecology Clinic"],
     socialMediaWebsite: [
       "LinkedIn: Paul Koigi",
       "Facebook: Dr. Paul Koigi",
@@ -444,9 +421,7 @@ export const teamMembers: TeamMember[] = [
     ResearchAndPublications: [
       "Incidence of post-thyroidectomy hypocalcaemia in KNH – University of Nairobi Repository",
     ],
-    servicesOffered: [
-      "General Surgery Clinic",
-    ],
+    servicesOffered: ["General Surgery Clinic"],
     socialMediaWebsite: ["LinkedIn: www.linkedin.com/in/peace-mwige-ab3368208"],
   },
   {
@@ -502,9 +477,7 @@ export const teamMembers: TeamMember[] = [
       "Team Leader, Department of Obstetrics and Gynaecology – The Nairobi Hospital (2019)",
     ],
     ResearchAndPublications: [],
-    servicesOffered: [
-      "Obstetrics & Gynaecology Clinic",
-    ],
+    servicesOffered: ["Obstetrics & Gynaecology Clinic"],
     socialMediaWebsite: [
       "LinkedIn: https://www.linkedin.com/in/dr-sylvia-mruttu",
     ],
@@ -531,7 +504,7 @@ export const teamMembers: TeamMember[] = [
       "Presidential Award - OGW (Order of the Grand Warrior)",
     ],
     ResearchAndPublications: ["Hip Surgery in Centenarians"],
-    servicesOffered: ["Orthopaedic Surgery Clinic",],
+    servicesOffered: ["Orthopaedic Surgery Clinic"],
     socialMediaWebsite: ["LinkedIn: https://www.linkedin.com/in/samuelodede"],
   },
   {
@@ -560,9 +533,7 @@ export const teamMembers: TeamMember[] = [
       "T Nyaboga, N Kumar. Diagnosis of Langerhans cell histiocytosis on fine needle aspiration cytology – a case report (2012). Histopathology 61(Suppl. 1), 45–58.",
       "T Nyaboga, Z Moloo. HER 2 expression in gastric cancer: A Kenyan perspective (2012). Histopathology 61(Suppl. 1), 90-91.",
     ],
-    servicesOffered: [
-      "Anatomical Pathology Clinic",
-    ],
+    servicesOffered: ["Anatomical Pathology Clinic"],
     socialMediaWebsite: ["https://www.linkedin.com/in/tom-nyaboga-18158022/"],
   },
   {
@@ -586,9 +557,7 @@ export const teamMembers: TeamMember[] = [
       "Kenya Medical Practitioners and Dentists Board, Registration Number: A11181",
     awardsAndRecognition: [],
     ResearchAndPublications: [],
-    servicesOffered: [
-      "Paediatrics Clinic",
-    ],
+    servicesOffered: ["Paediatrics Clinic"],
     socialMediaWebsite: ["LinkedIn - Dr. Zeinab Mohamed"],
   },
   {
@@ -615,7 +584,7 @@ export const teamMembers: TeamMember[] = [
     licensingDetails: "",
     awardsAndRecognition: [],
     ResearchAndPublications: [],
-    servicesOffered: ["Paediatrics Clinic",],
+    servicesOffered: ["Paediatrics Clinic"],
     socialMediaWebsite: [],
   },
   {
@@ -649,9 +618,7 @@ export const teamMembers: TeamMember[] = [
       "Epidemiology of respiratory pathogens among children admitted based on rapid molecular tests in a private tertiary hospital in Nairobi, Kenya - a retrospective study (submitted to British Medical Journal Open Respiratory Research)",
       "Neonatal spontaneous abdominal aortic thrombosis associated with hypernatremic dehydration and acute renal failure - A case series",
     ],
-    servicesOffered: [
-      "Paediatrics Clinic",
-    ],
+    servicesOffered: ["Paediatrics Clinic"],
     socialMediaWebsite: [],
   },
 ];
@@ -785,7 +752,10 @@ const DoctorProfiles: FC = () => {
                     onChange={() => toggleLocation(loc)}
                     className="mr-3 w-4 h-4 text-red-600 border-2 border-gray-300 rounded focus:ring-red-500 focus:ring-2"
                   />
-                  <span className="text-sm text-gray-700 hover:text-red-900 cursor-pointer select-none" onClick={() => toggleLocation(loc)}>
+                  <span
+                    className="text-sm text-gray-700 hover:text-red-900 cursor-pointer select-none"
+                    onClick={() => toggleLocation(loc)}
+                  >
                     {loc}
                   </span>
                 </div>
@@ -857,7 +827,11 @@ const DoctorProfiles: FC = () => {
 
                   <div className="flex flex-wrap gap-3 mt-4 ">
                     <Link
-                      to={`/booking-calendar?doctorId=${member.id}&doctorName=${encodeURIComponent(member.name)}&doctorTitle=${encodeURIComponent(member.title)}`}
+                      to={`/booking-calendar?doctorId=${
+                        member.id
+                      }&doctorName=${encodeURIComponent(
+                        member.name
+                      )}&doctorTitle=${encodeURIComponent(member.title)}`}
                       className="flex items-center justify-center gap-2 text-red-900  px-4 py-2 rounded-md text-sm hover:bg-red-900 hover:text-white transition"
                     >
                       <FaCalendarCheck />

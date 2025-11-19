@@ -74,20 +74,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'web.wsgi.application'
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": env("POSTGRES_DATABASE", default=None),
-#         "USER": env("POSTGRES_USER", default=None),
-#         "PASSWORD": env("POSTGRES_PASSWORD", default=None),
-#         "HOST": env("POSTGRES_HOST", default=None),
-#         "PORT": env.int("POSTGRES_PORT", default=None),
-#     },
-# }
 
-DATABASES = {
+LOCAL_DEV = env.bool("LOCAL_DEV", default=True)
+if LOCAL_DEV:
+    DATABASES = {
     "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
 }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": env("POSTGRES_DATABASE", default=None),
+            "USER": env("POSTGRES_USER", default=None),
+            "PASSWORD": env("POSTGRES_PASSWORD", default=None),
+            "HOST": env("POSTGRES_HOST", default=None),
+            "PORT": env.int("POSTGRES_PORT", default=None),
+        },
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -109,14 +112,13 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-      'rest_framework.permissions.IsAuthenticated',
-     #'rest_framework.permissions.AllowAny',
+      'rest_framework.permissions.IsAuthenticated'
     ],
 }
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
     'AUTH_HEADER_TYPES': ('Bearer',),
@@ -132,6 +134,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

@@ -4,6 +4,10 @@ export const clinicalSection = [
     href: "/dashboard/clinical-services",
   },
   {
+    title: "Doctor Profiles",
+    href: "/dashboard/doctor-profiles",
+  },
+  {
     title: "Admission Charges",
     href: "/dashboard/admission-charges",
   },

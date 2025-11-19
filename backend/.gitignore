@@ -2,3 +2,4 @@
 tnhwebenv
 __pycache__/
 *.pyc
+media/

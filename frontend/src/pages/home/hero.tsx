@@ -1,5 +1,5 @@
-import accident from "../../assets/heroimages/heroimage1.JPG";
-import hospitalview from "../../assets/heroimages/heroimage2.JPG";
+import accident from "../../assets/heroimages/heroimage1.jpg";
+import hospitalview from "../../assets/heroimages/heroimage2.jpg";
 
 import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,15 +18,13 @@ const Hero = () => {
   const slides = heroData?.slides || [];
   const [index, setIndex] = useState(0);
 
-  //  Auto-rotation 
+  //  Auto-rotation
   useEffect(() => {
     if (!slides.length) return;
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % slides.length);
     }, 15000);
     return () => clearInterval(timer);
-
-    
   }, []);
 
   if (!slides.length) return null;
@@ -38,10 +36,9 @@ const Hero = () => {
   const currentImage = imageMap[imageKey] || imageMap["hospitalview"];
 
   //  navigation handlers
-  const handlePrev = () => setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  const handlePrev = () =>
+    setIndex((prev) => (prev - 1 + slides.length) % slides.length);
   const handleNext = () => setIndex((prev) => (prev + 1) % slides.length);
-
-  
 
   return (
     <>
@@ -67,11 +64,11 @@ const Hero = () => {
           <div className="max-w-2xl ml-8 text-white">
             <AnimatePresence mode="wait">
               <motion.div
-                key={index + '-text'}
+                key={index + "-text"}
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 50 }}
-                transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}  
+                transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
                 className="space-y-6"
               >
                 <h1 className="text-6xl font-bold leading-tight font-serif">
@@ -102,9 +99,19 @@ const Hero = () => {
           className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-black/40 hover:bg-black/60 text-white z-20"
         >
           {/* Left arrow icon */}
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
-               stroke="currentColor" strokeWidth="2" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
         </button>
 
@@ -114,9 +121,19 @@ const Hero = () => {
           className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-black/40 hover:bg-black/60 text-white z-20"
         >
           {/* Right arrow icon */}
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
-               stroke="currentColor" strokeWidth="2" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 5l7 7-7 7"
+            />
           </svg>
         </button>
       </section>
@@ -143,7 +160,7 @@ const Hero = () => {
           <div className="max-w-2xl text-white">
             <AnimatePresence mode="wait">
               <motion.div
-                key={index + '-text-mobile'}
+                key={index + "-text-mobile"}
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 50 }}
@@ -178,9 +195,19 @@ const Hero = () => {
             aria-label="Previous slide"
             className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/70"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
-                 stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </button>
           <button
@@ -188,9 +215,19 @@ const Hero = () => {
             aria-label="Next slide"
             className="w-10 h-10 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/70"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
-                 stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="w-5 h-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </button>
         </div>

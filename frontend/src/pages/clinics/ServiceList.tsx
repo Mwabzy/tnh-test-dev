@@ -1,25 +1,42 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router";
 import { ClinicalService } from "@/types";
 import { FaCalendarCheck, FaChevronRight } from "react-icons/fa";
-
-import clinicalServices from "@/data/clinicalServices2.json";
+import { fetchClinicalServices } from "@/api/api";
 
 interface ServiceListProps {
-  services?: ClinicalService[]; // 👈 make it optional
+  services?: ClinicalService[];
 }
 
 const ITEMS_PER_PAGE = 6;
 
-const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
-  const data: ClinicalService[] = (services ??
-    clinicalServices) as ClinicalService[];
+const ServiceList: React.FC<ServiceListProps> = () => {
+  const [data, setData] = useState<ClinicalService[]>([]);
   const [search, setSearch] = useState("");
   const [locations, setLocations] = useState<string[]>([]);
   const [letterFilter, setLetterFilter] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  //Generate locations dynamically
+  // Fetching via API instance
+  useEffect(() => {
+    const loadServices = async () => {
+      try {
+        setLoading(true);
+        const services = await fetchClinicalServices();
+        setData(services);
+      } catch (err) {
+        console.error("Error fetching services:", err);
+        setError("Unable to load services.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadServices();
+  }, []);
+
+  // Generate locations dynamically
   const allLocations = useMemo(() => {
     const locSet = new Set<string>();
     data.forEach((service) =>
@@ -33,18 +50,15 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
     const matchesSearch = service.title
       .toLowerCase()
       .includes(search.toLowerCase());
-
     const matchesLocation =
       locations.length === 0 ||
       service.locations?.some((loc) => locations.includes(loc));
-
     const matchesLetter =
       !letterFilter || service.title.charAt(0).toUpperCase() === letterFilter;
-
     return matchesSearch && matchesLocation && matchesLetter;
   });
 
-  // Pagination logic
+  // Pagination
   const totalPages = Math.ceil(filteredServices.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentServices = filteredServices.slice(
@@ -73,9 +87,19 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
     setCurrentPage(1);
   };
 
+  if (loading)
+    return (
+      <div className="py-20 text-center text-gray-600">
+        Loading clinical services...
+      </div>
+    );
+
+  if (error)
+    return <div className="py-20 text-center text-red-600">{error}</div>;
+
   return (
-    <div className=" py-16 px-6 flex flex-col md:flex-row justify-center max-w-7xl mx-auto  gap-8">
-      {/* Filters sidebar */}
+    <div className="py-16 px-6 flex flex-col md:flex-row justify-center max-w-7xl mx-auto gap-8">
+      {/* Sidebar Filters */}
       <aside className="w-full md:w-64 md:sticky md:top-20 mb-8 md:mb-0">
         <button
           onClick={resetFilters}
@@ -84,9 +108,12 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
           Reset all filters
         </button>
 
-        {/* Search by specialty */}
+        {/* Search */}
         <div className="mb-6">
-          <label htmlFor="search" className="block font-semibold mb-2 font-serif">
+          <label
+            htmlFor="search"
+            className="block font-semibold mb-2 font-serif"
+          >
             By Specialty
           </label>
           <input
@@ -102,7 +129,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
           />
         </div>
 
-        {/*Location Filter */}
+        {/* Location Filter */}
         <div className="mb-6">
           <p className="font-semibold mb-2 font-serif">By Location</p>
           {allLocations.map((loc) => (
@@ -121,9 +148,11 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
           ))}
         </div>
 
-        {/* First Letter Filter */}
+        {/* Letter Filter */}
         <div>
-          <p className="font-semibold mb-2 font-serif">Filter Specialty by First Letter</p>
+          <p className="font-semibold mb-2 font-serif">
+            Filter Specialty by First Letter
+          </p>
           <div className="flex flex-wrap gap-2">
             {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
               <button
@@ -145,7 +174,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
         </div>
       </aside>
 
-      {/* Cards */}
+      {/* Service Cards */}
       <main className="flex-1">
         <p className="mb-6 text-sm text-gray-700">
           Displaying {filteredServices.length} of {data.length} Specialty
@@ -180,11 +209,11 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
                   </p>
                 )}
 
-                <div className="flex flex-col sm:flex-row gap-4 ">
+                <div className="flex flex-col sm:flex-row gap-4">
                   {item.isBookable && (
                     <Link
                       to={`/booking-calendar?serviceId=${item.id}`}
-                      className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900  hover:text-white transition w-full sm:w-auto"
+                      className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900 hover:text-white transition w-full sm:w-auto"
                     >
                       Book Appointment <FaCalendarCheck />
                     </Link>
@@ -204,7 +233,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-3 mt-10 md:mr-100">
+          <div className="flex justify-center items-center gap-3 mt-10">
             <button
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}

@@ -131,7 +131,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
     }
 
     const newService: ClinicalService = {
-      id: initialData?.id || Date.now(),
+     id: initialData?.id || Date.now(),
       title,
       tagline,
       overview,

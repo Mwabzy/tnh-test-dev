@@ -1,5 +1,5 @@
 //import ServicesBrief from "./ServicesBrief";
-import hospitalview from "@/assets/heroimages/heroimage2.JPG";
+import hospitalview from "@/assets/heroimages/heroimage2.jpg";
 import ContactForm from "@/components/ContactForm";
 import FAQs from "./FAQs";
 import Heading from "@/components/Heading";

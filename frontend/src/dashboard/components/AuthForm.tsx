@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { loginUser, registerUser } from "@/api/api";
 import { useNavigate } from "react-router";
 
-interface AuthFormProps {
-  onAuthSuccess: (token: string) => void;
-}
-
-const AuthForm: React.FC<AuthFormProps> = ({ onAuthSuccess }) => {
+const AuthForm: React.FC = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -74,7 +70,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ onAuthSuccess }) => {
           console.error("Error setting token in localStorage:", err);
         }
 
-        onAuthSuccess(data.token);
         navigate("/dashboard");
       } else {
         setError(data.message || "Authentication failed.");

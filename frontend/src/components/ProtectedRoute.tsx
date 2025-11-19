@@ -29,7 +29,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
     try {
       // const payload = jwt_decode(token);
-      const expiry = Date.now() + 300000;
+      const expiry = Date.now() + 600000;
       const now = Date.now();
       console.log("Token expiry time (ms):", expiry);
 
