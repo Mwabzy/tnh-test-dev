@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { useLocation, useNavigate } from "react-router";
 import clinicalServices from "@/data/clinicalServices2.json";
@@ -241,6 +241,88 @@ const BookingPage: React.FC = () => {
   const availableSlots = useMemo(() => {
     return getSlotsForDate(selectedDate, selectedLocation);
   }, [selectedDate, selectedLocation, selectedServiceId, serviceId]);
+
+  // Helper: parse query params for location/day/date/time and prefill state
+  useEffect(() => {
+    // location param
+    const locParam = searchParams.get("location");
+    const dayParam = searchParams.get("day");
+    const dateParam = searchParams.get("date");
+    const timeParam = searchParams.get("time");
+    const serviceParam = searchParams.get("service");
+
+    if (locParam) {
+      try {
+        setSelectedLocation(decodeURIComponent(locParam));
+      } catch (e) {
+        setSelectedLocation(locParam);
+      }
+    }
+
+    // If a precise ISO date was passed, use it. Otherwise if a weekday name was passed, pick the next date for that weekday.
+    if (dateParam) {
+      const parsed = new Date(dateParam);
+      if (!isNaN(parsed.getTime())) {
+        setSelectedDate(parsed);
+      }
+    } else if (dayParam) {
+      const wk = parseWeekday(dayParam);
+      if (wk !== null) {
+        const next = nextDateForWeekday(wk);
+        setSelectedDate(next);
+      }
+    }
+
+    if (timeParam) {
+      setSelectedTime(timeParam);
+    }
+
+    if (serviceParam && !isDoctorBooking) {
+      const sid = Number(serviceParam);
+      if (!isNaN(sid)) setSelectedServiceId(sid);
+    }
+
+    // For doctor bookings, if no explicit service selected, default to first available service
+    if (isDoctorBooking && doctorInfo && !selectedService) {
+      setSelectedService(doctorInfo.services?.[0] || null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [doctorInfo]);
+
+  // Helper functions
+  const weekdays: { [k: string]: number } = {
+    sunday: 0,
+    sun: 0,
+    monday: 1,
+    mon: 1,
+    tuesday: 2,
+    tue: 2,
+    wednesday: 3,
+    wed: 3,
+    thursday: 4,
+    thu: 4,
+    friday: 5,
+    fri: 5,
+    saturday: 6,
+    sat: 6,
+  };
+
+  function parseWeekday(input: string | null): number | null {
+    if (!input) return null;
+    const key = input.trim().toLowerCase();
+    return weekdays[key] ?? null;
+  }
+
+  function nextDateForWeekday(weekdayIndex: number): Date {
+    const now = new Date();
+    const today = now.getDay();
+    let diff = weekdayIndex - today;
+    if (diff <= 0) diff += 7; // next occurrence (not today)
+    const result = new Date(now);
+    result.setDate(now.getDate() + diff);
+    result.setHours(9, 0, 0, 0);
+    return result;
+  }
 
   return (
     <div className="max-w-6xl mx-auto py-12 px-4">

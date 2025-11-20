@@ -1,6 +1,7 @@
 // src/pages/DoctorBooking.tsx
 import { CalendarIcon, Search } from 'lucide-react';
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
+import { useLocation } from 'react-router';
 import doctor_data from '@/data/doctors.json';
 
 // Define interfaces for type safety
@@ -196,6 +197,41 @@ const DoctorBooking: React.FC = () => {
       setFormData((prev) => ({ ...prev, doctorId: '', service: '' }));
     }
   }, [selectedDoctor]);
+
+  // Prefill from query params (doctorId, date, time)
+  const locationHook = useLocation();
+  useEffect(() => {
+    const params = new URLSearchParams(locationHook.search);
+    const doctorIdParam = params.get('doctorId') || params.get('doctor');
+
+    if (doctorIdParam) {
+      const found = doctors.find(d => d.id === doctorIdParam || d.name === doctorIdParam);
+      if (found) setSelectedDoctor(found);
+    }
+
+    // If date/time provided but doctor already selected, try to preselect slot below when timeSlots available
+    // The actual slot selection happens in the next effect which listens to `selectedDoctor` and `timeSlots`.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locationHook.search]);
+
+  // When timeSlots update (after selectedDoctor), try to match date/time from query params
+  useEffect(() => {
+    const params = new URLSearchParams(locationHook.search);
+    const dateParam = params.get('date');
+    const timeParam = params.get('time');
+    if ((dateParam || timeParam) && timeSlots.length > 0) {
+      const match = timeSlots.find(s => {
+        const dateMatch = dateParam ? s.date === dateParam : true;
+        const timeMatch = timeParam ? s.time === timeParam : true;
+        return dateMatch && timeMatch;
+      });
+      if (match) {
+        setSelectedSlot(match);
+        setFormData(prev => ({ ...prev, timeSlotId: match.id, doctorId: selectedDoctor?.id || '' }));
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeSlots]);
 
   // Filter doctors based on search
   const filteredDoctors = doctors.filter(
