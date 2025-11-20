@@ -1,4 +1,4 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import {
   Menubar,
   MenubarContent,
@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/menubar";
 import { Link } from "react-router";
 import { cn } from "@/lib/utils";
-import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Phone,
@@ -20,8 +19,6 @@ import {
   Building2,
 } from "lucide-react";
 import anderson from "@/assets/opc_images/anderson.jpg";
-// useState removed because menu-open state isn't used currently. Reintroduce when mobile toggle is implemented.
-
 
 import { useIntlayer } from "react-intlayer";
 
@@ -29,9 +26,7 @@ type NavigationProps = object;
 
 const Navigation: FC<NavigationProps> = () => {
   const content = useIntlayer("navigationContent");
-  // menu open state not required currently; keep markup static. Reintroduce state if interactive mobile menu is added.
-// Mobile detection and toggle were declared here previously but are unused.
-// If mobile behavior is needed later, re-introduce logic to use `openMenu`.
+  
 
   return (
     <div>
