@@ -19,7 +19,7 @@ export default function Quicklinks() {
           </Link>
 
           {/* 24/7 Emergency Services */}
-          <Link to={`/doctor-profiles/`}>
+          <Link to={`/booking-calendar?serviceId=1`}>
             <div className="flex items-center space-x-2">
               <Clock className="w-4 h-4 text-yellow-400" />
               <span>Book an appointment</span>

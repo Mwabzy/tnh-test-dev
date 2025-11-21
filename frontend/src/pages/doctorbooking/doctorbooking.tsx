@@ -44,7 +44,8 @@ interface BookingForm {
 }
 
 // Ensure each doctor has an 'id' property; generate one if missing
-const doctors: Doctor[] = doctor_data.map((doctor: Partial<Doctor>, idx) => ({
+// This MUST be outside the component to prevent recreating on every render
+const doctors: Doctor[] = (doctor_data as any[]).map((doctor: Partial<Doctor>, idx) => ({
   id: doctor.id ?? `doctor-${idx + 1}`,
   name: doctor.name ?? 'Unknown Name',
   specialization: doctor.specialization ?? 'General',
@@ -201,16 +202,41 @@ const DoctorBooking: React.FC = () => {
   // Prefill from query params (doctorId, date, time)
   const locationHook = useLocation();
   useEffect(() => {
+    if (doctors.length === 0) return; // Safety check
+    
     const params = new URLSearchParams(locationHook.search);
     const doctorIdParam = params.get('doctorId') || params.get('doctor');
+    const nameParam = params.get('name');
 
+    // Prefer id-like params, fall back to `name` param
     if (doctorIdParam) {
       const found = doctors.find(d => d.id === doctorIdParam || d.name === doctorIdParam);
-      if (found) setSelectedDoctor(found);
+      if (found) {
+        setSelectedDoctor(found);
+        return;
+      }
     }
 
-    // If date/time provided but doctor already selected, try to preselect slot below when timeSlots available
-    // The actual slot selection happens in the next effect which listens to `selectedDoctor` and `timeSlots`.
+    if (nameParam) {
+      try {
+        const decoded = decodeURIComponent(nameParam);
+        const foundByName = doctors.find(d => 
+          d.name.toLowerCase() === decoded.toLowerCase() || 
+          d.name.toLowerCase() === nameParam.toLowerCase()
+        );
+        if (foundByName) {
+          setSelectedDoctor(foundByName);
+          return;
+        }
+      } catch (e) {
+        const foundByName = doctors.find(d => d.name.toLowerCase() === nameParam.toLowerCase());
+        if (foundByName) {
+          setSelectedDoctor(foundByName);
+          return;
+        }
+      }
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationHook.search]);
 
@@ -234,11 +260,13 @@ const DoctorBooking: React.FC = () => {
   }, [timeSlots]);
 
   // Filter doctors based on search
-  const filteredDoctors = doctors.filter(
-    (doctor) =>
-      doctor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doctor.specialization.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredDoctors = searchQuery.trim() === '' 
+    ? doctors 
+    : doctors.filter(
+        (doctor) =>
+          doctor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          doctor.specialization.toLowerCase().includes(searchQuery.toLowerCase())
+      );
 
   // Handle form submission
 const handleSubmit = async (e: FormEvent) => {

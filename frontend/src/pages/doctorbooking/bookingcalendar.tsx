@@ -38,17 +38,17 @@ const CalendarWithTimes: React.FC<CalendarWithTimesProps> = ({
             mode="single"
             selected={selectedDate || undefined}
             onSelect={handleDateChange}
-            className="rounded-md border p-4 mx-auto w-fit max-w-sm"
+            className="rounded-xl border-2 border-gray-200 p-4 mx-auto w-fit max-w-sm shadow-md"
             disabled={(date: Date) => date < new Date() || (isDateAvailable ? !isDateAvailable(date) : false)}
             showOutsideDays={true}
             classNames={{
               month: "space-y-4",
               cell: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md",
-              day: "inline-flex items-center justify-center rounded-md text-sm font-normal h-11 w-11 p-0 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground transition-colors aria-selected:opacity-100",
-              day_selected: "bg-red-900 text-white hover:bg-red-800 focus:bg-red-800 font-semibold",
-              day_today: "bg-accent text-accent-foreground font-semibold",
-              day_outside: "text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
-              day_disabled: "text-muted-foreground opacity-50",
+              day: "inline-flex items-center justify-center rounded-lg text-sm font-normal h-11 w-11 p-0 hover:bg-red-50 hover:text-red-900 focus:bg-red-50 focus:text-red-900 transition-all aria-selected:opacity-100",
+              day_selected: "bg-red-900 text-white hover:bg-red-800 focus:bg-red-800 font-semibold shadow-md",
+              day_today: "bg-red-100 text-red-900 font-semibold border-2 border-red-900",
+              day_outside: "text-muted-foreground opacity-50 aria-selected:bg-red-100/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
+              day_disabled: "text-muted-foreground opacity-30",
             }}
           />
         </div>
@@ -56,18 +56,22 @@ const CalendarWithTimes: React.FC<CalendarWithTimesProps> = ({
         {/* Available Times */}
         {selectedDate && (
           <div className="flex-1 min-w-0 w-full">
-            <h3 className="text-xl font-semibold mb-2 text-red-900">Available times</h3>
-            <p className="text-sm text-gray-600 mb-4">{selectedDate.toDateString()}</p>
+            <h3 className="text-xl font-semibold mb-2 text-red-900">Available Times</h3>
+            <p className="text-sm text-gray-500 mb-4 font-medium">
+              📅 {selectedDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+            </p>
 
             {availableSlots.length === 0 ? (
-              <div className="text-sm text-gray-500">No slots available for this date and location.</div>
+              <div className="text-sm text-gray-500 bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                ⏰ No slots available for this date and location. Please select another date.
+              </div>
             ) : (
-              <div className="flex flex-wrap gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {availableSlots.map((time) => (
                   <button
                     key={time}
                     onClick={() => onTimeSelected?.(time)}
-                    className={`px-4 py-3 text-sm rounded-md border transition ${selectedTime === time ? 'bg-red-900 text-white border-red-900' : 'bg-white border-gray-200 hover:bg-red-50 hover:border-red-300'}`}
+                    className={`px-4 py-3 text-sm rounded-lg font-semibold border-2 transition-all duration-300 ${selectedTime === time ? 'bg-red-900 text-white border-red-900 shadow-md scale-105' : 'bg-white border-gray-200 hover:bg-red-50 hover:border-red-300 hover:shadow-md'}`}
                   >
                     {time}
                   </button>
@@ -95,9 +99,7 @@ const BookingPage: React.FC = () => {
   const serviceId = serviceIdParam ? Number(serviceIdParam) : null;
   const isDoctorBooking = Boolean(doctorIdParam);
 
-  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(
-    serviceId
-  );
+  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const services = clinicalServices as ClinicalService[];
 
@@ -282,10 +284,7 @@ const BookingPage: React.FC = () => {
       if (!isNaN(sid)) setSelectedServiceId(sid);
     }
 
-    // For doctor bookings, if no explicit service selected, default to first available service
-    if (isDoctorBooking && doctorInfo && !selectedService) {
-      setSelectedService(doctorInfo.services?.[0] || null);
-    }
+    // Service selection is now always blank - user must select manually
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doctorInfo]);
 
@@ -325,47 +324,95 @@ const BookingPage: React.FC = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto py-12 px-4">
-      <div className="mb-6">
-        <h2 className="text-2xl font-semibold text-red-900">
-          {isDoctorBooking ? `Book with ${doctorInfo?.name}` : "Book an Appointment"}
-        </h2>
-        <p className="text-sm text-gray-600 mt-1">
-          A simple, secure booking experience — choose a service or doctor, pick a clinic, then select a convenient date and time.
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-red-50 py-12 px-4">
+      <div className="max-w-6xl mx-auto">
+        {/* Header Section */}
+        <div className="mb-10">
+          <h1 className="text-4xl font-bold text-red-900 mb-2">
+            {isDoctorBooking ? `Book with ${doctorInfo?.name}` : "Book an Appointment"}
+          </h1>
+          <p className="text-lg text-gray-600">
+            A simple, secure booking experience — follow the steps below to schedule your appointment.
+          </p>
+        </div>
 
-      {/* Step indicator */}
-      <div className="flex gap-2 mb-8 text-sm">
-        <span className={`px-3 py-1 rounded-full ${(isDoctorBooking || selectedServiceId) ? 'bg-red-900 text-white' : 'bg-gray-200 text-gray-700'}`}>1. Service</span>
-        <span className={`px-3 py-1 rounded-full ${selectedLocation ? 'bg-red-900 text-white' : 'bg-gray-200 text-gray-700'}`}>2. Clinic</span>
-        <span className={`px-3 py-1 rounded-full ${selectedDate ? 'bg-red-900 text-white' : 'bg-gray-200 text-gray-700'}`}>3. Date</span>
-        <span className={`px-3 py-1 rounded-full ${selectedTime ? 'bg-red-900 text-white' : 'bg-gray-200 text-gray-700'}`}>4. Time</span>
-      </div>
+        {/* Enhanced Step Indicator with Icons */}
+        <div className="mb-10">
+          <div className="flex gap-0 items-center justify-between max-w-2xl">
+            {/* Step 1 */}
+            <div className="flex flex-col items-center flex-1">
+              <div className={`w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg transition-all duration-300 ${(isDoctorBooking || selectedServiceId) ? 'bg-red-900 shadow-lg scale-110' : 'bg-gray-300'}`}>
+                <span>1</span>
+              </div>
+              <p className="text-xs font-semibold mt-2 text-gray-700 text-center">Service</p>
+            </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Connector 1-2 */}
+            <div className={`flex-1 h-1 mx-2 transition-all duration-300 ${(isDoctorBooking || selectedServiceId) ? 'bg-red-900' : 'bg-gray-300'}`}></div>
+
+            {/* Step 2 */}
+            <div className="flex flex-col items-center flex-1">
+              <div className={`w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg transition-all duration-300 ${selectedLocation ? 'bg-red-900 shadow-lg scale-110' : 'bg-gray-300'}`}>
+                <span>2</span>
+              </div>
+              <p className="text-xs font-semibold mt-2 text-gray-700 text-center">Clinic</p>
+            </div>
+
+            {/* Connector 2-3 */}
+            <div className={`flex-1 h-1 mx-2 transition-all duration-300 ${selectedLocation ? 'bg-red-900' : 'bg-gray-300'}`}></div>
+
+            {/* Step 3 */}
+            <div className="flex flex-col items-center flex-1">
+              <div className={`w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg transition-all duration-300 ${selectedDate ? 'bg-red-900 shadow-lg scale-110' : 'bg-gray-300'}`}>
+                <span>3</span>
+              </div>
+              <p className="text-xs font-semibold mt-2 text-gray-700 text-center">Date & Time</p>
+            </div>
+
+            {/* Connector 3-4 */}
+            <div className={`flex-1 h-1 mx-2 transition-all duration-300 ${selectedDate && selectedTime ? 'bg-red-900' : 'bg-gray-300'}`}></div>
+
+            {/* Step 4 */}
+            <div className="flex flex-col items-center flex-1">
+              <div className={`w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg transition-all duration-300 ${selectedTime ? 'bg-red-900 shadow-lg scale-110' : 'bg-gray-300'}`}>
+                <span>4</span>
+              </div>
+              <p className="text-xs font-semibold mt-2 text-gray-700 text-center">Details</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left column: main flow */}
         <div className="lg:col-span-2 space-y-6">
           {/* Doctor Info / Service Summary */}
           {isDoctorBooking && doctorInfo && (
-            <div className="bg-white p-4 rounded-lg shadow">
+            <div className="bg-gradient-to-br from-red-50 to-white p-6 rounded-xl shadow-md border-l-4 border-red-900 hover:shadow-lg transition-shadow">
               <div className="flex items-start gap-4">
-                <div>
-                  <h3 className="font-semibold text-lg text-red-800">{doctorInfo.name}</h3>
-                  <p className="text-sm text-gray-700">{doctorInfo.title}</p>
-                  <p className="text-sm text-gray-600 mt-2">Available at: {doctorInfo.locations.join(", ")}</p>
+                <div className="w-12 h-12 rounded-full bg-red-900 flex items-center justify-center text-white text-xl font-bold">
+                  👨‍⚕️
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-lg text-red-900">{doctorInfo.name}</h3>
+                  <p className="text-sm text-red-700 font-medium">{doctorInfo.title}</p>
+                  <p className="text-sm text-gray-600 mt-2">
+                    <span className="font-semibold">Available at:</span> {doctorInfo.locations.join(", ")}
+                  </p>
                 </div>
               </div>
             </div>
           )}
 
           {/* Service / Clinic selection */}
-          <div className="bg-white p-4 rounded-lg shadow">
+          <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border border-gray-100">
             {!isDoctorBooking && (
-              <div className="mb-4">
-                <label className="block font-medium mb-2">Step 1: Select Service</label>
+              <div className="mb-6">
+                <label className="block font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">1</span>
+                  Select Service
+                </label>
                 <select
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
                   value={selectedServiceId ?? ""}
                   onChange={(e) => setSelectedServiceId(Number(e.target.value))}
                 >
@@ -378,10 +425,13 @@ const BookingPage: React.FC = () => {
             )}
 
             {isDoctorBooking && doctorInfo && (
-              <div className="mb-4">
-                <label className="block font-medium mb-2">Step 1: Select Service</label>
+              <div className="mb-6">
+                <label className="block font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">1</span>
+                  Select Service
+                </label>
                 <select
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
                   value={selectedService ?? ""}
                   onChange={(e) => setSelectedService(e.target.value)}
                 >
@@ -396,9 +446,12 @@ const BookingPage: React.FC = () => {
             {/* Location selector - dropdown */}
             {(isDoctorBooking && doctorInfo && selectedService) || (!isDoctorBooking && selectedServiceFromList) ? (
               <div>
-                <label className="block font-medium mb-2">Step 2: Select Clinic</label>
+                <label className="block font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">2</span>
+                  Select Clinic
+                </label>
                 <select
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
                   value={selectedLocation ?? ""}
                   onChange={(e) => setSelectedLocation(e.target.value)}
                 >
@@ -409,16 +462,19 @@ const BookingPage: React.FC = () => {
                 </select>
               </div>
             ) : (
-              <div className="p-3 bg-gray-100 rounded border border-gray-300 text-sm text-gray-500">
-                Step 2: Select a service first to choose a clinic.
+              <div className="p-4 bg-blue-50 rounded-lg border-2 border-blue-200 text-sm text-blue-700 font-medium">
+                ℹ️ Step 2: Select a service first to choose a clinic.
               </div>
             )}
           </div>
 
           {/* Calendar and time slots */}
           {selectedLocation ? (
-            <div className="bg-white p-4 rounded-lg shadow">
-              <h2 className="text-lg font-semibold mb-4">Step 3: Select Date & Time</h2>
+            <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border border-gray-100">
+              <h2 className="text-lg font-semibold mb-4 text-gray-800 flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">3</span>
+                Select Date & Time
+              </h2>
               <CalendarWithTimes
                 onDateSelected={(d) => setSelectedDate(d)}
                 selectedTime={selectedTime}
@@ -428,69 +484,66 @@ const BookingPage: React.FC = () => {
               />
             </div>
           ) : (
-            <div className="bg-white p-6 rounded-lg shadow">
-              <h2 className="text-lg font-semibold mb-2 text-gray-500">Step 3: Select Date & Time</h2>
+            <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl shadow-md border-2 border-dashed border-gray-300">
+              <h2 className="text-lg font-semibold mb-2 text-gray-600 flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-gray-300 text-white text-xs flex items-center justify-center">3</span>
+                Select Date & Time
+              </h2>
               <p className="text-sm text-gray-500">Choose a service and clinic to see available dates and times.</p>
             </div>
           )}
         </div>
 
-        {/* Right column: summary & details form */}
+        {/* Right column: details form */}
         <aside className="space-y-6">
-          <div className="bg-gradient-to-br from-red-50 to-red-100 p-5 rounded-lg shadow-md border-l-4 border-red-900">
-            <h4 className="font-bold text-lg mb-4 text-red-900">Booking Summary</h4>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3 pb-3 border-b border-red-200">
-                <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-red-900 text-white text-sm font-semibold">1</span>
-                <div>
-                  <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Service</p>
-                  <p className="text-sm font-medium text-red-900">{isDoctorBooking ? (selectedService || '—') : (selectedServiceFromList?.title || '—')}</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3 pb-3 border-b border-red-200">
-                <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-red-900 text-white text-sm font-semibold">2</span>
-                <div>
-                  <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Clinic</p>
-                  <p className="text-sm font-medium text-red-900">{selectedLocation || '—'}</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3 pb-3 border-b border-red-200">
-                <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-red-900 text-white text-sm font-semibold">3</span>
-                <div>
-                  <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Date</p>
-                  <p className="text-sm font-medium text-red-900">{selectedDate ? selectedDate.toDateString() : '—'}</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-red-900 text-white text-sm font-semibold">4</span>
-                <div>
-                  <p className="text-xs text-red-700 font-semibold uppercase tracking-wide">Time</p>
-                  <p className="text-sm font-medium text-red-900">{selectedTime || '—'}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white p-4 rounded-lg shadow">
-            <h4 className="font-semibold text-md mb-3">Step 4: Your Details</h4>
+          <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border border-gray-100 sticky top-4">
+            <h4 className="font-semibold text-lg mb-4 text-gray-800 flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">4</span>
+              Your Details
+            </h4>
             {isReadyForDetails ? (
-              <form className="space-y-3" onSubmit={(e) => { e.preventDefault(); handleConfirm(); }}>
-                <input placeholder="Full name" value={name} onChange={(e) => setName(e.target.value)} className="w-full border rounded px-3 py-2" />
-                <input placeholder="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full border rounded px-3 py-2" />
-                <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border rounded px-3 py-2" />
-                <textarea placeholder="Additional information (symptoms, notes, preferences)" value={additionalInfo} onChange={(e) => setAdditionalInfo(e.target.value)} rows={4} className="w-full border rounded px-3 py-2" />
+              <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); handleConfirm(); }}>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
+                  <input placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition" />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
+                  <input placeholder="+254 700 000 000" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition" />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                  <input placeholder="john@example.com" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition" />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Additional Notes (Optional)</label>
+                  <textarea placeholder="Describe your symptoms or any special requirements..." value={additionalInfo} onChange={(e) => setAdditionalInfo(e.target.value)} rows={4} className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition resize-none" />
+                </div>
 
-                <button type="submit" disabled={!name || !phone || !email} className={`w-full py-2 rounded ${(!name || !phone || !email) ? 'bg-gray-300 text-gray-700 cursor-not-allowed' : 'bg-red-900 text-white hover:bg-red-800'}`}>
-                  Confirm Booking
+                {/* Booking Summary Preview */}
+                <div className="bg-gradient-to-r from-red-50 to-red-100 p-4 rounded-lg border border-red-200 my-4">
+                  <h5 className="font-semibold text-red-900 mb-2 text-sm">📋 Booking Summary</h5>
+                  <div className="space-y-1 text-xs text-red-800">
+                    <p><span className="font-semibold">Service:</span> {isDoctorBooking ? selectedService : selectedServiceFromList?.title}</p>
+                    <p><span className="font-semibold">Location:</span> {selectedLocation}</p>
+                    <p><span className="font-semibold">Date:</span> {selectedDate?.toDateString()}</p>
+                    <p><span className="font-semibold">Time:</span> {selectedTime}</p>
+                    {isDoctorBooking && <p><span className="font-semibold">Doctor:</span> {doctorInfo?.name}</p>}
+                  </div>
+                </div>
+
+                <button type="submit" disabled={!name || !phone || !email} className={`w-full py-3 rounded-lg font-semibold transition-all duration-300 ${(!name || !phone || !email) ? 'bg-gray-300 text-gray-700 cursor-not-allowed' : 'bg-gradient-to-r from-red-900 to-red-800 text-white hover:shadow-lg hover:scale-105 active:scale-95'}`}>
+                  ✓ Confirm Booking
                 </button>
               </form>
             ) : (
-              <div className="p-3 bg-gray-100 rounded border border-gray-300 text-sm text-gray-500">
-                Select a date and time to enter your details and confirm the booking.
+              <div className="p-6 bg-blue-50 rounded-lg border-2 border-blue-200">
+                <p className="text-sm text-blue-700 font-medium">ℹ️ Select a date and time in the calendar to proceed with entering your details.</p>
               </div>
             )}
           </div>
         </aside>
+      </div>
       </div>
     </div>
   );

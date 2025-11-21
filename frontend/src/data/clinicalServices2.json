@@ -16,12 +16,18 @@
         "name": "Dr. Silvanus Wabwire",
         "title": "Consultant Neurologist",
         "image": "https://www.easyclinic.io/wp-content/uploads/2025/03/doctor-silvanus-wabwire-neurology.jpg",
-        "bio": "Consultant neurologist with extensive experience in stroke care, seizure management and neurorehabilitation."
+        "bio": "An experienced consultant neurologist with strong expertise in stroke care, seizure management, and neurorehabilitation."
+      },
+      {
+        "name": "Dr. John K. Boore",
+        "title": "Consultant Neurosurgeon",
+        "image": "https://thumbs.dreamstime.com/b/male-doctor-avatar-profile-image-icon-vector-179499461.jpg",
+        "bio": "A seasoned neurosurgeon based in Nairobi, holding an MBChB and M.Med (Surgery) from the University of Nairobi, and certified in neurosurgery by the East, Central & Southern Africa College of Surgeons (FCS-ECSA)."
       }
     ],
     "testimonials": [
       {
-        "name": "Joseph K.",
+        "name": "Joseph Kamau.",
         "title": "Patient",
         "image": "",
         "quote": "The neurology team explained my condition clearly and supported my rehabilitation every step of the way."
@@ -32,7 +38,7 @@
     "hasReadMore": true,
     "timingsOnOverview": "Fridays 9am – 11am (Room 6)",
     "images": [
-      { "url": "https://www.injuredcalltoday.com/wp-content/uploads/2022/10/Neurologist-Near-Me-1.jpg", "alt": "Neurologist consulting patient" }
+      { "url": "https://www.apolloinformationcentre.com/wp-content/uploads/2024/08/Best-Neurology-and-Neurosurgery-Hospital-Centre-in-Uganda.jpg", "alt": "Neurologist consulting patient" }
     ],
     "locations": ["Anderson Specialty Clinic"]
   },
@@ -53,7 +59,13 @@
         "name": "Dr. Eric Hungu",
         "title": "Breast Surgeon",
         "image": "https://pbs.twimg.com/media/Fr0NEjKXwAI3fVz.jpg",
-        "bio": "Specialist in breast surgery and multidisciplinary cancer care with emphasis on early intervention."
+        "bio": "A breast surgeon specializing in multidisciplinary cancer care with a strong focus on early detection and intervention."
+      },
+      {
+        "name": "Dr. Allan Sajabi",
+        "title": "Consultant General Surgeon",
+        "image": "https://www.easyclinic.io/wp-content/uploads/2025/03/allan-sajabi-general-surgery.jpg",
+        "bio": "A general surgeon with 9+ years of experience, specializing in minimally invasive surgery, abdominal and trauma procedures, and breast tumor surgery. He is a certified member of the World Association of Laparoscopic Surgeons."
       }
     ],
     "testimonials": [
@@ -69,7 +81,7 @@
     "hasReadMore": true,
     "timingsOnOverview": "Mondays 2pm – 4pm (Room 5)",
     "images": [
-      { "url": "https://andrewleebreastclinic.sg/wp-content/uploads/2024/01/breast-screening.jpg", "alt": "Mammography room" }
+      { "url": "https://media.istockphoto.com/id/1355655606/photo/young-black-medical-doctor-showing-mammography-test-results-to-a-patient-on-a-tablet-computer.jpg?s=612x612&w=0&k=20&c=UT27u8tK9x26EBaqqR6_b0CvR5eAjm9fN9Z2kKNjahc=", "alt": "Mammography room" }
     ],
     "locations": ["Anderson Specialty Clinic"]
   },
@@ -106,7 +118,7 @@
     "hasReadMore": true,
     "timingsOnOverview": "Mondays 9am – 12pm (Room 6) • Saturdays 8am – 12pm (Room 6)",
     "images": [
-      { "url": "https://neramed.com/wp-content/uploads/2024/06/cardiology1.jpg", "alt": "Cardiology consultation" }
+      { "url": "https://blog.healtether.com/wp-content/uploads/2025/01/cardiology-clinic-in-india.jpg", "alt": "Cardiology consultation" }
     ],
     "locations": ["Anderson Specialty Clinic"]
   },
@@ -126,7 +138,7 @@
       {
         "name": "Nursing Team",
         "title": "Chest Clinic Nurses",
-        "image": "https://static.vecteezy.com/system/resources/previews/037/336/395/non_2x/user-profile-flat-illustration-avatar-person-icon-gender-neutral-silhouette-profile-picture-free-vector.jpg",
+        "image": "https://t4.ftcdn.net/jpg/06/38/66/83/360_F_638668315_sUc9yHPXJJr7KBiHQePT5nKuPp2DOGxe.jpg",
         "bio": "Dedicated nursing team providing daily TB care and follow-up."
       }
     ],
@@ -143,7 +155,7 @@
     "hasReadMore": true,
     "timingsOnOverview": "Mondays 8am – 4pm (Room 3)",
     "images": [
-      { "url": "https://www.sa.gov/files/assets/main/v/1/samhd/images/tuberculosis-control-prevention.png?w=1080", "alt": "TB Clinic services" }
+      { "url": "https://i.guim.co.uk/img/media/0a0069d37b659c482963a1fe33249775266832c7/0_177_5157_3095/500.jpg?quality=85&auto=format&fit=max&s=5b8be9b660d099a4a33f7de23927d6d0", "alt": "TB Clinic services" }
     ],
     "locations": ["Anderson Specialty Clinic"]
   },
@@ -616,7 +628,7 @@
     "hasReadMore": true,
     "timingsOnOverview": "Multiple sessions daily Mon–Thu (Rooms 7, 10, 11, 12, Obs 1)",
     "images": [
-      { "url": "https://nairobisouthhospital.org/wp-content/uploads/2017/03/maternity2-768x511.jpg", "alt": "Antenatal ultrasound and care" }
+      { "url": "https://i0.wp.com/www.stjosephwendani.org/wp-content/uploads/2024/06/1-2.jpg?fit=1000%2C667&ssl=1", "alt": "Antenatal ultrasound and care" }
     ],
     "locations": ["Anderson Specialty Clinic"]
   },

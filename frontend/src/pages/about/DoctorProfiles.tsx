@@ -5,6 +5,75 @@ import Heading from "@/components/Heading";
 import { FaUserMd, FaCalendarCheck } from "react-icons/fa";
 import { Link } from "react-router";
 import doctorsData from "@/data/doctors.json";
+import clinicalServices from "@/data/clinicalServices2.json";
+
+// Service name mapping to clinical service IDs
+const serviceMapping: { [key: string]: number } = {
+  // Obstetrics & Gynecology services
+  "antenatal": 16,
+  "gynaecological": 16,
+  "obstetric": 16,
+  "gynecology": 16,
+  "obstetrics & gynecology": 16,
+  "ob-gyn": 16,
+  "pregnancy": 16,
+  "delivery": 16,
+  "caesarean": 16,
+  "maternity": 16,
+};
+
+// Helper function to get service ID from doctor's offered services
+const getServiceIdFromDoctorServices = (servicesOffered: string[]): number | null => {
+  if (!servicesOffered || servicesOffered.length === 0) return null;
+
+  // Check if any of the doctor's services match known service mappings
+  for (const service of servicesOffered) {
+    const lowerService = service.toLowerCase();
+    for (const [key, id] of Object.entries(serviceMapping)) {
+      if (lowerService.includes(key)) {
+        return id;
+      }
+    }
+  }
+
+  // If no direct match, try to find by clinical service title
+  const clinical = clinicalServices as any[];
+  for (const service of servicesOffered) {
+    const lowerService = service.toLowerCase();
+    const foundService = clinical.find(s => 
+      s.title.toLowerCase().includes(lowerService) || 
+      lowerService.includes(s.title.toLowerCase())
+    );
+    if (foundService) {
+      return foundService.id;
+    }
+  }
+
+  // Default to OB-GYN if nothing else matches
+  return 16;
+};
+
+// Utility function to extract first 3 sentences from bio
+const truncateBioToThreeSentences = (bio: string, maxLength: number = 280): string => {
+  if (!bio) return "";
+  
+  // Split by sentence-ending punctuation (. ! ?)
+  const sentences = bio.match(/[^.!?]+[.!?]+/g) || [bio];
+  
+  // Take first 3 sentences
+  let result = sentences.slice(0, 3).join("").trim();
+  const hasMorSentences = sentences.length > 3;
+  
+  // If still too long, truncate and add ellipsis
+  if (result.length > maxLength) {
+    result = result.substring(0, maxLength).trim() + "...";
+  } else if (hasMorSentences) {
+    // If there are more sentences, add ellipsis to indicate more content
+    result = result + "...";
+  }
+  
+  return result;
+};
 
 type Doctor = {
   name: string;
@@ -257,42 +326,42 @@ const DoctorProfiles: FC = () => {
             paginatedMembers.map((member, idx) => (
               <div
                 key={idx}
-                className="flex flex-col md:flex-row bg-white border border-gray-200 rounded-lg shadow-sm mb-6 overflow-hidden hover:shadow-md transition"
+                className="flex flex-col md:flex-row bg-white border border-gray-200 rounded-lg shadow-md mb-6 overflow-hidden hover:shadow-lg transition-shadow duration-300"
               >
                 {/* Doctor Image */}
                 <div className="p-2">
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-3/4 md:w-50 md:h-50 object-cover rounded"
+                    className="w-full md:w-56 md:h-60 object-cover rounded"
                   />
                 </div>
 
                 {/* Doctor Info */}
                 <div className="md:w-2/3 p-6 flex flex-col justify-between">
                   <div>
-                    <h3 className="text-lg font-semibold font-serif text-red-800">
+                    <h3 className="text-2xl font-bold font-serif text-red-900 mb-1">
                       {member.name}
                     </h3>
-                    <p className="text-gray-700 font-serif font-medium mb-2">
-                      {member.title}, {member.location}
+                    <p className="text-sm font-semibold text-gray-700 mb-3">
+                      {member.specialization}
                     </p>
                     <p className="text-gray-600 text-sm font-sans leading-relaxed">
-                      {member.bio.slice(0, 320)}...
+                      {truncateBioToThreeSentences(member.bio)}
                     </p>
                   </div>
 
                   <div className="flex flex-wrap gap-3 mt-4 ">
                     <Link
-                      to={`/booking-calendar?doctorName=${encodeURIComponent(member.name)}&doctorTitle=${encodeURIComponent(member.title)}`}
-                      className="flex items-center justify-center gap-2 text-red-900  px-4 py-2 rounded-md text-sm hover:bg-red-900 hover:text-white transition"
+                      to={`/booking-calendar?serviceId=${getServiceIdFromDoctorServices(member.servicesOffered)}`}
+                      className="flex items-center justify-center gap-2 text-red-900 border border-gray-300 px-4 py-2 rounded-md text-sm hover:bg-red-50 hover:border-red-300 transition font-medium"
                     >
                       <FaCalendarCheck />
                       Book Appointment
                     </Link>
                     <Link
                       to={`/doctor-details/${member.id}`}
-                      className="flex items-center justify-center gap-2 text-red-900  px-4 py-2 rounded-md text-sm hover:bg-red-900 hover:text-white transition"
+                      className="flex items-center justify-center gap-2 text-red-900 border border-gray-300 px-4 py-2 rounded-md text-sm hover:bg-red-50 hover:border-red-300 transition font-medium"
                     >
                       <FaUserMd />
                       View Profile
