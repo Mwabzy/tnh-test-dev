@@ -262,21 +262,21 @@ const RenalServices: FC = () => {
           <TeamSection
             title="Our Specialist Team"
             team={[
-              { name: 'Dr. Kevin Wanjiru', title: 'Lead Nephrologist', image: '/src/assets/images/image1.png', bio: 'Specialises in dialysis and transplant assessment.' },
-              { name: 'Ms. Patricia Otieno', title: 'Dialysis Nurse Lead', image: '/src/assets/images/image2.png', bio: 'Coordinates dialysis schedules and patient care.' },
-              { name: 'Mr. Paul Ouma', title: 'Renal Technician', image: '/src/assets/images/image3.png', bio: 'Maintains dialysis equipment and safety.' },
-              { name: 'Ms. Lillian Muthoni', title: 'Transplant Coordinator', image: '/src/assets/images/image4.png', bio: 'Manages transplant assessments and follow-up.' }
+              { name: 'Dr. Kevin Wanjiru', title: 'Lead Nephrologist', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+              { name: 'Ms. Patricia Otieno', title: 'Dialysis Nurse Lead', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+              { name: 'Mr. Paul Ouma', title: 'Renal Technician', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+              { name: 'Ms. Lillian Muthoni', title: 'Transplant Coordinator', image: '/src/assets/doctorsImages/unknown.png', bio: '' }
             ]}
           />
 
           {/* Client Testimonials */}
           <div className="mt-12">
             <ClientsSay
-              title="What our clients say about Renal Services"
+              title="What our clients say"
               testimonials={[
-                { quote: 'Excellent dialysis care and attentive nursing staff who make the process comfortable.', name: 'K. Wanjiru', avatar: '/src/assets/images/image1.png', subtitle: 'Dialysis Patient' },
-                { quote: 'The transplant team provided exceptional support throughout my journey.', name: 'P. Otieno', avatar: '/src/assets/images/image2.png', subtitle: 'Transplant Patient' },
-                { quote: 'Professional care with a personal touch. The team goes above and beyond.', name: 'L. Muthoni', avatar: '/src/assets/images/image3.png', subtitle: 'Regular Patient' }
+                { quote: 'Excellent dialysis care and attentive nursing staff who make the process comfortable.', name: 'K. Wanjiru', avatar: '/src/assets/feedback/clients.png', subtitle: 'Dialysis Patient' },
+                { quote: 'The transplant team provided exceptional support throughout my journey.', name: 'P. Otieno', avatar: '/src/assets/feedback/clients.png', subtitle: 'Transplant Patient' },
+                { quote: 'Professional care with a personal touch. The team goes above and beyond.', name: 'L. Muthoni', avatar: '/src/assets/feedback/clients.png', subtitle: 'Regular Patient' }
               ]}
             />
           </div>
@@ -286,38 +286,6 @@ const RenalServices: FC = () => {
             <InsuranceSlider />
           </div>
         </div>
-
-        {/* Contact & Support */}
-        <section className="container mx-auto px-4 mt-16">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-            <h3 className="text-xl font-semibold text-red-900 mb-6">Contact Information</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div>
-                <h4 className="font-semibold mb-2">Dialysis Unit</h4>
-                <p className="text-sm text-gray-700">
-                  24/7 Service Available<br />
-                  Tel: +254 (0)703 082 000<br />
-                  Email: renal@hospital.org
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-2">Transplant Services</h4>
-                <p className="text-sm text-gray-700">
-                  Mon - Fri: 8:00 AM - 5:00 PM<br />
-                  Tel: +254 (0)703 082 001<br />
-                  Email: transplant@hospital.org
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-2">Emergency Support</h4>
-                <p className="text-sm text-gray-700">
-                  24/7 Emergency Dialysis<br />
-                  Tel: +254 (0)703 082 911
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
     </div>
   );

@@ -98,19 +98,6 @@ const RadiologyServices: React.FC = () => {
           </div>
         </div>
 
-        {/* Chief Radiologist */}
-        <div className="max-w-7xl mx-auto mb-12 bg-white rounded-2xl shadow-md p-6 flex flex-col md:flex-row items-center gap-6">
-          <img src="/src/assets/doctorsImages/rohnipatil.png" alt="Chief Radiologist" className="w-36 h-36 object-cover rounded-full shadow-md" />
-          <div>
-            <h3 className="text-xl font-semibold">Dr. Mary Onyinkwa</h3>
-            <p className="text-sm text-gray-600 mb-3">Chief Radiologist</p>
-            <p className="text-gray-700">Dr. Onyinkwa leads the Radiology department with over 15 years of experience in diagnostic and interventional radiology. She specialises in cross‑sectional imaging, interventional procedures and cardiac imaging.</p>
-            <div className="mt-4">
-              <a href="mailto:radiology@nbihosp.org" className="text-sm underline text-red-900">radiology@nbihosp.org</a>
-            </div>
-          </div>
-        </div>
-
         {/* Services structured grid (modern, world-class style) */}
         <section className="max-w-7xl mx-auto mb-12">
           <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-white via-gray-50 to-gray-100 p-6 shadow-inner">
@@ -215,47 +202,25 @@ const RadiologyServices: React.FC = () => {
         </div>
 
 
-        {/* Patient testimonials */}
-        <div className="max-w-7xl mx-auto mb-20">
-          <h3 className="text-2xl font-serif font-bold text-gray-900 mb-6">Patient Testimonials</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
-              <motion.blockquote
-                key={t.id}
-                initial={{ opacity: 0, y: 6 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                viewport={{ once: true }}
-                className="bg-white p-6 rounded-xl shadow-sm"
-              >
-                <p className="text-gray-700 italic">“{t.quote}”</p>
-                <div className="mt-4 flex items-center gap-3">
-                  <img src={t.avatar} alt={t.name} className="w-10 h-10 object-cover rounded-full" />
-                  <cite className="text-sm font-medium text-gray-900">{t.name}</cite>
-                </div>
-              </motion.blockquote>
-            ))}
-          </div>
-        </div>
 
         {/* Clinical Team (inserted before ClientsSay) */}
   <TeamSection
     title="Meet the Radiology Team"
     team={[
-      { name: 'Dr. Mary Onyinkwa', title: 'Chief Radiologist', image: '/src/assets/doctorsImages/rohnipatil.png', bio: 'Head of Radiology with subspecialty expertise.' },
-      { name: 'Dr. Peter Kamau', title: 'Interventional Radiologist', image: '/src/assets/images/image2.png', bio: 'Leads image-guided procedures and interventional services.' },
-      { name: 'Dr. Amina Hassan', title: 'Neuroradiologist', image: '/src/assets/images/image3.png', bio: 'Specialist in neuroimaging and advanced MRI techniques.' },
-      { name: 'Mr. Paul Njoroge', title: 'Lead Radiographer', image: '/src/assets/images/image1.png', bio: 'Senior radiographer coordinating imaging operations.' },
+      { name: 'Dr. Mary Onyinkwa', title: 'Chief Radiologist', image: '/src/assets/doctorsImages/onyinknwa.png', bio: '' },
+      { name: 'Martin I. Kamanda', title: 'Radiology Manager', image: '/src/assets/doctorsimages/mkamanda.png', bio: '' },
+      { name: 'Francis Alila', title: 'Team Leader', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Charles Mwaniki', title: 'Team Leader', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
     ]}
   />
 
   {/* Client Testimonials */}
   <ClientsSay
-    title="What our clients say about Radiology"
+    title="What our clients say"
     testimonials={[
-      { quote: 'Quick imaging and timely reports that helped my care plan.', name: 'L. Wambui', avatar: '/src/assets/images/image1.png' },
-      { quote: 'Friendly radiographers and clear explanations.', name: 'D. Kamau', avatar: '/src/assets/images/image2.png' },
-      { quote: 'Easy booking and fast turnaround for scans.', name: 'O. Mutiso', avatar: '/src/assets/images/image3.png' },
+      { quote: 'Quick imaging and timely reports that helped my care plan.', name: 'L. Wambui', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Friendly radiographers and clear explanations.', name: 'D. Kamau', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Easy booking and fast turnaround for scans.', name: 'O. Mutiso', avatar: '/src/assets/feedback/clients.png' },
     ]}
   />
 

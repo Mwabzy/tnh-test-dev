@@ -11,7 +11,7 @@ const CathLabServices: FC = () => {
     <div className="min-h-screen bg-white">
       <Heading
         image_url="/src/assets/heroimages/cath-lab.jpg"
-        title="Cardiac Catheterization Laboratory (Cath Lab)"
+        title="Cath Lab"
         description="Advanced diagnostic imaging and minimally invasive cardiac procedures"
         style="background"
       />
@@ -318,20 +318,20 @@ const CathLabServices: FC = () => {
   <TeamSection
     title="Cath Lab Team"
     team={[
-      { name: 'Dr. Peter Njoroge', title: 'Interventional Cardiologist', image: '/src/assets/images/image1.png', bio: 'Leads cath lab procedures and interventional services.' },
-      { name: 'Dr. Susan Wekesa', title: 'Cardiac Imaging Lead', image: '/src/assets/images/image2.png', bio: 'Specialist in complex cardiac imaging.' },
-      { name: 'Ms. Mercy Achieng', title: 'Cath Lab Nurse Lead', image: '/src/assets/images/image3.png', bio: 'Coordinates peri-procedure nursing care.' },
-      { name: 'Mr. Daniel Otieno', title: 'Cath Lab Technologist', image: '/src/assets/images/image4.png', bio: 'Ensures equipment readiness and monitoring.' },
+      { name: 'Dr. Mary Onyinkwa', title: 'Chief Radiologist', image: '/src/assets/doctorsimages/onyinknwa.png', bio: '' },
+      { name: 'Martin I. Kamanda', title: 'Radiology Manager', image: '/src/assets/doctorsimages/mkamanda.png', bio: '' },
+      { name: 'Elizabeth Oloo', title: 'Charge Nurse', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Haron Ogola', title: 'Team Leader', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
     ]}
   />
 
   {/* Client Testimonials */}
   <ClientsSay
-    title="What our clients say about Cath Lab Services"
+    title="What our clients say"
     testimonials={[
-      { quote: 'Timely procedures with excellent follow-up care.', name: 'P. Njoroge', avatar: '/src/assets/images/image1.png' },
-      { quote: 'Skilled team and reassuring environment.', name: 'S. Wekesa', avatar: '/src/assets/images/image2.png' },
-      { quote: 'Efficient scheduling and clear communication.', name: 'M. Kariuki', avatar: '/src/assets/images/image3.png' },
+      { quote: 'Timely procedures with excellent follow-up care.', name: 'P. Njoroge', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Skilled team and reassuring environment.', name: 'S. Wekesa', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Efficient scheduling and clear communication.', name: 'M. Kariuki', avatar: '/src/assets/feedback/clients.png' },
     ]}
   />
 

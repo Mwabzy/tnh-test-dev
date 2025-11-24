@@ -338,138 +338,26 @@ const EndoscopyServices: FC = () => {
             </div>
           </div>
 
-          {/* Clinical Team Section */}
-          <div className="mb-16">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-serif font-bold text-red-900 mb-4">
-                Our Clinical Team
-                <div className="mt-4 w-20 h-1 bg-yellow-600 mx-auto"></div>
-              </h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">
-                Our dedicated team of specialists brings years of expertise in endoscopic procedures.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                {
-                  name: "Dr. Sarah Kamau",
-                  role: "Lead Endoscopist",
-                  image: "https://www.shutterstock.com/image-photo/portrait-smiling-female-doctor-wearing-260nw-1393901411.jpg",
-                  qualification: "MBBS, Fellowship in Advanced Endoscopy"
-                },
-                {
-                  name: "Dr. James Omondi",
-                  role: "Gastroenterologist",
-                  image: "https://t4.ftcdn.net/jpg/01/36/18/77/360_F_136187711_qeBMOwkPdTg1dCN8e5TR1AmduXDz60Xn.jpg",
-                  qualification: "MD, Specialist in Therapeutic Endoscopy"
-                },
-                {
-                  name: "Dr. Anne Njeri",
-                  role: "Senior Endoscopist",
-                  image: "https://www.curasia.com/wp-content/uploads/2023/12/How-Endoscopy-Is-Revolutionizing-Medical-Treatments-Curasia.jpg",
-                  qualification: "MBBS, Advanced Endoscopy Certification"
-                }
-              ].map((doctor, index) => (
-                <motion.div
-                  key={doctor.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
-                >
-                  <div className="h-48 overflow-hidden">
-                    <img 
-                      src={doctor.image}
-                      alt={doctor.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-6 text-center">
-                    <h3 className="text-xl font-bold text-red-900 mb-1">{doctor.name}</h3>
-                    <p className="text-gray-600 font-medium mb-2">{doctor.role}</p>
-                    <p className="text-sm text-gray-500">{doctor.qualification}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Patient Testimonials */}
-          <div className="mb-16">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-serif font-bold text-red-900 mb-4">
-                Patient Testimonials
-                <div className="mt-4 w-20 h-1 bg-yellow-600 mx-auto"></div>
-              </h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">
-                Hear from our patients about their experiences with our endoscopy services.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                {
-                  quote: "The team was very professional and made me feel at ease throughout my procedure. Excellent care from start to finish.",
-                  name: "Jane Muthoni",
-                  date: "October 2025"
-                },
-                {
-                  quote: "State-of-the-art facilities and a caring team. They explained everything clearly and ensured I was comfortable.",
-                  name: "David Kiprop",
-                  date: "September 2025"
-                },
-                {
-                  quote: "Quick and efficient service. The follow-up care was thorough and the staff were very supportive.",
-                  name: "Mary Akinyi",
-                  date: "October 2025"
-                }
-              ].map((testimonial, index) => (
-                <motion.div
-                  key={testimonial.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="bg-gradient-to-br from-red-900 to-red-800 text-white rounded-xl p-6 shadow-lg"
-                >
-                  <div className="mb-4">
-                    <svg className="w-8 h-8 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                    </svg>
-                  </div>
-                  <p className="text-red-100 mb-6">{testimonial.quote}</p>
-                  <div className="text-red-100">
-                    <p className="font-semibold">{testimonial.name}</p>
-                    <p className="text-sm opacity-75">{testimonial.date}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Appointment CTA */}
         </div>
 
   {/* Clinical Team (inserted before ClientsSay) */}
   <TeamSection
-    title="Endoscopy Clinical Team"
+    title="Endoscopy Team"
     team={[
-      { name: 'Dr. Sarah Kamau', title: 'Lead Endoscopist', image: '/src/assets/images/image1.png', bio: 'Expert in diagnostic and therapeutic endoscopy.' },
-      { name: 'Dr. James Omondi', title: 'Gastroenterologist', image: '/src/assets/images/image2.png', bio: 'Specialist in upper and lower GI procedures.' },
-      { name: 'Dr. Anne Njeri', title: 'Senior Endoscopist', image: '/src/assets/images/image3.png', bio: 'Focus on complex endoscopic therapy.' },
-      { name: 'Ms. Faith Mwangi', title: 'Endoscopy Nurse Lead', image: '/src/assets/images/image4.png', bio: 'Manages nursing care and patient prep.' },
+      { name: 'Dr. Sarah Kamau', title: 'Lead Endoscopist', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Dr. James Omondi', title: 'Gastroenterologist', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Dr. Anne Njeri', title: 'Senior Endoscopist', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Ms. Faith Mwangi', title: 'Endoscopy Nurse Lead', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
     ]}
   />
 
   {/* Client Testimonials */}
   <ClientsSay
-    title="What our clients say about Endoscopy"
+    title="What our clients say"
     testimonials={[
-      { quote: 'Procedure was explained clearly and I felt comfortable.', name: 'K. Maina', avatar: '/src/assets/images/image1.png' },
-      { quote: 'Efficient service and kind staff.', name: 'B. Chebet', avatar: '/src/assets/images/image2.png' },
-      { quote: 'Smooth pre-op and quick recovery guidance.', name: 'T. Mwikali', avatar: '/src/assets/images/image3.png' },
+      { quote: 'Procedure was explained clearly and I felt comfortable.', name: 'K. Maina', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Efficient service and kind staff.', name: 'B. Chebet', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Smooth pre-op and quick recovery guidance.', name: 'T. Mwikali', avatar: '/src/assets/feedback/clients.png' },
     ]}
   />
 

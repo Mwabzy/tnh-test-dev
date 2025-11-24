@@ -84,7 +84,7 @@ const AccidentEmergencyServices: React.FC = () => {
             </div>
           </div>
           <div className="order-1 lg:order-2 space-y-4">
-            <img src="https://media.istockphoto.com/id/513438317/photo/doctor-nurse-and-paramedics-wheeling-patient-on-stretcher.jpg?s=612x612&w=0&k=20&c=iagHKq8nLpWZRfUTkVqZl0m54fzyHfaDapILk74KV7Y=" alt="Emergency response team" className="w-full rounded-2xl shadow-lg object-cover h-80" />
+            <img src="/src/assets/services/ambulance.png" alt="Emergency response team" className="w-full rounded-2xl shadow-lg object-cover h-80" />
             
             {/* Quick Stats - Floating Cards */}
             <div className="grid grid-cols-3 gap-4">
@@ -197,12 +197,12 @@ const AccidentEmergencyServices: React.FC = () => {
           {/* Team Section (moved here) */}
           <div className="mb-12">
             <TeamSection
-              title="Our A&E Clinical Team"
+              title="Our Clinical Team"
               team={[
-                { name: 'Dr. Silvanus Wabwire', title: 'Consultant Neurologist', image: '/src/assets/doctorsImages/jorammugo.png', bio: 'Consultant neurologist with extensive experience in stroke care and neurorehabilitation.' },
-                { name: 'Dr. Alice Wekesa', title: 'Emergency Physician', image: '/src/assets/peacemwige-CRt1V9as.png', bio: 'Emergency specialist focused on critical care and rapid decision making.' },
-                { name: 'Nurse Mary Kamau', title: 'Senior Charge Nurse', image: '/src/assets/images/image1.png', bio: 'Leads nursing teams ensuring patient safety and flow in the emergency department.' },
-                { name: 'Dr. James Otieno', title: 'Trauma Surgeon', image: '/src/assets/jorammugo-Bn2anYU2.png', bio: 'Experienced trauma surgeon leading operative management of major injuries.' }
+                { name: 'Dr. Samuel Odede', title: 'Consultant Neurologist', image: '/src/assets/doctorsImages/samuelowuor.png', bio: '' },
+                { name: 'Dr. David Abaya', title: 'Emergency Physician', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+                { name: 'Esther Kigera', title: 'Senior Charge Nurse', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+                { name: 'Jedidah Mutinda', title: 'Trauma Surgeon', image: '/src/assets/doctorsImages/unknown.png', bio: '' }
               ]}
             />
           </div>
@@ -210,11 +210,11 @@ const AccidentEmergencyServices: React.FC = () => {
           {/* Client Testimonials */}
           <div className="mb-12">
             <ClientsSay
-              title="What our clients say about A&E"
+              title="What our clients say"
               testimonials={[
-                { quote: 'The team was lifesaving and incredibly calm under pressure.', name: 'S. Mwangi', avatar: '/src/assets/images/image1.png', subtitle: 'Emergency Patient' },
-                { quote: 'Rapid response and clear communication throughout my admission.', name: 'R. Otieno', avatar: '/src/assets/images/image2.png' },
-                { quote: 'Excellent care when my child was admitted overnight.', name: 'M. Njeri', avatar: '/src/assets/images/image3.png' },
+                { quote: 'The team was lifesaving and incredibly calm under pressure.', name: 'S. Mwangi', avatar: '/src/assets/feedback/clients.png', subtitle: '' },
+                { quote: 'Rapid response and clear communication throughout my admission.', name: 'R. Otieno', avatar: '/src/assets/feedback/clients.png' },
+                { quote: 'Excellent care when my child was admitted overnight.', name: 'M. Njeri', avatar: '/src/assets/feedback/clients.png' },
               ]}
             />
           </div>
