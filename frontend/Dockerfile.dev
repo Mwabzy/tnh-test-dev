@@ -6,12 +6,18 @@ RUN apk add --no-cache python3 make g++
 
 WORKDIR /app
 
-COPY package*.json . 
+# Enable corepack
+RUN corepack enable
+
+# Copy package.json and lockfile first (for better layer caching)
+COPY package.json pnpm-lock.yaml* ./
+
 COPY .env /app/.env
 
-# Clean install
-RUN rm -rf node_modules package-lock.json && npm install
+# Install dependencies (pnpm version is read from package.json -> packageManager field)
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-CMD [ "npm", "run", "dev" ]
+# Start Vite in dev mode
+CMD ["pnpm", "dev"]
