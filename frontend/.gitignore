@@ -25,3 +25,5 @@ dist-ssr
 
 .intlayer
 .env
+pnpm-lock.yaml
+pnpm-workspace.yaml
