@@ -50,26 +50,6 @@ const RadiologyServices: React.FC = () => {
     },
   ];
 
-  const testimonials = [
-    {
-      id: 't1',
-      quote: 'Quick, professional service — my CT results were ready the same day and the staff were reassuring.',
-      name: 'Jane K., Nairobi',
-      avatar: '/src/assets/images/image1.png',
-    },
-    {
-      id: 't2',
-      quote: 'The MRI team were patient and explained everything. Excellent care for my elderly parent.',
-      name: 'Samuel O., Mombasa',
-      avatar: '/src/assets/doctorsImages/samuelowuor.png',
-    },
-    {
-      id: 't3',
-      quote: 'Booking was straightforward and the radiologist called to explain the findings clearly.',
-      name: 'Amina B., Kisumu',
-      avatar: '/src/assets/images/image3.png',
-    },
-  ];
 
   return (
     <div>

@@ -37,12 +37,6 @@ const sessions = [
   { type: 'Immunotherapy', frequency: 'Every 2–4 weeks', medianDuration: '1–2 hours' }
 ];
 
-const team = [
-  { name: 'Dr. Grace Mwangi', role: 'Lead Medical Oncologist' },
-  { name: 'Dr. Robert Kimani', role: 'Radiation Oncologist' },
-  { name: 'Prof. David Otieno', role: 'Surgical Oncologist' }
-];
-
 const testimonials = [
   {
     quote:

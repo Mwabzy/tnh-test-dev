@@ -13,8 +13,6 @@ import {
   Users,
   Building2
 } from 'lucide-react';
-import TestimonialCarousel from '@/components/TestimonialCarousel';
-import testimonials from '@/data/testimonials.json';
 import { useNavigate } from 'react-router';
 import InsuranceSlider from '@/components/InsuranceSlider';
 import ClientsSay from '@/components/ClientsSay';
