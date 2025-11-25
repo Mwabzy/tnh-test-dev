@@ -15,78 +15,35 @@
       {
         "name": "Dr. Silvanus Wabwire",
         "title": "Consultant Neurologist",
-        "image": "hhttps://www.injuredcalltoday.com/wp-content/uploads/2022/10/Neurologist-Near-Me-1.jpg",
-        "bio": "Consultant neurologist with extensive experience in stroke care, seizure management and neurorehabilitation."
+        "image": "https://www.easyclinic.io/wp-content/uploads/2025/03/doctor-silvanus-wabwire-neurology.jpg",
+        "bio": "An experienced consultant neurologist with strong expertise in stroke care, seizure management, and neurorehabilitation."
       },
       {
-        "name": "Dr. Alice Wekesa",
-        "title": "Neurologist",
-        "image": "https://images.unsplash.com/photo-1607746882042-944635dfe10e",
-        "bio": "Specialist in headache disorders and neurodiagnostic testing, focused on patient-centred care."
+        "name": "Dr. John K. Boore",
+        "title": "Consultant Neurosurgeon",
+        "image": "https://thumbs.dreamstime.com/b/male-doctor-avatar-profile-image-icon-vector-179499461.jpg",
+        "bio": "A seasoned neurosurgeon based in Nairobi, holding an MBChB and M.Med (Surgery) from the University of Nairobi, and certified in neurosurgery by the East, Central & Southern Africa College of Surgeons (FCS-ECSA)."
       }
     ],
     "testimonials": [
       {
-        "name": "Joseph K.",
+        "name": "Joseph Kamau.",
         "title": "Patient",
         "image": "",
         "quote": "The neurology team explained my condition clearly and supported my rehabilitation every step of the way."
       }
     ],
-    "contact": { "phone": "+254 700 000 001", "email": "neurology@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Mon 8am–5pm",
+    "timingsOnOverview": "Fridays 9am – 11am (Room 6)",
     "images": [
-      { "url": "https://www.injuredcalltoday.com/wp-content/uploads/2022/10/Neurologist-Near-Me-1.jpg", "alt": "Neurologist consulting patient" }
+      { "url": "https://www.apolloinformationcentre.com/wp-content/uploads/2024/08/Best-Neurology-and-Neurosurgery-Hospital-Centre-in-Uganda.jpg", "alt": "Neurologist consulting patient" }
     ],
-    "locations": ["Anderson Specialty", "Main Hospital", "Capital Center OPC"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
     "id": 2,
-    "title": "Antenatal & Obstetrics Clinic",
-    "tagline": "Compassionate maternity care at every stage.",
-    "overview": "Complete antenatal, intrapartum and postnatal services for safe pregnancy and delivery.",
-    "detailedDescription": "Our Obstetrics team provides comprehensive antenatal monitoring, high-risk pregnancy management and postnatal support. We emphasise evidence-based practice and compassionate communication for expectant mothers and families.",
-    "features": [
-      { "title": "Antenatal monitoring and ultrasound" },
-      { "title": "High-risk pregnancy management" },
-      { "title": "Birth planning and postpartum care" },
-      { "title": "Antenatal education and lamaze classes" }
-    ],
-    "doctors": [
-      {
-        "name": "Dr. Gladys Karume",
-        "title": "Consultant Obstetrician",
-        "image": "https://nairobisouthhospital.org/wp-content/uploads/2017/03/maternity2-768x511.jpg",
-        "bio": "Experienced obstetrician specialising in high-risk pregnancy and maternal-fetal medicine."
-      },
-      {
-        "name": "Dr. Anne Mwakirungu",
-        "title": "Senior Registrar - Obstetrics",
-        "image": "https://nairobisouthhospital.org/wp-content/uploads/2017/03/maternity2-768x511.jpg",
-        "bio": "Focuses on antenatal care, labour management and patient education."
-      }
-    ],
-    "testimonials": [
-      {
-        "name": "Grace M.",
-        "title": "Patient",
-        "image": "",
-        "quote": "The antenatal team made me feel safe and informed throughout my pregnancy."
-      }
-    ],
-    "contact": { "phone": "+254 700 000 002", "email": "antenatal@nbihosp.org" },
-    "isBookable": true,
-    "hasReadMore": true,
-    "timingsOnOverview": "Mon–Fri 8am–4pm",
-    "images": [
-      { "url": "https://nairobisouthhospital.org/wp-content/uploads/2017/03/maternity2-768x511.jpg", "alt": "Antenatal ultrasound and care" }
-    ],
-    "locations": ["Main Hospital", "Kiambu OPC"]
-  },
-  {
-    "id": 3,
     "title": "Breast Clinic",
     "tagline": "Early detection with multidisciplinary support.",
     "overview": "Screening, diagnostic imaging and specialist management for breast disease.",
@@ -101,8 +58,14 @@
       {
         "name": "Dr. Eric Hungu",
         "title": "Breast Surgeon",
-        "image": "https://andrewleebreastclinic.sg/wp-content/uploads/2024/01/breast-screening.jpg",
-        "bio": "Specialist in breast surgery and multidisciplinary cancer care with emphasis on early intervention."
+        "image": "https://pbs.twimg.com/media/Fr0NEjKXwAI3fVz.jpg",
+        "bio": "A breast surgeon specializing in multidisciplinary cancer care with a strong focus on early detection and intervention."
+      },
+      {
+        "name": "Dr. Allan Sajabi",
+        "title": "Consultant General Surgeon",
+        "image": "https://www.easyclinic.io/wp-content/uploads/2025/03/allan-sajabi-general-surgery.jpg",
+        "bio": "A general surgeon with 9+ years of experience, specializing in minimally invasive surgery, abdominal and trauma procedures, and breast tumor surgery. He is a certified member of the World Association of Laparoscopic Surgeons."
       }
     ],
     "testimonials": [
@@ -113,17 +76,17 @@
         "quote": "Professional and caring team — my screening and follow-up were handled with dignity."
       }
     ],
-    "contact": { "phone": "+254 700 000 003", "email": "breastclinic@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Mon–Sat 8am–5pm",
+    "timingsOnOverview": "Mondays 2pm – 4pm (Room 5)",
     "images": [
-      { "url": "https://andrewleebreastclinic.sg/wp-content/uploads/2024/01/breast-screening.jpg", "alt": "Mammography room" }
+      { "url": "https://media.istockphoto.com/id/1355655606/photo/young-black-medical-doctor-showing-mammography-test-results-to-a-patient-on-a-tablet-computer.jpg?s=612x612&w=0&k=20&c=UT27u8tK9x26EBaqqR6_b0CvR5eAjm9fN9Z2kKNjahc=", "alt": "Mammography room" }
     ],
-    "locations": ["Anderson Specialty", "Main Hospital", "Capital Center OPC", "Kiambu OPC", "Galleria OPC", "Warwick OPC"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 4,
+    "id": 3,
     "title": "Cardiology Clinic",
     "tagline": "Expert heart care with modern diagnostics.",
     "overview": "Diagnosis and management of cardiovascular disease including heart failure, arrhythmia and ischemic heart disease.",
@@ -138,14 +101,8 @@
       {
         "name": "Dr. Duncan Kilingo",
         "title": "Consultant Cardiologist",
-        "image": "https://neramed.com/wp-content/uploads/2024/06/cardiology1.jpg",
+        "image": "https://daktariafrica.com/images/avatar/535/4a88adca054eebd767ed95095c518146.jpg",
         "bio": "Renowned cardiologist with experience in interventional and preventive cardiology."
-      },
-      {
-        "name": "Dr. Amina Noor",
-        "title": "Cardiology Specialist",
-        "image": "https://neramed.com/wp-content/uploads/2024/06/cardiology1.jpg",
-        "bio": "Focus on non-invasive imaging and chronic cardiovascular risk management."
       }
     ],
     "testimonials": [
@@ -156,18 +113,18 @@
         "quote": "The cardiology team gave me a clear plan and helped me return to an active life."
       }
     ],
-    "contact": { "phone": "+254 700 000 004", "email": "cardiology@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Mon 9am–12pm (clinic session)",
+    "timingsOnOverview": "Mondays 9am – 12pm (Room 6) • Saturdays 8am – 12pm (Room 6)",
     "images": [
-      { "url": "https://neramed.com/wp-content/uploads/2024/06/cardiology1.jpg", "alt": "Cardiology consultation" }
+      { "url": "https://blog.healtether.com/wp-content/uploads/2025/01/cardiology-clinic-in-india.jpg", "alt": "Cardiology consultation" }
     ],
-    "locations": ["Main Hospital", "Galleria OPC"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 5,
-    "title": "Chest & TB Clinic",
+    "id": 4,
+    "title": "Chest Clinic (TB Clinic)",
     "tagline": "Focused tuberculosis and respiratory disease care.",
     "overview": "Screening, diagnosis and treatment for tuberculosis and chronic respiratory conditions.",
     "detailedDescription": "The Chest & TB Clinic provides tuberculosis diagnosis, directly observed therapy (DOT), and comprehensive management of chronic respiratory illnesses with a strong public-health focus.",
@@ -179,10 +136,10 @@
     ],
     "doctors": [
       {
-        "name": "Dr. Lilian Njagi",
-        "title": "Chest Physician",
-        "image": "https://www.sa.gov/files/assets/main/v/1/samhd/images/tuberculosis-control-prevention.png?w=1080",
-        "bio": "Experienced pulmonologist with a focus on infectious and chronic respiratory disease management."
+        "name": "Nursing Team",
+        "title": "Chest Clinic Nurses",
+        "image": "https://t4.ftcdn.net/jpg/06/38/66/83/360_F_638668315_sUc9yHPXJJr7KBiHQePT5nKuPp2DOGxe.jpg",
+        "bio": "Dedicated nursing team providing daily TB care and follow-up."
       }
     ],
     "testimonials": [
@@ -193,97 +150,17 @@
         "quote": "The TB programme provided compassionate care and clear instructions for treatment adherence."
       }
     ],
-    "contact": { "phone": "+254 700 000 005", "email": "tbclinic@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Mon–Fri 8am–4pm",
+    "timingsOnOverview": "Mondays 8am – 4pm (Room 3)",
     "images": [
-      { "url": "https://www.sa.gov/files/assets/main/v/1/samhd/images/tuberculosis-control-prevention.png?w=1080", "alt": "Pulmonology and TB services" }
+      { "url": "https://i.guim.co.uk/img/media/0a0069d37b659c482963a1fe33249775266832c7/0_177_5157_3095/500.jpg?quality=85&auto=format&fit=max&s=5b8be9b660d099a4a33f7de23927d6d0", "alt": "TB Clinic services" }
     ],
-    "locations": ["Anderson Specialty", "Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 6,
-    "title": "Well Baby Clinic",
-    "tagline": "Supporting healthy starts for infants and children.",
-    "overview": "Growth monitoring, immunizations and developmental screening for infants and young children.",
-    "detailedDescription": "Our Child Welfare Clinic provides routine immunization, nutrition counselling and developmental assessments delivered by experienced paediatric nurses and registrars to support optimal child health.",
-    "features": [
-      { "title": "Immunization schedule and catch-up" },
-      { "title": "Growth and nutrition monitoring" },
-      { "title": "Developmental screening" },
-      { "title": "Parenting and feeding counselling" }
-    ],
-    "doctors": [
-      {
-        "name": "Senior Pediatric Nursing Team",
-        "title": "Paediatric Nursing",
-        "image": "https://malaica.com/wp-content/uploads/2025/06/Wellbaby-Clinic-2-scaled.jpg",
-        "bio": "Experienced nursing team specialising in child growth monitoring and immunisation services."
-      }
-    ],
-    "testimonials": [
-      {
-        "name": "Rebecca O.",
-        "title": "Parent",
-        "image": "",
-        "quote": "Friendly, efficient service — our baby’s growth is closely followed and explained."
-      }
-    ],
-    "contact": { "phone": "+254 700 000 006", "email": "wellbaby@nbihosp.org" },
-    "isBookable": false,
-    "hasReadMore": true,
-    "timingsOnOverview": "Mon–Sat 8am–2pm",
-    "images": [
-      { "url": "https://malaica.com/wp-content/uploads/2025/06/Wellbaby-Clinic-2-scaled.jpg", "alt": "Baby clinic immunization" }
-    ],
-    "locations": ["Main Hospital", "Capital Center OPC"]
-  },
-  {
-    "id": 7,
-    "title": "Colorectal Surgery Clinic",
-    "tagline": "Specialised care for colorectal disorders.",
-    "overview": "Diagnosis and surgical management of colon, rectal and anal diseases using minimally invasive techniques.",
-    "detailedDescription": "Our Colorectal Clinic offers colonoscopy services, laparoscopic colorectal surgery and tailored post-operative rehabilitation. The team focuses on rapid recovery and long-term bowel health.",
-    "features": [
-      { "title": "Colonoscopy and diagnostic endoscopy" },
-      { "title": "Minimally invasive colorectal surgery" },
-      { "title": "Bowel cancer screening and management" },
-      { "title": "Post-operative care and stoma support" }
-    ],
-    "doctors": [
-      {
-        "name": "Dr. Alex Muturi",
-        "title": "Colorectal Surgeon",
-        "image": "https://clinicfordigestivesurgery.com/wp-content/uploads/2024/03/Colorectal-Surgery.jpg",
-        "bio": "Experienced colorectal surgeon with expertise in laparoscopic and oncologic procedures."
-      },
-      {
-        "name": "Dr. Paul Odula",
-        "title": "General Surgeon",
-        "image": "https://clinicfordigestivesurgery.com/wp-content/uploads/2024/03/Colorectal-Surgery.jpg",
-        "bio": "Specialises in general and colorectal surgical care with strong perioperative outcomes."
-      }
-    ],
-    "testimonials": [
-      {
-        "name": "Grace M.",
-        "title": "Patient",
-        "image": "",
-        "quote": "The surgical team guided me through surgery and recovery with clear instructions and compassion."
-      }
-    ],
-    "contact": { "phone": "+254 700 000 007", "email": "colorectal@nbihosp.org" },
-    "isBookable": true,
-    "hasReadMore": true,
-    "timingsOnOverview": "Wed 8am–12pm",
-    "images": [
-      { "url": "https://clinicfordigestivesurgery.com/wp-content/uploads/2024/03/Colorectal-Surgery.jpg", "alt": "Colorectal surgical suite" }
-    ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
-  },
-  {
-    "id": 8,
+    "id": 5,
     "title": "Dermatology Clinic",
     "tagline": "Expert care for skin, hair and nails.",
     "overview": "Comprehensive management of dermatologic conditions and cosmetic dermatology services.",
@@ -298,7 +175,7 @@
       {
         "name": "Dr. Bernard Gichina",
         "title": "Consultant Dermatologist",
-        "image": "hhttps://londondermatologyclinics.com/wp-content/uploads/2023/11/Dermatologist-1.jpg",
+        "image": "https://media.licdn.com/dms/image/v2/D5603AQEQBb_6oa3yLg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1660399525959?e=2147483647&v=beta&t=1rojapmxZP7HA-col7pu6JJJGN1pujrPYn5br1pjzLw",
         "bio": "Experienced dermatologist offering both medical and procedural skin care services."
       }
     ],
@@ -310,54 +187,17 @@
         "quote": "My skin condition improved significantly after the clinic's treatment plan."
       }
     ],
-    "contact": { "phone": "+254 700 000 008", "email": "dermatology@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Mon & Wed 2pm–4pm",
+    "timingsOnOverview": "Mon, Tue, Wed, Thu 2pm – 4pm (Rooms 3 & 9)",
     "images": [
       { "url": "https://londondermatologyclinics.com/wp-content/uploads/2023/11/Dermatologist-1.jpg", "alt": "Dermatology consultation" }
     ],
-    "locations": ["Anderson Specialty", "Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 9,
-    "title": "Diabetes Clinic",
-    "tagline": "Integrated care for diabetes and metabolic health.",
-    "overview": "Longitudinal care, education and complication prevention for patients with diabetes.",
-    "detailedDescription": "The Diabetes Clinic offers glycaemic control, complication screening, structured education and insulin management. Our multidisciplinary team includes endocrinologists, diabetes educators and dietitians.",
-    "features": [
-      { "title": "HbA1c monitoring and insulin management" },
-      { "title": "Diabetes education and self-management" },
-      { "title": "Retinopathy and nephropathy screening" },
-      { "title": "Dietetic support and lifestyle programmes" }
-    ],
-    "doctors": [
-      {
-        "name": "Dr. Christopher Kahuho",
-        "title": "Endocrinologist",
-        "image": "https://bungomawest.com/images/Articles/diabetes-clinic.jpg",
-        "bio": "Specialist in metabolic disorders and diabetes care with strong patient education focus."
-      }
-    ],
-    "testimonials": [
-      {
-        "name": "James M.",
-        "title": "Patient",
-        "image": "",
-        "quote": "The diabetes team helped me stabilise my blood sugar and taught me practical lifestyle changes."
-      }
-    ],
-    "contact": { "phone": "+254 700 000 009", "email": "diabetes@nbihosp.org" },
-    "isBookable": true,
-    "hasReadMore": true,
-    "timingsOnOverview": "Wed 8am–4pm",
-    "images": [
-      { "url": "https://bungomawest.com/images/Articles/diabetes-clinic.jpg", "alt": "Diabetes clinic education" }
-    ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
-  },
-  {
-    "id": 10,
+    "id": 6,
     "title": "Endocrinology Clinic",
     "tagline": "Specialists in hormonal health and metabolism.",
     "overview": "Diagnosis and management of thyroid, adrenal, pituitary and metabolic disorders.",
@@ -370,9 +210,9 @@
     ],
     "doctors": [
       {
-        "name": "Dr. Henry Kioko",
+        "name": "Dr. Christopher Kahuho",
         "title": "Consultant Endocrinologist",
-        "image": "https://www.camden.com.sg/assets/img/site_images/Dr-Foo-Endocrinology.jpg",
+        "image": "https://pbs.twimg.com/media/D9BFoKPWsAActN4.jpg",
         "bio": "Endocrinologist experienced in thyroid, pituitary and metabolic disorders with patient-centred care."
       }
     ],
@@ -384,18 +224,18 @@
         "quote": "The endocrinology team gave clear explanations and a plan that improved my energy and labs."
       }
     ],
-    "contact": { "phone": "+254 700 000 010", "email": "endocrinology@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Thu 2pm–4pm",
+    "timingsOnOverview": "Wednesdays & Thursdays 2pm – 4pm (Room 10)",
     "images": [
       { "url": "https://www.camden.com.sg/assets/img/site_images/Dr-Foo-Endocrinology.jpg", "alt": "Endocrinologist consultation" }
     ],
-    "locations": ["Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 11,
-    "title": "ENT Clinic (Ear, Nose & Throat)",
+    "id": 7,
+    "title": "ENT Clinic",
     "tagline": "Comprehensive ENT assessment and surgical care.",
     "overview": "Diagnosis and treatment for ear, nose and throat conditions including hearing loss and sinus disease.",
     "detailedDescription": "Our ENT service provides medical and surgical care for adult and paediatric ENT problems, including audiology, endoscopic sinus procedures and voice clinic services.",
@@ -409,8 +249,14 @@
       {
         "name": "Dr. Patrick Mburu",
         "title": "ENT Surgeon",
-        "image": "https://www.entlubbock.com/wp-content/uploads/2022/09/Featured-Image-15-1.jpg",
+        "image": "https://my1healthstorage.blob.core.windows.net/my1health/profiles/dr-patrick-nganga-mburu.webp",
         "bio": "Provides surgical and non-surgical ENT care with emphasis on functional and audiological outcomes."
+      },
+      {
+        "name": "Dr. Aswani",
+        "title": "ENT Surgeon",
+        "image": "https://www.easyclinic.io/wp-content/uploads/2025/03/doctor-john-aswani-gynaecology-and-infertility.jpg",
+        "bio": "Experienced in adult and paediatric ENT surgery."
       }
     ],
     "testimonials": [
@@ -421,54 +267,17 @@
         "quote": "The ENT team fixed my recurrent sinus issues and explained the options clearly."
       }
     ],
-    "contact": { "phone": "+254 700 000 011", "email": "ent@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Tue 8am–12pm",
+    "timingsOnOverview": "Thursdays 8am – 12pm (Room 7) • Fridays 2pm – 4pm (Room 5)",
     "images": [
       { "url": "https://www.entlubbock.com/wp-content/uploads/2022/09/Featured-Image-15-1.jpg", "alt": "ENT specialist consultation" }
     ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 12,
-    "title": "Family Health Clinic",
-    "tagline": "Integrated primary care for all ages.",
-    "overview": "Accessible primary care covering preventive health, acute illness and chronic disease follow-up.",
-    "detailedDescription": "The Family Health Clinic provides comprehensive general practice services including routine health checks, vaccination, chronic disease reviews and coordinated referrals to specialist care.",
-    "features": [
-      { "title": "Routine primary care and health checks" },
-      { "title": "Chronic disease monitoring" },
-      { "title": "Vaccination and preventive services" },
-      { "title": "Care coordination and referrals" }
-    ],
-    "doctors": [
-      {
-        "name": "Dr. Janet Achieng",
-        "title": "Family Physician",
-        "image": "https://aldhannahhospital.ae/wp-content/uploads/2022/07/Family-Medicine-551x795-1.jpg",
-        "bio": "Experienced family physician providing holistic care for individuals and families."
-      }
-    ],
-    "testimonials": [
-      {
-        "name": "Samuel N.",
-        "title": "Patient",
-        "image": "",
-        "quote": "Convenient, reliable primary care with excellent continuity and follow-up."
-      }
-    ],
-    "contact": { "phone": "+254 700 000 012", "email": "familyhealth@nbihosp.org" },
-    "isBookable": true,
-    "hasReadMore": true,
-    "timingsOnOverview": "Wed 8am–4pm",
-    "images": [
-      { "url": "https://aldhannahhospital.ae/wp-content/uploads/2022/07/Family-Medicine-551x795-1.jpg", "alt": "Primary care consultation" }
-    ],
-    "locations": ["Main Hospital"]
-  },
-  {
-    "id": 13,
+    "id": 8,
     "title": "Fertility Clinic",
     "tagline": "Confidential, evidence-based fertility care.",
     "overview": "Assessment and management for couples experiencing infertility, with modern diagnostic and treatment options.",
@@ -485,6 +294,12 @@
         "title": "Fertility Specialist",
         "image": "https://fertilityworld.in/blog/wp-content/uploads/2022/03/Fertility-clinic-Nairobi-1.jpeg",
         "bio": "Specialist in reproductive medicine and fertility counselling."
+      },
+      {
+        "name": "Dr. George Ogweno",
+        "title": "Fertility Specialist",
+        "image": "https://fertilityworld.in/blog/wp-content/uploads/2022/03/Fertility-clinic-Nairobi-1.jpeg",
+        "bio": "Experienced fertility consultant."
       }
     ],
     "testimonials": [
@@ -495,17 +310,17 @@
         "quote": "The fertility team treated us with dignity and provided clear steps forward."
       }
     ],
-    "contact": { "phone": "+254 700 000 013", "email": "fertility@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Mon 2pm–4pm",
+    "timingsOnOverview": "Mondays 2pm – 4pm (Obs 1) • Fridays 2pm – 4pm (Room 6)",
     "images": [
       { "url": "https://fertilityworld.in/blog/wp-content/uploads/2022/03/Fertility-clinic-Nairobi-1.jpeg", "alt": "Fertility counselling" }
     ],
-    "locations": ["Anderson Specialty", "Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 14,
+    "id": 9,
     "title": "Gastroenterology Clinic",
     "tagline": "Comprehensive digestive and liver care.",
     "overview": "Evaluation and management of disorders of the gastrointestinal tract and liver.",
@@ -524,10 +339,16 @@
         "bio": "Experienced in advanced endoscopy and comprehensive liver disease management."
       },
       {
-        "name": "Dr. Linda Gathara",
-        "title": "Gastroenterology Specialist",
+        "name": "Dr. Henry Kioko",
+        "title": "Consultant Gastroenterologist",
         "image": "https://media.istockphoto.com/id/1399397921/photo/gastroenterologist-consultation-treatment-of-stomach-diseases-and-ulcers-doctor-palpates.jpg?s=612x612&w=0&k=20&c=SbbEw8VRZQGZQe1TBq-waDG4ZzXnjuQBlamBL0ghFBU=",
-        "bio": "Focus on inflammatory bowel disease and functional gastroenterology."
+        "bio": "Specialist in hepatology and therapeutic endoscopy."
+      },
+      {
+        "name": "Dr. Stephen Onyango",
+        "title": "Gastroenterologist",
+        "image": "https://media.istockphoto.com/id/1399397921/photo/gastroenterologist-consultation-treatment-of-stomach-diseases-and-ulcers-doctor-palpates.jpg?s=612x612&w=0&k=20&c=SbbEw8VRZQGZQe1TBq-waDG4ZzXnjuQBlamBL0ghFBU=",
+        "bio": "Focus on IBD and advanced endoscopy."
       }
     ],
     "testimonials": [
@@ -538,135 +359,18 @@
         "quote": "The team delivered a clear plan and the endoscopy service was reassuring and efficient."
       }
     ],
-    "contact": { "phone": "+254 700 000 014", "email": "gastro@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Thu 8am–12pm",
+    "timingsOnOverview": "Tuesdays 2pm – 4pm (Room 6) • Thursdays 8am – 12pm (Room 3) • Fridays 8am – 12pm (Room 12)",
     "images": [
       { "url": "https://media.istockphoto.com/id/1399397921/photo/gastroenterologist-consultation-treatment-of-stomach-diseases-and-ulcers-doctor-palpates.jpg?s=612x612&w=0&k=20&c=SbbEw8VRZQGZQe1TBq-waDG4ZzXnjuQBlamBL0ghFBU=", "alt": "Endoscopy suite" }
     ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 15,
-    "title": "General Surgery Clinic",
-    "tagline": "Comprehensive surgical assessment and follow-up.",
-    "overview": "Preoperative assessment and surgical management of general surgical conditions.",
-    "detailedDescription": "Our General Surgery unit provides diagnostic assessment, elective and urgent surgeries, minimally invasive techniques and structured postoperative care to optimise recovery and outcomes.",
-    "features": [
-      { "title": "Pre-op assessment and planning" },
-      { "title": "Laparoscopic and open procedures" },
-      { "title": "Post-operative rehabilitation" },
-      { "title": "Surgical oncology referrals" }
-    ],
-    "doctors": [
-      {
-        "name": "Prof. Paul Odula",
-        "title": "Professor of Surgery",
-        "image": "https://cdn.prod.website-files.com/6265a955fd624c60a9c38baa/6297d6eb0b435349d629664d_general-surgery.webp",
-        "bio": "Senior surgeon with broad expertise including minimally invasive and oncologic surgery."
-      },
-      {
-        "name": "Dr. Mark Siboe",
-        "title": "Consultant Surgeon",
-        "image": "https://cdn.prod.website-files.com/6265a955fd624c60a9c38baa/6297d6eb0b435349d629664d_general-surgery.webp",
-        "bio": "Experienced in elective and emergency surgical care."
-      }
-    ],
-    "testimonials": [
-      {
-        "name": "Mike L.",
-        "title": "Patient",
-        "image": "",
-        "quote": "Surgery and recovery were managed professionally and compassionately."
-      }
-    ],
-    "contact": { "phone": "+254 700 000 015", "email": "surgery@nbihosp.org" },
-    "isBookable": true,
-    "hasReadMore": true,
-    "timingsOnOverview": "Mon & Thu 8am–12pm",
-    "images": [
-      { "url": "https://cdn.prod.website-files.com/6265a955fd624c60a9c38baa/6297d6eb0b435349d629664d_general-surgery.webp", "alt": "Surgical team in theatre" }
-    ],
-    "locations": ["Main Hospital"]
-  },
-  {
-    "id": 16,
-    "title": "Gynaecology Clinic",
-    "tagline": "Women’s reproductive health and specialist care.",
-    "overview": "Diagnosis and management of gynaecologic conditions and reproductive health needs.",
-    "detailedDescription": "Our Gynaecology Clinic provides comprehensive outpatient services including evaluation of menstrual disorders, pelvic pain, infertility referrals and coordinated care with obstetrics and oncology teams.",
-    "features": [
-      { "title": "Menstrual and pelvic pain management" },
-      { "title": "Contraceptive and fertility counselling" },
-      { "title": "Colposcopy and minor gynaecologic procedures" },
-      { "title": "Referral to gynae-oncology when required" }
-    ],
-    "doctors": [
-      {
-        "name": "Dr. Maranga",
-        "title": "Consultant Gynaecologist",
-        "image": "https://www.gynaecologyclinic.com/storage/cms/pages/1SGfu5NLC12rmeUKsSwkxbyIT0XxYmlW1U8QykqX.jpg",
-        "bio": "Provides evidence-based care in women’s reproductive health and minimally invasive gynaecologic procedures."
-      }
-    ],
-    "testimonials": [
-      {
-        "name": "Angela K.",
-        "title": "Patient",
-        "image": "",
-        "quote": "The gynaecology service was discreet, professional and extremely knowledgeable."
-      }
-    ],
-    "contact": { "phone": "+254 700 000 016", "email": "gynaecology@nbihosp.org" },
-    "isBookable": true,
-    "hasReadMore": true,
-    "timingsOnOverview": "Thu 2pm–4pm",
-    "images": [
-      { "url": "https://www.gynaecologyclinic.com/storage/cms/pages/1SGfu5NLC12rmeUKsSwkxbyIT0XxYmlW1U8QykqX.jpg", "alt": "Gynaecology consultation" }
-    ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
-  },
-  {
-    "id": 17,
-    "title": "Gynae-Oncology Clinic",
-    "tagline": "Specialised care for women’s cancers.",
-    "overview": "Multidisciplinary evaluation and treatment planning for gynaecologic malignancies.",
-    "detailedDescription": "Our Gynae-Oncology service provides diagnostic assessment, surgical and medical treatment coordination, and supportive care for patients with ovarian, cervical and uterine cancers.",
-    "features": [
-      { "title": "Cancer diagnosis and staging" },
-      { "title": "Surgical and medical oncology collaboration" },
-      { "title": "Palliative and survivorship services" },
-      { "title": "Genetic and risk counselling" }
-    ],
-    "doctors": [
-      {
-        "name": "Prof. Ojwang'",
-        "title": "Gynae-Oncologist",
-        "image": "https://shreyasmaternityhome.com/wp-content/uploads/2021/10/best-gynae-in-bangalore.png",
-        "bio": "Expert in surgical and multidisciplinary management of gynaecologic cancers."
-      }
-    ],
-    "testimonials": [
-      {
-        "name": "Milly R.",
-        "title": "Patient",
-        "image": "",
-        "quote": "Multidisciplinary care made my treatment choices clear and manageable."
-      }
-    ],
-    "contact": { "phone": "+254 700 000 017", "email": "gynae-oncology@nbihosp.org" },
-    "isBookable": true,
-    "hasReadMore": true,
-    "timingsOnOverview": "Thu 2pm–4pm",
-    "images": [
-      { "url": "https://shreyasmaternityhome.com/wp-content/uploads/2021/10/best-gynae-in-bangalore.png", "alt": "Gynae-oncology multidisciplinary team" }
-    ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
-  },
-  {
-    "id": 18,
-    "title": "Haematology Clinic",
+    "id": 10,
+    "title": "Hematology Clinic",
     "tagline": "Expert diagnosis and management of blood disorders.",
     "overview": "Evaluation and treatment of anemia, clotting disorders and hematologic malignancies.",
     "detailedDescription": "Our Haematology Clinic offers diagnostic testing, transfusion support and specialist management for benign and malignant hematologic conditions with close laboratory collaboration.",
@@ -678,7 +382,7 @@
     ],
     "doctors": [
       {
-        "name": "Dr. M. D. Maina",
+        "name": "Dr. M.D. Maina",
         "title": "Consultant Haematologist",
         "image": "https://lifechartdiagnostics.com/wp-content/uploads/2020/10/haematology.jpg",
         "bio": "Experienced haematologist providing diagnostic and therapeutic care for blood disorders."
@@ -692,26 +396,25 @@
         "quote": "Haematology care was thorough and laboratory coordination was seamless."
       }
     ],
-    "contact": { "phone": "+254 700 000 018", "email": "haematology@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Thu 8am–1pm",
+    "timingsOnOverview": "Thursdays 8am – 1pm (Room 5)",
     "images": [
       { "url": "https://lifechartdiagnostics.com/wp-content/uploads/2020/10/haematology.jpg", "alt": "Haematology laboratory" }
     ],
-    "locations": ["Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 19,
-    "title": "Infectious Diseases Clinic",
+    "id": 11,
+    "title": "Infectious Diseases",
     "tagline": "Comprehensive infectious disease diagnosis and management.",
     "overview": "Holistic care for complex infections including HIV, tropical and emerging infectious diseases.",
-    "detailedDescription": "Our Infectious Diseases service offers specialist diagnosis, antimicrobial stewardship, and long-term management for chronic and acute infectious conditions, working closely with laboratory and public health teams.",
+    "detailedDescription": "Our Infectious Diseases service offers specialist diagnosis, antimicrobial stewardship, and long-term management for chronic and acute infectious conditions.",
     "features": [
       { "title": "HIV and opportunistic infection management" },
       { "title": "Tropical and travel medicine" },
-      { "title": "Antimicrobial stewardship" },
-      { "title": "Isolation and infection control guidance" }
+      { "title": "Antimicrobial stewardship" }
     ],
     "doctors": [
       {
@@ -729,18 +432,18 @@
         "quote": "The infectious diseases team were supportive and up to date with my treatment needs."
       }
     ],
-    "contact": { "phone": "+254 700 000 019", "email": "infectious@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Sat 9am–12pm",
+    "timingsOnOverview": "Saturdays 9am – 12pm (Room 11)",
     "images": [
       { "url": "https://healthinfo.healthengine.com.au/assets/iStock-879831370-1024x576.jpg", "alt": "Infectious disease consultation" }
     ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 20,
-    "title": "Lamaze & Antenatal Education",
+    "id": 12,
+    "title": "Lamaze Classes",
     "tagline": "Birth preparation and parenting education.",
     "overview": "Practical antenatal education including lamaze breathing and labour preparation.",
     "detailedDescription": "Our antenatal education program offers group lamaze classes, breastfeeding counselling and practical birth-preparation sessions to help expectant parents approach delivery with confidence.",
@@ -755,7 +458,7 @@
         "name": "Senior Midwifery Team",
         "title": "Midwives & Educators",
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5MUs3xKs1R_lMwzroaC2d1VGVz4tW6qoyTg&s",
-        "bio": "Experienced midwifery educators delivering practical antenatal preparation and partner-inclusive classes."
+        "bio": "Experienced midwifery educators delivering practical antenatal preparation."
       }
     ],
     "testimonials": [
@@ -766,21 +469,21 @@
         "quote": "Lamaze classes helped me remain calm and confident during labour."
       }
     ],
-    "contact": { "phone": "+254 700 000 020", "email": "antenatal-education@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": false,
-    "timingsOnOverview": "Sat 9am–12pm",
+    "timingsOnOverview": "Saturdays 9am – 12pm",
     "images": [
       { "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5MUs3xKs1R_lMwzroaC2d1VGVz4tW6qoyTg&s", "alt": "Lamaze class" }
     ],
-    "locations": ["Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 21,
-    "title": "Maxillofacial Surgery Clinic",
+    "id": 13,
+    "title": "Maxillofacial Clinic",
     "tagline": "Facial and jaw surgery with reconstructive expertise.",
     "overview": "Management of facial trauma, jaw disorders and reconstructive procedures.",
-    "detailedDescription": "The Maxillofacial team offers trauma care, corrective jaw surgery and reconstructive services following trauma or tumour resection, with integrated dental and surgical planning.",
+    "detailedDescription": "The Maxillofacial team offers trauma care, corrective jaw surgery and reconstructive services following trauma or tumour resection.",
     "features": [
       { "title": "Facial trauma and reconstruction" },
       { "title": "Orthognathic surgery" },
@@ -791,7 +494,7 @@
       {
         "name": "Dr. Kenyanya",
         "title": "Maxillofacial Surgeon",
-        "image": "https://www.circlehealthgroup.co.uk/-/media/circle/treatments/specialities/oral-and-maxillofacial-surgery.jpg?rev=047c3eb00588406fae2df8251af65027&iar=1&mh=500&mw=500&hash=D6FAB932EE58639D314E0D9B8F56F4FC",
+        "image": "https://www.circlehealthgroup.co.uk/-/media/circle/treatments/specialities/oral-and-maxillofacial-surgery.jpg",
         "bio": "Experienced in both trauma and elective maxillofacial surgery with reconstructive expertise."
       }
     ],
@@ -803,21 +506,21 @@
         "quote": "Complex facial reconstruction was handled professionally and with care."
       }
     ],
-    "contact": { "phone": "+254 700 000 021", "email": "maxillofacial@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Sat 9am–12pm",
+    "timingsOnOverview": "Saturdays 9am – 12pm (Room 3)",
     "images": [
-      { "url": "https://www.circlehealthgroup.co.uk/-/media/circle/treatments/specialities/oral-and-maxillofacial-surgery.jpg?rev=047c3eb00588406fae2df8251af65027&iar=1&mh=500&mw=500&hash=D6FAB932EE58639D314E0D9B8F56F4FC", "alt": "Maxillofacial surgery consultation" }
+      { "url": "https://www.circlehealthgroup.co.uk/-/media/circle/treatments/specialities/oral-and-maxillofacial-surgery.jpg", "alt": "Maxillofacial surgery consultation" }
     ],
-    "locations": ["Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 22,
+    "id": 14,
     "title": "Medical Outpatient Clinic",
     "tagline": "Comprehensive internal medicine consultations.",
     "overview": "Outpatient evaluation and management of adult medical conditions and referrals to specialist services.",
-    "detailedDescription": "The Medical Outpatient Clinic provides thorough internal medicine consultations, diagnostic coordination and long-term chronic condition follow-up, ensuring continuity of care and specialist referral when needed.",
+    "detailedDescription": "The Medical Outpatient Clinic provides thorough internal medicine consultations, diagnostic coordination and long-term chronic condition follow-up.",
     "features": [
       { "title": "Chronic disease management" },
       { "title": "Acute medical assessment and referral" },
@@ -840,17 +543,17 @@
         "quote": "The outpatient clinic gave timely diagnostics and a clear management plan."
       }
     ],
-    "contact": { "phone": "+254 700 000 022", "email": "medicaloutpatient@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Mon–Fri 8am–3pm",
+    "timingsOnOverview": "Mondays 8am – 3pm (Room 7)",
     "images": [
       { "url": "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb", "alt": "Medical outpatient consultation" }
     ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 23,
+    "id": 15,
     "title": "Neurosurgery Clinic",
     "tagline": "Advanced surgical care for brain and spine.",
     "overview": "Neurosurgical assessment and operative management for tumours, trauma and degenerative spine disease.",
@@ -865,7 +568,7 @@
       {
         "name": "Dr. John Boore",
         "title": "Consultant Neurosurgeon",
-        "image": "https://kingsbridgeprivatehospital.com/media/vlengxf2/theatre-resized.jpg?&mode=max",
+        "image": "https://kingsbridgeprivatehospital.com/media/vlengxf2/theatre-resized.jpg",
         "bio": "Experienced neurosurgeon with comprehensive operative and peri-operative care expertise."
       }
     ],
@@ -877,18 +580,61 @@
         "quote": "Skilled surgeons and attentive post-op care helped my recovery."
       }
     ],
-    "contact": { "phone": "+254 700 000 023", "email": "neurosurgery@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Fri 8am–10am",
+    "timingsOnOverview": "Fridays 8am – 10am (Room 9)",
     "images": [
-      { "url": "https://kingsbridgeprivatehospital.com/media/vlengxf2/theatre-resized.jpg?&mode=max", "alt": "Neurosurgical theatre" }
+      { "url": "https://kingsbridgeprivatehospital.com/media/vlengxf2/theatre-resized.jpg", "alt": "Neurosurgical theatre" }
     ],
-    "locations": ["Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 24,
-    "title": "Ophthalmology — Cornea Clinic",
+    "id": 16,
+    "title": "Obstetrics & Gynecology (OB-GYN) Clinic",
+    "tagline": "Compassionate maternity care at every stage.",
+    "overview": "Complete antenatal, intrapartum and postnatal services for safe pregnancy and delivery.",
+    "detailedDescription": "Our Obstetrics & Gynaecology team provides comprehensive antenatal monitoring, high-risk pregnancy management, gynaecologic care and postnatal support.",
+    "features": [
+      { "title": "Antenatal monitoring and ultrasound" },
+      { "title": "High-risk pregnancy management" },
+      { "title": "Gynaecologic procedures" },
+      { "title": "Postnatal and family planning services" }
+    ],
+    "doctors": [
+      {
+        "name": "Dr. Gwako",
+        "title": "Consultant Obstetrician-Gynaecologist",
+        "image": "https://nairobisouthhospital.org/wp-content/uploads/2017/03/maternity2-768x511.jpg",
+        "bio": "Experienced in high-risk obstetrics and gynaecologic surgery."
+      },
+      {
+        "name": "Prof. Ojwang’",
+        "title": "Senior Consultant OB-GYN",
+        "image": "https://nairobisouthhospital.org/wp-content/uploads/2017/03/maternity2-768x511.jpg",
+        "bio": "Renowned expert in obstetrics and gynaecologic oncology."
+      }
+    ],
+    "testimonials": [
+      {
+        "name": "Grace M.",
+        "title": "Patient",
+        "image": "",
+        "quote": "The antenatal team made me feel safe and informed throughout my pregnancy."
+      }
+    ],
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
+    "isBookable": true,
+    "hasReadMore": true,
+    "timingsOnOverview": "Multiple sessions daily Mon–Thu (Rooms 7, 10, 11, 12, Obs 1)",
+    "images": [
+      { "url": "https://i0.wp.com/www.stjosephwendani.org/wp-content/uploads/2024/06/1-2.jpg?fit=1000%2C667&ssl=1", "alt": "Antenatal ultrasound and care" }
+    ],
+    "locations": ["Anderson Specialty Clinic"]
+  },
+  {
+    "id": 17,
+    "title": "Ophthalmology clinic (Cornea)",
     "tagline": "Expert care for corneal and ocular surface disease.",
     "overview": "Diagnosis and treatment of corneal disease including keratoconus, infections and transplant aftercare.",
     "detailedDescription": "The Cornea Clinic provides specialist medical and surgical management of corneal disease, using advanced imaging and therapeutic techniques to preserve and restore vision.",
@@ -914,18 +660,55 @@
         "quote": "Specialist care preserved my vision and gave reassurance through treatment."
       }
     ],
-    "contact": { "phone": "+254 700 000 024", "email": "ophthalmology-cornea@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Tue 1pm–3pm",
+    "timingsOnOverview": "Tuesdays 1pm – 3pm (Room 5)",
     "images": [
       { "url": "https://hgh.ca/wp-content/uploads/2022/05/examen-ophtalmologie.jpg", "alt": "Ophthalmic examination" }
     ],
-    "locations": ["Anderson Specialty", "Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 25,
-    "title": "Ophthalmology — Glaucoma Clinic",
+    "id": 18,
+    "title": "Ophthalmology clinic (Retina)",
+    "tagline": "Advanced care for retinal disease and vision preservation.",
+    "overview": "Diagnosis and treatment of retinal disorders including diabetic retinopathy and macular degeneration.",
+    "detailedDescription": "Our Retina service uses modern retinal imaging and medical/surgical interventions to treat retinal detachment, diabetic eye disease and macular conditions.",
+    "features": [
+      { "title": "Retinal imaging and OCT" },
+      { "title": "Intravitreal therapy and retinal surgery" },
+      { "title": "Diabetic retinopathy management" },
+      { "title": "Macular degeneration care" }
+    ],
+    "doctors": [
+      {
+        "name": "Dr. Joseph Nyamori",
+        "title": "Retina Specialist",
+        "image": "https://www.globaleyeclinic.com/wp-content/uploads/2024/09/cataract-surgery-1.jpg",
+        "bio": "Subspecialist in retinal disease management using advanced imaging and therapeutic approaches."
+      }
+    ],
+    "testimonials": [
+      {
+        "name": "Annette P.",
+        "title": "Patient",
+        "image": "",
+        "quote": "Retina care saved my sight — the team were highly skilled and compassionate."
+      }
+    ],
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
+    "isBookable": true,
+    "hasReadMore": true,
+    "timingsOnOverview": "Mondays 8am – 12pm (Room 5) • Wednesdays 1pm – 4pm (Room 5)",
+    "images": [
+      { "url": "https://www.globaleyeclinic.com/wp-content/uploads/2024/09/cataract-surgery-1.jpg", "alt": "Retinal imaging" }
+    ],
+    "locations": ["Anderson Specialty Clinic"]
+  },
+  {
+    "id": 19,
+    "title": "Ophthalmology Clinic (Glaucoma)",
     "tagline": "Detection and treatment to protect sight.",
     "overview": "Screening and specialist management for glaucoma to preserve vision long-term.",
     "detailedDescription": "The Glaucoma Clinic offers intraocular pressure monitoring, visual field testing and medical/surgical therapies to slow or prevent progression of glaucomatous optic neuropathy.",
@@ -951,58 +734,21 @@
         "quote": "The team’s proactive approach helped preserve my vision."
       }
     ],
-    "contact": { "phone": "+254 700 000 025", "email": "ophthalmology-glaucoma@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Sat 9am–12pm",
+    "timingsOnOverview": "Saturdays 9am – 12pm (Room 5)",
     "images": [
       { "url": "https://pacificeyeclinic.com.au/wp-content/uploads/2021/10/Female-Doctor-Ophthalmologist-Checking-Eye.jpg", "alt": "Glaucoma clinic testing" }
     ],
-    "locations": ["Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 26,
-    "title": "Ophthalmology — Retina Clinic",
-    "tagline": "Advanced care for retinal disease and vision preservation.",
-    "overview": "Diagnosis and treatment of retinal disorders including diabetic retinopathy and macular degeneration.",
-    "detailedDescription": "Our Retina service uses modern retinal imaging and medical/surgical interventions to treat retinal detachment, diabetic eye disease and macular conditions with a focus on vision-sparing techniques.",
-    "features": [
-      { "title": "Retinal imaging and OCT" },
-      { "title": "Intravitreal therapy and retinal surgery" },
-      { "title": "Diabetic retinopathy management" },
-      { "title": "Macular degeneration care" }
-    ],
-    "doctors": [
-      {
-        "name": "Dr. Joseph Nyamori",
-        "title": "Retina Specialist",
-        "image": "https://www.globaleyeclinic.com/wp-content/uploads/2024/09/cataract-surgery-1.jpg",
-        "bio": "Subspecialist in retinal disease management using advanced imaging and therapeutic approaches."
-      }
-    ],
-    "testimonials": [
-      {
-        "name": "Annette P.",
-        "title": "Patient",
-        "image": "",
-        "quote": "Retina care saved my sight — the team were highly skilled and compassionate."
-      }
-    ],
-    "contact": { "phone": "+254 700 000 026", "email": "ophthalmology-retina@nbihosp.org" },
-    "isBookable": true,
-    "hasReadMore": true,
-    "timingsOnOverview": "Mon 8am–12pm",
-    "images": [
-      { "url": "https://www.globaleyeclinic.com/wp-content/uploads/2024/09/cataract-surgery-1.jpg", "alt": "Retinal imaging" }
-    ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
-  },
-  {
-    "id": 27,
-    "title": "Orthopedic Clinic",
+    "id": 20,
+    "title": "Orthopedics Clinic",
     "tagline": "Comprehensive bone, joint and sports medicine.",
     "overview": "Assessment and management of musculoskeletal injuries and degenerative joint disease.",
-    "detailedDescription": "The Orthopedic Clinic offers advanced fracture care, joint replacement planning, arthroscopy and non-surgical therapies in collaboration with physiotherapy to restore mobility and function.",
+    "detailedDescription": "The Orthopedic Clinic offers advanced fracture care, joint replacement planning, arthroscopy and non-surgical therapies in collaboration with physiotherapy.",
     "features": [
       { "title": "Fracture management and orthopaedic surgery" },
       { "title": "Joint replacement and arthroscopy" },
@@ -1020,7 +766,7 @@
         "name": "Dr. Michael Maru",
         "title": "Orthopaedic Surgeon",
         "image": "https://wp02-media.cdn.ihealthspot.com/wp-content/uploads/sites/309/2022/11/iStock-1220958078-1024x683.jpg",
-        "bio": "Specialises in minimally invasive orthopaedic surgery and musculoskeletal rehabilitation."
+        "bio": "Specialises in minimally invasive orthopaedic surgery."
       }
     ],
     "testimonials": [
@@ -1031,26 +777,25 @@
         "quote": "Excellent surgical care and rehabilitation helped me return to work quickly."
       }
     ],
-    "contact": { "phone": "+254 700 000 027", "email": "orthopedics@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Mon & Tue 8am–12pm",
+    "timingsOnOverview": "Mon, Tue, Wed, Thu, Fri, Sat – various sessions (Rooms 5, 11, 12)",
     "images": [
       { "url": "https://wp02-media.cdn.ihealthspot.com/wp-content/uploads/sites/309/2022/11/iStock-1220958078-1024x683.jpg", "alt": "Orthopaedic consultation" }
     ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 28,
-    "title": "Orthopedics — Spinal Clinic",
+    "id": 21,
+    "title": "Orthopedics Clinic (spinal)",
     "tagline": "Specialist care for spinal disorders and back pain.",
     "overview": "Focused management for spinal conditions including degenerative disease and deformities.",
-    "detailedDescription": "Our Spinal Clinic delivers multidisciplinary assessment and both surgical and conservative management for spine disorders, with imaging-guided planning and rehabilitation pathways.",
+    "detailedDescription": "Our Spinal Clinic delivers multidisciplinary assessment and both surgical and conservative management for spine disorders.",
     "features": [
       { "title": "Spinal assessment and imaging" },
       { "title": "Minimally invasive spine surgery" },
-      { "title": "Non-surgical back pain management" },
-      { "title": "Spine rehabilitation and physiotherapy" }
+      { "title": "Non-surgical back pain management" }
     ],
     "doctors": [
       {
@@ -1068,33 +813,32 @@
         "quote": "Spine surgery gave me long-awaited relief from chronic pain."
       }
     ],
-    "contact": { "phone": "+254 700 000 028", "email": "spine@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Wed 1pm–4pm",
+    "timingsOnOverview": "Wednesdays 1pm – 4pm (Room 11)",
     "images": [
       { "url": "https://jumeiraspecialistclinic.co.ke/wp-content/uploads/2022/05/ortho-surgery-v1.png", "alt": "Spine clinic assessment" }
     ],
-    "locations": ["Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 29,
-    "title": "Paediatric Allergy Clinic",
+    "id": 22,
+    "title": "Paediatric allergy Clinic",
     "tagline": "Specialist allergy care for children.",
     "overview": "Diagnosis and management of allergic conditions in children including asthma, eczema and food allergy.",
-    "detailedDescription": "The Paediatric Allergy service provides skin testing, immunotherapy planning and family-centred education to manage allergic disease and improve quality of life for children.",
+    "detailedDescription": "The Paediatric Allergy service provides skin testing, immunotherapy planning and family-centred education.",
     "features": [
       { "title": "Skin prick and blood allergy testing" },
       { "title": "Asthma and eczema management" },
-      { "title": "Food allergy assessment" },
-      { "title": "Immunotherapy planning" }
+      { "title": "Food allergy assessment" }
     ],
     "doctors": [
       {
         "name": "Dr. Evelyn Ng’ang’a",
         "title": "Paediatric Allergist",
         "image": "https://sa1s3optim.patientpop.com/filters:format(webp)/assets/production/practices/c733a5090f655fa2d83585a0d8e1621f30bdbd7f/images/2452534.jpg",
-        "bio": "Paediatric allergist with experience in complex childhood allergic conditions and family education."
+        "bio": "Paediatric allergist with experience in complex childhood allergic conditions."
       }
     ],
     "testimonials": [
@@ -1105,26 +849,25 @@
         "quote": "My child’s asthma has been well controlled since we started clinic therapy."
       }
     ],
-    "contact": { "phone": "+254 700 000 029", "email": "pediatric-allergy@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Mon 8am–12pm",
+    "timingsOnOverview": "Mondays 8am – 12pm (Room 9)",
     "images": [
       { "url": "https://sa1s3optim.patientpop.com/filters:format(webp)/assets/production/practices/c733a5090f655fa2d83585a0d8e1621f30bdbd7f/images/2452534.jpg", "alt": "Paediatric allergy clinic" }
     ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 30,
+    "id": 23,
     "title": "Paediatric Neurology Clinic",
     "tagline": "Neurological care for infants and children.",
     "overview": "Diagnosis and management of paediatric neurological conditions including seizures and developmental disorders.",
-    "detailedDescription": "Our Paediatric Neurology Clinic offers neurophysiologic testing, developmental assessments and tailored management plans for children with neurological conditions in a family-centred environment.",
+    "detailedDescription": "Our Paediatric Neurology Clinic offers neurophysiologic testing, developmental assessments and tailored management plans in a family-centred environment.",
     "features": [
       { "title": "EEG and neuroimaging for children" },
       { "title": "Seizure and epilepsy management" },
-      { "title": "Developmental neurology assessments" },
-      { "title": "Family-centred treatment planning" }
+      { "title": "Developmental neurology assessments" }
     ],
     "doctors": [
       {
@@ -1142,33 +885,32 @@
         "quote": "The clinic gave us a clear care plan and ongoing support for our child."
       }
     ],
-    "contact": { "phone": "+254 700 000 030", "email": "pediatric-neuro@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Thu 2pm–4pm",
+    "timingsOnOverview": "Thursdays 2pm – 4pm (Room 5)",
     "images": [
       { "url": "https://motherlyhospital.com/wp-content/uploads/2025/04/Pediatric-Neurology.jpg", "alt": "Paediatric neurology consultation" }
     ],
-    "locations": ["Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 31,
-    "title": "Paediatric / Neonatal Reviews",
+    "id": 24,
+    "title": "Pediatrics Reviews",
     "tagline": "Follow-up care and specialist reviews for infants and children.",
     "overview": "Postnatal and paediatric follow-up reviews including neonatal checks and ongoing paediatric care.",
-    "detailedDescription": "This service provides continuity of care for newborns and children following hospital discharge or specialist referrals, ensuring growth, development and medical needs are regularly reviewed.",
+    "detailedDescription": "This service provides continuity of care for newborns and children following hospital discharge or specialist referrals.",
     "features": [
       { "title": "Newborn and neonatal follow-up" },
       { "title": "Routine paediatric reviews" },
-      { "title": "Vaccination and growth monitoring" },
-      { "title": "Developmental surveillance" }
+      { "title": "Vaccination and growth monitoring" }
     ],
     "doctors": [
       {
         "name": "Hospital Paediatric Registrars",
         "title": "Paediatric Team",
         "image": "https://media.istockphoto.com/id/1464535929/photo/female-pediatrician-auscultating-a-newborn-baby.jpg?s=612x612&w=0&k=20&c=_OXDxtxi45oFrXl5u03qIai49pY9kAgG2ChoW_dP038=",
-        "bio": "Experienced paediatric registrars providing outpatient follow-up care for infants and children."
+        "bio": "Experienced paediatric registrars providing outpatient follow-up care."
       }
     ],
     "testimonials": [
@@ -1179,39 +921,38 @@
         "quote": "Regular reviews reassured us and helped track our baby’s progress effectively."
       }
     ],
-    "contact": { "phone": "+254 700 000 031", "email": "pediatric-reviews@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": false,
     "hasReadMore": true,
-    "timingsOnOverview": "Mon–Fri 9am–3pm",
+    "timingsOnOverview": "Mon–Fri various times (Rooms 9 & 10)",
     "images": [
       { "url": "https://media.istockphoto.com/id/1464535929/photo/female-pediatrician-auscultating-a-newborn-baby.jpg?s=612x612&w=0&k=20&c=_OXDxtxi45oFrXl5u03qIai49pY9kAgG2ChoW_dP038=", "alt": "Paediatric follow-up clinic" }
     ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 32,
-    "title": "Plastic & Reconstructive Surgery Clinic",
+    "id": 25,
+    "title": "Plastic And Reconstructive Surgery Clinic",
     "tagline": "Restorative and cosmetic surgery with functional outcomes.",
     "overview": "Reconstructive and aesthetic procedures including trauma reconstruction and elective surgery.",
-    "detailedDescription": "The Plastic Surgery service manages congenital, traumatic and post-oncologic reconstructive needs as well as cosmetic procedures, emphasising functional restoration and aesthetic outcomes.",
+    "detailedDescription": "The Plastic Surgery service manages congenital, traumatic and post-oncologic reconstructive needs as well as cosmetic procedures.",
     "features": [
       { "title": "Reconstructive surgery after trauma or cancer" },
       { "title": "Microsurgical and flap reconstruction" },
-      { "title": "Aesthetic and reconstructive consults" },
-      { "title": "Scar management and laser services" }
+      { "title": "Aesthetic and reconstructive consults" }
     ],
     "doctors": [
       {
         "name": "Dr. F. Nangole",
         "title": "Plastic & Reconstructive Surgeon",
         "image": "https://drbraun.co.za/wp-content/uploads/2021/09/Dr-Braun-Reconstructive_Surgery.jpg",
-        "bio": "Expert in reconstructive techniques and aesthetic surgery with multidisciplinary planning."
+        "bio": "Expert in reconstructive techniques and aesthetic surgery."
       },
       {
         "name": "Dr. Wanjeri",
         "title": "Plastic Surgeon",
         "image": "https://drbraun.co.za/wp-content/uploads/2021/09/Dr-Braun-Reconstructive_Surgery.jpg",
-        "bio": "Provides reconstructive and cosmetic surgical care focused on patient outcomes."
+        "bio": "Provides reconstructive and cosmetic surgical care."
       }
     ],
     "testimonials": [
@@ -1222,63 +963,25 @@
         "quote": "Reconstructive surgery restored both form and function — the team were exceptional."
       }
     ],
-    "contact": { "phone": "+254 700 000 032", "email": "plastics@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Mon 2pm–4pm",
+    "timingsOnOverview": "Mondays 2pm – 4pm • Saturdays 8am – 12pm (Room 9)",
     "images": [
       { "url": "https://drbraun.co.za/wp-content/uploads/2021/09/Dr-Braun-Reconstructive_Surgery.jpg", "alt": "Plastic surgery consultation" }
     ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 33,
-    "title": "Psychiatry Clinic",
-    "tagline": "Compassionate mental health assessment and treatment.",
-    "overview": "Assessment, diagnosis and management of common and complex mental health conditions.",
-    "detailedDescription": "The Psychiatry Clinic offers evidence-based psychiatric care including medication management, psychotherapy and community liaison services. Care is delivered confidentially and respectfully.",
-    "features": [
-      { "title": "Depression and anxiety treatment" },
-      { "title": "Psychotherapy and counselling" },
-      { "title": "Medication management and follow-up" },
-      { "title": "Liaison psychiatry for inpatient care" }
-    ],
-    "doctors": [
-      {
-        "name": "Dr. Catherine Mutisya",
-        "title": "Consultant Psychiatrist",
-        "image": "https://www.sacap.edu.za/wp-content/uploads/2022/06/clinical-psychologist-sacap.jpg",
-        "bio": "Provides comprehensive psychiatric assessment and integrated care with psychology services."
-      }
-    ],
-    "testimonials": [
-      {
-        "name": "Daniel R.",
-        "title": "Patient",
-        "image": "",
-        "quote": "Confidential, practical therapy and medication advice that helped me return to work."
-      }
-    ],
-    "contact": { "phone": "+254 700 000 033", "email": "psychiatry@nbihosp.org" },
-    "isBookable": true,
-    "hasReadMore": true,
-    "timingsOnOverview": "Thu 2pm–4pm",
-    "images": [
-      { "url": "https://www.sacap.edu.za/wp-content/uploads/2022/06/clinical-psychologist-sacap.jpg", "alt": "Psychiatric consultation" }
-    ],
-    "locations": ["Main Hospital"]
-  },
-  {
-    "id": 34,
+    "id": 26,
     "title": "Pulmonology Clinic",
     "tagline": "Advanced respiratory medicine and care.",
     "overview": "Comprehensive management of lung disease including COPD, asthma and interstitial lung disease.",
-    "detailedDescription": "Our Pulmonology service provides diagnostic lung function testing, bronchoscopy and long-term respiratory disease management aligned with best-practice care and rehabilitation services.",
+    "detailedDescription": "Our Pulmonology service provides diagnostic lung function testing, bronchoscopy and long-term respiratory disease management.",
     "features": [
       { "title": "Pulmonary function testing and bronchoscopy" },
-      { "title": "Chronic lung disease management (COPD, ILD)" },
-      { "title": "Asthma programmes and inhaler education" },
-      { "title": "Pulmonary rehabilitation services" }
+      { "title": "Chronic lung disease management" },
+      { "title": "Asthma programmes and inhaler education" }
     ],
     "doctors": [
       {
@@ -1296,39 +999,44 @@
         "quote": "Pulmonary rehab and tailored inhaler plans improved my breathing and activity tolerance."
       }
     ],
-    "contact": { "phone": "+254 700 000 034", "email": "pulmonology@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Thu 9am–11am",
+    "timingsOnOverview": "Thursdays 9am – 11am (Room 10)",
     "images": [
       { "url": "https://panaceaspineorthosleep.com/wp-content/uploads/2021/09/Pulmonology.jpg", "alt": "Pulmonary clinic testing" }
     ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 35,
-    "title": "Renal / Nephrology Clinic",
+    "id": 27,
+    "title": "Renal Clinic",
     "tagline": "Comprehensive kidney care and dialysis support.",
     "overview": "Evaluation and long-term management of kidney disease, hypertension and dialysis support.",
-    "detailedDescription": "Our Renal Clinic provides medical management for chronic kidney disease, acute renal issues and dialysis planning. We coordinate multidisciplinary care to slow progression and manage complications.",
+    "detailedDescription": "Our Renal Clinic provides medical management for chronic kidney disease, acute renal issues and dialysis planning.",
     "features": [
       { "title": "Chronic kidney disease management" },
       { "title": "Dialysis initiation and follow-up" },
-      { "title": "Hypertension and electrolyte management" },
-      { "title": "Renal transplant assessment coordination" }
+      { "title": "Hypertension and electrolyte management" }
     ],
     "doctors": [
       {
         "name": "Dr. George Moturi",
         "title": "Consultant Nephrologist",
         "image": "https://stjohnshospital.co.ke/wp-content/uploads/2023/04/Renal-Unit-Services.jpg",
-        "bio": "Provides comprehensive renal care including dialysis planning and transplant referrals."
+        "bio": "Provides comprehensive renal care including dialysis planning."
+      },
+      {
+        "name": "Dr. Zoya",
+        "title": "Nephrologist",
+        "image": "https://stjohnshospital.co.ke/wp-content/uploads/2023/04/Renal-Unit-Services.jpg",
+        "bio": "Specialist in kidney disease and transplant medicine."
       },
       {
         "name": "Dr. Koge",
-        "title": "Nephrology Specialist",
+        "title": "Nephrologist",
         "image": "https://stjohnshospital.co.ke/wp-content/uploads/2023/04/Renal-Unit-Services.jpg",
-        "bio": "Experienced in chronic kidney disease management and hypertension control."
+        "bio": "Experienced in chronic kidney disease management."
       }
     ],
     "testimonials": [
@@ -1339,33 +1047,38 @@
         "quote": "The renal team explained dialysis options clearly and provided compassionate care."
       }
     ],
-    "contact": { "phone": "+254 700 000 035", "email": "renal@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Mon & Fri 8am–12pm",
+    "timingsOnOverview": "Mon 8am–3pm • Tue 12pm–4pm • Fri 8am–4pm (Room 3)",
     "images": [
       { "url": "https://stjohnshospital.co.ke/wp-content/uploads/2023/04/Renal-Unit-Services.jpg", "alt": "Renal clinic dialysis unit" }
     ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 36,
-    "title": "Rheumatology Clinic",
+    "id": 28,
+    "title": "Rheumatology Clinic (Adults)",
     "tagline": "Specialist care for joint and autoimmune conditions.",
     "overview": "Diagnosis and long-term management of arthritis, autoimmune and musculoskeletal inflammatory disorders.",
-    "detailedDescription": "The Rheumatology Clinic provides specialist assessment, disease-modifying therapy planning and rehabilitation support for autoimmune joint conditions with an emphasis on preserving function and quality of life.",
+    "detailedDescription": "The Rheumatology Clinic provides specialist assessment, disease-modifying therapy planning and rehabilitation support.",
     "features": [
       { "title": "Inflammatory arthritis management" },
       { "title": "Autoimmune disease coordination" },
-      { "title": "Biologic therapy initiation and monitoring" },
-      { "title": "Joint preservation and rehabilitation planning" }
+      { "title": "Biologic therapy initiation and monitoring" }
     ],
     "doctors": [
       {
         "name": "Dr. Eugene Genga",
         "title": "Rheumatologist",
         "image": "https://lh3.googleusercontent.com/proxy/WxIG4Al009J1tEZvbQIzhxXTkPtNZUgkaMu1u-NIPlenKhf851J38Vo-Pu7Frslhqj2razrfcYOgevI9iq4OnJgLZEXCIZohQgDi1EJs5V_6PSKrtQkpzeAzUt8zdP_gWye2lXtmUTEMjSOOzZ8mpwYT8r-i3gnPtcc",
-        "bio": "Provides advanced care for autoimmune and inflammatory joint disease including biologic therapy oversight."
+        "bio": "Provides advanced care for autoimmune and inflammatory joint disease."
+      },
+      {
+        "name": "Dr. Philip Simani",
+        "title": "Rheumatologist",
+        "image": "https://lh3.googleusercontent.com/proxy/WxIG4Al009J1tEZvbQIzhxXTkPtNZUgkaMu1u-NIPlenKhf851J38Vo-Pu7Frslhqj2razrfcYOgevI9iq4OnJgLZEXCIZohQgDi1EJs5V_6PSKrtQkpzeAzUt8zdP_gWye2lXtmUTEMjSOOzZ8mpwYT8r-i3gnPtcc",
+        "bio": "Expert in rheumatoid arthritis and biologic therapies."
       }
     ],
     "testimonials": [
@@ -1376,70 +1089,116 @@
         "quote": "Rheumatology care improved my mobility and reduced flare frequency."
       }
     ],
-    "contact": { "phone": "+254 700 000 036", "email": "rheumatology@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Tue 8am–11am",
+    "timingsOnOverview": "Tuesdays 8am – 11am (Room 3) • Fridays 1pm – 4pm (Room 7)",
     "images": [
       { "url": "https://lh3.googleusercontent.com/proxy/WxIG4Al009J1tEZvbQIzhxXTkPtNZUgkaMu1u-NIPlenKhf851J38Vo-Pu7Frslhqj2razrfcYOgevI9iq4OnJgLZEXCIZohQgDi1EJs5V_6PSKrtQkpzeAzUt8zdP_gWye2lXtmUTEMjSOOzZ8mpwYT8r-i3gnPtcc", "alt": "Rheumatology consultation" }
     ],
-    "locations": ["Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 37,
-    "title": "Surgical Clinic (Specialist Sessions)",
-    "tagline": "Multidisciplinary surgical review and planning.",
-    "overview": "Consultation and planning across surgical specialties including colorectal, general and urologic surgery.",
-    "detailedDescription": "Our Surgical Clinic provides multidisciplinary review, pre-operative optimization and post-operative follow-up across surgical specialties, ensuring safe pathways from assessment to recovery.",
+    "id": 29,
+    "title": "Surgical Clinic",
+    "tagline": "Comprehensive surgical assessment and follow-up.",
+    "overview": "Preoperative assessment and surgical management of general surgical conditions.",
+    "detailedDescription": "Our General Surgery unit provides diagnostic assessment, elective and urgent surgeries, minimally invasive techniques and structured postoperative care.",
     "features": [
-      { "title": "Pre-op assessment and optimisation" },
-      { "title": "Multidisciplinary surgical planning" },
-      { "title": "Post-operative follow-up" },
-      { "title": "Referral to specialist surgical teams" }
+      { "title": "Pre-op assessment and planning" },
+      { "title": "Laparoscopic and open procedures" },
+      { "title": "Post-operative rehabilitation" }
     ],
     "doctors": [
       {
-        "name": "Dr. Sajabi",
+        "name": "Dr. John B Ilkul",
         "title": "Consultant Surgeon",
-        "image": "https://www.cardioheal.co.il/wp-content/uploads/2024/07/%D7%94%D7%9B%D7%A0%D7%95%D7%AA-%D7%9C%D7%A0%D7%99%D7%AA%D7%95%D7%97-%D7%9E%D7%A1%D7%AA%D7%9E%D7%99%D7%9D.jpg",
-        "bio": "Provides expert surgical consultation and multidisciplinary coordination for complex cases."
+        "image": "https://cdn.prod.website-files.com/6265a955fd624c60a9c38baa/6297d6eb0b435349d629664d_general-surgery.webp",
+        "bio": "Experienced in general and laparoscopic surgery."
+      },
+      {
+        "name": "Prof. Paul Odula",
+        "title": "Professor of Surgery",
+        "image": "https://cdn.prod.website-files.com/6265a955fd624c60a9c38baa/6297d6eb0b435349d629664d_general-surgery.webp",
+        "bio": "Senior surgeon with broad expertise including minimally invasive surgery."
       }
     ],
     "testimonials": [
       {
-        "name": "Mark S.",
+        "name": "Mike L.",
         "title": "Patient",
         "image": "",
-        "quote": "Surgical planning and follow-up were thorough and reassuring."
+        "quote": "Surgery and recovery were managed professionally and compassionately."
       }
     ],
-    "contact": { "phone": "+254 700 000 037", "email": "surgicalclinic@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Tue & Thu 8am–12pm",
+    "timingsOnOverview": "Mon, Tue, Wed, Thu, Fri, Sat – various sessions (Rooms 6, 9, 12)",
     "images": [
-      { "url": "https://www.cardioheal.co.il/wp-content/uploads/2024/07/%D7%94%D7%9B%D7%A0%D7%95%D7%AA-%D7%9C%D7%A0%D7%99%D7%AA%D7%95%D7%97-%D7%9E%D7%A1%D7%AA%D7%9E%D7%99%D7%9D.jpg", "alt": "Surgical consultation" }
+      { "url": "https://cdn.prod.website-files.com/6265a955fd624c60a9c38baa/6297d6eb0b435349d629664d_general-surgery.webp", "alt": "Surgical team in theatre" }
     ],
-    "locations": ["Main Hospital", "Anderson Specialty"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 38,
+    "id": 30,
+    "title": "Surgical (Colorectal) Clinic",
+    "tagline": "Specialised care for colorectal disorders.",
+    "overview": "Diagnosis and surgical management of colon, rectal and anal diseases using minimally invasive techniques.",
+    "detailedDescription": "Our Colorectal Clinic offers colonoscopy services, laparoscopic colorectal surgery and tailored post-operative rehabilitation.",
+    "features": [
+      { "title": "Colonoscopy and diagnostic endoscopy" },
+      { "title": "Minimally invasive colorectal surgery" },
+      { "title": "Bowel cancer screening and management" }
+    ],
+    "doctors": [
+      {
+        "name": "Dr. Alex Muturi",
+        "title": "Colorectal Surgeon",
+        "image": "https://clinicfordigestivesurgery.com/wp-content/uploads/2024/03/Colorectal-Surgery.jpg",
+        "bio": "Experienced colorectal surgeon with expertise in laparoscopic and oncologic procedures."
+      }
+    ],
+    "testimonials": [
+      {
+        "name": "Grace M.",
+        "title": "Patient",
+        "image": "",
+        "quote": "The surgical team guided me through surgery and recovery with clear instructions and compassion."
+      }
+    ],
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
+    "isBookable": true,
+    "hasReadMore": true,
+    "timingsOnOverview": "Wednesdays 8am – 12pm (Room 3)",
+    "images": [
+      { "url": "https://clinicfordigestivesurgery.com/wp-content/uploads/2024/03/Colorectal-Surgery.jpg", "alt": "Colorectal surgical suite" }
+    ],
+    "locations": ["Anderson Specialty Clinic"]
+  },
+  {
+    "id": 31,
     "title": "Urology Clinic",
     "tagline": "Comprehensive urinary and male reproductive care.",
     "overview": "Diagnosis and treatment of urinary tract and male reproductive system disorders.",
-    "detailedDescription": "The Urology Clinic provides endourological, medical and surgical management for conditions such as prostate disease, urinary stones and voiding dysfunction with access to minimally invasive techniques.",
+    "detailedDescription": "The Urology Clinic provides endourological, medical and surgical management for conditions such as prostate disease, urinary stones and voiding dysfunction.",
     "features": [
       { "title": "Prostate and voiding dysfunction management" },
       { "title": "Endourology and stone management" },
-      { "title": "Urinary tract infection and cancer care" },
-      { "title": "Male reproductive health services" }
+      { "title": "Urinary tract infection and cancer care" }
     ],
     "doctors": [
+      {
+        "name": "Dr. Carnjini",
+        "title": "Urologist",
+        "image": "https://www.manipalhospitals.com/gurugram/uploads/specialities/urology-doctor-gurugram.png",
+        "bio": "Experienced in general urology."
+      },
       {
         "name": "Dr. Gitobu Mburugu",
         "title": "Consultant Urologist",
         "image": "https://www.manipalhospitals.com/gurugram/uploads/specialities/urology-doctor-gurugram.png",
-        "bio": "Provides specialist urology services including endoscopic and open surgical care."
+        "bio": "Specialist in endourology and reconstructive urology."
       }
     ],
     "testimonials": [
@@ -1450,26 +1209,25 @@
         "quote": "Urology team provided clear options and excellent perioperative care."
       }
     ],
-    "contact": { "phone": "+254 700 000 038", "email": "urology@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Mon 9am–12pm",
+    "timingsOnOverview": "Mondays 9am – 12pm (Room 11) • Fridays 8am – 12pm (Room 11)",
     "images": [
       { "url": "https://www.manipalhospitals.com/gurugram/uploads/specialities/urology-doctor-gurugram.png", "alt": "Urology consultation" }
     ],
-    "locations": ["Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 39,
-    "title": "Vascular Surgery Clinic",
+    "id": 32,
+    "title": "Vascular clinic",
     "tagline": "Specialist care for arterial and venous disease.",
     "overview": "Assessment and treatment of peripheral vascular disease, varicose veins and vascular malformations.",
-    "detailedDescription": "The Vascular Surgery Clinic offers diagnostic vascular ultrasound, endovascular procedures and open vascular surgery when indicated, focusing on limb preservation and circulatory health.",
+    "detailedDescription": "The Vascular Surgery Clinic offers diagnostic vascular ultrasound, endovascular procedures and open vascular surgery.",
     "features": [
       { "title": "Vascular imaging and ultrasound" },
       { "title": "Endovascular and open vascular surgery" },
-      { "title": "Varicose vein treatment" },
-      { "title": "Limb preservation and wound care" }
+      { "title": "Varicose vein treatment" }
     ],
     "doctors": [
       {
@@ -1487,50 +1245,50 @@
         "quote": "Vascular care improved circulation and helped heal persistent wounds."
       }
     ],
-    "contact": { "phone": "+254 700 000 039", "email": "vascular@nbihosp.org" },
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
     "isBookable": true,
     "hasReadMore": true,
-    "timingsOnOverview": "Sat 9am–12pm",
+    "timingsOnOverview": "Saturdays 9am – 12pm (Room 7)",
     "images": [
       { "url": "https://productimages.withfloats.com/serviceimages/actual/6385305fc541e93f097bce1cVaricose-Surgery-min", "alt": "Vascular ultrasound" }
     ],
-    "locations": ["Main Hospital"]
+    "locations": ["Anderson Specialty Clinic"]
   },
   {
-    "id": 40,
-    "title": "Wellness & Physiotherapy Clinic",
-    "tagline": "Rehabilitation, mobility restoration and prevention.",
-    "overview": "Physiotherapy and rehabilitation services for post-operative recovery, chronic pain and mobility restoration.",
-    "detailedDescription": "Our Physiotherapy team provides personalised rehabilitation plans including manual therapy, exercise prescription and functional retraining to restore independence and improve quality of life.",
+    "id": 33,
+    "title": "Well Baby Clinic",
+    "tagline": "Supporting healthy starts for infants and children.",
+    "overview": "Growth monitoring, immunizations and developmental screening for infants and young children.",
+    "detailedDescription": "Our Child Welfare Clinic provides routine immunization, nutrition counselling and developmental assessments delivered by experienced paediatric nurses.",
     "features": [
-      { "title": "Post-surgical rehabilitation" },
-      { "title": "Sports injury rehabilitation" },
-      { "title": "Chronic pain management" },
-      { "title": "Balance and gait retraining" }
+      { "title": "Immunization schedule and catch-up" },
+      { "title": "Growth and nutrition monitoring" },
+      { "title": "Developmental screening" },
+      { "title": "Parenting and feeding counselling" }
     ],
     "doctors": [
       {
-        "name": "Dr. John Smith",
-        "title": "Senior Physiotherapist",
-        "image": "https://images.unsplash.com/photo-1607746882042-944635dfe10e",
-        "bio": "Senior physiotherapist specialising in orthopaedic and sports rehabilitation."
+        "name": "Senior Pediatric Nursing Team",
+        "title": "Paediatric Nursing",
+        "image": "https://malaica.com/wp-content/uploads/2025/06/Wellbaby-Clinic-2-scaled.jpg",
+        "bio": "Experienced nursing team specialising in child growth monitoring and immunisation services."
       }
     ],
     "testimonials": [
       {
-        "name": "Kevin O.",
-        "title": "Patient",
+        "name": "Rebecca O.",
+        "title": "Parent",
         "image": "",
-        "quote": "Physiotherapy restored my mobility and helped me return to daily activities."
+        "quote": "Friendly, efficient service — our baby’s growth is closely followed and explained."
       }
     ],
-    "contact": { "phone": "+254 700 000 040", "email": "physio@nbihosp.org" },
-    "isBookable": true,
+    "contact": { "phone": "+254 20 271 4722", "email": "anderson@nbihosp.org" },
+    "isBookable": false,
     "hasReadMore": true,
-    "timingsOnOverview": "Mon–Sat 7am–5pm",
+    "timingsOnOverview": "Monday – Saturday 8am – 2pm (Room 8)",
     "images": [
-      { "url": "https://images.unsplash.com/photo-1537368910025-700350fe46c7", "alt": "Physiotherapy session" }
+      { "url": "https://malaica.com/wp-content/uploads/2025/06/Wellbaby-Clinic-2-scaled.jpg", "alt": "Baby clinic immunization" }
     ],
-    "locations": ["Main Hospital", "Warwick OPC", "Galleria OPC"]
+    "locations": ["Anderson Specialty Clinic"]
   }
 ]

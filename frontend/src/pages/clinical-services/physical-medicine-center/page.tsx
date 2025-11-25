@@ -2,6 +2,8 @@ import { FC } from 'react';
 import Heading from '@/components/Heading';
 import { Download, Star } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 // Images
 import physicalTherapyImage from '@/assets/images/care1.jpg';
@@ -162,8 +164,29 @@ const PhysicalMedicineCenter: FC = () => {
           </div>
         </section>
 
-        {/* Insurance Partners */}
-        <InsuranceSlider />
+  {/* Clinical Team (inserted before ClientsSay) */}
+  <TeamSection
+    title="Physical Medicine Team"
+    team={[
+      { name: 'Dr. Grace Otieno', title: 'Clinical Lead', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Ms. Lydia Mwikali', title: 'Senior Physiotherapist', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Mr. Joseph Kariuki', title: 'Hydrotherapy Lead', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Ms. Anne Wanjiru', title: 'Occupational Therapist', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+    ]}
+  />
+
+  {/* Client Testimonials */}
+  <ClientsSay
+    title="What our clients say"
+    testimonials={[
+      { quote: 'Rehab program helped me regain mobility.', name: 'C. Njoroge', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Skilled therapists and personalized plan.', name: 'L. Omondi', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Excellent progress tracking and support.', name: 'Z. Karanja', avatar: '/src/assets/feedback/clients.png' },
+    ]}
+  />
+
+  {/* Insurance Partners */}
+  <InsuranceSlider />
       </main>
     </div>
   );

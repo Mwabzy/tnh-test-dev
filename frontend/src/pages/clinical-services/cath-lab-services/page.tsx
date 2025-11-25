@@ -3,13 +3,15 @@ import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
 import { Download, Heart, Activity, Clock, Award, ShieldCheck, ChevronRight } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 const CathLabServices: FC = () => {
   return (
     <div className="min-h-screen bg-white">
       <Heading
         image_url="/src/assets/heroimages/cath-lab.jpg"
-        title="Cardiac Catheterization Laboratory (Cath Lab)"
+        title="Cath Lab"
         description="Advanced diagnostic imaging and minimally invasive cardiac procedures"
         style="background"
       />
@@ -311,6 +313,27 @@ const CathLabServices: FC = () => {
             </aside>
           </div>
         </section>
+
+  {/* Clinical Team (inserted before ClientsSay) */}
+  <TeamSection
+    title="Cath Lab Team"
+    team={[
+      { name: 'Dr. Mary Onyinkwa', title: 'Chief Radiologist', image: '/src/assets/doctorsimages/onyinknwa.png', bio: '' },
+      { name: 'Martin I. Kamanda', title: 'Radiology Manager', image: '/src/assets/doctorsimages/mkamanda.png', bio: '' },
+      { name: 'Elizabeth Oloo', title: 'Charge Nurse', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Haron Ogola', title: 'Team Leader', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+    ]}
+  />
+
+  {/* Client Testimonials */}
+  <ClientsSay
+    title="What our clients say"
+    testimonials={[
+      { quote: 'Timely procedures with excellent follow-up care.', name: 'P. Njoroge', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Skilled team and reassuring environment.', name: 'S. Wekesa', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Efficient scheduling and clear communication.', name: 'M. Kariuki', avatar: '/src/assets/feedback/clients.png' },
+    ]}
+  />
 
         {/* Insurance Partners */}
         <InsuranceSlider />

@@ -109,7 +109,7 @@ const UIRoutes = {
   medicalTourism: {
     name: "navigation.medicalTourism",
     path: "/medical-tourism",
-    component: lazyLoad(() => import("../pages/other-services/MedicalTourism")),
+    component: lazyLoad(() => import("../pages/other-services/medical-tourism/page")),
   },
   blogList: {
     name: "navigation.blogList",
@@ -306,13 +306,6 @@ const UIRoutes = {
       () => import("../pages/clinical-services/oncology-services/page")
     ),
   },
-  InternationalPatients: {
-    name: "navigation.internationalPatients",
-    path: "/clinical-services/international-patients",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/international-patients/page")
-    ),
-  },
   DentalProcedures: {
     name: "navigation.dentalProcedures",
     path: "/clinical-services/dental-procedures",
@@ -355,20 +348,7 @@ const UIRoutes = {
       () => import("../pages/clinical-services/infection-control/page")
     ),
   },
-  PhysiotherapyRehab: {
-    name: "navigation.physiotherapyRehab",
-    path: "/inpatient/physiotherapy",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/physiotherapy-rehab/page")
-    ),
-  },
-  PalliativeCare: {
-    name: "navigation.palliativeCare",
-    path: "/inpatient/palliative",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/palliative-care/page")
-    ),
-  },
+ 
 };
 
 export const RoutesPath: Record<keyof typeof UIRoutes, UIRoutesType> = UIRoutes;

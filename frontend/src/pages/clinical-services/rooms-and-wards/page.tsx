@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
 import { Bed, Wifi, Phone, Star, Users, Coffee, ChevronRight } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 const RoomsAndWards: FC = () => {
   return (
@@ -281,8 +283,29 @@ const RoomsAndWards: FC = () => {
           </div>
         </section>
 
-        {/* Insurance Partners */}
-        <InsuranceSlider />
+  {/* Clinical Team (inserted before ClientsSay) */}
+  <TeamSection
+    title="Rooms & Wards Care Team"
+    team={[
+      { name: 'Ms. Mary Kariuki', title: 'Head of Nursing – Wards', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+      { name: 'Mr. Eric Njeri', title: 'Facilities Manager', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+      { name: 'Ms. Diana Ochieng', title: 'Patient Experience Lead', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+      { name: 'Mr. Peter Mwangi', title: 'Ward Coordinator', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+    ]}
+  />
+
+  {/* Client Testimonials */}
+  <ClientsSay
+    title="What our clients say"
+    testimonials={[
+      { quote: 'Comfortable rooms and attentive nursing staff.', name: 'M. Kariuki', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Clean environment and prompt service.', name: 'E. Njeri', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Private ward experience exceeded expectations.', name: 'D. Ochieng', avatar: '/src/assets/feedback/clients.png' },
+    ]}
+  />
+
+  {/* Insurance Partners */}
+  <InsuranceSlider />
       </main>
     </div>
   );

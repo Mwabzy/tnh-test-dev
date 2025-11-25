@@ -1,5 +1,7 @@
 import Heading from "@/components/Heading";
-import { motion } from "framer-motion";
+import InsuranceSlider from "@/components/InsuranceSlider";
+import ClientsSay from "@/components/ClientsSay";
+import TeamSection from "@/components/TeamSection";
 
 const AccidentEmergencyServices: React.FC = () => {
   const emergencyCategories = [
@@ -28,75 +30,6 @@ const AccidentEmergencyServices: React.FC = () => {
         "Dehydration",
         "Minor Burns",
       ],
-    },
-  ];
-
-  // const services = [
-  //   {
-  //     id: 'triage',
-  //     title: 'Emergency Triage',
-  //     short: '24/7 rapid assessment and prioritization by experienced emergency nurses.',
-  //     image: '/src/assets/images/care1.jpg',
-  //     details: 'Immediate assessment and categorization of patients based on medical urgency.',
-  //   },
-  //   {
-  //     id: 'trauma',
-  //     title: 'Trauma Care',
-  //     short: 'Full trauma team activation for major injuries with immediate surgical support.',
-  //     image: '/src/assets/images/care2.jpg',
-  //     details: 'Advanced trauma life support with dedicated trauma bays and specialist teams.',
-  //   },
-  //   {
-  //     id: 'cardiac',
-  //     title: 'Cardiac Emergency',
-  //     short: 'Chest pain unit with rapid ECG and cardiac marker testing.',
-  //     image: '/src/assets/images/care3.jpg',
-  //     details: 'Immediate cardiac assessment and intervention capability.',
-  //   },
-  //   {
-  //     id: 'pediatric',
-  //     title: 'Pediatric Emergency',
-  //     short: 'Child-friendly emergency care with specialized pediatric equipment.',
-  //     image: '/src/assets/images/care4.jpg',
-  //     details: 'Dedicated pediatric emergency specialists available 24/7.',
-  //   },
-  //   {
-  //     id: 'critical',
-  //     title: 'Critical Care',
-  //     short: 'Resuscitation and stabilization with advanced life support.',
-  //     image: '/src/assets/images/image2.jpg',
-  //     details: 'Full critical care capabilities with immediate ICU access.',
-  //   },
-  //   {
-  //     id: 'fasttrack',
-  //     title: 'Fast Track Care',
-  //     short: 'Rapid treatment of minor injuries and illnesses.',
-  //     image: '/src/assets/images/image4.jpg',
-  //     details: 'Efficient care for non-life-threatening conditions.',
-  //   },
-  // ];
-
-  const testimonials = [
-    {
-      id: "t1",
-      quote:
-        "The A&E team responded incredibly fast when my son had a severe allergic reaction. Professional and reassuring throughout.",
-      name: "Sarah M., Karen",
-      avatar: "/src/assets/images/image1.png",
-    },
-    {
-      id: "t2",
-      quote:
-        "Excellent trauma care after my accident. The team worked seamlessly together and kept my family informed.",
-      name: "James O., Westlands",
-      avatar: "/src/assets/doctorsImages/jorammugo.png",
-    },
-    {
-      id: "t3",
-      quote:
-        "Quick, efficient service for what could have been a very stressful situation. Thank you TNH A&E!",
-      name: "Amina H., Parklands",
-      avatar: "/src/assets/images/image3.png",
     },
   ];
 
@@ -170,7 +103,7 @@ const AccidentEmergencyServices: React.FC = () => {
           </div>
           <div className="order-1 lg:order-2 space-y-4">
             <img
-              src="https://media.istockphoto.com/id/513438317/photo/doctor-nurse-and-paramedics-wheeling-patient-on-stretcher.jpg?s=612x612&w=0&k=20&c=iagHKq8nLpWZRfUTkVqZl0m54fzyHfaDapILk74KV7Y="
+              src="/src/assets/services/ambulance.png"
               alt="Emergency response team"
               className="w-full rounded-2xl shadow-lg object-cover h-80"
             />
@@ -208,7 +141,7 @@ const AccidentEmergencyServices: React.FC = () => {
                 Call Emergency Now
               </a>
             </div>
-          </div>{" "}
+          </div>
           <div className="bg-red-50 rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-lg transition-shadow">
             <h3 className="text-lg font-semibold text-red-900">Find Us</h3>
             <div>
@@ -236,34 +169,8 @@ const AccidentEmergencyServices: React.FC = () => {
               </a>
             </div>
           </div>
-          <div className="bg-red-50 rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-lg transition-shadow">
-            <h3 className="text-lg font-semibold text-red-900">Insurance</h3>
-            <div>
-              <p className="text-sm text-gray-600 mb-3">
-                We accept all major insurance
-              </p>
-              <a
-                href="/insurance"
-                className="inline-flex items-center text-yellow-600 text-sm hover:text-yellow-500"
-              >
-                Learn More
-                <svg
-                  className="w-4 h-4 ml-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </a>
-            </div>
-          </div>
         </div>
+
         {/* What to Expect & When to Come */}
         <div className="max-w-7xl mx-auto mb-12 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white rounded-xl p-6 shadow-sm">
@@ -339,38 +246,70 @@ const AccidentEmergencyServices: React.FC = () => {
           </div>
         </div>
 
-        {/* Patient testimonials */}
-        <div className="max-w-7xl mx-auto mb-20">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-serif font-bold text-red-900 mb-2">
-              Patient Stories
-            </h3>
-            <div className="w-20 h-1 bg-yellow-600 mx-auto"></div>
+        {/* Final blocks: Team, Testimonials, Insurance */}
+        <div className="container mx-auto">
+          {/* Team Section (moved here) */}
+          <div className="mb-12">
+            <TeamSection
+              title="Our Clinical Team"
+              team={[
+                {
+                  name: "Dr. Samuel Odede",
+                  title: "Consultant Neurologist",
+                  image: "/src/assets/doctorsImages/samuelowuor.png",
+                  bio: "",
+                },
+                {
+                  name: "Dr. David Abaya",
+                  title: "Emergency Physician",
+                  image: "/src/assets/doctorsImages/unknown.png",
+                  bio: "",
+                },
+                {
+                  name: "Esther Kigera",
+                  title: "Senior Charge Nurse",
+                  image: "/src/assets/doctorsImages/unknown.png",
+                  bio: "",
+                },
+                {
+                  name: "Jedidah Mutinda",
+                  title: "Trauma Surgeon",
+                  image: "/src/assets/doctorsImages/unknown.png",
+                  bio: "",
+                },
+              ]}
+            />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
-              <motion.blockquote
-                key={t.id}
-                initial={{ opacity: 0, y: 6 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                viewport={{ once: true }}
-                className="bg-red-50 p-6 rounded-xl shadow-sm hover:shadow-lg transition-shadow"
-              >
-                <p className="text-gray-700 italic">"{t.quote}"</p>
-                <div className="mt-4 flex items-center gap-3">
-                  <img
-                    src={t.avatar}
-                    alt={t.name}
-                    className="w-10 h-10 object-cover rounded-full"
-                  />
-                  <cite className="text-sm font-medium text-gray-900">
-                    {t.name}
-                  </cite>
-                </div>
-              </motion.blockquote>
-            ))}
+
+          {/* Client Testimonials */}
+          <div className="mb-12">
+            <ClientsSay
+              title="What our clients say"
+              testimonials={[
+                {
+                  quote:
+                    "The team was lifesaving and incredibly calm under pressure.",
+                  name: "S. Mwangi",
+                  avatar: "/src/assets/feedback/clients.png",
+                  subtitle: "",
+                },
+                {
+                  quote:
+                    "Rapid response and clear communication throughout my admission.",
+                  name: "R. Otieno",
+                  avatar: "/src/assets/feedback/clients.png",
+                },
+                {
+                  quote: "Excellent care when my child was admitted overnight.",
+                  name: "M. Njeri",
+                  avatar: "/src/assets/feedback/clients.png",
+                },
+              ]}
+            />
           </div>
+
+          {/* Insurance Partners */}
+          <InsuranceSlider />
         </div>
       </div>
     </div>

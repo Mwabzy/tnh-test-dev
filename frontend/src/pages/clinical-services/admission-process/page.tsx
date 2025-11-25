@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
 import { FileText, Clock, Phone, CalendarDays, ClipboardList, ChevronRight } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
+import ClientsSay from '@/components/ClientsSay';
+import TeamSection from '@/components/TeamSection';
 
 const AdmissionProcess: FC = () => {
   return (
@@ -162,11 +164,9 @@ const AdmissionProcess: FC = () => {
               >
                 <h4 className="font-semibold mb-4">Accepted Insurance Providers</h4>
                 <ul className="space-y-2 text-sm text-gray-700">
-                  <li>AAR Insurance</li>
-                  <li>Jubilee Insurance</li>
-                  <li>NHIF</li>
-                  <li>Madison Insurance</li>
-                  <li>And many more...</li>
+                  <li>We work with all major insurance providers.</li>
+                  <li>KKindly liaise with our Admissions Team to</li>
+                  <li>confirm whether your specific insurance plan is accepted.</li>
                 </ul>
               </motion.div>
               <motion.div
@@ -264,8 +264,29 @@ const AdmissionProcess: FC = () => {
           </div>
         </section>
 
-        {/* Insurance Partners */}
-        <InsuranceSlider />
+  {/* Clinical Team (inserted before ClientsSay) */}
+  <TeamSection
+    title="Admissions Team"
+    team={[
+      { name: 'Joel Wasiche', title: 'Credit Controller', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+      { name: 'Esther Odupoyi', title: 'Admissions Manager', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+      { name: 'Kenneth Bodo', title: 'Senior Medical Records Officer', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+      { name: 'Felister Githui', title: 'Patient Liason', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+    ]}
+  />
+
+  {/* Client Testimonials */}
+  <ClientsSay
+    title="What our clients say"
+    testimonials={[
+      { quote: 'Smooth admission experience and helpful staff.', name: 'P. Ouma', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Clear pre-admission guidance and fast processing.', name: 'H. Wekesa', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Efficient payment and insurance handling.', name: 'L. Kamunge', avatar: '/src/assets/feedback/clients.png' },
+    ]}
+  />
+
+  {/* Insurance Partners */}
+  <InsuranceSlider />
       </main>
     </div>
   );
