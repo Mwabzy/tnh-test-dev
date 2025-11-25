@@ -168,20 +168,20 @@ const PhysicalMedicineCenter: FC = () => {
   <TeamSection
     title="Physical Medicine Team"
     team={[
-      { name: 'Dr. Grace Otieno', title: 'Clinical Lead', image: '/src/assets/images/image1.png', bio: 'Oversees multidisciplinary rehabilitation programs.' },
-      { name: 'Ms. Lydia Mwikali', title: 'Senior Physiotherapist', image: '/src/assets/images/image2.png', bio: 'Specialises in orthopaedic and sports rehab.' },
-      { name: 'Mr. Joseph Kariuki', title: 'Hydrotherapy Lead', image: '/src/assets/images/image3.png', bio: 'Manages hydrotherapy and aquatic rehabilitation.' },
-      { name: 'Ms. Anne Wanjiru', title: 'Occupational Therapist', image: '/src/assets/images/image4.png', bio: 'Focuses on daily-living skills and adaptive equipment.' },
+      { name: 'Dr. Grace Otieno', title: 'Clinical Lead', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Ms. Lydia Mwikali', title: 'Senior Physiotherapist', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Mr. Joseph Kariuki', title: 'Hydrotherapy Lead', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Ms. Anne Wanjiru', title: 'Occupational Therapist', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
     ]}
   />
 
   {/* Client Testimonials */}
   <ClientsSay
-    title="What our clients say about Physical Medicine"
+    title="What our clients say"
     testimonials={[
-      { quote: 'Rehab program helped me regain mobility.', name: 'C. Njoroge', avatar: '/src/assets/images/image1.png' },
-      { quote: 'Skilled therapists and personalized plan.', name: 'L. Omondi', avatar: '/src/assets/images/image2.png' },
-      { quote: 'Excellent progress tracking and support.', name: 'Z. Karanja', avatar: '/src/assets/images/image3.png' },
+      { quote: 'Rehab program helped me regain mobility.', name: 'C. Njoroge', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Skilled therapists and personalized plan.', name: 'L. Omondi', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Excellent progress tracking and support.', name: 'Z. Karanja', avatar: '/src/assets/feedback/clients.png' },
     ]}
   />
 

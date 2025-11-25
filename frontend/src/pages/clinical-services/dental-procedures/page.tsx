@@ -328,115 +328,26 @@ const DentalProcedures: FC = () => {
       <TeamSection
         title="Our Dental Specialists"
         team={[
-          { name: 'Dr. Louisa Mareri', title: 'Lead Dentist', image: 'https://www.dentistokc.com/blog/wp-content/uploads/2022/02/AdobeStock_245685948__1644929547_44535.jpg', bio: 'Expert in cosmetic and restorative dentistry with 12 years experience.' },
-          { name: 'Dr. Sarah Njeri', title: 'Orthodontist', image: 'https://static.wixstatic.com/media/8c9d66_219fdd42715e4363bfddbb2e1ba1c3c1~mv2.jpg/v1/fill/w_250,h_325,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/S_Mixon_edited.jpg', bio: 'Specialist in orthodontics and clear aligner treatment.' },
-          { name: 'Dr. Michael Omondi', title: 'Periodontist', image: 'https://thumbs.dreamstime.com/b/portrait-smiling-handsome-black-dentist-doctor-digital-tablet-hands-posing-clinic-interior-young-african-american-male-220602356.jpg', bio: 'Periodontics expert focusing on gum health and implant maintenance.' },
-          { name: 'Dr. Emmanuel Kariuki', title: 'Endodontist', image: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7', bio: 'Endodontics specialist with a gentle approach to root canal therapy.' }
+          { name: 'Dr. Louisa Mareri', title: 'Lead Dentist', image: 'https://www.dentistokc.com/blog/wp-content/uploads/2022/02/AdobeStock_245685948__1644929547_44535.jpg', bio: '' },
+          { name: 'Dr. Sarah Njeri', title: 'Orthodontist', image: 'https://static.wixstatic.com/media/8c9d66_219fdd42715e4363bfddbb2e1ba1c3c1~mv2.jpg/v1/fill/w_250,h_325,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/S_Mixon_edited.jpg', bio: '' },
+          { name: 'Dr. Michael Omondi', title: 'Periodontist', image: 'https://thumbs.dreamstime.com/b/portrait-smiling-handsome-black-dentist-doctor-digital-tablet-hands-posing-clinic-interior-young-african-american-male-220602356.jpg', bio: '' },
+          { name: 'Dr. Emmanuel Kariuki', title: 'Endodontist', image: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7', bio: '' }
         ]}
       />
 
       {/* Testimonials (shared) */}
       <ClientsSay
-        title="Patient Stories"
+        title="What Our Clients Say"
         testimonials={[
-          { quote: "The dental team was incredibly professional and made my procedure completely painless.", name: 'Alice Wanjiku', avatar: '/src/assets/images/image1.png', subtitle: 'Cosmetic Dentistry' },
-          { quote: "State-of-the-art facility with caring staff. My dental implant procedure was smooth.", name: 'James Kiprop', avatar: '/src/assets/images/image2.png', subtitle: 'Dental Implants' },
-          { quote: "Very impressed with the modern technology and expertise. The clear aligners have transformed my smile!", name: 'Mary Akinyi', avatar: '/src/assets/images/image3.png', subtitle: 'Orthodontics' }
+          { quote: "The dental team was incredibly professional and made my procedure completely painless.", name: 'Alice Wanjiku', avatar: '/src/assets/feedback/clients.png', subtitle: 'Cosmetic Dentistry' },
+          { quote: "State-of-the-art facility with caring staff. My dental implant procedure was smooth.", name: 'James Kiprop', avatar: '/src/assets/feedback/clients.png', subtitle: 'Dental Implants' },
+          { quote: "Very impressed with the modern technology and expertise. The clear aligners have transformed my smile!", name: 'Mary Akinyi', avatar: '/src/assets/feedback/clients.png', subtitle: 'Orthodontics' }
         ]}
       />
 
       {/* Insurance Partners (shared) */}
       <InsuranceSlider />
-
-      {/* Safety & Comfort Section */}
-      <div className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-              >
-                <h2 className="text-3xl font-serif font-bold text-gray-900 mb-6">
-                  Your Safety & Comfort
-                  <div className="mt-4 w-20 h-1 bg-yellow-600"></div>
-                </h2>
-                <p className="text-gray-600 mb-8 leading-relaxed">
-                  We prioritize your safety and comfort with strict sterilization protocols,
-                  modern amenities, and a caring approach to dental care.
-                </p>
-                <div className="grid grid-cols-1 gap-6">
-                  {[
-                    {
-                      title: "Sterilization Standards",
-                      description: "Advanced sterilization protocols exceeding industry standards"
-                    },
-                    {
-                      title: "Comfort Amenities",
-                      description: "Relaxing environment with entertainment and comfort features"
-                    },
-                    {
-                      title: "Pain Management",
-                      description: "Latest techniques and technologies for painless procedures"
-                    }
-                  ].map((item, index) => (
-                    <motion.div
-                      key={item.title}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-                      viewport={{ once: true }}
-                      className="flex items-start gap-4"
-                    >
-                      <div className="flex-shrink-0">
-                        <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                          <svg
-                            className="w-5 h-5 text-red-900"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-semibold text-gray-900 mb-1">
-                          {item.title}
-                        </h4>
-                        <p className="text-gray-600">{item.description}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                viewport={{ once: true }}
-                className="relative"
-              >
-                <img
-                  src="https://www.marveldentalcare.com/blog/wp-content/uploads/2020/06/Dentist_in_Burleson_putting_on_PPE__.jpg"
-                  alt="Dental Safety Protocols"
-                  className="rounded-2xl shadow-2xl"
-                />
-                <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg">
-                  <p className="text-sm font-medium text-red-900">Advanced Sterilization</p>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </div>
+       
     </div>
   );
 };

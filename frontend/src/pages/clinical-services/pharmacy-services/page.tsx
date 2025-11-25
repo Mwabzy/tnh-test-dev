@@ -26,7 +26,7 @@ const PharmacyServices: React.FC = () => {
     <div>
       {/* Hero Section */}
       <Heading
-        image_url="https://www.edwiseinternational.com/blogs/img/study-ms-in-pharmacy-in-uk-1.webp"
+        image_url="/src/assets/services/pharmacy2.png"
         title="Quality Medicine"
         description="A patient-focused pharmacy department providing safe, timely and affordable medicines through our qualified team and rigorous quality processes."
         style="background"
@@ -102,7 +102,7 @@ const PharmacyServices: React.FC = () => {
             className="relative"
           >
             <img
-              src="https://askannie.tortoisepath.com/wp-content/uploads/2024/08/The-Nairobi-Hospital-Outpatient-Centre-Galleria-Mall-Nairobi-Kenya-AskAnnie-TortoisePathcom.png"
+              src="/src/assets/services/pharmacy1.png"
               alt="Pharmacist consulting with patient"
               className="rounded-2xl shadow-2xl w-full"
             />
@@ -526,20 +526,20 @@ const PharmacyServices: React.FC = () => {
   <TeamSection
     title="Pharmacy Team"
     team={[
-      { name: 'Mr. David Mwangi', title: 'Head Pharmacist', image: '/src/assets/images/image1.png', bio: 'Leads pharmacy operations and clinical pharmacy services.' },
-      { name: 'Ms. Aisha Limo', title: 'Clinical Pharmacist', image: '/src/assets/images/image2.png', bio: 'Provides medication counselling and MTP support.' },
-      { name: 'Mr. Peter Njoroge', title: 'Pharmacy Logistics Lead', image: '/src/assets/images/image3.png', bio: 'Oversees supply chain and dispensing accuracy.' },
-      { name: 'Ms. Mercy Wanjiru', title: 'Home Delivery Coordinator', image: '/src/assets/images/image4.png', bio: 'Manages home delivery and patient follow-up.' },
+      { name: 'Dr. Isha Anand', title: 'Chief Pharmacist', image: '/src/assets/doctorsimages/isha.png', bio: '' },
+      { name: 'Dr. Kizito Mariita', title: 'Clinical Pharmacist', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Dr. Keiller Barasa	', title: 'Senior Pharmacist	', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Dr. Gathii Kariuki	', title: 'Clinical Pharmacist	', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
     ]}
   />
 
   {/* Client Testimonials */}
   <ClientsSay
-    title="What our clients say about Pharmacy"
+    title="What our clients say"
     testimonials={[
-      { quote: 'Pharmacy staff were efficient and very helpful.', name: 'Michael K.', avatar: '/src/assets/images/image1.png', subtitle: 'Outpatient' },
-      { quote: 'Fast prescription service and friendly pharmacists.', name: 'Aisha L.', avatar: '/src/assets/images/image2.png', subtitle: 'Inpatient' },
-      { quote: 'Convenient home delivery and accurate dispensing.', name: 'Peter N.', avatar: '/src/assets/images/image3.png' },
+      { quote: 'Pharmacy staff were efficient and very helpful.', name: 'Michael K.', avatar: '/src/assets/feedback/clients.png', subtitle: 'Outpatient' },
+      { quote: 'Fast prescription service and friendly pharmacists.', name: 'Aisha L.', avatar: '/src/assets/feedback/clients.png', subtitle: 'Inpatient' },
+      { quote: 'Convenient home delivery and accurate dispensing.', name: 'Peter N.', avatar: '/src/assets/feedback/clients.png' , subtitle: 'Home Delivery'},
     ]}
   />
 

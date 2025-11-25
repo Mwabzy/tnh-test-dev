@@ -37,12 +37,6 @@ const sessions = [
   { type: 'Immunotherapy', frequency: 'Every 2–4 weeks', medianDuration: '1–2 hours' }
 ];
 
-const team = [
-  { name: 'Dr. Grace Mwangi', role: 'Lead Medical Oncologist' },
-  { name: 'Dr. Robert Kimani', role: 'Radiation Oncologist' },
-  { name: 'Prof. David Otieno', role: 'Surgical Oncologist' }
-];
-
 const testimonials = [
   {
     quote:
@@ -249,42 +243,6 @@ const OncologyServicesPage: FC = () => {
           </div>
         </section>
 
-        {/* Team */}
-        <section className="mb-16 bg-gradient-to-br from-red-50 via-white to-red-50 py-16 rounded-2xl">
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="text-center mb-12">
-              <h3 className="text-3xl font-serif font-bold mb-4">Our Expert Team</h3>
-              <p className="text-gray-600 max-w-2xl mx-auto">
-                Experienced specialists working together to provide comprehensive cancer care
-              </p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-8">
-              {team.map((m) => (
-                <motion.div 
-                  key={m.name} 
-                  whileHover={{ y: -4 }}
-                  className="bg-white rounded-2xl p-8 text-center shadow-lg backdrop-blur-sm"
-                >
-                  <motion.div 
-                    whileHover={{ scale: 1.05 }}
-                    className="w-28 h-28 mx-auto rounded-full bg-gradient-to-br from-red-100 to-red-200 mb-6 flex items-center justify-center text-red-900 text-2xl font-bold shadow-inner"
-                  >
-                    {m.name.split(' ').map(n => n[0]).join('')}
-                  </motion.div>
-                  <div className="font-semibold text-xl mb-2">{m.name}</div>
-                  <div className="text-red-900 font-medium mb-4">{m.role}</div>
-                  <button 
-                    onClick={() => navigate(`/team/${m.name.toLowerCase().replace(' ', '-')}`)}
-                    className="text-sm text-red-900 hover:text-red-700 transition-colors"
-                  >
-                    View profile →
-                  </button>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Clinical trials & supportive care */}
         <section className="mb-12 bg-gradient-to-br from-red-50 to-white rounded-xl p-6">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-6">
@@ -330,62 +288,26 @@ const OncologyServicesPage: FC = () => {
           </div>
         </section>
 
-        {/* Contact banner */}
-        <section className="mb-12">
-          <div className="max-w-6xl mx-auto overflow-hidden">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-gradient-to-r from-red-900 to-red-800 text-white rounded-2xl p-12 relative"
-            >
-              <div className="absolute inset-0 bg-[url('/src/assets/images/pattern-dot.png')] opacity-10"></div>
-              <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-                <div>
-                  <h3 className="text-2xl font-serif font-bold mb-3">Ready to discuss treatment options?</h3>
-                  <p className="text-white/90 text-lg">Contact our oncology coordinators to arrange a consultation or second opinion.</p>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <motion.a 
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    href="tel:+254202845000" 
-                    className="inline-flex items-center gap-2 bg-white text-red-900 px-8 py-4 rounded-xl font-semibold shadow-lg hover:bg-red-50 transition-colors"
-                  >
-                    Call Oncology Team
-                  </motion.a>
-                  <motion.button 
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => navigate('/book-appointment')} 
-                    className="inline-flex items-center gap-2 border-2 border-white px-8 py-4 rounded-xl font-semibold hover:bg-white/10 transition-colors"
-                  >
-                    Book Appointment
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+        
 
   {/* Client Testimonials */}
         {/* Clinical Team (inserted before ClientsSay) */}
         <TeamSection
           title="Oncology Clinical Team"
           team={[
-            { name: 'Dr. Grace Mwangi', title: 'Lead Medical Oncologist', image: '/src/assets/images/image1.png', bio: 'Drives chemotherapy and systemic therapy programmes.' },
-            { name: 'Dr. Robert Kimani', title: 'Radiation Oncologist', image: '/src/assets/images/image2.png', bio: 'Leads radiotherapy and image-guided treatment.' },
-            { name: 'Prof. David Otieno', title: 'Surgical Oncologist', image: '/src/assets/images/image3.png', bio: 'Senior surgeon for complex cancer cases.' },
-            { name: 'Ms. Mercy Karanja', title: 'Oncology Nurse Lead', image: '/src/assets/images/image4.png', bio: 'Coordinates nursing care and infusion suites.' },
+            { name: 'Dr. Grace Mwangi', title: 'Lead Medical Oncologist', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+            { name: 'Dr. Robert Kimani', title: 'Radiation Oncologist', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+            { name: 'Prof. David Otieno', title: 'Surgical Oncologist', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+            { name: 'Ms. Mercy Karanja', title: 'Oncology Nurse Lead', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
           ]}
         />
 
         <ClientsSay
-          title="What our clients say about Oncology Services"
+          title="What our clients say"
           testimonials={[
-            { quote: 'Compassionate care throughout my treatment.', name: 'A. Mwangi', avatar: '/src/assets/images/image1.png' },
-            { quote: 'Multidisciplinary team provided excellent support.', name: 'B. Ndegwa', avatar: '/src/assets/images/image2.png' },
-            { quote: 'Clear explanations and great nursing care.', name: 'C. Waweru', avatar: '/src/assets/images/image3.png' },
+            { quote: 'Compassionate care throughout my treatment.', name: 'A. Mwangi', avatar: '/src/assets/feedback/clients.png' },
+            { quote: 'Multidisciplinary team provided excellent support.', name: 'B. Ndegwa', avatar: '/src/assets/feedback/clients.png' },
+            { quote: 'Clear explanations and great nursing care.', name: 'C. Waweru', avatar: '/src/assets/feedback/clients.png' },
           ]}
         />
 

@@ -323,19 +323,19 @@ const InfectionControl: FC = () => {
         <TeamSection
           title="Quality & Infection Control Team"
           team={[
-            { name: 'Dr. Victor Kilonzo', title: 'Head of Infection Control', image: '/src/assets/images/image1.png', bio: 'Leads infection surveillance and prevention programmes.' },
-            { name: 'Ms. Hannah Muthoni', title: 'Quality Manager', image: '/src/assets/images/image2.png', bio: 'Oversees quality improvement and audits.' },
-            { name: 'Dr. George Otieno', title: 'Microbiologist', image: '/src/assets/images/image3.png', bio: 'Provides microbiology oversight and guidance.' },
-            { name: 'Ms. Grace Wairimu', title: 'Training Coordinator', image: '/src/assets/images/image4.png', bio: 'Coordinates staff training and competency assessments.' },
+            { name: 'Dr. Victor Kilonzo', title: 'Head of Infection Control', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+            { name: 'Ms. Hannah Muthoni', title: 'Quality Manager', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+            { name: 'Dr. George Otieno', title: 'Microbiologist', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
+            { name: 'Ms. Grace Wairimu', title: 'Training Coordinator', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
           ]}
         />
 
         <ClientsSay
           title="What our clients say about Infection Control"
           testimonials={[
-            { quote: 'Strict adherence to safety protocols made me feel safe.', name: 'V. Kilonzo', avatar: '/src/assets/images/image1.png' },
-            { quote: 'Professional sterilization and hygiene practices.', name: 'H. Muthoni', avatar: '/src/assets/images/image2.png' },
-            { quote: 'Clear information on infection prevention at discharge.', name: 'G. Otieno', avatar: '/src/assets/images/image3.png' },
+            { quote: 'Strict adherence to safety protocols made me feel safe.', name: 'V. Kilonzo', avatar: '/src/assets/feedback/clients.png' },
+            { quote: 'Professional sterilization and hygiene practices.', name: 'H. Muthoni', avatar: '/src/assets/feedback/clients.png' },
+            { quote: 'Clear information on infection prevention at discharge.', name: 'G. Otieno', avatar: '/src/assets/feedback/clients.png' },
           ]}
         />
 

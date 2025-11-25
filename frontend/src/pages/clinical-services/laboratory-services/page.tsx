@@ -13,8 +13,6 @@ import {
   Users,
   Building2
 } from 'lucide-react';
-import TestimonialCarousel from '@/components/TestimonialCarousel';
-import testimonials from '@/data/testimonials.json';
 import { useNavigate } from 'react-router';
 import InsuranceSlider from '@/components/InsuranceSlider';
 import ClientsSay from '@/components/ClientsSay';
@@ -457,84 +455,6 @@ const LaboratoryServices = () => {
         </div>
       </div>
 
-
-      {/* Expert Team */}
-      <div className="bg-gradient-to-br from-gray-50 to-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[length:20px_20px]"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto text-center mb-16"
-          >
-            <div className="inline-block">
-              <div className="relative">
-                <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-4">
-                  Meet Our Expert Team
-                  <div className="mt-4 w-20 h-1 bg-red-900 mx-auto"></div>
-                </h2>
-              </div>
-            </div>
-            <p className="text-gray-600 mt-6">
-              Our dedicated team of pathologists and laboratory professionals ensure the highest quality of diagnostic services.
-            </p>
-          </motion.div>
-          <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 justify-center items-start">
-              {[
-                {
-                  name: "Dr. Rahul Zode",
-                  title: "Chief Pathologist, MBChB, MMed",
-                  image: "https://atlt.foventa.africa/wp-content/uploads/2024/09/Picture1-683x1024.jpg",
-                  description: "Clinical pathology leader with 20+ years' experience in diagnostic medicine"
-                },
-                {
-                  name: "Dr. Sarah Kamau",
-                  title: "Molecular Pathologist, PhD",
-                  image: "https://thumbs.dreamstime.com/b/medical-lab-technician-pretty-working-32450895.jpg",
-                  description: "Specialist in molecular diagnostics and genomics"
-                },
-                {
-                  name: "Dr. Francis Ndungu",
-                  title: "Clinical Biochemist, MSc",
-                  image: "https://thumbs.dreamstime.com/b/african-american-man-male-doctor-27757329.jpg",
-                  description: "Expert in clinical chemistry, assay validation and QA/QC"
-                }
-              ].map((member, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ y: 20, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: index * 0.08 }}
-                  whileHover={{ y: -6, boxShadow: '0 10px 30px rgba(0,0,0,0.12)' }}
-                  viewport={{ once: true }}
-                  className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-transform duration-300"
-                >
-                  <div className="relative h-64 overflow-hidden">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                  </div>
-                  <div className="p-6 text-center">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-1">{member.name}</h3>
-                    <p className="text-red-900 text-sm font-medium mb-2">{member.title}</p>
-                    <p className="text-sm text-gray-600">{member.description}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Testimonials */}
-      <TestimonialCarousel testimonials={testimonials} />
-
       {/* Accreditation Section (Split Design) */}
       <div className="py-16">
         <div className="container mx-auto px-4">
@@ -608,20 +528,20 @@ const LaboratoryServices = () => {
   <TeamSection
     title="Our Laboratory Team"
     team={[
-      { name: 'Dr. Rahul Zode', title: 'Chief Pathologist', image: '/src/assets/images/image1.png', bio: 'Leads diagnostic and molecular services.' },
-      { name: 'Dr. Sarah Kamau', title: 'Molecular Pathologist', image: '/src/assets/images/image2.png', bio: 'Specialist in molecular diagnostics.' },
-      { name: 'Mr. Samuel Otieno', title: 'Lab Operations Manager', image: '/src/assets/images/image3.png', bio: 'Oversees lab workflows and QA.' },
-      { name: 'Ms. Grace Njeri', title: 'Senior Biomedical Scientist', image: '/src/assets/images/image4.png', bio: 'Expert in automated assay management.' },
+      { name: 'Dr. Rahul Zode', title: 'Chief Pathologist', image: '/src/assets/doctorsimages/rahul.png', bio: '' },
+      { name: 'Izza AbdulHafedh', title: 'Lab Manager', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Francis Ndungu', title: 'Lab Quality Manager', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
+      { name: 'Section Heads', title: 'Lab Team Leaders', image: '/src/assets/doctorsimages/unknown.png', bio: '' },
     ]}
   />
 
   {/* Client Testimonials */}
   <ClientsSay
-    title="What our clients say about Laboratory Services"
+    title="What our clients say"
     testimonials={[
-      { quote: 'Accurate results and quick turnaround.', name: 'N. Wanjiru', avatar: '/src/assets/images/image1.png' },
-      { quote: 'Professional phlebotomy team and clear reporting.', name: 'J. Mwangi', avatar: '/src/assets/images/image2.png' },
-      { quote: 'Convenient sample collection and reliable follow-up.', name: 'L. Otieno', avatar: '/src/assets/images/image3.png' },
+      { quote: 'Accurate results and quick turnaround.', name: 'N. Wanjiru', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Professional phlebotomy team and clear reporting.', name: 'J. Mwangi', avatar: '/src/assets/feedback/clients.png' },
+      { quote: 'Convenient sample collection and reliable follow-up.', name: 'L. Otieno', avatar: '/src/assets/feedback/clients.png' },
     ]}
   />
 
