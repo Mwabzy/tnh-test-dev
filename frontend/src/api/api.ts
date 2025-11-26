@@ -1,5 +1,7 @@
-const USER_API = "http://localhost:8000/auth/";
-const CLINICS_API = "http://localhost:8000/clinical-services/";
+const BASE_URL = import.meta.env.BACKEND_URL;
+
+const USER_API = `${BASE_URL}/auth/`;
+const CLINICS_API = `${BASE_URL}/clinical-services/`;
 
 // Auth
 export const loginUser = async (username: string, password: string) => {
