@@ -15,7 +15,7 @@ services:
       dockerfile: Dockerfile.dev
     image: thnweb:development
     restart: unless-stopped
-    container_name: tnhweb-backend
+    container_name: tnhweb-dev-backend
     command: /app/docker/django/start.sh backend
     # depends_on:
     #     - postgres

@@ -30,7 +30,7 @@ done
 echo "PostgreSQL is available" >&2
 
 # Only run migrations on the backend service
-if [ "$1" = "/app/docker/django/start.sh" ] && [ "$2" = "backend" ]; then
+if [ "$1" = "/app/dockerprod/django/start.sh" ] && [ "$2" = "backend" ]; then
     if ! python3 manage.py makemigrations --check --dry-run | grep -q "No changes detected"; then
         echo "Detected changes in models, running makemigrations..."
         python3 manage.py makemigrations

@@ -12,7 +12,7 @@ RUN corepack enable
 # Copy package.json and lockfile first (for better layer caching)
 COPY package.json pnpm-lock.yaml* ./
 
-COPY .env /app/.env
+COPY .dev.env /app/.env
 
 # Install dependencies (pnpm version is read from package.json -> packageManager field)
 RUN pnpm install --frozen-lockfile

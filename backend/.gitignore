@@ -3,3 +3,5 @@ tnhwebenv
 __pycache__/
 *.pyc
 media/
+.dev.env
+.prod.env

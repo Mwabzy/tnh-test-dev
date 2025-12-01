@@ -9,15 +9,6 @@ fi
 
 PROCESS_TYPE=$1
 
-chmod +x /app/docker/django/wait-for-it.sh
-
-DB_HOST=$(echo $DATABASE_URL | sed -E 's#postgresql://[^:]+:[^@]+@([^:/]+):([0-9]+)/.*#\1#')
-DB_PORT=$(echo $DATABASE_URL | sed -E 's#postgresql://[^:]+:[^@]+@([^:/]+):([0-9]+)/.*#\2#')
-
-
-echo "Waiting for postgres to be ready at $DB_HOST:$DB_PORT..."
-/app/docker/django/wait-for-it.sh $DB_HOST:$DB_PORT --timeout=30 --strict -- echo "Postgres is up!"
-
 
 if [ "$PROCESS_TYPE" = "backend" ]; then
     echo "Running migrations..."
