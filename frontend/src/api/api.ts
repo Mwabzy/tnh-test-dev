@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const USER_API = `${BASE_URL}/auth/`;
 const CLINICS_API = `${BASE_URL}/clinical-services/`;
@@ -43,7 +43,7 @@ function authHeaders() {
 
 export async function fetchClinicalServices() {
   const res = await fetch(CLINICS_API, {
-    headers: authHeaders(),
+    // headers: authHeaders(),
   });
   if (!res.ok) throw new Error("Failed to fetch clinical services");
   return res.json();
@@ -51,7 +51,7 @@ export async function fetchClinicalServices() {
 
 export async function fetchClinicalServiceById(id: number) {
   const res = await fetch(`${CLINICS_API}${id}/`, {
-    headers: authHeaders(),
+    // headers: authHeaders(),
   });
   if (!res.ok) throw new Error("Failed to fetch clinical service");
   return res.json();
