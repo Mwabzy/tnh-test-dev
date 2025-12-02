@@ -1,0 +1,56 @@
+name: tnhwebdev
+
+volumes:
+  prod_postgres17_app_data:
+    name: web_app_data_prod
+  static_files:
+    name: web_static_files_prod
+  media_files:
+    name: web_media_files_prod
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: thnweb:production
+    restart: unless-stopped
+    container_name: tnhweb-prod-backend
+    command: /app/docker/django/start.sh backend
+    depends_on:
+        - postgres
+    env_file:
+      - backend/.prod.env
+    ports:
+      - 8080:8080
+    volumes:
+      - static_files:/app/staticfiles:rw
+      - media_files:/app/media:rw
+
+  postgres:
+      image: postgres:17.6-bookworm
+      hostname: tnhweb-postgres
+      container_name: tnhweb_prod_postgres17
+      volumes:
+        - prod_postgres17_app_data:/var/lib/postgresql/data
+      env_file:
+        - backend/.prod.env
+      restart: unless-stopped
+
+  webserver:
+      build:
+        context: .
+        dockerfile: nginx/Dockerfile
+      container_name: tnhweb_prod_nginx
+      ports:
+        - 80:80
+        - 443:443
+      restart: unless-stopped
+      env_file:
+        - ./backend/.prod.env
+      volumes:
+        # - ./nginx/ssl/:/vol/proxy/:ro
+        - static_files:/app/staticfiles
+        - media_files:/app/media:ro
+      depends_on:
+        - backend

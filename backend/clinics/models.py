@@ -32,14 +32,12 @@ class ClinicalService(models.Model):
     tagline = models.CharField(max_length=255)
     overview = models.TextField()
     detailedDescription = models.TextField(blank=True, null=True)
-    features = models.JSONField(default=list) 
-
+    features = models.JSONField(default=list)
     doctors = models.ManyToManyField(Doctor, blank=True)
     testimonials = models.ManyToManyField(Testimonial, blank=True)
     contact = models.OneToOneField(Contact, on_delete=models.SET_NULL, null=True, blank=True)
     isBookable = models.BooleanField(default=False)
     hasReadMore = models.BooleanField(default=False)
-
     clinics = models.ManyToManyField("self", symmetrical=False, blank=True, related_name="parent_services")
     images = models.JSONField(blank=True, null=True)  
     locations = models.JSONField(blank=True, default=list)  
