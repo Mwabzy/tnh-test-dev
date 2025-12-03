@@ -1,16 +1,32 @@
+import axios from "axios";
+
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const USER_API = `${BASE_URL}/auth/`;
 const CLINICS_API = `${BASE_URL}/clinical-services/`;
 
-// Auth
+// Axios Instance
+const api = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// Attach token if it exists
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// AUTH
+
 export const loginUser = async (username: string, password: string) => {
-  const res = await fetch(`${USER_API}login/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
-  });
-  return res.json();
+  const res = await api.post(`${USER_API}login/`, { username, password });
+  return res.data;
 };
 
 export const registerUser = async (
@@ -18,71 +34,37 @@ export const registerUser = async (
   email: string,
   password: string
 ) => {
-  const res = await fetch(`${USER_API}register/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, email, password }),
+  const res = await api.post(`${USER_API}register/`, {
+    username,
+    email,
+    password,
   });
-  return res.json();
+  return res.data;
 };
 
-// Auth Token Helpers
-
-function getAuthToken() {
-  return localStorage.getItem("token") || "";
-}
-
-function authHeaders() {
-  return {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${getAuthToken()}`,
-  };
-}
-
-//Clinical Services API
-
+// CLINICAL SERVICES
 export async function fetchClinicalServices() {
-  const res = await fetch(CLINICS_API, {
-    // headers: authHeaders(),
-  });
-  if (!res.ok) throw new Error("Failed to fetch clinical services");
-  return res.json();
+  const res = await api.get(CLINICS_API);
+  return res.data;
 }
 
 export async function fetchClinicalServiceById(id: number) {
-  const res = await fetch(`${CLINICS_API}${id}/`, {
-    // headers: authHeaders(),
-  });
-  if (!res.ok) throw new Error("Failed to fetch clinical service");
-  return res.json();
+  const res = await api.get(`${CLINICS_API}${id}/`);
+  return res.data;
 }
 
 export async function createClinicalService(data: any) {
   console.log(" Creating Clinical Service with data:", data);
-  const res = await fetch(CLINICS_API, {
-    method: "POST",
-    headers: authHeaders(),
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) throw new Error("Failed to create clinical service");
-  return res.json();
+  const res = await api.post(CLINICS_API, data);
+  return res.data;
 }
 
 export async function updateClinicalService(id: number, data: any) {
-  const res = await fetch(`${CLINICS_API}${id}/`, {
-    method: "PATCH",
-    headers: authHeaders(),
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) throw new Error("Failed to update clinical service");
-  return res.json();
+  const res = await api.patch(`${CLINICS_API}${id}/`, data);
+  return res.data;
 }
 
 export async function deleteClinicalService(id: number) {
-  const res = await fetch(`${CLINICS_API}${id}/`, {
-    method: "DELETE",
-    headers: authHeaders(),
-  });
-  if (!res.ok) throw new Error("Failed to delete clinical service");
-  return res.json();
+  const res = await api.delete(`${CLINICS_API}${id}/`);
+  return res.data;
 }

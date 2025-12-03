@@ -8,6 +8,7 @@ import {
   updateClinicalService,
   deleteClinicalService,
 } from "@/api/api";
+import toast from "react-hot-toast";
 
 const ClinicalServices = () => {
   const [services, setServices] = useState<ClinicalService[]>([]);
@@ -18,7 +19,9 @@ const ClinicalServices = () => {
   const [editingService, setEditingService] = useState<ClinicalService | null>(
     null
   );
+
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
   useEffect(() => {
     async function loadServices() {
@@ -55,8 +58,9 @@ const ClinicalServices = () => {
       setShowForm(false);
       setEditingService(null);
       setError(null);
+      toast.success("Service saved successfully!");
     } catch (err: any) {
-      alert(`Error saving service: ${err.message}`);
+      toast.error(`Error saving service: ${err.message}`);
     }
   };
 
@@ -67,12 +71,16 @@ const ClinicalServices = () => {
   const confirmDelete = async () => {
     if (deleteConfirmId === null) return;
     try {
+      setDeletingId(deleteConfirmId); // showing deleting spinner on button
       await deleteClinicalService(deleteConfirmId);
       setServices((prev) => prev.filter((s) => s.id !== deleteConfirmId));
       setDeleteConfirmId(null);
       setError(null);
+      toast.success("Deleted successfully!");
     } catch (err: any) {
-      alert(`Error deleting service: ${err.message}`);
+      toast.error(`Error deleting service: ${err.message}`);
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -116,17 +124,19 @@ const ClinicalServices = () => {
             setEditingService(service);
             setShowForm(true);
           }}
-          onDelete={handleDeleteClick}
+          onDelete={handleDeleteClick} // open confirm modal
+          deletingId={deletingId}
         />
       )}
 
+      {/* Confirmation modal */}
       {deleteConfirmId !== null &&
         (() => {
           const serviceToDelete = services.find(
             (s) => s.id === deleteConfirmId
           );
           return (
-            <div className="fixed inset-0 bg-red-400/10 flex items-center justify-center z-50">
+            <div className="fixed inset-0 bg-red-400/10  flex items-center justify-center z-50">
               <div className="bg-white p-6 rounded shadow-lg w-80">
                 <p className="mb-4 text-lg">
                   Are you sure you want to delete{" "}
@@ -136,14 +146,16 @@ const ClinicalServices = () => {
                   <button
                     onClick={cancelDelete}
                     className="px-4 py-2 border rounded"
+                    disabled={deletingId !== null}
                   >
                     Cancel
                   </button>
                   <button
                     onClick={confirmDelete}
                     className="px-4 py-2 bg-red-600 text-white rounded"
+                    disabled={deletingId !== null}
                   >
-                    Delete
+                    {deletingId !== null ? "Deleting..." : "Delete"}
                   </button>
                 </div>
               </div>

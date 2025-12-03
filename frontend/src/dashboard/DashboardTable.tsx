@@ -4,13 +4,15 @@ import { ClinicalService } from "@/types";
 interface DashboardTableProps {
   data: ClinicalService[];
   onEdit: (service: ClinicalService) => void;
-  onDelete: (id: number) => void;
+  onDelete: (id: number) => void; // triggers parent modal
+  deletingId?: number | null; // loading state on delete button
 }
 
 const DashboardTable: FC<DashboardTableProps> = ({
   data,
   onEdit,
   onDelete,
+  deletingId = null,
 }) => {
   if (data.length === 0) {
     return (
@@ -40,14 +42,20 @@ const DashboardTable: FC<DashboardTableProps> = ({
                 <button
                   onClick={() => onEdit(item)}
                   className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  disabled={deletingId === item.id}
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => onDelete(item.id)}
-                  className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                  className={`px-3 py-1 rounded text-white ${
+                    deletingId === item.id
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-red-500 hover:bg-red-600"
+                  }`}
+                  disabled={deletingId === item.id}
                 >
-                  Delete
+                  {deletingId === item.id ? "Deleting..." : "Delete"}
                 </button>
               </td>
             </tr>

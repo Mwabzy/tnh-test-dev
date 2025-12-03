@@ -1,4 +1,6 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
+
 import {
   ClinicalService,
   ContactInfo,
@@ -10,7 +12,7 @@ import {
 
 interface Props {
   initialData?: ClinicalService | null;
-  onSave: (service: ClinicalService) => void;
+  onSave: (service: ClinicalService) => Promise<any>; // async
   onCancel: () => void;
 }
 
@@ -45,49 +47,56 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
     initialData?.locations || []
   );
 
-  // --- Feature handlers ---
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<{ title?: string; tagline?: string }>(
+    {}
+  );
+
+  const validate = () => {
+    const newErrors: any = {};
+    if (!title.trim()) newErrors.title = "Title is required";
+    if (!tagline.trim()) newErrors.tagline = "Tagline is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleFeatureChange = (
     index: number,
     key: keyof Feature,
     value: string
   ) => {
-    const newFeatures = [...features];
-    newFeatures[index] = { ...newFeatures[index], [key]: value };
-    setFeatures(newFeatures);
+    setFeatures(
+      features.map((f, i) => (i === index ? { ...f, [key]: value } : f))
+    );
   };
-
   const addFeature = () =>
     setFeatures([...features, { title: "", description: "" }]);
   const removeFeature = (index: number) =>
     setFeatures(features.filter((_, i) => i !== index));
 
-  // --- Doctor handlers ---
   const handleDoctorChange = (
     index: number,
     key: keyof Doctor,
     value: string
   ) => {
-    const updated = [...doctors];
-    updated[index] = { ...updated[index], [key]: value };
-    setDoctors(updated);
+    setDoctors(
+      doctors.map((d, i) => (i === index ? { ...d, [key]: value } : d))
+    );
   };
-
   const addDoctor = () =>
     setDoctors([...doctors, { name: "", title: "", image: "", bio: "" }]);
   const removeDoctor = (index: number) =>
     setDoctors(doctors.filter((_, i) => i !== index));
 
-  // --- Testimonial handlers ---
   const handleTestimonialChange = (
     index: number,
     key: keyof Testimonial,
     value: string
   ) => {
-    const updated = [...testimonials];
-    updated[index] = { ...updated[index], [key]: value };
-    setTestimonials(updated);
+    setTestimonials(
+      testimonials.map((t, i) => (i === index ? { ...t, [key]: value } : t))
+    );
   };
-
   const addTestimonial = () =>
     setTestimonials([
       ...testimonials,
@@ -96,42 +105,37 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   const removeTestimonial = (index: number) =>
     setTestimonials(testimonials.filter((_, i) => i !== index));
 
-  // --- Image handlers ---
   const handleImageChange = (
     index: number,
     key: keyof Image,
     value: string
   ) => {
-    const updated = [...images];
-    updated[index] = { ...updated[index], [key]: value };
-    setImages(updated);
+    setImages(
+      images.map((img, i) => (i === index ? { ...img, [key]: value } : img))
+    );
   };
-
   const addImage = () => setImages([...images, { url: "", alt: "" }]);
   const removeImage = (index: number) =>
     setImages(images.filter((_, i) => i !== index));
 
-  // --- Location handlers ---
   const handleLocationChange = (index: number, value: string) => {
-    const updated = [...locations];
-    updated[index] = value;
-    setLocations(updated);
+    setLocations(locations.map((loc, i) => (i === index ? value : loc)));
   };
   const addLocation = () => setLocations([...locations, ""]);
   const removeLocation = (index: number) =>
     setLocations(locations.filter((_, i) => i !== index));
 
-  // --- Submit handler ---
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!title.trim() || !tagline.trim()) {
-      alert("Please fill required fields");
+    if (!validate()) {
+      toast.error("Please fix errors in the form.");
       return;
     }
 
+    setLoading(true);
+
     const newService: ClinicalService = {
-     id: initialData?.id || Date.now(),
+      id: initialData?.id || Date.now(),
       title,
       tagline,
       overview,
@@ -148,11 +152,21 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       locations,
     };
 
-    onSave(newService);
+    try {
+      await onSave(newService);
+      toast.success("Service saved successfully!");
+    } catch (err) {
+      toast.error("Failed to save service.");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const disabledClass = loading ? "opacity-50 pointer-events-none" : "";
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className={`space-y-6 ${disabledClass}`}>
+      {/*   Title */}
       <div>
         <label className="font-semibold">
           Title {requiredMark}
@@ -161,11 +175,12 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
             className="border p-2 w-full"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            required
           />
         </label>
+        {errors.title && <p className="text-red-600 text-sm">{errors.title}</p>}
       </div>
 
+      {/*Tagline*/}
       <div>
         <label className="font-semibold">
           Tagline {requiredMark}
@@ -174,11 +189,14 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
             className="border p-2 w-full"
             value={tagline}
             onChange={(e) => setTagline(e.target.value)}
-            required
           />
         </label>
+        {errors.tagline && (
+          <p className="text-red-600 text-sm">{errors.tagline}</p>
+        )}
       </div>
 
+      {/* Overview*/}
       <div>
         <label className="font-semibold">Overview</label>
         <textarea
@@ -188,6 +206,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         />
       </div>
 
+      {/*Detailed Description */}
       <div>
         <label className="font-semibold">Detailed Description</label>
         <textarea
@@ -197,7 +216,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         />
       </div>
 
-      {/* --- Features --- */}
+      {/*Features*/}
       <div>
         <label className="font-semibold">Features</label>
         {features.map((f, i) => (
@@ -210,9 +229,9 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
               onChange={(e) => handleFeatureChange(i, "title", e.target.value)}
             />
             <textarea
-              placeholder="Description (optional)"
+              placeholder="Description"
               className="border p-1 w-full"
-              value={f.description || ""}
+              value={f.description}
               onChange={(e) =>
                 handleFeatureChange(i, "description", e.target.value)
               }
@@ -235,7 +254,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </button>
       </div>
 
-      {/* --- Doctors --- */}
+      {/* Doctors */}
       <div>
         <label className="font-semibold">Doctors</label>
         {doctors.map((d, i) => (
@@ -285,7 +304,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </button>
       </div>
 
-      {/* --- Testimonials --- */}
+      {/* Testimonials */}
       <div>
         <label className="font-semibold">Testimonials</label>
         {testimonials.map((t, i) => (
@@ -312,7 +331,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
               type="text"
               placeholder="Image URL"
               className="border p-1 w-full"
-              value={t.image || ""}
+              value={t.image}
               onChange={(e) =>
                 handleTestimonialChange(i, "image", e.target.value)
               }
@@ -343,7 +362,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </button>
       </div>
 
-      {/* --- Contact Info --- */}
+      {/*Contact Info*/}
       <div>
         <label className="font-semibold">Contact Info</label>
         <input
@@ -357,12 +376,12 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
           type="email"
           placeholder="Email"
           className="border p-2 w-full mt-2"
-          value={contact.email || ""}
+          value={contact.email}
           onChange={(e) => setContact({ ...contact, email: e.target.value })}
         />
       </div>
 
-      {/* --- Images --- */}
+      {/* Images upload*/}
       <div>
         <label className="font-semibold">Images</label>
         {images.map((img, i) => (
@@ -370,15 +389,15 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
             <input
               type="text"
               placeholder="Image URL"
-              className="border p-2 flex-grow"
+              className="border p-2 grow"
               value={img.url}
               onChange={(e) => handleImageChange(i, "url", e.target.value)}
             />
             <input
               type="text"
               placeholder="Alt text"
-              className="border p-2 flex-grow"
-              value={img.alt || ""}
+              className="border p-2 grow"
+              value={img.alt}
               onChange={(e) => handleImageChange(i, "alt", e.target.value)}
             />
             <button
@@ -399,14 +418,14 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </button>
       </div>
 
-      {/* --- Locations --- */}
+      {/* ---------- LOCATIONS ---------- */}
       <div>
         <label className="font-semibold">Locations</label>
         {locations.map((loc, i) => (
           <div key={i} className="flex gap-2 mb-1">
             <input
               type="text"
-              className="border p-2 flex-grow"
+              className="border p-2 grow"
               value={loc}
               onChange={(e) => handleLocationChange(i, e.target.value)}
             />
@@ -428,7 +447,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </button>
       </div>
 
-      {/* --- Toggles --- */}
+      {/* Checkboxes */}
       <div className="flex gap-4">
         <label className="flex items-center gap-2">
           <input
@@ -454,14 +473,40 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
           type="button"
           onClick={onCancel}
           className="px-4 py-2 border rounded"
+          disabled={loading}
         >
           Cancel
         </button>
+
         <button
           type="submit"
-          className="px-4 py-2 bg-green-600 text-white rounded"
+          disabled={loading}
+          className={`px-4 py-2 rounded text-white flex items-center gap-2 ${
+            loading ? "bg-gray-400 cursor-not-allowed" : "bg-green-600"
+          }`}
         >
-          Save
+          {loading && (
+            <svg
+              className="animate-spin h-5 w-5 text-white"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+                fill="none"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 108 8h-4l3 3 3-3h-4a8 8 0 01-8 8z"
+              />
+            </svg>
+          )}
+          {loading ? "Saving..." : "Save"}
         </button>
       </div>
     </form>
