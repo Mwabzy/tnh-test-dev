@@ -1,4 +1,4 @@
-name: tnhwebdev
+name: tnhwebprod
 
 volumes:
   prod_postgres17_app_data:
@@ -16,7 +16,7 @@ services:
     image: thnweb:production
     restart: unless-stopped
     container_name: tnhweb-prod-backend
-    command: /app/docker/django/start.sh backend
+    command: /app/dockerprod/django/start.sh backend
     depends_on:
         - postgres
     env_file:
@@ -48,9 +48,9 @@ services:
       restart: unless-stopped
       env_file:
         - ./backend/.prod.env
-      volumes:
-        # - ./nginx/ssl/:/vol/proxy/:ro
-        - static_files:/app/staticfiles
-        - media_files:/app/media:ro
+      # volumes:
+      #   # - ./nginx/ssl/:/vol/proxy/:ro
+      #   - static_files:/app/staticfiles
+      #   - media_files:/app/media:ro
       depends_on:
         - backend
