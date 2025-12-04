@@ -37,5 +37,5 @@ RUN chmod +x /app/dockerprod/django/entrypoint.sh /app/dockerprod/django/start.s
 USER app_user
 
 
-ENTRYPOINT ["/bin/bash", "/app/docker/django/entrypoint.sh"]
-CMD ["/bin/bash", "/app/docker/django/start.sh", "backend"]
+ENTRYPOINT ["/bin/bash", "/app/dockerprod/django/entrypoint.sh"]
+CMD ["/bin/bash", "/app/dockerprod/django/start.sh", "backend"]
