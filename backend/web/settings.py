@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'web.wsgi.application'
 
 
 LOCAL_DEV = env.bool("LOCAL_DEV", default=True)
-if LOCAL_DEV:
+if LOCAL_DEV and DEBUG:
     DATABASES = {
     "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
 }
