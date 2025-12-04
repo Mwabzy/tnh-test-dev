@@ -22,16 +22,16 @@ RUN useradd -U app_user && \
 WORKDIR /app
 
 # Copy requirements file and install dependencies
-COPY requirements.txt .
+COPY requirements.prod.txt .
 RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt && rm -rf requirements.txt
+RUN pip install --no-cache-dir -r requirements.prod.txt && rm -rf requirements.prod.txt
 
 # Copy project files and set permissions
 COPY --chown=app_user:app_user . .
 
 
 # Ensure shell scripts are executable
-RUN chmod +x dockerprod/django/entrypoint.sh dockerprod/django/start.sh
+RUN chmod +x /app/dockerprod/django/entrypoint.sh /app/dockerprod/django/start.sh
 
 # Switch to non-root user
 USER app_user
