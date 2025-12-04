@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ClinicalService, Doctor, Contact, Testimonial
+from .models import ClinicalService, Doctor, Testimonial
 
 
 # Basic serializers
@@ -23,17 +23,12 @@ class TestimonialSerializer(serializers.ModelSerializer):
         model = Testimonial
         fields = ['name', 'title', 'image', 'quote', 'rating']
 
-class ContactSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Contact
-        fields = ['phone', 'email', 'address']
-
 
 # Main ClinicalService Serializer
 class ClinicalServiceSerializer(serializers.ModelSerializer):
     doctors = DoctorSerializer(many=True, required=False)
     testimonials = TestimonialSerializer(many=True, required=False)
-    contact = ContactSerializer(required=False)
+    contact = serializers.JSONField(required=False)
     clinics = serializers.PrimaryKeyRelatedField(
         queryset=ClinicalService.objects.all(),
         many=True,
@@ -59,11 +54,8 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         clinics_data = validated_data.pop('clinics', [])
         images_data = validated_data.pop('images', [])
 
-      
-        contact = Contact.objects.create(**contact_data) if contact_data else None
-
        
-        clinical_service = ClinicalService.objects.create(contact=contact, **validated_data)
+        clinical_service = ClinicalService.objects.create(contact=contact_data, **validated_data)
 
         # Many-to-many: doctors
         for doc_data in doctors_data:
@@ -97,14 +89,10 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
-        # Update or create contact
+        # Update contact
         if contact_data:
-            if instance.contact:
-                for attr, value in contact_data.items():
-                    setattr(instance.contact, attr, value)
-                instance.contact.save()
-            else:
-                instance.contact = Contact.objects.create(**contact_data)
+            instance.contact = contact_data
+
 
         # Update doctors
         instance.doctors.all().delete()

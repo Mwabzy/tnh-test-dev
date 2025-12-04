@@ -1,13 +1,5 @@
 from django.db import models
 
-class Contact(models.Model):
-    phone = models.CharField(max_length=20, blank=True, null=True)
-    email = models.EmailField(blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return f"{self.phone} | {self.email}"
-
 class Doctor(models.Model):
     name = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
@@ -35,7 +27,7 @@ class ClinicalService(models.Model):
     features = models.JSONField(default=list)
     doctors = models.ManyToManyField(Doctor, blank=True)
     testimonials = models.ManyToManyField(Testimonial, blank=True)
-    contact = models.OneToOneField(Contact, on_delete=models.SET_NULL, null=True, blank=True)
+    contact = models.JSONField(blank=True, null=True)
     isBookable = models.BooleanField(default=False)
     hasReadMore = models.BooleanField(default=False)
     clinics = models.ManyToManyField("self", symmetrical=False, blank=True, related_name="parent_services")

@@ -1,10 +1,6 @@
 from django.contrib import admin
-from clinics.models import ClinicalService, Contact, Doctor, Testimonial
+from clinics.models import ClinicalService, Doctor, Testimonial
 
-@admin.register(Contact)
-class ContactAdmin(admin.ModelAdmin):
-    list_display = ('id', 'phone', 'email', 'address')
-    search_fields = ('phone', 'email')
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
