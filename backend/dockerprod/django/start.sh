@@ -24,5 +24,5 @@ if [ "$PROCESS_TYPE" = "backend" ]; then
         --log-level INFO \
         --access-logfile "-" \
         --error-logfile "-" \
-        core.wsgi:application
+        web.wsgi:application
 fi
