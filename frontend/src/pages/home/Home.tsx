@@ -2,7 +2,7 @@ import { FC } from "react";
 import Hero from "./hero";
 import Opc from "./opc";
 import Features from "./features";
-import InsuranceSlider from "./InsuranceSlider";
+import InsuranceSlider from "../../components/InsuranceSlider";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import Blogpost from "@/components/blogpost";
 import Services from "./ClinicalServices";

@@ -33,7 +33,7 @@ const LocaleSwitcher: FC = () => {
       <SelectTrigger className="flex items-center">
         <SelectValue placeholder="Select Language" />
       </SelectTrigger>
-      <SelectContent className="w-12 z-[100]">
+      <SelectContent className="w-12 z-9999">
         <SelectGroup>
           {localeOptions.map((option) => (
             <SelectItem key={option.value} value={option.value}>

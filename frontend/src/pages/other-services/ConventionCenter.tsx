@@ -6,8 +6,48 @@ import {
   UtensilsCrossed,
 } from "lucide-react";
 import { useIntlayer } from "react-intlayer";
+import React from "react";
+import { MapPin, Users, Star, Monitor, Coffee, Plane, Building } from 'lucide-react';
+
 
 import Heading from "@/components/Heading";
+const ImageSlider = ({ images }: { images: string[] }) => {
+  const [index, setIndex] = React.useState(0);
+
+  const prevSlide = () => {
+    setIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const nextSlide = () => {
+    setIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  return (
+    <div className="relative h-48 w-full overflow-hidden rounded-t-xl">
+      <img
+        src={images[index]}
+        alt=""
+        className="h-full w-full object-cover transition-all duration-500"
+      />
+
+      
+      <button
+        onClick={prevSlide}
+        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 text-white p-2 rounded-full"
+      >
+        ◀
+      </button>
+
+      <button
+        onClick={nextSlide}
+        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white p-2 rounded-full"
+      >
+        ▶
+      </button>
+    </div>
+  );
+};
+
 
 const steps = [
   {
@@ -105,48 +145,119 @@ const ConventionCenter = () => {
       <section className="bg-white py-20 px-6 md:px-16">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:space-x-12 space-y-16 md:space-y-0">
           {/* Left Content */}
-          <div className="flex-1 text-center md:text-left">
+          <div className="text-center md:text-center">
             <h2 className="text-xl md:text-3xl font-extrabold text-[#0A0A23] leading-snug">
                {Array.isArray(content.years) ? content.years[0]?.value ?? "" : content.years}
             </h2>
 
-            <p className="text-gray-600 text-lg mt-6 max-w-3xl">
+            <p className="text-gray-600 text-lg mt-6 ">
               {content.conventionp3[0]?.value ?? ""}
             </p>
 
-            <p className="text-gray-600 text-lg mt-6 max-w-3xl">
+            <p className="text-gray-600 text-lg mt-6 ">
               {content.conventionp4[0]?.value ?? ""}
             </p>
 
-            <p className="text-gray-600 text-lg mt-6 max-w-3xl">
+            <p className="text-gray-600 text-lg mt-6 ">
               {content.conventionp5[0]?.value ?? ""}
             </p>
           </div>
 
-          {/* Right Content */}
-          <div className="flex-1 text-left">
-            <h2 className="text-xl md:text-3xl font-extrabold text-[#0A0A23] leading-snug">
-              {content.rmtypes[0]?.value ?? "" }
-            </h2>
+          
+          {/* Grid Card Content */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-8 flex-1">
+  
+  {/* CARD 1 */}
+  <div className="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-xl transition">
+    <ImageSlider
+      images={[
+        "https://cms.thenairobihosp.org/uploads/convention_1.jpg",
+        "https://cms.thenairobihosp.org/uploads/convention_2.jpg",
+      ]}
+    />
+    <div className="p-6">
+      <h3 className="text-xl font-bold text-[#0A0A23] uppercase">
+        Event Spaces
+      </h3>
+      <p className="text-gray-600 mt-2">
+        Spacious halls suitable for conferences, seminars & exhibitions.
+      </p>
+    </div>
+  </div>
 
-            <p className="text-gray-600 mt-6 max-w-3xl">
-               {Array.isArray(content.capacities) ? content.capacities[0]?.value ?? "" : content.capacities}
-            </p>
+  {/* CARD 2 */}
+  <div className="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-xl transition">
+    <ImageSlider
+      images={[
+        "https://cms.thenairobihosp.org/uploads/convention_services_1.jpg",
+        "https://cms.thenairobihosp.org/uploads/convention_services_2.jpg",
+      ]}
+    />
+    <div className="p-6">
+      <h3 className="text-xl font-bold text-[#0A0A23] uppercase">
+        Service Excellence
+      </h3>
+      <p className="text-gray-600 mt-2">
+        Premium amenities with modern equipment for all events.
+      </p>
+    </div>
+  </div>
 
-            <ul className="list-disc list-inside text-lg text-gray-600 mt-6 max-w-3xl">
-              <li> {Array.isArray(content.list1) ? content.list1[0]?.value ?? "" : content.list1}</li>
-              <li> {Array.isArray(content.list2) ? content.list2[0]?.value ?? "" : content.list2}</li>
-              <li> {Array.isArray(content.list3) ? content.list3[0]?.value ?? "" : content.list3}</li>
-              <li> {Array.isArray(content.list4) ? content.list5[0]?.value ?? "" : content.list4}</li>
-              <li> {Array.isArray(content.list5) ? content.list5[0]?.value ?? "" : content.list5}</li>
-            </ul>
-            <p className="text-gray-600 text-lg mt-6 max-w-3xl">
-             {Array.isArray(content.conventionp6) ? content.conventionp6[0]?.value ?? "" : content.conventionp6}
-            </p>
-            <p className="text-gray-600 text-lg mt-6 max-w-3xl">
-               {Array.isArray(content.conventionp7) ? content.conventionp7[0]?.value ?? "" : content.conventionp7}
-            </p>
-          </div>
+  {/* CARD 3 */}
+  <div className="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-xl transition">
+    <ImageSlider
+      images={[
+        "https://cms.thenairobihosp.org/uploads/convention_location_1.jpg",
+        "https://cms.thenairobihosp.org/uploads/convention_location_2.jpg",
+      ]}
+    />
+    <div className="p-6">
+      <h3 className="text-xl font-bold text-[#0A0A23] uppercase">
+        Strategic Location
+      </h3>
+      <p className="text-gray-600 mt-2">
+        Easily accessible with beautiful surrounding views.
+      </p>
+    </div>
+  </div>
+   {/* CARD 4 */}
+  <div className="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-xl transition">
+    <ImageSlider
+      images={[
+        "https://cms.thenairobihosp.org/uploads/convention_location_1.jpg",
+        "https://cms.thenairobihosp.org/uploads/convention_location_2.jpg",
+      ]}
+    />
+    <div className="p-6">
+      <h3 className="text-xl font-bold text-[#0A0A23] uppercase">
+        Strategic Location
+      </h3>
+      <p className="text-gray-600 mt-2">
+        Easily accessible with beautiful surrounding views.
+      </p>
+    </div>
+  </div>
+   {/* CARD 5 */}
+  <div className="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-xl transition">
+    <ImageSlider
+      images={[
+        "https://cms.thenairobihosp.org/uploads/convention_location_1.jpg",
+        "https://cms.thenairobihosp.org/uploads/convention_location_2.jpg",
+      ]}
+    />
+    <div className="p-6">
+      <h3 className="text-xl font-bold text-[#0A0A23] uppercase">
+        Strategic Location
+      </h3>
+      <p className="text-gray-600 mt-2">
+        Easily accessible with beautiful surrounding views.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+          
         </div>
       </section>
 

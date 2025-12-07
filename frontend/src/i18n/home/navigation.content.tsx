@@ -21,13 +21,13 @@ const navigationContent: Dictionary = {
         ru: "О нас",
       }),
     ],
-    services: [
+    clinical_services: [
       t({
-        en: "Patient Care",
-        fr: "Soins aux patients",
-        es: "Atención al paciente",
-        zh: "病人护理",
-        ru: "Уход за пациентами",
+        en: "Clinical Services",
+        fr: "Services cliniques",
+        es: "Servicios clínicos",
+        zh: "临床服务",
+        ru: "Клинические услуги",
       }),
     ],
     college_of_health_sciences: [
