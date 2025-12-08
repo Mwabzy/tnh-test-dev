@@ -9,6 +9,7 @@ const slideUp = {
 export const blogPosts = [
   {
     id: 1,
+    isFeatured: true,
     author: "By John Doe",
     title: "10 Warning Signs of a Heart Attack You Shouldn't Ignore",
     subtitle: "Early recognition could save a life—possibly your own.",
@@ -23,11 +24,12 @@ export const blogPosts = [
             understanding the warning signs of a heart attack is crucial.`,
     longdesc: `A heart attack doesn’t always start with a dramatic collapse or sharp chest pain—in fact, many begin with subtle symptoms that are easy to dismiss. Recognizing these warning signs early can make the difference between life and death. Common indicators include chest discomfort, shortness of breath, nausea, pain in the arms or jaw, cold sweats, and extreme fatigue. These symptoms may vary between men and women, with women more likely to experience back pain, indigestion, or overwhelming tiredness. If you or someone near you is experiencing multiple symptoms—especially if they come on suddenly—don’t wait. Call emergency services immediately. Fast action saves lives.`,
     category: "Health & Awareness",
+    date: "December 5, 2024",
     coverImage:
       "https://img.freepik.com/free-photo/view-anatomic-heart-model-educational-purpose-with-stethoscope_23-2149894392.jpg?uid=R173174302&ga=GA1.1.561176189.1745317904&semt=ais_hybrid&w=740",
 
     image:
-      "https://img.freepik.com/free-photo/coronavirus-infected-elderly-man-with-heart-problems_53876-143050.jpg?uid=R173174302&ga=GA1.1.561176189.1745317904&semt=ais_hybrid&w=740",
+      "https://mma.prnewswire.com/media/930108/Frost_Sullivan_Operating_Room_Healthcare.jpg?p=facebook",
   },
   {
     id: 2,
@@ -56,7 +58,7 @@ export const blogPosts = [
     blogsubtitle:
       "Early detection saves lives—especially when it comes to colon cancer.",
     description:
-      "Learn the essential purpose, preparation steps, and health benefits of a colonoscopy to detect issues early and support long-term digestive wellness.",
+      "Learn the essential purpose, preparation steps, and health benefits of a colonoscopy to detect issues early.",
     shortdesc:
       "When we think of cancer screening, colonoscopy might not be the first test that comes to mind. But this simple procedure can detect early signs of colorectal cancer—often before symptoms even appear. Colon cancer is one of the most preventable yet deadly cancers when left undiagnosed. Through early detection and timely treatment, lives can be saved. Whether you're approaching the recommended screening age or supporting a loved one, understanding colonoscopy is key to proactive health care.",
     longdesc:
@@ -78,6 +80,7 @@ export const blogPosts = [
       "COVID-19 changed the world seemingly overnight, disrupting daily life and challenging global healthcare systems. But beyond the headlines and misinformation, understanding how the virus spreads and what symptoms to look out for remains crucial. With new variants still emerging, prevention and early detection are key to controlling outbreaks and protecting vulnerable populations. Whether you're seeking guidance for yourself, your family, or your community, staying informed is your first line of defense.",
     longdesc:
       "COVID-19 is a highly contagious respiratory illness caused by the SARS-CoV-2 virus. It spreads primarily through respiratory droplets and can cause a range of symptoms—from mild fatigue to severe respiratory failure. While most people recover without complications, older adults and those with underlying health conditions are at higher risk. This article provides a clear overview of the common symptoms, how the virus spreads, current prevention recommendations (including vaccination), and what to do if you or someone close to you tests positive.",
+    category: "Medical News & Updates",
     coverImage:
       "https://img.freepik.com/free-photo/3d-interior-supermarket-with-empty-shelves-covid-19-virus-cells_1048-12466.jpg?uid=R173174302&ga=GA1.1.561176189.1745317904&semt=ais_hybrid&w=740",
     image:

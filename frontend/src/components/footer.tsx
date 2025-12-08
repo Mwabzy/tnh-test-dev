@@ -96,7 +96,7 @@ const Footer = () => {
             className="rounded-4xl object-cover w-12 h-12"
           />
         </div>
-        <p className="text-lg md:ml-14 ">
+        <p className="text-lg md:ml-14">
           ©The Nairobi Hospital. All Rights Reserved 2025.
         </p>
         <div className="flex  flex-col items-center md:items-start">
