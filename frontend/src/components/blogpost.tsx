@@ -7,14 +7,14 @@ const slideUp = {
   visible: { y: 0, opacity: 1 },
 };
 
-// You can replace this with your actual content object
+
 const content = {
     bloglatest: "Latest News & Updates",
     blogdescription: "Stay informed about our latest developments and healthcare insights.",
     viewallposts: "View All News",
 };
 
-// Dummy data based on your image. Replace this with your 'blogsToShow' prop.
+
 const posts = [
   {
     id: 1,
@@ -72,7 +72,7 @@ const Blogpost = () => {
             </p>
           </div>
           <Link
-            to="/bloglist"
+            to="/news"
             className="mt-4 md:mt-0 shrink-0 bg-red-900 text-white px-5 py-3 rounded-md hover:bg-yellow-600 transition-colors duration-300"
           >
             {content.viewallposts}
