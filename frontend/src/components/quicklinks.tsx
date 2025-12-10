@@ -3,24 +3,22 @@ import { Link } from "react-router";
 
 export default function Quicklinks() {
   return (
-    <div className="flex  items-center px-4 py-1w-full sticky top-0 z-200 bg-[#8B1C1C] text-white text-sm h-11 ">
-      <div className="flex space-x-13 md:space-x-6">
-        <Link to="href:tel:+254202845000">
-          <div className="flex items-center space-x-2">
+    <div className="flex items-center px-2 sm:px-4 py-1 w-full sticky top-0 z-50 bg-[#8B1C1C] text-white text-xs sm:text-sm h-11">
+      <div className="flex flex-wrap items-center gap-x-4 sm:gap-x-6">
+        <Link to="tel:+254202845000">
+          <div className="flex items-center space-x-1 sm:space-x-2">
             <Ambulance className="w-4 h-4 text-yellow-400" />
-            <div className="flex flex-col md:flex-row">
-              <span className="font-semibold">Emergency :</span>
-              <span>+254 20 2845000</span>
+            <div className="flex flex-col sm:flex-row text-[12px] sm:text-sm">
+              <span className="font-semibold">Emergency :+254 703 082000</span>
             </div>
           </div>
         </Link>
 
         <Link to={`/booking-calendar?serviceId=1`}>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1 sm:space-x-2">
             <ClipboardClock className="w-4 h-4 text-yellow-400" />
-            <div className="flex flex-col md:flex-row">
-              <span className="font-semibold">Book an</span>
-              <span>appointment</span>
+            <div className="flex flex-col sm:flex-row text-[12px] sm:text-sm">
+              <span className="font-semibold">Book an appointment</span>
             </div>
           </div>
         </Link>

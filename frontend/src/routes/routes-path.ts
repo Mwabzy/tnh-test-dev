@@ -116,6 +116,16 @@ const UIRoutes = {
     path: "/news",
     component: lazyLoad(() => import("../pages/blog/BlogList")),
   },
+   csrList: {
+    name: "navigation.csrList",
+    path: "about/csr",
+    component: lazyLoad(() => import("../pages/about/csr/CsrList")),
+  },
+  csrDetails: {
+    name: "navigation.csrDetails",
+    path: "/csr-detail/:id",
+    component: lazyLoad(() => import("../pages/about/csr/CsrDetail")),
+  },
   blogDetails: {
     name: "navigation.blogDetails",
     path: "/blog/:id",

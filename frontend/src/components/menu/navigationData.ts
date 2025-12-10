@@ -68,7 +68,7 @@ export const NAVIGATION_CONTENT = [
     ],
   },
   {
-    label: "Clinical Services",
+    labelKey: "clinical_services",
     icon: Heart,
     sections: [
       {
@@ -102,7 +102,7 @@ export const NAVIGATION_CONTENT = [
         ],
       },
       {
-        title: "CLINICAL SERVICES",
+        title: "MORE SERVICES",
         items: [
           {
             title: "Physical Medicine Centre",
@@ -218,9 +218,9 @@ export const NAVIGATION_CONTENT = [
       {
         title: "NEWS & MEDIA",
         items: [
-          { title: "Latest News", href: "/news/latest" },
-          { title: "Events & Announcements", href: "/news/events" },
-          { title: "Health Articles & Blogs", href: "/news/articles" },
+          { title: "Latest News", href: "/news" },
+          { title: "Events & Announcements", href: "/news" },
+          { title: "Health Articles & Blogs", href: "/news/" },
         ],
       },
       {

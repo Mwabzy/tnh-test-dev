@@ -40,6 +40,11 @@ if [ "$1" = "/app/dockerprod/django/start.sh" ] && [ "$2" = "backend" ]; then
     python3 manage.py migrate --noinput
     echo "Collecting static files..."
     python3 manage.py collectstatic --noinput
+    if [ -f "db_prod.json" ]; then
+        echo "Loading production fixtures..."
+        python3 manage.py load_fixtures --file=db_prod.json
+        echo "🚀 Production stack is ready"
+    fi
 fi
 
 exec "$@"

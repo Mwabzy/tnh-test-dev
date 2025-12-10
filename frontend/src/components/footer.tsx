@@ -18,21 +18,76 @@ import { Link } from "react-router";
 
 const Footer = () => {
   return (
-    <footer className="bg-red-900 text-white py-16 px-4 text-sm">
+    <footer className="bg-red-900 text-white py-6 px-4 text-sm">
       {/* Contact Section */}
-      <div className="text-center mb-16">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-2">
-          Don't Hesitate, Contact Us
-        </h2>
-        <button className="bg-white text-black px-6 py-2 rounded hover:bg-gray-200 transition">
-          Contact Us
-        </button>
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col md:flex-row md:justify-between gap-16">
+          <div className="md:w-1/3 ">
+            <h3 className="text-xl font-semibold text-white mb-3">
+              Subscribe to Our Mailing List
+            </h3>
+            <p className="text-white mb-5">
+              Stay updated with the latest health tips, medical services, and
+              hospital news.
+            </p>
+
+            <form className="flex flex-col  items-center sm:flex-row gap-3">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                className="w-full flex-1 p-2 rounded-md text-black bg-white"
+              />
+
+              <button
+                type="submit"
+                className="px-6 py-3 w-30 bg-yellow-600 text-white hover:text-red-900 font-medium rounded-lg hover:bg-white transition"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-8 md:w-2/3">
+            <div className="md:w-1/2">
+              <h3 className="text-xl w-2/3 font-semibold text-white mb-3">
+                Contact Information
+              </h3>
+              <p className="text-white mb-1">The Nairobi Hospital</p>
+              <p className="text-white mb-1">
+                P.O. Box 30026 - 00100 GPO, Nairobi, Kenya
+              </p>
+              <p className="text-white mb-1">Phone: +254 20 2845000</p>
+              <p className="text-white mb-1">
+                Email: nbihosp.org
+                <a href="mailto:nbihosp.org"></a>
+              </p>
+            </div>
+
+            <div className="md:w-1/2">
+              <h3 className="text-xl w-2/3 font-semibold text-white mb-3">
+                Quick Links
+              </h3>
+              <Link to="/about-us">
+                <p className="text-white mb-1">About Us</p>{" "}
+              </Link>
+              <Link to="/doctor-profiles">
+                <p className="text-white mb-1">Find a Doctor</p>
+              </Link>
+              <Link to="/clinical-services">
+                <p className="text-white mb-1">Speciality Clinics</p>
+              </Link>
+              <Link to="/news">
+                <p className="text-white mb-1">News and Events</p>
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <hr className="w-5/6  mx-auto my-4 border-white  md:my-10 " />
+      <hr className="w-5/6 mx-auto my-4 border-white  md:my-10 " />
 
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10 md:gap-0 px-4 max-w-6xl mx-auto mb-12">
-        <div className="flex ">
+      <div className="flex flex-col md:flex-row justify-between items-center md:items-center gap-10 md:gap-0 px-4 max-w-6xl mx-auto mb-12">
+        <div className="flex gap-3">
           <img
             src="https://www.kebs.org/wp-content/uploads/2023/09/6.png"
             alt="Instagram preview"
@@ -49,7 +104,7 @@ const Footer = () => {
             className="rounded-4xl object-cover w-12 h-12"
           />
         </div>
-        <p className="text-lg">
+        <p className="text-lg md:ml-14">
           ©The Nairobi Hospital. All Rights Reserved 2025.
         </p>
         <div className="flex  flex-col items-center md:items-start">
