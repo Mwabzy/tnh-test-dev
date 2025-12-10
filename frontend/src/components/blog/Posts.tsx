@@ -5,6 +5,8 @@ export type Post = {
   id: number;
   author: string;
   title: string;
+  date?: string;
+  isFeatured?: boolean;
   subtitle: string;
   blogsubtitle: string;
   description: string;
