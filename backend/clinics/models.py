@@ -2,12 +2,21 @@ from django.db import models
 
 class Doctor(models.Model):
     name = models.CharField(max_length=100)
-    title = models.CharField(max_length=100)
+    role = models.CharField(max_length=100)      
     bio = models.TextField(blank=True, null=True)
-    image = models.URLField(blank=True, null=True)  
+    image = models.URLField(blank=True, null=True)
+
+    services_offered = models.ManyToManyField(
+        'ClinicalService',
+        blank=True,
+        related_name='offered_by_doctors'
+    )
+    research_publications = models.TextField(blank=True, null=True)
+    awards = models.JSONField(default=list, blank=True)
 
     def __str__(self):
         return self.name
+
 
 class Testimonial(models.Model):
     name = models.CharField(max_length=100) 

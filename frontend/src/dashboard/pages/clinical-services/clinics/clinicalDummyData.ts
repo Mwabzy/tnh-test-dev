@@ -26,14 +26,14 @@ export const mockClinicalServices: ClinicalService[] = [
     doctors: [
       {
         name: "Dr. Jane Doe",
-        title: "Pharmacist",
+        role: "Pharmacist",
         image:
           "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
         bio: "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education.",
       },
       {
         name: "Dr. John Smith",
-        title: "Pharmacist",
+        role: "Pharmacist",
         image: "https://img.freepik.com/free-photo/portrait-you",
         bio: "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans.",
       },
@@ -88,7 +88,7 @@ export const mockClinicalServices: ClinicalService[] = [
     doctors: [
       {
         name: "Dr. Jane Doe",
-        title: "Lab Technologist",
+        role: "Lab Technologist",
         image:
           "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
         bio: "Dr. Jane Doe is a laboratory scientist specializing in clinical chemistry and hematology.",
@@ -138,7 +138,7 @@ export const mockClinicalServices: ClinicalService[] = [
     doctors: [
       {
         name: "Dr. Jane Doe",
-        title: "Radiologist",
+        role: "Radiologist",
         image:
           "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
         bio: "Expert in radiologic imaging with focus on oncology diagnostics.",
@@ -192,7 +192,7 @@ export const mockClinicalServices: ClinicalService[] = [
     doctors: [
       {
         name: "Dr. Jane Doe",
-        title: "Dentist",
+        role: "Dentist",
         image:
           "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
         bio: "Dr. Jane Doe is a dentist with 12 years of experience in restorative and cosmetic dentistry.",

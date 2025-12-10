@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { mockClinicalServices } from "./clinicalDummyData";
+import { mockClinicalServices } from "./pages/clinical-services/clinics/clinicalDummyData";
 
 const DashboardHome = () => {
   const [serviceCount, setServiceCount] = useState(0);

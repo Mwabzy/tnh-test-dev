@@ -1,6 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-
+import Select from "react-select";
 import {
   ClinicalService,
   ContactInfo,
@@ -12,13 +12,33 @@ import {
 
 interface Props {
   initialData?: ClinicalService | null;
-  onSave: (service: ClinicalService) => Promise<any>; // async
+  onSave: (service: ClinicalService) => Promise<any>;
   onCancel: () => void;
+  availableDoctors: Doctor[];
 }
 
 const requiredMark = <span className="text-red-600">*</span>;
 
-const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
+const locationOptions = [
+  { value: "Main Hospital", label: "Main Hospital" },
+  { value: "Anderson Centre", label: "Anderson Centre" },
+  { value: "Capital Outpatient Centre", label: "Capital Outpatient Centre" },
+  { value: "Galleria Outpatient Centre", label: "Galleria Outpatient Centre" },
+  { value: "Kiambu Outpatient Centre", label: "Kiambu Outpatient Centre" },
+  { value: "Rosslyn Outpatient Centre", label: "Rosslyn Outpatient Centre" },
+  {
+    value: "Southfield Outpatient Centre",
+    label: "Southfield Outpatient Centre",
+  },
+  { value: "Warwick Outpatient Centre", label: "Warwick Outpatient Centre" },
+];
+
+const ClinicalServiceForm: React.FC<Props> = ({
+  initialData,
+  onSave,
+  onCancel,
+  availableDoctors,
+}) => {
   const [title, setTitle] = useState(initialData?.title || "");
   const [tagline, setTagline] = useState(initialData?.tagline || "");
   const [overview, setOverview] = useState(initialData?.overview || "");
@@ -28,7 +48,13 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   const [features, setFeatures] = useState<Feature[]>(
     initialData?.features || []
   );
-  const [doctors, setDoctors] = useState<Doctor[]>(initialData?.doctors || []);
+
+  const [selectedDoctors, setSelectedDoctors] = useState<Doctor[]>(
+    initialData?.doctors || []
+  );
+
+  const [doctorInput, setDoctorInput] = useState("");
+
   const [testimonials, setTestimonials] = useState<Testimonial[]>(
     initialData?.testimonials || []
   );
@@ -52,6 +78,15 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
     {}
   );
 
+  //  Filter doctors ONLY when typing
+  const filteredDoctors = availableDoctors.filter((doc) => {
+    if (!doctorInput) return false;
+    const q = doctorInput.toLowerCase();
+    return (
+      doc.name.toLowerCase().includes(q) || doc.role.toLowerCase().includes(q)
+    );
+  });
+
   const validate = () => {
     const newErrors: any = {};
     if (!title.trim()) newErrors.title = "Title is required";
@@ -69,24 +104,20 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       features.map((f, i) => (i === index ? { ...f, [key]: value } : f))
     );
   };
+
   const addFeature = () =>
     setFeatures([...features, { title: "", description: "" }]);
   const removeFeature = (index: number) =>
     setFeatures(features.filter((_, i) => i !== index));
 
-  const handleDoctorChange = (
-    index: number,
-    key: keyof Doctor,
-    value: string
-  ) => {
-    setDoctors(
-      doctors.map((d, i) => (i === index ? { ...d, [key]: value } : d))
-    );
+  const addDoctor = (doctor: Doctor) => {
+    if (selectedDoctors.some((d) => d.id === doctor.id)) return;
+    setSelectedDoctors((prev) => [...prev, doctor]);
   };
-  const addDoctor = () =>
-    setDoctors([...doctors, { name: "", title: "", image: "", bio: "" }]);
-  const removeDoctor = (index: number) =>
-    setDoctors(doctors.filter((_, i) => i !== index));
+
+  const removeDoctor = (id: number) => {
+    setSelectedDoctors((prev) => prev.filter((d) => d.id !== id));
+  };
 
   const handleTestimonialChange = (
     index: number,
@@ -141,7 +172,8 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       overview,
       detailedDescription,
       features,
-      doctors,
+      doctors: selectedDoctors,
+      doctorIds: selectedDoctors.map((d) => String(d.id)),
       testimonials,
       contact,
       isBookable,
@@ -155,7 +187,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
     try {
       await onSave(newService);
       toast.success("Service saved successfully!");
-    } catch (err) {
+    } catch {
       toast.error("Failed to save service.");
     } finally {
       setLoading(false);
@@ -166,7 +198,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
 
   return (
     <form onSubmit={handleSubmit} className={`space-y-6 ${disabledClass}`}>
-      {/*   Title */}
+      {/* Title */}
       <div>
         <label className="font-semibold">
           Title {requiredMark}
@@ -180,7 +212,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         {errors.title && <p className="text-red-600 text-sm">{errors.title}</p>}
       </div>
 
-      {/*Tagline*/}
+      {/* Tagline */}
       <div>
         <label className="font-semibold">
           Tagline {requiredMark}
@@ -196,7 +228,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         )}
       </div>
 
-      {/* Overview*/}
+      {/* Overview */}
       <div>
         <label className="font-semibold">Overview</label>
         <textarea
@@ -206,7 +238,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         />
       </div>
 
-      {/*Detailed Description */}
+      {/* Detailed Description */}
       <div>
         <label className="font-semibold">Detailed Description</label>
         <textarea
@@ -216,9 +248,10 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         />
       </div>
 
-      {/*Features*/}
+      {/* Features */}
       <div>
         <label className="font-semibold">Features</label>
+
         {features.map((f, i) => (
           <div key={i} className="space-y-1 border p-2 mb-2 rounded">
             <input
@@ -245,6 +278,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
             </button>
           </div>
         ))}
+
         <button
           type="button"
           onClick={addFeature}
@@ -254,54 +288,55 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </button>
       </div>
 
-      {/* Doctors */}
+      {/* 🔥 DOCTOR SELECT — UPDATED */}
       <div>
         <label className="font-semibold">Doctors</label>
-        {doctors.map((d, i) => (
-          <div key={i} className="border p-2 mb-2 rounded space-y-1">
-            <input
-              type="text"
-              placeholder="Name"
-              className="border p-1 w-full"
-              value={d.name}
-              onChange={(e) => handleDoctorChange(i, "name", e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Title"
-              className="border p-1 w-full"
-              value={d.title}
-              onChange={(e) => handleDoctorChange(i, "title", e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Image URL"
-              className="border p-1 w-full"
-              value={d.image}
-              onChange={(e) => handleDoctorChange(i, "image", e.target.value)}
-            />
-            <textarea
-              placeholder="Bio"
-              className="border p-1 w-full"
-              value={d.bio}
-              onChange={(e) => handleDoctorChange(i, "bio", e.target.value)}
-            />
-            <button
-              type="button"
-              onClick={() => removeDoctor(i)}
-              className="text-red-500 text-sm"
+
+        <Select
+          isMulti
+          options={filteredDoctors.map((doc) => ({
+            value: doc.id,
+            label: `${doc.name} — ${doc.role}`,
+            doctor: doc,
+          }))}
+          value={selectedDoctors.map((doc) => ({
+            value: doc.id,
+            label: `${doc.name} — ${doc.role}`,
+            doctor: doc,
+          }))}
+          onInputChange={(value) => setDoctorInput(value)}
+          onChange={(vals) => {
+            if (!vals) setSelectedDoctors([]);
+            else setSelectedDoctors(vals.map((v) => v.doctor));
+          }}
+          noOptionsMessage={() =>
+            doctorInput.length < 1
+              ? "Start typing to search..."
+              : "No results found"
+          }
+          filterOption={null}
+          placeholder="Search doctors..."
+          className="mt-2"
+        />
+
+        {/* Selected doctor tags */}
+        <div className="mt-2 flex flex-wrap gap-2">
+          {selectedDoctors.map((doc) => (
+            <div
+              key={doc.id}
+              className="border rounded-full px-3 py-1 bg-blue-50 flex items-center gap-2"
             >
-              ✕ Remove
-            </button>
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={addDoctor}
-          className="text-blue-600 text-sm underline"
-        >
-          + Add Doctor
-        </button>
+              <span>{doc.name}</span>
+              <button
+                type="button"
+                className="text-red-500"
+                onClick={() => removeDoctor(doc.id!)}
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Testimonials */}
@@ -362,7 +397,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </button>
       </div>
 
-      {/*Contact Info*/}
+      {/* Contact */}
       <div>
         <label className="font-semibold">Contact Info</label>
         <input
@@ -381,7 +416,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         />
       </div>
 
-      {/* Images upload*/}
+      {/* Images */}
       <div>
         <label className="font-semibold">Images</label>
         {images.map((img, i) => (
@@ -418,36 +453,25 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </button>
       </div>
 
-      {/* ---------- LOCATIONS ---------- */}
+      {/* Locations */}
       <div>
         <label className="font-semibold">Locations</label>
-        {locations.map((loc, i) => (
-          <div key={i} className="flex gap-2 mb-1">
-            <input
-              type="text"
-              className="border p-2 grow"
-              value={loc}
-              onChange={(e) => handleLocationChange(i, e.target.value)}
-            />
-            <button
-              type="button"
-              onClick={() => removeLocation(i)}
-              className="text-red-500"
-            >
-              ✕
-            </button>
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={addLocation}
-          className="text-blue-600 text-sm underline"
-        >
-          + Add Location
-        </button>
-      </div>
 
-      {/* Checkboxes */}
+        <Select
+          isMulti
+          options={locationOptions}
+          value={locations.map((loc) => ({
+            value: loc,
+            label: loc,
+          }))}
+          onChange={(vals) => {
+            setLocations(vals ? vals.map((v) => v.value) : []);
+          }}
+          placeholder="Select locations..."
+          className="mt-2"
+        />
+      </div>
+      {/* Toggles */}
       <div className="flex gap-4">
         <label className="flex items-center gap-2">
           <input
@@ -468,6 +492,7 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </label>
       </div>
 
+      {/* Buttons */}
       <div className="flex justify-end gap-2">
         <button
           type="button"
@@ -513,4 +538,4 @@ const ServiceForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   );
 };
 
-export default ServiceForm;
+export default ClinicalServiceForm;

@@ -4,7 +4,7 @@ from clinics.models import ClinicalService, Doctor, Testimonial
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'title', 'image')  # image instead of photo
+    list_display = ('id', 'name', 'role', 'image')  # image instead of photo
     search_fields = ('name', 'title')
 
 @admin.register(Testimonial)

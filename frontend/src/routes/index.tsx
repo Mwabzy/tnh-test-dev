@@ -5,7 +5,7 @@ import Layout from "@/components/layout/layout";
 import DashboardLayout from "@/dashboard/DashboardLayout";
 // import DashboardHome from "@/dashboard/DashboardHome";
 // import ClinicalServices from "@/dashboard/pages/ClinicalServices";
-import AuthPage from "@/dashboard/pages/AuthPage";
+import AuthPage from "@/dashboard/auth/AuthPage";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { DashboardRoutesPath } from "./dashboard-routes";
 

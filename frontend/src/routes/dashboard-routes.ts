@@ -11,13 +11,21 @@ const DashboardRoutes = {
   clinicalServices: {
     name: "Clinical Services",
     path: "clinical-services",
-    component: lazyLoad(() => import("@/dashboard/pages/ClinicalServices")),
+    component: lazyLoad(
+      () =>
+        import("@/dashboard/pages/clinical-services/clinics/ClinicalServices")
+    ),
   },
 
   about: {
     name: "Doctor Profiles",
     path: "doctor-profiles",
-    component: lazyLoad(() => import("@/dashboard/pages/DoctorProfiles")),
+    component: lazyLoad(
+      () =>
+        import(
+          "@/dashboard/pages/clinical-services/doctor-profiles/DoctorProfiles"
+        )
+    ),
   },
 };
 

@@ -1,6 +1,10 @@
 export interface Doctor {
+  id?: number;
   name: string;
-  title: string;
-  image: string;
-  bio: string;
+  role: string;
+  bio?: string;
+  image?: string;
+  services_offered: number[];
+  research_publications?: string;
+  awards: string[];
 }

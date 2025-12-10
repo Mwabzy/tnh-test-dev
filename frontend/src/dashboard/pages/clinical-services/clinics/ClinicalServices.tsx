@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import DashboardTable from "../DashboardTable";
-import { ClinicalService } from "@/types";
-import ServiceForm from "../components/ServiceForm";
+import DashboardTable from "./DashboardTable";
+import { Doctor, ClinicalService } from "@/types";
+import ClinicalServiceForm from "./ClinicalServiceForm";
 import {
   fetchClinicalServices,
   createClinicalService,
   updateClinicalService,
   deleteClinicalService,
+  fetchDoctors,
 } from "@/api/api";
 import toast from "react-hot-toast";
 
@@ -14,6 +15,7 @@ const ClinicalServices = () => {
   const [services, setServices] = useState<ClinicalService[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [AvailableDoctors, setAvailableDoctors] = useState<Doctor[]>([]);
 
   const [showForm, setShowForm] = useState(false);
   const [editingService, setEditingService] = useState<ClinicalService | null>(
@@ -39,6 +41,18 @@ const ClinicalServices = () => {
     loadServices();
   }, []);
 
+  useEffect(() => {
+    async function loadDoctors() {
+      try {
+        const services = await fetchDoctors();
+        setAvailableDoctors(services);
+      } catch (err) {
+        console.error("Failed to load services", err);
+      }
+    }
+    loadDoctors();
+  }, []);
+
   const handleAdd = () => {
     setEditingService(null);
     setShowForm(true);
@@ -46,15 +60,21 @@ const ClinicalServices = () => {
 
   const handleSave = async (service: ClinicalService) => {
     try {
+      const payload = {
+        ...service,
+        doctorIds: service.doctorIds ?? [],
+      };
+
       if (editingService) {
-        const updated = await updateClinicalService(service.id, service);
+        const updated = await updateClinicalService(service.id, payload);
         setServices((prev) =>
           prev.map((s) => (s.id === updated.id ? updated : s))
         );
       } else {
-        const created = await createClinicalService(service);
+        const created = await createClinicalService(payload);
         setServices((prev) => [...prev, created]);
       }
+
       setShowForm(false);
       setEditingService(null);
       setError(null);
@@ -71,11 +91,10 @@ const ClinicalServices = () => {
   const confirmDelete = async () => {
     if (deleteConfirmId === null) return;
     try {
-      setDeletingId(deleteConfirmId); // showing deleting spinner on button
+      setDeletingId(deleteConfirmId);
       await deleteClinicalService(deleteConfirmId);
       setServices((prev) => prev.filter((s) => s.id !== deleteConfirmId));
       setDeleteConfirmId(null);
-      setError(null);
       toast.success("Deleted successfully!");
     } catch (err: any) {
       toast.error(`Error deleting service: ${err.message}`);
@@ -84,37 +103,35 @@ const ClinicalServices = () => {
     }
   };
 
-  const cancelDelete = () => {
-    setDeleteConfirmId(null);
-  };
-
-  if (loading) return <p>Loading clinical services...</p>;
-
   return (
     <div>
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">Clinical Services</h1>
-        {!showForm && (
+
+        {!showForm && !loading && (
           <button
             onClick={handleAdd}
-            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+            className="px-4 py-2 bg-green-600 text-white rounded"
           >
             Add Service
           </button>
         )}
       </div>
 
-      {error && <p className="text-red-500 mb-4">{error}</p>}
-
-      {showForm ? (
+      {loading ? (
+        <p>Loading Services...</p>
+      ) : error ? (
+        <p className="text-red-500 mb-4">{error}</p>
+      ) : showForm ? (
         <>
           <h2 className="text-xl font-bold mb-4">
             {editingService ? "Edit Service" : "Add Service"}
           </h2>
-          <ServiceForm
+          <ClinicalServiceForm
             initialData={editingService}
             onSave={handleSave}
             onCancel={() => setShowForm(false)}
+            availableDoctors={AvailableDoctors}
           />
         </>
       ) : (
@@ -124,38 +141,34 @@ const ClinicalServices = () => {
             setEditingService(service);
             setShowForm(true);
           }}
-          onDelete={handleDeleteClick} // open confirm modal
+          onDelete={handleDeleteClick}
           deletingId={deletingId}
         />
       )}
 
-      {/* Confirmation modal */}
+      {/* Delete Modal */}
       {deleteConfirmId !== null &&
         (() => {
-          const serviceToDelete = services.find(
-            (s) => s.id === deleteConfirmId
-          );
+          const service = services.find((s) => s.id === deleteConfirmId);
           return (
-            <div className="fixed inset-0 bg-red-400/10  flex items-center justify-center z-50">
+            <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
               <div className="bg-white p-6 rounded shadow-lg w-80">
-                <p className="mb-4 text-lg">
+                <p className="text-lg mb-4">
                   Are you sure you want to delete{" "}
-                  <strong>{serviceToDelete?.title}</strong>?
+                  <strong>{service?.title}</strong>?
                 </p>
-                <div className="flex justify-end gap-4">
+                <div className="flex justify-end gap-3">
                   <button
-                    onClick={cancelDelete}
+                    onClick={() => setDeleteConfirmId(null)}
                     className="px-4 py-2 border rounded"
-                    disabled={deletingId !== null}
                   >
                     Cancel
                   </button>
                   <button
                     onClick={confirmDelete}
                     className="px-4 py-2 bg-red-600 text-white rounded"
-                    disabled={deletingId !== null}
                   >
-                    {deletingId !== null ? "Deleting..." : "Delete"}
+                    {deletingId ? "Deleting..." : "Delete"}
                   </button>
                 </div>
               </div>

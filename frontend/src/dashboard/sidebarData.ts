@@ -31,10 +31,6 @@ export const clinicalSection = [
     title: "Clinical FAQs",
     href: "/dashboard/clinical-faqs",
   },
-  {
-    title: "Doctors' Profiles",
-    href: "/dashboard/doctor-profiles",
-  },
 ];
 
 export const aboutPages = [
