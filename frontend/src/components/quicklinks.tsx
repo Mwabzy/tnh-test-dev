@@ -19,8 +19,7 @@ export default function Quicklinks() {
           <div className="flex items-center space-x-2">
             <ClipboardClock className="w-4 h-4 text-yellow-400" />
             <div className="flex flex-col md:flex-row">
-              <span className="font-semibold">Book an</span>
-              <span>appointment</span>
+              <span className="font-semibold">Book an appointment</span>
             </div>
           </div>
         </Link>
