@@ -85,14 +85,17 @@ const DoctorsPage = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Doctors</h1>
       <div className="flex justify-between mb-6">
-        <button
-          onClick={() => setShowForm(true)}
-          className="px-4 py-2 bg-green-600 text-white rounded"
-        >
-          Add Doctor
-        </button>
+        <h1 className="text-3xl font-bold mb-6">Doctors</h1>
+
+        {!showForm && !loading && (
+          <button
+            onClick={() => setShowForm(true)}
+            className="px-4 py-2 bg-green-600 text-white font-serif rounded-md"
+          >
+            Add Doctor
+          </button>
+        )}
       </div>
 
       {loading ? (

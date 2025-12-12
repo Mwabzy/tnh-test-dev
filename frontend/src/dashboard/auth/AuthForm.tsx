@@ -83,16 +83,19 @@ const AuthForm: React.FC = () => {
 
   return (
     <div className="max-w-md mx-auto mt-16 p-6 border rounded-lg shadow-md bg-white">
-      <h2 className="text-2xl font-semibold mb-2">
+      <h2 className="text-2xl font-serif font-semibold text-center mb-2">
         {isRegistering ? "Sign Up" : "Login"}
       </h2>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm text-gray-500 text-center mb-4">
         {isRegistering ? "Create an account" : "Sign in to your account"}
       </p>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
-
+      <label htmlFor="username" className="block mb-1 font-serif font-medium">
+        Username
+      </label>
       <input
+        id="username"
         type="text"
         placeholder="Username"
         className="w-full px-4 py-2 mb-3 border rounded"
@@ -109,8 +112,11 @@ const AuthForm: React.FC = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
       )}
-
+      <label htmlFor="password" className="block mb-1 font-serif font-medium">
+        Password
+      </label>
       <input
+        id="password"
         type="password"
         placeholder="Password"
         className="w-full px-4 py-2 mb-3 border rounded"
@@ -129,7 +135,7 @@ const AuthForm: React.FC = () => {
       )}
 
       <button
-        className="w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-400 cursor-pointer"
+        className="w-full bg-yellow-500 text-white font-serif py-2 rounded-md hover:bg-yellow-400 cursor-pointer"
         onClick={handleSubmit}
         disabled={loading}
       >
@@ -142,17 +148,17 @@ const AuthForm: React.FC = () => {
         <p className="text-sm">
           {isRegistering
             ? "Already have an account?"
-            : "Don't have an account?"}
+            : "Don't have an account? contact administrator."}
         </p>
-        <button
-          className="text-red-600 font-semibold mt-2 cursor-pointer"
+        {/* <button
+          className="text-red-600 font-serif font-semibold mt-2 cursor-pointer"
           onClick={() => {
             setError("");
             setIsRegistering(!isRegistering);
           }}
         >
           {isRegistering ? "Sign In" : "Sign Up"}
-        </button>
+        </button> */}
       </div>
     </div>
   );

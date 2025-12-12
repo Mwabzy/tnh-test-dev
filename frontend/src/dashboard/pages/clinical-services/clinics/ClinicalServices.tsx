@@ -106,12 +106,12 @@ const ClinicalServices = () => {
   return (
     <div>
       <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-bold">Clinical Services</h1>
+        <h1 className="text-2xl font-serif font-bold">Clinical Services</h1>
 
         {!showForm && !loading && (
           <button
             onClick={handleAdd}
-            className="px-4 py-2 bg-green-600 text-white rounded"
+            className="px-4 py-2 bg-green-600 text-white rounded-md"
           >
             Add Service
           </button>
@@ -124,7 +124,7 @@ const ClinicalServices = () => {
         <p className="text-red-500 mb-4">{error}</p>
       ) : showForm ? (
         <>
-          <h2 className="text-xl font-bold mb-4">
+          <h2 className="text-xl font-serif font-bold  mb-4">
             {editingService ? "Edit Service" : "Add Service"}
           </h2>
           <ClinicalServiceForm

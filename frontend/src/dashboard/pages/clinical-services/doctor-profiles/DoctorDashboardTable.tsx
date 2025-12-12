@@ -24,7 +24,7 @@ const DoctorDashboardTable: FC<DoctorDashboardTableProps> = ({
 
   return (
     <div className="bg-white shadow rounded-lg p-6">
-      <h2 className="text-xl font-semibold mb-4">Doctors</h2>
+      <h2 className="text-xl font-serif font-semibold mb-4">Doctors</h2>
       <table className="w-full border-collapse">
         <thead>
           <tr className="bg-gray-100 text-left">

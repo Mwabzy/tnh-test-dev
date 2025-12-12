@@ -64,11 +64,15 @@ const DoctorForm = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 p-4 border rounded">
-      <h2 className="text-xl font-bold">
+      <h2 className="text-xl  font-serif font-semibold ">
         {formData.id ? "Edit Doctor" : "Add Doctor"}
       </h2>
 
+      <label htmlFor="Doctorname" className="block mb-1 font-medium">
+        Doctor's Name
+      </label>
       <input
+        id="Doctorname"
         type="text"
         placeholder="Name"
         className="border p-2 w-full"
@@ -76,7 +80,11 @@ const DoctorForm = ({
         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
       />
 
+      <label htmlFor="role" className="block mb-1 font-medium">
+        Doctor's Role
+      </label>
       <input
+        id="role"
         type="text"
         placeholder="Role"
         className="border p-2 w-full"
@@ -84,14 +92,22 @@ const DoctorForm = ({
         onChange={(e) => setFormData({ ...formData, role: e.target.value })}
       />
 
+      <label htmlFor="bio" className="block mb-1 font-medium">
+        Add Bio
+      </label>
       <textarea
+        id="bio"
         placeholder="Bio"
         className="border p-2 w-full"
         value={formData.bio}
         onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
       />
 
+      <label htmlFor="image" className="block mb-1 font-medium">
+        Image URL
+      </label>
       <input
+        id="image"
         type="text"
         placeholder="Image URL"
         className="border p-2 w-full"
@@ -117,7 +133,9 @@ const DoctorForm = ({
 
       {/* Awards */}
       <div>
-        <label className="font-semibold">Awards (comma separated)</label>
+        <label className="font-serif font-semibold">
+          Awards (comma separated)
+        </label>
         <input
           type="text"
           className="border p-2 w-full mt-1"
@@ -137,7 +155,7 @@ const DoctorForm = ({
 
       {/* SERVICES */}
       <div>
-        <label className="font-semibold">Services Offered</label>
+        <label className="font-serif font-semibold">Services Offered</label>
 
         <Select
           isMulti
