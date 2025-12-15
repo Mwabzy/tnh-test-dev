@@ -61,7 +61,8 @@ export const NAVIGATION_CONTENT = [
       },
       {
         title: "IMAGE",
-        image: "/assets/opc_images/anderson.jpg",
+        image:
+          "https://cms.thenairobihosp.org/uploads/nai_hospital_1ce6949b74.jpg",
         link: "/about-us",
         caption: "Leadership & Governance at the Nairobi Hospital",
       },
@@ -172,7 +173,7 @@ export const NAVIGATION_CONTENT = [
       },
       {
         title: "IMAGE",
-        image: "/assets/opc_images/anderson.jpg",
+        image: "https://cms.thenairobihosp.org/uploads/920x400_7286e9039b.jpg",
         link: "/clinical/medical-specialties",
         caption: "Leadership & Governance at the Nairobi Hospital",
       },
@@ -205,9 +206,10 @@ export const NAVIGATION_CONTENT = [
       },
       {
         title: "IMAGE",
-        image: "/assets/opc_images/anderson.jpg",
+        image:
+          "https://cms.thenairobihosp.org/uploads/Cicely_Mc_Donell_580x500_b4d2c6689e.jpg",
         link: "/college/student-alumni",
-        caption: "Leadership & Governance at the Nairobi Hospital",
+        caption: "School of Health Sciences Alumni Network",
       },
     ],
   },
@@ -241,9 +243,10 @@ export const NAVIGATION_CONTENT = [
       },
       {
         title: "IMAGE",
-        image: "/assets/opc_images/anderson.jpg",
+        image: "https://thenairobihosp.org/_nuxt/img/news-letter.064bc5a.png",
         link: "/careers/volunteer",
-        caption: "Leadership & Governance at the Nairobi Hospital",
+        caption:
+          "Join Our Team - Volunteer Opportunities at The Nairobi Hospital",
       },
     ],
   },
@@ -275,9 +278,10 @@ export const NAVIGATION_CONTENT = [
       },
       {
         title: "IMAGE",
-        image: "/assets/opc_images/anderson.jpg",
+        image:
+          "https://cms.thenairobihosp.org/uploads/920x400_Cleaning_9b5e69704e.jpg",
         link: "/about-us/board-of-management",
-        caption: "Leadership & Governance at the Nairobi Hospital",
+        caption: "Cleaning & Housekeeping at The Nairobi Hospital",
       },
     ],
   },

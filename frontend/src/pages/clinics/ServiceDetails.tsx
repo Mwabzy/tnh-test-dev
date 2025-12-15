@@ -16,7 +16,7 @@ const ServiceDetail = () => {
       if (!id) return;
 
       try {
-        const data = await fetchClinicalServiceById(Number(id)); // ✅ use API helper
+        const data = await fetchClinicalServiceById(Number(id));
         console.log("Fetched service from API:", data);
         setService(data);
       } catch (error) {

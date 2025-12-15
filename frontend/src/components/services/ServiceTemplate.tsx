@@ -17,6 +17,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
     doctors,
     contact,
     features,
+
     testimonials,
     locations,
   } = serviceTypes;
@@ -69,6 +70,15 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                             </div>
                           )}
                         </div>
+                        {f.image && (
+                          <div className="flex-shrink-0">
+                            <img
+                              src={f.image.url}
+                              alt={f.image.alt || f.title}
+                              className="w-20 h-20 rounded-lg object-cover border border-gray-100"
+                            />
+                          </div>
+                        )}
                       </li>
                     ))}
                   </ul>
