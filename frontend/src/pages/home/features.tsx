@@ -13,10 +13,10 @@ const Features = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-serif font-extrabold text-red-900 mb-4">
-            Quick Access
+            {content.quickaccess}
           </h2>
           <p className="text-lg font-sans text-gray-600 max-w-2xl mx-auto">
-            Access our essential services quickly and efficiently
+            {content.quickaccess_description}
           </p>
         </div>
 
@@ -34,7 +34,7 @@ const Features = () => {
               onClick={() => navigate("/doctor-profiles")}
               className="mt-4 w-full py-2 rounded-lg bg-yellow-600 hover:bg-red-900 cursor-pointer text-white font-medium  transition"
             >
-              Search
+              {content.find_doctor_button}
             </button>
           </div>
 
@@ -51,7 +51,7 @@ const Features = () => {
               onClick={() => navigate("/medical-tourism")}
               className="mt-4 w-full py-2 rounded-lg bg-yellow-600 hover:bg-red-900 cursor-pointer text-white font-medium transition"
             >
-              Learn More
+              {content.intnl_patient_button}
             </button>
           </div>
 
@@ -68,7 +68,7 @@ const Features = () => {
               onClick={() => navigate("/outpatient-clinics")}
               className="mt-4 w-full py-2 rounded-lg bg-yellow-600 hover:bg-red-900 cursor-pointer text-white font-medium  transition"
             >
-              Get Directions
+              {content.direction_button}
             </button>
           </div>
         </div>

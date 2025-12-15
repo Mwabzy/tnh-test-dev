@@ -5,20 +5,21 @@ const featuresContent: Dictionary = {
   content: {
     quickaccess: [
       t({
-        en: "Quick Access to Our Key Services",
-        fr: "Accès rapide à nos services clés",
-        es: "Acceso rápido a nuestros servicios clave",
-        zh: "快速访问我们的关键服务",
-        ru: "Быстрый доступ к нашим ключевым услугам",
+        en: "Quick Access",
+        fr: "Accès rapide",
+        es: "Acceso rápido",
+        zh: "快速访问",
+        ru: "Быстрый доступ",
       }),
     ],
+
     quickaccess_description: [
       t({
-        en: "Explore our main features designed to enhance your healthcare experience.",
-        fr: "Découvrez nos principales fonctionnalités conçues pour améliorer votre expérience de soins de santé.",
-        es: "Explore nuestras principales características diseñadas para mejorar su experiencia de atención médica.",
-        zh: "探索旨在提升您的医疗体验的主要功能。",
-        ru: "Изучите наши основные функции, разработанные для улучшения вашего опыта в области здравоохранения.",
+        en: "Access our essential services quickly and efficiently",
+        fr: "Accédez rapidement et efficacement à nos services essentiels",
+        es: "Acceda a nuestros servicios esenciales de manera rápida y eficiente",
+        zh: "快速高效地访问我们的基本服务",
+        ru: "Быстрый и эффективный доступ к нашим основным услугам",
       }),
     ],
     find_doctor: [
@@ -28,6 +29,15 @@ const featuresContent: Dictionary = {
         es: "Encontrar un médico",
         zh: "寻找医生",
         ru: "Найти врача",
+      }),
+    ],
+    find_doctor_button: [
+      t({
+        en: "Search",
+        fr: "Rechercher",
+        es: "Buscar",
+        zh: "搜索",
+        ru: "Искать",
       }),
     ],
     find_doctor_description: [
@@ -57,6 +67,15 @@ const featuresContent: Dictionary = {
         ru: "Откройте для себя наши специализированные услуги для международных пациентов, от помощи в путешествиях до медицинской помощи мирового класса. Мы здесь, чтобы сделать ваше путешествие к здоровью максимально гладким.",
       }),
     ],
+    intnl_patient_button: [
+      t({
+        en: "Learn More",
+        fr: "En savoir plus",
+        es: "Aprende más",
+        zh: "了解更多",
+        ru: "Узнать больше",
+      }),
+    ],
     getting_to_hospital: [
       t({
         en: "Getting to the Hospital",
@@ -64,6 +83,15 @@ const featuresContent: Dictionary = {
         es: "Llegar al hospital",
         zh: "前往医院",
         ru: "Добраться до больницы",
+      }),
+    ],
+    direction_button: [
+      t({
+        en: "Get Directions",
+        fr: "Obtenir l'itinéraire",
+        es: "Obtener direcciones",
+        zh: "获取路线",
+        ru: "Получить направление",
       }),
     ],
     getting_to_hospital_description: [
