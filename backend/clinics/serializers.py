@@ -3,7 +3,7 @@ from .models import ClinicalService, Doctor, Testimonial
 
 
 
-# Basic nested serializers
+# Clinics nested serializers
 
 
 class ImageSerializer(serializers.Serializer):
@@ -17,13 +17,22 @@ class FeatureSerializer(serializers.Serializer):
 
 
 
-# Doctor Serializer (FULL)
+# Doctor Serializer 
 
 
 class DoctorSerializer(serializers.ModelSerializer):
     services_offered = serializers.PrimaryKeyRelatedField(
         queryset=ClinicalService.objects.all(),
         many=True,
+        required=False
+    )
+
+    research_publications = serializers.ListField(
+        child=serializers.CharField(),
+        required=False
+    )
+    awards = serializers.ListField(
+        child=serializers.CharField(),
         required=False
     )
 
@@ -61,7 +70,7 @@ class DoctorSerializer(serializers.ModelSerializer):
         return instance
 
 
-# Slim version of doctor used inside ClinicalService GET
+# Short version of doctor used inside ClinicalService GET
 class SlimDoctorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Doctor

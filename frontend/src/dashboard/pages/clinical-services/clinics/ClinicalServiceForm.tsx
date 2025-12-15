@@ -186,9 +186,6 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
     try {
       await onSave(newService);
-      toast.success("Service saved successfully!");
-    } catch {
-      toast.error("Failed to save service.");
     } finally {
       setLoading(false);
     }
@@ -288,7 +285,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
         </button>
       </div>
 
-      {/* 🔥 DOCTOR SELECT — UPDATED */}
+      {/* Doctors' Selection*/}
       <div>
         <label className="font-semibold">Doctors</label>
 
