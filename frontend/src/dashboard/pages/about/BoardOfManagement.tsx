@@ -11,6 +11,9 @@ import {
 import toast from "react-hot-toast";
 
 const BoardManagement = () => {
+  const group = "BM";
+  const title = "Board of Management";
+
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,12 +24,14 @@ const BoardManagement = () => {
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
+  // Load members filtered by group
   useEffect(() => {
     async function loadMembers() {
       setLoading(true);
       try {
-        const data = await fetchTeamMembers();
-        setMembers(data);
+        const data: TeamMember[] = await fetchTeamMembers();
+        const filtered = data.filter((m: TeamMember) => m.group === group);
+        setMembers(filtered);
         setError(null);
       } catch (err: any) {
         setError(err.message || "Error loading team members");
@@ -35,7 +40,7 @@ const BoardManagement = () => {
       }
     }
     loadMembers();
-  }, []);
+  }, [group]);
 
   const handleAdd = () => {
     setEditingMember(null);
@@ -44,6 +49,9 @@ const BoardManagement = () => {
 
   const handleSave = async (member: TeamMember) => {
     try {
+      // Ensure the member gets the correct group
+      member.group = group;
+
       if (editingMember) {
         const updated = await updateTeamMember(member.id, member);
         setMembers((prev) =>
@@ -82,7 +90,7 @@ const BoardManagement = () => {
   return (
     <div>
       <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-bold">Team Members</h1>
+        <h1 className="text-2xl font-bold">{title}</h1>
         {!showForm && !loading && (
           <button
             onClick={handleAdd}
@@ -98,16 +106,11 @@ const BoardManagement = () => {
       ) : error ? (
         <p className="text-red-500 mb-4">{error}</p>
       ) : showForm ? (
-        <>
-          <h2 className="text-xl font-bold mb-4">
-            {editingMember ? "Edit Member" : "Add Member"}
-          </h2>
-          <TeamMemberForm
-            initialData={editingMember}
-            onSave={handleSave}
-            onCancel={() => setShowForm(false)}
-          />
-        </>
+        <TeamMemberForm
+          initialData={editingMember}
+          onSave={handleSave}
+          onCancel={() => setShowForm(false)}
+        />
       ) : (
         <TeamMembersTable
           data={members}
@@ -120,7 +123,6 @@ const BoardManagement = () => {
         />
       )}
 
-      {/* Delete Modal */}
       {deleteConfirmId &&
         (() => {
           const member = members.find((m) => m.id === deleteConfirmId);

@@ -52,13 +52,13 @@ export const aboutPages = [
   },
   {
     title: "Board of Trustees",
-    href: "/dashboard/about/board-of-trustees",
+    href: "/dashboard/board-of-trustees",
     description:
       "Learn about the board of trustees guiding hospital governance.",
   },
   {
     title: "Senior Management",
-    href: "/dashboard/about/senior-management",
+    href: "/dashboard/senior-management",
     description:
       "Get to know our senior leadership team at The Nairobi Hospital.",
   },

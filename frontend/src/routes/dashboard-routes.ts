@@ -37,16 +37,16 @@ const DashboardRoutes = {
   },
 
   boardT: {
-    name: "Board of Management",
-    path: "board-of-management",
+    name: "Board of Trustees",
+    path: "board-of-trustees",
     component: lazyLoad(
       () => import("@/dashboard/pages/about/BoardOfManagement")
     ),
   },
 
   seniorM: {
-    name: "Board of Management",
-    path: "board-of-management",
+    name: "Senior Management",
+    path: "senior-management",
     component: lazyLoad(
       () => import("@/dashboard/pages/about/BoardOfManagement")
     ),
