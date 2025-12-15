@@ -10,20 +10,33 @@ class ClinicalServiceViewSet(viewsets.ModelViewSet):
     queryset = ClinicalService.objects.all()
     serializer_class = ClinicalServiceSerializer
 
+    def create(self, request, *args, **kwargs):
+        print("\n Incoming POST data:", request.data)
+
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            clinical_service = serializer.save()
+            print(" ClinicalService created:", clinical_service.id)
+            return Response(serializer.data, status=201)
+
+        print("\n Serializer errors:", serializer.errors, "\n")
+        return Response(serializer.errors, status=400)
+
+
 class DoctorViewSet(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
 
     def create(self, request, *args, **kwargs):
-        print("\n📥 Incoming POST data:", request.data)
+        print("\n Incoming POST data:", request.data)
 
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             doctor = serializer.save()
-            print("✅ Doctor created:", doctor.id)
+            print(" Doctor created:", doctor.id)
             return Response(serializer.data, status=201)
 
-        print("\n❌ Serializer errors:", serializer.errors, "\n")  # <-- IMPORTANT
+        print("\n Serializer errors:", serializer.errors, "\n") 
         return Response(serializer.errors, status=400)
 
 

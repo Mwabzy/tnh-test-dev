@@ -5,6 +5,6 @@ export interface Doctor {
   bio?: string;
   image?: string;
   services_offered: number[];
-  research_publications?: string;
+  research_publications?: string[];
   awards: string[];
 }

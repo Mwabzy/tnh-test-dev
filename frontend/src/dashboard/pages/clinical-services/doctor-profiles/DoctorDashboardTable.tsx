@@ -47,7 +47,7 @@ const DoctorDashboardTable: FC<DoctorDashboardTableProps> = ({
                   Edit
                 </button>
                 <button
-                  onClick={() => onDelete(doctor.id)}
+                  onClick={() => doctor.id !== undefined && onDelete(doctor.id)}
                   className={`px-3 py-1 rounded text-white ${
                     deletingId === doctor.id
                       ? "bg-gray-400 cursor-not-allowed"

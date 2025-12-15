@@ -1,47 +1,82 @@
 from django.db import models
 
+
+
+# Doctor Model
+
 class Doctor(models.Model):
+    # Basic Info
     name = models.CharField(max_length=100)
-    role = models.CharField(max_length=100)      
+    role = models.CharField(max_length=100)
     bio = models.TextField(blank=True, null=True)
     image = models.URLField(blank=True, null=True)
 
+    # Relationships
     services_offered = models.ManyToManyField(
         'ClinicalService',
         blank=True,
         related_name='offered_by_doctors'
     )
-    research_publications = models.TextField(blank=True, null=True)
+
+    # Additional Info
+    research_publications = models.JSONField(default=list, blank=True)
     awards = models.JSONField(default=list, blank=True)
 
     def __str__(self):
         return self.name
 
 
+
+
+# Testimonial Model
+
 class Testimonial(models.Model):
-    name = models.CharField(max_length=100) 
+    name = models.CharField(max_length=100)
     quote = models.TextField()
     title = models.CharField(max_length=100, blank=True, null=True)
-    image = models.URLField(blank=True, null=True) 
+    image = models.URLField(blank=True, null=True)
     rating = models.PositiveIntegerField(default=5)
 
     def __str__(self):
         return f"{self.name} ({self.rating}/5)"
 
+
+
+
+# Clinical Service Model 
+
 class ClinicalService(models.Model):
+    # Basic Info
     title = models.CharField(max_length=100)
     tagline = models.CharField(max_length=255)
     overview = models.TextField()
     detailedDescription = models.TextField(blank=True, null=True)
-    features = models.JSONField(default=list)
-    doctors = models.ManyToManyField(Doctor, blank=True)
+
+    # Relationships
+    doctors = models.ManyToManyField(
+        Doctor,
+        blank=True,
+        related_name='services'
+    )
     testimonials = models.ManyToManyField(Testimonial, blank=True)
+
+    # More Info
+    features = models.JSONField(default=list)
+    images = models.JSONField(blank=True, null=True)
+    locations = models.JSONField(blank=True, default=list)
     contact = models.JSONField(blank=True, null=True)
+
+    # Checkboxes
     isBookable = models.BooleanField(default=False)
     hasReadMore = models.BooleanField(default=False)
-    clinics = models.ManyToManyField("self", symmetrical=False, blank=True, related_name="parent_services")
-    images = models.JSONField(blank=True, null=True)  
-    locations = models.JSONField(blank=True, default=list)  
+
+    # Sub clinics
+    clinics = models.ManyToManyField(
+        "self",
+        symmetrical=False,
+        blank=True,
+        related_name="parent_services"
+    )
 
     def __str__(self):
         return self.title

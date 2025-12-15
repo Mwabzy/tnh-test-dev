@@ -21,7 +21,7 @@ const DashboardHome = () => {
         </h1>
         <button
           onClick={handleLogout}
-          className="px-4 py-2 bg-green-600 text-white font-serif rounded-md"
+          className="px-4 cursor-pointer bg-red-300 text-white font-serif rounded-md"
         >
           Log Out
         </button>

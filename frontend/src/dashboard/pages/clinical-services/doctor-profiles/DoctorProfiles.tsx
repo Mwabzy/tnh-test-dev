@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 
 const DoctorsPage = () => {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // page-level loading
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [editingDoctor, setEditingDoctor] = useState<Doctor | null>(null);
@@ -22,6 +22,7 @@ const DoctorsPage = () => {
     []
   );
 
+  // Load doctors on mount
   useEffect(() => {
     async function loadDoctors() {
       setLoading(true);
@@ -29,16 +30,16 @@ const DoctorsPage = () => {
         const data = await fetchDoctors();
         setDoctors(data);
         setError(null);
-      } catch (err: any) {
+      } catch (err) {
         setError("Error loading doctors");
       } finally {
         setLoading(false);
       }
     }
-
     loadDoctors();
   }, []);
 
+  // Load clinical services
   useEffect(() => {
     async function loadServices() {
       try {
@@ -52,22 +53,21 @@ const DoctorsPage = () => {
   }, []);
 
   const handleSaveDoctor = async (doctor: Doctor) => {
-    setLoading(true);
     try {
       if (doctor.id) {
-        await updateDoctor(doctor.id, doctor);
+        const updated = await updateDoctor(doctor.id, doctor);
         setDoctors((prev) =>
-          prev.map((d) => (d.id === doctor.id ? doctor : d))
+          prev.map((d) => (d.id === updated.id ? updated : d))
         );
+        toast.success("Doctor updated successfully!");
       } else {
         const newDoctor = await createDoctor(doctor);
         setDoctors((prev) => [...prev, newDoctor]);
+        toast.success("Doctor created successfully!");
       }
       setShowForm(false);
     } catch (err) {
-      toast.error("Failed to save doctor");
-    } finally {
-      setLoading(false);
+      throw err;
     }
   };
 
@@ -76,6 +76,7 @@ const DoctorsPage = () => {
     try {
       await deleteDoctor(id);
       setDoctors((prev) => prev.filter((doctor) => doctor.id !== id));
+      toast.success("Doctor deleted successfully!");
     } catch (err) {
       toast.error("Failed to delete doctor");
     } finally {
