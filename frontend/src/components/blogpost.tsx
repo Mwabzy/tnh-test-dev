@@ -2,6 +2,7 @@ import { Link } from "react-router"; // fixed import
 import { motion } from "framer-motion";
 import { blogPosts } from "@/pages/blog/BlogList";
 
+// Animation variants
 const slideUp = {
   hidden: { y: 20, opacity: 0 },
   visible: { y: 0, opacity: 1 },
@@ -13,6 +14,44 @@ const content = {
     "Stay informed about our latest developments and healthcare insights.",
   viewallposts: "View All News",
 };
+
+// const posts = [
+//   {
+//     id: 1,
+//     isFeatured: true,
+//     tag: "Hospital Times",
+//     date: "December 15, 2024",
+//     title: "New State-of-the-Art Cardiac Surgery Wing Opens",
+//     description:
+//       "The Nairobi Hospital unveils its new cardiac surgery facility, featuring the latest in cardiovascular technology and expanding our capacity to serve more patients.",
+//     imageUrl:
+//       "https://mma.prnewswire.com/media/930108/Frost_Sullivan_Operating_Room_Healthcare.jpg?p=facebook", // Replace with your actual image
+//   },
+//   {
+//     id: 2,
+//     tag: "Achievements",
+//     date: "December 10, 2024",
+//     title: "International Accreditation Renewed",
+//     description:
+//       "The hospital successfully renews its JCI accreditation, maintaining our commitment to international quality standards.",
+//   },
+//   {
+//     id: 3,
+//     tag: "Community Health",
+//     date: "December 5, 2024",
+//     title: "Health Screening Campaign Launches",
+//     description:
+//       "Free health screenings available for diabetes, hypertension, and heart disease throughout December.",
+//   },
+//   {
+//     id: 4,
+//     tag: "Research",
+//     date: "November 28, 2024",
+//     title: "Medical Research Partnership Announced",
+//     description:
+//       "New collaboration with international medical institutions to advance healthcare research in East Africa.",
+//   },
+// ];
 
 const Blogpost = () => {
   const blogsToShow = blogPosts.slice(0, 4);
@@ -62,6 +101,7 @@ const Blogpost = () => {
                     Featured
                   </span>
                 </div>
+
                 <div className="bg-gray-100 border border-red-900 text-red-900 bg-opacity-70 p-4 rounded-2xl">
                   <h3 className="text-xl md:text-2xl font-bold mb-2 break-words">
                     <Link

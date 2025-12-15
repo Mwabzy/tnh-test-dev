@@ -47,7 +47,7 @@ export const aboutPages = [
   },
   {
     title: "Board of Management",
-    href: "/dashboard/about/board-of-management",
+    href: "/dashboard/board-of-management",
     description: "Meet the board of management overseeing hospital operations.",
   },
   {
