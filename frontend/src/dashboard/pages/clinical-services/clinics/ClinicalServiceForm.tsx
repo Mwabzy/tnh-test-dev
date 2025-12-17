@@ -12,7 +12,7 @@ import {
 
 interface Props {
   initialData?: ClinicalService | null;
-  onSave: (service: ClinicalService) => Promise<any>;
+  onSave: (service: ClinicalService | FormData) => Promise<any>;
   onCancel: () => void;
   availableDoctors: Doctor[];
 }
@@ -77,8 +77,9 @@ const ClinicalServiceForm: React.FC<Props> = ({
   const [errors, setErrors] = useState<{ title?: string; tagline?: string }>(
     {}
   );
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
 
-  //  Filter doctors ONLY when typing
+  //  Filter doctors when typing
   const filteredDoctors = availableDoctors.filter((doc) => {
     if (!doctorInput) return false;
     const q = doctorInput.toLowerCase();
@@ -110,10 +111,10 @@ const ClinicalServiceForm: React.FC<Props> = ({
   const removeFeature = (index: number) =>
     setFeatures(features.filter((_, i) => i !== index));
 
-  const addDoctor = (doctor: Doctor) => {
-    if (selectedDoctors.some((d) => d.id === doctor.id)) return;
-    setSelectedDoctors((prev) => [...prev, doctor]);
-  };
+  // const addDoctor = (doctor: Doctor) => {
+  //   if (selectedDoctors.some((d) => d.id === doctor.id)) return;
+  //   setSelectedDoctors((prev) => [...prev, doctor]);
+  // };
 
   const removeDoctor = (id: number) => {
     setSelectedDoctors((prev) => prev.filter((d) => d.id !== id));
@@ -149,12 +150,12 @@ const ClinicalServiceForm: React.FC<Props> = ({
   const removeImage = (index: number) =>
     setImages(images.filter((_, i) => i !== index));
 
-  const handleLocationChange = (index: number, value: string) => {
-    setLocations(locations.map((loc, i) => (i === index ? value : loc)));
-  };
-  const addLocation = () => setLocations([...locations, ""]);
-  const removeLocation = (index: number) =>
-    setLocations(locations.filter((_, i) => i !== index));
+  // const handleLocationChange = (index: number, value: string) => {
+  //   setLocations(locations.map((loc, i) => (i === index ? value : loc)));
+  // };
+  // const addLocation = () => setLocations([...locations, ""]);
+  // const removeLocation = (index: number) =>
+  //   setLocations(locations.filter((_, i) => i !== index));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -163,29 +164,31 @@ const ClinicalServiceForm: React.FC<Props> = ({
       return;
     }
 
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("tagline", tagline);
+    formData.append("overview", overview);
+    formData.append("detailedDescription", detailedDescription);
+    formData.append("isBookable", String(isBookable));
+    formData.append("hasReadMore", String(hasReadMore));
+
+    formData.append("features", JSON.stringify(features));
+    formData.append("doctors", JSON.stringify(selectedDoctors));
+    formData.append("testimonials", JSON.stringify(testimonials));
+    formData.append("contact", JSON.stringify(contact));
+    formData.append("locations", JSON.stringify(locations));
+
+    imageFiles.forEach((file) => {
+      formData.append("images_files", file);
+    });
+
     setLoading(true);
-
-    const newService: ClinicalService = {
-      id: initialData?.id || Date.now(),
-      title,
-      tagline,
-      overview,
-      detailedDescription,
-      features,
-      doctors: selectedDoctors,
-      doctorIds: selectedDoctors.map((d) => String(d.id)),
-      testimonials,
-      contact,
-      isBookable,
-      hasReadMore,
-      timingsOnOverview: initialData?.timingsOnOverview || "",
-      clinics: initialData?.clinics || [],
-      images,
-      locations,
-    };
-
     try {
-      await onSave(newService);
+      await onSave(formData);
+      toast.success("Clinical service saved successfully!");
+    } catch (error) {
+      toast.error("Error saving the clinical service.");
     } finally {
       setLoading(false);
     }
@@ -285,7 +288,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
         </button>
       </div>
 
-      {/* Doctors' Selection*/}
+      {/* Doctors Selection*/}
       <div>
         <label className="font-semibold">Doctors</label>
 
@@ -419,11 +422,14 @@ const ClinicalServiceForm: React.FC<Props> = ({
         {images.map((img, i) => (
           <div key={i} className="flex gap-2 mb-1">
             <input
-              type="text"
-              placeholder="Image URL"
-              className="border p-2 grow"
-              value={img.url}
-              onChange={(e) => handleImageChange(i, "url", e.target.value)}
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={(e) => {
+                if (e.target.files) {
+                  setImageFiles(Array.from(e.target.files));
+                }
+              }}
             />
             <input
               type="text"

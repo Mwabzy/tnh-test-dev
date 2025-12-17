@@ -42,6 +42,19 @@ class Testimonial(models.Model):
 
 
 
+# Clinical Service image model
+
+class ClinicalServiceImage(models.Model):
+    clinical_service = models.ForeignKey(
+        "ClinicalService",
+        related_name="uploaded_images",
+        on_delete=models.CASCADE
+    )
+    image = models.ImageField(upload_to="clinical_services/")
+    alt = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return f"Image for {self.clinical_service.title}"
 
 # Clinical Service Model 
 

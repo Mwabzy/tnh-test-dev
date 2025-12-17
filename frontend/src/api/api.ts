@@ -56,12 +56,16 @@ export async function fetchClinicalServiceById(id: number) {
 
 export async function createClinicalService(data: any) {
   console.log(" Creating Clinical Service with data:", data);
-  const res = await api.post(CLINICS_API, data);
+  const res = await api.post(CLINICS_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return res.data;
 }
 
 export async function updateClinicalService(id: number, data: any) {
-  const res = await api.patch(`${CLINICS_API}${id}/`, data);
+  const res = await api.patch(`${CLINICS_API}${id}/`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return res.data;
 }
 

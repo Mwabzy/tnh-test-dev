@@ -1,23 +1,35 @@
 from rest_framework import serializers
-from .models import ClinicalService, Doctor, Testimonial
+from .models import ClinicalService, Doctor, Testimonial, ClinicalServiceImage
+import json
+
+
+# Helpers
+class JSONStringListField(serializers.Field):
+    def to_internal_value(self, data):
+        if isinstance(data, str):
+            try:
+                data = json.loads(data)
+            except json.JSONDecodeError:
+                raise serializers.ValidationError("Invalid JSON format")
+        if not isinstance(data, list):
+            raise serializers.ValidationError("Expected a list")
+        return data
+
+    def to_representation(self, value):
+        return value or []
 
 
 
-# Clinics nested serializers
-
-
-class ImageSerializer(serializers.Serializer):
-    url = serializers.URLField()
-    alt = serializers.CharField(required=False, allow_blank=True)
-
-
+# Nested serializers
 class FeatureSerializer(serializers.Serializer):
     title = serializers.CharField()
     description = serializers.CharField(required=False, allow_blank=True)
 
 
-
-# Doctor Serializer 
+class SlimDoctorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Doctor
+        fields = ['id', 'name', 'role', 'image', 'bio']
 
 
 class DoctorSerializer(serializers.ModelSerializer):
@@ -26,7 +38,6 @@ class DoctorSerializer(serializers.ModelSerializer):
         many=True,
         required=False
     )
-
     research_publications = serializers.ListField(
         child=serializers.CharField(),
         required=False
@@ -39,14 +50,8 @@ class DoctorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Doctor
         fields = [
-            'id',
-            'name',
-            'role',
-            'bio',
-            'image',
-            'services_offered',
-            'research_publications',
-            'awards',
+            'id', 'name', 'role', 'bio', 'image',
+            'services_offered', 'research_publications', 'awards'
         ]
 
     def create(self, validated_data):
@@ -57,40 +62,37 @@ class DoctorSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         services = validated_data.pop('services_offered', None)
-
-        # update simple fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
-
-        # update M2M if provided
         if services is not None:
             instance.services_offered.set(services)
-
         return instance
-
-
-# Short version of doctor used inside ClinicalService GET
-class SlimDoctorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Doctor
-        fields = ['id', 'name', 'role', 'image', 'bio']
-
-
-
-# Testimonial
 
 
 class TestimonialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Testimonial
-        fields = ['name', 'title', 'image', 'quote', 'rating']
+        fields = ['id', 'name', 'title', 'image', 'quote', 'rating']
 
 
 
-# Clinical Service Serializer
+# ClinicalServiceImage Serializer
+class ClinicalServiceImageSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ClinicalServiceImage
+        fields = ["id", "url", "alt"]
+
+    def get_url(self, obj):
+        request = self.context.get("request")
+        if request:
+            return request.build_absolute_uri(obj.image.url)
+        return obj.image.url
 
 
+# ClinicalService Serializer
 class ClinicalServiceSerializer(serializers.ModelSerializer):
     doctors = SlimDoctorSerializer(many=True, required=False)
     testimonials = TestimonialSerializer(many=True, required=False)
@@ -100,81 +102,94 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         many=True,
         required=False
     )
-    images = ImageSerializer(many=True, required=False)
-    features = FeatureSerializer(many=True)
+
+ 
+    images = ClinicalServiceImageSerializer(
+    source='uploaded_images',
+        many=True,
+        read_only=True
+    )
+
+
+    images_files = serializers.ListField(
+        child=serializers.ImageField(),
+        write_only=True,
+        required=False
+    )
+
+    features = JSONStringListField(required=False)
 
     class Meta:
         model = ClinicalService
         fields = [
             'id', 'title', 'tagline', 'overview', 'detailedDescription',
             'features', 'doctors', 'testimonials', 'contact',
-            'isBookable', 'hasReadMore', 'clinics', 'images', 'locations'
+            'isBookable', 'hasReadMore', 'clinics',
+            'images',      
+            'images_files',
+            'locations',
         ]
 
+  
     # CREATE
     def create(self, validated_data):
         doctors_data = validated_data.pop('doctors', [])
         testimonials_data = validated_data.pop('testimonials', [])
-        contact_data = validated_data.pop('contact', None)
         clinics_data = validated_data.pop('clinics', [])
-        images_data = validated_data.pop('images', [])
+        images_files = validated_data.pop('images_files', [])
 
-        clinical_service = ClinicalService.objects.create(
-            contact=contact_data, **validated_data
-        )
+        service = ClinicalService.objects.create(**validated_data)
 
-        # doctors (nested)
         for doc_data in doctors_data:
             doctor = Doctor.objects.create(**doc_data)
-            clinical_service.doctors.add(doctor)
+            service.doctors.add(doctor)
 
-        # testimonials (nested)
         for test_data in testimonials_data:
             testimonial = Testimonial.objects.create(**test_data)
-            clinical_service.testimonials.add(testimonial)
+            service.testimonials.add(testimonial)
 
-        # clinics M2M
-        clinical_service.clinics.set(clinics_data)
+        service.clinics.set(clinics_data)
 
-        # JSON fields
-        clinical_service.images = images_data
-        clinical_service.save()
+        for img in images_files:
+            ClinicalServiceImage.objects.create(
+                clinical_service=service,
+                image=img
+            )
 
-        return clinical_service
+        return service
 
+   
     # UPDATE
     def update(self, instance, validated_data):
-        doctors_data = validated_data.pop('doctors', [])
-        testimonials_data = validated_data.pop('testimonials', [])
-        contact_data = validated_data.pop('contact', None)
-        clinics_data = validated_data.pop('clinics', [])
-        images_data = validated_data.pop('images', [])
+        doctors_data = validated_data.pop('doctors', None)
+        testimonials_data = validated_data.pop('testimonials', None)
+        clinics_data = validated_data.pop('clinics', None)
+        images_files = validated_data.pop('images_files', [])
 
-        # simple fields
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
-        # contact
-        if contact_data:
-            instance.contact = contact_data
+        if doctors_data is not None:
+            instance.doctors.all().delete()
+            for doc_data in doctors_data:
+                doctor = Doctor.objects.create(**doc_data)
+                instance.doctors.add(doctor)
 
-        # replace doctors
-        instance.doctors.all().delete()
-        for doc_data in doctors_data:
-            doctor = Doctor.objects.create(**doc_data)
-            instance.doctors.add(doctor)
+        if testimonials_data is not None:
+            instance.testimonials.all().delete()
+            for test_data in testimonials_data:
+                testimonial = Testimonial.objects.create(**test_data)
+                instance.testimonials.add(testimonial)
 
-        # replace testimonials
-        instance.testimonials.all().delete()
-        for test_data in testimonials_data:
-            testimonial = Testimonial.objects.create(**test_data)
-            instance.testimonials.add(testimonial)
+        if clinics_data is not None:
+            instance.clinics.set(clinics_data)
 
-        # M2M clinics
-        instance.clinics.set(clinics_data)
-
-        # JSON fields
-        instance.images = images_data
+        # Add new uploaded images
+        for img in images_files:
+            ClinicalServiceImage.objects.create(
+                clinical_service=instance,
+                image=img
+            )
 
         instance.save()
         return instance
