@@ -4,156 +4,133 @@ import { TeamMember } from "@/types";
 
 interface Props {
   initialData?: TeamMember | null;
-  fixedGroup?: "BT" | "BM" | "SM";
-  onSave: (member: Partial<TeamMember>) => Promise<void>;
+  onSave: (member: TeamMember) => Promise<any>;
   onCancel: () => void;
 }
 
-const TeamMemberForm: React.FC<Props> = ({
-  initialData,
-  fixedGroup,
-  onSave,
-  onCancel,
-}) => {
-  const [name, setName] = useState(initialData?.name ?? "");
-  const [role, setRole] = useState(initialData?.role ?? "");
-  const [image, setImage] = useState(initialData?.image ?? "");
+const requiredMark = <span className="text-red-600">*</span>;
+
+const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
+  const [name, setName] = useState(initialData?.name || "");
+  const [role, setRole] = useState(initialData?.role || "");
+  const [image, setImage] = useState(initialData?.image || "");
   const [description, setDescription] = useState(
-    initialData?.description ?? ""
+    initialData?.description || ""
   );
+  const [group, setGroup] = useState(initialData?.group || "");
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ name?: string; role?: string }>({});
 
-  const group = fixedGroup ?? initialData?.group;
-
   const validate = () => {
-    const errs: typeof errors = {};
-    if (!name.trim()) errs.name = "Name is required";
-    if (!role.trim()) errs.role = "Role is required";
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
+    const newErrors: any = {};
+    if (!name.trim()) newErrors.name = "Name is required";
+    if (!role.trim()) newErrors.role = "Role is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) {
-      toast.error("Please fix the errors in the form.");
+      toast.error("Please fix errors in the form.");
       return;
     }
 
     setLoading(true);
 
-    try {
-      await onSave({
-        id: initialData?.id,
-        name,
-        role,
-        image,
-        description,
-        group,
-      });
+    const newMember: TeamMember = {
+      id: initialData?.id || Date.now().toString(),
+      name,
+      role,
+      image,
+      description,
+      group,
+    };
 
+    try {
+      await onSave(newMember);
       toast.success("Team member saved successfully!");
-    } catch (err: any) {
-      toast.error(err?.message || "Failed to save team member");
+    } catch {
+      toast.error("Failed to save team member.");
     } finally {
       setLoading(false);
     }
   };
 
+  const disabledClass = loading ? "opacity-50 pointer-events-none" : "";
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white shadow rounded-lg p-6 space-y-5"
-    >
-      <h2 className="text-xl font-semibold">
-        {initialData ? "Edit Team Member" : "Add Team Member"}
-      </h2>
-
-      {/* Name */}
+    <form onSubmit={handleSubmit} className={`space-y-6 ${disabledClass}`}>
       <div>
-        <label className="block font-medium mb-1">Name *</label>
-        <input
-          type="text"
-          className="border p-2 w-full rounded"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        {errors.name && (
-          <p className="text-red-600 text-sm mt-1">{errors.name}</p>
-        )}
+        <label className="font-semibold">
+          Name {requiredMark}
+          <input
+            type="text"
+            className="border p-2 w-full"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
+        {errors.name && <p className="text-red-600 text-sm">{errors.name}</p>}
       </div>
 
-      {/* Role */}
       <div>
-        <label className="block font-medium mb-1">Role *</label>
-        <input
-          type="text"
-          className="border p-2 w-full rounded"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        />
-        {errors.role && (
-          <p className="text-red-600 text-sm mt-1">{errors.role}</p>
-        )}
+        <label className="font-semibold">
+          Role {requiredMark}
+          <input
+            type="text"
+            className="border p-2 w-full"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          />
+        </label>
+        {errors.role && <p className="text-red-600 text-sm">{errors.role}</p>}
       </div>
 
-      {/* Image */}
       <div>
-        <label className="block font-medium mb-1">Image URL</label>
+        <label className="font-semibold">Image URL</label>
         <input
           type="text"
-          className="border p-2 w-full rounded"
+          className="border p-2 w-full"
           value={image}
           onChange={(e) => setImage(e.target.value)}
         />
       </div>
 
-      {/* Description */}
       <div>
-        <label className="block font-medium mb-1">Description</label>
+        <label className="font-semibold">Description</label>
         <textarea
-          className="border p-2 w-full rounded min-h-[100px]"
+          className="border p-2 w-full"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
 
-      {/* Group (read-only when fixed) */}
-      {group && (
-        <div>
-          <label className="block font-medium mb-1">Group</label>
-          <input
-            type="text"
-            className="border p-2 w-full rounded bg-gray-100 cursor-not-allowed"
-            value={
-              group === "BT"
-                ? "Board of Trustees"
-                : group === "BM"
-                ? "Board of Management"
-                : "Senior Management"
-            }
-            disabled
-          />
+      <div>
+        <label className="font-semibold">Group</label>
+        <div className="border p-2 w-full bg-gray-100 text-gray-700 rounded">
+          {{
+            BM: "Board of Management",
+            BT: "Board of Trustees",
+            SM: "Senior Management",
+          }[group] || "—"}
         </div>
-      )}
+      </div>
 
-      {/* Actions */}
-      <div className="flex justify-end gap-3 pt-4">
+      <div className="flex justify-end gap-2">
         <button
           type="button"
           onClick={onCancel}
-          disabled={loading}
           className="px-4 py-2 border rounded"
+          disabled={loading}
         >
           Cancel
         </button>
         <button
           type="submit"
-          disabled={loading}
           className={`px-4 py-2 rounded text-white ${
-            loading ? "bg-gray-400" : "bg-green-600 hover:bg-green-700"
+            loading ? "bg-gray-400 cursor-not-allowed" : "bg-green-600"
           }`}
         >
           {loading ? "Saving..." : "Save"}

@@ -40,7 +40,7 @@ const DashboardRoutes = {
     name: "Board of Trustees",
     path: "board-of-trustees",
     component: lazyLoad(
-      () => import("@/dashboard/pages/about/BoardOfManagement")
+      () => import("@/dashboard/pages/about/BoardOfTrustees")
     ),
   },
 
@@ -48,7 +48,7 @@ const DashboardRoutes = {
     name: "Senior Management",
     path: "senior-management",
     component: lazyLoad(
-      () => import("@/dashboard/pages/about/BoardOfManagement")
+      () => import("@/dashboard/pages/about/SeniorManagement")
     ),
   },
 };

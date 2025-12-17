@@ -1,5 +1,6 @@
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
 import TeamPage from "./TeamPage";
+import { fetchTeamMembers } from "@/api/api";
 
 type TeamPageProps = {
   title: string;
@@ -8,13 +9,15 @@ type TeamPageProps = {
 };
 
 type TeamMember = {
+  id: string;
   name: string;
-  title: string;
+  role: string;
   image: string;
-  id: string; // Added id property for routing
-  description: string[]; // Optional property to avoid errors for other members
+  description: string;
+  group: string;
 };
 
+/*export const teamMembers: TeamMember[] = [
 export const teamMembers: TeamMember[] = [
   {
     name: "Dr. Barcley Onyambu",
@@ -61,7 +64,8 @@ export const teamMembers: TeamMember[] = [
     name: "Prof. Eng. John Mwero",
     id: "timothy-byakika",
     title: "Vice Chairman, Medical Advisory Committee",
-    image: "https://cms.thenairobihosp.org/uploads/6_Prof_Eng_John_Mwero_Board_Member_890810fa51.jpg",
+    image:
+      "https://cms.thenairobihosp.org/uploads/6_Prof_Eng_John_Mwero_Board_Member_890810fa51.jpg",
     description: [
       "Team members play an essential role in advancing healthcare and effective management practices across a variety of settings. Their work supports individual and organizational well-being, contributing to better outcomes in areas such as clinical services, administration, education, and research.",
       "With expertise in areas like behavioral strategies, process improvement, and program development, team members help drive innovation in healthcare delivery and organizational effectiveness. Many are involved in research that explores the integration of technology to enhance services and streamline operations.",
@@ -192,16 +196,38 @@ export const teamMembers: TeamMember[] = [
   //     "Beyond daily operations, team members mentor emerging professionals and contribute to shaping the future of healthcare and management. They are committed to expanding access to effective tools and resources, fostering a more efficient, responsive, and inclusive system.",
   //   ],
   // },
-];
+];*/
 
 const BoardOfManagement: FC<TeamPageProps> = () => {
+  const group = "BM";
+  const [_loading, setLoading] = useState(true);
+  const [members, setMembers] = useState<TeamMember[]>([]);
+  const [_error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadMembers() {
+      setLoading(true);
+      try {
+        const data: TeamMember[] = await fetchTeamMembers();
+        const filtered = data.filter((m: TeamMember) => m.group === group);
+        setMembers(filtered);
+        setError(null);
+      } catch (err: any) {
+        setError(err.message || "Error loading team members");
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadMembers();
+  }, [group]);
+
   return (
     <>
       {/* <NavigationTabs /> */}
       <TeamPage
         title="Board of Management"
         description="The Nairobi Hospital Board of Management is in charge of the hospital’s corporate governance and is accountable to the Kenya Hospital Association which ensures the hospital’s compliance with the law while maintaining the highest standards of corporate governance. The Nairobi Hospital Board complies with the 2/3 gender rule, with 34% female and 64% male members."
-        members={teamMembers}
+        members={members}
       />
     </>
   );

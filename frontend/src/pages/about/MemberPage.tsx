@@ -1,23 +1,54 @@
-import { teamMembers } from "./SeniorManagement";
+// import { teamMembers } from "./SeniorManagement";
 import { useParams } from "react-router";
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
+import { fetchTeamMembers } from "@/api/api";
 
-export interface TeamMember {
+// export interface TeamMember {
+//   id: string;
+//   name: string;
+//   title: string;
+//   image: string;
+//   description: string[];
+// }
+
+type TeamMember = {
   id: string;
   name: string;
-  title: string;
+  role: string;
   image: string;
-  description: string[];
-}
+  description: string;
+  group: string;
+};
 
 interface MemberPageProps {
   teamMembers: TeamMember[];
 }
 
 const MemberPage: FC<MemberPageProps> = () => {
+  const [_loading, setLoading] = useState(true);
+  const [members, setMembers] = useState<TeamMember[]>([]);
+  const [_error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function loadMembers() {
+      setLoading(true);
+      try {
+        const data: TeamMember[] = await fetchTeamMembers();
+
+        setMembers(data);
+        setError(null);
+      } catch (err: any) {
+        setError(err.message || "Error loading team members");
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadMembers();
+  }, []);
+
   const { id } = useParams();
 
-  const user = teamMembers.find((person) => person.id === id)!;
+  const user = members.find((person) => person.id === id)!;
 
   return (
     <>
@@ -35,12 +66,12 @@ const MemberPage: FC<MemberPageProps> = () => {
                   <h1 className="text-4xl font-bold text-gray-900">
                     {user.name}
                   </h1>
-                  <p className="text-lg text-gray-600 mt-2">{user.title}</p>
+                  <p className="text-lg text-gray-600 mt-2">{user.role}</p>
                   <p className="mt-4 text-gray-700 max-w-xl">
-                    {user.description[0]}
+                    {user.description}
                   </p>
 
-                  <div className="mt-4">
+                  {/* <div className="mt-4">
                     <p>
                       <span className="font-semibold">Email:</span>{" "}
                       <a
@@ -59,9 +90,9 @@ const MemberPage: FC<MemberPageProps> = () => {
                         020 0000000
                       </a>
                     </p>
-                  </div>
+                  </div> */}
 
-                  <div className="mt-4 flex space-x-4 text-xl text-gray-600">
+                  {/* <div className="mt-4 flex space-x-4 text-xl text-gray-600">
                     <a href="#">
                       <i className="fab fa-facebook-square hover:text-blue-600"></i>
                     </a>
@@ -71,11 +102,11 @@ const MemberPage: FC<MemberPageProps> = () => {
                     <a href="#">
                       <i className="fab fa-linkedin hover:text-blue-700"></i>
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
-              <div className="mt-12">
+              {/* <div className="mt-12">
                 <h2 className="text-3xl font-semibold text-gray-900 mb-4">
                   About {user.name}
                 </h2>
@@ -84,7 +115,7 @@ const MemberPage: FC<MemberPageProps> = () => {
                     <p key={i}>{para}</p>
                   ))}
                 </div>
-              </div>
+              </div> */}
             </div>
           </>
         )}
