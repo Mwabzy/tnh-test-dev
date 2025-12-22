@@ -5,6 +5,7 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const USER_API = `${BASE_URL}/auth/`;
 const CLINICS_API = `${BASE_URL}/clinical-services/`;
 const DOCTORS_API = `${BASE_URL}/doctors/`;
+const TEAM_API = `${BASE_URL}/team-members/`;
 
 // Axios Instance
 const api = axios.create({
@@ -99,5 +100,33 @@ export async function updateDoctor(id: number, data: any) {
 
 export async function deleteDoctor(id: number) {
   const res = await api.delete(`${DOCTORS_API}${id}/`);
+  return res.data;
+}
+
+// TEAM MEMBERS
+
+export async function fetchTeamMembers() {
+  const res = await api.get(TEAM_API);
+  return res.data;
+}
+
+export async function fetchTeamMemberById(id: string) {
+  const res = await api.get(`${TEAM_API}${id}/`);
+  return res.data;
+}
+
+export async function createTeamMember(data: any) {
+  console.log("Creating Team Member with data:", data);
+  const res = await api.post(TEAM_API, data);
+  return res.data;
+}
+
+export async function updateTeamMember(id: string, data: any) {
+  const res = await api.patch(`${TEAM_API}${id}/`, data);
+  return res.data;
+}
+
+export async function deleteTeamMember(id: string) {
+  const res = await api.delete(`${TEAM_API}${id}/`);
   return res.data;
 }

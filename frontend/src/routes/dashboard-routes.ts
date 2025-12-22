@@ -17,7 +17,7 @@ const DashboardRoutes = {
     ),
   },
 
-  about: {
+  doctors: {
     name: "Doctor Profiles",
     path: "doctor-profiles",
     component: lazyLoad(
@@ -25,6 +25,30 @@ const DashboardRoutes = {
         import(
           "@/dashboard/pages/clinical-services/doctor-profiles/DoctorProfiles"
         )
+    ),
+  },
+
+  boardM: {
+    name: "Board of Management",
+    path: "board-of-management",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/about/BoardOfManagement")
+    ),
+  },
+
+  boardT: {
+    name: "Board of Trustees",
+    path: "board-of-trustees",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/about/BoardOfTrustees")
+    ),
+  },
+
+  seniorM: {
+    name: "Senior Management",
+    path: "senior-management",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/about/SeniorManagement")
     ),
   },
 };

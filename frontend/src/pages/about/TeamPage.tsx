@@ -10,10 +10,12 @@ type TeamPageProps = {
 };
 
 type TeamMember = {
+  id: string;
   name: string;
-  id?: string;
-  title: string;
+  role: string;
   image: string;
+  description: string;
+  group: string;
 };
 
 // layout for the whole page
@@ -28,7 +30,6 @@ const TeamPage: React.FC<TeamPageProps> = ({ title, description, members }) => {
       />
       <section className="py-12 px-4 bg-gray-100">
         <div className="max-w-7xl mx-auto">
-         
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {members.map((member, index) => (
               <TeamCard key={index} {...member} />
@@ -36,15 +37,13 @@ const TeamPage: React.FC<TeamPageProps> = ({ title, description, members }) => {
           </div>
         </div>
       </section>
-      <ContactForm
-        contactInfo={{ phone: "" }}
-      />
+      <ContactForm contactInfo={{ phone: "" }} />
     </>
   );
 };
 
 //layout for cards
-const TeamCard: React.FC<TeamMember> = ({ name, title, id, image }) => (
+const TeamCard: React.FC<TeamMember> = ({ name, role, id, image }) => (
   <div className="relative bg-grey-300 rounded-lg overflow-hidden text-center p-3">
     <Link to={`/member-page/${id}`}>
       <div className="group relative ">
@@ -57,7 +56,7 @@ const TeamCard: React.FC<TeamMember> = ({ name, title, id, image }) => (
 
         <div className="absolute bottom-0 w-full p-4 transition-opacity duration-800 opacity-100 md:opacity-0 md:group-hover:opacity-100 z-20">
           <h3 className="mt-4 text-white text-2xl font-bold">{name}</h3>
-          <p className=" text-white text-sm mt-1">{title}</p>
+          <p className=" text-white text-sm mt-1">{role}</p>
         </div>
       </div>
     </Link>
