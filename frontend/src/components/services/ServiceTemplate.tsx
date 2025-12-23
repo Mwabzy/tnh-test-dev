@@ -225,7 +225,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                                       {toRaw ? ` — ${toRaw}` : ""}
                                     </td>
                                     <td className="px-4 py-3 text-center">
-                                      <Link
+                                      {/* <Link
                                         to={`/booking?serviceId=${
                                           serviceTypes.id
                                         }&location=${encodeURIComponent(
@@ -233,6 +233,12 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                                         )}&day=${encodeURIComponent(
                                           dayDisplay || ""
                                         )}`}
+                                        className="text-red-900 font-medium"
+                                      >
+                                        Book Appointment →
+                                      </Link> */}
+                                      <Link
+                                        to={`/booking-calendar`}
                                         className="text-red-900 font-medium"
                                       >
                                         Book Appointment →
@@ -296,10 +302,16 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                                       "Contact clinic"}
                                   </td>
                                   <td className="px-4 py-3 text-center">
-                                    <Link
+                                    {/* <Link
                                       to={`/booking?serviceId=${
                                         serviceTypes.id
                                       }&location=${encodeURIComponent(loc)}`}
+                                      className="text-red-900 font-medium"
+                                    >
+                                      Book Appointment →
+                                    </Link> */}
+                                    <Link
+                                      to={`/booking-calendar`}
                                       className="text-red-900 font-medium"
                                     >
                                       Book Appointment →

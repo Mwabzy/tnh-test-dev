@@ -25,9 +25,8 @@ export const NavigationMobile: React.FC<{ onNavigate?: () => void }> = ({
       >
         {NAVIGATION_CONTENT.map((item, idx) => {
           const hasSubmenu = item.sections && item.sections.length > 0;
-          const label = item.labelKey
-            ? content[item.labelKey as keyof typeof content][0].value
-            : item.label;
+          const label =
+            content[item.labelKey as keyof typeof content]?.[0]?.value ?? "";
 
           // Home link with no sub menu
           if (!hasSubmenu) {

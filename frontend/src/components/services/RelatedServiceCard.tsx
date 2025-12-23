@@ -1,15 +1,17 @@
-import { RelatedServices } from "@/types";
-import { FaChevronRight } from "react-icons/fa";
-import { Link } from "react-router";
+// import { RelatedServices } from "@/types";
+// import { FaChevronRight } from "react-icons/fa";
+// import { Link } from "react-router";
 
-const RelatedServiceCard: React.FC<RelatedServices> = ({
-  id,
-  title,
-  overview,
-  images,
-}) => (
+const RelatedServiceCard: React.FC = (
+  {
+    //id,
+    // title,
+    // overview,
+    // images,
+  }
+) => (
   <div className="w-full max-w-lg bg-white shadow-md rounded-lg overflow-hidden flex flex-col transition hover:shadow-xl">
-    <img
+    {/* <img
       src={images[0]?.url}
       alt={title}
       className="w-full h-56 object-cover"
@@ -27,7 +29,7 @@ const RelatedServiceCard: React.FC<RelatedServices> = ({
       >
         Read More <FaChevronRight size={12} />
       </Link>
-    </div>
+    </div> */}
   </div>
 );
 

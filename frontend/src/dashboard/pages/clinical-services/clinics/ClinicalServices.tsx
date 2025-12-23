@@ -58,27 +58,41 @@ const ClinicalServices = () => {
     setShowForm(true);
   };
 
-  const handleSave = async (service: ClinicalService) => {
+  const handleSave = async (service: ClinicalService | FormData) => {
     try {
-      const payload = {
-        ...service,
-        doctorIds: service.doctorIds ?? [],
-      };
+      let result;
 
-      if (editingService) {
-        const updated = await updateClinicalService(service.id, payload);
-        setServices((prev) =>
-          prev.map((s) => (s.id === updated.id ? updated : s))
-        );
+      if (service instanceof FormData) {
+        // FORM DATA (images upload)
+        if (editingService) {
+          result = await updateClinicalService(editingService.id, service);
+        } else {
+          result = await createClinicalService(service);
+        }
       } else {
-        const created = await createClinicalService(payload);
-        setServices((prev) => [...prev, created]);
+        // JSON PAYLOAD (existing behavior)
+        const payload = {
+          ...service,
+          doctorIds: service.doctorIds ?? [],
+        };
+
+        if (editingService) {
+          result = await updateClinicalService(service.id, payload);
+        } else {
+          result = await createClinicalService(payload);
+        }
       }
+
+      setServices((prev) =>
+        editingService
+          ? prev.map((s) => (s.id === result.id ? result : s))
+          : [...prev, result]
+      );
 
       setShowForm(false);
       setEditingService(null);
       setError(null);
-      toast.success("Service saved successfully!");
+      toast.success("Clinical service saved successfully!");
     } catch (err: any) {
       toast.error(`Error saving service: ${err.message}`);
     }
