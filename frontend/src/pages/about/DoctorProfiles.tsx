@@ -5,6 +5,7 @@ import Heading from "@/components/Heading";
 import { FaUserMd, FaCalendarCheck } from "react-icons/fa";
 import { Link } from "react-router";
 import doctorsData from "@/data/doctors.json";
+import { fetchClinicalServices } from "@/api/api";
 import clinicalServices from "@/data/clinicalServices2.json";
 
 // Service name mapping to clinical service IDs
