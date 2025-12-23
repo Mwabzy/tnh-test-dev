@@ -6,6 +6,7 @@ const USER_API = `${BASE_URL}/auth/`;
 const CLINICS_API = `${BASE_URL}/clinical-services/`;
 const DOCTORS_API = `${BASE_URL}/doctors/`;
 const TEAM_API = `${BASE_URL}/team-members/`;
+const BLOGS_API = `${BASE_URL}/blog-posts/`;
 
 // Axios Instance
 const api = axios.create({
@@ -134,3 +135,25 @@ export async function deleteTeamMember(id: string) {
   const res = await api.delete(`${TEAM_API}${id}/`);
   return res.data;
 }
+
+// BLOG POSTS
+
+export const fetchBlogPosts = async () => {
+  const response = await axios.get(`${BASE_URL}/blog-posts/`);
+  return response.data;
+};
+
+export const createBlogPosts = async (data: any) => {
+  const response = await axios.post(`${BASE_URL}/blog-posts/`, data);
+  return response.data;
+};
+
+export const updateBlogPosts = async (id: string, data: any) => {
+  const response = await axios.patch(`${BASE_URL}/blog-posts/${id}/`, data);
+  return response.data;
+};
+
+export const deleteBlogPosts = async (id: string) => {
+  const response = await axios.delete(`${BASE_URL}/blog-posts/${id}/`);
+  return response.data;
+};

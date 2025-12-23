@@ -1,4 +1,5 @@
 import { lazyLoad } from "@/components/layout/lazy-load";
+import newslist from "@/pages/blog/NewsList";
 
 export type UIRoutesType = {
   name: string;
@@ -109,28 +110,61 @@ const UIRoutes = {
   medicalTourism: {
     name: "navigation.medicalTourism",
     path: "/medical-tourism",
-    component: lazyLoad(() => import("../pages/other-services/medical-tourism/page")),
+    component: lazyLoad(
+      () => import("../pages/other-services/medical-tourism/page")
+    ),
   },
+
   blogList: {
     name: "navigation.blogList",
-    path: "/news",
+    path: "/blogs",
     component: lazyLoad(() => import("../pages/blog/BlogList")),
   },
-   csrList: {
-    name: "navigation.csrList",
-    path: "about/csr",
-    component: lazyLoad(() => import("../pages/about/csr/CsrList")),
-  },
-  csrDetails: {
-    name: "navigation.csrDetails",
-    path: "/csr-detail/:id",
-    component: lazyLoad(() => import("../pages/about/csr/CsrDetail")),
-  },
+
   blogDetails: {
     name: "navigation.blogDetails",
     path: "/blog/:id",
     component: lazyLoad(() => import("../pages/blog/BlogDetail")),
   },
+
+  newslist: {
+    name: "navigation.newslist",
+    path: "/news",
+    component: lazyLoad(() => import("../pages/blog/NewsList")),
+  },
+
+  newsdeatail: {
+    name: "navigation.newsdeatail",
+    path: "/news/:id",
+    component: lazyLoad(() => import("../pages/blog/NewsDetail")),
+  },
+
+  eventsannouncememntsdetails: {
+    name: "navigation.eventsannouncememntsdetails",
+    path: "/events-announcements/:id",
+    component: lazyLoad(
+      () => import("../pages/blog/EventsAnnouncementsDetails")
+    ),
+  },
+
+  eventsannouncementslist: {
+    name: "navigation.eventsannouncementslist",
+    path: "/events-announcements",
+    component: lazyLoad(() => import("../pages/blog/EventsAnnouncementsList")),
+  },
+
+  csrList: {
+    name: "navigation.csrList",
+    path: "about/csr",
+    component: lazyLoad(() => import("../pages/about/csr/CsrList")),
+  },
+
+  csrDetails: {
+    name: "navigation.csrDetails",
+    path: "/csr-detail/:id",
+    component: lazyLoad(() => import("../pages/about/csr/CsrDetail")),
+  },
+
   laundryServices: {
     name: "navigation.laundryServices",
     path: "/laundry-services",
@@ -358,7 +392,6 @@ const UIRoutes = {
       () => import("../pages/clinical-services/infection-control/page")
     ),
   },
- 
 };
 
 export const RoutesPath: Record<keyof typeof UIRoutes, UIRoutesType> = UIRoutes;
