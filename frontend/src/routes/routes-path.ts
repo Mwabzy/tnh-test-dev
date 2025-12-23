@@ -1,5 +1,4 @@
 import { lazyLoad } from "@/components/layout/lazy-load";
-import newslist from "@/pages/blog/NewsList";
 
 export type UIRoutesType = {
   name: string;

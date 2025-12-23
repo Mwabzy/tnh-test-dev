@@ -1,6 +1,5 @@
 import Posts, { Post } from "@/components/blog/Posts";
 import { motion } from "framer-motion";
-import { Events } from "leaflet";
 
 const slideUp = {
   hidden: { opacity: 0, y: 50 },

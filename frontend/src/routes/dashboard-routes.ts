@@ -51,6 +51,30 @@ const DashboardRoutes = {
       () => import("@/dashboard/pages/about/SeniorManagement")
     ),
   },
+
+  blogPosts: {
+    name: "Blog Posts",
+    path: "blog-posts",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/news-blogs/ArticlesBlogs")
+    ),
+  },
+
+  eventsAnnouncements: {
+    name: "Events & Announcements",
+    path: "events-announcements",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/news-blogs/EventsAnnouncememnts")
+    ),
+  },
+
+  latestNews: {
+    name: "Latest News",
+    path: "latest-news",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/news-blogs/LatestNews")
+    ),
+  },
 };
 
 export const DashboardRoutesPath: Record<

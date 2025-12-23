@@ -1,30 +1,69 @@
-import { Post } from "@/components/blog/Posts";
+import { FC } from "react";
+import { Blog } from "@/types";
 
-interface Props {
-  posts: Post[];
+interface BlogTableProps {
+  data: Blog[];
+  onEdit: (blog: Blog) => void;
+  onDelete: (id: string) => void;
+  deletingId?: string | null;
 }
 
-const BlogTable = ({ posts }: Props) => {
+const BlogTable: FC<BlogTableProps> = ({
+  data,
+  onEdit,
+  onDelete,
+  deletingId = null,
+}) => {
+  if (data.length === 0) {
+    return (
+      <div className="bg-white shadow rounded-lg p-6 text-center text-gray-500">
+        No blog posts available. Create your first post.
+      </div>
+    );
+  }
+
   return (
-    <div className="overflow-x-auto bg-white shadow rounded-lg">
-      <table className="w-full text-left border-collapse">
-        <thead className="bg-gray-100">
-          <tr>
+    <div className="bg-white shadow rounded-lg p-6">
+      <h2 className="text-xl font-semibold mb-4">Blog Posts</h2>
+
+      <table className="w-full border-collapse">
+        <thead>
+          <tr className="bg-gray-100 text-left">
             <th className="p-3">Title</th>
             <th className="p-3">Author</th>
             <th className="p-3">Category</th>
+            <th className="p-3">Featured</th>
             <th className="p-3">Actions</th>
           </tr>
         </thead>
+
         <tbody>
-          {posts.map((post) => (
-            <tr key={post.id} className="border-t">
-              <td className="p-3">{post.title}</td>
-              <td className="p-3">{post.author}</td>
-              <td className="p-3">{post.category}</td>
-              <td className="p-3 space-x-2">
-                <button className="text-blue-600">Edit</button>
-                <button className="text-red-600">Delete</button>
+          {data.map((blog) => (
+            <tr key={blog.id} className="border-b hover:bg-gray-50">
+              <td className="p-3 font-medium">{blog.title}</td>
+              <td className="p-3">{blog.author}</td>
+              <td className="p-3">{blog.category}</td>
+              <td className="p-3">{blog.is_featured ? "Yes" : "No"}</td>
+              <td className="p-3 flex gap-2">
+                <button
+                  onClick={() => onEdit(blog)}
+                  className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  disabled={deletingId === blog.id}
+                >
+                  Edit
+                </button>
+
+                <button
+                  onClick={() => onDelete(blog.id || "")}
+                  className={`px-3 py-1 rounded text-white ${
+                    deletingId === blog.id
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-red-500 hover:bg-red-600"
+                  }`}
+                  disabled={deletingId === blog.id}
+                >
+                  {deletingId === blog.id ? "Deleting..." : "Delete"}
+                </button>
               </td>
             </tr>
           ))}

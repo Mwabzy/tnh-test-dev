@@ -138,22 +138,27 @@ export async function deleteTeamMember(id: string) {
 
 // BLOG POSTS
 
-export const fetchBlogPosts = async () => {
-  const response = await axios.get(`${BASE_URL}/blog-posts/`);
+export const createBlogPosts = async (data: any) => {
+  const response = await axios.post(`${BLOGS_API}`, data); // now only single slash
   return response.data;
 };
 
-export const createBlogPosts = async (data: any) => {
-  const response = await axios.post(`${BASE_URL}/blog-posts/`, data);
+export const fetchBlogPosts = async () => {
+  const response = await axios.get(`${BLOGS_API}`);
+  return response.data;
+};
+
+export const fetchBlogPostById = async (id: string) => {
+  const response = await axios.get(`${BLOGS_API}/${id}`);
   return response.data;
 };
 
 export const updateBlogPosts = async (id: string, data: any) => {
-  const response = await axios.patch(`${BASE_URL}/blog-posts/${id}/`, data);
+  const response = await axios.patch(`${BLOGS_API}/${id}`, data);
   return response.data;
 };
 
 export const deleteBlogPosts = async (id: string) => {
-  const response = await axios.delete(`${BASE_URL}/blog-posts/${id}/`);
+  const response = await axios.delete(`${BLOGS_API}/${id}`);
   return response.data;
 };
