@@ -101,7 +101,14 @@ const BookingPage: React.FC = () => {
 
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
   const [selectedService, setSelectedService] = useState<string | null>(null);
-  const services = clinicalServices as ClinicalService[];
+  //const services = clinicalServices as ClinicalService[];
+  const services: ClinicalService[] = clinicalServices.map((service) => ({
+  ...service,
+  doctors: service.doctors.map((d) => ({
+    ...d,
+    role: d.title, // convert title → role
+  })),
+}));
 
   const selectedServiceFromList = useMemo(
     () => services.find((s) => s.id === selectedServiceId) || null,
@@ -118,7 +125,7 @@ const BookingPage: React.FC = () => {
       return {
         id: doctor.id,
         name: doctor.name,
-        title: doctor.title,
+        title: doctor.role,
         services:
           doctor.servicesOffered.length > 0
             ? doctor.servicesOffered

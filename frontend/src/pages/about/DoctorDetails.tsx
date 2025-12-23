@@ -32,7 +32,10 @@ const DoctorDetails: FC = () => {
       </p>
     );
   // compute image src safely (handle external URLs)
-  const imageSrc = user.image && (user.image as string).startsWith("http") ? user.image : `/${user.image}`;
+  const imageSrc =
+    user.image && (user.image as string).startsWith("http")
+      ? user.image
+      : `/${user.image}`;
 
   // Ensure `description`, `awardsAndRecognition`, and `ResearchAndPublications` are arrays
   const descriptionArray: string[] = Array.isArray(user.description)
@@ -53,7 +56,8 @@ const DoctorDetails: FC = () => {
     ? [user.ResearchAndPublications]
     : [];
 
-  const firstParagraph = descriptionArray.length > 0 ? descriptionArray[0] : (user.bio || "");
+  const firstParagraph =
+    descriptionArray.length > 0 ? descriptionArray[0] : user.bio || "";
 
   return (
     <div className="bg-gray-50 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
@@ -68,7 +72,7 @@ const DoctorDetails: FC = () => {
             <h1 className="text-4xl font-extrabold text-red-900">
               {user.name}
             </h1>
-            <p className="text-xl text-red-700 mt-1 italic">{user.title}</p>
+            <p className="text-xl text-red-700 mt-1 italic">{user.role}</p>
 
             <p className="mt-5 text-gray-700 leading-relaxed max-w-xl">
               {firstParagraph}
@@ -113,7 +117,11 @@ const DoctorDetails: FC = () => {
 
             <div className="mt-6">
               <span className="font-semibold text-gray-700">Languages:</span>{" "}
-              <span className="text-gray-700">{(user.languages && user.languages.join) ? user.languages.join(", ") : (user.languages || user.languagesSpoken || "")}</span>
+              <span className="text-gray-700">
+                {user.languages && user.languages.join
+                  ? user.languages.join(", ")
+                  : user.languages || user.languagesSpoken || ""}
+              </span>
             </div>
 
             <div className="mt-6">

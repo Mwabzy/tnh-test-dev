@@ -1,9 +1,16 @@
 from rest_framework import serializers
-from .models import ClinicalService, Doctor, Testimonial, ClinicalServiceImage
+from .models import (
+    ClinicalService,
+    Doctor,
+    Testimonial,
+    ClinicalServiceImage
+)
 import json
 
 
+
 # Helpers
+
 class JSONStringListField(serializers.Field):
     def to_internal_value(self, data):
         if isinstance(data, str):
@@ -21,10 +28,6 @@ class JSONStringListField(serializers.Field):
 
 
 # Nested serializers
-class FeatureSerializer(serializers.Serializer):
-    title = serializers.CharField()
-    description = serializers.CharField(required=False, allow_blank=True)
-
 
 class SlimDoctorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,21 +57,6 @@ class DoctorSerializer(serializers.ModelSerializer):
             'services_offered', 'research_publications', 'awards'
         ]
 
-    def create(self, validated_data):
-        services = validated_data.pop('services_offered', [])
-        doctor = Doctor.objects.create(**validated_data)
-        doctor.services_offered.set(services)
-        return doctor
-
-    def update(self, instance, validated_data):
-        services = validated_data.pop('services_offered', None)
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
-        if services is not None:
-            instance.services_offered.set(services)
-        return instance
-
 
 class TestimonialSerializer(serializers.ModelSerializer):
     class Meta:
@@ -77,7 +65,8 @@ class TestimonialSerializer(serializers.ModelSerializer):
 
 
 
-# ClinicalServiceImage Serializer
+# Image serializer
+
 class ClinicalServiceImageSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField()
 
@@ -92,27 +81,33 @@ class ClinicalServiceImageSerializer(serializers.ModelSerializer):
         return obj.image.url
 
 
+
 # ClinicalService Serializer
+
 class ClinicalServiceSerializer(serializers.ModelSerializer):
     doctors = SlimDoctorSerializer(many=True, required=False)
     testimonials = TestimonialSerializer(many=True, required=False)
-    contact = serializers.JSONField(required=False)
+
     clinics = serializers.PrimaryKeyRelatedField(
         queryset=ClinicalService.objects.all(),
         many=True,
         required=False
     )
 
- 
     images = ClinicalServiceImageSerializer(
-    source='uploaded_images',
+        source="uploaded_images",
         many=True,
         read_only=True
     )
 
-
     images_files = serializers.ListField(
         child=serializers.ImageField(),
+        write_only=True,
+        required=False
+    )
+
+    images_to_delete = serializers.ListField(
+        child=serializers.IntegerField(),
         write_only=True,
         required=False
     )
@@ -125,13 +120,15 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
             'id', 'title', 'tagline', 'overview', 'detailedDescription',
             'features', 'doctors', 'testimonials', 'contact',
             'isBookable', 'hasReadMore', 'clinics',
-            'images',      
+            'images',
             'images_files',
+            'images_to_delete',
             'locations',
         ]
 
-  
+ 
     # CREATE
+ 
     def create(self, validated_data):
         doctors_data = validated_data.pop('doctors', [])
         testimonials_data = validated_data.pop('testimonials', [])
@@ -158,13 +155,15 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
 
         return service
 
-   
+ 
     # UPDATE
+ 
     def update(self, instance, validated_data):
         doctors_data = validated_data.pop('doctors', None)
         testimonials_data = validated_data.pop('testimonials', None)
         clinics_data = validated_data.pop('clinics', None)
         images_files = validated_data.pop('images_files', [])
+        images_to_delete = validated_data.pop('images_to_delete', [])
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
@@ -184,7 +183,14 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         if clinics_data is not None:
             instance.clinics.set(clinics_data)
 
-        # Add new uploaded images
+        # DELETE IMAGES
+        if images_to_delete:
+            ClinicalServiceImage.objects.filter(
+                id__in=images_to_delete,
+                clinical_service=instance
+            ).delete()
+
+        # ADD NEW IMAGES
         for img in images_files:
             ClinicalServiceImage.objects.create(
                 clinical_service=instance,

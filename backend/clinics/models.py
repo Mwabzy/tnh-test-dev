@@ -51,7 +51,7 @@ class ClinicalServiceImage(models.Model):
         on_delete=models.CASCADE
     )
     image = models.ImageField(upload_to="clinical_services/")
-    alt = models.CharField(max_length=255, blank=True, null=True)
+    alt = models.CharField(max_length=255, blank=True, default="")
 
     def __str__(self):
         return f"Image for {self.clinical_service.title}"

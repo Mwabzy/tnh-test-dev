@@ -17,7 +17,7 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   const [description, setDescription] = useState(
     initialData?.description || ""
   );
-  const [group, setGroup] = useState(initialData?.group || "");
+  const [group, _setGroup] = useState(initialData?.group || "");
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ name?: string; role?: string }>({});

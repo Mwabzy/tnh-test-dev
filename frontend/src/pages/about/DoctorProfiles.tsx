@@ -83,7 +83,7 @@ const truncateBioToThreeSentences = (
 
 type Doctor = {
   name: string;
-  title: string;
+  role: string;
   image: string;
   bio: string;
   specialization: string;
@@ -205,7 +205,7 @@ const DoctorProfiles: FC = () => {
   const filteredMembers = teamMembers.filter((member) => {
     const matchesSearch =
       member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      member.title.toLowerCase().includes(searchTerm.toLowerCase());
+      member.role.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesClinic = specialtyClinic
       ? member.clinicDepartment

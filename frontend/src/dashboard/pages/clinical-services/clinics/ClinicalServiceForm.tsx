@@ -9,6 +9,7 @@ import {
   Image,
   Testimonial,
 } from "@/types";
+import { updateImageAlt } from "@/api/api";
 
 interface Props {
   initialData?: ClinicalService | null;
@@ -39,6 +40,11 @@ const ClinicalServiceForm: React.FC<Props> = ({
   onCancel,
   availableDoctors,
 }) => {
+  type NewImage = {
+    file: File;
+    alt: string;
+  };
+
   const [title, setTitle] = useState(initialData?.title || "");
   const [tagline, setTagline] = useState(initialData?.tagline || "");
   const [overview, setOverview] = useState(initialData?.overview || "");
@@ -68,7 +74,13 @@ const ClinicalServiceForm: React.FC<Props> = ({
   const [hasReadMore, setHasReadMore] = useState(
     initialData?.hasReadMore ?? false
   );
-  const [images, setImages] = useState<Image[]>(initialData?.images || []);
+  const [images, setImages] = useState<Image[]>(
+    (initialData?.images || []).map((img) => ({
+      ...img,
+      alt: img.alt || "",
+    }))
+  );
+
   const [locations, setLocations] = useState<string[]>(
     initialData?.locations || []
   );
@@ -77,7 +89,9 @@ const ClinicalServiceForm: React.FC<Props> = ({
   const [errors, setErrors] = useState<{ title?: string; tagline?: string }>(
     {}
   );
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  // const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imagesToDelete, setImagesToDelete] = useState<number[]>([]);
+  const [newImages, setNewImages] = useState<NewImage[]>([]);
 
   //  Filter doctors when typing
   const filteredDoctors = availableDoctors.filter((doc) => {
@@ -146,9 +160,18 @@ const ClinicalServiceForm: React.FC<Props> = ({
       images.map((img, i) => (i === index ? { ...img, [key]: value } : img))
     );
   };
-  const addImage = () => setImages([...images, { url: "", alt: "" }]);
-  const removeImage = (index: number) =>
+
+  const removeImage = (index: number) => {
+    const img = images[index];
+
+    // capture id in a local variable and ensure it's a number
+    const imgId = img.id;
+    if (typeof imgId === "number") {
+      setImagesToDelete((prev: number[]) => [...prev, imgId]);
+    }
+
     setImages(images.filter((_, i) => i !== index));
+  };
 
   // const handleLocationChange = (index: number, value: string) => {
   //   setLocations(locations.map((loc, i) => (i === index ? value : loc)));
@@ -172,21 +195,42 @@ const ClinicalServiceForm: React.FC<Props> = ({
     formData.append("detailedDescription", detailedDescription);
     formData.append("isBookable", String(isBookable));
     formData.append("hasReadMore", String(hasReadMore));
-
     formData.append("features", JSON.stringify(features));
     formData.append("doctors", JSON.stringify(selectedDoctors));
     formData.append("testimonials", JSON.stringify(testimonials));
     formData.append("contact", JSON.stringify(contact));
     formData.append("locations", JSON.stringify(locations));
 
-    imageFiles.forEach((file) => {
-      formData.append("images_files", file);
+    // Append new image files
+    newImages.forEach((img) => {
+      formData.append("images_files", img.file);
+      formData.append("images_files_alt", img.alt);
+    });
+
+    // Append IDs of images to delete
+    imagesToDelete.forEach((id) => {
+      formData.append("images_to_delete", String(id));
     });
 
     setLoading(true);
     try {
+      // Save the service (backend handles new images & deletions)
       await onSave(formData);
-      toast.success("Clinical service saved successfully!");
+
+      // Update alt text for existing images
+      for (const img of images) {
+        if (img.id && img.alt !== undefined) {
+          try {
+            await updateImageAlt(img.id, img.alt);
+          } catch (err) {
+            console.error("Failed to update image alt:", img.id);
+          }
+        }
+      }
+
+      // Reset state
+      setImagesToDelete([]);
+      setNewImages([]);
     } catch (error) {
       toast.error("Error saving the clinical service.");
     } finally {
@@ -419,18 +463,18 @@ const ClinicalServiceForm: React.FC<Props> = ({
       {/* Images */}
       <div>
         <label className="font-semibold">Images</label>
+
+        {/* Existing images (already saved) */}
         {images.map((img, i) => (
-          <div key={i} className="flex gap-2 mb-1">
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={(e) => {
-                if (e.target.files) {
-                  setImageFiles(Array.from(e.target.files));
-                }
-              }}
-            />
+          <div key={`existing-${i}`} className="flex gap-2 mb-2 items-center">
+            {img.url && (
+              <img
+                src={img.url}
+                alt={img.alt || ""}
+                className="w-20 h-20 object-cover border"
+              />
+            )}
+
             <input
               type="text"
               placeholder="Alt text"
@@ -438,19 +482,78 @@ const ClinicalServiceForm: React.FC<Props> = ({
               value={img.alt}
               onChange={(e) => handleImageChange(i, "alt", e.target.value)}
             />
+
             <button
               type="button"
               onClick={() => removeImage(i)}
               className="text-red-500"
             >
-              ✕
+              ✕ Remove
             </button>
           </div>
         ))}
+
+        {/* New images (not yet saved) */}
+        {newImages.map((img, idx) => (
+          <div key={`new-${idx}`} className="flex gap-2 mb-2 items-center">
+            <img
+              src={URL.createObjectURL(img.file)}
+              alt=""
+              className="w-20 h-20 object-cover border"
+            />
+
+            <input
+              type="text"
+              placeholder="Alt text"
+              className="border p-2 grow"
+              value={img.alt}
+              onChange={(e) =>
+                setNewImages((prev) =>
+                  prev.map((ni, i) =>
+                    i === idx ? { ...ni, alt: e.target.value } : ni
+                  )
+                )
+              }
+            />
+
+            <button
+              type="button"
+              className="text-red-500"
+              onClick={() =>
+                setNewImages((prev) => prev.filter((_, i) => i !== idx))
+              }
+            >
+              ✕ Remove
+            </button>
+          </div>
+        ))}
+
+        {/* Hidden file input */}
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          hidden
+          id="image-upload"
+          onChange={(e) => {
+            const files = e.target.files;
+            if (!files) return;
+
+            const mapped = Array.from(files).map((file) => ({
+              file,
+              alt: "",
+            }));
+
+            setNewImages((prev) => [...prev, ...mapped]);
+            e.target.value = "";
+          }}
+        />
+
+        {/* Add Image button */}
         <button
           type="button"
-          onClick={addImage}
-          className="text-blue-600 text-sm underline"
+          onClick={() => document.getElementById("image-upload")?.click()}
+          className="text-blue-600 text-sm underline mt-2"
         >
           + Add Image
         </button>

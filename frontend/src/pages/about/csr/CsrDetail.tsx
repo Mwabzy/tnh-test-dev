@@ -1,5 +1,5 @@
 import React from "react";
-import { Sparkles, Stethoscope } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import Heading from "@/components/Heading";
 
 // --- MOCK DATA (Simulating fetched data from csrPosts and useParams) ---

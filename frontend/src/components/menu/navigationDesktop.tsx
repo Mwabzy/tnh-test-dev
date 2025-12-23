@@ -41,9 +41,8 @@ export const NavigationDesktop: React.FC = () => {
   return (
     <Menubar className="flex-col md:flex-row border-none shadow-none bg-inherit text-sm font-medium">
       {NAVIGATION_CONTENT.map((item, idx) => {
-        const label = item.labelKey
-          ? content[item.labelKey as keyof typeof content]?.[0]?.value ?? ""
-          : item.label ?? "";
+        const label =
+          content[item.labelKey as keyof typeof content]?.[0]?.value ?? "";
 
         return (
           <MenubarMenu key={idx}>

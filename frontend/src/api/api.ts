@@ -75,6 +75,10 @@ export async function deleteClinicalService(id: number) {
   return res.data;
 }
 
+export async function updateImageAlt(imageId: number, alt: string) {
+  return api.patch(`${BASE_URL}/clinical-service-images/${imageId}/`, { alt });
+}
+
 //DOCTORS' PROFILES
 
 export async function fetchDoctors() {

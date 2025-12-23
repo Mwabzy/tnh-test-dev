@@ -75,7 +75,7 @@ const Services = () => {
 
           {/* Button Section */}
           <Link
-            to="/clinics"
+            to="/clinical-services"
             className="mt-4 md:mt-0 inline-flex items-center px-3 py-2 
                    text-white ml-6 rounded-lg text-sm font-medium transition 
                    bg-yellow-600  hover:bg-red-900 font-serif"
