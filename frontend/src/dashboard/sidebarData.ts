@@ -126,10 +126,11 @@ export const collegeHealthSciences = [
 export const newsMedia = [
   {
     title: "News",
-    href: "/dashboard/news",
+    href: "/dashboard/latest-news",
     description:
       "Information about the new services available at the Nairobi Hospital.",
   },
+
   {
     title: "Tenders",
     href: "/dashboard/news/tenders",

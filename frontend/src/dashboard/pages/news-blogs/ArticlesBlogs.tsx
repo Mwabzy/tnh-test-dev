@@ -1,65 +1,159 @@
-import { useEffect, useState } from "react";
-import Posts, { Post } from "@/components/blog/Posts";
+import { useState, useEffect } from "react";
+import BlogTable from "./BlogTable";
+import BlogForm from "./BlogForms";
+import { Blog } from "@/types";
 import {
   fetchBlogPosts,
   createBlogPosts,
   updateBlogPosts,
   deleteBlogPosts,
 } from "@/api/api";
-import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 
-const ArticlesBlogs = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+const ArticlesBlog = () => {
+  const title = "Articles & Blog";
+
+  const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
+  const [showForm, setShowForm] = useState(false);
+  const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
+
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  // Load blogs
   useEffect(() => {
-    const loadBlogs = async () => {
+    async function loadBlogs() {
+      setLoading(true);
       try {
         const data = await fetchBlogPosts();
-
-        // filter only blog articles if needed
-        const articles = data.filter(
-          (item: Post) => item.category === "Health & Awareness"
-        );
-
-        setPosts(articles);
-      } catch (error) {
-        console.error("Failed to load blog posts", error);
+        setBlogs(data);
+        setError(null);
+      } catch (err: any) {
+        setError(err.message || "Error loading blogs");
       } finally {
         setLoading(false);
       }
-    };
+    }
 
     loadBlogs();
   }, []);
 
-  if (loading) {
-    return <p className="text-center py-10">Loading articles...</p>;
-  }
+  const handleAdd = () => {
+    setEditingBlog(null);
+    setShowForm(true);
+  };
+
+  const handleSave = async (blog: Blog) => {
+    try {
+      if (editingBlog?.id) {
+        const updated = await updateBlogPosts(editingBlog.id, blog);
+        setBlogs((prev) =>
+          prev.map((b) => (b.id === updated.id ? updated : b))
+        );
+      } else {
+        const created = await createBlogPosts(blog);
+        setBlogs((prev) => [created, ...prev]);
+      }
+
+      setShowForm(false);
+      setEditingBlog(null);
+      toast.success("Blog saved successfully!");
+    } catch (err: any) {
+      toast.error(`Error saving blog: ${err.message}`);
+    }
+  };
+
+  const handleDeleteClick = (id: string) => setDeleteConfirmId(id);
+
+  const confirmDelete = async () => {
+    if (!deleteConfirmId) return;
+
+    try {
+      setDeletingId(deleteConfirmId);
+      await deleteBlogPosts(deleteConfirmId);
+      setBlogs((prev) => prev.filter((b) => b.id !== deleteConfirmId));
+      setDeleteConfirmId(null);
+      toast.success("Blog deleted successfully!");
+    } catch (err: any) {
+      toast.error(`Error deleting blog: ${err.message}`);
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   return (
-    <section className="px-6 py-12 max-w-7xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-      >
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">
-          Articles & Blogs
-        </h1>
+    <div>
+      <div className="flex justify-between mb-4">
+        <h1 className="text-2xl font-bold">{title}</h1>
 
-        <p className="text-gray-600 mb-8">
-          Insights, medical articles, and health awareness content.
-        </p>
-
-        {posts.length === 0 ? (
-          <p>No articles available.</p>
-        ) : (
-          <Posts posts={posts} />
+        {!showForm && !loading && (
+          <button
+            onClick={handleAdd}
+            className="px-4 py-2 bg-green-600 text-white rounded"
+          >
+            Add Blog
+          </button>
         )}
-      </motion.div>
-    </section>
+      </div>
+
+      {loading ? (
+        <p>Loading blogs...</p>
+      ) : error ? (
+        <p className="text-red-500 mb-4">{error}</p>
+      ) : showForm ? (
+        <BlogForm
+          initialData={editingBlog}
+          onSave={handleSave}
+          onCancel={() => setShowForm(false)}
+        />
+      ) : (
+        <BlogTable
+          data={blogs}
+          onEdit={(blog) => {
+            setEditingBlog(blog);
+            setShowForm(true);
+          }}
+          onDelete={handleDeleteClick}
+          deletingId={deletingId}
+        />
+      )}
+
+      {/* Delete confirmation modal */}
+      {deleteConfirmId &&
+        (() => {
+          const blog = blogs.find((b) => b.id === deleteConfirmId);
+
+          return (
+            <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
+              <div className="bg-white p-6 rounded shadow-lg w-96">
+                <p className="text-lg mb-4">
+                  Are you sure you want to delete <strong>{blog?.title}</strong>
+                  ?
+                </p>
+
+                <div className="flex justify-end gap-3">
+                  <button
+                    onClick={() => setDeleteConfirmId(null)}
+                    className="px-4 py-2 border rounded"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={confirmDelete}
+                    className="px-4 py-2 bg-red-600 text-white rounded"
+                  >
+                    {deletingId ? "Deleting..." : "Delete"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+    </div>
   );
 };
 
-export default ArticlesBlogs;
+export default ArticlesBlog;
