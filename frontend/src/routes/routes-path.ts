@@ -1,5 +1,5 @@
 import { lazyLoad } from "@/components/layout/lazy-load";
-import newslist from "@/pages/blog/NewsList";
+
 
 export type UIRoutesType = {
   name: string;
@@ -27,6 +27,11 @@ const UIRoutes = {
     name: "navigation.clinicalServices",
     path: "/clinical-services",
     component: lazyLoad(() => import("../pages/clinics/Clinics")),
+  },
+  andersonServices: {
+    name: "navigation.andersonServices",
+    path: "/anderson-services",
+    component: lazyLoad(() => import("../pages/clinics/AndersonClinics")),
   },
 
   serviceDetails: {
