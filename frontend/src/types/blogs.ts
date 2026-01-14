@@ -8,5 +8,5 @@ export interface Blog {
   longdesc?: string;
   cover_image?: string;
   image?: string;
-  is_featured?: boolean;
+  isFeatured?: boolean;
 }

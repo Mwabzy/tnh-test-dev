@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.utils import timezone  # for automatic date
 
 class TeamMember(models.Model):
     id = models.CharField(primary_key=True, max_length=100, editable=False, default=uuid.uuid4)
@@ -9,24 +10,28 @@ class TeamMember(models.Model):
     image = models.URLField(max_length=500)
     description = models.TextField()
 
-
     def __str__(self):
         return self.name
 
+
 class BlogPost(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    is_featured = models.BooleanField(default=False)
+    isFeatured = models.BooleanField(default=False)
     author = models.CharField(max_length=100)
+
     title = models.CharField(max_length=255)
     subtitle = models.CharField(max_length=255)
-    blog_subtitle = models.CharField(max_length=255)
-    description = models.TextField()
-    short_desc = models.TextField()
-    long_desc = models.TextField()
+    blogsubtitle = models.CharField(max_length=255, blank=True)  
+
+    shortdesc = models.TextField()
+    longdesc = models.TextField()
+
     category = models.CharField(max_length=100)
-    date = models.CharField(max_length=50)
-    cover_image = models.URLField()
-    image = models.URLField()
+    date = models.DateField(auto_now_add=True) 
+
+    coverImage = models.URLField(max_length=500, blank=True) 
+    image = models.URLField(max_length=500)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

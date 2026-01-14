@@ -1,5 +1,8 @@
 import { FunctionComponent } from "react";
 import { Link } from "react-router";
+import { Blog } from "@/types";
+import { fetchBlogPosts } from "@/api/api";
+import { useEffect, useState } from "react";
 
 export type Post = {
   id: number;
@@ -8,8 +11,7 @@ export type Post = {
   date?: string;
   isFeatured?: boolean;
   subtitle: string;
-  blogsubtitle: string;
-  description: string;
+
   shortdesc: string;
   longdesc: string;
   category: string;
@@ -22,6 +24,26 @@ interface PostsProps {
 }
 
 const Posts: FunctionComponent<PostsProps> = ({ posts }) => {
+  const [data, setData] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadServices = async () => {
+      try {
+        setLoading(true);
+        const services = await fetchBlogPosts();
+        setData(services);
+      } catch (err) {
+        console.error("Error fetching services:", err);
+        setError("Unable to load services.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadServices();
+  }, []);
+
   return (
     <div className="grid md:grid-cols-3 gap-8 w-full">
       {posts.map((post) => (
@@ -41,7 +63,7 @@ const Posts: FunctionComponent<PostsProps> = ({ posts }) => {
             <h3 className="text-xl font-semibold text-gray-800 mt-2">
               {post.title}
             </h3>
-            <p className="text-gray-600 mt-2 text-sm">{post.description}</p>
+            <p className="text-gray-600 mt-2 text-sm">{post.longdesc}</p>
             <Link
               to={`/blog/${post.id}`}
               className="inline-flex items-center text-red-900 font-medium mt-4 hover:underline"

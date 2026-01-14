@@ -20,7 +20,7 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   const [coverImage, setCoverImage] = useState(initialData?.cover_image || "");
   const [image, setImage] = useState(initialData?.image || "");
   const [isFeatured, setIsFeatured] = useState(
-    initialData?.is_featured || false
+    initialData?.isFeatured || false
   );
 
   const [loading, setLoading] = useState(false);
@@ -54,7 +54,7 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       longdesc,
       cover_image: coverImage,
       image,
-      is_featured: isFeatured,
+      isFeatured: isFeatured,
     };
 
     try {
