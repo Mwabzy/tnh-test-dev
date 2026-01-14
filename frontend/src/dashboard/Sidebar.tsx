@@ -18,7 +18,7 @@ const Sidebar: FC = () => {
   };
 
   const sections = [
-    { title: "Clinical Services", key: "clinical", items: clinicalSection },
+    { title: "Clinical Information", key: "clinical", items: clinicalSection },
     { title: "About pages", key: "about", items: aboutPages },
     { title: "Other Services", key: "other", items: otherServices },
     { title: "College", key: "college", items: collegeHealthSciences },
