@@ -162,3 +162,31 @@ export const deleteBlogPosts = async (id: string) => {
   const response = await axios.delete(`${BLOGS_API}/${id}`);
   return response.data;
 };
+
+// CSR
+
+export async function fetchCsr() {
+  const res = await api.get(TEAM_API);
+  return res.data;
+}
+
+export async function fetchCsrById(id: string) {
+  const res = await api.get(`${TEAM_API}${id}/`);
+  return res.data;
+}
+
+export async function createCsr(data: any) {
+  console.log("Creating CSR with data:", data);
+  const res = await api.post(TEAM_API, data);
+  return res.data;
+}
+
+export async function updateCsr(id: string, data: any) {
+  const res = await api.patch(`${TEAM_API}${id}/`, data);
+  return res.data;
+}
+
+export async function deleteCsr(id: string) {
+  const res = await api.delete(`${TEAM_API}${id}/`);
+  return res.data;
+}
