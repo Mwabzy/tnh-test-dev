@@ -52,21 +52,31 @@ const DoctorsPage = () => {
     loadServices();
   }, []);
 
-  const handleSaveDoctor = async (doctor: Doctor) => {
+  const handleSaveDoctor = async (doctor: Doctor | FormData) => {
     try {
-      if (doctor.id) {
-        const updated = await updateDoctor(doctor.id, doctor);
-        setDoctors((prev) =>
-          prev.map((d) => (d.id === updated.id ? updated : d))
-        );
-        toast.success("Doctor updated successfully!");
-      } else {
+      if (doctor instanceof FormData) {
+        // CREATE (multipart)
         const newDoctor = await createDoctor(doctor);
         setDoctors((prev) => [...prev, newDoctor]);
         toast.success("Doctor created successfully!");
+      } else {
+        // JSON Doctor object
+        if (doctor.id) {
+          const updated = await updateDoctor(doctor.id, doctor);
+          setDoctors((prev) =>
+            prev.map((d) => (d.id === updated.id ? updated : d))
+          );
+          toast.success("Doctor updated successfully!");
+        } else {
+          const newDoctor = await createDoctor(doctor);
+          setDoctors((prev) => [...prev, newDoctor]);
+          toast.success("Doctor created successfully!");
+        }
       }
+
       setShowForm(false);
     } catch (err) {
+      toast.error("Failed to save doctor");
       throw err;
     }
   };
