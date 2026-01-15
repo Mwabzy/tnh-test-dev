@@ -8,24 +8,12 @@ export const clinicalSection = [
     href: "/dashboard/doctor-profiles",
   },
   {
-    title: "Admission Charges",
-    href: "/dashboard/admission-charges",
-  },
-  {
     title: "Outpatient Centers",
     href: "/dashboard/outpatient-centers",
   },
   {
     title: "Rooms & Wards",
     href: "/dashboard/rooms-and-wards",
-  },
-  {
-    title: "High Critical Care",
-    href: "/dashboard/high-critical-care",
-  },
-  {
-    title: "Research",
-    href: "/dashboard/research",
   },
   {
     title: "Clinical FAQs",
@@ -35,21 +23,11 @@ export const clinicalSection = [
 
 export const aboutPages = [
   {
-    title: "About Us",
-    href: "/dashboard/about/about-us",
-    description:
-      "Learn more about The Nairobi Hospital, our mission, and values.",
-  },
-  {
-    title: "History",
-    href: "/dashboard/about/history",
-    description: "Discover the rich history of The Nairobi Hospital.",
-  },
-  {
     title: "Board of Management",
     href: "/dashboard/board-of-management",
     description: "Meet the board of management overseeing hospital operations.",
   },
+
   {
     title: "Board of Trustees",
     href: "/dashboard/board-of-trustees",
@@ -62,10 +40,17 @@ export const aboutPages = [
     description:
       "Get to know our senior leadership team at The Nairobi Hospital.",
   },
+
   {
     title: "Accreditation",
     href: "/dashboard/about/accreditation",
     description: "Explore our accreditations and commitment to quality care.",
+  },
+  {
+    title: "CSR",
+    href: "/dashboard/corporate-social-responsibility",
+    description:
+      "Discover our initiatives and impact in corporate social responsibility.",
   },
 ];
 
@@ -92,12 +77,6 @@ export const otherServices = [
 
 export const collegeHealthSciences = [
   {
-    title: "About the College",
-    href: "/dashboard/college/about-college",
-    description:
-      "Information about the College of Health Sciences at the Nairobi Hospital.",
-  },
-  {
     title: "Tuition and Sponsorships",
     href: "/dashboard/college/tuition-and-sponsorships",
     description:
@@ -109,12 +88,7 @@ export const collegeHealthSciences = [
     description:
       "Information about the facilities and downloads available at the College of Health Sciences.",
   },
-  {
-    title: "Alumni",
-    href: "/dashboard/college/student-alumni",
-    description:
-      "Information about the alumni of the College of Health Sciences.",
-  },
+
   {
     title: "FAQs",
     href: "/dashboard/college/college-faqs",
@@ -130,7 +104,18 @@ export const newsMedia = [
     description:
       "Information about the new services available at the Nairobi Hospital.",
   },
-
+  {
+    title: "Add Events and Announcements",
+    href: "/dashboard/news/events-and-announcements",
+    description:
+      "Information about the events and announcements at the Nairobi Hospital.",
+  },
+  {
+    title: "Health Articles & Blogs",
+    href: "/dashboard/news/health-articles-and-blogs",
+    description:
+      "Information about health articles and blogs available at the Nairobi Hospital.",
+  },
   {
     title: "Tenders",
     href: "/dashboard/news/tenders",

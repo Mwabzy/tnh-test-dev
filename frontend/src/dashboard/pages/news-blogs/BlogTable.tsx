@@ -43,7 +43,7 @@ const BlogTable: FC<BlogTableProps> = ({
               <td className="p-3 font-medium">{blog.title}</td>
               <td className="p-3">{blog.author}</td>
               <td className="p-3">{blog.category}</td>
-              <td className="p-3">{blog.is_featured ? "Yes" : "No"}</td>
+              <td className="p-3">{blog.isFeatured ? "Yes" : "No"}</td>
               <td className="p-3 flex gap-2">
                 <button
                   onClick={() => onEdit(blog)}

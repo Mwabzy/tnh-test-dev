@@ -142,27 +142,56 @@ export async function deleteTeamMember(id: string) {
 
 // BLOG POSTS
 
-export const createBlogPosts = async (data: any) => {
-  const response = await axios.post(`${BLOGS_API}`, data); // now only single slash
-  return response.data;
-};
-
 export const fetchBlogPosts = async () => {
-  const response = await axios.get(`${BLOGS_API}`);
+  const response = await api.get(`${BLOGS_API}`);
   return response.data;
 };
 
 export const fetchBlogPostById = async (id: string) => {
-  const response = await axios.get(`${BLOGS_API}/${id}`);
+  const response = await api.get(`${BLOGS_API}/${id}`);
+  return response.data;
+};
+
+export const createBlogPosts = async (data: any) => {
+  console.log("Creating Blog Post with data:", data);
+  const response = await api.post(`${BLOGS_API}`, data);
   return response.data;
 };
 
 export const updateBlogPosts = async (id: string, data: any) => {
-  const response = await axios.patch(`${BLOGS_API}/${id}`, data);
+  const response = await api.patch(`${BLOGS_API}/${id}`, data);
   return response.data;
 };
 
 export const deleteBlogPosts = async (id: string) => {
-  const response = await axios.delete(`${BLOGS_API}/${id}`);
+  const response = await api.delete(`${BLOGS_API}/${id}`);
   return response.data;
 };
+
+// CSR
+
+export async function fetchCsr() {
+  const res = await api.get(TEAM_API);
+  return res.data;
+}
+
+export async function fetchCsrById(id: string) {
+  const res = await api.get(`${TEAM_API}${id}/`);
+  return res.data;
+}
+
+export async function createCsr(data: any) {
+  console.log("Creating CSR with data:", data);
+  const res = await api.post(TEAM_API, data);
+  return res.data;
+}
+
+export async function updateCsr(id: string, data: any) {
+  const res = await api.patch(`${TEAM_API}${id}/`, data);
+  return res.data;
+}
+
+export async function deleteCsr(id: string) {
+  const res = await api.delete(`${TEAM_API}${id}/`);
+  return res.data;
+}

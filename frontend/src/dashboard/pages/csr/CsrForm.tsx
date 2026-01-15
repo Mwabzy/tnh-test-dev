@@ -1,42 +1,42 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Blog } from "@/types";
+import { CSR } from "@/types";
 
 interface Props {
-  initialData?: Blog | null;
-  onSave: (blog: Blog) => Promise<any>;
+  initialData?: CSR | null;
+  onSave: (csr: CSR) => Promise<any>;
   onCancel: () => void;
 }
 
 const requiredMark = <span className="text-red-600">*</span>;
 
-const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
+const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
+  const [author, setAuthor] = useState(initialData?.author || "");
   const [title, setTitle] = useState(initialData?.title || "");
   const [subtitle, setSubtitle] = useState(initialData?.subtitle || "");
-  const [author, setAuthor] = useState(initialData?.author || "");
-  const [category, setCategory] = useState(initialData?.category || "");
+  const [blogsubtitle, setBlogsubtitle] = useState(
+    initialData?.blogsubtitle || ""
+  );
   const [shortdesc, setShortdesc] = useState(initialData?.shortdesc || "");
   const [longdesc, setLongdesc] = useState(initialData?.longdesc || "");
-  const [coverImage, setCoverImage] = useState(initialData?.cover_image || "");
-  const [image, setImage] = useState(initialData?.image || "");
-  const [isFeatured, setIsFeatured] = useState(
-    initialData?.isFeatured || false
+  const [coverImage, setCoverImage] = useState(initialData?.coverImage || "");
+  const [description, setDescription] = useState(
+    initialData?.description || ""
   );
 
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ title?: string; author?: string }>({});
+  const [errors, setErrors] = useState<{ author?: string; title?: string }>({});
 
   const validate = () => {
     const newErrors: any = {};
-    if (!title.trim()) newErrors.title = "Title is required";
     if (!author.trim()) newErrors.author = "Author is required";
+    if (!title.trim()) newErrors.title = "Title is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!validate()) {
       toast.error("Please fix errors in the form.");
       return;
@@ -44,24 +44,24 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
 
     setLoading(true);
 
-    const blogData: Blog = {
-      id: initialData?.id,
+    const csrData: CSR = {
+      id: initialData?.id || Date.now(),
+      author,
       title,
       subtitle,
-      author,
-      category,
+      blogsubtitle,
+      description,
       shortdesc,
       longdesc,
-      cover_image: coverImage,
-      image,
-      isFeatured: isFeatured,
+      coverImage,
+      image: initialData?.image || [],
     };
 
     try {
-      await onSave(blogData);
-      toast.success("Blog post saved successfully!");
+      await onSave(csrData);
+      toast.success("CSR content saved successfully!");
     } catch {
-      toast.error("Failed to save blog post.");
+      toast.error("Failed to save CSR content.");
     } finally {
       setLoading(false);
     }
@@ -71,32 +71,6 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
 
   return (
     <form onSubmit={handleSubmit} className={`space-y-6 ${disabledClass}`}>
-      {/* Title */}
-      <div>
-        <label className="font-semibold">
-          Title {requiredMark}
-          <input
-            type="text"
-            className="border p-2 w-full"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </label>
-        {errors.title && <p className="text-red-600 text-sm">{errors.title}</p>}
-      </div>
-
-      {/* Subtitle */}
-      <div>
-        <label className="font-semibold">Subtitle</label>
-        <input
-          type="text"
-          className="border p-2 w-full"
-          value={subtitle}
-          onChange={(e) => setSubtitle(e.target.value)}
-        />
-      </div>
-
-      {/* Author */}
       <div>
         <label className="font-semibold">
           Author {requiredMark}
@@ -112,18 +86,39 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         )}
       </div>
 
-      {/* Category */}
       <div>
-        <label className="font-semibold">Category</label>
+        <label className="font-semibold">
+          Title {requiredMark}
+          <input
+            type="text"
+            className="border p-2 w-full"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </label>
+        {errors.title && <p className="text-red-600 text-sm">{errors.title}</p>}
+      </div>
+
+      <div>
+        <label className="font-semibold">Subtitle</label>
         <input
           type="text"
           className="border p-2 w-full"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          value={subtitle}
+          onChange={(e) => setSubtitle(e.target.value)}
         />
       </div>
 
-      {/* Short Description */}
+      <div>
+        <label className="font-semibold">Blog Subtitle</label>
+        <input
+          type="text"
+          className="border p-2 w-full"
+          value={blogsubtitle}
+          onChange={(e) => setBlogsubtitle(e.target.value)}
+        />
+      </div>
+
       <div>
         <label className="font-semibold">Short Description</label>
         <textarea
@@ -133,17 +128,15 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         />
       </div>
 
-      {/* Full Content */}
       <div>
-        <label className="font-semibold">Full Content</label>
+        <label className="font-semibold">Long Description</label>
         <textarea
-          className="border p-2 w-full h-40"
+          className="border p-2 w-full"
           value={longdesc}
           onChange={(e) => setLongdesc(e.target.value)}
         />
       </div>
 
-      {/* Cover Image */}
       <div>
         <label className="font-semibold">Cover Image URL</label>
         <input
@@ -154,28 +147,15 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         />
       </div>
 
-      {/* Image */}
       <div>
-        <label className="font-semibold">Secondary Image URL</label>
-        <input
-          type="text"
+        <label className="font-semibold">Description</label>
+        <textarea
           className="border p-2 w-full"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
       </div>
 
-      {/* Featured */}
-      <div className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          checked={isFeatured}
-          onChange={(e) => setIsFeatured(e.target.checked)}
-        />
-        <label className="font-semibold">Featured Post</label>
-      </div>
-
-      {/* Actions */}
       <div className="flex justify-end gap-2">
         <button
           type="button"
@@ -185,7 +165,6 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         >
           Cancel
         </button>
-
         <button
           type="submit"
           className={`px-4 py-2 rounded text-white ${
@@ -199,4 +178,4 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   );
 };
 
-export default BlogForm;
+export default CsrForm;

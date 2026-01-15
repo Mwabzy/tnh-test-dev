@@ -13,8 +13,7 @@ export const blogPosts = [
     author: "By John Doe",
     title: "10 Warning Signs of a Heart Attack You Shouldn't Ignore",
     subtitle: "Early recognition could save a life—possibly your own.",
-    blogsubtitle: "Learn about the warning signs of a heart attack.",
-    description: "Learn how cognitive biases affect decision-making.",
+
     shortdesc: `When we think of a heart attack, we often picture someone clutching
             their chest in pain. But in reality, heart attack symptoms can be
             far more subtle—and they vary significantly between men and women.
@@ -36,10 +35,7 @@ export const blogPosts = [
     author: "By Gareth Bale",
     title: "Understanding Diabetes: Symptoms, Causes, and Management Tips",
     subtitle: "Early recognition could save a life—possibly your own.",
-    blogsubtitle:
-      "Explore the key strategies to manage diabetes and improve quality of life.",
-    description:
-      "Discover the core principles, mental benefits, and practical techniques of mindfulness to enhance focus, reduce stress, and improve overall well-being.",
+
     shortdesc:
       "When we think of diabetes, we often imagine high blood sugar and insulin injections. But the reality is more complex—and the warning signs can be subtle. Diabetes affects millions globally and is a leading cause of serious complications if left unmanaged. With early recognition and the right lifestyle changes or treatments, individuals can live long, healthy lives. Whether you're newly diagnosed, at risk, or supporting someone who is, understanding diabetes is the first step toward effective care.",
     longdesc:
@@ -55,10 +51,7 @@ export const blogPosts = [
     author: "By Emmanuel M.",
     title: "What to Expect During a Colonoscopy",
     subtitle: "Early recognition could save a life—possibly your own.",
-    blogsubtitle:
-      "Early detection saves lives—especially when it comes to colon cancer.",
-    description:
-      "Learn the essential purpose, preparation steps, and health benefits of a colonoscopy to detect issues early.",
+
     shortdesc:
       "When we think of cancer screening, colonoscopy might not be the first test that comes to mind. But this simple procedure can detect early signs of colorectal cancer—often before symptoms even appear. Colon cancer is one of the most preventable yet deadly cancers when left undiagnosed. Through early detection and timely treatment, lives can be saved. Whether you're approaching the recommended screening age or supporting a loved one, understanding colonoscopy is key to proactive health care.",
     longdesc:
@@ -74,8 +67,7 @@ export const blogPosts = [
     author: "Ian",
     title: "Flu vs. COVID-19 vs. RSV: What’s the Difference?",
     subtitle: "Early recognition could save a life—possibly your own.",
-    blogsubtitle: "Knowledge is protection—stay informed to stay safe.",
-    description: "Flu vs. COVID-19 vs. RSV: What’s the Difference?",
+
     shortdesc:
       "COVID-19 changed the world seemingly overnight, disrupting daily life and challenging global healthcare systems. But beyond the headlines and misinformation, understanding how the virus spreads and what symptoms to look out for remains crucial. With new variants still emerging, prevention and early detection are key to controlling outbreaks and protecting vulnerable populations. Whether you're seeking guidance for yourself, your family, or your community, staying informed is your first line of defense.",
     longdesc:
@@ -91,8 +83,7 @@ export const blogPosts = [
     author: "By Ganacho",
     title: "How Jane Beat Breast Cancer with the Help of Our Oncology Team",
     subtitle: "Early recognition could save a life—possibly your own.",
-    blogsubtitle: "Early detection saves lives—know the signs, know your risk",
-    description: "Discover effective mindfulness practices.",
+
     shortdesc:
       "Breast cancer is one of the most common cancers affecting women worldwide, yet many cases are treatable when caught early. The signs can be subtle—a lump, skin changes, or unusual discharge—and often go unnoticed without regular screening. Knowing what to look for and understanding your personal risk can make a life-saving difference. Whether you're doing self-exams or considering a mammogram, being informed is the first step in protecting your health.",
     longdesc:
@@ -108,8 +99,7 @@ export const blogPosts = [
     author: "By Antonio Rodriges",
     title: "How to Manage Stress with Mindfulness Techniques",
     subtitle: "Early recognition could save a life—possibly your own.",
-    blogsubtitle: "Find calm in the chaos—your mind deserves peace.",
-    description: "Discover effective mindfulness practices.",
+
     shortdesc:
       "In today’s fast-paced world, stress is almost unavoidable—but how we respond to it makes all the difference. Mindfulness offers a powerful, science-backed way to calm the mind, reduce anxiety, and stay grounded in the present. Whether it’s through breathing exercises, guided meditation, or mindful movement, these techniques help build resilience and emotional balance. If you're feeling overwhelmed or simply seeking a healthier state of mind, mindfulness is a great place to start.",
     longdesc:
@@ -120,7 +110,7 @@ export const blogPosts = [
   },
 ] as Post[];
 
-const bloglist = () => {
+const Bloglist = () => {
   return (
     <>
       <section className="px-6 py-12 max-w-7xl mx-auto">
@@ -141,14 +131,14 @@ const bloglist = () => {
               </p>
             </div>
           </div>
-
           <div className="">
             <Posts posts={blogPosts} />
           </div>
+          Post
         </motion.div>
       </section>
     </>
   );
 };
 
-export default bloglist;
+export default Bloglist;

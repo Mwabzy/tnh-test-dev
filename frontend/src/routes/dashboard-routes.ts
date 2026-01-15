@@ -75,6 +75,11 @@ const DashboardRoutes = {
       () => import("@/dashboard/pages/news-blogs/LatestNews")
     ),
   },
+  CSR: {
+    name: "Corporate Social Responsibility",
+    path: "corporate-social-responsibility",
+    component: lazyLoad(() => import("@/dashboard/pages/csr/Csr")),
+  },
 };
 
 export const DashboardRoutesPath: Record<
