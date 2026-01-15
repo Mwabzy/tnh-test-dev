@@ -1,17 +1,17 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, ReactNode } from "react";
 import { Link } from "react-router";
 import { Blog } from "@/types";
 import { fetchBlogPosts } from "@/api/api";
 import { useEffect, useState } from "react";
 
 export type Post = {
+  description: ReactNode;
   id: number;
   author: string;
   title: string;
   date?: string;
   isFeatured?: boolean;
   subtitle: string;
-
   shortdesc: string;
   longdesc: string;
   category: string;
@@ -24,9 +24,9 @@ interface PostsProps {
 }
 
 const Posts: FunctionComponent<PostsProps> = ({ posts }) => {
-  const [data, setData] = useState<Blog[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setData] = useState<Blog[]>([]);
+  const [, setLoading] = useState(true);
+  const [, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadServices = async () => {

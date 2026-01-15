@@ -111,7 +111,7 @@ const Blogpost = () => {
                       {featuredPost.title}
                     </Link>
                   </h3>
-                  <p className="text-black text-sm hidden sm:block mb-4 break-words">
+                  <p className="text-black text-sm hidden sm:block mb-4 wrap-break-word">
                     {featuredPost.description}
                   </p>
                   <p className="text-xs text-red-900">{featuredPost.date}</p>
@@ -135,10 +135,10 @@ const Blogpost = () => {
                   </span>
                   <span className="text-xs text-gray-500">{post.date}</span>
                 </div>
-                <h3 className="font-bold text-lg text-red-900 mb-2 break-words">
+                <h3 className="font-bold text-lg text-red-900 mb-2 wrap-break-word">
                   {post.title}
                 </h3>
-                <p className="text-gray-600 text-sm break-words">
+                <p className="text-gray-600 text-sm wrap-break-word">
                   {post.description}
                 </p>
               </div>
