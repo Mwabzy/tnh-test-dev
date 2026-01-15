@@ -12,7 +12,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
 }) => (
   <div className="bg-white shadow-md rounded-lg p-4 flex flex-col items-center text-center">
     <img
-      src={image}
+      src={image?.[0]?.url}
       alt={`Dr. ${name}`}
       className="w-24 h-24 rounded-full mb-4 object-cover"
     />

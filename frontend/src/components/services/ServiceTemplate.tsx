@@ -348,7 +348,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                       >
                         {d.image ? (
                           <img
-                            src={d.image}
+                            src={d.image?.[0]?.url}
                             alt={d.name}
                             className="w-16 h-16 rounded-full object-cover"
                           />

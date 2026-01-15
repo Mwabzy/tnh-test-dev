@@ -27,14 +27,23 @@ export const mockClinicalServices: ClinicalService[] = [
       {
         name: "Dr. Jane Doe",
         role: "Pharmacist",
-        image:
-          "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
+        image: [
+          {
+            url: "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
+            alt: "Dr. Jane Doe",
+          },
+        ],
         bio: "Dr. Jane Doe is a licensed pharmacist with over 10 years of experience in community pharmacy, specializing in medication therapy management and patient education.",
       },
       {
         name: "Dr. John Smith",
         role: "Pharmacist",
-        image: "https://img.freepik.com/free-photo/portrait-you",
+        image: [
+          {
+            url: "https://img.freepik.com/free-photo/portrait-you",
+            alt: "Dr. John Smith",
+          },
+        ],
         bio: "Dr. John Smith is a clinical pharmacist with expertise in chronic disease management and a passion for improving patient outcomes through personalized medication plans.",
       },
     ],
@@ -89,8 +98,12 @@ export const mockClinicalServices: ClinicalService[] = [
       {
         name: "Dr. Jane Doe",
         role: "Lab Technologist",
-        image:
-          "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
+        image: [
+          {
+            url: "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
+            alt: "Dr. Jane Doe",
+          },
+        ],
         bio: "Dr. Jane Doe is a laboratory scientist specializing in clinical chemistry and hematology.",
       },
     ],
@@ -111,7 +124,7 @@ export const mockClinicalServices: ClinicalService[] = [
     timingsOnOverview: "Mon–Sat 7am–6pm",
     images: [
       {
-        url: "https://img.freepik.com/free-photo/medical-doctor-girl-working-with-microscope-young-female-scientist-doing-vaccine-research_1157-48128.jpg?uid=R116808220&ga=GA1.1.1105653371.1743490554&semt=ais_hybrid&w=740",
+        url: "https://img.freepik.com/free-photo/medical-doctor-girl-working-with-microscope-young-female-scientist-doing-vaccine-research_1157-48128.jpg",
         alt: "Laboratory Services",
       },
     ],
@@ -139,8 +152,12 @@ export const mockClinicalServices: ClinicalService[] = [
       {
         name: "Dr. Jane Doe",
         role: "Radiologist",
-        image:
-          "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
+        image: [
+          {
+            url: "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
+            alt: "Dr. Jane Doe",
+          },
+        ],
         bio: "Expert in radiologic imaging with focus on oncology diagnostics.",
       },
     ],
@@ -161,7 +178,7 @@ export const mockClinicalServices: ClinicalService[] = [
     timingsOnOverview: "Mon–Sat 8am–5pm",
     images: [
       {
-        url: "https://img.freepik.com/premium-photo/two-doctors-are-looking-x-rays-medical-rear-view-chief-physician-afro-american-man-caucasian-woman-looking-x-rays-mri-clear-light_141188-3575.jpg?w=996",
+        url: "https://img.freepik.com/premium-photo/two-doctors-are-looking-x-rays-medical-rear-view-chief-physician-afro-american-man-caucasian-woman-looking-x-rays-mri-clear-light_141188-3575.jpg",
         alt: "Radiology Services",
       },
     ],
@@ -193,8 +210,12 @@ export const mockClinicalServices: ClinicalService[] = [
       {
         name: "Dr. Jane Doe",
         role: "Dentist",
-        image:
-          "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
+        image: [
+          {
+            url: "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
+            alt: "Dr. Jane Doe",
+          },
+        ],
         bio: "Dr. Jane Doe is a dentist with 12 years of experience in restorative and cosmetic dentistry.",
       },
     ],
@@ -206,13 +227,16 @@ export const mockClinicalServices: ClinicalService[] = [
           "The dental team was amazing — gentle, professional, and thorough.",
       },
     ],
-    contact: { phone: "+254 700 000 003", email: "dental@nbihosp.org" },
+    contact: {
+      phone: "+254 700 000 003",
+      email: "dental@nbihosp.org",
+    },
     isBookable: true,
     hasReadMore: true,
     timingsOnOverview: "Mon–Fri 9am–5pm",
     images: [
       {
-        url: "https://img.freepik.com/free-photo/happy-afro-kid-regular-check-up-teeth-dental-clinic_651396-1411.jpg?t=st=1744634041~exp=1744637641~hmac=6fcaa5bcb2893a5de97602b0c8d45bfd8a51f0de1f3bc3b6f88580bbd077c52c&w=900",
+        url: "https://img.freepik.com/free-photo/happy-afro-kid-regular-check-up-teeth-dental-clinic_651396-1411.jpg",
         alt: "Dental Services",
       },
     ],

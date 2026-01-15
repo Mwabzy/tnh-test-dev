@@ -112,7 +112,7 @@ const Blogpost = () => {
                     </Link>
                   </h3>
                   <p className="text-black text-sm hidden sm:block mb-4 break-words">
-                    {featuredPost.description}
+                    {featuredPost.longdesc}
                   </p>
                   <p className="text-xs text-red-900">{featuredPost.date}</p>
                 </div>
@@ -139,7 +139,7 @@ const Blogpost = () => {
                   {post.title}
                 </h3>
                 <p className="text-gray-600 text-sm break-words">
-                  {post.description}
+                  {post.longdesc}
                 </p>
               </div>
               <div className="mt-4">

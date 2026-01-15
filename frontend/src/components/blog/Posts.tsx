@@ -24,9 +24,9 @@ interface PostsProps {
 }
 
 const Posts: FunctionComponent<PostsProps> = ({ posts }) => {
-  const [data, setData] = useState<Blog[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [_data, setData] = useState<Blog[]>([]);
+  const [_loading, setLoading] = useState(true);
+  const [_error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadServices = async () => {
