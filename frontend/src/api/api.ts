@@ -160,12 +160,12 @@ export const createBlogPosts = async (data: any) => {
 };
 
 export const updateBlogPosts = async (id: string, data: any) => {
-  const response = await api.patch(`${BLOGS_API}/${id}`, data);
+  const response = await api.patch(`${BLOGS_API}${id}/`, data);
   return response.data;
 };
 
 export const deleteBlogPosts = async (id: string) => {
-  const response = await api.delete(`${BLOGS_API}/${id}`);
+  const response = await api.delete(`${BLOGS_API}${id}/`);
   return response.data;
 };
 

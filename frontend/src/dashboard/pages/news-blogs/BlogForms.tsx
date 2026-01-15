@@ -53,7 +53,7 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       shortdesc,
       longdesc,
       cover_image: coverImage,
-      image,
+      image: image,
       isFeatured: isFeatured,
     };
 

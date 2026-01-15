@@ -24,13 +24,9 @@ const CsrTable: FC<CsrTableProps> = ({
 
   return (
     <div className="bg-white shadow rounded-lg p-6">
-      <h2 className="text-xl font-semibold mb-4">
-        Corporate Social Responsibility
-      </h2>
       <table className="w-full border-collapse">
         <thead>
           <tr className="bg-gray-100 text-left">
-            <th className="p-3">Cover</th>
             <th className="p-3">Title</th>
             <th className="p-3">Author</th>
             <th className="p-3">Short Description</th>
@@ -40,19 +36,6 @@ const CsrTable: FC<CsrTableProps> = ({
         <tbody>
           {data.map((csr) => (
             <tr key={csr.id} className="border-b hover:bg-gray-50">
-              <td className="p-3">
-                {csr.coverImage ? (
-                  <img
-                    src={csr.coverImage}
-                    alt={csr.title}
-                    className="w-16 h-16 object-cover rounded"
-                  />
-                ) : (
-                  <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-xs">
-                    No Image
-                  </div>
-                )}
-              </td>
               <td className="p-3 font-medium">{csr.title}</td>
               <td className="p-3">{csr.author}</td>
               <td className="p-3">{csr.shortdesc}</td>
