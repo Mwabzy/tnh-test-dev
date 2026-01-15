@@ -47,18 +47,23 @@ const BoardOfTrustees = () => {
     setShowForm(true);
   };
 
-  const handleSave = async (member: TeamMember) => {
+  const handleSave = async (member: TeamMember | FormData): Promise<any> => {
     try {
+      // Convert FormData to TeamMember if needed
+      const memberData =
+        member instanceof FormData
+          ? (Object.fromEntries(member) as unknown as TeamMember)
+          : member;
       // Ensure the member gets the correct group
-      member.group = group;
+      memberData.group = group;
 
       if (editingMember) {
-        const updated = await updateTeamMember(member.id, member);
+        const updated = await updateTeamMember(memberData.id, memberData);
         setMembers((prev) =>
           prev.map((m) => (m.id === updated.id ? updated : m))
         );
       } else {
-        const created = await createTeamMember(member);
+        const created = await createTeamMember(memberData);
         setMembers((prev) => [...prev, created]);
       }
 

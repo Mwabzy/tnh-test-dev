@@ -147,7 +147,7 @@ export const teamMembers: Doctor[] = (doctorsData as any[]).map(
       contactPhone: doctor.contactPhone,
       clinicDepartment: doctor.clinicDepartment,
       // provide schedule as an array for DoctorDetails
-      // @ts-ignore-error
+
       schedule: scheduleArr,
       location: doctor.location,
       licensingDetails: doctor.licensingDetails,
@@ -164,7 +164,7 @@ export const teamMembers: Doctor[] = (doctorsData as any[]).map(
           ? doctor.researchAndPublications
           : [doctor.researchAndPublications]
         : [],
-      // @ts-ignore-error
+
       socialMedia: doctor.socialMedia || "",
       id: `doctor-${idx}`,
       // additional fields expected by DoctorDetails

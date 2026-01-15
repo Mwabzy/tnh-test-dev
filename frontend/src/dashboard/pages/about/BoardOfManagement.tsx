@@ -47,13 +47,17 @@ const BoardManagement = () => {
     setShowForm(true);
   };
 
-  const handleSave = async (member: TeamMember) => {
+  const handleSave = async (member: TeamMember | FormData): Promise<any> => {
     try {
       // Ensure the member gets the correct group
-      member.group = group;
+      if (member instanceof FormData) {
+        member.set("group", group);
+      } else {
+        member.group = group;
+      }
 
       if (editingMember) {
-        const updated = await updateTeamMember(member.id, member);
+        const updated = await updateTeamMember(editingMember.id, member);
         setMembers((prev) =>
           prev.map((m) => (m.id === updated.id ? updated : m))
         );

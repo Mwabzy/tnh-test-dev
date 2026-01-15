@@ -127,12 +127,16 @@ export async function fetchTeamMemberById(id: string) {
 
 export async function createTeamMember(data: any) {
   console.log("Creating Team Member with data:", data);
-  const res = await api.post(TEAM_API, data);
+  const res = await api.post(TEAM_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return res.data;
 }
 
 export async function updateTeamMember(id: string, data: any) {
-  const res = await api.patch(`${TEAM_API}${id}/`, data);
+  const res = await api.patch(`${TEAM_API}${id}/`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return res.data;
 }
 
