@@ -7,6 +7,7 @@ const CLINICS_API = `${BASE_URL}/clinical-services/`;
 const DOCTORS_API = `${BASE_URL}/doctors/`;
 const TEAM_API = `${BASE_URL}/team-members/`;
 const BLOGS_API = `${BASE_URL}/blog-posts/`;
+const CSR_API = `${BASE_URL}/csr/`;
 
 // Axios Instance
 const api = axios.create({
@@ -171,27 +172,27 @@ export const deleteBlogPosts = async (id: string) => {
 // CSR
 
 export async function fetchCsr() {
-  const res = await api.get(TEAM_API);
+  const res = await api.get(CSR_API);
   return res.data;
 }
 
 export async function fetchCsrById(id: string) {
-  const res = await api.get(`${TEAM_API}${id}/`);
+  const res = await api.get(`${CSR_API}${id}/`);
   return res.data;
 }
 
 export async function createCsr(data: any) {
   console.log("Creating CSR with data:", data);
-  const res = await api.post(TEAM_API, data);
+  const res = await api.post(CSR_API, data);
   return res.data;
 }
 
 export async function updateCsr(id: string, data: any) {
-  const res = await api.patch(`${TEAM_API}${id}/`, data);
+  const res = await api.patch(`${CSR_API}${id}/`, data);
   return res.data;
 }
 
 export async function deleteCsr(id: string) {
-  const res = await api.delete(`${TEAM_API}${id}/`);
+  const res = await api.delete(`${CSR_API}${id}/`);
   return res.data;
 }

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import TeamMember, BlogPost
+from .models import TeamMember, BlogPost, CSR
 
 
 class TeamMemberSerializer(serializers.ModelSerializer):
@@ -13,4 +13,10 @@ class BlogPostSerializer(serializers.ModelSerializer):
         model = BlogPost
         fields = "__all__"
         read_only_fields = ("id", "date", "created_at")
+        
+class CSRSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CSR
+        fields = "__all__"
+        read_only_fields = ("id", "created_at")        
 

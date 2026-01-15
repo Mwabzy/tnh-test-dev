@@ -36,3 +36,22 @@ class BlogPost(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class CSR(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    author = models.CharField(max_length=225)
+    title = models.CharField(max_length=255)
+    subtitle = models.CharField(max_length=255)
+    blogsubtitle = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True)
+    shortdesc = models.TextField()
+    longdesc = models.TextField()
+    coverImage = models.URLField(max_length=500, blank=True)
+    
+    image = models.JSONField(default=list)  # Storing list of image URLs
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.title
