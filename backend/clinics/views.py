@@ -43,23 +43,44 @@ class ClinicalServiceViewSet(viewsets.ModelViewSet):
             print("ClinicalService created with ID:", clinical_service.id)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+        if not serializer.is_valid():
+            print(serializer.errors)
 
+
+    # def update(self, request, *args, **kwargs):
+    #     if DEBUG:
+    #         print("\n[ClinicalService UPDATE] Incoming data:")
+    #         print(request.data)
+
+    #     response = super().update(request, *args, **kwargs)
+
+
+    #     if DEBUG:
+    #         print("ClinicalService updated:", kwargs.get("pk"))
+
+    #     return response
     def update(self, request, *args, **kwargs):
-        if DEBUG:
-            print("\n[ClinicalService UPDATE] Incoming data:")
-            print(request.data)
+        partial = kwargs.pop('partial', True)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
 
-        response = super().update(request, *args, **kwargs)
+        if not serializer.is_valid():
+            print("❌ VALIDATION ERRORS:", serializer.errors)
+            return Response(serializer.errors, status=400)
 
-        if DEBUG:
-            print("ClinicalService updated:", kwargs.get("pk"))
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
-        return response
+        
+        
+      
 
 
 class DoctorViewSet(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
+    parser_classes = [MultiPartParser, FormParser]
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
@@ -71,8 +92,16 @@ class DoctorViewSet(viewsets.ModelViewSet):
             print("\n[Doctor CREATE] Incoming POST data:")
             print(request.data)
 
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        serializer = self.get_serializer(
+            data=request.data,
+            context={"request": request}
+        )
+
+        if not serializer.is_valid():
+            print("❌ DOCTOR SERIALIZER ERRORS:")
+            print(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         doctor = serializer.save()
 
         if DEBUG:

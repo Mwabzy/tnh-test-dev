@@ -1,10 +1,16 @@
+export interface Image {
+  id: number;
+  url: string;
+  alt: string;
+}
+
 export interface Doctor {
-  id?: number;
+  id: number;
   name: string;
   role: string;
-  bio?: string;
-  image?: string;
+  bio: string;
   services_offered: number[];
-  research_publications?: string[];
+  research_publications: string[];
   awards: string[];
+  image: Image[];
 }

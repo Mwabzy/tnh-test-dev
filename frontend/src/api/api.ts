@@ -94,12 +94,16 @@ export async function fetchDoctorById(id: number) {
 
 export async function createDoctor(data: any) {
   console.log("Creating Doctor with data:", data);
-  const res = await api.post(DOCTORS_API, data);
+  const res = await api.post(DOCTORS_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return res.data;
 }
 
 export async function updateDoctor(id: number, data: any) {
-  const res = await api.patch(`${DOCTORS_API}${id}/`, data);
+  const res = await api.post(DOCTORS_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return res.data;
 }
 

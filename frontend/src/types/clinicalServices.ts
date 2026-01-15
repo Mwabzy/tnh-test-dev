@@ -18,7 +18,7 @@ export interface Doctor {
   name: string;
   role: string;
   bio: string;
-  image?: string;
+  image?: Image[];
   services_offered?: number[];
   research_publications?: string[];
   awards?: string[];

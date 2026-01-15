@@ -9,7 +9,8 @@ class Doctor(models.Model):
     name = models.CharField(max_length=100)
     role = models.CharField(max_length=100)
     bio = models.TextField(blank=True, null=True)
-    image = models.URLField(blank=True, null=True)
+    image = models.CharField(max_length=500, null=True, blank=True,  default="")
+
 
     # Relationships
     services_offered = models.ManyToManyField(
@@ -43,7 +44,6 @@ class Testimonial(models.Model):
 
 
 # Clinical Service image model
-
 class ClinicalServiceImage(models.Model):
     clinical_service = models.ForeignKey(
         "ClinicalService",
@@ -55,9 +55,23 @@ class ClinicalServiceImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.clinical_service.title}"
+    
+
+# Doctor Image model
+class DoctorImage(models.Model):
+    doctor = models.ForeignKey(
+        Doctor,
+        related_name="uploaded_images",
+        on_delete=models.CASCADE
+    )
+    image = models.ImageField(upload_to="doctors/")
+    alt = models.CharField(max_length=255, blank=True, default="")
+
+    def __str__(self):
+        return f"Image for {self.doctor.name}"
+
 
 # Clinical Service Model 
-
 class ClinicalService(models.Model):
     # Basic Info
     title = models.CharField(max_length=100)
@@ -75,7 +89,7 @@ class ClinicalService(models.Model):
 
     # More Info
     features = models.JSONField(default=list)
-    images = models.JSONField(blank=True, null=True)
+    # images = models.JSONField(blank=True, null=True)
     locations = models.JSONField(blank=True, default=list)
     contact = models.JSONField(blank=True, null=True)
 

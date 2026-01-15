@@ -196,10 +196,15 @@ const ClinicalServiceForm: React.FC<Props> = ({
     formData.append("isBookable", String(isBookable));
     formData.append("hasReadMore", String(hasReadMore));
     formData.append("features", JSON.stringify(features));
-    formData.append("doctors", JSON.stringify(selectedDoctors));
+    formData.append(
+      "doctor_ids",
+      JSON.stringify(selectedDoctors.map((d) => d.id))
+    );
+
     formData.append("testimonials", JSON.stringify(testimonials));
     formData.append("contact", JSON.stringify(contact));
     formData.append("locations", JSON.stringify(locations));
+    formData.append("clinics", JSON.stringify([]));
 
     // Append new image files
     newImages.forEach((img) => {
@@ -274,7 +279,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
       {/* Overview */}
       <div>
-        <label className="font-semibold">Overview</label>
+        <label className="font-semibold">Overview {requiredMark}</label>
         <textarea
           className="border p-2 w-full"
           value={overview}
@@ -284,7 +289,9 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
       {/* Detailed Description */}
       <div>
-        <label className="font-semibold">Detailed Description</label>
+        <label className="font-semibold">
+          Detailed Description {requiredMark}
+        </label>
         <textarea
           className="border p-2 w-full"
           value={detailedDescription}
@@ -294,7 +301,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
       {/* Features */}
       <div>
-        <label className="font-semibold">Features</label>
+        <label className="font-semibold">Features {requiredMark}</label>
 
         {features.map((f, i) => (
           <div key={i} className="space-y-1 border p-2 mb-2 rounded">
@@ -443,7 +450,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
       {/* Contact */}
       <div>
-        <label className="font-semibold">Contact Info</label>
+        <label className="font-semibold">Contact Info {requiredMark}</label>
         <input
           type="text"
           placeholder="Phone"
@@ -561,7 +568,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
       {/* Locations */}
       <div>
-        <label className="font-semibold">Locations</label>
+        <label className="font-semibold">Locations {requiredMark}</label>
 
         <Select
           isMulti
