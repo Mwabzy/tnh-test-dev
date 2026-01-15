@@ -13,7 +13,7 @@ export const blogPosts = [
     author: "By John Doe",
     title: "10 Warning Signs of a Heart Attack You Shouldn't Ignore",
     subtitle: "Early recognition could save a life—possibly your own.",
-    blogsubtitle: "Learn about the warning signs of a heart attack.",
+    // blogsubtitle: "Learn about the warning signs of a heart attack.",
     description: "Learn how cognitive biases affect decision-making.",
     shortdesc: `When we think of a heart attack, we often picture someone clutching
             their chest in pain. But in reality, heart attack symptoms can be

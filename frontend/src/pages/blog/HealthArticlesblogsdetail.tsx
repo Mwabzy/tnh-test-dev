@@ -27,11 +27,17 @@ const HealthArticlesblogsdetail = () => {
           </div>
 
           {/* Heading */}
-        <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
-  {blogItem.blogsubtitle
-    .split(' ')
-    .map((word, i) => (i > 0 && i % 6 === 0 ? <><br key={i} /> {word} </> : ` ${word}`))}
-</h1>
+          <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
+            {blogItem.subtitle.split(" ").map((word, i) =>
+              i > 0 && i % 6 === 0 ? (
+                <>
+                  <br key={i} /> {word}{" "}
+                </>
+              ) : (
+                ` ${word}`
+              )
+            )}
+          </h1>
 
           <h2 className=" text-lg md:text-xl ">{blogItem.author}</h2>
 
@@ -85,8 +91,6 @@ const HealthArticlesblogsdetail = () => {
           </div>
         </div>
       </div>
-
-    
     </div>
   );
 };
