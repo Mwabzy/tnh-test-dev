@@ -1,11 +1,5 @@
 from rest_framework import serializers
-from .models import (
-    ClinicalService,
-    Doctor,
-    Testimonial,
-    ClinicalServiceImage, 
-    DoctorImage
-)
+from .models import ClinicalService, Doctor, Testimonial, ClinicalServiceImage, DoctorImage
 import json
 
 
@@ -43,11 +37,7 @@ class DoctorImageSerializer(serializers.ModelSerializer):
 # Nested serializers
 
 class SlimDoctorSerializer(serializers.ModelSerializer):
-    image = DoctorImageSerializer(
-        source="uploaded_images",
-        many=True,
-        read_only=True
-    )
+    image = DoctorImageSerializer(source="uploaded_images", many=True, read_only=True)
 
     class Meta:
         model = Doctor
@@ -55,46 +45,14 @@ class SlimDoctorSerializer(serializers.ModelSerializer):
 
 
 class DoctorSerializer(serializers.ModelSerializer):
-    services_offered = serializers.PrimaryKeyRelatedField(
-       queryset=ClinicalService.objects.all(),
-       many=True,
-       required=False
-)   
-   
-    services_offered_ids = serializers.ListField(
-       child=serializers.IntegerField(),
-       write_only=True,
-       required=False
-)
-
+    services_offered = serializers.PrimaryKeyRelatedField(queryset=ClinicalService.objects.all(), many=True, required=False)   
+    services_offered_ids = serializers.ListField(child=serializers.IntegerField(), write_only=True, required=False)
     research_publications = serializers.JSONField(required=False)
     awards = serializers.JSONField(required=False)
-
-    
-
-    image = DoctorImageSerializer(
-        source="uploaded_images",
-        many=True,
-        read_only=True
-    )
-
-    images_files = serializers.ListField(
-        child=serializers.ImageField(),
-        write_only=True,
-        required=False
-    )
-
-    images_files_alt = serializers.ListField(
-        child=serializers.CharField(allow_blank=True),
-        write_only=True,
-        required=False
-    )
-
-    images_to_delete = serializers.ListField(
-        child=serializers.IntegerField(),
-        write_only=True,
-        required=False
-    )
+    image = DoctorImageSerializer(source="uploaded_images", many=True, read_only=True)
+    images_files = serializers.ListField(child=serializers.ImageField(), write_only=True, required=False)
+    images_files_alt = serializers.ListField(child=serializers.CharField(allow_blank=True), write_only=True, required=False)
+    images_to_delete = serializers.ListField(child=serializers.IntegerField(), write_only=True, required=False)
 
     class Meta:
         model = Doctor
@@ -103,7 +61,7 @@ class DoctorSerializer(serializers.ModelSerializer):
             'images_files', 'images_files_alt', 'images_to_delete',
             'services_offered', 'services_offered_ids',
             'research_publications', 'awards'
-]
+        ]
 
 
     def to_internal_value(self, data):
@@ -155,10 +113,6 @@ class DoctorSerializer(serializers.ModelSerializer):
  
      return super().to_internal_value(data)
 
-
-
-
-
     def create(self, validated_data):
      #  Pop out many-to-many and extra fields 
      services_ids = validated_data.pop('services_offered', [])
@@ -180,10 +134,6 @@ class DoctorSerializer(serializers.ModelSerializer):
  
      return doctor
  
-
-
-
-
     def update(self, instance, validated_data):
         services = validated_data.pop('services_offered', None)
         images_files = validated_data.pop('images_files', [])
@@ -216,10 +166,6 @@ class DoctorSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-    
-    
-    
-
 
 class TestimonialSerializer(serializers.ModelSerializer):
     class Meta:
@@ -230,7 +176,7 @@ class TestimonialSerializer(serializers.ModelSerializer):
 # Image serializer
 
 class ClinicalServiceImageSerializer(serializers.ModelSerializer):
-    url = serializers.SerializerMethodField()
+    # url = serializers.SerializerMethodField()
 
     class Meta:
         model = ClinicalServiceImage
@@ -248,36 +194,14 @@ class ClinicalServiceImageSerializer(serializers.ModelSerializer):
 class ClinicalServiceSerializer(serializers.ModelSerializer):
     doctors = SlimDoctorSerializer(many=True, read_only=True)
 
-    doctor_ids = serializers.PrimaryKeyRelatedField(
-    source='doctors',
-    queryset=Doctor.objects.all(),
-    many=True,
-    write_only=True,
-    required=False
-)
+    doctor_ids = serializers.PrimaryKeyRelatedField(source='doctors', queryset=Doctor.objects.all(), many=True, write_only=True, required=False)
 
     testimonials = TestimonialSerializer(many=True, required=False)
 
-    images = ClinicalServiceImageSerializer(
-        source="uploaded_images",
-        many=True,
-        read_only=True
-    )
-    images_files = serializers.ListField(
-        child=serializers.ImageField(),
-        write_only=True,
-        required=False
-    )
-    images_files_alt = serializers.ListField(
-        child=serializers.CharField(allow_blank=True),
-        write_only=True,
-        required=False
-    )
-    images_to_delete = serializers.ListField(
-        child=serializers.IntegerField(),
-        write_only=True,
-        required=False
-    )
+    images = ClinicalServiceImageSerializer(source="uploaded_images", many=True, read_only=True)
+    images_files = serializers.ListField(child=serializers.ImageField(), write_only=True, required=False)
+    images_files_alt = serializers.ListField(child=serializers.CharField(allow_blank=True), write_only=True, required=False)
+    images_to_delete = serializers.ListField(child=serializers.IntegerField(), write_only=True, required=False)
     features = JSONStringListField(required=False)
 
     class Meta:
