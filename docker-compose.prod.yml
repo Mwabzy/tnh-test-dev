@@ -48,9 +48,9 @@ services:
       restart: unless-stopped
       env_file:
         - ./backend/.prod.env
-      # volumes:
-      #   # - ./nginx/ssl/:/vol/proxy/:ro
-      #   - static_files:/app/staticfiles
-      #   - media_files:/app/media:ro
+      volumes:
+        # - ./nginx/ssl/:/vol/proxy/:ro
+        - static_files:/app/staticfiles
+        - media_files:/app/media:ro
       depends_on:
         - backend
