@@ -176,11 +176,11 @@ class TestimonialSerializer(serializers.ModelSerializer):
 # Image serializer
 
 class ClinicalServiceImageSerializer(serializers.ModelSerializer):
-    # url = serializers.SerializerMethodField()
+    url = serializers.SerializerMethodField()
 
     class Meta:
         model = ClinicalServiceImage
-        fields = ["id", "image", "alt"]
+        fields = ["id", "url", "alt"]
 
     def get_url(self, obj):
         request = self.context.get("request")
