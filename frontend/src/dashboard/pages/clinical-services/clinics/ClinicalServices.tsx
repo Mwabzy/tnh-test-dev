@@ -30,6 +30,7 @@ const ClinicalServices = () => {
       setLoading(true);
       try {
         const data = await fetchClinicalServices();
+        console.log("Clinical data:", data)
         setServices(data);
         setError(null);
       } catch (err: any) {
