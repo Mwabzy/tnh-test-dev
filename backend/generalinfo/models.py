@@ -7,7 +7,8 @@ class TeamMember(models.Model):
     name = models.CharField(max_length=255)
     role = models.CharField(max_length=255)
     group = models.CharField(max_length=255, blank=True)
-    image = models.URLField(max_length=500)
+    image = models.ImageField(upload_to="team_members/", blank=True, null=True)
+    image_alt = models.CharField(max_length=255, blank=True, default="")
     description = models.TextField()
 
     def __str__(self):
