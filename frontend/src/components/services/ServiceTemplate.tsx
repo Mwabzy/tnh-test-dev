@@ -387,11 +387,9 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                   />
                   <div className="p-3">
                     <div className="text-sm font-medium text-gray-900">
-                      Neurologist consulting patient
+                      {title}
                     </div>
-                    <div className="text-xs text-gray-500">
-                      {mainImage.alt || title}
-                    </div>
+                    <div className="text-xs text-gray-500">{tagline}</div>
                   </div>
                 </div>
               )}

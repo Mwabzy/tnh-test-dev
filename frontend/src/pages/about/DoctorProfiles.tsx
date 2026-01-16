@@ -1,16 +1,14 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
+import { Link } from "react-router";
+import { FaUserMd, FaCalendarCheck } from "react-icons/fa";
+import Heading from "@/components/Heading";
 import ContactForm from "@/components/ContactForm";
 import hospitalview from "@/assets/heroimages/heroimage2.jpg";
-import Heading from "@/components/Heading";
-import { FaUserMd, FaCalendarCheck } from "react-icons/fa";
-import { Link } from "react-router";
-import doctorsData from "@/data/doctors.json";
-//import { fetchClinicalServices } from "@/api/api";
+import { fetchDoctors } from "@/api/api";
 import clinicalServices from "@/data/clinicalServices2.json";
 
 // Service name mapping to clinical service IDs
 const serviceMapping: { [key: string]: number } = {
-  // Obstetrics & Gynecology services
   antenatal: 16,
   gynaecological: 16,
   obstetric: 16,
@@ -23,164 +21,81 @@ const serviceMapping: { [key: string]: number } = {
   maternity: 16,
 };
 
-// Helper function to get service ID from doctor's offered services
+// Get service ID from doctor services
 const getServiceIdFromDoctorServices = (
   servicesOffered: string[]
 ): number | null => {
   if (!servicesOffered || servicesOffered.length === 0) return null;
 
-  // Check if any of the doctor's services match known service mappings
   for (const service of servicesOffered) {
     const lowerService = service.toLowerCase();
     for (const [key, id] of Object.entries(serviceMapping)) {
-      if (lowerService.includes(key)) {
-        return id;
-      }
+      if (lowerService.includes(key)) return id;
     }
   }
 
-  // If no direct match, try to find by clinical service title
-  const clinical = clinicalServices as any[];
   for (const service of servicesOffered) {
     const lowerService = service.toLowerCase();
-    const foundService = clinical.find(
+    const foundService = (clinicalServices as any[]).find(
       (s) =>
         s.title.toLowerCase().includes(lowerService) ||
         lowerService.includes(s.title.toLowerCase())
     );
-    if (foundService) {
-      return foundService.id;
-    }
+    if (foundService) return foundService.id;
   }
 
-  // Default to OB-GYN if nothing else matches
-  return 16;
+  return 16; // default OB-GYN
 };
 
-// Utility function to extract first 3 sentences from bio
+// Truncate bio to first 3 sentences
 const truncateBioToThreeSentences = (
   bio: string,
   maxLength: number = 280
 ): string => {
   if (!bio) return "";
-
-  // Split by sentence-ending punctuation (. ! ?)
   const sentences = bio.match(/[^.!?]+[.!?]+/g) || [bio];
-
-  // Take first 3 sentences
   let result = sentences.slice(0, 3).join("").trim();
-  const hasMorSentences = sentences.length > 3;
-
-  // If still too long, truncate and add ellipsis
-  if (result.length > maxLength) {
+  if (result.length > maxLength)
     result = result.substring(0, maxLength).trim() + "...";
-  } else if (hasMorSentences) {
-    // If there are more sentences, add ellipsis to indicate more content
-    result = result + "...";
-  }
-
+  else if (sentences.length > 3) result += "...";
   return result;
 };
 
+// Doctor type
 type Doctor = {
+  id: string;
   name: string;
-  role: string;
+  role?: string;
   image: string;
   bio: string;
-  specialization: string;
-  medicalQualifications: string;
-  yearsOfExperience: string;
-  languagesSpoken: string;
+  specialization?: string;
+  medicalQualifications?: string;
+  yearsOfExperience?: string;
+  languagesSpoken?: string;
   contactEmail?: string;
   contactPhone?: string;
-  clinicDepartment: string;
-  schedule: string;
-  location: string;
-  licensingDetails: string;
-  servicesOffered: string[];
-  awardsAndRecognition: string | string[];
-  researchAndPublications: string | string[];
-  socialMedia: string;
-  id: string;
-  // additional optional fields used by DoctorDetails
+  clinicDepartment?: string;
+  schedule?: string[];
+  location?: string;
+  licensingDetails?: string;
+  servicesOffered?: string[];
+  awardsAndRecognition?: string[];
+  ResearchAndPublications?: string[];
+  socialMedia?: string;
   description?: string[];
   languages?: string[];
   email?: string;
   phone?: string;
-  ResearchAndPublications?: string[];
-  awards?: string[];
+  socialMediaWebsite?: string[];
 };
-
-// Transform doctors.json data into TeamMember format
-export const teamMembers: Doctor[] = (doctorsData as any[]).map(
-  (doctor: any, idx: number) => {
-    const descriptionArr = doctor.bio ? [doctor.bio] : [];
-    const languagesArr = doctor.languagesSpoken
-      ? (doctor.languagesSpoken as string)
-          .split(/,|;/)
-          .map((s: string) => s.trim())
-          .filter(Boolean)
-      : [];
-    const scheduleArr = doctor.schedule
-      ? (doctor.schedule as string)
-          .split(/,|;|\n/)
-          .map((s: string) => s.trim())
-          .filter(Boolean)
-      : [];
-
-    return {
-      name: doctor.name,
-      title: doctor.title,
-      // keep external placeholder URLs as-is; DoctorDetails will handle prefixing
-      image:
-        doctor.image && doctor.image.length > 0
-          ? doctor.image
-          : `https://via.placeholder.com/400x500?text=${encodeURIComponent(
-              doctor.name
-            )}`,
-      bio: doctor.bio,
-      specialization: doctor.specialization,
-      medicalQualifications: doctor.medicalQualifications,
-      yearsOfExperience: doctor.yearsOfExperience,
-      languagesSpoken: doctor.languagesSpoken,
-      contactEmail: doctor.contactEmail,
-      contactPhone: doctor.contactPhone,
-      clinicDepartment: doctor.clinicDepartment,
-      // provide schedule as an array for DoctorDetails
-      // @ts-ignore-error
-      schedule: scheduleArr,
-      location: doctor.location,
-      licensingDetails: doctor.licensingDetails,
-      servicesOffered: doctor.servicesOffered || [],
-      // provide awards & research as arrays so DoctorDetails can iterate
-      awardsAndRecognition: doctor.awardsAndRecognition
-        ? Array.isArray(doctor.awardsAndRecognition)
-          ? doctor.awardsAndRecognition
-          : [doctor.awardsAndRecognition]
-        : [],
-      // also expose ResearchAndPublications in the shape DoctorDetails expects
-      ResearchAndPublications: doctor.researchAndPublications
-        ? Array.isArray(doctor.researchAndPublications)
-          ? doctor.researchAndPublications
-          : [doctor.researchAndPublications]
-        : [],
-      // @ts-ignore-error
-      socialMedia: doctor.socialMedia || "",
-      id: `doctor-${idx}`,
-      // additional fields expected by DoctorDetails
-      description: descriptionArr,
-      languages: languagesArr,
-      socialMediaWebsite: doctor.socialMedia ? [doctor.socialMedia] : [],
-      // populate email/phone fields with common keys used in DoctorDetails
-      email: doctor.contactEmail || doctor.email || "",
-      phone: doctor.contactPhone || doctor.phone || "",
-    } as any;
-  }
-);
 
 const ITEMS_PER_PAGE = 6;
 
 const DoctorProfiles: FC = () => {
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [specialtyClinic, setSpecialtyClinic] = useState("");
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
@@ -202,11 +117,53 @@ const DoctorProfiles: FC = () => {
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-  // Filtering Logic
-  const filteredMembers = teamMembers.filter((member) => {
+  // Fetch doctors from API
+  useEffect(() => {
+    const loadDoctors = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchDoctors();
+        const transformed = data.map((doc: any, idx: number) => ({
+          ...doc,
+          id: doc.id || `doctor-${idx}`,
+          description: doc.bio ? [doc.bio] : [],
+          languages: doc.languagesSpoken
+            ? doc.languagesSpoken.split(/,|;/).map((s: string) => s.trim())
+            : [],
+          schedule: doc.schedule
+            ? doc.schedule.split(/,|;|\n/).map((s: string) => s.trim())
+            : [],
+          socialMediaWebsite: doc.socialMedia ? [doc.socialMedia] : [],
+          email: doc.contactEmail || "",
+          phone: doc.contactPhone || "",
+          image: doc.image?.[0]?.url,
+          awardsAndRecognition: doc.awardsAndRecognition
+            ? Array.isArray(doc.awardsAndRecognition)
+              ? doc.awardsAndRecognition
+              : [doc.awardsAndRecognition]
+            : [],
+          ResearchAndPublications: doc.researchAndPublications
+            ? Array.isArray(doc.researchAndPublications)
+              ? doc.researchAndPublications
+              : [doc.researchAndPublications]
+            : [],
+        }));
+        setDoctors(transformed);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load doctors.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadDoctors();
+  }, []);
+
+  // Filters
+  const filteredDoctors = doctors.filter((member) => {
     const matchesSearch =
       member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      member.role.toLowerCase().includes(searchTerm.toLowerCase());
+      (member.role?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false);
 
     const matchesClinic = specialtyClinic
       ? member.clinicDepartment
@@ -217,7 +174,7 @@ const DoctorProfiles: FC = () => {
     const matchesLocation =
       selectedLocations.length > 0
         ? selectedLocations.some((loc) =>
-            member.location.toLowerCase().includes(loc.toLowerCase())
+            member.location?.toLowerCase().includes(loc.toLowerCase())
           )
         : true;
 
@@ -231,8 +188,8 @@ const DoctorProfiles: FC = () => {
   });
 
   // Pagination
-  const totalPages = Math.ceil(filteredMembers.length / ITEMS_PER_PAGE);
-  const paginatedMembers = filteredMembers.slice(
+  const totalPages = Math.ceil(filteredDoctors.length / ITEMS_PER_PAGE);
+  const paginatedDoctors = filteredDoctors.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
@@ -255,6 +212,9 @@ const DoctorProfiles: FC = () => {
     setCurrentPage(1);
   };
 
+  if (loading) return <p className="text-center mt-10">Loading doctors...</p>;
+  if (error) return <p className="text-center mt-10 text-red-600">{error}</p>;
+
   return (
     <>
       <Heading
@@ -264,14 +224,14 @@ const DoctorProfiles: FC = () => {
         description="Get to know our doctors and their areas of expertise."
       />
 
-      <div className="flex flex-col lg:flex-row gap-6 mt-6 md:mx-40 mb-10 ">
+      <div className="flex flex-col lg:flex-row gap-6 mt-6 md:mx-40 mb-10">
         {/* Filters Sidebar */}
         <div className="w-full lg:w-1/4 bg-white rounded-lg shadow-md border p-6 md:sticky md:top-28 h-fit">
           <h3 className="font-bold font-serif text-xl text-red-900 mb-6 pb-3">
             Narrow your search
           </h3>
 
-          {/* By Doctor's Name */}
+          {/* Doctor Name Filter */}
           <div className="mb-6">
             <label className="block text-base font-serif font-semibold text-gray-800 mb-3">
               By Doctor's Name
@@ -284,7 +244,7 @@ const DoctorProfiles: FC = () => {
             />
           </div>
 
-          {/* By Specialty Clinic */}
+          {/* Specialty Filter */}
           <div className="mb-6">
             <label className="block text-base font-serif font-semibold text-gray-800 mb-3">
               By Specialty Clinic
@@ -297,7 +257,7 @@ const DoctorProfiles: FC = () => {
             />
           </div>
 
-          {/* By Location */}
+          {/* Location Filter */}
           <div className="mb-6">
             <label className="block text-base font-serif font-semibold text-gray-800 mb-3">
               By Location
@@ -322,7 +282,7 @@ const DoctorProfiles: FC = () => {
             </div>
           </div>
 
-          {/* Filter by First Name */}
+          {/* First Letter Filter */}
           <div className="mb-6">
             <label className="block text-base font-serif font-semibold text-gray-800 mb-3">
               Filter by First Name
@@ -344,7 +304,6 @@ const DoctorProfiles: FC = () => {
             </div>
           </div>
 
-          {/* Reset Filters */}
           <button
             onClick={resetFilters}
             className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-4 rounded-md transition-all duration-200 transform hover:scale-105 shadow-sm hover:shadow-md border border-gray-300"
@@ -355,13 +314,12 @@ const DoctorProfiles: FC = () => {
 
         {/* Doctors List */}
         <div className="flex-1">
-          {paginatedMembers.length > 0 ? (
-            paginatedMembers.map((member, idx) => (
+          {paginatedDoctors.length > 0 ? (
+            paginatedDoctors.map((member) => (
               <div
-                key={idx}
+                key={member.id}
                 className="flex flex-col md:flex-row bg-white border border-gray-200 rounded-lg shadow-md mb-6 overflow-hidden hover:shadow-lg transition-shadow duration-300"
               >
-                {/* Doctor Image */}
                 <div className="p-2">
                   <img
                     src={member.image}
@@ -369,8 +327,6 @@ const DoctorProfiles: FC = () => {
                     className="w-full md:w-56 md:h-60 object-cover rounded"
                   />
                 </div>
-
-                {/* Doctor Info */}
                 <div className="md:w-2/3 p-6 flex flex-col justify-between">
                   <div>
                     <h3 className="text-2xl font-bold font-serif text-red-900 mb-1">
@@ -383,11 +339,10 @@ const DoctorProfiles: FC = () => {
                       {truncateBioToThreeSentences(member.bio)}
                     </p>
                   </div>
-
-                  <div className="flex flex-wrap gap-3 mt-4 ">
+                  <div className="flex flex-wrap gap-3 mt-4">
                     <Link
                       to={`/booking-calendar?serviceId=${getServiceIdFromDoctorServices(
-                        member.servicesOffered
+                        member.servicesOffered || []
                       )}`}
                       className="flex items-center justify-center gap-2 text-red-900 border border-gray-300 px-4 py-2 rounded-md text-sm hover:bg-red-50 hover:border-red-300 transition font-medium"
                     >
@@ -435,6 +390,7 @@ const DoctorProfiles: FC = () => {
           )}
         </div>
       </div>
+
       <ContactForm contactInfo={{ phone: "" }} />
     </>
   );

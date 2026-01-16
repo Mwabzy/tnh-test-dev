@@ -1,63 +1,117 @@
-import { teamMembers } from "./DoctorProfiles";
-import { useParams } from "react-router";
-import { FC } from "react";
+import { FC, useEffect, useState, useMemo } from "react";
+import { useParams, Link } from "react-router";
+import { fetchDoctorById, fetchClinicalServices } from "@/api/api";
 
-export interface TeamMember {
-  id: string;
+export interface Doctor {
+  id: string | number;
   name: string;
-  title: string;
-  image: string;
-  description: string[];
-  languages: string[];
+  role: string;
+  image?: { id: number; url: string; alt?: string }[] | null;
+  bio?: string;
+  description?: string[] | string;
+  languages?: string[];
   email?: string;
   phone?: string;
-  clinicDepartment: string;
-  schedule: string[];
-  location: string;
-  licensingDetails: string;
-  awardsAndRecognition: string[];
-  ResearchAndPublications: string[];
-  servicesOffered: string[];
+  clinicDepartment?: string;
+  schedule?: string[];
+  location?: string;
+  licensingDetails?: string;
+  awards?: string[];
+  research_publications?: string[];
+  services_offered?: number[]; // IDs from backend
   socialMediaWebsite?: string[];
+}
+
+export interface ClinicalService {
+  id: number;
+  name: string;
 }
 
 const DoctorDetails: FC = () => {
   const { id } = useParams();
-  const user = teamMembers.find((person) => person.id === id);
+  const [doctor, setDoctor] = useState<Doctor | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [allServices, setAllServices] = useState<ClinicalService[]>([]);
 
-  if (!user)
+  // Fetch all clinical services
+  useEffect(() => {
+    async function loadServices() {
+      try {
+        const services = await fetchClinicalServices();
+        setAllServices(services);
+      } catch (err) {
+        console.error("Failed to load services", err);
+      }
+    }
+    loadServices();
+  }, []);
+
+  // Load doctor by ID
+  useEffect(() => {
+    if (!id) return;
+
+    const numericId = Number(id);
+    if (isNaN(numericId)) {
+      setError("Invalid doctor ID.");
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    fetchDoctorById(numericId)
+      .then((data) => {
+        setDoctor(data);
+        setError(null);
+      })
+      .catch(() => setError("Doctor not found."))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  // Filter services offered by this doctor
+  const servicesOffered = useMemo(() => {
+    if (!doctor || !allServices || !doctor.services_offered) return [];
+    return allServices.filter((service) =>
+      doctor.services_offered!.includes(service.id)
+    );
+  }, [doctor, allServices]);
+
+  if (loading)
+    return <p className="text-center mt-10 text-gray-600">Loading...</p>;
+  if (error || !doctor)
     return (
       <p className="text-center mt-10 text-red-600 font-semibold text-lg">
-        Doctor not found.
+        {error || "Doctor not found."}
       </p>
     );
-  // compute image src safely (handle external URLs)
+
+  // Image handling
   const imageSrc =
-    user.image && (user.image as string).startsWith("http")
-      ? user.image
-      : `/${user.image}`;
+    Array.isArray(doctor.image) && doctor.image.length > 0
+      ? doctor.image[0].url
+      : "/placeholder-doctor.png";
 
-  // Ensure `description`, `awardsAndRecognition`, and `ResearchAndPublications` are arrays
-  const descriptionArray: string[] = Array.isArray(user.description)
-    ? user.description
-    : user.description
-    ? [user.description]
+  const imageAlt =
+    Array.isArray(doctor.image) && doctor.image.length > 0
+      ? doctor.image[0].alt || doctor.name
+      : doctor.name;
+
+  // Description
+  const descriptionArray = doctor.description
+    ? Array.isArray(doctor.description)
+      ? doctor.description
+      : [doctor.description]
+    : doctor.bio
+    ? [doctor.bio]
     : [];
 
-  const awards: string[] = Array.isArray(user.awardsAndRecognition)
-    ? user.awardsAndRecognition
-    : user.awardsAndRecognition
-    ? [user.awardsAndRecognition]
+  // Awards and publications
+  const awards = Array.isArray(doctor.awards) ? doctor.awards : [];
+  const publications = Array.isArray(doctor.research_publications)
+    ? doctor.research_publications
     : [];
 
-  const publications: string[] = Array.isArray(user.ResearchAndPublications)
-    ? user.ResearchAndPublications
-    : user.ResearchAndPublications
-    ? [user.ResearchAndPublications]
-    : [];
-
-  const firstParagraph =
-    descriptionArray.length > 0 ? descriptionArray[0] : user.bio || "";
+  const firstParagraph = descriptionArray.length > 0 ? descriptionArray[0] : "";
 
   return (
     <div className="bg-gray-50 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
@@ -65,124 +119,147 @@ const DoctorDetails: FC = () => {
         <div className="flex flex-col md:flex-row items-start gap-8">
           <img
             src={imageSrc}
-            alt={user.name}
+            alt={imageAlt}
             className="w-52 h-64 object-cover rounded-2xl shadow-xl border-2 border-gray-500"
           />
           <div className="flex-1">
             <h1 className="text-4xl font-extrabold text-red-900">
-              {user.name}
+              {doctor.name}
             </h1>
-            <p className="text-xl text-red-700 mt-1 italic">{user.role}</p>
+            <p className="text-xl text-red-700 mt-1 italic">{doctor.role}</p>
 
             <p className="mt-5 text-gray-700 leading-relaxed max-w-xl">
               {firstParagraph}
             </p>
 
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-800">
-              {user.email && (
+              {doctor.email && (
                 <p>
                   <span className="font-semibold text-gray-700">Email:</span>{" "}
                   <a
-                    href={`mailto:${user.email}`}
+                    href={`mailto:${doctor.email}`}
                     className="text-red-700 hover:underline"
                   >
-                    {user.email}
+                    {doctor.email}
                   </a>
                 </p>
               )}
-              {user.phone && (
+              {doctor.phone && (
                 <p>
                   <span className="font-semibold text-gray-700">Phone:</span>{" "}
                   <a
-                    href={`tel:${user.phone}`}
+                    href={`tel:${doctor.phone}`}
                     className="text-red-700 hover:underline"
                   >
-                    {user.phone}
+                    {doctor.phone}
                   </a>
                 </p>
               )}
-              <p>
-                <span className="font-semibold text-gray-700">Department:</span>{" "}
-                {user.clinicDepartment}
-              </p>
-              <p>
-                <span className="font-semibold text-gray-700">Location:</span>{" "}
-                {user.location}
-              </p>
-              <p className="sm:col-span-2">
-                <span className="font-semibold text-gray-700">Licensing:</span>{" "}
-                {user.licensingDetails}
-              </p>
+              {doctor.clinicDepartment && (
+                <p>
+                  <span className="font-semibold text-gray-700">
+                    Department:
+                  </span>{" "}
+                  {doctor.clinicDepartment}
+                </p>
+              )}
+              {doctor.location && (
+                <p>
+                  <span className="font-semibold text-gray-700">Location:</span>{" "}
+                  {doctor.location}
+                </p>
+              )}
+              {doctor.licensingDetails && (
+                <p className="sm:col-span-2">
+                  <span className="font-semibold text-gray-700">
+                    Licensing:
+                  </span>{" "}
+                  {doctor.licensingDetails}
+                </p>
+              )}
             </div>
 
-            <div className="mt-6">
-              <span className="font-semibold text-gray-700">Languages:</span>{" "}
-              <span className="text-gray-700">
-                {user.languages && user.languages.join
-                  ? user.languages.join(", ")
-                  : user.languages || user.languagesSpoken || ""}
-              </span>
-            </div>
+            {doctor.languages && doctor.languages.length > 0 && (
+              <div className="mt-6">
+                <span className="font-semibold text-gray-700">Languages:</span>{" "}
+                <span className="text-gray-700">
+                  {doctor.languages.join(", ")}
+                </span>
+              </div>
+            )}
 
-            <div className="mt-6">
-              <span className="font-semibold text-gray-700">Schedule:</span>
-              {Array.isArray(user.schedule) ? (
+            {doctor.schedule && doctor.schedule.length > 0 && (
+              <div className="mt-6">
+                <span className="font-semibold text-gray-700">Schedule:</span>
                 <ul className="list-disc list-inside mt-1 text-gray-700 space-y-1">
-                  {user.schedule.map((item, i) => (
+                  {doctor.schedule.map((item, i) => (
                     <li key={i}>{item}</li>
                   ))}
                 </ul>
-              ) : (
-                <p className="text-gray-700 mt-1">{user.schedule || ""}</p>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
 
-        <section className="mt-16 border-t border-indigo-200 pt-10">
-          <h2 className="text-3xl font-semibold text-red-900 mb-6">
-            About {user.name}
-          </h2>
-          <div className="space-y-5 text-gray-700 leading-relaxed max-w-4xl">
-            {descriptionArray.slice(1).map((para: string, i: number) => (
-              <p key={i}>{para}</p>
-            ))}
-          </div>
-        </section>
+        {descriptionArray.length > 1 && (
+          <section className="mt-16 border-t border-indigo-200 pt-10">
+            <h2 className="text-3xl font-semibold text-red-900 mb-6">
+              About {doctor.name}
+            </h2>
+            <div className="space-y-5 text-gray-700 leading-relaxed max-w-4xl">
+              {descriptionArray.slice(1).map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="mt-12 grid md:grid-cols-3 gap-10">
-          <div>
-            <h3 className="text-2xl font-semibold text-red-800 mb-3 border-b border-indigo-300 pb-1">
-              Services Offered
-            </h3>
-            <ul className="list-disc list-inside text-gray-700 space-y-1">
-              {user.servicesOffered.map((service, i) => (
-                <li key={i}>{service}</li>
-              ))}
-            </ul>
-          </div>
+          {servicesOffered.length > 0 && (
+            <div>
+              <h3 className="text-2xl font-semibold text-red-800 mb-3 border-b border-indigo-300 pb-1">
+                Services Offered
+              </h3>
+              <ul className="list-disc list-inside text-gray-700 space-y-1">
+                {servicesOffered.map((service) => (
+                  <li key={service.id}>
+                    <Link
+                      to={`/service-detail/${service.id}`}
+                      className="text-red-700 hover:underline"
+                    >
+                      {service.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-          <div>
-            <h3 className="text-2xl font-semibold text-red-800 mb-3 border-b border-indigo-300 pb-1">
-              Awards & Recognition
-            </h3>
-            <ul className="list-disc list-inside text-gray-700 space-y-1">
-              {awards.map((award: string, i: number) => (
-                <li key={i}>{award}</li>
-              ))}
-            </ul>
-          </div>
+          {awards.length > 0 && (
+            <div>
+              <h3 className="text-2xl font-semibold text-red-800 mb-3 border-b border-indigo-300 pb-1">
+                Awards & Recognition
+              </h3>
+              <ul className="list-disc list-inside text-gray-700 space-y-1">
+                {awards.map((award, i) => (
+                  <li key={i}>{award}</li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-          <div>
-            <h3 className="text-2xl font-semibold text-red-800 mb-3 border-b border-indigo-300 pb-1">
-              Research & Publications
-            </h3>
-            <ul className="list-disc list-inside text-gray-700 space-y-1">
-              {publications.map((pub: string, i: number) => (
-                <li key={i}>{pub}</li>
-              ))}
-            </ul>
-          </div>
+          {publications.length > 0 && (
+            <div>
+              <h3 className="text-2xl font-semibold text-red-800 mb-3 border-b border-indigo-300 pb-1">
+                Research & Publications
+              </h3>
+              <ul className="list-disc list-inside text-gray-700 space-y-1">
+                {publications.map((pub, i) => (
+                  <li key={i}>{pub}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </section>
       </div>
     </div>

@@ -13,7 +13,8 @@ const AuthForm: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setError("");
 
     if (isRegistering) {
@@ -82,7 +83,10 @@ const AuthForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-16 p-6 border rounded-lg shadow-md bg-white">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-md mx-auto mt-16 p-6 border rounded-lg shadow-md bg-white"
+    >
       <h2 className="text-2xl font-serif font-semibold text-center mb-2">
         {isRegistering ? "Sign Up" : "Login"}
       </h2>
@@ -135,8 +139,8 @@ const AuthForm: React.FC = () => {
       )}
 
       <button
+        type="submit"
         className="w-full bg-yellow-500 text-white font-serif py-2 rounded-md hover:bg-yellow-400 cursor-pointer"
-        onClick={handleSubmit}
         disabled={loading}
       >
         {loading ? "Submitting..." : isRegistering ? "Sign Up" : "Login"}
@@ -160,7 +164,7 @@ const AuthForm: React.FC = () => {
           {isRegistering ? "Sign In" : "Sign Up"}
         </button> */}
       </div>
-    </div>
+    </form>
   );
 };
 

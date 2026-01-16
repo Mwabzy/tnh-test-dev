@@ -28,6 +28,7 @@ const DoctorsPage = () => {
       setLoading(true);
       try {
         const data = await fetchDoctors();
+        console.log("Fetched data from API:", data);
         setDoctors(data);
         setError(null);
       } catch (err) {
@@ -54,27 +55,25 @@ const DoctorsPage = () => {
 
   const handleSaveDoctor = async (doctor: Doctor | FormData) => {
     try {
-      if (doctor instanceof FormData) {
-        // CREATE (multipart)
-        const newDoctor = await createDoctor(doctor);
+      if (editingDoctor?.id) {
+        // UPDATE
+        const updated = await updateDoctor(
+          editingDoctor.id,
+          doctor as FormData
+        );
+        setDoctors((prev) =>
+          prev.map((d) => (d.id === updated.id ? updated : d))
+        );
+        toast.success("Doctor updated successfully!");
+      } else {
+        // CREATE
+        const newDoctor = await createDoctor(doctor as FormData);
         setDoctors((prev) => [...prev, newDoctor]);
         toast.success("Doctor created successfully!");
-      } else {
-        // JSON Doctor object
-        if (doctor.id) {
-          const updated = await updateDoctor(doctor.id, doctor);
-          setDoctors((prev) =>
-            prev.map((d) => (d.id === updated.id ? updated : d))
-          );
-          toast.success("Doctor updated successfully!");
-        } else {
-          const newDoctor = await createDoctor(doctor);
-          setDoctors((prev) => [...prev, newDoctor]);
-          toast.success("Doctor created successfully!");
-        }
       }
 
       setShowForm(false);
+      setEditingDoctor(null);
     } catch (err) {
       toast.error("Failed to save doctor");
       throw err;

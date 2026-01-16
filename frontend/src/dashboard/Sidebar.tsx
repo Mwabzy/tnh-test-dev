@@ -26,10 +26,10 @@ const Sidebar: FC = () => {
   ];
 
   return (
-    <aside className="w-64 bg-white shadow-md h-screen fixed left-0 top-0 p-4 overflow-y-auto z-40">
+    <aside className="w-72 bg-white shadow-md h-screen fixed left-0 top-0 p-4 overflow-y-auto z-40">
       <Logo orientation="vertical" type="both" className="ml-1" />
       <Link to="/dashboard">
-        <h2 className="text-xl font-serif font-semibold text-gray-800 m-4">
+        <h2 className="text-xl font-serif font-semibold text-gray-800 m-4 whitespace-nowrap overflow-hidden text-ellipsis">
           Website Dashboard
         </h2>
       </Link>

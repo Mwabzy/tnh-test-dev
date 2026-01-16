@@ -78,6 +78,7 @@ class ClinicalServiceViewSet(viewsets.ModelViewSet):
 
 
 class DoctorViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
     parser_classes = [MultiPartParser, FormParser]

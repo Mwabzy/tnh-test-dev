@@ -102,7 +102,7 @@ export async function createDoctor(data: any) {
 }
 
 export async function updateDoctor(id: number, data: any) {
-  const res = await api.post(`${DOCTORS_API}${id}/`, data, {
+  const res = await api.patch(`${DOCTORS_API}${id}/`, data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
   return res.data;

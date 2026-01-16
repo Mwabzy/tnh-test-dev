@@ -43,6 +43,12 @@ class DoctorImageSerializer(serializers.ModelSerializer):
 # Nested serializers
 
 class SlimDoctorSerializer(serializers.ModelSerializer):
+    image = DoctorImageSerializer(
+        source="uploaded_images",
+        many=True,
+        read_only=True
+    )
+
     class Meta:
         model = Doctor
         fields = ['id', 'name', 'role', 'image', 'bio']
@@ -105,12 +111,12 @@ class DoctorSerializer(serializers.ModelSerializer):
      if hasattr(data, 'getlist'):
          data = {k: data.getlist(k) for k in data.keys()}
  
-     # --- Flatten single-item lists for simple string fields ---
+     #  Flatten single-item lists for simple string fields 
      for field in ['name', 'role', 'bio']:
          if field in data and isinstance(data[field], list) and len(data[field]) == 1:
              data[field] = data[field][0]
  
-     # --- JSON fields ---
+     #  JSON fields 
      json_fields = ['research_publications', 'awards', 'services_offered_ids']
      for field in json_fields:
          if field in data:
@@ -126,7 +132,7 @@ class DoctorSerializer(serializers.ModelSerializer):
              except Exception:
                  data[field] = []
  
-     # --- services_offered for write (PrimaryKeyRelatedField expects list of PKs) ---
+     #  services_offered for write (PrimaryKeyRelatedField expects list of PKs) 
      if 'services_offered' in data:
          raw = data['services_offered']
          if isinstance(raw, list) and len(raw) == 1:
@@ -137,7 +143,7 @@ class DoctorSerializer(serializers.ModelSerializer):
          except Exception:
              data['services_offered'] = []
  
-     # --- Images ---
+     #  Images 
      for img_field in ['images_files', 'images_files_alt', 'images_to_delete']:
          if img_field in data:
              vals = data[img_field]
@@ -154,22 +160,22 @@ class DoctorSerializer(serializers.ModelSerializer):
 
 
     def create(self, validated_data):
-     # --- Pop out many-to-many and extra fields ---
+     #  Pop out many-to-many and extra fields 
      services_ids = validated_data.pop('services_offered', [])
      images_files = validated_data.pop('images_files', [])
      images_alt = validated_data.pop('images_files_alt', [])
  
-     # --- Create the Doctor instance ---
+     #  Create the Doctor instance 
      doctor = Doctor.objects.create(**validated_data)
  
-     # --- Assign many-to-many relations ---
+     #  Assign many-to-many relations 
      if services_ids:
          doctor.services_offered.set(services_ids)
  
-     # --- Handle uploaded images ---
+     #  Handle uploaded images 
      for idx, img in enumerate(images_files):
          alt_text = images_alt[idx] if idx < len(images_alt) else ""
-         # Assuming you have a DoctorImage model with FK to Doctor
+         #  DoctorImage model with FK to Doctor
          DoctorImage.objects.create(doctor=doctor, image=img, alt=alt_text)
  
      return doctor
