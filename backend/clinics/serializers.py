@@ -180,7 +180,7 @@ class ClinicalServiceImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClinicalServiceImage
-        fields = ["id", "url", "alt"]
+        fields = ["id", "image", "alt"]
 
     def get_url(self, obj):
         request = self.context.get("request")
