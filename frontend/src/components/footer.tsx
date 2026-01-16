@@ -105,7 +105,7 @@ const Footer = () => {
           />
         </div>
         <p className="text-lg md:ml-14">
-          ©The Nairobi Hospital. All Rights Reserved 2025.
+          &copy; The Nairobi Hospital. All Rights Reserved {new Date().getFullYear()}.
         </p>
         <div className="flex  flex-col items-center md:items-start">
           {" "}
