@@ -8,6 +8,10 @@ const DOCTORS_API = `${BASE_URL}/doctors/`;
 const TEAM_API = `${BASE_URL}/team-members/`;
 const BLOGS_API = `${BASE_URL}/blog-posts/`;
 const CSR_API = `${BASE_URL}/csr/`;
+const fetchOutpatientCenters_API = `${BASE_URL}/ fetchOutpatientCenters/`;
+const createOutpatientCenter_API = `${BASE_URL}/ createOutpatientCenter/`;
+const updateOutpatientCenter_API = `${BASE_URL}/ updateOutpatientCenter/`;
+const deleteOutpatientCenter_APT     = `${BASE_URL}/ deleteOutpatientCenter/`;
 
 // Axios Instance
 const api = axios.create({
@@ -159,12 +163,16 @@ export const fetchBlogPostById = async (id: string) => {
 
 export const createBlogPosts = async (data: any) => {
   console.log("Creating Blog Post with data:", data);
-  const response = await api.post(`${BLOGS_API}`, data);
+  const response = await api.post(BLOGS_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return response.data;
 };
 
 export const updateBlogPosts = async (id: string, data: any) => {
-  const response = await api.patch(`${BLOGS_API}${id}/`, data);
+  const response = await api.patch(`${BLOGS_API}${id}/`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return response.data;
 };
 
@@ -174,7 +182,6 @@ export const deleteBlogPosts = async (id: string) => {
 };
 
 // CSR
-
 export async function fetchCsr() {
   const res = await api.get(CSR_API);
   return res.data;
@@ -198,5 +205,28 @@ export async function updateCsr(id: string, data: any) {
 
 export async function deleteCsr(id: string) {
   const res = await api.delete(`${CSR_API}${id}/`);
+  return res.data;
+}
+// outpatient centers
+
+
+
+export async function fetchOutpatientCenter() {
+  const res = await api.get(fetchOutpatientCenters_API);
+  return res.data;
+}
+
+export async function createOutpatientCenter(data: any) {
+  const res = await api.post(createOutpatientCenter_API, data);
+  return res.data;
+}
+
+export async function updateOutpatientCenter(id: number, data: any) {
+  const res = await api.patch(`${updateOutpatientCenter_API}${id}/`, data);
+  return res.data;
+}
+
+export async function deleteOutpatientCenter(id: number) {
+  const res = await api.delete(`${deleteOutpatientCenter_APT}${id}/`);
   return res.data;
 }

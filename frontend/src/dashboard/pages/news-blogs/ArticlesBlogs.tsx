@@ -46,12 +46,24 @@ const ArticlesBlog = () => {
     setShowForm(true);
   };
 
-  const handleSave = async (blog: Blog) => {
+  const handleSave = async (data: FormData) => {
     try {
+      const blog: Blog = {
+        id: editingBlog?.id || "",
+        title: data.get("title") as string,
+        subtitle: data.get("subtitle") as string,
+        author: data.get("author") as string,
+        category: data.get("category") as string,
+        shortdesc: data.get("shortdesc") as string,
+        longdesc: data.get("longdesc") as string,
+        cover_image: data.get("cover_image") as string,
+        image: data.get("image") as string,
+      };
+
       if (editingBlog?.id) {
         const updated = await updateBlogPosts(editingBlog.id, blog);
         setBlogs((prev) =>
-          prev.map((b) => (b.id === updated.id ? updated : b))
+          prev.map((b) => (b.id === updated.id ? updated : b)),
         );
       } else {
         const created = await createBlogPosts(blog);

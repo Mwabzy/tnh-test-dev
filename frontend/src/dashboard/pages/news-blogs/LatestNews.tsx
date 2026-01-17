@@ -46,8 +46,9 @@ const LatestNews = () => {
     setShowForm(true);
   };
 
-  const handleSave = async (item: Blog) => {
+  const handleSave = async (data: FormData) => {
     try {
+      const item = Object.fromEntries(data) as unknown as Blog;
       if (editingItem?.id) {
         const updated = await updateBlogPosts(editingItem.id, item);
         setItems((prev) =>
@@ -112,7 +113,7 @@ const LatestNews = () => {
       ) : (
         <BlogTable
           data={items}
-          onEdit={(item) => {
+          onEdit={(item: Blog) => {
             setEditingItem(item);
             setShowForm(true);
           }}

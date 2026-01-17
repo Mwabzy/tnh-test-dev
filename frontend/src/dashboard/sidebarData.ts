@@ -105,7 +105,7 @@ export const newsMedia = [
       "Information about the new services available at the Nairobi Hospital.",
   },
   {
-    title: "Add Events and Announcements",
+    title: "Events & Announcements",
     href: "/dashboard/news/events-and-announcements",
     description:
       "Information about the events and announcements at the Nairobi Hospital.",

@@ -46,8 +46,13 @@ const EventsAnnouncements = () => {
     setShowForm(true);
   };
 
-  const handleSave = async (item: Blog) => {
+  const handleSave = async (data: FormData) => {
     try {
+      const item: Blog = {
+        title: data.get("title") as string,
+        author: data.get("author") as string,
+      } as Blog;
+
       if (editingItem?.id) {
         const updated = await updateBlogPosts(editingItem.id, item);
         setItems((prev) =>

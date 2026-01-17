@@ -51,14 +51,78 @@ class TeamMemberSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
-
-
+    
 class BlogPostSerializer(serializers.ModelSerializer):
+    cover_image_file = serializers.ImageField(write_only=True, required=False)
+    image_file = serializers.ImageField(write_only=True, required=False)
+    cover_image_delete = serializers.BooleanField(write_only=True, required=False, default=False)
+    image_delete = serializers.BooleanField(write_only=True, required=False, default=False)
+
+    cover_image_alt = serializers.CharField(required=False, allow_blank=True)
+    image_alt = serializers.CharField(required=False, allow_blank=True)
+
     class Meta:
         model = BlogPost
         fields = "__all__"
         read_only_fields = ("id", "date", "created_at")
 
+    def create(self, validated_data):
+        cover_file = validated_data.pop("cover_image_file", None)
+        image_file = validated_data.pop("image_file", None)
+        cover_delete = validated_data.pop("cover_image_delete", False)
+        image_delete = validated_data.pop("image_delete", False)
+
+        cover_alt = validated_data.pop("cover_image_alt", "")
+        image_alt = validated_data.pop("image_alt", "")
+
+        instance = super().create(validated_data)
+
+        # Assign uploaded files directly to ImageField
+        if cover_file:
+            instance.coverImage = cover_file
+            instance.coverImage_alt = cover_alt
+        elif cover_delete:
+            instance.coverImage = None
+            instance.coverImage_alt = ""
+
+        if image_file:
+            instance.image = image_file
+            instance.image_alt = image_alt
+        elif image_delete:
+            instance.image = None
+            instance.image_alt = ""
+
+        instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+        cover_file = validated_data.pop("cover_image_file", None)
+        image_file = validated_data.pop("image_file", None)
+        cover_delete = validated_data.pop("cover_image_delete", False)
+        image_delete = validated_data.pop("image_delete", False)
+
+        cover_alt = validated_data.pop("cover_image_alt", instance.coverImage_alt or "")
+        image_alt = validated_data.pop("image_alt", instance.image_alt or "")
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        if cover_file:
+            instance.coverImage = cover_file
+            instance.coverImage_alt = cover_alt
+        elif cover_delete:
+            instance.coverImage = None
+            instance.coverImage_alt = ""
+
+        if image_file:
+            instance.image = image_file
+            instance.image_alt = image_alt
+        elif image_delete:
+            instance.image = None
+            instance.image_alt = ""
+
+        instance.save()
+        return instance
         
 class CSRSerializer(serializers.ModelSerializer):
     class Meta:
