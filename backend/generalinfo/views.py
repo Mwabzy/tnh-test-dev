@@ -61,12 +61,17 @@ class BlogPostViewSet(viewsets.ModelViewSet):
     queryset = BlogPost.objects.all()
     serializer_class = BlogPostSerializer
 
+    #  THIS IS THE FIX
+    parser_classes = (MultiPartParser, FormParser)
+
     def create(self, request, *args, **kwargs):
         print("===== NEW BLOG POST REQUEST =====")
         print("User:", request.user)
+        print("Content-Type:", request.content_type)
         print("Raw request data:", request.data)
 
         serializer = self.get_serializer(data=request.data)
+
         if not serializer.is_valid():
             print("Serializer errors:", serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

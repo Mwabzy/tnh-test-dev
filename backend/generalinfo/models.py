@@ -22,22 +22,24 @@ class BlogPost(models.Model):
 
     title = models.CharField(max_length=255)
     subtitle = models.CharField(max_length=255)
-    blogsubtitle = models.CharField(max_length=255, blank=True)  
+    blogsubtitle = models.CharField(max_length=255, blank=True)
 
     shortdesc = models.TextField()
     longdesc = models.TextField()
 
     category = models.CharField(max_length=100)
-    date = models.DateField(auto_now_add=True) 
+    date = models.DateField(auto_now_add=True)
 
-    coverImage = models.URLField(max_length=500, blank=True) 
-    image = models.URLField(max_length=500)
+    #  REAL FILE UPLOADS
+    coverImage = models.ImageField(upload_to="blog/covers/", blank=True, null=True)
+    coverImage_alt = models.CharField(max_length=255, blank=True)
+
+    image = models.ImageField(upload_to="blog/images/", blank=True, null=True)
+    image_alt = models.CharField(max_length=255, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
         return self.title
-
 
 class CSR(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

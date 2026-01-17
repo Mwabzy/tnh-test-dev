@@ -163,12 +163,16 @@ export const fetchBlogPostById = async (id: string) => {
 
 export const createBlogPosts = async (data: any) => {
   console.log("Creating Blog Post with data:", data);
-  const response = await api.post(`${BLOGS_API}`, data);
+  const response = await api.post(BLOGS_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return response.data;
 };
 
 export const updateBlogPosts = async (id: string, data: any) => {
-  const response = await api.patch(`${BLOGS_API}${id}/`, data);
+  const response = await api.patch(`${BLOGS_API}${id}/`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return response.data;
 };
 
