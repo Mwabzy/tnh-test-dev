@@ -1,17 +1,20 @@
 import { Link } from "react-router";
 import clinicalServices from "@/data/clinicalServices.json";
+import { useIntlayer } from "react-intlayer";
+
 
 const Services = () => {
+  const servicedata = useIntlayer("heroContent");
+
   const servicesToShow = clinicalServices.slice(0, 3);
   return (
     <div className="bg-red-900 flex flex-col items-center justify-center mt-10">
       <div className="text-center mb-12">
         <h2 className="text-3xl mt-6 font-serif font-extrabold text-white mb-4">
-          Clinical Services
+          {servicedata?.service_title}
         </h2>
         <p className="text-lg font-sans text-white max-w-2xl mx-auto">
-          Comprehensive healthcare services delivered by world-class medical
-          professionals using state-of-the-art technology
+          {servicedata?.service_description}
         </p>
       </div>
 
@@ -66,10 +69,10 @@ const Services = () => {
           {/* Text Section */}
           <div className="text-center md:text-left">
             <h3 className="text-xl text-center font-serif font-semibold text-gray-900">
-              Explore All Our Services
+              {servicedata.exploreservice_button}
             </h3>
             <p className="text-gray-600 font-sans m-1 mb-2">
-              Discover our complete range of medical specialties
+              {servicedata?.exploreservice_description}
             </p>
           </div>
 
@@ -80,7 +83,7 @@ const Services = () => {
                    text-white ml-6 rounded-lg text-sm font-medium transition 
                    bg-yellow-600  hover:bg-red-900 font-serif"
           >
-            View All Services
+            {servicedata.service_button}
             <span className="ml-2">→</span>
           </Link>
         </div>

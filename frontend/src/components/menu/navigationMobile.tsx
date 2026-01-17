@@ -13,6 +13,7 @@ export const NavigationMobile: React.FC<{ onNavigate?: () => void }> = ({
   onNavigate,
 }) => {
   const content = useIntlayer("navigationContent");
+  const navigationItems = NAVIGATION_CONTENT(); // Call the function here!
   const [openItems, setOpenItems] = useState<string[]>([]);
 
   return (
@@ -23,7 +24,7 @@ export const NavigationMobile: React.FC<{ onNavigate?: () => void }> = ({
         onValueChange={setOpenItems}
         className="flex flex-col gap-2"
       >
-        {NAVIGATION_CONTENT.map((item, idx) => {
+        {navigationItems.map((item, idx) => {
           const hasSubmenu = item.sections && item.sections.length > 0;
           const label =
             content[item.labelKey as keyof typeof content]?.[0]?.value ?? "";

@@ -8,6 +8,8 @@ import warwick from "@/assets/opc_images/warwick.png";
 import rosslyn from "@/assets/opc_images/rosslyn.jpeg";
 import anderson from "@/assets/opc_images/anderson.jpg";
 import { Link } from "react-router";
+import { useIntlayer } from "react-intlayer";
+
 
 interface OutpatientCenter {
   id: string;
@@ -64,21 +66,23 @@ const outpatientCenters: OutpatientCenter[] = [
 ];
 
 const Opc: React.FC = () => {
+  const opcdata = useIntlayer("heroContent");
+
+
   return (
     <div className="px-4 py-10 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Top-left title section */}
         <div className="flex flex-col justify-center bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-          <h2 className="text-3xl font-serif font-bold mb-3">Outpatient Centers</h2>
+          <h2 className="text-3xl font-serif font-bold mb-3">{opcdata.opctitle}</h2>
           <p className="text-gray-600 font-sans mb-6 text-sm">
-            Learn more about The Nairobi Hospital’s outpatient centers or choose
-            a specific location.
+                {opcdata.opcdesc}.
           </p>
           <Link
             to="/outpatient-centers"
             className="border border-red-700 text-red-700 px-4 py-2 font-sans rounded-full w-fit hover:bg-blue-50 transition"
           >
-            Explore all locations
+            {opcdata.explorelocation_button}
           </Link>
         </div>
 

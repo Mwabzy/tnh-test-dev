@@ -1,6 +1,7 @@
 import { Link } from "react-router"; // fixed import
 import { motion } from "framer-motion";
 import { blogPosts } from "@/pages/blog/BlogList";
+import { useIntlayer } from "react-intlayer";
 
 // Animation variants
 const slideUp = {
@@ -8,12 +9,7 @@ const slideUp = {
   visible: { y: 0, opacity: 1 },
 };
 
-const content = {
-  bloglatest: "Latest News & Updates",
-  blogdescription:
-    "Stay informed about our latest developments and healthcare insights.",
-  viewallposts: "View All News",
-};
+
 
 // const posts = [
 //   {
@@ -58,6 +54,7 @@ const Blogpost = () => {
   const featuredPost = blogsToShow.find((p) => p.isFeatured);
   const otherPosts = blogsToShow.filter((p) => !p.isFeatured);
 
+  const content = useIntlayer("heroContent");
   return (
     <section className="px-6 py-12 max-w-7xl mx-auto">
       <motion.div

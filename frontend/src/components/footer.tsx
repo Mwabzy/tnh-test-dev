@@ -6,6 +6,7 @@ import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-router";
+import { useIntlayer } from "react-intlayer";
 // import { useState } from "react";
 
 // const [email, setEmail] = useState("");
@@ -17,6 +18,7 @@ import { Link } from "react-router";
 //   };
 
 const Footer = () => {
+  const footerdata = useIntlayer("heroContent");
   return (
     <footer className="bg-red-900 text-white py-6 px-4 text-sm">
       {/* Contact Section */}
@@ -24,11 +26,10 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row md:justify-between gap-16">
           <div className="md:w-1/3 ">
             <h3 className="text-xl font-semibold text-white mb-3">
-              Subscribe to Our Mailing List
+            {footerdata.subscribeToOurMailingList}
             </h3>
             <p className="text-white mb-5">
-              Stay updated with the latest health tips, medical services, and
-              hospital news.
+                {footerdata.stayUpdated}
             </p>
 
             <form className="flex flex-col  items-center sm:flex-row gap-3">
@@ -42,7 +43,7 @@ const Footer = () => {
                 type="submit"
                 className="px-6 py-3 w-30 bg-yellow-600 text-white hover:text-red-900 font-medium rounded-lg hover:bg-white transition"
               >
-                Subscribe
+               {footerdata.subscribeButton}
               </button>
             </form>
           </div>
@@ -50,34 +51,34 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row gap-8 md:w-2/3">
             <div className="md:w-1/2">
               <h3 className="text-xl w-2/3 font-semibold text-white mb-3">
-                Contact Information
+               {footerdata.contactus}
               </h3>
-              <p className="text-white mb-1">The Nairobi Hospital</p>
+              <p className="text-white mb-1">{footerdata.hospitalName}</p>
               <p className="text-white mb-1">
                 P.O. Box 30026 - 00100 GPO, Nairobi, Kenya
               </p>
-              <p className="text-white mb-1">Phone: +254 20 2845000</p>
+              <p className="text-white mb-1">{footerdata.phone}: +254 20 2845000</p>
               <p className="text-white mb-1">
-                Email: nbihosp.org
+                {footerdata.email}: nbihosp.org
                 <a href="mailto:nbihosp.org"></a>
               </p>
             </div>
 
             <div className="md:w-1/2">
               <h3 className="text-xl w-2/3 font-semibold text-white mb-3">
-                Quick Links
+                {footerdata.quicklinks}
               </h3>
               <Link to="/about-us">
-                <p className="text-white mb-1">About Us</p>{" "}
+                <p className="text-white mb-1">{footerdata.aboutus}</p>{" "}
               </Link>
               <Link to="/doctor-profiles">
-                <p className="text-white mb-1">Find a Doctor</p>
+                <p className="text-white mb-1">{footerdata.findoctor}</p>
               </Link>
               <Link to="/clinical-services">
-                <p className="text-white mb-1">Speciality Clinics</p>
+                <p className="text-white mb-1">{footerdata.specialty}</p>
               </Link>
               <Link to="/news">
-                <p className="text-white mb-1">News and Events</p>
+                <p className="text-white mb-1">{footerdata.news}</p>
               </Link>
             </div>
           </div>
@@ -105,13 +106,13 @@ const Footer = () => {
           />
         </div>
         <p className="text-lg md:ml-14">
-          &copy; The Nairobi Hospital. All Rights Reserved {new Date().getFullYear()}.
+          &copy; {footerdata.copyright} {new Date().getFullYear()}.
         </p>
         <div className="flex  flex-col items-center md:items-start">
           {" "}
           <span className="mb-5">
             {" "}
-            Get in touch with us on our social media platforms{" "}
+            {footerdata.getInTouch}{" "}
           </span>
           <div className="flex gap-2">
             <Link

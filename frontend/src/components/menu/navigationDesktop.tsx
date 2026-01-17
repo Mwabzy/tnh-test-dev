@@ -37,10 +37,11 @@ ListItem.displayName = "ListItem";
 
 export const NavigationDesktop: React.FC = () => {
   const content = useIntlayer("navigationContent");
+  const navigationItems = NAVIGATION_CONTENT(); // Call the function here!
 
   return (
     <Menubar className="flex-col md:flex-row border-none shadow-none bg-inherit text-sm font-medium">
-      {NAVIGATION_CONTENT.map((item, idx) => {
+      {navigationItems.map((item, idx) => {
         const label =
           content[item.labelKey as keyof typeof content]?.[0]?.value ?? "";
 
