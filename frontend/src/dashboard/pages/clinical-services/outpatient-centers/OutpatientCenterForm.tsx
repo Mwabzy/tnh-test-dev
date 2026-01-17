@@ -11,12 +11,12 @@ const OutpatientCenterForm = ({ initialData, onSave, onCancel }: Props) => {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
 
-  const [description, setdescription] = useState("");
-  const [contact, setContact] = useState<ContactInfo>({
+  const [description ] = useState("");
+  const [contact ] = useState<ContactInfo>({
       phone: initialData?.contact?.phone || "",
       email: initialData?.contact?.email || "",
     });
-  const [timings, settimings] = useState("");
+  const [timings, ] = useState("");
 
  
   useEffect(() => {
