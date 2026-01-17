@@ -75,7 +75,7 @@ export const NAVIGATION_CONTENT = [
       {
         title: "CLINICAL SERVICES",
         items: [
-          { title: "Anderson Specialty Clinics", href: "/clinical-services" },
+          { title: "Anderson Specialty Clinics", href: "/anderson-services" },
           {
             title: "Accident and Emergency",
             href: "/clinical-services/accident-emergency",

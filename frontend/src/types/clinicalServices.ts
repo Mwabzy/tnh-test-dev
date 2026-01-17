@@ -54,3 +54,15 @@ export interface ClinicalService {
   images: Image[];
   locations: string[];
 }
+
+
+export interface outpatientCenter {
+  id?: number;
+  name: string;
+  slug?: string;
+  description: string;
+ contact: ContactInfo;
+ location: string;
+ services_offered?: ClinicalService[];
+ timings: string;
+}

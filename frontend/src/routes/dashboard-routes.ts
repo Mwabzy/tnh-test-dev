@@ -80,6 +80,11 @@ const DashboardRoutes = {
     path: "corporate-social-responsibility",
     component: lazyLoad(() => import("@/dashboard/pages/csr/Csr")),
   },
+   OPC: {
+    name: "outpatient centers",
+    path: "outpatient-centers",
+    component: lazyLoad(() => import("@/dashboard/pages/clinical-services/outpatient-centers/OutpatientCenter")),
+  },
 };
 
 export const DashboardRoutesPath: Record<
