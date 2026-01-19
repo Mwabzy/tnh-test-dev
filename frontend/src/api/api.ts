@@ -11,7 +11,7 @@ const CSR_API = `${BASE_URL}/csr/`;
 const fetchOutpatientCenters_API = `${BASE_URL}/ fetchOutpatientCenters/`;
 const createOutpatientCenter_API = `${BASE_URL}/ createOutpatientCenter/`;
 const updateOutpatientCenter_API = `${BASE_URL}/ updateOutpatientCenter/`;
-const deleteOutpatientCenter_APT     = `${BASE_URL}/ deleteOutpatientCenter/`;
+const deleteOutpatientCenter_APT = `${BASE_URL}/ deleteOutpatientCenter/`;
 
 // Axios Instance
 const api = axios.create({
@@ -40,7 +40,7 @@ export const loginUser = async (username: string, password: string) => {
 export const registerUser = async (
   username: string,
   email: string,
-  password: string
+  password: string,
 ) => {
   const res = await api.post(`${USER_API}register/`, {
     username,
@@ -194,13 +194,17 @@ export async function fetchCsrById(id: string) {
 
 export async function createCsr(data: any) {
   console.log("Creating CSR with data:", data);
-  const res = await api.post(CSR_API, data);
-  return res.data;
+  const response = await api.post(CSR_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
 }
 
 export async function updateCsr(id: string, data: any) {
-  const res = await api.patch(`${CSR_API}${id}/`, data);
-  return res.data;
+  const response = await api.patch(`${CSR_API}${id}/`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
 }
 
 export async function deleteCsr(id: string) {
@@ -208,8 +212,6 @@ export async function deleteCsr(id: string) {
   return res.data;
 }
 // outpatient centers
-
-
 
 export async function fetchOutpatientCenter() {
   const res = await api.get(fetchOutpatientCenters_API);
