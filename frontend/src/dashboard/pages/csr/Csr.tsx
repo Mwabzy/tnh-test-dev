@@ -40,15 +40,17 @@ const Csr = () => {
     setShowForm(true);
   };
 
-  const handleSave = async (csr: CSR) => {
+  const handleSave =  (csr: CSR) => {
     try {
       if (editingCsr) {
+        updateCsr(editingCsr.id, csr);
         // Convert id to string if the API expects string
-        const updated = await updateCsr(editingCsr.id, csr);
-        setCsrs((prev) => prev.map((m) => (m.id === updated.id ? updated : m)));
+        // const updated = updateCsr(editingCsr.id, csr);
+        // setCsrs((prev) => prev.map((m) => (m.id === updated.id ? updated : m)));
       } else {
-        const created = await createCsr(csr);
-        setCsrs((prev) => [...prev, created]);
+        createCsr(csr);
+        // const created =  createCsr(csr);
+        // setCsrs((prev) => [...prev, created]);
       }
 
       setShowForm(false);
