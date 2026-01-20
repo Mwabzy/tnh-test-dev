@@ -1,4 +1,5 @@
 import axios from "axios";
+import { CSR } from "@/types";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -12,6 +13,7 @@ const fetchOutpatientCenters_API = `${BASE_URL}/ fetchOutpatientCenters/`;
 const createOutpatientCenter_API = `${BASE_URL}/ createOutpatientCenter/`;
 const updateOutpatientCenter_API = `${BASE_URL}/ updateOutpatientCenter/`;
 const deleteOutpatientCenter_APT = `${BASE_URL}/ deleteOutpatientCenter/`;
+
 
 // Axios Instance
 const api = axios.create({
@@ -105,7 +107,7 @@ export async function createDoctor(data: any) {
   return res.data;
 }
 
-export async function updateDoctor(id: number, data: any) {
+export async function updateDoctor(id: number, data: CSR) {
   const res = await api.patch(`${DOCTORS_API}${id}/`, data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
@@ -200,7 +202,7 @@ export async function createCsr(data: any) {
   return response.data;
 }
 
-export async function updateCsr(id: string, data: any) {
+export async function updateCsr(id: number, data: ) {
   const response = await api.patch(`${CSR_API}${id}/`, data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
