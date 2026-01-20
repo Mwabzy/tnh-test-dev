@@ -44,7 +44,7 @@ const Csr = () => {
     try {
       if (editingCsr) {
         // Convert id to string if the API expects string
-        const updated = await updateCsr(String(csr.id), csr);
+        const updated = await updateCsr(editingCsr.id, csr);
         setCsrs((prev) => prev.map((m) => (m.id === updated.id ? updated : m)));
       } else {
         const created = await createCsr(csr);
