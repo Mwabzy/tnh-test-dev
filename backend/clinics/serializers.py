@@ -177,17 +177,15 @@ class TestimonialSerializer(serializers.ModelSerializer):
 
 class ClinicalServiceImageSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField()
-    image = serializers.ImageField(max_length=100, allow_null=True, required=False)
 
     class Meta:
         model = ClinicalServiceImage
-        fields = ["id", "url", "image", "alt"]
+        fields = ["id", "url", "alt"]
 
     def get_url(self, obj):
         request = self.context.get("request")
         if request:
             return obj.image.url
-        # return obj.image.url
 
 
 # ClinicalService Serializer
