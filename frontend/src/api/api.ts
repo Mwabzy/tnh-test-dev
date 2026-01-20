@@ -107,7 +107,7 @@ export async function createDoctor(data: any) {
   return res.data;
 }
 
-export async function updateDoctor(id: number, data: CSR) {
+export async function updateDoctor(id: number, data: any) {
   const res = await api.patch(`${DOCTORS_API}${id}/`, data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
