@@ -234,8 +234,11 @@ export const NAVIGATION_CONTENT = () => {
           title: content.news_media,
           items: [
             { title: content.latest_news, href: "/news" },
-            { title: content.events_and_announcements, href: "/news" },
-            { title: content.health_articles_blogs, href: "/news/" },
+            {
+              title: content.events_and_announcements,
+              href: "/events-announcements",
+            },
+            { title: content.health_articles_blogs, href: "/blogs" },
           ],
         },
         {

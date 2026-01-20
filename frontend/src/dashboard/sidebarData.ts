@@ -106,13 +106,13 @@ export const newsMedia = [
   },
   {
     title: "Events & Announcements",
-    href: "/dashboard/news/events-and-announcements",
+    href: "/dashboard/events-announcements",
     description:
       "Information about the events and announcements at the Nairobi Hospital.",
   },
   {
     title: "Health Articles & Blogs",
-    href: "/dashboard/news/health-articles-and-blogs",
+    href: "/dashboard/blog-posts",
     description:
       "Information about health articles and blogs available at the Nairobi Hospital.",
   },
