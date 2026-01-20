@@ -4,7 +4,7 @@ import { CSR } from "@/types";
 
 interface Props {
   initialData?: CSR | null;
-  onSave: (data: CSR) => Promise<void>;
+  onSave: (data: CSR) => void;
   onCancel: () => void;
 }
 
