@@ -161,10 +161,10 @@ class CSRSerializer(serializers.ModelSerializer):
         image_file = validated_data.pop("cover_image_file", None)
         validated_data.pop("cover_image_delete", None)
 
-        # ✅ create instance FIRST
+        #  create instance FIRST
         csr = CSR.objects.create(**validated_data)
 
-        # ✅ then attach image if provided
+        #  then attach image if provided
         if image_file:
             csr.cover_image = image_file
             csr.save(update_fields=["cover_image"])

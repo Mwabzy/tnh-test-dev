@@ -10,71 +10,63 @@ import {
 } from "@/api/api";
 import toast from "react-hot-toast";
 
-const ArticlesBlog = () => {
-  const title = "Articles & Blog";
+const EventsAnnouncements = () => {
+  const group = "EVENTS"; // unique identifier for this section
+  const title = "Events & Announcements";
 
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [items, setItems] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [showForm, setShowForm] = useState(false);
-  const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
+  const [editingItem, setEditingItem] = useState<Blog | null>(null);
 
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  // Load blogs
+  // Load events & announcements
   useEffect(() => {
-    async function loadBlogs() {
+    async function loadItems() {
       setLoading(true);
       try {
-        const data = await fetchBlogPosts();
-        setBlogs(data);
+        const data = await fetchBlogPosts(); // fetch only EVENTS group
+        setItems(data);
         setError(null);
       } catch (err: any) {
-        setError(err.message || "Error loading blogs");
+        setError(err.message || "Error loading events & announcements");
       } finally {
         setLoading(false);
       }
     }
 
-    loadBlogs();
+    loadItems();
   }, []);
 
   const handleAdd = () => {
-    setEditingBlog(null);
+    setEditingItem(null);
     setShowForm(true);
   };
 
   const handleSave = async (data: FormData) => {
     try {
-      const blog: Blog = {
-        id: editingBlog?.id || "",
-        title: data.get("title") as string,
-        subtitle: data.get("subtitle") as string,
-        author: data.get("author") as string,
-        category: data.get("category") as string,
-        shortdesc: data.get("shortdesc") as string,
-        longdesc: data.get("longdesc") as string,
-        cover_image: data.get("cover_image") as string,
-        image: data.get("image") as string,
-      };
+      data.append("group", group); // mark this item with EVENTS group
+      const item = Object.fromEntries(data) as unknown as Blog;
 
-      if (editingBlog?.id) {
-        const updated = await updateBlogPosts(editingBlog.id, blog);
-        setBlogs((prev) =>
-          prev.map((b) => (b.id === updated.id ? updated : b)),
+      if (editingItem?.id) {
+        const updated = await updateBlogPosts(editingItem.id, item);
+        setItems((prev) =>
+          prev.map((i) => (i.id === updated.id ? updated : i)),
         );
       } else {
-        const created = await createBlogPosts(blog);
-        setBlogs((prev) => [created, ...prev]);
+        const created = await createBlogPosts(item);
+        setItems((prev) => [created, ...prev]);
       }
 
       setShowForm(false);
-      setEditingBlog(null);
-      toast.success("Blog saved successfully!");
+      setEditingItem(null);
+      toast.success("Saved successfully!");
     } catch (err: any) {
-      toast.error(`Error saving blog: ${err.message}`);
+      toast.error(`Error saving item: ${err.message}`);
     }
   };
 
@@ -86,11 +78,11 @@ const ArticlesBlog = () => {
     try {
       setDeletingId(deleteConfirmId);
       await deleteBlogPosts(deleteConfirmId);
-      setBlogs((prev) => prev.filter((b) => b.id !== deleteConfirmId));
+      setItems((prev) => prev.filter((i) => i.id !== deleteConfirmId));
       setDeleteConfirmId(null);
-      toast.success("Blog deleted successfully!");
+      toast.success("Deleted successfully!");
     } catch (err: any) {
-      toast.error(`Error deleting blog: ${err.message}`);
+      toast.error(`Error deleting item: ${err.message}`);
     } finally {
       setDeletingId(null);
     }
@@ -106,26 +98,27 @@ const ArticlesBlog = () => {
             onClick={handleAdd}
             className="px-4 py-2 bg-green-600 text-white rounded"
           >
-            Add Blog
+            Add Event / Announcement
           </button>
         )}
       </div>
 
       {loading ? (
-        <p>Loading blogs...</p>
+        <p>Loading events & announcements...</p>
       ) : error ? (
         <p className="text-red-500 mb-4">{error}</p>
       ) : showForm ? (
         <BlogForm
-          initialData={editingBlog}
+          initialData={editingItem}
           onSave={handleSave}
           onCancel={() => setShowForm(false)}
+          group={"EVENTS"}
         />
       ) : (
         <BlogTable
-          data={blogs}
-          onEdit={(blog) => {
-            setEditingBlog(blog);
+          data={items}
+          onEdit={(item) => {
+            setEditingItem(item);
             setShowForm(true);
           }}
           onDelete={handleDeleteClick}
@@ -133,19 +126,16 @@ const ArticlesBlog = () => {
         />
       )}
 
-      {/* Delete confirmation modal */}
       {deleteConfirmId &&
         (() => {
-          const blog = blogs.find((b) => b.id === deleteConfirmId);
-
+          const item = items.find((i) => i.id === deleteConfirmId);
           return (
             <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
               <div className="bg-white p-6 rounded shadow-lg w-96">
                 <p className="text-lg mb-4">
-                  Are you sure you want to delete <strong>{blog?.title}</strong>
+                  Are you sure you want to delete <strong>{item?.title}</strong>
                   ?
                 </p>
-
                 <div className="flex justify-end gap-3">
                   <button
                     onClick={() => setDeleteConfirmId(null)}
@@ -168,4 +158,4 @@ const ArticlesBlog = () => {
   );
 };
 
-export default ArticlesBlog;
+export default EventsAnnouncements;

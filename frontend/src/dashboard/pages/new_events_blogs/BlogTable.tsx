@@ -17,7 +17,7 @@ const BlogTable: FC<BlogTableProps> = ({
   if (data.length === 0) {
     return (
       <div className="bg-white shadow rounded-lg p-6 text-center text-gray-500">
-        No blog posts available. Create your first post.
+        No Posts available. Create your first post.
       </div>
     );
   }
