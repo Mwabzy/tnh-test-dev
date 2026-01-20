@@ -77,12 +77,12 @@ const Hero = () => {
                 <p className="text-xl font-sans">{currentSlide?.description}</p>
                 <div className="flex space-x-4">
                   <Link
-                    to="/clinics"
+                    to="/clinical-services"
                     className="bg-white text-black px-5 py-2 rounded-lg font-semibold shadow"
                   >
                     {heroData?.services_button}
                   </Link>
-                  <Link to="/about" className="flex items-center space-x-2">
+                  <Link to="/about-us" className="flex items-center space-x-2">
                     <span>{heroData?.about_button}</span>
                     <span className="text-xl">→</span>
                   </Link>
@@ -173,12 +173,12 @@ const Hero = () => {
                 <p className="text-lg font-sans">{currentSlide?.description}</p>
                 <div className="flex space-x-4">
                   <Link
-                    to="/clinics"
+                    to="/clinial-services"
                     className="bg-white text-black px-5 py-2 rounded-lg font-semibold shadow"
                   >
                     {heroData?.services_button}
                   </Link>
-                  <Link to="/about" className="flex items-center space-x-2">
+                  <Link to="/about-us" className="flex items-center space-x-2">
                     <span>{heroData?.about_button}</span>
                     <span className="text-xl">→</span>
                   </Link>

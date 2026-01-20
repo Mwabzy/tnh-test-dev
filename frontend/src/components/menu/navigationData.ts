@@ -35,7 +35,10 @@ export const NAVIGATION_CONTENT = () => {
               title: content.management,
               href: "/about-us/board-of-management",
             },
-            { title: content.seniormanagement, href: "/about-us/senior-management" },
+            {
+              title: content.seniormanagement,
+              href: "/about-us/senior-management",
+            },
           ],
         },
         {
@@ -169,14 +172,21 @@ export const NAVIGATION_CONTENT = () => {
           items: [
             { title: content.admission_process, href: "/inpatient/admission" },
             { title: content.rooms_and_wards, href: "/inpatient/rooms-wards" },
-            { title: content.critical_care_services, href: "/inpatient/critical-care" },
+            {
+              title: content.critical_care_services,
+              href: "/inpatient/critical-care",
+            },
             { title: content.theatre_and_surgery, href: "/inpatient/surgery" },
-            { title: content.infection_control, href: "/inpatient/infection-control" },
+            {
+              title: content.infection_control,
+              href: "/inpatient/infection-control",
+            },
           ],
         },
         {
           title: "IMAGE",
-          image: "https://cms.thenairobihosp.org/uploads/920x400_7286e9039b.jpg",
+          image:
+            "https://cms.thenairobihosp.org/uploads/920x400_7286e9039b.jpg",
           link: "/clinical/medical-specialties",
           caption: content.image_caption,
         },
@@ -231,26 +241,30 @@ export const NAVIGATION_CONTENT = () => {
         {
           title: content.tenders,
           items: [
-            { title: content.open_tenders, href: "/tenders/open" },
-            { title: content.supplier_info, href: "/tenders/suppliers" },
-            { title: content.procurement_guidelines, href: "/tenders/guidelines" },
+            { title: content.open_tenders, href: "/news/tenders" },
+            { title: content.supplier_info, href: "/news/tenders" },
+            {
+              title: content.procurement_guidelines,
+              href: "/news/tenders",
+            },
           ],
         },
         {
           title: content.careers,
           items: [
-            { title: content.job_vacancies, href: "/careers/jobs" },
-            { title: content.volunteer_opportunities, href: "/careers/volunteer" },
-            { title: content.submit_cv, href: "/careers/submit-cv" },
+            { title: content.job_vacancies, href: "/news/careers" },
+            {
+              title: content.volunteer_opportunities,
+              href: "/news/careers",
+            },
+            { title: content.submit_cv, href: "/news/careers" },
           ],
         },
         {
           title: "IMAGE",
           image: "https://thenairobihosp.org/_nuxt/img/news-letter.064bc5a.png",
           link: "/careers/volunteer",
-          caption:
-           content.careers_image_caption,
-
+          caption: content.careers_image_caption,
         },
       ],
     },
@@ -273,7 +287,10 @@ export const NAVIGATION_CONTENT = () => {
           title: content.support_services,
           items: [
             { title: content.laundry, href: "/laundry-services" },
-            { title: content.catering_services, href: "/about-us/board-of-trustees" },
+            {
+              title: content.catering_services,
+              href: "/about-us/board-of-trustees",
+            },
             {
               title: content.patient_support_services,
               href: "/about-us/board-of-management",

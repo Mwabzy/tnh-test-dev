@@ -54,31 +54,36 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">
                     Key offerings
                   </h3>
-                  <ul className="space-y-3">
+                  <ul className="space-y-6">
                     {features.map((f, i) => (
                       <li key={i} className="flex items-start gap-3">
+                        {/* Check icon */}
                         <div className="flex-shrink-0 w-6 h-6 bg-red-900 rounded-full flex items-center justify-center mt-1 text-white text-xs">
                           ✓
                         </div>
-                        <div>
-                          <div className="font-medium text-gray-900">
+
+                        <div className="flex-1">
+                          {/* Feature title */}
+                          <div className="font-medium text-gray-900 mb-2">
                             {f.title}
                           </div>
+
+                          {/*  Feature Image */}
+                          {mainImage && (
+                            <img
+                              src={mainImage.url}
+                              alt={mainImage.alt || title}
+                              className="w-60 h-40 sm:h-48 object-cover rounded-lg mb-2 border border-gray-100"
+                            />
+                          )}
+
+                          {/* Feature description */}
                           {f.description && (
                             <div className="text-sm text-gray-600">
                               {f.description}
                             </div>
                           )}
                         </div>
-                        {f.image && (
-                          <div className="flex-shrink-0">
-                            <img
-                              src={f.image.url}
-                              alt={f.image.alt || f.title}
-                              className="w-20 h-20 rounded-lg object-cover border border-gray-100"
-                            />
-                          </div>
-                        )}
                       </li>
                     ))}
                   </ul>
@@ -429,8 +434,6 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                     </span>
                   </div>
                 </div>
-
-                {/* Booking via the booking flow is available from the clinic timings table; contact card button removed as requested. */}
               </div>
 
               {/* Explore Speciality Clinics */}
