@@ -85,7 +85,7 @@ class CSRViewSet(viewsets.ModelViewSet):
     serializer_class = CSRSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    # 🔥 REQUIRED for image upload
+    #  REQUIRED for image upload
     parser_classes = (MultiPartParser, FormParser)
 
     def create(self, request, *args, **kwargs):
@@ -121,7 +121,7 @@ class CSRViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
 
-        # 🔥 delete image file from storage
+        #  delete image file from storage
         if instance.cover_image:
             instance.cover_image.delete(save=False)
 

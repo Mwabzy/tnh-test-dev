@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import BlogTable from "./BlogTable";
 import BlogForm from "./BlogForms";
-import { Blog } from "@/types";
+import type { Blog } from "@/types";
 import {
   fetchBlogPosts,
   createBlogPosts,
@@ -10,8 +10,9 @@ import {
 } from "@/api/api";
 import toast from "react-hot-toast";
 
-const EventsAnnouncements = () => {
-  const title = "Events & Announcements";
+const LatestNews = () => {
+  const group = "NEWS"; // unique group for Latest News
+  const title = "Latest News";
 
   const [items, setItems] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
@@ -23,16 +24,16 @@ const EventsAnnouncements = () => {
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  // Load events & announcements
+  // Load news posts
   useEffect(() => {
     async function loadItems() {
       setLoading(true);
       try {
-        const data = await fetchBlogPosts();
+        const data = await fetchBlogPosts(); // fetch only NEWS group
         setItems(data);
         setError(null);
       } catch (err: any) {
-        setError(err.message || "Error loading events & announcements");
+        setError(err.message || "Error loading news");
       } finally {
         setLoading(false);
       }
@@ -48,15 +49,13 @@ const EventsAnnouncements = () => {
 
   const handleSave = async (data: FormData) => {
     try {
-      const item: Blog = {
-        title: data.get("title") as string,
-        author: data.get("author") as string,
-      } as Blog;
+      data.append("group", group); // mark this item as NEWS group
+      const item = Object.fromEntries(data) as unknown as Blog;
 
       if (editingItem?.id) {
         const updated = await updateBlogPosts(editingItem.id, item);
         setItems((prev) =>
-          prev.map((i) => (i.id === updated.id ? updated : i))
+          prev.map((i) => (i.id === updated.id ? updated : i)),
         );
       } else {
         const created = await createBlogPosts(item);
@@ -99,13 +98,13 @@ const EventsAnnouncements = () => {
             onClick={handleAdd}
             className="px-4 py-2 bg-green-600 text-white rounded"
           >
-            Add Event / Announcement
+            Add News
           </button>
         )}
       </div>
 
       {loading ? (
-        <p>Loading events & announcements...</p>
+        <p>Loading News...</p>
       ) : error ? (
         <p className="text-red-500 mb-4">{error}</p>
       ) : showForm ? (
@@ -113,11 +112,12 @@ const EventsAnnouncements = () => {
           initialData={editingItem}
           onSave={handleSave}
           onCancel={() => setShowForm(false)}
+          group={"NEWS"}
         />
       ) : (
         <BlogTable
           data={items}
-          onEdit={(item) => {
+          onEdit={(item: Blog) => {
             setEditingItem(item);
             setShowForm(true);
           }}
@@ -126,11 +126,9 @@ const EventsAnnouncements = () => {
         />
       )}
 
-      {/* Delete confirmation modal */}
       {deleteConfirmId &&
         (() => {
           const item = items.find((i) => i.id === deleteConfirmId);
-
           return (
             <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
               <div className="bg-white p-6 rounded shadow-lg w-96">
@@ -138,7 +136,6 @@ const EventsAnnouncements = () => {
                   Are you sure you want to delete <strong>{item?.title}</strong>
                   ?
                 </p>
-
                 <div className="flex justify-end gap-3">
                   <button
                     onClick={() => setDeleteConfirmId(null)}
@@ -161,4 +158,4 @@ const EventsAnnouncements = () => {
   );
 };
 
-export default EventsAnnouncements;
+export default LatestNews;

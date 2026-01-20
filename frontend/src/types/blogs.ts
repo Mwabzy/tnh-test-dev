@@ -9,4 +9,6 @@ export interface Blog {
   cover_image?: string;
   image?: string;
   isFeatured?: boolean;
+  group: "ARTICLES" | "EVENTS" | "NEWS";
+  type: "article" | "event" | "news";
 }

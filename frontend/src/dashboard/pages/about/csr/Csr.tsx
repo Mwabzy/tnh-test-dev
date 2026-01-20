@@ -40,13 +40,14 @@ const Csr = () => {
     setShowForm(true);
   };
 
-  const handleSave =  (csr: CSR) => {
+  const handleSave = async (data: FormData) => {
     try {
+      const csr = Object.fromEntries(data) as unknown as CSR;
       if (editingCsr) {
         updateCsr(editingCsr.id, csr);
         // Convert id to string if the API expects string
-        // const updated = updateCsr(editingCsr.id, csr);
-        // setCsrs((prev) => prev.map((m) => (m.id === updated.id ? updated : m)));
+        const updated = await updateCsr(String(editingCsr.id), csr);
+        setCsrs((prev) => prev.map((m) => (m.id === updated.id ? updated : m)));
       } else {
         createCsr(csr);
         // const created =  createCsr(csr);

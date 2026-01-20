@@ -55,7 +55,7 @@ class CSR(models.Model):
     shortdesc = models.TextField()
     longdesc = models.TextField()
 
-    # 🔥 File-based image (NOT URL)
+    #  File-based image (NOT URL)
     cover_image = models.ImageField(
         upload_to="csr/covers/",
         blank=True,

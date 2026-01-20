@@ -13,7 +13,7 @@ const DashboardRoutes = {
     path: "clinical-services",
     component: lazyLoad(
       () =>
-        import("@/dashboard/pages/clinical-services/clinics/ClinicalServices")
+        import("@/dashboard/pages/clinical-services/clinics/ClinicalServices"),
     ),
   },
 
@@ -22,9 +22,7 @@ const DashboardRoutes = {
     path: "doctor-profiles",
     component: lazyLoad(
       () =>
-        import(
-          "@/dashboard/pages/clinical-services/doctor-profiles/DoctorProfiles"
-        )
+        import("@/dashboard/pages/clinical-services/doctor-profiles/DoctorProfiles"),
     ),
   },
 
@@ -32,7 +30,7 @@ const DashboardRoutes = {
     name: "Board of Management",
     path: "board-of-management",
     component: lazyLoad(
-      () => import("@/dashboard/pages/about/BoardOfManagement")
+      () => import("@/dashboard/pages/about/team/BoardOfManagement"),
     ),
   },
 
@@ -40,7 +38,7 @@ const DashboardRoutes = {
     name: "Board of Trustees",
     path: "board-of-trustees",
     component: lazyLoad(
-      () => import("@/dashboard/pages/about/BoardOfTrustees")
+      () => import("@/dashboard/pages/about/team/BoardOfTrustees"),
     ),
   },
 
@@ -48,7 +46,7 @@ const DashboardRoutes = {
     name: "Senior Management",
     path: "senior-management",
     component: lazyLoad(
-      () => import("@/dashboard/pages/about/SeniorManagement")
+      () => import("@/dashboard/pages/about/team/SeniorManagement"),
     ),
   },
 
@@ -56,7 +54,7 @@ const DashboardRoutes = {
     name: "Blog Posts",
     path: "blog-posts",
     component: lazyLoad(
-      () => import("@/dashboard/pages/news-blogs/ArticlesBlogs")
+      () => import("@/dashboard/pages/new_events_blogs/ArticlesBlogs"),
     ),
   },
 
@@ -64,7 +62,7 @@ const DashboardRoutes = {
     name: "Events & Announcements",
     path: "events-announcements",
     component: lazyLoad(
-      () => import("@/dashboard/pages/news-blogs/EventsAnnouncememnts")
+      () => import("@/dashboard/pages/new_events_blogs/EventsAnnouncememnts"),
     ),
   },
 
@@ -72,18 +70,21 @@ const DashboardRoutes = {
     name: "Latest News",
     path: "latest-news",
     component: lazyLoad(
-      () => import("@/dashboard/pages/news-blogs/LatestNews")
+      () => import("@/dashboard/pages/new_events_blogs/LatestNews"),
     ),
   },
   CSR: {
     name: "Corporate Social Responsibility",
     path: "corporate-social-responsibility",
-    component: lazyLoad(() => import("@/dashboard/pages/csr/Csr")),
+    component: lazyLoad(() => import("@/dashboard/pages/about/csr/Csr")),
   },
-   OPC: {
+  OPC: {
     name: "outpatient centers",
     path: "outpatient-centers",
-    component: lazyLoad(() => import("@/dashboard/pages/clinical-services/outpatient-centers/OutpatientCenter")),
+    component: lazyLoad(
+      () =>
+        import("@/dashboard/pages/clinical-services/outpatient-centers/OutpatientCenter"),
+    ),
   },
 };
 

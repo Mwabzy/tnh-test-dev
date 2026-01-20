@@ -1,69 +1,76 @@
 import { useState, useEffect } from "react";
-import BlogTable from "./BlogTable";
-import BlogForm from "./BlogForms";
-import type { Blog } from "@/types";
+import TeamMembersTable from "./TeamMembersTable";
+import TeamMemberForm from "./TeamMemberForm";
+import { TeamMember } from "@/types";
 import {
-  fetchBlogPosts,
-  createBlogPosts,
-  updateBlogPosts,
-  deleteBlogPosts,
+  fetchTeamMembers,
+  createTeamMember,
+  updateTeamMember,
+  deleteTeamMember,
 } from "@/api/api";
 import toast from "react-hot-toast";
 
-const LatestNews = () => {
-  const title = "Latest News";
+const BoardManagement = () => {
+  const group = "BM";
+  const title = "Board of Management";
 
-  const [items, setItems] = useState<Blog[]>([]);
+  const [members, setMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [showForm, setShowForm] = useState(false);
-  const [editingItem, setEditingItem] = useState<Blog | null>(null);
+  const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
 
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  // Load events & announcements
+  // Load members filtered by group
   useEffect(() => {
-    async function loadItems() {
+    async function loadMembers() {
       setLoading(true);
       try {
-        const data = await fetchBlogPosts();
-        setItems(data);
+        const data: TeamMember[] = await fetchTeamMembers();
+        const filtered = data.filter((m: TeamMember) => m.group === group);
+        setMembers(filtered);
         setError(null);
       } catch (err: any) {
-        setError(err.message || "Error loading events & announcements");
+        setError(err.message || "Error loading team members");
       } finally {
         setLoading(false);
       }
     }
-
-    loadItems();
-  }, []);
+    loadMembers();
+  }, [group]);
 
   const handleAdd = () => {
-    setEditingItem(null);
+    setEditingMember(null);
     setShowForm(true);
   };
 
-  const handleSave = async (data: FormData) => {
+  const handleSave = async (member: TeamMember | FormData): Promise<any> => {
     try {
-      const item = Object.fromEntries(data) as unknown as Blog;
-      if (editingItem?.id) {
-        const updated = await updateBlogPosts(editingItem.id, item);
-        setItems((prev) =>
-          prev.map((i) => (i.id === updated.id ? updated : i))
+      // Ensure the member gets the correct group
+      if (member instanceof FormData) {
+        member.set("group", group);
+      } else {
+        member.group = group;
+      }
+
+      if (editingMember) {
+        const updated = await updateTeamMember(editingMember.id, member);
+        setMembers((prev) =>
+          prev.map((m) => (m.id === updated.id ? updated : m)),
         );
       } else {
-        const created = await createBlogPosts(item);
-        setItems((prev) => [created, ...prev]);
+        const created = await createTeamMember(member);
+        setMembers((prev) => [...prev, created]);
       }
 
       setShowForm(false);
-      setEditingItem(null);
-      toast.success("Saved successfully!");
+      setEditingMember(null);
+      toast.success("Team member saved successfully!");
     } catch (err: any) {
-      toast.error(`Error saving item: ${err.message}`);
+      toast.error(`Error saving member: ${err.message}`);
     }
   };
 
@@ -71,15 +78,14 @@ const LatestNews = () => {
 
   const confirmDelete = async () => {
     if (!deleteConfirmId) return;
-
     try {
       setDeletingId(deleteConfirmId);
-      await deleteBlogPosts(deleteConfirmId);
-      setItems((prev) => prev.filter((i) => i.id !== deleteConfirmId));
+      await deleteTeamMember(deleteConfirmId);
+      setMembers((prev) => prev.filter((m) => m.id !== deleteConfirmId));
       setDeleteConfirmId(null);
       toast.success("Deleted successfully!");
     } catch (err: any) {
-      toast.error(`Error deleting item: ${err.message}`);
+      toast.error(`Error deleting member: ${err.message}`);
     } finally {
       setDeletingId(null);
     }
@@ -89,32 +95,31 @@ const LatestNews = () => {
     <div>
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">{title}</h1>
-
         {!showForm && !loading && (
           <button
             onClick={handleAdd}
             className="px-4 py-2 bg-green-600 text-white rounded"
           >
-            Add Event / Announcement
+            Add Member
           </button>
         )}
       </div>
 
       {loading ? (
-        <p>Loading events & announcements...</p>
+        <p>Loading Team Members...</p>
       ) : error ? (
         <p className="text-red-500 mb-4">{error}</p>
       ) : showForm ? (
-        <BlogForm
-          initialData={editingItem}
+        <TeamMemberForm
+          initialData={editingMember}
           onSave={handleSave}
           onCancel={() => setShowForm(false)}
         />
       ) : (
-        <BlogTable
-          data={items}
-          onEdit={(item: Blog) => {
-            setEditingItem(item);
+        <TeamMembersTable
+          data={members}
+          onEdit={(member) => {
+            setEditingMember(member);
             setShowForm(true);
           }}
           onDelete={handleDeleteClick}
@@ -122,19 +127,16 @@ const LatestNews = () => {
         />
       )}
 
-      {/* Delete confirmation modal */}
       {deleteConfirmId &&
         (() => {
-          const item = items.find((i) => i.id === deleteConfirmId);
-
+          const member = members.find((m) => m.id === deleteConfirmId);
           return (
             <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
-              <div className="bg-white p-6 rounded shadow-lg w-96">
+              <div className="bg-white p-6 rounded shadow-lg w-80">
                 <p className="text-lg mb-4">
-                  Are you sure you want to delete <strong>{item?.title}</strong>
-                  ?
+                  Are you sure you want to delete{" "}
+                  <strong>{member?.name}</strong>?
                 </p>
-
                 <div className="flex justify-end gap-3">
                   <button
                     onClick={() => setDeleteConfirmId(null)}
@@ -157,4 +159,4 @@ const LatestNews = () => {
   );
 };
 
-export default LatestNews;
+export default BoardManagement;

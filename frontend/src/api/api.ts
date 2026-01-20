@@ -213,6 +213,7 @@ export async function deleteCsr(id: string) {
   const res = await api.delete(`${CSR_API}${id}/`);
   return res.data;
 }
+
 // outpatient centers
 
 export async function fetchOutpatientCenter() {
