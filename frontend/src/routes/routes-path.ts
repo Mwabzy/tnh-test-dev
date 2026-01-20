@@ -397,6 +397,11 @@ const UIRoutes = {
       () => import("../pages/clinical-services/infection-control/page")
     ),
   },
+  AndersonList:{
+    name: "navigation.andersonList",
+    path: "/clinics/anderson-list", 
+    component: lazyLoad(() => import("../pages/clinics/andersonList")),
+  }
 };
 
 export const RoutesPath: Record<keyof typeof UIRoutes, UIRoutesType> = UIRoutes;
