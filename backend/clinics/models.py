@@ -107,3 +107,33 @@ class ClinicalService(models.Model):
 
     def __str__(self):
         return self.title
+  
+
+  # OutpatientCenter
+class OutpatientCenter(models.Model):
+    # Basic Info
+    name = models.CharField(max_length=150)
+    slug = models.SlugField(
+        max_length=200,
+        unique=True,
+        blank=True,
+        null=True
+    )
+    description = models.TextField()
+
+    # Location & Contact
+    location = models.CharField(max_length=255)
+    contact = models.JSONField(blank=True, null=True)
+
+    # Relationships
+    services_offered = models.ManyToManyField(
+        'ClinicalService',
+        blank=True,
+        related_name='outpatient_centers'
+    )
+
+    # Timings
+    timings = models.JSONField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name

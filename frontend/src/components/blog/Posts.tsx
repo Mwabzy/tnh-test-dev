@@ -24,7 +24,7 @@ interface PostsProps {
 }
 
 const Posts: FunctionComponent<PostsProps> = ({ posts }) => {
-  const [_data, setData] = useState<Blog[]>([]);
+  const [data, setData] = useState<Blog[]>([]);
   const [_loading, setLoading] = useState(true);
   const [_error, setError] = useState<string | null>(null);
 
@@ -46,7 +46,7 @@ const Posts: FunctionComponent<PostsProps> = ({ posts }) => {
 
   return (
     <div className="grid md:grid-cols-3 gap-8 w-full">
-      {posts.map((post) => (
+      {data.map((post) => (
         <div
           key={post.id}
           className="rounded-lg overflow-hidden shadow hover:shadow-md transition"

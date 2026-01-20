@@ -124,7 +124,7 @@ const Bloglist = () => {
           <div className="flex justify-between items-center mb-8">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
-                Latest News
+                Latest Articles
               </h2>
               <p className="text-2xl md:text-gray-600 mt-2">
                 Stay informed about the latest news around The Nairobi Hospital.

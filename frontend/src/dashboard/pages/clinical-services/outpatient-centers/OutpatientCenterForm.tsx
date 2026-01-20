@@ -10,22 +10,31 @@ interface Props {
 const OutpatientCenterForm = ({ initialData, onSave, onCancel }: Props) => {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
+  const [timings, setTimings] = useState("");
 
-  const [description ] = useState("");
-  const [contact ] = useState<ContactInfo>({
-      phone: initialData?.contact?.phone || "",
-      email: initialData?.contact?.email || "",
-    });
-  const [timings, ] = useState("");
+  const [contact, setContact] = useState<ContactInfo>({
+    phone: "",
+    email: "",
+  });
 
- 
+  /* 🔁 Sync form when editing */
   useEffect(() => {
     if (initialData) {
-      setName(initialData.name);
-      setLocation(initialData.location);
+      setName(initialData.name || "");
+      setLocation(initialData.location || "");
+      setDescription(initialData.description || "");
+      setTimings(initialData.timings || "");
+      setContact({
+        phone: initialData.contact?.phone || "",
+        email: initialData.contact?.email || "",
+      });
     } else {
       setName("");
       setLocation("");
+      setDescription("");
+      setTimings("");
+      setContact({ phone: "", email: "" });
     }
   }, [initialData]);
 
@@ -37,33 +46,80 @@ const OutpatientCenterForm = ({ initialData, onSave, onCancel }: Props) => {
       name,
       location,
       description,
-      contact,
       timings,
+      contact,
     });
   };
 
   return (
-    <form className="border p-4 rounded space-y-4" onSubmit={handleSubmit}>
+    <form
+      className="border p-6 rounded space-y-4 bg-white"
+      onSubmit={handleSubmit}
+    >
       <h2 className="text-xl font-semibold">
-        {initialData ? "Edit Center" : "Add Center"}
+        {initialData ? "Edit Outpatient Center" : "Add Outpatient Center"}
       </h2>
 
+      {/* Name */}
       <input
         className="border p-2 w-full"
-        placeholder="Center name"
+        placeholder="Center Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        required
       />
 
+      {/* Location */}
       <input
         className="border p-2 w-full"
         placeholder="Location"
         value={location}
         onChange={(e) => setLocation(e.target.value)}
+        required
       />
 
-      <div className="flex gap-4">
-        <button className="bg-blue-600 text-white px-4 py-2 rounded">
+      {/* Description */}
+      <textarea
+        className="border p-2 w-full"
+        placeholder="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
+
+      {/* Timings */}
+      <input
+        className="border p-2 w-full"
+        placeholder="Operating Timings"
+        value={timings}
+        onChange={(e) => setTimings(e.target.value)}
+      />
+
+      {/* Contact */}
+      <input
+        className="border p-2 w-full"
+        placeholder="Phone"
+        value={contact.phone}
+        onChange={(e) =>
+          setContact({ ...contact, phone: e.target.value })
+        }
+      />
+
+      <input
+        className="border p-2 w-full"
+        placeholder="Email"
+        type="email"
+        value={contact.email}
+        onChange={(e) =>
+          setContact({ ...contact, email: e.target.value })
+        }
+      />
+
+      {/* Actions */}
+      <div className="flex gap-4 pt-2">
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+        >
           Save
         </button>
         <button

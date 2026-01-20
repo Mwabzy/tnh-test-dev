@@ -9,10 +9,9 @@ const DOCTORS_API = `${BASE_URL}/doctors/`;
 const TEAM_API = `${BASE_URL}/team-members/`;
 const BLOGS_API = `${BASE_URL}/blog-posts/`;
 const CSR_API = `${BASE_URL}/csr/`;
-const fetchOutpatientCenters_API = `${BASE_URL}/ fetchOutpatientCenters/`;
-const createOutpatientCenter_API = `${BASE_URL}/ createOutpatientCenter/`;
-const updateOutpatientCenter_API = `${BASE_URL}/ updateOutpatientCenter/`;
-const deleteOutpatientCenter_APT = `${BASE_URL}/ deleteOutpatientCenter/`;
+const OUTPATIENT_CENTER_API = "/outpatient-centers/";
+
+
 
 // Axios Instance
 const api = axios.create({
@@ -214,23 +213,22 @@ export async function deleteCsr(id: string) {
 }
 
 // outpatient centers
-
 export async function fetchOutpatientCenter() {
-  const res = await api.get(fetchOutpatientCenters_API);
+  const res = await api.get(OUTPATIENT_CENTER_API);
   return res.data;
 }
 
 export async function createOutpatientCenter(data: any) {
-  const res = await api.post(createOutpatientCenter_API, data);
+  const res = await api.post(OUTPATIENT_CENTER_API, data);
   return res.data;
 }
 
 export async function updateOutpatientCenter(id: number, data: any) {
-  const res = await api.patch(`${updateOutpatientCenter_API}${id}/`, data);
+  const res = await api.patch(`${OUTPATIENT_CENTER_API}${id}/`, data);
   return res.data;
 }
 
 export async function deleteOutpatientCenter(id: number) {
-  const res = await api.delete(`${deleteOutpatientCenter_APT}${id}/`);
+  const res = await api.delete(`${OUTPATIENT_CENTER_API}${id}/`);
   return res.data;
 }
