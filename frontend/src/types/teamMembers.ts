@@ -1,4 +1,5 @@
 export interface TeamMember {
+  image_alt: string;
   id: string;
   name: string;
   role: string;

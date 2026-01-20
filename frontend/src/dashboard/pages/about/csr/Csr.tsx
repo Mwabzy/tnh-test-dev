@@ -18,12 +18,12 @@ const Csr = () => {
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
-  // Load CSR data
+  // Load CSR list
   useEffect(() => {
     async function loadCsr() {
       setLoading(true);
       try {
-        const data: CSR[] = await fetchCsr();
+        const data = await fetchCsr();
         setCsrs(data);
         setError(null);
       } catch (err: any) {
@@ -35,27 +35,26 @@ const Csr = () => {
     loadCsr();
   }, []);
 
-  const handleAdd = () => {
-    setEditingCsr(null);
-    setShowForm(true);
-  };
-
-  const handleSave = async (csr: CSR) => {
+  /* CREATE / UPDATE (Doctors-style) */
+  const handleSaveCsr = async (formData: FormData) => {
     try {
-      if (editingCsr) {
-        // Convert id to string if the API expects string
-        const updated = await updateCsr(String(csr.id), csr);
-        setCsrs((prev) => prev.map((m) => (m.id === updated.id ? updated : m)));
+      if (editingCsr?.id) {
+        // UPDATE
+        const updated = await updateCsr(editingCsr.id, formData);
+        setCsrs((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+        toast.success("CSR updated successfully!");
       } else {
-        const created = await createCsr(csr);
+        // CREATE
+        const created = await createCsr(formData);
         setCsrs((prev) => [...prev, created]);
+        toast.success("CSR created successfully!");
       }
 
       setShowForm(false);
       setEditingCsr(null);
-      toast.success("CSR saved successfully!");
     } catch (err: any) {
-      toast.error(`Error saving CSR: ${err.message}`);
+      toast.error("Failed to save CSR");
+      throw err;
     }
   };
 
@@ -68,17 +67,17 @@ const Csr = () => {
 
   const confirmDelete = async () => {
     if (!deleteConfirmId) return;
+
+    setDeletingId(deleteConfirmId);
     try {
-      setDeletingId(deleteConfirmId);
-      // Convert id to string if the API expects string
       await deleteCsr(String(deleteConfirmId));
-      setCsrs((prev) => prev.filter((m) => m.id !== deleteConfirmId));
-      setDeleteConfirmId(null);
-      toast.success("Deleted successfully!");
+      setCsrs((prev) => prev.filter((c) => c.id !== deleteConfirmId));
+      toast.success("CSR deleted successfully!");
     } catch (err: any) {
-      toast.error(`Error deleting CSR: ${err.message}`);
+      toast.error("Failed to delete CSR");
     } finally {
       setDeletingId(null);
+      setDeleteConfirmId(null);
     }
   };
 
@@ -86,9 +85,13 @@ const Csr = () => {
     <div>
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold">{title}</h1>
+
         {!showForm && !loading && (
           <button
-            onClick={handleAdd}
+            onClick={() => {
+              setEditingCsr(null);
+              setShowForm(true);
+            }}
             className="px-4 py-2 bg-green-600 text-white rounded"
           >
             Add CSR
@@ -103,7 +106,7 @@ const Csr = () => {
       ) : showForm ? (
         <CsrForm
           initialData={editingCsr}
-          onSave={handleSave}
+          onSave={handleSaveCsr}
           onCancel={() => setShowForm(false)}
         />
       ) : (

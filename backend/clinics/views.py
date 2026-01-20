@@ -3,18 +3,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 
-from .models import (
-    ClinicalService,
-    Doctor,
-    Testimonial,
-    ClinicalServiceImage
-)
-from .serializers import (
-    ClinicalServiceSerializer,
-    DoctorSerializer,
-    TestimonialSerializer,
-    ClinicalServiceImageSerializer
-)
+from .models import (ClinicalService, Doctor, Testimonial, ClinicalServiceImage)
+from .serializers import ClinicalServiceSerializer, DoctorSerializer, TestimonialSerializer, ClinicalServiceImageSerializer
 
 DEBUG = True
 

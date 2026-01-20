@@ -1,4 +1,5 @@
 import axios from "axios";
+//import { CSR } from "@/types";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -39,7 +40,7 @@ export const loginUser = async (username: string, password: string) => {
 export const registerUser = async (
   username: string,
   email: string,
-  password: string
+  password: string,
 ) => {
   const res = await api.post(`${USER_API}register/`, {
     username,
@@ -193,19 +194,24 @@ export async function fetchCsrById(id: string) {
 
 export async function createCsr(data: any) {
   console.log("Creating CSR with data:", data);
-  const res = await api.post(CSR_API, data);
-  return res.data;
+  const response = await api.post(CSR_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
 }
 
-export async function updateCsr(id: string, data: any) {
-  const res = await api.patch(`${CSR_API}${id}/`, data);
-  return res.data;
+export async function updateCsr(id: number, data: any) {
+  const response = await api.patch(`${CSR_API}${id}/`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
 }
 
 export async function deleteCsr(id: string) {
   const res = await api.delete(`${CSR_API}${id}/`);
   return res.data;
 }
+
 // outpatient centers
 export async function fetchOutpatientCenter() {
   const res = await api.get(OUTPATIENT_CENTER_API);

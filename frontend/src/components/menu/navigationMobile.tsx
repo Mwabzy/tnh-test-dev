@@ -58,8 +58,13 @@ export const NavigationMobile: React.FC<{ onNavigate?: () => void }> = ({
               </AccordionTrigger>
 
               <AccordionContent>
-                {item.sections?.map((section, sIdx) =>
-                  section.title === "IMAGE" && section.link && section.image ? (
+                {item.sections?.map((section, sIdx) => {
+                  // Extract caption string from IntlayerNode array
+                  const captionText = Array.isArray(section.caption)
+                    ? section.caption[0]?.value ?? ""
+                    : section.caption ?? "";
+
+                  return section.title === "IMAGE" && section.link && section.image ? (
                     <Link
                       key={sIdx}
                       to={section.link}
@@ -68,10 +73,10 @@ export const NavigationMobile: React.FC<{ onNavigate?: () => void }> = ({
                     >
                       <img
                         src={section.image}
-                        alt={section.caption}
+                        alt={captionText}
                         className="w-full h-32 object-cover rounded-md"
                       />
-                      <p className="text-xs mt-1">{section.caption}</p>
+                      <p className="text-xs mt-1">{captionText}</p>
                     </Link>
                   ) : (
                     <div key={sIdx} className="mb-4">
@@ -92,8 +97,8 @@ export const NavigationMobile: React.FC<{ onNavigate?: () => void }> = ({
                         ))}
                       </ul>
                     </div>
-                  )
-                )}
+                  );
+                })}
               </AccordionContent>
             </AccordionItem>
           );

@@ -11,6 +11,15 @@ import { Link } from "react-router";
 import { useIntlayer } from "react-intlayer";
 import { cn } from "@/lib/utils";
 
+// Helper function to extract string from IntlayerNode
+const getLabel = (data: any): string => {
+  if (typeof data === 'string') return data;
+  if (Array.isArray(data) && data.length > 0 && data[0]?.value) {
+    return String(data[0].value);
+  }
+  return "";
+};
+
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
   React.ComponentPropsWithoutRef<"a">
@@ -37,13 +46,12 @@ ListItem.displayName = "ListItem";
 
 export const NavigationDesktop: React.FC = () => {
   const content = useIntlayer("navigationContent");
-  const navigationItems = NAVIGATION_CONTENT(); // Call the function here!
+  const navigationItems = NAVIGATION_CONTENT();
 
   return (
     <Menubar className="flex-col md:flex-row border-none shadow-none bg-inherit text-sm font-medium">
       {navigationItems.map((item, idx) => {
-        const label =
-          content[item.labelKey as keyof typeof content]?.[0]?.value ?? "";
+        const label = getLabel(content[item.labelKey as keyof typeof content]);
 
         return (
           <MenubarMenu key={idx}>
@@ -79,12 +87,12 @@ export const NavigationDesktop: React.FC = () => {
                         >
                           <img
                             src={section.image}
-                            alt={section.caption}
+                            alt={getLabel(section.caption)}
                             className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
                           <p className="absolute bottom-2 left-2 text-white text-xs font-medium leading-snug">
-                            {section.caption}
+                            {getLabel(section.caption)}
                           </p>
                         </Link>
                       </div>
@@ -97,7 +105,7 @@ export const NavigationDesktop: React.FC = () => {
                           {section.items.map((linkItem, lIdx) => (
                             <ListItem
                               key={lIdx}
-                              title={linkItem.title}
+                              title={getLabel(linkItem.title)}
                               href={linkItem.href}
                             />
                           ))}

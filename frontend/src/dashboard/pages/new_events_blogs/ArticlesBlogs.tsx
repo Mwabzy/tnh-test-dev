@@ -1,76 +1,74 @@
 import { useState, useEffect } from "react";
-import TeamMembersTable from "./TeamMembersTable";
-import TeamMemberForm from "./TeamMemberForm";
-import { TeamMember } from "@/types";
+import BlogTable from "./BlogTable";
+import BlogForm from "./BlogForms";
+import { Blog } from "@/types";
 import {
-  fetchTeamMembers,
-  createTeamMember,
-  updateTeamMember,
-  deleteTeamMember,
+  fetchBlogPosts,
+  createBlogPosts,
+  updateBlogPosts,
+  deleteBlogPosts,
 } from "@/api/api";
 import toast from "react-hot-toast";
 
-const BoardManagement = () => {
-  const group = "BM";
-  const title = "Board of Management";
+const ArticlesBlog = () => {
+  const group = "ARTICLES"; // unique identifier for this section
+  const title = "Articles & Blog";
 
-  const [members, setMembers] = useState<TeamMember[]>([]);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [showForm, setShowForm] = useState(false);
-  const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
+  const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
 
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  // Load members filtered by group
+  // Load blogs
   useEffect(() => {
-    async function loadMembers() {
+    async function loadBlogs() {
       setLoading(true);
       try {
-        const data: TeamMember[] = await fetchTeamMembers();
-        const filtered = data.filter((m: TeamMember) => m.group === group);
-        setMembers(filtered);
+        const data = await fetchBlogPosts(); // fetch only ARTICLES group
+        setBlogs(data);
         setError(null);
       } catch (err: any) {
-        setError(err.message || "Error loading team members");
+        setError(err.message || "Error loading blogs");
       } finally {
         setLoading(false);
       }
     }
-    loadMembers();
-  }, [group]);
+
+    loadBlogs();
+  }, []);
 
   const handleAdd = () => {
-    setEditingMember(null);
+    setEditingBlog(null);
     setShowForm(true);
   };
 
-  const handleSave = async (member: TeamMember | FormData): Promise<any> => {
+  const handleSave = async (data: FormData) => {
     try {
-      // Ensure the member gets the correct group
-      if (member instanceof FormData) {
-        member.set("group", group);
-      } else {
-        member.group = group;
-      }
+      // Add group info
+      data.append("group", group);
 
-      if (editingMember) {
-        const updated = await updateTeamMember(editingMember.id, member);
-        setMembers((prev) =>
-          prev.map((m) => (m.id === updated.id ? updated : m))
+      const blog: Blog = Object.fromEntries(data) as unknown as Blog;
+
+      if (editingBlog?.id) {
+        const updated = await updateBlogPosts(editingBlog.id, blog);
+        setBlogs((prev) =>
+          prev.map((b) => (b.id === updated.id ? updated : b)),
         );
       } else {
-        const created = await createTeamMember(member);
-        setMembers((prev) => [...prev, created]);
+        const created = await createBlogPosts(blog);
+        setBlogs((prev) => [created, ...prev]);
       }
 
       setShowForm(false);
-      setEditingMember(null);
-      toast.success("Team member saved successfully!");
+      setEditingBlog(null);
+      toast.success("Blog saved successfully!");
     } catch (err: any) {
-      toast.error(`Error saving member: ${err.message}`);
+      toast.error(`Error saving blog: ${err.message}`);
     }
   };
 
@@ -78,14 +76,15 @@ const BoardManagement = () => {
 
   const confirmDelete = async () => {
     if (!deleteConfirmId) return;
+
     try {
       setDeletingId(deleteConfirmId);
-      await deleteTeamMember(deleteConfirmId);
-      setMembers((prev) => prev.filter((m) => m.id !== deleteConfirmId));
+      await deleteBlogPosts(deleteConfirmId);
+      setBlogs((prev) => prev.filter((b) => b.id !== deleteConfirmId));
       setDeleteConfirmId(null);
-      toast.success("Deleted successfully!");
+      toast.success("Blog deleted successfully!");
     } catch (err: any) {
-      toast.error(`Error deleting member: ${err.message}`);
+      toast.error(`Error deleting blog: ${err.message}`);
     } finally {
       setDeletingId(null);
     }
@@ -100,26 +99,27 @@ const BoardManagement = () => {
             onClick={handleAdd}
             className="px-4 py-2 bg-green-600 text-white rounded"
           >
-            Add Member
+            Add Blog
           </button>
         )}
       </div>
 
       {loading ? (
-        <p>Loading Team Members...</p>
+        <p>Loading blogs...</p>
       ) : error ? (
         <p className="text-red-500 mb-4">{error}</p>
       ) : showForm ? (
-        <TeamMemberForm
-          initialData={editingMember}
+        <BlogForm
+          initialData={editingBlog}
           onSave={handleSave}
           onCancel={() => setShowForm(false)}
+          group={"ARTICLES"}
         />
       ) : (
-        <TeamMembersTable
-          data={members}
-          onEdit={(member) => {
-            setEditingMember(member);
+        <BlogTable
+          data={blogs}
+          onEdit={(blog) => {
+            setEditingBlog(blog);
             setShowForm(true);
           }}
           onDelete={handleDeleteClick}
@@ -129,13 +129,13 @@ const BoardManagement = () => {
 
       {deleteConfirmId &&
         (() => {
-          const member = members.find((m) => m.id === deleteConfirmId);
+          const blog = blogs.find((b) => b.id === deleteConfirmId);
           return (
             <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
-              <div className="bg-white p-6 rounded shadow-lg w-80">
+              <div className="bg-white p-6 rounded shadow-lg w-96">
                 <p className="text-lg mb-4">
-                  Are you sure you want to delete{" "}
-                  <strong>{member?.name}</strong>?
+                  Are you sure you want to delete <strong>{blog?.title}</strong>
+                  ?
                 </p>
                 <div className="flex justify-end gap-3">
                   <button
@@ -159,4 +159,4 @@ const BoardManagement = () => {
   );
 };
 
-export default BoardManagement;
+export default ArticlesBlog;

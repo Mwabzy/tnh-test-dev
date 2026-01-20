@@ -1,131 +1,156 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import toast from "react-hot-toast";
-import { Blog } from "@/types";
+import type { Blog } from "@/types";
 
 interface Props {
   initialData?: Blog | null;
+  group: "ARTICLES" | "EVENTS" | "NEWS";
   onSave: (data: FormData) => Promise<any>;
   onCancel: () => void;
 }
 
 type ImageState = {
-  url?: string;
   file?: File;
+  url?: string;
   alt: string;
 };
 
-const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
-  const [title, setTitle] = useState(initialData?.title || "");
-  const [subtitle, setSubtitle] = useState(initialData?.subtitle || "");
-  const [author, setAuthor] = useState(initialData?.author || "");
-  const [category, setCategory] = useState(initialData?.category || "");
-  const [shortdesc, setShortdesc] = useState(initialData?.shortdesc || "");
-  const [longdesc, setLongdesc] = useState(initialData?.longdesc || "");
+type FormErrors = {
+  title?: string;
+  author?: string;
+};
+
+const BlogForm: React.FC<Props> = ({
+  initialData,
+  group,
+  onSave,
+  onCancel,
+}) => {
+  const [title, setTitle] = useState(initialData?.title ?? "");
+  const [subtitle, setSubtitle] = useState(initialData?.subtitle ?? "");
+  const [author, setAuthor] = useState(initialData?.author ?? "");
+  const [category, setCategory] = useState(initialData?.category ?? "");
+  const [shortdesc, setShortdesc] = useState(initialData?.shortdesc ?? "");
+  const [longdesc, setLongdesc] = useState(initialData?.longdesc ?? "");
   const [isFeatured, setIsFeatured] = useState(
-    initialData?.isFeatured || false
+    initialData?.isFeatured ?? false,
   );
 
-  // Cover Image
   const [coverImage, setCoverImage] = useState<ImageState | null>(
     initialData?.cover_image
       ? {
           url: initialData.cover_image,
-          alt: (initialData as any).cover_image_alt || "",
+          alt: (initialData as any)?.cover_image_alt ?? "",
         }
-      : null
+      : null,
   );
   const [deleteCoverImage, setDeleteCoverImage] = useState(false);
 
-  // Main Image
   const [mainImage, setMainImage] = useState<ImageState | null>(
     initialData?.image
-      ? { url: initialData.image, alt: (initialData as any).image_alt || "" }
-      : null
+      ? {
+          url: initialData.image,
+          alt: (initialData as any)?.image_alt ?? "",
+        }
+      : null,
   );
   const [deleteMainImage, setDeleteMainImage] = useState(false);
-
+  const coverInputRef = useRef<HTMLInputElement | null>(null);
+  const mainInputRef = useRef<HTMLInputElement | null>(null);
+  const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ title?: string; author?: string }>({});
 
-  // Validation
   const validate = () => {
-    const errs: any = {};
+    const errs: FormErrors = {};
     if (!title.trim()) errs.title = "Title is required";
     if (!author.trim()) errs.author = "Author is required";
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
-  // Generic image input renderer
-  const renderImage = (
+  const renderImageField = (
     label: string,
     image: ImageState | null,
     setImage: (img: ImageState | null) => void,
-    setDelete: (val: boolean) => void,
-    inputId: string
+    setDelete: (v: boolean) => void,
+    inputRef: React.RefObject<HTMLInputElement | null>,
   ) => (
-    <div>
+    <div className="space-y-2">
       <label className="font-semibold">{label}</label>
-      <div className="flex flex-col gap-2 mt-2">
-        {image && (
-          <div className="flex gap-2 items-center">
-            <img
-              src={image.url || (image.file && URL.createObjectURL(image.file))}
-              className="w-20 h-20 object-cover border"
-              alt="Preview"
-            />
-            <input
-              className="border p-2 grow"
-              placeholder="Alt text"
-              value={image.alt}
-              onChange={(e) => setImage({ ...image, alt: e.target.value })}
-            />
-            <button
-              type="button"
-              className="text-red-500"
-              onClick={() => {
-                setDelete(true);
-                setImage(null);
-              }}
-            >
-              ✕ Remove
-            </button>
-          </div>
-        )}
 
-        <input
-          type="file"
-          hidden
-          accept="image/*"
-          id={inputId}
-          onChange={(e) => {
-            if (!e.target.files?.length) return;
-            setDelete(false);
-            setImage({ file: e.target.files[0], alt: "" });
-            e.target.value = "";
-          }}
-        />
+      {image && (
+        <div className="flex gap-3 items-center">
+          <img
+            src={image.url}
+            alt={image.alt || "Preview"}
+            className="w-20 h-20 object-cover border rounded"
+          />
 
-        <button
-          type="button"
-          className="text-blue-600 underline text-sm"
-          onClick={() => document.getElementById(inputId)?.click()}
-        >
-          + Add Image
-        </button>
-      </div>
+          <input
+            className="border p-2 flex-1"
+            placeholder="Alt text"
+            value={image.alt}
+            onChange={(e) =>
+              setImage({
+                ...image,
+                alt: e.target.value,
+              })
+            }
+          />
+
+          <button
+            type="button"
+            className="text-red-600 text-sm"
+            onClick={() => {
+              setDelete(true);
+              setImage(null);
+            }}
+          >
+            Remove
+          </button>
+        </div>
+      )}
+
+      <input
+        ref={inputRef}
+        type="file"
+        hidden
+        accept="image/*"
+        onChange={(e) => {
+          if (!e.target.files?.length) return;
+          const file = e.target.files[0];
+          setDelete(false);
+          setImage({
+            file,
+            url: URL.createObjectURL(file),
+            alt: "",
+          });
+          e.target.value = "";
+        }}
+      />
+
+      <button
+        type="button"
+        className="text-blue-600 text-sm underline"
+        onClick={() => inputRef.current?.click()}
+      >
+        + Add Image
+      </button>
     </div>
   );
 
-  // Submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return toast.error("Fix form errors");
+    if (!validate()) {
+      toast.error("Fix form errors");
+      return;
+    }
 
     setLoading(true);
 
     try {
       const fd = new FormData();
+
       fd.append("title", title);
       fd.append("subtitle", subtitle);
       fd.append("author", author);
@@ -134,7 +159,10 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       fd.append("longdesc", longdesc);
       fd.append("isFeatured", String(isFeatured));
 
-      // Cover Image
+      // enforce group
+      fd.append("group", initialData?.group ?? group);
+
+      // cover image
       if (coverImage?.file) {
         fd.append("cover_image_file", coverImage.file);
         fd.append("cover_image_alt", coverImage.alt);
@@ -143,7 +171,7 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       }
       if (deleteCoverImage) fd.append("cover_image_delete", "true");
 
-      // Main Image
+      // main image
       if (mainImage?.file) {
         fd.append("image_file", mainImage.file);
         fd.append("image_alt", mainImage.alt);
@@ -153,7 +181,7 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       if (deleteMainImage) fd.append("image_delete", "true");
 
       await onSave(fd);
-      toast.success("Blog saved successfully");
+      toast.success("Saved successfully");
     } catch (err) {
       console.error(err);
       toast.error("Failed to save blog");
@@ -164,6 +192,14 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* GROUP BADGE */}
+      <div className="flex items-center gap-2">
+        <span className="text-sm text-gray-500 font-semibold">Group:</span>
+        <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold">
+          {group}
+        </span>
+      </div>
+
       <input
         className="border p-2 w-full"
         placeholder="Title"
@@ -208,22 +244,23 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         onChange={(e) => setLongdesc(e.target.value)}
       />
 
-      {renderImage(
+      {renderImageField(
         "Cover Image",
         coverImage,
         setCoverImage,
         setDeleteCoverImage,
-        "cover-upload"
+        coverInputRef,
       )}
-      {renderImage(
+
+      {renderImageField(
         "Main Image",
         mainImage,
         setMainImage,
         setDeleteMainImage,
-        "main-upload"
+        mainInputRef,
       )}
 
-      <label className="flex gap-2 items-center">
+      <label className="flex items-center gap-2">
         <input
           type="checkbox"
           checked={isFeatured}
@@ -232,7 +269,7 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         Featured
       </label>
 
-      <div className="flex justify-end gap-2">
+      <div className="flex justify-end gap-3">
         <button
           type="button"
           onClick={onCancel}
@@ -240,7 +277,12 @@ const BlogForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         >
           Cancel
         </button>
-        <button type="submit" className="bg-green-600 text-white px-4 py-2">
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-60"
+        >
           {loading ? "Saving..." : "Save"}
         </button>
       </div>

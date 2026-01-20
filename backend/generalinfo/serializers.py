@@ -125,7 +125,48 @@ class BlogPostSerializer(serializers.ModelSerializer):
         return instance
         
 class CSRSerializer(serializers.ModelSerializer):
+    # Frontend-only fields
+    cover_image_file = serializers.ImageField(
+        write_only=True, required=False
+    )
+    cover_image_delete = serializers.BooleanField(
+        write_only=True, required=False
+    )
+
     class Meta:
         model = CSR
         fields = "__all__"
         read_only_fields = ("id", "created_at")
+
+    def update(self, instance, validated_data):
+        # Pop custom fields
+        image_file = validated_data.pop("cover_image_file", None)
+        delete_image = validated_data.pop("cover_image_delete", False)
+
+        # Handle delete
+        if delete_image and instance.cover_image:
+            instance.cover_image.delete(save=False)
+            instance.cover_image = None
+            instance.cover_image_alt = ""
+
+        # Handle upload
+        if image_file:
+            if instance.cover_image:
+                instance.cover_image.delete(save=False)
+            instance.cover_image = image_file
+
+        return super().update(instance, validated_data)
+
+    def create(self, validated_data):
+        image_file = validated_data.pop("cover_image_file", None)
+        validated_data.pop("cover_image_delete", None)
+
+        #  create instance FIRST
+        csr = CSR.objects.create(**validated_data)
+
+        #  then attach image if provided
+        if image_file:
+            csr.cover_image = image_file
+            csr.save(update_fields=["cover_image"])
+
+        return csr
