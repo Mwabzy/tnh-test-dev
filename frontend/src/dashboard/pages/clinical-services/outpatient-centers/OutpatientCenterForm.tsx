@@ -1,42 +1,75 @@
 import { useEffect, useState } from "react";
-import { ContactInfo, outpatientCenter } from "@/types";
+import { ContactInfo, outpatientCenter, Timings } from "@/types";
+
+
+export type Clinic = {
+  id: number;
+  name: string;
+};
 
 interface Props {
   initialData: outpatientCenter | null;
   onSave: (center: outpatientCenter) => void;
   onCancel: () => void;
+  clinics: Clinic[];
 }
 
-const OutpatientCenterForm = ({ initialData, onSave, onCancel }: Props) => {
+
+const OutpatientCenterForm = ({
+  initialData,
+  onSave,
+  onCancel,
+  clinics,
+}: Props) => {
+
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
-  const [timings, setTimings] = useState("");
+const [timings, setTimings] = useState<Timings[]>([]);
 
   const [contact, setContact] = useState<ContactInfo>({
     phone: "",
     email: "",
   });
 
+  const DAYS = [
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+  "sunday",
+];
+
+
+
   /* 🔁 Sync form when editing */
   useEffect(() => {
-    if (initialData) {
-      setName(initialData.name || "");
-      setLocation(initialData.location || "");
-      setDescription(initialData.description || "");
-      setTimings(initialData.timings || "");
-      setContact({
-        phone: initialData.contact?.phone || "",
-        email: initialData.contact?.email || "",
-      });
-    } else {
-      setName("");
-      setLocation("");
-      setDescription("");
-      setTimings("");
-      setContact({ phone: "", email: "" });
-    }
-  }, [initialData]);
+  if (initialData) {
+    setName(initialData.name || "");
+    setLocation(initialData.location || "");
+    setDescription(initialData.description || "");
+
+    setTimings(
+      Array.isArray(initialData.timings)
+        ? initialData.timings
+        : []
+    );
+
+    setContact({
+      phone: initialData.contact?.phone || "",
+      email: initialData.contact?.email || "",
+    });
+  } else {
+    setName("");
+    setLocation("");
+    setDescription("");
+    setTimings([]);
+    setContact({ phone: "", email: "" });
+  }
+}, [initialData]);
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -155,11 +188,11 @@ const OutpatientCenterForm = ({ initialData, onSave, onCancel }: Props) => {
       <input
         type="time"
         className="border p-2"
-        value={t.endTime}
+        value={t. stopTime}
         onChange={(e) =>
           setTimings((prev) =>
             prev.map((row, idx) =>
-              idx === i ? { ...row, endTime: e.target.value } : row
+              idx === i ? { ...row, stopTime: e.target.value } : row
             )
           )
         }
@@ -183,7 +216,7 @@ const OutpatientCenterForm = ({ initialData, onSave, onCancel }: Props) => {
     onClick={() =>
       setTimings((prev) => [
         ...prev,
-        { clinicId: null, day: "", startTime: "", endTime: "" },
+        { clinicId: null, day: "", startTime: "", stopTime: "" },
       ])
     }
     className="text-blue-600 text-sm underline"

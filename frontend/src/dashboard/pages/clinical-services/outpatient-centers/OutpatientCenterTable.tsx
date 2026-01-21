@@ -29,7 +29,6 @@ const OutpatientCenterTable: FC<Props> = ({
           <tr className="bg-gray-100 text-left">
             <th className="p-3">Name</th>
             <th className="p-3">Location</th>
-            <th className="p-3">Timings</th>
             <th className="p-3">Actions</th>
           </tr>
         </thead>
@@ -42,7 +41,6 @@ const OutpatientCenterTable: FC<Props> = ({
             >
               <td className="p-3 font-medium">{center.name}</td>
               <td className="p-3">{center.location}</td>
-              <td className="p-3">{center.timings || "-"}</td>
 
               <td className="p-3 flex gap-2">
                 <button

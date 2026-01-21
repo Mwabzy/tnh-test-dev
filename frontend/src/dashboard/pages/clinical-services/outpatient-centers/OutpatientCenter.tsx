@@ -100,7 +100,7 @@ const OutpatientCenterPage = () => {
             
             className="px-4 py-2 bg-green-600 text-white rounded"
           >
-            Add Center
+            Add Clinical Service
           </button>
         )}
       </div>
@@ -111,9 +111,9 @@ const OutpatientCenterPage = () => {
         <p className="text-red-500">{error}</p>
       ) : showForm ? (
         <OutpatientCenterForm
-          initialData={editingCenter}
-          onSave={handleSave}
-          onCancel={() => setShowForm(false)}
+              initialData={editingCenter}
+              onSave={handleSave}
+              onCancel={() => setShowForm(false)} clinics={[]}          
         />
       ) : (
         <OutpatientCenterTable
