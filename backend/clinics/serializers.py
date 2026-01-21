@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ClinicalService, Doctor, Testimonial, ClinicalServiceImage, DoctorImage
+from .models import ClinicalService, Doctor, Testimonial, ClinicalServiceImage, DoctorImage, OutpatientCenter
 import json
 
 
@@ -342,3 +342,27 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+    
+class TimingsSerializer(serializers.Serializer):
+    day = serializers.CharField()
+    startTime = serializers.CharField()
+    stopTime = serializers.CharField()
+    services_offered = serializers.ListField(child=serializers.IntegerField(), required=False)
+    
+
+class OutpatientCenterSerializer(serializers.ModelSerializer):
+    services_offered = serializers.PrimaryKeyRelatedField(queryset=ClinicalService.objects.all(), many=True, required=False)
+    timings = TimingsSerializer(many=True)
+
+    class Meta:
+        model = OutpatientCenter
+        fields = [
+            "id",
+            "name",
+            "slug",
+            "description",
+            "location",
+            "contact",
+            "services_offered",
+            "timings",
+        ]

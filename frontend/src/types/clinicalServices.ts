@@ -19,7 +19,7 @@ export interface Doctor {
   role: string;
   bio: string;
   image?: Image[];
-  services_offered?:  ClinicalService[];
+  services_offered?: ClinicalService[];
   research_publications?: string[];
   awards?: string[];
 }
@@ -53,14 +53,13 @@ export interface ClinicalService {
   clinics?: ClinicalService[];
   images: Image[];
   locations: string[];
-  
 }
 
 export interface Timings {
-   services_offered?: ClinicalService[];
+  services_offered?: ClinicalService[];
   day: string;
   startTime: string;
-  stopTime: string
+  stopTime: string;
 }
 
 export interface outpatientCenter {
@@ -68,7 +67,7 @@ export interface outpatientCenter {
   name: string;
   slug?: string;
   description: string;
- contact: ContactInfo;
- location: string;
- timings: Timings[];
+  contact: ContactInfo;
+  location: string;
+  timings: Timings[];
 }
