@@ -3,7 +3,7 @@ import hospitalview from "@/assets/heroimages/heroimage2.jpg";
 import ContactForm from "@/components/ContactForm";
 import FAQs from "./FAQs";
 import Heading from "@/components/Heading";
-import ServiceList from "@/pages/clinics/ServiceList";
+import AndersonList from "./AndersonList";
 
 const Clinics = () => {
   return (
@@ -15,7 +15,7 @@ const Clinics = () => {
         style="background"
       />
       {/* <ServicesBrief /> */}
-      <ServiceList />
+      <AndersonList />
       <ContactForm
         contactInfo={{
           phone: "+254 703 082 000",

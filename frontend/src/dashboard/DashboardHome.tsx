@@ -9,7 +9,7 @@ const DashboardHome = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
+    localStorage.removeItem("token");
     window.location.href = "/dashboard/auth";
   };
 

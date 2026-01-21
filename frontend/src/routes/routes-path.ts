@@ -1,6 +1,5 @@
 import { lazyLoad } from "@/components/layout/lazy-load";
 
-
 export type UIRoutesType = {
   name: string;
   path: string;
@@ -33,7 +32,11 @@ const UIRoutes = {
     path: "/anderson-services",
     component: lazyLoad(() => import("../pages/clinics/AndersonClinics")),
   },
-
+  AndersonList: {
+    name: "navigation.andersonList",
+    path: "/anderson-list",
+    component: lazyLoad(() => import("../pages/clinics/AndersonList")),
+  },
   serviceDetails: {
     name: "navigation.serviceDetails",
     path: "/service-detail/:id",
@@ -69,9 +72,7 @@ const UIRoutes = {
     path: "/outpatient-centers",
     component: lazyLoad(
       () =>
-        import(
-          "../pages/patients-visitors/outpatient-centers/OutpatientCenters"
-        )
+        import("../pages/patients-visitors/outpatient-centers/OutpatientCenters"),
     ),
   },
   outPatientCenterDetails: {
@@ -79,9 +80,7 @@ const UIRoutes = {
     path: "/outpatient-center/:id",
     component: lazyLoad(
       () =>
-        import(
-          "../pages/patients-visitors/outpatient-centers/OutpatientCenterDetails"
-        )
+        import("../pages/patients-visitors/outpatient-centers/OutpatientCenterDetails"),
     ),
   },
   IndividualPage: {
@@ -108,7 +107,7 @@ const UIRoutes = {
     name: "navigation.admissionCharges",
     path: "/admission-charges",
     component: lazyLoad(
-      () => import("../pages/patients-visitors/AdmissionCharges")
+      () => import("../pages/patients-visitors/AdmissionCharges"),
     ),
   },
 
@@ -116,7 +115,7 @@ const UIRoutes = {
     name: "navigation.medicalTourism",
     path: "/medical-tourism",
     component: lazyLoad(
-      () => import("../pages/other-services/medical-tourism/page")
+      () => import("../pages/other-services/medical-tourism/page"),
     ),
   },
 
@@ -148,7 +147,7 @@ const UIRoutes = {
     name: "navigation.eventsannouncememntsdetails",
     path: "/events-announcements/:id",
     component: lazyLoad(
-      () => import("../pages/blog/EventsAnnouncementsDetails")
+      () => import("../pages/blog/EventsAnnouncementsDetails"),
     ),
   },
 
@@ -174,56 +173,56 @@ const UIRoutes = {
     name: "navigation.laundryServices",
     path: "/laundry-services",
     component: lazyLoad(
-      () => import("../pages/other-services/LaundryServices")
+      () => import("../pages/other-services/LaundryServices"),
     ),
   },
   highCriticalCare: {
     name: "navigation.highCriticalCare",
     path: "/high-critical-care",
     component: lazyLoad(
-      () => import("../pages/patients-visitors/HighCriticalCare")
+      () => import("../pages/patients-visitors/HighCriticalCare"),
     ),
   },
   conventionCenter: {
     name: "navigation.conventionCenter",
     path: "/convention-center",
     component: lazyLoad(
-      () => import("../pages/other-services/ConventionCenter")
+      () => import("../pages/other-services/ConventionCenter"),
     ),
   },
   RoomsAndWards: {
     name: "navigation.roomsAndWards",
     path: "/rooms-and-wards",
     component: lazyLoad(
-      () => import("../pages/patients-visitors/RoomsAndWards")
+      () => import("../pages/patients-visitors/RoomsAndWards"),
     ),
   },
   clinicalFaqs: {
     name: "navigation.clinicalFaqs",
     path: "/clinical-faqs",
     component: lazyLoad(
-      () => import("../pages/clinical-services/ClinicalFaqs")
+      () => import("../pages/clinical-services/ClinicalFaqs"),
     ),
   },
   AboutCollege: {
     name: "navigation.aboutCollege",
     path: "/college/about-college",
     component: lazyLoad(
-      () => import("../pages/college-of-health-science/About")
+      () => import("../pages/college-of-health-science/About"),
     ),
   },
   TuitionAndSponsorship: {
     name: "navigation.tuitionSponsor",
     path: "/college/tuition-and-sponsorships",
     component: lazyLoad(
-      () => import("../pages/college-of-health-science/TuitionAndSponsorship")
+      () => import("../pages/college-of-health-science/TuitionAndSponsorship"),
     ),
   },
   Facilitiesdownloads: {
     name: "navigation.facilitiesdownloads",
     path: "/college/facilities-and-downloads",
     component: lazyLoad(
-      () => import("../pages/college-of-health-science/facilitiesdownloads")
+      () => import("../pages/college-of-health-science/facilitiesdownloads"),
     ),
   },
   Booking: {
@@ -240,28 +239,28 @@ const UIRoutes = {
     name: "navigation.medicalDepartment",
     path: "/clinical-services/MedicalDepartment",
     component: lazyLoad(
-      () => import("../pages/clinical-services/MedicalDepartment")
+      () => import("../pages/clinical-services/MedicalDepartment"),
     ),
   },
   LaboratoryServices: {
     name: "navigation.laboratoryServices",
     path: "/clinical-services/laboratory-services",
     component: lazyLoad(
-      () => import("../pages/clinical-services/laboratory-services/page")
+      () => import("../pages/clinical-services/laboratory-services/page"),
     ),
   },
   PharmacyServices: {
     name: "navigation.pharmacyServices",
     path: "/clinical-services/pharmacy-services",
     component: lazyLoad(
-      () => import("../pages/clinical-services/pharmacy-services/page")
+      () => import("../pages/clinical-services/pharmacy-services/page"),
     ),
   },
   RadiologyServices: {
     name: "navigation.radiologyServices",
     path: "/clinical-services/radiology-services",
     component: lazyLoad(
-      () => import("../pages/clinical-services/radiology-services/page")
+      () => import("../pages/clinical-services/radiology-services/page"),
     ),
   },
 
@@ -269,14 +268,14 @@ const UIRoutes = {
     name: "navigation.alumni",
     path: "/college/student-alumni",
     component: lazyLoad(
-      () => import("../pages/college-of-health-science/Alumni")
+      () => import("../pages/college-of-health-science/Alumni"),
     ),
   },
   AccidentEmergency: {
     name: "navigation.accidentEmergency",
     path: "/clinical-services/accident-emergency",
     component: lazyLoad(
-      () => import("../pages/clinical-services/accident-emergency/page")
+      () => import("../pages/clinical-services/accident-emergency/page"),
     ),
   },
   ContactUs: {
@@ -288,7 +287,7 @@ const UIRoutes = {
     name: "navigation.collesgeFAQs",
     path: "/college/college-faqs",
     component: lazyLoad(
-      () => import("../pages/college-of-health-science/FAQs")
+      () => import("../pages/college-of-health-science/FAQs"),
     ),
   },
   DoctorProfiles: {
@@ -310,98 +309,93 @@ const UIRoutes = {
     name: "navigation.endoscopyServices",
     path: "/clinical-services/endoscopy-services",
     component: lazyLoad(
-      () => import("../pages/clinical-services/endoscopy-services/page")
+      () => import("../pages/clinical-services/endoscopy-services/page"),
     ),
   },
   PhysicalMedicineCenter: {
     name: "navigation.physicalMedicineCenter",
     path: "/clinical-services/physical-medicine-center",
     component: lazyLoad(
-      () => import("../pages/clinical-services/physical-medicine-center/page")
+      () => import("../pages/clinical-services/physical-medicine-center/page"),
     ),
   },
   PsychosocialDepartment: {
     name: "navigation.psychosocialDepartment",
     path: "/clinical-services/psychosocial-department",
     component: lazyLoad(
-      () => import("../pages/clinical-services/psychosocial-department/page")
+      () => import("../pages/clinical-services/psychosocial-department/page"),
     ),
   },
   CathLabServices: {
     name: "navigation.cathLabServices",
     path: "/clinical-services/cath-lab-services",
     component: lazyLoad(
-      () => import("../pages/clinical-services/cath-lab-services/page")
+      () => import("../pages/clinical-services/cath-lab-services/page"),
     ),
   },
   AntenatalServices: {
     name: "navigation.antenatalServices",
     path: "/clinical-services/antenatal-services",
     component: lazyLoad(
-      () => import("../pages/clinical-services/antenatal-services/page")
+      () => import("../pages/clinical-services/antenatal-services/page"),
     ),
   },
   RenalServices: {
     name: "navigation.renalServices",
     path: "/clinical-services/renal-services",
     component: lazyLoad(
-      () => import("../pages/clinical-services/renal-services/page")
+      () => import("../pages/clinical-services/renal-services/page"),
     ),
   },
   OncologyServices: {
     name: "navigation.oncologyServices",
     path: "/clinical-services/oncology-services",
     component: lazyLoad(
-      () => import("../pages/clinical-services/oncology-services/page")
+      () => import("../pages/clinical-services/oncology-services/page"),
     ),
   },
   DentalProcedures: {
     name: "navigation.dentalProcedures",
     path: "/clinical-services/dental-procedures",
     component: lazyLoad(
-      () => import("../pages/clinical-services/dental-procedures/page")
+      () => import("../pages/clinical-services/dental-procedures/page"),
     ),
   },
   AdmissionProcess: {
     name: "navigation.admissionProcess",
     path: "/inpatient/admission",
     component: lazyLoad(
-      () => import("../pages/clinical-services/admission-process/page")
+      () => import("../pages/clinical-services/admission-process/page"),
     ),
   },
   RoomsAndWardsServices: {
     name: "navigation.roomsAndWardsServices",
     path: "/inpatient/rooms-wards",
     component: lazyLoad(
-      () => import("../pages/clinical-services/rooms-and-wards/page")
+      () => import("../pages/clinical-services/rooms-and-wards/page"),
     ),
   },
   CriticalCare: {
     name: "navigation.criticalCare",
     path: "/inpatient/critical-care",
     component: lazyLoad(
-      () => import("../pages/clinical-services/critical-care/page")
+      () => import("../pages/clinical-services/critical-care/page"),
     ),
   },
   TheatreAndSurgery: {
     name: "navigation.theatreAndSurgery",
     path: "/inpatient/surgery",
     component: lazyLoad(
-      () => import("../pages/clinical-services/theatre-surgery/page")
+      () => import("../pages/clinical-services/theatre-surgery/page"),
     ),
   },
   InfectionControl: {
     name: "navigation.infectionControl",
     path: "/inpatient/infection-control",
     component: lazyLoad(
-      () => import("../pages/clinical-services/infection-control/page")
+      () => import("../pages/clinical-services/infection-control/page"),
     ),
   },
-  AndersonList:{
-    name: "navigation.andersonList",
-    path: "/clinics/anderson-list", 
-    component: lazyLoad(() => import("../pages/clinics/andersonList")),
-  }
 };
 
 export const RoutesPath: Record<keyof typeof UIRoutes, UIRoutesType> = UIRoutes;

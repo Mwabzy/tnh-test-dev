@@ -10,7 +10,7 @@ interface andersonListProps {
 
 const ITEMS_PER_PAGE = 6;
 
-const andersonList: React.FC<andersonListProps> = () => {
+const AndersonList: React.FC<andersonListProps> = () => {
   const [data, setData] = useState<ClinicalService[]>([]);
   const [search, setSearch] = useState("");
   const [letterFilter, setLetterFilter] = useState<string | null>(null);
@@ -42,6 +42,7 @@ const andersonList: React.FC<andersonListProps> = () => {
       .includes(search.toLowerCase());
     const matchesLetter =
       !letterFilter || service.title.charAt(0).toUpperCase() === letterFilter;
+
     return matchesSearch && matchesLetter;
   });
 
@@ -50,7 +51,7 @@ const andersonList: React.FC<andersonListProps> = () => {
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentServices = filteredServices.slice(
     startIndex,
-    startIndex + ITEMS_PER_PAGE
+    startIndex + ITEMS_PER_PAGE,
   );
 
   const goToPage = (page: number) => {
@@ -230,4 +231,4 @@ const andersonList: React.FC<andersonListProps> = () => {
   );
 };
 
-export default andersonList;
+export default AndersonList;
