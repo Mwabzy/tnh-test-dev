@@ -36,15 +36,30 @@ const AndersonList: React.FC<andersonListProps> = () => {
   }, []);
 
   // Filter logic
-  const filteredServices = data.filter((service) => {
-    const matchesSearch = service.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
-    const matchesLetter =
-      !letterFilter || service.title.charAt(0).toUpperCase() === letterFilter;
+  // const filteredServices = data.filter((service) => {
+  //   const matchesSearch = service.title
+  //     .toLowerCase()
+  //     .includes(search.toLowerCase());
+  //   const matchesLetter =
+  //     !letterFilter || service.title.charAt(0).toUpperCase() === letterFilter;
 
-    return matchesSearch && matchesLetter;
-  });
+  //   return matchesSearch && matchesLetter;
+  // });
+
+  // Filter logic - only show services with "Anderson" location
+const filteredServices = data.filter((service) => {
+  const hasAndersonLocation = service.locations?.some(loc => 
+    loc.toLowerCase().includes('anderson')
+  );
+  
+  const matchesSearch = service.title
+    .toLowerCase()
+    .includes(search.toLowerCase());
+  const matchesLetter =
+    !letterFilter || service.title.charAt(0).toUpperCase() === letterFilter;
+
+  return hasAndersonLocation && matchesSearch && matchesLetter;
+});
 
   // Pagination
   const totalPages = Math.ceil(filteredServices.length / ITEMS_PER_PAGE);
@@ -138,7 +153,7 @@ const AndersonList: React.FC<andersonListProps> = () => {
       {/* Service Cards */}
       <main className="flex-1">
         <p className="mb-6 text-sm text-gray-700">
-          Displaying {filteredServices.length} of {data.length} Specialty
+          Displaying {filteredServices.length} Anderson Specialty
           Clinics
         </p>
 

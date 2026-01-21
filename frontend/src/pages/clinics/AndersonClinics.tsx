@@ -6,7 +6,7 @@ import Heading from "@/components/Heading";
 import AndersonList from "./AndersonList";
 
 const Clinics = () => {
-  return (
+  return ( 
     <div>
       <Heading
         image_url={hospitalview}
