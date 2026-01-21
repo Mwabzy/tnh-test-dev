@@ -41,14 +41,15 @@ const OutpatientCenterForm = ({ initialData, onSave, onCancel }: Props) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    onSave({
-      id: initialData?.id,
-      name,
-      location,
-      description,
-      timings,
-      contact,
-    });
+  onSave({
+  id: initialData?.id,
+  name,
+  location,
+  description,
+  timings, 
+  contact,
+});
+
   };
 
   return (
@@ -85,14 +86,112 @@ const OutpatientCenterForm = ({ initialData, onSave, onCancel }: Props) => {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-
       {/* Timings */}
+      <div>
+      <label className="font-semibold">Clinic Timings</label>
+
+       {timings.map((t, i) => (
+        <div
+      key={i}
+      className="grid grid-cols-4 gap-2 items-center border p-2 mb-2 rounded"
+       >
+      {/* Clinic */}
+      <select
+        className="border p-2"
+        value={t.clinicId ?? ""}
+        onChange={(e) =>
+          setTimings((prev) =>
+            prev.map((row, idx) =>
+              idx === i
+                ? { ...row, clinicId: Number(e.target.value) }
+                : row
+            )
+          )
+        }
+      >
+        <option value="">Select Clinic</option>
+        {clinics.map((c) => (
+          <option key={c.id} value={c.id}>
+            {c.name}
+          </option>
+        ))}
+      </select>
+
+      {/* Day */}
+      <select
+        className="border p-2"
+        value={t.day}
+        onChange={(e) =>
+          setTimings((prev) =>
+            prev.map((row, idx) =>
+              idx === i ? { ...row, day: e.target.value } : row
+            )
+          )
+        }
+      >
+        <option value="">Day</option>
+        {DAYS.map((d) => (
+          <option key={d} value={d}>
+            {d.charAt(0).toUpperCase() + d.slice(1)}
+          </option>
+        ))}
+      </select>
+
+      {/* Start Time */}
       <input
-        className="border p-2 w-full"
-        placeholder="Operating Timings"
-        value={timings}
-        onChange={(e) => setTimings(e.target.value)}
+        type="time"
+        className="border p-2"
+        value={t.startTime}
+        onChange={(e) =>
+          setTimings((prev) =>
+            prev.map((row, idx) =>
+              idx === i ? { ...row, startTime: e.target.value } : row
+            )
+          )
+        }
       />
+
+      {/* End Time */}
+      <input
+        type="time"
+        className="border p-2"
+        value={t.endTime}
+        onChange={(e) =>
+          setTimings((prev) =>
+            prev.map((row, idx) =>
+              idx === i ? { ...row, endTime: e.target.value } : row
+            )
+          )
+        }
+      />
+
+      {/* Remove */}
+      <button
+        type="button"
+        className="text-red-500 text-sm col-span-4 text-right"
+        onClick={() =>
+          setTimings((prev) => prev.filter((_, idx) => idx !== i))
+        }
+      >
+        ✕ Remove
+      </button>
+    </div>
+    ))}
+
+  <button
+    type="button"
+    onClick={() =>
+      setTimings((prev) => [
+        ...prev,
+        { clinicId: null, day: "", startTime: "", endTime: "" },
+      ])
+    }
+    className="text-blue-600 text-sm underline"
+  >
+    + Add Timing
+  </button>
+</div>
+
 
       {/* Contact */}
       <input

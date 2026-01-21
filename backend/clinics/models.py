@@ -133,7 +133,7 @@ class OutpatientCenter(models.Model):
     )
 
     # Timings
-    timings = models.JSONField(blank=True, null=True)
+    timings = models.JSONField(default=list,blank=True)
 
     def __str__(self):
         return self.name
