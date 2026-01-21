@@ -81,7 +81,7 @@ export const NAVIGATION_CONTENT = () => {
         {
           title: content.clinical,
           items: [
-            { title: content.anderson_clinic, href: "/clinics/anderson-list" },
+            { title: content.anderson_clinic, href: "/anderson-services" },
             {
               title: content.accident_emergency,
               href: "/clinical-services/accident-emergency",

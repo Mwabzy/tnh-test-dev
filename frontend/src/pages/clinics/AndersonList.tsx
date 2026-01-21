@@ -10,7 +10,7 @@ interface andersonListProps {
 
 const ITEMS_PER_PAGE = 6;
 
-const andersonList: React.FC<andersonListProps> = () => {
+const AndersonList: React.FC<andersonListProps> = () => {
   const [data, setData] = useState<ClinicalService[]>([]);
   const [search, setSearch] = useState("");
   const [letterFilter, setLetterFilter] = useState<string | null>(null);
@@ -36,21 +36,37 @@ const andersonList: React.FC<andersonListProps> = () => {
   }, []);
 
   // Filter logic
-  const filteredServices = data.filter((service) => {
-    const matchesSearch = service.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
-    const matchesLetter =
-      !letterFilter || service.title.charAt(0).toUpperCase() === letterFilter;
-    return matchesSearch && matchesLetter;
-  });
+  // const filteredServices = data.filter((service) => {
+  //   const matchesSearch = service.title
+  //     .toLowerCase()
+  //     .includes(search.toLowerCase());
+  //   const matchesLetter =
+  //     !letterFilter || service.title.charAt(0).toUpperCase() === letterFilter;
+
+  //   return matchesSearch && matchesLetter;
+  // });
+
+  // Filter logic - only show services with "Anderson" location
+const filteredServices = data.filter((service) => {
+  const hasAndersonLocation = service.locations?.some(loc => 
+    loc.toLowerCase().includes('anderson')
+  );
+  
+  const matchesSearch = service.title
+    .toLowerCase()
+    .includes(search.toLowerCase());
+  const matchesLetter =
+    !letterFilter || service.title.charAt(0).toUpperCase() === letterFilter;
+
+  return hasAndersonLocation && matchesSearch && matchesLetter;
+});
 
   // Pagination
   const totalPages = Math.ceil(filteredServices.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentServices = filteredServices.slice(
     startIndex,
-    startIndex + ITEMS_PER_PAGE
+    startIndex + ITEMS_PER_PAGE,
   );
 
   const goToPage = (page: number) => {
@@ -137,7 +153,7 @@ const andersonList: React.FC<andersonListProps> = () => {
       {/* Service Cards */}
       <main className="flex-1">
         <p className="mb-6 text-sm text-gray-700">
-          Displaying {filteredServices.length} of {data.length} Specialty
+          Displaying {filteredServices.length} Anderson Specialty
           Clinics
         </p>
 
@@ -230,4 +246,4 @@ const andersonList: React.FC<andersonListProps> = () => {
   );
 };
 
-export default andersonList;
+export default AndersonList;

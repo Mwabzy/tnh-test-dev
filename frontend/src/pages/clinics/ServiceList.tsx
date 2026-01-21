@@ -177,7 +177,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
       {/* Service Cards */}
       <main className="flex-1">
         <p className="mb-6 text-sm text-gray-700">
-          Displaying {filteredServices.length} of {data.length} Specialty
+          Displaying {filteredServices.length} of {data.length} 
           Clinics
         </p>
 
