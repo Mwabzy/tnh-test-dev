@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 from .models import (
     ClinicalService,
@@ -21,9 +21,8 @@ from .serializers import (
 
 DEBUG = True
 
-# ------------------------
 # ClinicalService
-# ------------------------
+
 class ClinicalServiceViewSet(viewsets.ModelViewSet):
     queryset = ClinicalService.objects.all()
     serializer_class = ClinicalServiceSerializer
@@ -119,7 +118,7 @@ class OutpatientCenterViewSet(viewsets.ModelViewSet):
     queryset = OutpatientCenter.objects.all()
     serializer_class = OutpatientCenterSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def get_serializer_context(self):
         context = super().get_serializer_context()

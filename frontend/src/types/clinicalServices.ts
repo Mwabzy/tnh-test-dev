@@ -56,7 +56,8 @@ export interface ClinicalService {
 }
 
 export interface Timings {
-   services_offered?: ClinicalService[];
+  clinicId: string;
+  services_offered?: ClinicalService[];
   day: string;
   startTime: string;
   stopTime: string;
