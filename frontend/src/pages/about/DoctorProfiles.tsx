@@ -23,7 +23,7 @@ const serviceMapping: { [key: string]: number } = {
 
 // Get service ID from doctor services
 const getServiceIdFromDoctorServices = (
-  servicesOffered: string[]
+  servicesOffered: string[],
 ): number | null => {
   if (!servicesOffered || servicesOffered.length === 0) return null;
 
@@ -39,7 +39,7 @@ const getServiceIdFromDoctorServices = (
     const foundService = (clinicalServices as any[]).find(
       (s) =>
         s.title.toLowerCase().includes(lowerService) ||
-        lowerService.includes(s.title.toLowerCase())
+        lowerService.includes(s.title.toLowerCase()),
     );
     if (foundService) return foundService.id;
   }
@@ -50,7 +50,7 @@ const getServiceIdFromDoctorServices = (
 // Truncate bio to first 3 sentences
 const truncateBioToThreeSentences = (
   bio: string,
-  maxLength: number = 280
+  maxLength: number = 280,
 ): string => {
   if (!bio) return "";
   const sentences = bio.match(/[^.!?]+[.!?]+/g) || [bio];
@@ -174,7 +174,7 @@ const DoctorProfiles: FC = () => {
     const matchesLocation =
       selectedLocations.length > 0
         ? selectedLocations.some((loc) =>
-            member.location?.toLowerCase().includes(loc.toLowerCase())
+            member.location?.toLowerCase().includes(loc.toLowerCase()),
           )
         : true;
 
@@ -191,7 +191,7 @@ const DoctorProfiles: FC = () => {
   const totalPages = Math.ceil(filteredDoctors.length / ITEMS_PER_PAGE);
   const paginatedDoctors = filteredDoctors.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    currentPage * ITEMS_PER_PAGE,
   );
 
   const handlePrev = () => currentPage > 1 && setCurrentPage((p) => p - 1);
@@ -200,7 +200,7 @@ const DoctorProfiles: FC = () => {
 
   const toggleLocation = (loc: string) => {
     setSelectedLocations((prev) =>
-      prev.includes(loc) ? prev.filter((l) => l !== loc) : [...prev, loc]
+      prev.includes(loc) ? prev.filter((l) => l !== loc) : [...prev, loc],
     );
   };
 
@@ -342,7 +342,7 @@ const DoctorProfiles: FC = () => {
                   <div className="flex flex-wrap gap-3 mt-4">
                     <Link
                       to={`/booking-calendar?serviceId=${getServiceIdFromDoctorServices(
-                        member.servicesOffered || []
+                        member.servicesOffered || [],
                       )}`}
                       className="flex items-center justify-center gap-2 text-red-900 border border-gray-300 px-4 py-2 rounded-md text-sm hover:bg-red-50 hover:border-red-300 transition font-medium"
                     >

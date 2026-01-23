@@ -72,7 +72,7 @@ const DoctorDetails: FC = () => {
   const servicesOffered = useMemo(() => {
     if (!doctor || !allServices || !doctor.services_offered) return [];
     return allServices.filter((service) =>
-      doctor.services_offered!.includes(service.id)
+      doctor.services_offered!.includes(service.id),
     );
   }, [doctor, allServices]);
 
@@ -102,8 +102,8 @@ const DoctorDetails: FC = () => {
       ? doctor.description
       : [doctor.description]
     : doctor.bio
-    ? [doctor.bio]
-    : [];
+      ? [doctor.bio]
+      : [];
 
   // Awards and publications
   const awards = Array.isArray(doctor.awards) ? doctor.awards : [];
