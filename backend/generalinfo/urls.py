@@ -6,7 +6,7 @@ router = DefaultRouter()
 router.register('team-members', TeamMemberViewSet, basename='team-members')
 router.register('blog-posts', BlogPostViewSet, basename='blog-posts')
 router.register('csr', CSRViewSet, basename='csr')
-urlpatterns = router.urls
+
 urlpatterns = [
     path("", include(router.urls)),
 ]

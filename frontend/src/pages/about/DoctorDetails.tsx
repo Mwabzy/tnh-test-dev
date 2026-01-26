@@ -1,6 +1,7 @@
-import { FC, useEffect, useState, useMemo } from "react";
+import { FC, useEffect, useState } from "react";
 import { useParams, Link } from "react-router";
-import { fetchDoctorById, fetchClinicalServices } from "@/api/api";
+import { fetchDoctorById, fetchClinicalServiceById } from "@/api/api";
+import { ClinicalService } from "@/types";
 
 export interface Doctor {
   id: string | number;
@@ -18,13 +19,8 @@ export interface Doctor {
   licensingDetails?: string;
   awards?: string[];
   research_publications?: string[];
-  services_offered?: number[]; // IDs from backend
+  services_offered?: ClinicalService[]; // IDs from backend
   socialMediaWebsite?: string[];
-}
-
-export interface ClinicalService {
-  id: number;
-  name: string;
 }
 
 const DoctorDetails: FC = () => {
@@ -32,49 +28,41 @@ const DoctorDetails: FC = () => {
   const [doctor, setDoctor] = useState<Doctor | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [allServices, setAllServices] = useState<ClinicalService[]>([]);
+  const [servicesOffered, setServicesOffered] = useState<ClinicalService[]>([]);
 
-  // Fetch all clinical services
-  useEffect(() => {
-    async function loadServices() {
-      try {
-        const services = await fetchClinicalServices();
-        setAllServices(services);
-      } catch (err) {
-        console.error("Failed to load services", err);
-      }
-    }
-    loadServices();
-  }, []);
-
-  // Load doctor by ID
   useEffect(() => {
     if (!id) return;
 
     const numericId = Number(id);
     if (isNaN(numericId)) {
       setError("Invalid doctor ID.");
-      setLoading(false);
       return;
     }
 
     setLoading(true);
+
     fetchDoctorById(numericId)
-      .then((data) => {
-        setDoctor(data);
+      .then(async (doctorData) => {
+        setDoctor(doctorData);
+
+        if (!doctorData.services_offered?.length) {
+          setServicesOffered([]);
+          return;
+        }
+
+        // Fetch ONLY required services
+        const services = await Promise.all(
+          doctorData.services_offered.map((id: number) =>
+            fetchClinicalServiceById(id),
+          ),
+        );
+
+        setServicesOffered(services);
         setError(null);
       })
-      .catch(() => setError("Doctor not found."))
+      .catch(() => setError("Failed to load doctor data."))
       .finally(() => setLoading(false));
   }, [id]);
-
-  // Filter services offered by this doctor
-  const servicesOffered = useMemo(() => {
-    if (!doctor || !allServices || !doctor.services_offered) return [];
-    return allServices.filter((service) =>
-      doctor.services_offered!.includes(service.id)
-    );
-  }, [doctor, allServices]);
 
   if (loading)
     return <p className="text-center mt-10 text-gray-600">Loading...</p>;
@@ -102,8 +90,8 @@ const DoctorDetails: FC = () => {
       ? doctor.description
       : [doctor.description]
     : doctor.bio
-    ? [doctor.bio]
-    : [];
+      ? [doctor.bio]
+      : [];
 
   // Awards and publications
   const awards = Array.isArray(doctor.awards) ? doctor.awards : [];
@@ -227,7 +215,7 @@ const DoctorDetails: FC = () => {
                       to={`/service-detail/${service.id}`}
                       className="text-red-700 hover:underline"
                     >
-                      {service.name}
+                      {service.title}
                     </Link>
                   </li>
                 ))}
