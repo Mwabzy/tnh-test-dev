@@ -71,6 +71,8 @@ class DoctorImage(models.Model):
         return f"Image for {self.doctor.name}"
 
 
+
+
 # Clinical Service Model 
 class ClinicalService(models.Model):
     # Basic Info
@@ -107,6 +109,21 @@ class ClinicalService(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+class ClinicalServiceFeatureImage(models.Model):
+    clinical_service = models.ForeignKey(
+        ClinicalService,
+        related_name="feature_images",
+        on_delete=models.CASCADE
+    )
+    feature_index = models.PositiveIntegerField()
+    image = models.ImageField(upload_to="clinical_services/features/")
+    alt = models.CharField(max_length=255, blank=True, default="")
+
+    def __str__(self):
+        return f"Feature image {self.feature_index} for {self.clinical_service.title}"
+
   
 
   # OutpatientCenter

@@ -22,7 +22,7 @@ class TeamMemberSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         image_file = validated_data.pop("image_file", None)
         image_alt = validated_data.pop("image_alt", "")
-        validated_data.pop("image_to_delete", False)  # Remove this from validated_data
+        validated_data.pop("image_to_delete", False) 
         
         member = TeamMember.objects.create(**validated_data)
         if image_file:

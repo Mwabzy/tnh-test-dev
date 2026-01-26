@@ -13,6 +13,13 @@ export interface Feature {
   };
 }
 
+export interface FeatureImage {
+  id: number;
+  feature_index: number;
+  url: string;
+  alt?: string;
+}
+
 export interface Doctor {
   id?: number;
   name: string;
@@ -43,6 +50,10 @@ export interface ClinicalService {
   overview: string;
   detailedDescription?: string;
   features: Feature[];
+  features_read?: (Feature & {
+    image?: { id: number; url: string; alt?: string } | null;
+  })[];
+  feature_images?: FeatureImage[];
   doctors?: Doctor[];
   doctorIds?: string[];
   testimonials?: Testimonial[];

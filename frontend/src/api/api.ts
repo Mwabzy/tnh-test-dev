@@ -11,8 +11,6 @@ const BLOGS_API = `${BASE_URL}/blog-posts/`;
 const CSR_API = `${BASE_URL}/csr/`;
 const OUTPATIENT_CENTER_API = "/outpatient-centers/";
 
-
-
 // Axios Instance
 const api = axios.create({
   baseURL: BASE_URL,
@@ -82,7 +80,26 @@ export async function deleteClinicalService(id: number) {
 }
 
 export async function updateImageAlt(imageId: number, alt: string) {
-  return api.patch(`${BASE_URL}/clinical-service-images/${imageId}/`, { alt });
+  return api.patch(
+    `${BASE_URL}/clinical-service-images/${imageId}/`,
+    { alt },
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+    },
+  );
+}
+
+export async function updateFeatureImageAlt(
+  featureImageId: number,
+  alt: string,
+) {
+  return api.patch(
+    `${BASE_URL}/clinical-service-feature-images/${featureImageId}/`,
+    { alt },
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+    },
+  );
 }
 
 //DOCTORS' PROFILES

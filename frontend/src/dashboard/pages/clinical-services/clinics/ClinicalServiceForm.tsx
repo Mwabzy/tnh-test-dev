@@ -18,6 +18,23 @@ interface Props {
   availableDoctors: Doctor[];
 }
 
+type FeatureImageDraft =
+  | {
+      kind: "existing";
+      url: string;
+      alt?: string;
+      id?: number;
+    }
+  | {
+      kind: "new";
+      file: File;
+      alt?: string;
+    };
+
+type FeatureForm = Omit<Feature, "image"> & {
+  image?: FeatureImageDraft;
+};
+
 const requiredMark = <span className="text-red-600">*</span>;
 
 const locationOptions = [
@@ -49,45 +66,58 @@ const ClinicalServiceForm: React.FC<Props> = ({
   const [tagline, setTagline] = useState(initialData?.tagline || "");
   const [overview, setOverview] = useState(initialData?.overview || "");
   const [detailedDescription, setDetailedDescription] = useState(
-    initialData?.detailedDescription || ""
+    initialData?.detailedDescription || "",
   );
-  const [features, setFeatures] = useState<Feature[]>(
-    initialData?.features || []
-  );
+  const [features, setFeatures] = useState<FeatureForm[]>(() => {
+    if (!initialData) return [];
+
+    return (initialData.features_read || []).map((f) => ({
+      title: f.title,
+      description: f.description,
+      image: f.image
+        ? {
+            kind: "existing",
+            url: f.image.url,
+            alt: f.image.alt,
+            id: f.image.id,
+          }
+        : undefined,
+    }));
+  });
 
   const [selectedDoctors, setSelectedDoctors] = useState<Doctor[]>(
-    initialData?.doctors || []
+    initialData?.doctors || [],
   );
 
   const [doctorInput, setDoctorInput] = useState("");
 
   const [testimonials, setTestimonials] = useState<Testimonial[]>(
-    initialData?.testimonials || []
+    initialData?.testimonials || [],
   );
   const [contact, setContact] = useState<ContactInfo>({
     phone: initialData?.contact?.phone || "",
     email: initialData?.contact?.email || "",
   });
   const [isBookable, setIsBookable] = useState(
-    initialData?.isBookable ?? false
+    initialData?.isBookable ?? false,
   );
   const [hasReadMore, setHasReadMore] = useState(
-    initialData?.hasReadMore ?? false
+    initialData?.hasReadMore ?? false,
   );
   const [images, setImages] = useState<Image[]>(
     (initialData?.images || []).map((img) => ({
       ...img,
       alt: img.alt || "",
-    }))
+    })),
   );
 
   const [locations, setLocations] = useState<string[]>(
-    initialData?.locations || []
+    initialData?.locations || [],
   );
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ title?: string; tagline?: string }>(
-    {}
+    {},
   );
   // const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagesToDelete, setImagesToDelete] = useState<number[]>([]);
@@ -113,10 +143,10 @@ const ClinicalServiceForm: React.FC<Props> = ({
   const handleFeatureChange = (
     index: number,
     key: keyof Feature,
-    value: string
+    value: string,
   ) => {
     setFeatures(
-      features.map((f, i) => (i === index ? { ...f, [key]: value } : f))
+      features.map((f, i) => (i === index ? { ...f, [key]: value } : f)),
     );
   };
 
@@ -124,6 +154,37 @@ const ClinicalServiceForm: React.FC<Props> = ({
     setFeatures([...features, { title: "", description: "" }]);
   const removeFeature = (index: number) =>
     setFeatures(features.filter((_, i) => i !== index));
+
+  const handleFeatureImageAltChange = (index: number, alt: string) => {
+    setFeatures((prev) =>
+      prev.map((f, i) =>
+        i === index && f.image ? { ...f, image: { ...f.image, alt } } : f,
+      ),
+    );
+  };
+
+  const handleFeatureImageUpload = (index: number, file: File) => {
+    setFeatures((prev) =>
+      prev.map((f, i) =>
+        i === index ? { ...f, image: { kind: "new", file, alt: "" } } : f,
+      ),
+    );
+  };
+
+  const removeFeatureImage = (index: number) => {
+    setFeatures((prev) =>
+      prev.map((f, i) => (i === index ? { ...f, image: undefined } : f)),
+    );
+  };
+
+  const featuresPayload = features.map((f) => ({
+    title: f.title,
+    description: f.description,
+    image:
+      f.image && "url" in f.image
+        ? { url: f.image.url, alt: f.image.alt }
+        : null,
+  }));
 
   // const addDoctor = (doctor: Doctor) => {
   //   if (selectedDoctors.some((d) => d.id === doctor.id)) return;
@@ -137,10 +198,10 @@ const ClinicalServiceForm: React.FC<Props> = ({
   const handleTestimonialChange = (
     index: number,
     key: keyof Testimonial,
-    value: string
+    value: string,
   ) => {
     setTestimonials(
-      testimonials.map((t, i) => (i === index ? { ...t, [key]: value } : t))
+      testimonials.map((t, i) => (i === index ? { ...t, [key]: value } : t)),
     );
   };
   const addTestimonial = () =>
@@ -154,10 +215,10 @@ const ClinicalServiceForm: React.FC<Props> = ({
   const handleImageChange = (
     index: number,
     key: keyof Image,
-    value: string
+    value: string,
   ) => {
     setImages(
-      images.map((img, i) => (i === index ? { ...img, [key]: value } : img))
+      images.map((img, i) => (i === index ? { ...img, [key]: value } : img)),
     );
   };
 
@@ -195,10 +256,18 @@ const ClinicalServiceForm: React.FC<Props> = ({
     formData.append("detailedDescription", detailedDescription);
     formData.append("isBookable", String(isBookable));
     formData.append("hasReadMore", String(hasReadMore));
-    formData.append("features", JSON.stringify(features));
+    formData.append("features", JSON.stringify(featuresPayload));
+    features.forEach((f, index) => {
+      if (f.image && "file" in f.image) {
+        formData.append("feature_images_files", f.image.file);
+        formData.append("feature_images_alt", f.image.alt || "");
+        formData.append("feature_images_index", String(index));
+      }
+    });
+
     formData.append(
       "doctor_ids",
-      JSON.stringify(selectedDoctors.map((d) => d.id))
+      JSON.stringify(selectedDoctors.map((d) => d.id)),
     );
 
     formData.append("testimonials", JSON.stringify(testimonials));
@@ -320,12 +389,77 @@ const ClinicalServiceForm: React.FC<Props> = ({
                 handleFeatureChange(i, "description", e.target.value)
               }
             />
+            {/* Feature Image */}
+            <div className="flex gap-2 mb-2 items-center">
+              {f.image && "url" in f.image && (
+                <img
+                  src={f.image.url}
+                  alt={f.image.alt || ""}
+                  className="w-24 h-24 object-cover border"
+                />
+              )}
+
+              {f.image && "file" in f.image && (
+                <img
+                  src={URL.createObjectURL(f.image.file)}
+                  alt=""
+                  className="w-24 h-24 object-cover border"
+                />
+              )}
+
+              {f.image && (
+                <input
+                  type="text"
+                  placeholder="Alt text"
+                  className="border p-2 w-full"
+                  value={f.image.alt || ""}
+                  onChange={(e) =>
+                    handleFeatureImageAltChange(i, e.target.value)
+                  }
+                />
+              )}
+
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                id={`feature-image-${i}`}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleFeatureImageUpload(i, file);
+                  e.target.value = "";
+                }}
+              />
+
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  className="text-blue-600 text-sm underline"
+                  onClick={() =>
+                    document.getElementById(`feature-image-${i}`)?.click()
+                  }
+                >
+                  {!f.image && "Add Image"}
+                </button>
+
+                {f.image && (
+                  <button
+                    type="button"
+                    className="text-red-500 text-sm cursor-pointer"
+                    onClick={() => removeFeatureImage(i)}
+                  >
+                    ✕ Remove Image
+                  </button>
+                )}
+              </div>
+            </div>
+
             <button
               type="button"
               onClick={() => removeFeature(i)}
-              className="text-red-500 text-sm"
+              className="text-red-500 text-sm cursor-pointer"
             >
-              ✕ Remove
+              ✕ Remove Feature
             </button>
           </div>
         ))}
@@ -433,7 +567,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
             <button
               type="button"
               onClick={() => removeTestimonial(i)}
-              className="text-red-500 text-sm"
+              className="text-red-500 text-sm cursor-pointer"
             >
               ✕ Remove
             </button>
@@ -493,7 +627,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
             <button
               type="button"
               onClick={() => removeImage(i)}
-              className="text-red-500"
+              className="text-red-500 cursor-pointer"
             >
               ✕ Remove
             </button>
@@ -517,15 +651,15 @@ const ClinicalServiceForm: React.FC<Props> = ({
               onChange={(e) =>
                 setNewImages((prev) =>
                   prev.map((ni, i) =>
-                    i === idx ? { ...ni, alt: e.target.value } : ni
-                  )
+                    i === idx ? { ...ni, alt: e.target.value } : ni,
+                  ),
                 )
               }
             />
 
             <button
               type="button"
-              className="text-red-500"
+              className="text-red-500 cursor-pointer"
               onClick={() =>
                 setNewImages((prev) => prev.filter((_, i) => i !== idx))
               }

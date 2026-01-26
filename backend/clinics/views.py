@@ -8,6 +8,7 @@ from .models import (
     Doctor,
     Testimonial,
     ClinicalServiceImage,
+    ClinicalServiceFeatureImage,  
     DoctorImage,
     OutpatientCenter,
 )
@@ -16,13 +17,27 @@ from .serializers import (
     DoctorSerializer,
     TestimonialSerializer,
     ClinicalServiceImageSerializer,
+    ClinicalServiceFeatureImageSerializer, 
     OutpatientCenterSerializer,
 )
 
 DEBUG = True
 
-# ClinicalService
 
+# Helper function to print all incoming form data, including files
+def log_request_data(request, label="Request"):
+    print(f"\n[{label}] Incoming data:")
+
+    # request.data is already parsed by DRF (QueryDict or MultiPartParser)
+    for key, value in request.data.items():
+        if hasattr(value, "name"):  # It's a file
+            print(f"{key}: <File: {value.name}>")
+        else:
+            print(f"{key}: {value}")
+    print("===========================\n")
+
+
+# ClinicalService
 class ClinicalServiceViewSet(viewsets.ModelViewSet):
     queryset = ClinicalService.objects.all()
     serializer_class = ClinicalServiceSerializer
@@ -36,23 +51,23 @@ class ClinicalServiceViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         if DEBUG:
-            print("\n[ClinicalService CREATE] Incoming data:", request.data)
+            log_request_data(request, "ClinicalService CREATE")
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         instance = serializer.save()
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED
-        )
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
+        if DEBUG:
+            log_request_data(request, "ClinicalService UPDATE")
+
         partial = kwargs.pop("partial", True)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         instance = serializer.save()
         return Response(serializer.data)
-
 
 
 class DoctorViewSet(viewsets.ModelViewSet):
@@ -68,7 +83,7 @@ class DoctorViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         if DEBUG:
-            print("\n[Doctor CREATE] Incoming data:", request.data)
+            log_request_data(request, "Doctor CREATE")
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -76,13 +91,15 @@ class DoctorViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
+        if DEBUG:
+            log_request_data(request, "Doctor UPDATE")
+
         partial = kwargs.pop("partial", True)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         instance = serializer.save()
         return Response(serializer.data)
-
 
 
 class TestimonialViewSet(viewsets.ModelViewSet):
@@ -92,7 +109,7 @@ class TestimonialViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         if DEBUG:
-            print("\n[Testimonial CREATE] Incoming data:", request.data)
+            log_request_data(request, "Testimonial CREATE")
         return super().create(request, *args, **kwargs)
 
 
@@ -104,14 +121,30 @@ class ClinicalServiceImageViewSet(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         if DEBUG:
-            print("\n[Image UPDATE] Incoming data:", request.data)
+            log_request_data(request, "Image UPDATE")
         return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         if DEBUG:
-            print("\n[Image DELETE] ID:", kwargs.get("pk"))
+            print(f"\n[Image DELETE] ID: {kwargs.get('pk')}")
         return super().destroy(request, *args, **kwargs)
 
+
+class ClinicalServiceFeatureImageViewSet(viewsets.ModelViewSet):
+    queryset = ClinicalServiceFeatureImage.objects.all()
+    serializer_class = ClinicalServiceFeatureImageSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = [MultiPartParser, FormParser]
+
+    def update(self, request, *args, **kwargs):
+        if DEBUG:
+            log_request_data(request, "Feature Image UPDATE")
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        if DEBUG:
+            print(f"\n[Feature Image DELETE] ID: {kwargs.get('pk')}")
+        return super().destroy(request, *args, **kwargs)
 
 
 class OutpatientCenterViewSet(viewsets.ModelViewSet):
@@ -127,7 +160,7 @@ class OutpatientCenterViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         if DEBUG:
-            print("\n[OutpatientCenter CREATE] Incoming data:", request.data)
+            log_request_data(request, "OutpatientCenter CREATE")
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -135,6 +168,9 @@ class OutpatientCenterViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
+        if DEBUG:
+            log_request_data(request, "OutpatientCenter UPDATE")
+
         partial = kwargs.pop("partial", True)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
