@@ -25,22 +25,25 @@ const DoctorForm = ({
   const [role, setRole] = useState(initialData?.role ?? "");
   const [bio, setBio] = useState(initialData?.bio ?? "");
   const [servicesOffered, setServicesOffered] = useState<number[]>(
-    initialData?.services_offered ?? []
+    initialData?.services_offered
+      ? initialData.services_offered.map((s) => s.id)
+      : [],
   );
+
   const [researchPublications, setResearchPublications] = useState<string[]>(
     Array.isArray(initialData?.research_publications)
       ? initialData!.research_publications
-      : []
+      : [],
   );
   const [awards, setAwards] = useState<string[]>(
-    Array.isArray(initialData?.awards) ? initialData!.awards : []
+    Array.isArray(initialData?.awards) ? initialData!.awards : [],
   );
 
   const [images, setImages] = useState<Image[]>(
     (initialData?.image || []).map((img) => ({
       ...img,
       alt: img.alt || "",
-    }))
+    })),
   );
   const [newImages, setNewImages] = useState<NewImage[]>([]);
   const [imagesToDelete, setImagesToDelete] = useState<number[]>([]);
@@ -58,7 +61,7 @@ const DoctorForm = ({
   const updateListItem = (
     key: "awards" | "researchPublications",
     index: number,
-    value: string
+    value: string,
   ) => {
     const setter = key === "awards" ? setAwards : setResearchPublications;
     const list = key === "awards" ? awards : researchPublications;
@@ -73,7 +76,7 @@ const DoctorForm = ({
 
   const removeListItem = (
     key: "awards" | "researchPublications",
-    index: number
+    index: number,
   ) => {
     const setter = key === "awards" ? setAwards : setResearchPublications;
     const list = key === "awards" ? awards : researchPublications;
@@ -83,7 +86,7 @@ const DoctorForm = ({
   /* Existing Images */
   const handleExistingImageChange = (index: number, value: string) => {
     setImages(
-      images.map((img, i) => (i === index ? { ...img, alt: value } : img))
+      images.map((img, i) => (i === index ? { ...img, alt: value } : img)),
     );
   };
 
@@ -121,7 +124,7 @@ const DoctorForm = ({
       formData.append("services_offered", JSON.stringify(servicesOffered));
       formData.append(
         "research_publications",
-        JSON.stringify(researchPublications)
+        JSON.stringify(researchPublications),
       );
       formData.append("awards", JSON.stringify(awards));
 
@@ -301,8 +304,8 @@ const DoctorForm = ({
               onChange={(e) =>
                 setNewImages((prev) =>
                   prev.map((ni, i) =>
-                    i === idx ? { ...ni, alt: e.target.value } : ni
-                  )
+                    i === idx ? { ...ni, alt: e.target.value } : ni,
+                  ),
                 )
               }
             />

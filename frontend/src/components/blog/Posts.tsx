@@ -23,7 +23,7 @@ interface PostsProps {
   posts: Post[];
 }
 
-const Posts: FunctionComponent<PostsProps> = ({ posts }) => {
+const Posts: FunctionComponent<PostsProps> = () => {
   const [data, setData] = useState<Blog[]>([]);
   const [_loading, setLoading] = useState(true);
   const [_error, setError] = useState<string | null>(null);
