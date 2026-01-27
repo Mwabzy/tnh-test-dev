@@ -71,4 +71,5 @@ export interface outpatientCenter {
   contact: ContactInfo;
   location: string;
   timings: Timings[];
+  image: Image[];
 }
