@@ -29,6 +29,7 @@ export interface Doctor {
   services_offered?: ClinicalService[];
   research_publications?: string[];
   awards?: string[];
+  locations?: string[];
 }
 
 export interface Testimonial {

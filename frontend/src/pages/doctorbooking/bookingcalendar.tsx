@@ -1,6 +1,7 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { useLocation, useNavigate } from "react-router";
+import { fetchClinicalServices } from "@/api/api"; // Add this import
 import { ClinicalService, Doctor } from "@/types";
 
 interface CalendarWithTimesProps {
@@ -114,16 +115,20 @@ const BookingPage: React.FC<BookingPageProps> = ({
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
 
-  //const serviceIdParam = searchParams.get("serviceId");
+  const serviceIdParam = searchParams.get("serviceId");
   const doctorIdParam = searchParams.get("doctorId");
   const doctorNameParam = searchParams.get("doctorName");
   const doctorTitleParam = searchParams.get("doctorTitle");
 
-  //const serviceId = serviceIdParam ? Number(serviceIdParam) : null;
+  const [clinicalServices, setClinicalServices] =
+    useState<ClinicalService[]>(services);
+  const [isLoadingServices, setIsLoadingServices] = useState(false);
+
+  const serviceId = serviceIdParam ? Number(serviceIdParam) : null;
   const isDoctorBooking = Boolean(doctorIdParam);
 
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(
-    null,
+    serviceId,
   );
 
   const [selectedService, setSelectedService] = useState<string | null>(null);
@@ -158,9 +163,22 @@ const BookingPage: React.FC<BookingPageProps> = ({
   ]);
 
   const selectedServiceFromList = useMemo(
-    () => services.find((s) => s.id === selectedServiceId) || null,
-    [services, selectedServiceId],
+    () => clinicalServices.find((s) => s.id === selectedServiceId) || null,
+    [clinicalServices, selectedServiceId],
   );
+  const availableLocations = useMemo(() => {
+    // Doctor booking flow
+    if (isDoctorBooking && doctorInfo) {
+      return doctorInfo.locations ?? [];
+    }
+
+    // Service booking flow
+    if (selectedServiceFromList) {
+      return selectedServiceFromList.locations ?? [];
+    }
+
+    return [];
+  }, [isDoctorBooking, doctorInfo, selectedServiceFromList]);
 
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -256,6 +274,26 @@ const BookingPage: React.FC<BookingPageProps> = ({
     }
   }, [doctorInfo]);
 
+  // Fetch clinical services when not in doctor booking mode
+  useEffect(() => {
+    const loadClinicalServices = async () => {
+      if (isDoctorBooking || clinicalServices.length > 0) return;
+
+      setIsLoadingServices(true);
+      try {
+        const data = await fetchClinicalServices();
+        setClinicalServices(data);
+      } catch (error) {
+        console.error("Error fetching clinical services:", error);
+        // Optionally show error message to user
+      } finally {
+        setIsLoadingServices(false);
+      }
+    };
+
+    loadClinicalServices();
+  }, [isDoctorBooking]);
+
   // Weekday helpers
   // const weekdays: { [k: string]: number } = {
   //   sunday: 0,
@@ -290,6 +328,29 @@ const BookingPage: React.FC<BookingPageProps> = ({
   //   result.setHours(9, 0, 0, 0);
   //   return result;
   // };
+  const locationSectionRef = useRef<HTMLDivElement | null>(null);
+  const calendarSectionRef = useRef<HTMLDivElement | null>(null);
+
+  // 1. Scroll to Clinic when Service is selected
+  useEffect(() => {
+    if (!selectedLocation) return;
+
+    const el = calendarSectionRef.current;
+    if (!el) return;
+
+    setTimeout(() => {
+      el.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 100);
+  }, [selectedLocation]);
+
+  useEffect(() => {
+    setSelectedLocation(null);
+    setSelectedDate(null);
+    setSelectedTime(null);
+  }, [selectedServiceId]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-red-50 py-12 px-4">
@@ -342,7 +403,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
                 <span>2</span>
               </div>
               <p className="text-xs font-semibold mt-2 text-gray-700 text-center">
-                Clinic
+                Location
               </p>
             </div>
             <div
@@ -419,18 +480,23 @@ const BookingPage: React.FC<BookingPageProps> = ({
                     <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">
                       1
                     </span>
-                    Select Service
+                    Select Clinical Service
                   </label>
                   <select
+                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
                     value={selectedServiceId ?? ""}
                     onChange={(e) => {
                       const val = e.target.value;
                       setSelectedServiceId(val ? Number(val) : null);
                     }}
+                    disabled={isLoadingServices}
                   >
-                    <option value="">-- choose a service --</option>
-
-                    {doctorInfo?.services_offered?.map((service) => (
+                    <option value="">
+                      {isLoadingServices
+                        ? "Loading services..."
+                        : "-- choose a service --"}
+                    </option>
+                    {clinicalServices.map((service) => (
                       <option key={service.id} value={service.id}>
                         {service.title}
                       </option>
@@ -439,51 +505,26 @@ const BookingPage: React.FC<BookingPageProps> = ({
                 </div>
               )}
 
-              {isDoctorBooking && doctorInfo && (
-                <div className="mb-6">
-                  <label className="block font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">
-                      1
-                    </span>
-                    Select Service
-                  </label>
-                  <select
-                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
-                    value={selectedService ?? ""}
-                    onChange={(e) => setSelectedService(e.target.value)}
-                  >
-                    <option value="">-- choose a service --</option>
-                    {doctorInfo.services_offered?.map((service, idx) => (
-                      <option key={idx} value={service}>
-                        {service}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
-
               {/* Location selector */}
               {(isDoctorBooking && doctorInfo && selectedService) ||
-              (!isDoctorBooking && selectedServiceFromList) ? (
-                <div>
+              (!isDoctorBooking &&
+                (selectedServiceId || selectedServiceFromList)) ? (
+                /* ADDED ref={locationSectionRef} HERE */
+                <div ref={locationSectionRef}>
                   <label className="block font-semibold text-gray-800 mb-3 flex items-center gap-2">
                     <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">
                       2
                     </span>
-                    Select Clinic
+                    Select Location
                   </label>
                   <select
                     className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
                     value={selectedLocation ?? ""}
                     onChange={(e) => setSelectedLocation(e.target.value)}
                   >
-                    <option value="">-- choose a clinic --</option>
-                    {(
-                      doctorInfo?.services_offered ??
-                      selectedServiceFromList?.locations ??
-                      []
-                    ).map((loc, idx) => (
-                      <option key={idx} value={loc}>
+                    <option value="">-- choose a location --</option>
+                    {availableLocations.map((loc) => (
+                      <option key={loc} value={loc}>
                         {loc}
                       </option>
                     ))}
@@ -494,15 +535,18 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
             {/* Calendar & Times */}
             {selectedLocation && (
-              <CalendarWithTimes
-                availableSlots={availableSlots}
-                onDateSelected={setSelectedDate}
-                selectedTime={selectedTime}
-                onTimeSelected={setSelectedTime}
-                isDateAvailable={(d) =>
-                  getSlotsForDate(d, selectedLocation).length > 0
-                }
-              />
+              /* WRAPPED CALENDAR IN A DIV WITH ref={calendarSectionRef} */
+              <div ref={calendarSectionRef} className="mt-8">
+                <CalendarWithTimes
+                  availableSlots={availableSlots}
+                  onDateSelected={setSelectedDate}
+                  selectedTime={selectedTime}
+                  onTimeSelected={setSelectedTime}
+                  isDateAvailable={(d) =>
+                    getSlotsForDate(d, selectedLocation).length > 0
+                  }
+                />
+              </div>
             )}
 
             {/* Details Form */}

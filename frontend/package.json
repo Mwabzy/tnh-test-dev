@@ -52,6 +52,7 @@
     "@types/node": "^22.13.13",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "@types/stylis": "^4.2.7",
     "@vitejs/plugin-react": "^4.3.4",
     "baseline-browser-mapping": "^2.8.29",
     "eslint": "^9.21.0",
