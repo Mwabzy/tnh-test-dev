@@ -1,57 +1,63 @@
-import { JSX, useEffect, useState } from "react";
+import { JSX, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router";
-//import * as jwt_decode_module from "jwt-decode";
-//import type { JwtPayload } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 interface ProtectedRouteProps {
   children: JSX.Element;
 }
 
-// interface JWTPayload extends JwtPayload {
-//   exp: number;
-//   iat: number;
-// }
-
-// const jwt_decode = jwt_decode_module as unknown as (
-//   token: string
-// ) => JWTPayload;
+interface JwtPayload {
+  exp: number; // expiration time in seconds
+}
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const navigate = useNavigate();
-  const [isValid, setIsValid] = useState<boolean | null>(null);
+  const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setIsValid(false);
-      return;
-    }
+  let payload: JwtPayload | null = null;
+  let isTokenValid = false;
 
+  if (token) {
     try {
-      // const payload = jwt_decode(token);
-      const expiry = Date.now() + 1500000;
-      const now = Date.now();
-      console.log("Token expiry time (ms):", expiry);
+      payload = jwtDecode<JwtPayload>(token);
+      const now = Date.now() / 1000;
+      isTokenValid = payload.exp > now;
 
-      // Logout  when token  expires
-      const timeUntilExpiry = expiry - now;
-      const timer = setTimeout(() => {
+      if (!isTokenValid) {
         localStorage.removeItem("token");
-        navigate("/dashboard/auth", { replace: true });
-      }, timeUntilExpiry);
-
-      setIsValid(true);
-
-      return () => clearTimeout(timer);
+      } else {
+        console.log(
+          "Token is valid. Will expire in:",
+          Math.round(payload.exp - now),
+          "seconds",
+        );
+      }
     } catch (err) {
       console.error("Invalid token:", err);
-
-      setIsValid(false);
+      localStorage.removeItem("token");
     }
-  }, [navigate]);
+  }
 
-  if (isValid === null) return <div>Loading...</div>;
-  if (!isValid) return <Navigate to="/dashboard/auth" replace />;
+  // Auto-logout timer
+  useEffect(() => {
+    if (!payload) return;
+
+    const now = Date.now() / 1000;
+    const timeUntilExpiry = Math.max(payload.exp - now, 0) * 1000;
+
+    console.log("Setting logout timer for:", timeUntilExpiry, "ms");
+
+    const timer = setTimeout(() => {
+      localStorage.removeItem("token");
+      navigate("/dashboard/auth", { replace: true });
+    }, timeUntilExpiry);
+
+    return () => clearTimeout(timer);
+  }, [navigate, payload]);
+
+  if (!isTokenValid) {
+    return <Navigate to="/dashboard/auth" replace />;
+  }
 
   return children;
 };
