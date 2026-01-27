@@ -23,6 +23,7 @@ const OutpatientCenterForm = ({
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [timings, setTimings] = useState<Timings[]>([]);
+  const [clinicSearch, setClinicSearch] = useState<Record<number, string>>({});
 
   const [contact, setContact] = useState<ContactInfo>({
     phone: "",
@@ -39,31 +40,78 @@ const OutpatientCenterForm = ({
     "sunday",
   ];
 
-  /* 🔁 Sync form when editing */
+  const HOURS = [
+    "12:00 AM",
+    "1:00 AM",
+    "2:00 AM",
+    "3:00 AM",
+    "4:00 AM",
+    "5:00 AM",
+    "6:00 AM",
+    "7:00 AM",
+    "8:00 AM",
+    "9:00 AM",
+    "10:00 AM",
+    "11:00 AM",
+    "12:00 PM",
+    "1:00 PM",
+    "2:00 PM",
+    "3:00 PM",
+    "4:00 PM",
+    "5:00 PM",
+    "6:00 PM",
+    "7:00 PM",
+    "8:00 PM",
+    "9:00 PM",
+    "10:00 PM",
+    "11:00 PM",
+  ];
+
+  const getValidEndTimes = (startTime: string) => {
+    const startIndex = HOURS.indexOf(startTime);
+    return startIndex === -1 ? HOURS : HOURS.slice(startIndex + 1);
+  };
+
+  // Sync the clinicSearch map
   useEffect(() => {
-    if (initialData) {
-      setName(initialData.name || "");
-      setLocation(initialData.location || "");
-      setDescription(initialData.description || "");
+    const searchMap: Record<number, string> = {};
+    timings.forEach((t, i) => {
+      const clinic = clinics.find((c) => c.id === Number(t.clinicId));
+      if (clinic) searchMap[i] = clinic.name;
+    });
+    setClinicSearch(searchMap);
+  }, [timings, clinics]);
 
-      setTimings(Array.isArray(initialData.timings) ? initialData.timings : []);
-
-      setContact({
-        phone: initialData.contact?.phone || "",
-        email: initialData.contact?.email || "",
-      });
-    } else {
+  /* Sync form when editing */
+  useEffect(() => {
+    if (!initialData) {
       setName("");
       setLocation("");
       setDescription("");
       setTimings([]);
       setContact({ phone: "", email: "" });
+      return;
     }
+
+    setName(initialData.name || "");
+    setLocation(initialData.location || "");
+    setDescription(initialData.description || "");
+    setTimings(
+      (Array.isArray(initialData.timings) ? initialData.timings : []).map(
+        (t) => ({
+          ...t,
+          clinicId: t.clinicId ? String(t.clinicId) : "",
+        }),
+      ),
+    );
+    setContact({
+      phone: initialData.contact?.phone || "",
+      email: initialData.contact?.email || "",
+    });
   }, [initialData]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     onSave({
       id: initialData?.id,
       name,
@@ -83,7 +131,6 @@ const OutpatientCenterForm = ({
         {initialData ? "Edit Outpatient Center" : "Add Outpatient Center"}
       </h2>
 
-      {/* Name */}
       <input
         className="border p-2 w-full"
         placeholder="Center Name"
@@ -92,7 +139,6 @@ const OutpatientCenterForm = ({
         required
       />
 
-      {/* Location */}
       <input
         className="border p-2 w-full"
         placeholder="Location"
@@ -101,14 +147,13 @@ const OutpatientCenterForm = ({
         required
       />
 
-      {/* Description */}
       <textarea
         className="border p-2 w-full"
         placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      {/* Timings */}
+
       <div>
         <label className="font-semibold">Clinic Timings</label>
 
@@ -117,25 +162,72 @@ const OutpatientCenterForm = ({
             key={i}
             className="grid grid-cols-4 gap-2 items-center border p-2 mb-2 rounded"
           >
-            {/* Clinic */}
-            <select
-              className="border p-2"
-              value={t.clinicId ?? ""}
-              onChange={(e) =>
-                setTimings((prev) =>
-                  prev.map((row, idx) =>
-                    idx === i ? { ...row, clinicId: e.target.value } : row,
-                  ),
-                )
-              }
-            >
-              <option value="">Select Clinic</option>
-              {clinics.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
+            {/* Clinic search */}
+            <div className="relative">
+              <input
+                className="border p-2 w-full"
+                placeholder="Search clinic..."
+                // Show what user types or selected clinic
+                value={
+                  clinicSearch[i]?.trim() ||
+                  clinics.find((c) => c.id === Number(t.clinicId))?.name ||
+                  ""
+                }
+                onChange={(e) =>
+                  setClinicSearch((prev) => ({
+                    ...prev,
+                    [i]: e.target.value,
+                  }))
+                }
+              />
+
+              {/* Show dropdown only while typing */}
+              {clinicSearch[i]?.trim() && (
+                <div className="absolute z-10 bg-white border w-full max-h-40 overflow-y-auto rounded shadow">
+                  {clinics
+                    .filter((c) =>
+                      c.name
+                        .toLowerCase()
+                        .includes(clinicSearch[i]!.toLowerCase()),
+                    )
+                    .map((c) => (
+                      <button
+                        key={c.id}
+                        type="button"
+                        className="block w-full text-left px-3 py-2 hover:bg-gray-100"
+                        onClick={() => {
+                          // Save selected clinic in timings
+                          setTimings((prev) =>
+                            prev.map((row, idx) =>
+                              idx === i
+                                ? { ...row, clinicId: String(c.id) }
+                                : row,
+                            ),
+                          );
+                          // Clear search to close dropdown
+                          setClinicSearch((prev) => ({
+                            ...prev,
+                            [i]: "",
+                          }));
+                        }}
+                      >
+                        {c.name}
+                      </button>
+                    ))}
+
+                  {/* Show no results if nothing matches */}
+                  {clinics.filter((c) =>
+                    c.name
+                      .toLowerCase()
+                      .includes(clinicSearch[i]!.toLowerCase()),
+                  ).length === 0 && (
+                    <div className="px-3 py-2 text-sm text-gray-400">
+                      No results
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
 
             {/* Day */}
             <select
@@ -157,25 +249,42 @@ const OutpatientCenterForm = ({
               ))}
             </select>
 
-            {/* Start Time */}
-            <input
-              type="time"
+            {/* Start time */}
+            <select
               className="border p-2"
               value={t.startTime}
               onChange={(e) =>
                 setTimings((prev) =>
-                  prev.map((row, idx) =>
-                    idx === i ? { ...row, startTime: e.target.value } : row,
-                  ),
+                  prev.map((row, idx) => {
+                    if (idx !== i) return row;
+                    const newStart = e.target.value;
+                    const startIndex = HOURS.indexOf(newStart);
+                    const endIndex = HOURS.indexOf(row.stopTime);
+                    return {
+                      ...row,
+                      startTime: newStart,
+                      stopTime:
+                        row.stopTime && endIndex <= startIndex
+                          ? ""
+                          : row.stopTime,
+                    };
+                  }),
                 )
               }
-            />
+            >
+              <option value="">Start Time</option>
+              {HOURS.map((h) => (
+                <option key={h} value={h}>
+                  {h}
+                </option>
+              ))}
+            </select>
 
-            {/* End Time */}
-            <input
-              type="time"
+            {/* End time */}
+            <select
               className="border p-2"
               value={t.stopTime}
+              disabled={!t.startTime}
               onChange={(e) =>
                 setTimings((prev) =>
                   prev.map((row, idx) =>
@@ -183,9 +292,15 @@ const OutpatientCenterForm = ({
                   ),
                 )
               }
-            />
+            >
+              <option value="">End Time</option>
+              {getValidEndTimes(t.startTime).map((h) => (
+                <option key={h} value={h}>
+                  {h}
+                </option>
+              ))}
+            </select>
 
-            {/* Remove */}
             <button
               type="button"
               className="text-red-500 text-sm col-span-4 text-right"
@@ -212,7 +327,6 @@ const OutpatientCenterForm = ({
         </button>
       </div>
 
-      {/* Contact */}
       <input
         className="border p-2 w-full"
         placeholder="Phone"
@@ -228,7 +342,6 @@ const OutpatientCenterForm = ({
         onChange={(e) => setContact({ ...contact, email: e.target.value })}
       />
 
-      {/* Actions */}
       <div className="flex gap-4 pt-2">
         <button
           type="submit"
