@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import ClinicalService, Doctor, Testimonial, ClinicalServiceImage, DoctorImage, OutpatientCenter
+from .models import ClinicalService, ClinicalServiceFeatureImage, Doctor, Testimonial, ClinicalServiceImage, DoctorImage, OutpatientCenter
 import json
-
+from itertools import zip_longest
 
 # Helpers
 
@@ -173,7 +173,7 @@ class TestimonialSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'title', 'image', 'quote', 'rating']
 
 
-# Image serializer
+# Main Clinical Image serializer
 
 class ClinicalServiceImageSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField()
@@ -185,7 +185,24 @@ class ClinicalServiceImageSerializer(serializers.ModelSerializer):
     def get_url(self, obj):
         request = self.context.get("request")
         if request:
-            return obj.image.url
+                return request.build_absolute_uri(obj.image.url)
+        return obj.image.url
+    
+
+# Clinical Features Image serializer
+class ClinicalServiceFeatureImageSerializer(serializers.ModelSerializer):
+     url = serializers.SerializerMethodField()
+ 
+     class Meta:
+         model = ClinicalServiceFeatureImage
+         fields = ["id", "feature_index", "url", "alt"]
+ 
+     def get_url(self, obj):
+         request = self.context.get("request")
+         if request:
+             return request.build_absolute_uri(obj.image.url)
+         return obj.image.url
+
 
 
 # ClinicalService Serializer
@@ -201,13 +218,37 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
     images_files = serializers.ListField(child=serializers.ImageField(), write_only=True, required=False)
     images_files_alt = serializers.ListField(child=serializers.CharField(allow_blank=True), write_only=True, required=False)
     images_to_delete = serializers.ListField(child=serializers.IntegerField(), write_only=True, required=False)
-    features = JSONStringListField(required=False)
+    features = JSONStringListField(required=False, write_only=True)
+    features_read = serializers.SerializerMethodField(read_only=True)
+
+    feature_images = ClinicalServiceFeatureImageSerializer(
+        many=True, read_only=True
+    )
+
+    feature_images_files = serializers.ListField(
+        child=serializers.ImageField(),
+        write_only=True,
+        required=False
+    )
+
+    feature_images_alt = serializers.ListField(
+        child=serializers.CharField(allow_blank=True),
+        write_only=True,
+        required=False
+    )
+
+    feature_images_index = serializers.ListField(
+        child=serializers.IntegerField(),
+        write_only=True,
+        required=False
+    )
 
     class Meta:
         model = ClinicalService
         fields = [
             'id', 'title', 'tagline', 'overview', 'detailedDescription',
-            'features', 'doctors',  'doctor_ids', 'testimonials', 'contact',
+            'features_read', 'features', "feature_images","feature_images_files","feature_images_alt",
+            "feature_images_index",'doctors',  'doctor_ids', 'testimonials', 'contact',
             'isBookable', 'hasReadMore', 'clinics',
             'images',
             'images_files',
@@ -259,6 +300,38 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
  
      return super().to_internal_value(data)
 
+    def get_features_read(self, obj):
+     features = obj.features or []
+     request = self.context.get("request")
+ 
+     images_by_index = {
+         img.feature_index: img
+         for img in obj.feature_images.all()
+     }
+ 
+     merged = []
+ 
+     for idx, feature in enumerate(features):
+         image = images_by_index.get(idx)
+ 
+         merged.append({
+             **feature,
+             "image": (
+                 {
+                     "id": image.id,
+                     "url": (
+                         request.build_absolute_uri(image.image.url)
+                         if request
+                         else image.image.url
+                     ),
+                     "alt": image.alt,
+                 }
+                 if image
+                 else None
+             )
+         })
+ 
+     return merged
 
     
     # CREATE
@@ -269,6 +342,9 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         clinics_data = validated_data.pop('clinics', [])
         images_files = validated_data.pop('images_files', [])
         images_files_alt = validated_data.pop('images_files_alt', [])
+        feature_images = validated_data.pop("feature_images_files", [])
+        feature_images_alt = validated_data.pop("feature_images_alt", [])
+        feature_images_index = validated_data.pop("feature_images_index", [])
 
         service = ClinicalService.objects.create(**validated_data)
 
@@ -292,7 +368,21 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
                 image=img,
                 alt=alt_text
             )
-
+        
+        for img, index, alt in zip_longest(
+           feature_images,
+           feature_images_index,
+           feature_images_alt,
+           fillvalue="",
+        ):
+           ClinicalServiceFeatureImage.objects.create(
+               clinical_service=service,
+               feature_index=index,
+               image=img,
+               alt=alt or "",
+           )
+       
+       
         return service
 
     
@@ -305,6 +395,9 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         images_files = validated_data.pop('images_files', [])
         images_files_alt = validated_data.pop('images_files_alt', [])
         images_to_delete = validated_data.pop('images_to_delete', [])
+        feature_images = validated_data.pop("feature_images_files", [])
+        feature_images_alt = validated_data.pop("feature_images_alt", [])
+        feature_images_index = validated_data.pop("feature_images_index", [])
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
@@ -339,6 +432,20 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
                 image=img,
                 alt=alt_text
             )
+
+        for i, img in enumerate(feature_images):
+         # delete existing image for that feature index
+         ClinicalServiceFeatureImage.objects.filter(
+             clinical_service=instance,
+             feature_index=feature_images_index[i]
+         ).delete()
+ 
+         ClinicalServiceFeatureImage.objects.create(
+             clinical_service=instance,
+             feature_index=feature_images_index[i],
+             image=img,
+             alt=feature_images_alt[i] if i < len(feature_images_alt) else ""
+         )
 
         instance.save()
         return instance

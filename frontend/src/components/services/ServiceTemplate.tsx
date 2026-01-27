@@ -16,13 +16,14 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
     detailedDescription,
     doctors,
     contact,
-    features,
+    features_read,
 
     testimonials,
     locations,
   } = serviceTypes;
 
   const mainImage = images?.[0];
+  console.log("features_read:", features_read);
 
   return (
     <>
@@ -49,13 +50,13 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                 {detailedDescription}
               </p>
 
-              {features && features.length > 0 && (
+              {features_read && features_read.length > 0 && (
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">
                     Key offerings
                   </h3>
                   <ul className="space-y-6">
-                    {features.map((f, i) => (
+                    {features_read.map((f, i) => (
                       <li key={i} className="flex items-start gap-3">
                         {/* Check icon */}
                         <div className="flex-shrink-0 w-6 h-6 bg-red-900 rounded-full flex items-center justify-center mt-1 text-white text-xs">
@@ -69,10 +70,10 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                           </div>
 
                           {/*  Feature Image */}
-                          {mainImage && (
+                          {f.image && (
                             <img
-                              src={mainImage.url}
-                              alt={mainImage.alt || title}
+                              src={f.image.url}
+                              alt={f.image.url || f.title}
                               className="w-60 h-40 sm:h-48 object-cover rounded-lg mb-2 border border-gray-100"
                             />
                           )}
@@ -118,8 +119,8 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                             a === "Anderson Specialty"
                               ? -1
                               : b === "Anderson Specialty"
-                              ? 1
-                              : a.localeCompare(b)
+                                ? 1
+                                : a.localeCompare(b),
                           );
 
                           const rows: any[] = [];
@@ -170,7 +171,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                                 // If day is empty, look for weekday name in the fromRaw string (e.g. 'Fridays 9am – 11am (Room 6)')
                                 if (!dayDisplay) {
                                   const dayMatch = fromRaw.match(
-                                    /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i
+                                    /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
                                   );
                                   if (dayMatch) {
                                     // Normalize to singular day name (e.g. 'Fridays' -> 'Friday')
@@ -249,7 +250,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                                         Book Appointment →
                                       </Link>
                                     </td>
-                                  </tr>
+                                  </tr>,
                                 );
                               });
                             } else {
@@ -263,7 +264,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                               let dayDisplay = "";
                               let timeDisplay = overview;
                               const dayMatch = overview.match(
-                                /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i
+                                /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
                               );
                               if (dayMatch) {
                                 dayDisplay = dayMatch[1].replace(/s$/i, "");
@@ -280,14 +281,14 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                               timeDisplay = timeDisplay
                                 .replace(
                                   /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
-                                  ""
+                                  "",
                                 )
                                 .trim();
 
                               // If timeDisplay contains a range embedded, normalize spacing
                               timeDisplay = timeDisplay.replace(
                                 /\s*[-–—]\s*/g,
-                                " — "
+                                " — ",
                               );
 
                               rows.push(
@@ -322,7 +323,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                                       Book Appointment →
                                     </Link>
                                   </td>
-                                </tr>
+                                </tr>,
                               );
                             }
                           });

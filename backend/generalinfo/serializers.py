@@ -28,7 +28,7 @@ class TeamMemberSerializer(serializers.ModelSerializer):
         """Create a new team member with optional image."""
         image_file = validated_data.pop("image_file", None)
         image_alt = validated_data.pop("image_alt", "")
-        validated_data.pop("image_to_delete", False)
+        validated_data.pop("image_to_delete", False) 
         
         member = TeamMember.objects.create(**validated_data)
         

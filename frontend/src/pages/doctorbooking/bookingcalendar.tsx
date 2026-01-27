@@ -114,17 +114,18 @@ const BookingPage: React.FC<BookingPageProps> = ({
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
 
-  const serviceIdParam = searchParams.get("serviceId");
+  //const serviceIdParam = searchParams.get("serviceId");
   const doctorIdParam = searchParams.get("doctorId");
   const doctorNameParam = searchParams.get("doctorName");
   const doctorTitleParam = searchParams.get("doctorTitle");
 
-  const serviceId = serviceIdParam ? Number(serviceIdParam) : null;
+  //const serviceId = serviceIdParam ? Number(serviceIdParam) : null;
   const isDoctorBooking = Boolean(doctorIdParam);
 
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(
-    serviceId || null
+    null,
   );
+
   const [selectedService, setSelectedService] = useState<string | null>(null);
 
   const doctorIdNum = doctorIdParam ? Number(doctorIdParam) : null;
@@ -158,7 +159,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
   const selectedServiceFromList = useMemo(
     () => services.find((s) => s.id === selectedServiceId) || null,
-    [services, selectedServiceId]
+    [services, selectedServiceId],
   );
 
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
@@ -171,7 +172,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
   const [additionalInfo, setAdditionalInfo] = useState("");
 
   const isReadyForDetails = Boolean(
-    selectedLocation && selectedDate && selectedTime
+    selectedLocation && selectedDate && selectedTime,
   );
 
   const handleConfirm = () => {
@@ -181,7 +182,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
     if (!serviceName || !selectedLocation || !selectedDate || !selectedTime) {
       alert(
-        "Please select service, location, date and time before confirming."
+        "Please select service, location, date and time before confirming.",
       );
       return;
     }
@@ -232,7 +233,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
   const availableSlots = useMemo(
     () => getSlotsForDate(selectedDate, selectedLocation),
-    [selectedDate, selectedLocation]
+    [selectedDate, selectedLocation],
   );
 
   // Prefill state from query params
@@ -421,16 +422,17 @@ const BookingPage: React.FC<BookingPageProps> = ({
                     Select Service
                   </label>
                   <select
-                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
                     value={selectedServiceId ?? ""}
-                    onChange={(e) =>
-                      setSelectedServiceId(Number(e.target.value))
-                    }
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setSelectedServiceId(val ? Number(val) : null);
+                    }}
                   >
                     <option value="">-- choose a service --</option>
-                    {services.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {s.title}
+
+                    {doctorInfo?.services_offered?.map((service) => (
+                      <option key={service.id} value={service.id}>
+                        {service.title}
                       </option>
                     ))}
                   </select>
