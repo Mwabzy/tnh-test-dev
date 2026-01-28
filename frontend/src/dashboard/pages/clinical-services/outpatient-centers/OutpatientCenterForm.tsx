@@ -82,16 +82,6 @@ const OutpatientCenterForm = ({
     return startIndex === -1 ? HOURS : HOURS.slice(startIndex + 1);
   };
 
-  // Sync the clinicSearch map
-  useEffect(() => {
-    const searchMap: Record<number, string> = {};
-    timings.forEach((t, i) => {
-      const clinic = clinics.find((c) => c.id === Number(t.clinicId));
-      if (clinic) searchMap[i] = clinic.name;
-    });
-    setClinicSearch(searchMap);
-  }, [timings, clinics]);
-
   /* Sync form when editing */
   useEffect(() => {
     if (!initialData) {
@@ -122,6 +112,13 @@ const OutpatientCenterForm = ({
       email: initialData.contact?.email || "",
     });
   }, [initialData]);
+
+  //Logging if clinics & timings were received
+
+  useEffect(() => {
+    console.log("clinics:", clinics);
+    console.log("timings:", timings);
+  }, [clinics, timings]);
 
   /* Image handlers */
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -296,160 +293,164 @@ const OutpatientCenterForm = ({
       <div>
         <label className="font-semibold">Clinic Timings</label>
 
-        {timings.map((t, i) => (
-          <div
-            key={i}
-            className="grid grid-cols-4 gap-2 items-center border p-2 mb-2 rounded"
-          >
-            {/* Clinic search */}
-            <div className="relative">
-              <input
-                className="border p-2 w-full"
-                placeholder="Search clinic..."
-                // Show what user types or selected clinic
-                value={
-                  clinicSearch[i]?.trim() ||
-                  clinics.find((c) => c.id === Number(t.clinicId))?.name ||
-                  ""
-                }
-                onChange={(e) =>
-                  setClinicSearch((prev) => ({
-                    ...prev,
-                    [i]: e.target.value,
-                  }))
-                }
-              />
+        {timings.map((t, i) => {
+          const selectedClinic = clinics.find(
+            (c) => c.id === Number(t.clinicId),
+          );
 
-              {/* Show dropdown only while typing */}
-              {clinicSearch[i]?.trim() && (
-                <div className="absolute z-10 bg-white border w-full max-h-40 overflow-y-auto rounded shadow">
-                  {clinics
-                    .filter((c) =>
+          return (
+            <div
+              key={i}
+              className="grid grid-cols-4 gap-2 items-center border p-2 mb-2 rounded"
+            >
+              {/* Clinic search */}
+              <div className="relative">
+                <input
+                  className="border p-2 w-full"
+                  placeholder="Search clinic..."
+                  value={
+                    selectedClinic ? selectedClinic.name : clinicSearch[i] || ""
+                  }
+                  readOnly={!!selectedClinic}
+                  onChange={(e) =>
+                    setClinicSearch((prev) => ({
+                      ...prev,
+                      [i]: e.target.value,
+                    }))
+                  }
+                />
+
+                {/* Show dropdown only while typing */}
+                {!selectedClinic && clinicSearch[i]?.trim() && (
+                  <div className="absolute z-10 bg-white border w-full max-h-40 overflow-y-auto rounded shadow">
+                    {clinics
+                      .filter((c) =>
+                        c.name
+                          .toLowerCase()
+                          .includes(clinicSearch[i]!.toLowerCase()),
+                      )
+                      .map((c) => (
+                        <button
+                          key={c.id}
+                          type="button"
+                          className="block w-full text-left px-3 py-2 hover:bg-gray-100"
+                          onClick={() => {
+                            // Save selected clinic in timings
+                            setTimings((prev) =>
+                              prev.map((row, idx) =>
+                                idx === i
+                                  ? { ...row, clinicId: String(c.id) }
+                                  : row,
+                              ),
+                            );
+                            // Clear search to close dropdown
+                            setClinicSearch((prev) => ({
+                              ...prev,
+                              [i]: "",
+                            }));
+                          }}
+                        >
+                          {c.name}
+                        </button>
+                      ))}
+
+                    {/* Show no results if nothing matches */}
+                    {clinics.filter((c) =>
                       c.name
                         .toLowerCase()
                         .includes(clinicSearch[i]!.toLowerCase()),
-                    )
-                    .map((c) => (
-                      <button
-                        key={c.id}
-                        type="button"
-                        className="block w-full text-left px-3 py-2 hover:bg-gray-100"
-                        onClick={() => {
-                          // Save selected clinic in timings
-                          setTimings((prev) =>
-                            prev.map((row, idx) =>
-                              idx === i
-                                ? { ...row, clinicId: String(c.id) }
-                                : row,
-                            ),
-                          );
-                          // Clear search to close dropdown
-                          setClinicSearch((prev) => ({
-                            ...prev,
-                            [i]: "",
-                          }));
-                        }}
-                      >
-                        {c.name}
-                      </button>
-                    ))}
+                    ).length === 0 && (
+                      <div className="px-3 py-2 text-sm text-gray-400">
+                        No results
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
 
-                  {/* Show no results if nothing matches */}
-                  {clinics.filter((c) =>
-                    c.name
-                      .toLowerCase()
-                      .includes(clinicSearch[i]!.toLowerCase()),
-                  ).length === 0 && (
-                    <div className="px-3 py-2 text-sm text-gray-400">
-                      No results
-                    </div>
-                  )}
-                </div>
-              )}
+              <select
+                className="border p-2"
+                value={t.day}
+                onChange={(e) =>
+                  setTimings((prev) =>
+                    prev.map((row, idx) =>
+                      idx === i ? { ...row, day: e.target.value } : row,
+                    ),
+                  )
+                }
+              >
+                <option value="">Day</option>
+                {DAYS.map((d) => (
+                  <option key={d} value={d}>
+                    {d.charAt(0).toUpperCase() + d.slice(1)}
+                  </option>
+                ))}
+              </select>
+
+              {/* Start time */}
+              <select
+                className="border p-2"
+                value={t.startTime}
+                onChange={(e) =>
+                  setTimings((prev) =>
+                    prev.map((row, idx) => {
+                      if (idx !== i) return row;
+                      const newStart = e.target.value;
+                      const startIndex = HOURS.indexOf(newStart);
+                      const endIndex = HOURS.indexOf(row.stopTime);
+                      return {
+                        ...row,
+                        startTime: newStart,
+                        stopTime:
+                          row.stopTime && endIndex <= startIndex
+                            ? ""
+                            : row.stopTime,
+                      };
+                    }),
+                  )
+                }
+              >
+                <option value="">Start Time</option>
+                {HOURS.map((h) => (
+                  <option key={h} value={h}>
+                    {h}
+                  </option>
+                ))}
+              </select>
+
+              {/* End time */}
+              <select
+                className="border p-2"
+                value={t.stopTime}
+                disabled={!t.startTime}
+                onChange={(e) =>
+                  setTimings((prev) =>
+                    prev.map((row, idx) =>
+                      idx === i ? { ...row, stopTime: e.target.value } : row,
+                    ),
+                  )
+                }
+              >
+                <option value="">End Time</option>
+                {getValidEndTimes(t.startTime).map((h) => (
+                  <option key={h} value={h}>
+                    {h}
+                  </option>
+                ))}
+              </select>
+
+              <button
+                type="button"
+                className="text-red-500 text-sm col-span-4 text-right"
+                onClick={() =>
+                  setTimings((prev) => prev.filter((_, idx) => idx !== i))
+                }
+              >
+                ✕ Remove
+              </button>
             </div>
-
-            <select
-              className="border p-2"
-              value={t.day}
-              onChange={(e) =>
-                setTimings((prev) =>
-                  prev.map((row, idx) =>
-                    idx === i ? { ...row, day: e.target.value } : row,
-                  ),
-                )
-              }
-            >
-              <option value="">Day</option>
-              {DAYS.map((d) => (
-                <option key={d} value={d}>
-                  {d.charAt(0).toUpperCase() + d.slice(1)}
-                </option>
-              ))}
-            </select>
-
-            {/* Start time */}
-            <select
-              className="border p-2"
-              value={t.startTime}
-              onChange={(e) =>
-                setTimings((prev) =>
-                  prev.map((row, idx) => {
-                    if (idx !== i) return row;
-                    const newStart = e.target.value;
-                    const startIndex = HOURS.indexOf(newStart);
-                    const endIndex = HOURS.indexOf(row.stopTime);
-                    return {
-                      ...row,
-                      startTime: newStart,
-                      stopTime:
-                        row.stopTime && endIndex <= startIndex
-                          ? ""
-                          : row.stopTime,
-                    };
-                  }),
-                )
-              }
-            >
-              <option value="">Start Time</option>
-              {HOURS.map((h) => (
-                <option key={h} value={h}>
-                  {h}
-                </option>
-              ))}
-            </select>
-
-            {/* End time */}
-            <select
-              className="border p-2"
-              value={t.stopTime}
-              disabled={!t.startTime}
-              onChange={(e) =>
-                setTimings((prev) =>
-                  prev.map((row, idx) =>
-                    idx === i ? { ...row, stopTime: e.target.value } : row,
-                  ),
-                )
-              }
-            >
-              <option value="">End Time</option>
-              {getValidEndTimes(t.startTime).map((h) => (
-                <option key={h} value={h}>
-                  {h}
-                </option>
-              ))}
-            </select>
-
-            <button
-              type="button"
-              className="text-red-500 text-sm col-span-4 text-right"
-              onClick={() =>
-                setTimings((prev) => prev.filter((_, idx) => idx !== i))
-              }
-            >
-              ✕ Remove
-            </button>
-          </div>
-        ))}
+          );
+        })}
 
         <button
           type="button"
