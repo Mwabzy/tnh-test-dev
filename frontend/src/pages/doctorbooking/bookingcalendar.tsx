@@ -1,7 +1,11 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { useLocation, useNavigate } from "react-router";
-import { fetchClinicalServices } from "@/api/api"; // Add this import
+import {
+  fetchClinicalServices,
+  fetchClinicalServiceById,
+  fetchDoctorById,
+} from "@/api/api"; // Add this import
 import { ClinicalService, Doctor } from "@/types";
 
 interface CalendarWithTimesProps {
@@ -183,6 +187,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [doctorServices, setDoctorServices] = useState<string[]>([]);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -274,6 +279,32 @@ const BookingPage: React.FC<BookingPageProps> = ({
     }
   }, [doctorInfo]);
 
+  // Fetch doctor's services and auto-select the first one
+  useEffect(() => {
+    const loadDoctorServices = async () => {
+      if (!isDoctorBooking || !doctorIdNum) return;
+
+      try {
+        // Fetch the doctor's full data
+        const doctorData = await fetchDoctorById(doctorIdNum);
+
+        // Extract services offered and auto-select the first one
+        if (
+          doctorData.servicesOffered &&
+          doctorData.servicesOffered.length > 0
+        ) {
+          setDoctorServices(doctorData.servicesOffered);
+          // Auto-select the first service
+          setSelectedService(doctorData.servicesOffered[0].title);
+        }
+      } catch (error) {
+        console.error("Error fetching doctor services:", error);
+      }
+    };
+
+    loadDoctorServices();
+  }, [isDoctorBooking, doctorIdNum]);
+
   // Fetch clinical services when not in doctor booking mode
   useEffect(() => {
     const loadClinicalServices = async () => {
@@ -282,6 +313,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
       setIsLoadingServices(true);
       try {
         const data = await fetchClinicalServices();
+        console.log("Fetched clinical services:", data);
         setClinicalServices(data);
       } catch (error) {
         console.error("Error fetching clinical services:", error);
@@ -450,30 +482,25 @@ const BookingPage: React.FC<BookingPageProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             {/* Doctor Info */}
-            {isDoctorBooking && doctorInfo && (
-              <div className="bg-gradient-to-br from-red-50 to-white p-6 rounded-xl shadow-md border-l-4 border-red-900 hover:shadow-lg transition-shadow">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-red-900 flex items-center justify-center text-white text-xl font-bold">
-                    👨‍⚕️
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-lg text-red-900">
-                      {doctorInfo.name}
-                    </h3>
-                    <p className="text-sm text-red-700 font-medium">
-                      {doctorInfo.role}
-                    </p>
-                    <p className="text-sm text-gray-600 mt-2">
-                      <span className="font-semibold">Available at:</span>{" "}
-                      {/* {doctorInfo.locations.join(", ")} */}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
+            {/* Service & Location */}
             {/* Service & Location */}
             <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border border-gray-100">
+              {/* Doctor Booking - Show Selected Service (read-only) */}
+              {isDoctorBooking && (
+                <div className="mb-6">
+                  <label className="block font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">
+                      1
+                    </span>
+                    Service
+                  </label>
+                  <div className="w-full border-2 border-gray-200 bg-gray-50 rounded-lg px-4 py-3 font-medium text-gray-700">
+                    {selectedService || "Loading..."}
+                  </div>
+                </div>
+              )}
+
+              {/* Regular Service Booking - Show Clinical Services */}
               {!isDoctorBooking && (
                 <div className="mb-6">
                   <label className="block font-semibold text-gray-800 mb-3 flex items-center gap-2">
@@ -482,26 +509,32 @@ const BookingPage: React.FC<BookingPageProps> = ({
                     </span>
                     Select Clinical Service
                   </label>
-                  <select
-                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
-                    value={selectedServiceId ?? ""}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      setSelectedServiceId(val ? Number(val) : null);
-                    }}
-                    disabled={isLoadingServices}
-                  >
-                    <option value="">
-                      {isLoadingServices
-                        ? "Loading services..."
-                        : "-- choose a service --"}
-                    </option>
-                    {clinicalServices.map((service) => (
-                      <option key={service.id} value={service.id}>
-                        {service.title}
+                  {serviceId ? (
+                    <div className="w-full border-2 border-gray-200 bg-gray-50 rounded-lg px-4 py-3 font-medium text-gray-700">
+                      {selectedServiceFromList?.title || "Loading..."}
+                    </div>
+                  ) : (
+                    <select
+                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
+                      value={selectedServiceId ?? ""}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setSelectedServiceId(val ? Number(val) : null);
+                      }}
+                      disabled={isLoadingServices}
+                    >
+                      <option value="">
+                        {isLoadingServices
+                          ? "Loading services..."
+                          : "-- choose a service --"}
                       </option>
-                    ))}
-                  </select>
+                      {clinicalServices.map((service) => (
+                        <option key={service.id} value={service.id}>
+                          {service.title}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </div>
               )}
 
@@ -509,7 +542,6 @@ const BookingPage: React.FC<BookingPageProps> = ({
               {(isDoctorBooking && doctorInfo && selectedService) ||
               (!isDoctorBooking &&
                 (selectedServiceId || selectedServiceFromList)) ? (
-                /* ADDED ref={locationSectionRef} HERE */
                 <div ref={locationSectionRef}>
                   <label className="block font-semibold text-gray-800 mb-3 flex items-center gap-2">
                     <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">
@@ -517,18 +549,25 @@ const BookingPage: React.FC<BookingPageProps> = ({
                     </span>
                     Select Location
                   </label>
-                  <select
-                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
-                    value={selectedLocation ?? ""}
-                    onChange={(e) => setSelectedLocation(e.target.value)}
-                  >
-                    <option value="">-- choose a location --</option>
-                    {availableLocations.map((loc) => (
-                      <option key={loc} value={loc}>
-                        {loc}
-                      </option>
-                    ))}
-                  </select>
+
+                  {searchParams.get("location") ? (
+                    <div className="w-full border-2 border-gray-200 bg-gray-50 rounded-lg px-4 py-3 font-medium text-gray-700">
+                      {selectedLocation || "Loading..."}
+                    </div>
+                  ) : (
+                    <select
+                      className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
+                      value={selectedLocation ?? ""}
+                      onChange={(e) => setSelectedLocation(e.target.value)}
+                    >
+                      <option value="">-- choose a location --</option>
+                      {availableLocations.map((loc) => (
+                        <option key={loc} value={loc}>
+                          {loc}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </div>
               ) : null}
             </div>
