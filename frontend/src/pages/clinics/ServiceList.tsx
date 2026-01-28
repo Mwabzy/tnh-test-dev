@@ -40,7 +40,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
   const allLocations = useMemo(() => {
     const locSet = new Set<string>();
     data.forEach((service) =>
-      service.locations?.forEach((loc) => locSet.add(loc))
+      service.locations?.forEach((loc) => locSet.add(loc)),
     );
     return Array.from(locSet).sort();
   }, [data]);
@@ -63,7 +63,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentServices = filteredServices.slice(
     startIndex,
-    startIndex + ITEMS_PER_PAGE
+    startIndex + ITEMS_PER_PAGE,
   );
 
   const goToPage = (page: number) => {
@@ -75,7 +75,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
 
   const toggleLocation = (loc: string) => {
     setLocations((prev) =>
-      prev.includes(loc) ? prev.filter((l) => l !== loc) : [...prev, loc]
+      prev.includes(loc) ? prev.filter((l) => l !== loc) : [...prev, loc],
     );
     setCurrentPage(1);
   };
@@ -177,7 +177,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
       {/* Service Cards */}
       <main className="flex-1">
         <p className="mb-6 text-sm text-gray-700">
-          Displaying {filteredServices.length} of {data.length} 
+          Displaying {filteredServices.length} of {data.length}
           Clinics
         </p>
 
