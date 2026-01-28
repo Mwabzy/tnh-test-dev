@@ -6,7 +6,7 @@ import Underline from "@tiptap/extension-underline";
 
 interface RichTextEditorProps {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (html: string, plainText: string) => void;
   placeholder?: string;
   minHeight?: string;
 }
@@ -33,7 +33,9 @@ const RichTextEditor = ({
     ],
     content: value,
     onUpdate: ({ editor }) => {
-      onChange(editor.getText({ blockSeparator: "\n\n" }));
+      const html = editor.getHTML();
+      const plainText = editor.getText({ blockSeparator: "\n\n" });
+      onChange(html, plainText);
     },
     editorProps: {
       attributes: {
@@ -45,7 +47,6 @@ const RichTextEditor = ({
   const handleLinkInsert = () => {
     const url = window.prompt("Enter URL:");
     if (url) {
-      // If there's selected text, make it a link. Otherwise, insert the URL as text.
       if (editor?.state.selection.empty) {
         editor
           ?.chain()
