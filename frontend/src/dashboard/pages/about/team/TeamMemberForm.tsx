@@ -14,7 +14,7 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   const [name, setName] = useState(initialData?.name || "");
   const [role, setRole] = useState(initialData?.role || "");
   const [description, setDescription] = useState(
-    initialData?.description || ""
+    initialData?.description || "",
   );
   const [group, _setGroup] = useState(initialData?.group || "");
 
@@ -29,10 +29,10 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
           url: initialData.image,
           alt: (initialData as any).image_alt || "",
         }
-      : null
+      : null,
   );
   const [newImage, setNewImage] = useState<{ file: File; alt: string } | null>(
-    null
+    null,
   );
   const [imageToDelete, setImageToDelete] = useState(false);
 
@@ -156,8 +156,8 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
                   existingImage
                     ? existingImage.url
                     : newImage
-                    ? URL.createObjectURL(newImage.file)
-                    : ""
+                      ? URL.createObjectURL(newImage.file)
+                      : ""
                 }
                 className="w-20 h-20 object-cover border"
                 alt="Preview"
