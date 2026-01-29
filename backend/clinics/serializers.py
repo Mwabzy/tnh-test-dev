@@ -477,3 +477,36 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
             "services_offered",
             "timings",
         ]
+
+    def to_internal_value(self, data):
+        data = dict(data)
+
+        # ---- JSON fields from FormData ----
+        json_fields = ["timings", "contact", "services_offered"]
+
+        for field in json_fields:
+            if field in data:
+                raw = data[field]
+
+                # extract single-value lists
+                if isinstance(raw, list) and len(raw) == 1:
+                    raw = raw[0]
+
+                try:
+                    parsed = json.loads(raw)
+
+                    # force int PKs
+                    if field == "services_offered":
+                        parsed = [int(pk) for pk in parsed]
+
+                    data[field] = parsed
+                except Exception:
+                    data[field] = [] if field != "contact" else {}
+
+        # ---- Plain strings ----
+        for field in ["name", "description", "location"]:
+            if field in data and isinstance(data[field], list):
+                data[field] = data[field][0]
+
+        return super().to_internal_value(data)
+
