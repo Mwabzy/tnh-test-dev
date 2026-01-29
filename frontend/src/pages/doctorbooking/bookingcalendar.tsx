@@ -1,11 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { useLocation, useNavigate } from "react-router";
-import {
-  fetchClinicalServices,
-  fetchClinicalServiceById,
-  fetchDoctorById,
-} from "@/api/api"; // Add this import
+import { fetchClinicalServices, fetchDoctorById } from "@/api/api"; // Add this import
 import { ClinicalService, Doctor } from "@/types";
 
 interface CalendarWithTimesProps {
@@ -157,7 +153,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
       ],
       locations: ["Main Hospital"],
       bio: "Biography not available",
-    } as Doctor;
+    } as unknown as Doctor;
   }, [
     isDoctorBooking,
     doctorIdParam,
@@ -187,7 +183,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [doctorServices, setDoctorServices] = useState<string[]>([]);
+  const [_doctorServices, setDoctorServices] = useState<string[]>([]);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");

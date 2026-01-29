@@ -24,12 +24,10 @@ const OutpatientCenterPage = () => {
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
   const [clinics, setClinics] = useState<{ id: number; name: string }[]>([]);
-  const [loadingClinics, setLoadingClinics] = useState(false);
 
   useEffect(() => {
     const loadClinics = async () => {
       try {
-        setLoadingClinics(true);
         const data = await fetchClinicalServices();
 
         setClinics(
@@ -40,8 +38,6 @@ const OutpatientCenterPage = () => {
         );
       } catch {
         toast.error("Failed to load clinics");
-      } finally {
-        setLoadingClinics(false);
       }
     };
 
@@ -75,25 +71,35 @@ const OutpatientCenterPage = () => {
     setShowForm(true);
   };
 
-  const handleSave = async (center: outpatientCenter) => {
-    try {
-      if (center.id) {
-        const updated = await updateOutpatientCenter(center.id, center);
-        setCenters((prev) =>
-          prev.map((c) => (c.id === updated.id ? updated : c)),
-        );
-        toast.success("Center updated");
-      } else {
-        const created = await createOutpatientCenter(center);
-        setCenters((prev) => [...prev, created]);
-        toast.success("Center created");
-      }
+  const handleSave = (center: outpatientCenter | FormData) => {
+    const performSave = async () => {
+      try {
+        if (center instanceof FormData || center.id) {
+          const id = center instanceof FormData ? null : center.id;
+          if (id) {
+            const updated = await updateOutpatientCenter(id, center);
+            setCenters((prev) =>
+              prev.map((c) => (c.id === updated.id ? updated : c)),
+            );
+            toast.success("Center updated");
+          } else {
+            const created = await createOutpatientCenter(center);
+            setCenters((prev) => [...prev, created]);
+            toast.success("Center created");
+          }
+        } else {
+          const created = await createOutpatientCenter(center);
+          setCenters((prev) => [...prev, created]);
+          toast.success("Center created");
+        }
 
-      setShowForm(false);
-      setEditingCenter(null);
-    } catch {
-      toast.error("Failed to save center");
-    }
+        setShowForm(false);
+        setEditingCenter(null);
+      } catch {
+        toast.error("Failed to save center");
+      }
+    };
+    performSave();
   };
 
   const handleDelete = async (id: number) => {
