@@ -244,7 +244,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                                         Book Appointment →
                                       </Link> */}
                                       <Link
-                                        to={`/booking-calendar`}
+                                        to={`/booking-calendar?serviceId=${serviceTypes.id}`}
                                         className="text-red-900 font-medium"
                                       >
                                         Book Appointment →
@@ -317,7 +317,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                                       Book Appointment →
                                     </Link> */}
                                     <Link
-                                      to={`/booking-calendar`}
+                                      to={`/booking-calendar?serviceId=${serviceTypes.id}`}
                                       className="text-red-900 font-medium"
                                     >
                                       Book Appointment →
