@@ -71,35 +71,25 @@ const OutpatientCenterPage = () => {
     setShowForm(true);
   };
 
-  const handleSave = (center: outpatientCenter | FormData) => {
-    const performSave = async () => {
-      try {
-        if (center instanceof FormData || center.id) {
-          const id = center instanceof FormData ? null : center.id;
-          if (id) {
-            const updated = await updateOutpatientCenter(id, center);
-            setCenters((prev) =>
-              prev.map((c) => (c.id === updated.id ? updated : c)),
-            );
-            toast.success("Center updated");
-          } else {
-            const created = await createOutpatientCenter(center);
-            setCenters((prev) => [...prev, created]);
-            toast.success("Center created");
-          }
-        } else {
-          const created = await createOutpatientCenter(center);
-          setCenters((prev) => [...prev, created]);
-          toast.success("Center created");
-        }
-
-        setShowForm(false);
-        setEditingCenter(null);
-      } catch {
-        toast.error("Failed to save center");
+  const handleSave = async (center: outpatientCenter | FormData) => {
+    try {
+      if (!(center instanceof FormData) && center.id) {
+        const updated = await updateOutpatientCenter(center.id, center);
+        setCenters((prev) =>
+          prev.map((c) => (c.id === updated.id ? updated : c)),
+        );
+        toast.success("Center updated");
+      } else {
+        const created = await createOutpatientCenter(center);
+        setCenters((prev) => [...prev, created]);
+        toast.success("Center created");
       }
-    };
-    performSave();
+
+      setShowForm(false);
+      setEditingCenter(null);
+    } catch {
+      toast.error("Failed to save center");
+    }
   };
 
   const handleDelete = async (id: number) => {

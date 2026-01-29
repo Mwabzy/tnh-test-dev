@@ -18,6 +18,11 @@ type NewImage = {
   alt: string;
 };
 
+const EMPTY_CONTACT: ContactInfo = {
+  phone: "",
+  email: "",
+};
+
 const OutpatientCenterForm = ({
   initialData,
   onSave,
@@ -90,35 +95,70 @@ const OutpatientCenterForm = ({
       setDescription("");
       setTimings([]);
       setContact({ phone: "", email: "" });
-      setImages([]);
-      setNewImages([]);
-      setImagesToDelete([]);
       return;
     }
 
     setName(initialData.name || "");
     setLocation(initialData.location || "");
     setDescription(initialData.description || "");
-    setTimings(
-      (Array.isArray(initialData.timings) ? initialData.timings : []).map(
-        (t) => ({
-          ...t,
-          clinicId: t.clinicId ? String(t.clinicId) : "",
-        }),
-      ),
-    );
+
+    if (Array.isArray(initialData.timings) && initialData.timings.length > 0) {
+      setTimings(
+        initialData.timings.map((t: any) => ({
+          clinicId: t.clinic ? String(t.clinic) : "",
+          day: t.day || "",
+          startTime: t.start_time || t.startTime || "",
+          stopTime: t.stop_time || t.stopTime || "",
+        })),
+      );
+    } else {
+      // auto-create one row for editing
+      setTimings([{ clinicId: "", day: "", startTime: "", stopTime: "" }]);
+    }
+
+    let parsedContact: ContactInfo = EMPTY_CONTACT;
+
+    if (initialData.contact) {
+      if (typeof initialData.contact === "string") {
+        try {
+          parsedContact = JSON.parse(initialData.contact);
+        } catch {
+          parsedContact = EMPTY_CONTACT;
+        }
+      } else {
+        parsedContact = {
+          phone: initialData.contact.phone ?? "",
+          email: initialData.contact.email ?? "",
+        };
+      }
+    }
+
+    setContact(parsedContact);
+
     setContact({
-      phone: initialData.contact?.phone || "",
-      email: initialData.contact?.email || "",
+      phone: parsedContact.phone ?? "",
+      email: parsedContact.email ?? "",
+    });
+
+    setContact({
+      phone: parsedContact.phone || "",
+      email: parsedContact.email || "",
     });
   }, [initialData]);
 
   //Logging if clinics & timings were received
-
   useEffect(() => {
     console.log("clinics:", clinics);
     console.log("timings:", timings);
   }, [clinics, timings]);
+
+  useEffect(() => {
+    if (initialData) {
+      if (!initialData.timings || initialData.timings.length === 0) {
+        setTimings([{ clinicId: "", day: "", startTime: "", stopTime: "" }]);
+      }
+    }
+  }, [initialData]);
 
   /* Image handlers */
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -154,12 +194,18 @@ const OutpatientCenterForm = ({
   /* Submit */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const cleanedTimings = timings.map((t) => ({
+      ...t,
+      clinicId: t.clinicId ? Number(t.clinicId) : null,
+    }));
+
     const formData = new FormData();
 
     formData.append("name", name);
     formData.append("location", location);
     formData.append("description", description);
-    formData.append("timings", JSON.stringify(timings));
+    formData.append("timings", JSON.stringify(cleanedTimings));
+
     formData.append("contact", JSON.stringify(contact));
 
     newImages.forEach((img) => {

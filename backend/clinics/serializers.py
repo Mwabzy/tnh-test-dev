@@ -451,6 +451,7 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         return instance
     
 class TimingsSerializer(serializers.Serializer):
+    clinic = serializers.IntegerField()
     day = serializers.CharField()
     startTime = serializers.CharField()
     stopTime = serializers.CharField()
@@ -458,8 +459,11 @@ class TimingsSerializer(serializers.Serializer):
     
 
 class OutpatientCenterSerializer(serializers.ModelSerializer):
-    services_offered = serializers.PrimaryKeyRelatedField(queryset=ClinicalService.objects.all(), many=True, required=False)
-    timings = TimingsSerializer(many=True)
+    services_offered = serializers.PrimaryKeyRelatedField(
+        queryset=ClinicalService.objects.all(),
+          many=True,
+           required=False)
+    timings = serializers.JSONField()
 
     class Meta:
         model = OutpatientCenter
