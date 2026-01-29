@@ -133,13 +133,6 @@ const OutpatientCenterForm = ({
       }
     }
 
-    setContact(parsedContact);
-
-    setContact({
-      phone: parsedContact.phone ?? "",
-      email: parsedContact.email ?? "",
-    });
-
     setContact({
       phone: parsedContact.phone || "",
       email: parsedContact.email || "",

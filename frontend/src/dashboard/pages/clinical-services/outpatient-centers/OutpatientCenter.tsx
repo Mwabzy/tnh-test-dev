@@ -25,11 +25,11 @@ const OutpatientCenterPage = () => {
 
   const [clinics, setClinics] = useState<{ id: number; name: string }[]>([]);
 
+  /* -------------------- Load clinics -------------------- */
   useEffect(() => {
     const loadClinics = async () => {
       try {
         const data = await fetchClinicalServices();
-
         setClinics(
           data.map((c: any) => ({
             id: c.id,
@@ -44,6 +44,7 @@ const OutpatientCenterPage = () => {
     loadClinics();
   }, []);
 
+  /* -------------------- Load centers -------------------- */
   useEffect(() => {
     const loadCenters = async () => {
       try {
@@ -60,6 +61,7 @@ const OutpatientCenterPage = () => {
     loadCenters();
   }, []);
 
+  /* -------------------- UI actions -------------------- */
   const startCreate = () => {
     setError(null);
     setEditingCenter(null);
@@ -71,27 +73,36 @@ const OutpatientCenterPage = () => {
     setShowForm(true);
   };
 
-  const handleSave = async (center: outpatientCenter | FormData) => {
+  const closeForm = () => {
+    setShowForm(false);
+    setEditingCenter(null);
+  };
+
+  /* -------------------- Save (CREATE or UPDATE) -------------------- */
+  const handleSave = async (payload: outpatientCenter | FormData) => {
     try {
-      if (!(center instanceof FormData) && center.id) {
-        const updated = await updateOutpatientCenter(center.id, center);
-        setCenters((prev) =>
-          prev.map((c) => (c.id === updated.id ? updated : c)),
-        );
+      let saved: outpatientCenter;
+
+      // UPDATE
+      if (editingCenter?.id) {
+        saved = await updateOutpatientCenter(editingCenter.id, payload);
+        setCenters((prev) => prev.map((c) => (c.id === saved.id ? saved : c)));
         toast.success("Center updated");
-      } else {
-        const created = await createOutpatientCenter(center);
-        setCenters((prev) => [...prev, created]);
+      }
+      // CREATE
+      else {
+        saved = await createOutpatientCenter(payload);
+        setCenters((prev) => [...prev, saved]);
         toast.success("Center created");
       }
 
-      setShowForm(false);
-      setEditingCenter(null);
+      closeForm();
     } catch {
       toast.error("Failed to save center");
     }
   };
 
+  /* -------------------- Delete -------------------- */
   const handleDelete = async (id: number) => {
     setDeletingId(id);
     try {
@@ -105,6 +116,7 @@ const OutpatientCenterPage = () => {
     }
   };
 
+  /* -------------------- Render -------------------- */
   return (
     <div>
       <div className="flex justify-between mb-6">
@@ -115,7 +127,7 @@ const OutpatientCenterPage = () => {
             onClick={startCreate}
             className="px-4 py-2 bg-green-600 text-white rounded"
           >
-            Add Clinical Service
+            Add Outpatient Center
           </button>
         )}
       </div>
@@ -128,7 +140,7 @@ const OutpatientCenterPage = () => {
         <OutpatientCenterForm
           initialData={editingCenter}
           onSave={handleSave}
-          onCancel={() => setShowForm(false)}
+          onCancel={closeForm}
           clinics={clinics}
         />
       ) : (
