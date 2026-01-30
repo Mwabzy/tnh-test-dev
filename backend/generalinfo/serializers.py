@@ -79,7 +79,6 @@ class BlogPostSerializer(serializers.ModelSerializer):
         model = BlogPost
         fields = "__all__"
         read_only_fields = ("id", "date", "created_at")
-        # Make fields optional for PATCH requests
         extra_kwargs = {
             'author': {'required': False},
             'title': {'required': False},
@@ -100,16 +99,12 @@ class BlogPostSerializer(serializers.ModelSerializer):
         image_alt = validated_data.pop("image_alt", "")
 
         instance = super().create(validated_data)
-
-        # Handle cover image
         if cover_file:
             instance.cover_image = cover_file
             instance.cover_image_alt = cover_alt
         elif cover_delete:
             instance.cover_image = None
             instance.cover_image_alt = ""
-
-        # Handle additional image
         if image_file:
             instance.image = image_file
             instance.image_alt = image_alt
@@ -135,13 +130,9 @@ class BlogPostSerializer(serializers.ModelSerializer):
         print(f"DEBUG: Cover file: {cover_file}")
         print(f"DEBUG: Cover delete: {cover_delete}")
         print(f"DEBUG: Cover alt: {cover_alt}")
-
-        # Update standard fields
         for attr, value in validated_data.items():
             print(f"DEBUG: Setting {attr} = {value}")
             setattr(instance, attr, value)
-
-        # Handle cover image
         if cover_file:
             print(f"DEBUG: Setting new cover image")
             instance.cover_image = cover_file
@@ -151,7 +142,6 @@ class BlogPostSerializer(serializers.ModelSerializer):
             instance.cover_image = None
             instance.cover_image_alt = ""
 
-        # Handle additional image
         if image_file:
             print(f"DEBUG: Setting new main image")
             instance.image = image_file

@@ -41,9 +41,33 @@ const OutpatientCenterForm = ({
   });
 
   /* Images */
-  const [images, setImages] = useState<Image[]>([]);
+  const [images, setImages] = useState<Image[]>(
+    (initialData?.image || []).map((img) => ({
+      ...img,
+      alt: img.alt || "",
+    })),
+  );
   const [newImages, setNewImages] = useState<NewImage[]>([]);
   const [imagesToDelete, setImagesToDelete] = useState<number[]>([]);
+
+  /* Translation state for description */
+  const [descriptionTranslations, setDescriptionTranslations] = useState({
+    fr: initialData?.description_fr || "",
+    es: initialData?.description_es || "",
+    zh: initialData?.description_zh || "",
+    ru: initialData?.description_ru || "",
+  });
+
+  // Track which translation panel is open (similar to DoctorForm)
+  const [openTranslation, setOpenTranslation] = useState<"description" | null>(
+    null,
+  );
+
+  const toggleTranslation = () => {
+    setOpenTranslation((prev) =>
+      prev === "description" ? null : "description",
+    );
+  };
 
   const DAYS = [
     "monday",
@@ -95,12 +119,35 @@ const OutpatientCenterForm = ({
       setDescription("");
       setTimings([]);
       setContact({ phone: "", email: "" });
+      setDescriptionTranslations({
+        fr: "",
+        es: "",
+        zh: "",
+        ru: "",
+      });
+      setImages([]);
       return;
     }
 
     setName(initialData.name || "");
     setLocation(initialData.location || "");
     setDescription(initialData.description || "");
+
+    // Set translations
+    setDescriptionTranslations({
+      fr: initialData.description_fr || "",
+      es: initialData.description_es || "",
+      zh: initialData.description_zh || "",
+      ru: initialData.description_ru || "",
+    });
+
+    // Set images
+    setImages(
+      (initialData.image || []).map((img) => ({
+        ...img,
+        alt: img.alt || "",
+      })),
+    );
 
     if (Array.isArray(initialData.timings) && initialData.timings.length > 0) {
       setTimings(
@@ -197,15 +244,31 @@ const OutpatientCenterForm = ({
     formData.append("name", name);
     formData.append("location", location);
     formData.append("description", description);
-    formData.append("timings", JSON.stringify(cleanedTimings));
 
+    // Append description translations
+    formData.append("description_fr", descriptionTranslations.fr);
+    formData.append("description_es", descriptionTranslations.es);
+    formData.append("description_zh", descriptionTranslations.zh);
+    formData.append("description_ru", descriptionTranslations.ru);
+
+    formData.append("timings", JSON.stringify(cleanedTimings));
     formData.append("contact", JSON.stringify(contact));
 
-    newImages.forEach((img) => {
-      formData.append("images_files", img.file);
-      formData.append("images_files_alt", img.alt || "");
+    // Append existing images alt text
+    images.forEach((img, index) => {
+      formData.append(`images[${index}][id]`, String(img.id));
+      formData.append(`images[${index}][alt]`, img.alt || "");
     });
 
+    // Append new images
+    newImages.forEach((img) => {
+      if (img.file) {
+        formData.append("images_files", img.file);
+        formData.append("images_files_alt", img.alt || "");
+      }
+    });
+
+    // Append images to delete
     imagesToDelete.forEach((id) => {
       formData.append("images_to_delete", String(id));
     });
@@ -238,12 +301,44 @@ const OutpatientCenterForm = ({
         required
       />
 
-      <textarea
-        className="border p-2 w-full"
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
+      <div>
+        <label className="font-medium block mb-1">Description</label>
+        <textarea
+          className="border p-2 w-full"
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline mt-1 block"
+          onClick={toggleTranslation}
+        >
+          {openTranslation === "description"
+            ? "Hide Translations"
+            : "Show Description Translations"}
+        </button>
+
+        {openTranslation === "description" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <textarea
+                key={lang}
+                placeholder={`Description (${lang})`}
+                className="border p-2 w-full"
+                value={descriptionTranslations[lang]}
+                onChange={(e) =>
+                  setDescriptionTranslations((prev) => ({
+                    ...prev,
+                    [lang]: e.target.value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Images */}
       <div>

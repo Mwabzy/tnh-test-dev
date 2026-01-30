@@ -1,6 +1,6 @@
 import logging
 
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, parsers
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -43,13 +43,6 @@ class TeamMemberViewSet(viewsets.ModelViewSet):
         
         return Response(serializer.data)
 
-
-from rest_framework import viewsets, status, parsers
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-import logging
-
-logger = logging.getLogger(__name__)
 
 class BlogPostViewSet(viewsets.ModelViewSet):
     """ViewSet for managing blog posts with image upload support."""
