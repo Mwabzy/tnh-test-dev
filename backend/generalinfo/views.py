@@ -1,5 +1,6 @@
 import logging
 
+
 from rest_framework import viewsets, status, parsers
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
@@ -10,6 +11,22 @@ from .serializers import TeamMemberSerializer, BlogPostSerializer, CSRSerializer
 
 logger = logging.getLogger(__name__)
 
+
+
+DEBUG = True
+
+
+# Helper function to print all incoming form data, including files
+def log_request_data(request, label="Request"):
+    print(f"\n[{label}] Incoming data:")
+
+    # request.data is already parsed by DRF (QueryDict or MultiPartParser)
+    for key, value in request.data.items():
+        if hasattr(value, "name"):  # It's a file
+            print(f"{key}: <File: {value.name}>")
+        else:
+            print(f"{key}: {value}")
+    print("===========================\n")
 
 class TeamMemberViewSet(viewsets.ModelViewSet):
     """ViewSet for managing team members with image upload support."""
@@ -104,9 +121,18 @@ class CSRViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         logger.info("Creating new CSR entry - User: %s", request.user)
         logger.debug("Request data: %s", request.data)
+        
+        if DEBUG:
+            log_request_data(request, "CSR CREATE")
 
+        
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+
+        if not serializer.is_valid():
+            print("❌ Serializer validation errors:")
+            print(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         self.perform_create(serializer)
         
         logger.info("CSR created successfully: %s", serializer.data.get('id'))

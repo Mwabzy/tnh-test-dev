@@ -158,7 +158,25 @@ class BlogPostSerializer(serializers.ModelSerializer):
 
 class CSRSerializer(serializers.ModelSerializer):
     """Serializer for CSR model with cover image handling."""
-    
+    shortdesc = serializers.CharField(
+        source="short_desc",
+        write_only=True,
+        required=False,
+        allow_blank=True,
+    )
+    longdesc = serializers.CharField(
+        source="long_desc",
+        write_only=True,
+        required=False,
+        allow_blank=True,
+    )
+    blogsubtitle = serializers.CharField(
+        source="blog_subtitle",
+        write_only=True,
+        required=False,
+        allow_blank=True,
+    )
+        
     cover_image_file = serializers.ImageField(write_only=True, required=False)
     cover_image_delete = serializers.BooleanField(write_only=True, required=False)
 
@@ -166,11 +184,29 @@ class CSRSerializer(serializers.ModelSerializer):
         model = CSR
         fields = "__all__"
         read_only_fields = ("id", "created_at")
+        extra_kwargs = {
+            "short_desc": {"required": False, "allow_blank": True},
+            "long_desc": {"required": False, "allow_blank": True},
+            "blog_subtitle": {"required": False, "allow_blank": True},
+        }
 
     def create(self, validated_data):
         """Create a new CSR entry with optional cover image."""
         image_file = validated_data.pop("cover_image_file", None)
         validated_data.pop("cover_image_delete", None)
+        
+          # Pop the alias fields
+        short_desc = validated_data.pop("short_desc", "")
+        long_desc = validated_data.pop("long_desc", "")
+        blog_subtitle = validated_data.pop("blog_subtitle", "")
+
+    # Create CSR instance
+        csr = CSR.objects.create(
+        **validated_data,
+        short_desc=short_desc,
+        long_desc=long_desc,
+        blog_subtitle=blog_subtitle,
+    )
 
         # Create instance first
         csr = CSR.objects.create(**validated_data)

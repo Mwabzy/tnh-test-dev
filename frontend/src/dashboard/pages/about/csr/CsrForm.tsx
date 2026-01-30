@@ -33,9 +33,9 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   );
 
   // For plain text extraction (optional)
-  const [shortdescPlain, setShortdescPlain] = useState("");
-  const [longdescPlain, setLongdescPlain] = useState("");
-  const [descriptionPlain, setDescriptionPlain] = useState("");
+  const [_shortdescPlain, setShortdescPlain] = useState("");
+  const [_longdescPlain, setLongdescPlain] = useState("");
+  const [_descriptionPlain, setDescriptionPlain] = useState("");
 
   // Translation states
   const [descriptionTranslations, setDescriptionTranslations] = useState({
