@@ -10,6 +10,7 @@ import {
   Testimonial,
 } from "@/types";
 import { updateImageAlt } from "@/api/api";
+import RichTextEditor from "@/components/RichTextEditor";
 
 interface Props {
   initialData?: ClinicalService | null;
@@ -427,59 +428,17 @@ const ClinicalServiceForm: React.FC<Props> = ({
       {/* Tagline */}
       <div>
         <label className="font-semibold block mb-1">
-          Tagline {requiredMark}
-        </label>
-        <input
-          type="text"
-          className="border p-2 w-full"
-          value={tagline}
-          onChange={(e) => setTagline(e.target.value)}
-        />
-
-        <button
-          type="button"
-          className="text-blue-600 text-sm underline mt-1 block"
-          onClick={() => toggleTranslation("tagline")}
-        >
-          {openTranslation === "tagline"
-            ? "Hide Translations"
-            : "Show Tagline Translations"}
-        </button>
-
-        {openTranslation === "tagline" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2 mt-2">
-            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
-              <input
-                key={lang}
-                type="text"
-                placeholder={`Tagline (${lang})`}
-                className="border p-2 w-full"
-                value={taglineTranslations[lang]}
-                onChange={(e) =>
-                  setTaglineTranslations((prev) => ({
-                    ...prev,
-                    [lang]: e.target.value,
-                  }))
-                }
-              />
-            ))}
-          </div>
-        )}
-
-        {errors.tagline && (
-          <p className="text-red-600 text-sm">{errors.tagline}</p>
-        )}
-      </div>
-
-      {/* Overview */}
-      <div>
-        <label className="font-semibold block mb-1">
           Overview {requiredMark}
         </label>
-        <textarea
-          className="border p-2 w-full"
+        <RichTextEditor
           value={overview}
-          onChange={(e) => setOverview(e.target.value)}
+          onChange={(html, plainText) => {
+            setOverview(html);
+
+            console.log("Plain text:", plainText);
+          }}
+          placeholder="Enter overview here..."
+          minHeight="150px"
         />
 
         <button
@@ -495,17 +454,17 @@ const ClinicalServiceForm: React.FC<Props> = ({
         {openTranslation === "overview" && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2 mt-2">
             {(["fr", "es", "zh", "ru"] as const).map((lang) => (
-              <textarea
+              <RichTextEditor
                 key={lang}
-                placeholder={`Overview (${lang})`}
-                className="border p-2 w-full"
                 value={overviewTranslations[lang]}
-                onChange={(e) =>
+                onChange={(html) =>
                   setOverviewTranslations((prev) => ({
                     ...prev,
-                    [lang]: e.target.value,
+                    [lang]: html,
                   }))
                 }
+                placeholder={`Overview (${lang})...`}
+                minHeight="120px"
               />
             ))}
           </div>
@@ -517,10 +476,15 @@ const ClinicalServiceForm: React.FC<Props> = ({
         <label className="font-semibold block mb-1">
           Detailed Description {requiredMark}
         </label>
-        <textarea
-          className="border p-2 w-full"
+        <RichTextEditor
           value={detailedDescription}
-          onChange={(e) => setDetailedDescription(e.target.value)}
+          onChange={(html, plainText) => {
+            setDetailedDescription(html);
+            // If you need the plain text for any purpose
+            console.log("Plain text:", plainText);
+          }}
+          placeholder="Enter detailed description here..."
+          minHeight="200px"
         />
 
         <button
@@ -536,17 +500,17 @@ const ClinicalServiceForm: React.FC<Props> = ({
         {openTranslation === "detailedDescription" && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2 mt-2">
             {(["fr", "es", "zh", "ru"] as const).map((lang) => (
-              <textarea
+              <RichTextEditor
                 key={lang}
-                placeholder={`Detailed Description (${lang})`}
-                className="border p-2 w-full"
                 value={detailedDescriptionTranslations[lang]}
-                onChange={(e) =>
+                onChange={(html) =>
                   setDetailedDescriptionTranslations((prev) => ({
                     ...prev,
-                    [lang]: e.target.value,
+                    [lang]: html,
                   }))
                 }
+                placeholder={`Detailed Description (${lang})...`}
+                minHeight="150px"
               />
             ))}
           </div>
