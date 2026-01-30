@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ContactInfo, outpatientCenter, Timings, Image } from "@/types";
+import RichTextEditor from "@/components/RichTextEditor"; // Adjust the import path as needed
 
 export type Clinic = {
   id: number;
@@ -34,7 +35,6 @@ const OutpatientCenterForm = ({
   const [description, setDescription] = useState("");
   const [timings, setTimings] = useState<Timings[]>([]);
   const [clinicSearch, setClinicSearch] = useState<Record<number, string>>({});
-
   const [contact, setContact] = useState<ContactInfo>({
     phone: "",
     email: "",
@@ -58,10 +58,13 @@ const OutpatientCenterForm = ({
     ru: initialData?.description_ru || "",
   });
 
-  // Track which translation panel is open (similar to DoctorForm)
+  // Track which translation panel is open
   const [openTranslation, setOpenTranslation] = useState<"description" | null>(
     null,
   );
+
+  // Add a new state for plain text description (useful for summaries, etc.)
+  const [descriptionPlainText, setDescriptionPlainText] = useState("");
 
   const toggleTranslation = () => {
     setOpenTranslation((prev) =>
@@ -117,6 +120,7 @@ const OutpatientCenterForm = ({
       setName("");
       setLocation("");
       setDescription("");
+      setDescriptionPlainText("");
       setTimings([]);
       setContact({ phone: "", email: "" });
       setDescriptionTranslations({
@@ -132,6 +136,11 @@ const OutpatientCenterForm = ({
     setName(initialData.name || "");
     setLocation(initialData.location || "");
     setDescription(initialData.description || "");
+    setDescriptionPlainText(
+      initialData.description
+        ? initialData.description.replace(/<[^>]*>/g, "")
+        : "",
+    );
 
     // Set translations
     setDescriptionTranslations({
@@ -276,6 +285,12 @@ const OutpatientCenterForm = ({
     onSave(formData);
   };
 
+  // Handler for description changes from RichTextEditor
+  const handleDescriptionChange = (html: string, plainText: string) => {
+    setDescription(html);
+    setDescriptionPlainText(plainText);
+  };
+
   return (
     <form
       className="border p-6 rounded space-y-4 bg-white"
@@ -303,11 +318,11 @@ const OutpatientCenterForm = ({
 
       <div>
         <label className="font-medium block mb-1">Description</label>
-        <textarea
-          className="border p-2 w-full"
-          placeholder="Description"
+        <RichTextEditor
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={handleDescriptionChange}
+          placeholder="Enter center description..."
+          minHeight="200px"
         />
 
         <button
@@ -323,18 +338,22 @@ const OutpatientCenterForm = ({
         {openTranslation === "description" && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
             {(["fr", "es", "zh", "ru"] as const).map((lang) => (
-              <textarea
-                key={lang}
-                placeholder={`Description (${lang})`}
-                className="border p-2 w-full"
-                value={descriptionTranslations[lang]}
-                onChange={(e) =>
-                  setDescriptionTranslations((prev) => ({
-                    ...prev,
-                    [lang]: e.target.value,
-                  }))
-                }
-              />
+              <div key={lang} className="border rounded overflow-hidden">
+                <div className="p-2 bg-gray-50 text-sm font-medium">
+                  Description ({lang.toUpperCase()})
+                </div>
+                <RichTextEditor
+                  value={descriptionTranslations[lang]}
+                  onChange={(html, plainText) => {
+                    setDescriptionTranslations((prev) => ({
+                      ...prev,
+                      [lang]: html,
+                    }));
+                  }}
+                  placeholder={`Enter description in ${lang.toUpperCase()}...`}
+                  minHeight="150px"
+                />
+              </div>
             ))}
           </div>
         )}
