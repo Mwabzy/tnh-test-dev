@@ -3,6 +3,7 @@ import { ClinicalService, Image } from "@/types";
 import { Doctor } from "@/types/clinicalServices";
 import Select from "react-select";
 import toast from "react-hot-toast";
+import RichTextEditor from "@/components/RichTextEditor"; // Adjust path as needed
 
 interface DoctorFormProps {
   initialData?: Doctor | null;
@@ -135,6 +136,22 @@ const DoctorForm = ({
     e.target.value = "";
   };
 
+  /* Bio editor handler */
+  const handleBioChange = (html: string, plainText: string) => {
+    setBio(html); // Store HTML in bio state
+    // You might also want to store plainText if needed elsewhere
+  };
+
+  /* Bio translation handlers */
+  const handleBioTranslationChange =
+    (lang: keyof typeof bioTranslations) =>
+    (html: string, plainText: string) => {
+      setBioTranslations((prev) => ({
+        ...prev,
+        [lang]: html,
+      }));
+    };
+
   /* Submit */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -150,6 +167,7 @@ const DoctorForm = ({
       formData.append("role_zh", roleTranslations.zh);
       formData.append("role_ru", roleTranslations.ru);
 
+      // Use HTML content from rich text editor
       formData.append("bio", bio);
       formData.append("bio_fr", bioTranslations.fr);
       formData.append("bio_es", bioTranslations.es);
@@ -237,17 +255,18 @@ const DoctorForm = ({
         </div>
       )}
 
-      {/* Bio */}
-      <label className="font-medium block ">Bio</label>
-      <textarea
-        className="border p-2 w-full"
+      {/* Bio - Now using RichTextEditor */}
+      <label className="font-medium block mb-1">Bio</label>
+      <RichTextEditor
         value={bio}
-        onChange={(e) => setBio(e.target.value)}
+        onChange={handleBioChange}
+        placeholder="Enter doctor's bio..."
+        minHeight="200px"
       />
 
       <button
         type="button"
-        className="text-blue-600 text-sm underline mt-1 block"
+        className="text-blue-600 text-sm underline mt-2 block"
         onClick={() => toggleTranslation("bio")}
       >
         {openTranslation === "bio"
@@ -256,20 +275,19 @@ const DoctorForm = ({
       </button>
 
       {openTranslation === "bio" && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
+        <div className="space-y-4 mb-2">
           {(["fr", "es", "zh", "ru"] as const).map((lang) => (
-            <textarea
-              key={lang}
-              placeholder={`Bio (${lang})`}
-              className="border p-2 w-full"
-              value={bioTranslations[lang]}
-              onChange={(e) =>
-                setBioTranslations((prev) => ({
-                  ...prev,
-                  [lang]: e.target.value,
-                }))
-              }
-            />
+            <div key={lang}>
+              <label className="block text-sm font-medium mb-1">
+                Bio ({lang})
+              </label>
+              <RichTextEditor
+                value={bioTranslations[lang]}
+                onChange={handleBioTranslationChange(lang)}
+                placeholder={`Enter bio in ${lang}...`}
+                minHeight="150px"
+              />
+            </div>
           ))}
         </div>
       )}

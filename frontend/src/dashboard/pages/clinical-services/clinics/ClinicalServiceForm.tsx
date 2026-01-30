@@ -33,6 +33,15 @@ type FeatureImageDraft =
 
 type FeatureForm = Omit<Feature, "image"> & {
   image?: FeatureImageDraft;
+  // Translation fields for feature
+  title_fr?: string;
+  title_es?: string;
+  title_zh?: string;
+  title_ru?: string;
+  description_fr?: string;
+  description_es?: string;
+  description_zh?: string;
+  description_ru?: string;
 };
 
 const requiredMark = <span className="text-red-600">*</span>;
@@ -68,12 +77,55 @@ const ClinicalServiceForm: React.FC<Props> = ({
   const [detailedDescription, setDetailedDescription] = useState(
     initialData?.detailedDescription || "",
   );
+
+  // Translation states
+  const [taglineTranslations, setTaglineTranslations] = useState({
+    fr: initialData?.tagline_fr || "",
+    es: initialData?.tagline_es || "",
+    zh: initialData?.tagline_zh || "",
+    ru: initialData?.tagline_ru || "",
+  });
+
+  const [overviewTranslations, setOverviewTranslations] = useState({
+    fr: initialData?.overview_fr || "",
+    es: initialData?.overview_es || "",
+    zh: initialData?.overview_zh || "",
+    ru: initialData?.overview_ru || "",
+  });
+
+  const [detailedDescriptionTranslations, setDetailedDescriptionTranslations] =
+    useState({
+      fr: initialData?.detailedDescription_fr || "",
+      es: initialData?.detailedDescription_es || "",
+      zh: initialData?.detailedDescription_zh || "",
+      ru: initialData?.detailedDescription_ru || "",
+    });
+
+  // Track which translation panel is open
+  const [openTranslation, setOpenTranslation] = useState<
+    "tagline" | "overview" | "detailedDescription" | null
+  >(null);
+
+  const toggleTranslation = (
+    field: "tagline" | "overview" | "detailedDescription",
+  ) => {
+    setOpenTranslation((prev) => (prev === field ? null : field));
+  };
+
   const [features, setFeatures] = useState<FeatureForm[]>(() => {
     if (!initialData) return [];
 
     return (initialData.features_read || []).map((f) => ({
       title: f.title,
+      title_fr: f.title_fr || "",
+      title_es: f.title_es || "",
+      title_zh: f.title_zh || "",
+      title_ru: f.title_ru || "",
       description: f.description,
+      description_fr: f.description_fr || "",
+      description_es: f.description_es || "",
+      description_zh: f.description_zh || "",
+      description_ru: f.description_ru || "",
       image: f.image
         ? {
             kind: "existing",
@@ -119,9 +171,13 @@ const ClinicalServiceForm: React.FC<Props> = ({
   const [errors, setErrors] = useState<{ title?: string; tagline?: string }>(
     {},
   );
-  // const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagesToDelete, setImagesToDelete] = useState<number[]>([]);
   const [newImages, setNewImages] = useState<NewImage[]>([]);
+
+  // Feature translation state
+  const [openFeatureTranslations, setOpenFeatureTranslations] = useState<
+    number | null
+  >(null);
 
   //  Filter doctors when typing
   const filteredDoctors = availableDoctors.filter((doc) => {
@@ -142,7 +198,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
   const handleFeatureChange = (
     index: number,
-    key: keyof Feature,
+    key: keyof FeatureForm,
     value: string,
   ) => {
     setFeatures(
@@ -151,7 +207,22 @@ const ClinicalServiceForm: React.FC<Props> = ({
   };
 
   const addFeature = () =>
-    setFeatures([...features, { title: "", description: "" }]);
+    setFeatures([
+      ...features,
+      {
+        title: "",
+        description: "",
+        title_fr: "",
+        title_es: "",
+        title_zh: "",
+        title_ru: "",
+        description_fr: "",
+        description_es: "",
+        description_zh: "",
+        description_ru: "",
+      },
+    ]);
+
   const removeFeature = (index: number) =>
     setFeatures(features.filter((_, i) => i !== index));
 
@@ -179,17 +250,20 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
   const featuresPayload = features.map((f) => ({
     title: f.title,
+    title_fr: f.title_fr,
+    title_es: f.title_es,
+    title_zh: f.title_zh,
+    title_ru: f.title_ru,
     description: f.description,
+    description_fr: f.description_fr,
+    description_es: f.description_es,
+    description_zh: f.description_zh,
+    description_ru: f.description_ru,
     image:
       f.image && "url" in f.image
         ? { url: f.image.url, alt: f.image.alt }
         : null,
   }));
-
-  // const addDoctor = (doctor: Doctor) => {
-  //   if (selectedDoctors.some((d) => d.id === doctor.id)) return;
-  //   setSelectedDoctors((prev) => [...prev, doctor]);
-  // };
 
   const removeDoctor = (id: number) => {
     setSelectedDoctors((prev) => prev.filter((d) => d.id !== id));
@@ -204,11 +278,13 @@ const ClinicalServiceForm: React.FC<Props> = ({
       testimonials.map((t, i) => (i === index ? { ...t, [key]: value } : t)),
     );
   };
+
   const addTestimonial = () =>
     setTestimonials([
       ...testimonials,
       { name: "", title: "", image: "", quote: "" },
     ]);
+
   const removeTestimonial = (index: number) =>
     setTestimonials(testimonials.filter((_, i) => i !== index));
 
@@ -224,22 +300,12 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
   const removeImage = (index: number) => {
     const img = images[index];
-
-    // capture id in a local variable and ensure it's a number
     const imgId = img.id;
     if (typeof imgId === "number") {
       setImagesToDelete((prev: number[]) => [...prev, imgId]);
     }
-
     setImages(images.filter((_, i) => i !== index));
   };
-
-  // const handleLocationChange = (index: number, value: string) => {
-  //   setLocations(locations.map((loc, i) => (i === index ? value : loc)));
-  // };
-  // const addLocation = () => setLocations([...locations, ""]);
-  // const removeLocation = (index: number) =>
-  //   setLocations(locations.filter((_, i) => i !== index));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -252,11 +318,39 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
     formData.append("title", title);
     formData.append("tagline", tagline);
+    formData.append("tagline_fr", taglineTranslations.fr);
+    formData.append("tagline_es", taglineTranslations.es);
+    formData.append("tagline_zh", taglineTranslations.zh);
+    formData.append("tagline_ru", taglineTranslations.ru);
+
     formData.append("overview", overview);
+    formData.append("overview_fr", overviewTranslations.fr);
+    formData.append("overview_es", overviewTranslations.es);
+    formData.append("overview_zh", overviewTranslations.zh);
+    formData.append("overview_ru", overviewTranslations.ru);
+
     formData.append("detailedDescription", detailedDescription);
+    formData.append(
+      "detailedDescription_fr",
+      detailedDescriptionTranslations.fr,
+    );
+    formData.append(
+      "detailedDescription_es",
+      detailedDescriptionTranslations.es,
+    );
+    formData.append(
+      "detailedDescription_zh",
+      detailedDescriptionTranslations.zh,
+    );
+    formData.append(
+      "detailedDescription_ru",
+      detailedDescriptionTranslations.ru,
+    );
+
     formData.append("isBookable", String(isBookable));
     formData.append("hasReadMore", String(hasReadMore));
     formData.append("features", JSON.stringify(featuresPayload));
+
     features.forEach((f, index) => {
       if (f.image && "file" in f.image) {
         formData.append("feature_images_files", f.image.file);
@@ -332,15 +426,46 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
       {/* Tagline */}
       <div>
-        <label className="font-semibold">
+        <label className="font-semibold block mb-1">
           Tagline {requiredMark}
-          <input
-            type="text"
-            className="border p-2 w-full"
-            value={tagline}
-            onChange={(e) => setTagline(e.target.value)}
-          />
         </label>
+        <input
+          type="text"
+          className="border p-2 w-full"
+          value={tagline}
+          onChange={(e) => setTagline(e.target.value)}
+        />
+
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline mt-1 block"
+          onClick={() => toggleTranslation("tagline")}
+        >
+          {openTranslation === "tagline"
+            ? "Hide Translations"
+            : "Show Tagline Translations"}
+        </button>
+
+        {openTranslation === "tagline" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2 mt-2">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <input
+                key={lang}
+                type="text"
+                placeholder={`Tagline (${lang})`}
+                className="border p-2 w-full"
+                value={taglineTranslations[lang]}
+                onChange={(e) =>
+                  setTaglineTranslations((prev) => ({
+                    ...prev,
+                    [lang]: e.target.value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+        )}
+
         {errors.tagline && (
           <p className="text-red-600 text-sm">{errors.tagline}</p>
         )}
@@ -348,17 +473,48 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
       {/* Overview */}
       <div>
-        <label className="font-semibold">Overview {requiredMark}</label>
+        <label className="font-semibold block mb-1">
+          Overview {requiredMark}
+        </label>
         <textarea
           className="border p-2 w-full"
           value={overview}
           onChange={(e) => setOverview(e.target.value)}
         />
+
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline mt-1 block"
+          onClick={() => toggleTranslation("overview")}
+        >
+          {openTranslation === "overview"
+            ? "Hide Translations"
+            : "Show Overview Translations"}
+        </button>
+
+        {openTranslation === "overview" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2 mt-2">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <textarea
+                key={lang}
+                placeholder={`Overview (${lang})`}
+                className="border p-2 w-full"
+                value={overviewTranslations[lang]}
+                onChange={(e) =>
+                  setOverviewTranslations((prev) => ({
+                    ...prev,
+                    [lang]: e.target.value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Detailed Description */}
       <div>
-        <label className="font-semibold">
+        <label className="font-semibold block mb-1">
           Detailed Description {requiredMark}
         </label>
         <textarea
@@ -366,6 +522,35 @@ const ClinicalServiceForm: React.FC<Props> = ({
           value={detailedDescription}
           onChange={(e) => setDetailedDescription(e.target.value)}
         />
+
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline mt-1 block"
+          onClick={() => toggleTranslation("detailedDescription")}
+        >
+          {openTranslation === "detailedDescription"
+            ? "Hide Translations"
+            : "Show Detailed Description Translations"}
+        </button>
+
+        {openTranslation === "detailedDescription" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2 mt-2">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <textarea
+                key={lang}
+                placeholder={`Detailed Description (${lang})`}
+                className="border p-2 w-full"
+                value={detailedDescriptionTranslations[lang]}
+                onChange={(e) =>
+                  setDetailedDescriptionTranslations((prev) => ({
+                    ...prev,
+                    [lang]: e.target.value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Features */}
@@ -374,21 +559,107 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
         {features.map((f, i) => (
           <div key={i} className="space-y-1 border p-2 mb-2 rounded">
-            <input
-              type="text"
-              placeholder="Feature title"
-              className="border p-1 w-full"
-              value={f.title}
-              onChange={(e) => handleFeatureChange(i, "title", e.target.value)}
-            />
-            <textarea
-              placeholder="Description"
-              className="border p-1 w-full"
-              value={f.description}
-              onChange={(e) =>
-                handleFeatureChange(i, "description", e.target.value)
-              }
-            />
+            {/* Feature Title */}
+            <div>
+              <input
+                type="text"
+                placeholder="Feature title"
+                className="border p-1 w-full"
+                value={f.title}
+                onChange={(e) =>
+                  handleFeatureChange(i, "title", e.target.value)
+                }
+              />
+
+              <button
+                type="button"
+                className="text-blue-600 text-sm underline mt-1 block"
+                onClick={() =>
+                  setOpenFeatureTranslations(
+                    openFeatureTranslations === i ? null : i,
+                  )
+                }
+              >
+                {openFeatureTranslations === i
+                  ? "Hide Title Translations"
+                  : "Show Title Translations"}
+              </button>
+
+              {openFeatureTranslations === i && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2 mt-2">
+                  {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+                    <input
+                      key={`title-${lang}`}
+                      type="text"
+                      placeholder={`Title (${lang})`}
+                      className="border p-1 w-full"
+                      value={
+                        (f[`title_${lang}` as keyof FeatureForm] as string) ||
+                        ""
+                      }
+                      onChange={(e) =>
+                        handleFeatureChange(
+                          i,
+                          `title_${lang}` as keyof FeatureForm,
+                          e.target.value,
+                        )
+                      }
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Feature Description */}
+            <div>
+              <textarea
+                placeholder="Description"
+                className="border p-1 w-full"
+                value={f.description}
+                onChange={(e) =>
+                  handleFeatureChange(i, "description", e.target.value)
+                }
+              />
+
+              <button
+                type="button"
+                className="text-blue-600 text-sm underline mt-1 block"
+                onClick={() =>
+                  setOpenFeatureTranslations(
+                    openFeatureTranslations === i ? null : i,
+                  )
+                }
+              >
+                {openFeatureTranslations === i
+                  ? "Hide Description Translations"
+                  : "Show Description Translations"}
+              </button>
+
+              {openFeatureTranslations === i && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2 mt-2">
+                  {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+                    <textarea
+                      key={`desc-${lang}`}
+                      placeholder={`Description (${lang})`}
+                      className="border p-1 w-full"
+                      value={
+                        (f[
+                          `description_${lang}` as keyof FeatureForm
+                        ] as string) || ""
+                      }
+                      onChange={(e) =>
+                        handleFeatureChange(
+                          i,
+                          `description_${lang}` as keyof FeatureForm,
+                          e.target.value,
+                        )
+                      }
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* Feature Image */}
             <div className="flex gap-2 mb-2 items-center">
               {f.image && "url" in f.image && (
@@ -718,6 +989,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
           className="mt-2"
         />
       </div>
+
       {/* Toggles */}
       <div className="flex gap-4">
         <label className="flex items-center gap-2">
