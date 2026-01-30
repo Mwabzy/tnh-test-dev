@@ -52,8 +52,8 @@ const DoctorDetails: FC = () => {
 
         // Fetch ONLY required services
         const services = await Promise.all(
-          doctorData.services_offered.map((id: number) =>
-            fetchClinicalServiceById(id),
+          doctorData.services_offered.map((service: ClinicalService) =>
+            fetchClinicalServiceById(service.id),
           ),
         );
 
