@@ -24,7 +24,15 @@ export interface Doctor {
   id?: number;
   name: string;
   role: string;
+  role_fr?: string;
+  role_es?: string;
+  role_zh?: string;
+  role_ru?: string;
   bio: string;
+  bio_fr?: string;
+  bio_es?: string;
+  bio_zh?: string;
+  bio_ru?: string;
   image?: Image[];
   services_offered?: ClinicalService[];
   research_publications?: string[];

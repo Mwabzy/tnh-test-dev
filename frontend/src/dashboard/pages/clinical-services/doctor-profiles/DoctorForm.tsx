@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Doctor, ClinicalService, Image } from "@/types";
+import { ClinicalService, Image } from "@/types";
+import { Doctor } from "@/types/clinicalServices";
 import Select from "react-select";
 import toast from "react-hot-toast";
 
@@ -50,6 +51,30 @@ const DoctorForm = ({
 
   const [serviceInput, setServiceInput] = useState("");
   const [saving, setSaving] = useState(false);
+  // Translation state
+  const [roleTranslations, setRoleTranslations] = useState({
+    fr: initialData?.role_fr || "",
+    es: initialData?.role_es || "",
+    zh: initialData?.role_zh || "",
+    ru: initialData?.role_ru || "",
+  });
+
+  const [bioTranslations, setBioTranslations] = useState({
+    fr: initialData?.bio_fr || "",
+    es: initialData?.bio_es || "",
+    zh: initialData?.bio_zh || "",
+    ru: initialData?.bio_ru || "",
+  });
+
+  // Toggle translations visibility
+  // Track which translation panel is open: "role", "bio", or null
+  const [openTranslation, setOpenTranslation] = useState<"role" | "bio" | null>(
+    null,
+  );
+
+  const toggleTranslation = (field: "role" | "bio") => {
+    setOpenTranslation((prev) => (prev === field ? null : field));
+  };
 
   /* Filtered Services for search */
   const filteredServices = availableServices.filter((s) => {
@@ -120,7 +145,16 @@ const DoctorForm = ({
 
       formData.append("name", name);
       formData.append("role", role);
+      formData.append("role_fr", roleTranslations.fr);
+      formData.append("role_es", roleTranslations.es);
+      formData.append("role_zh", roleTranslations.zh);
+      formData.append("role_ru", roleTranslations.ru);
+
       formData.append("bio", bio);
+      formData.append("bio_fr", bioTranslations.fr);
+      formData.append("bio_es", bioTranslations.es);
+      formData.append("bio_zh", bioTranslations.zh);
+      formData.append("bio_ru", bioTranslations.ru);
       formData.append("services_offered", JSON.stringify(servicesOffered));
       formData.append(
         "research_publications",
@@ -164,9 +198,8 @@ const DoctorForm = ({
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-
       {/* Role */}
-      <label className="font-medium">Doctor's Role</label>
+      <label className="font-medium block mb-1">Doctor's Role</label>
       <input
         type="text"
         className="border p-2 w-full"
@@ -174,13 +207,72 @@ const DoctorForm = ({
         onChange={(e) => setRole(e.target.value)}
       />
 
+      <button
+        type="button"
+        className="text-blue-600 text-sm underline block"
+        onClick={() => toggleTranslation("role")}
+      >
+        {openTranslation === "role"
+          ? "Hide Translations"
+          : "Show Role Translations"}
+      </button>
+
+      {openTranslation === "role" && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
+          {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+            <input
+              key={lang}
+              type="text"
+              placeholder={`Role (${lang})`}
+              className="border p-2 w-full"
+              value={roleTranslations[lang]}
+              onChange={(e) =>
+                setRoleTranslations((prev) => ({
+                  ...prev,
+                  [lang]: e.target.value,
+                }))
+              }
+            />
+          ))}
+        </div>
+      )}
+
       {/* Bio */}
-      <label className="font-medium">Bio</label>
+      <label className="font-medium block ">Bio</label>
       <textarea
         className="border p-2 w-full"
         value={bio}
         onChange={(e) => setBio(e.target.value)}
       />
+
+      <button
+        type="button"
+        className="text-blue-600 text-sm underline mt-1 block"
+        onClick={() => toggleTranslation("bio")}
+      >
+        {openTranslation === "bio"
+          ? "Hide Translations"
+          : "Show Bio Translations"}
+      </button>
+
+      {openTranslation === "bio" && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
+          {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+            <textarea
+              key={lang}
+              placeholder={`Bio (${lang})`}
+              className="border p-2 w-full"
+              value={bioTranslations[lang]}
+              onChange={(e) =>
+                setBioTranslations((prev) => ({
+                  ...prev,
+                  [lang]: e.target.value,
+                }))
+              }
+            />
+          ))}
+        </div>
+      )}
 
       {/* Services */}
       <label className="font-serif font-semibold">Services Offered</label>
