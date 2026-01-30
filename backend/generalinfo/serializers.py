@@ -79,6 +79,16 @@ class BlogPostSerializer(serializers.ModelSerializer):
         model = BlogPost
         fields = "__all__"
         read_only_fields = ("id", "date", "created_at")
+        # Make fields optional for PATCH requests
+        extra_kwargs = {
+            'author': {'required': False},
+            'title': {'required': False},
+            'subtitle': {'required': False},
+            'short_desc': {'required': False},
+            'long_desc': {'required': False},
+            'category': {'required': False},
+            'blog_subtitle': {'required': False},
+        }
 
     def create(self, validated_data):
         """Create a new blog post with optional images."""
@@ -93,11 +103,11 @@ class BlogPostSerializer(serializers.ModelSerializer):
 
         # Handle cover image
         if cover_file:
-            instance.coverImage = cover_file
-            instance.coverImage_alt = cover_alt
+            instance.cover_image = cover_file
+            instance.cover_image_alt = cover_alt
         elif cover_delete:
-            instance.coverImage = None
-            instance.coverImage_alt = ""
+            instance.cover_image = None
+            instance.cover_image_alt = ""
 
         # Handle additional image
         if image_file:
@@ -112,34 +122,47 @@ class BlogPostSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """Update blog post with image handling."""
+        print(f"DEBUG: Starting update for blog post {instance.id}")
+        print(f"DEBUG: Validated data keys: {validated_data.keys()}")
+        
         cover_file = validated_data.pop("cover_image_file", None)
         image_file = validated_data.pop("image_file", None)
         cover_delete = validated_data.pop("cover_image_delete", False)
         image_delete = validated_data.pop("image_delete", False)
-        cover_alt = validated_data.pop("cover_image_alt", instance.coverImage_alt or "")
+        cover_alt = validated_data.pop("cover_image_alt", instance.cover_image_alt or "")
         image_alt = validated_data.pop("image_alt", instance.image_alt or "")
+
+        print(f"DEBUG: Cover file: {cover_file}")
+        print(f"DEBUG: Cover delete: {cover_delete}")
+        print(f"DEBUG: Cover alt: {cover_alt}")
 
         # Update standard fields
         for attr, value in validated_data.items():
+            print(f"DEBUG: Setting {attr} = {value}")
             setattr(instance, attr, value)
 
         # Handle cover image
         if cover_file:
-            instance.coverImage = cover_file
-            instance.coverImage_alt = cover_alt
+            print(f"DEBUG: Setting new cover image")
+            instance.cover_image = cover_file
+            instance.cover_image_alt = cover_alt
         elif cover_delete:
-            instance.coverImage = None
-            instance.coverImage_alt = ""
+            print(f"DEBUG: Deleting cover image")
+            instance.cover_image = None
+            instance.cover_image_alt = ""
 
         # Handle additional image
         if image_file:
+            print(f"DEBUG: Setting new main image")
             instance.image = image_file
             instance.image_alt = image_alt
         elif image_delete:
+            print(f"DEBUG: Deleting main image")
             instance.image = None
             instance.image_alt = ""
 
         instance.save()
+        print(f"DEBUG: Update completed successfully")
         return instance
 
 

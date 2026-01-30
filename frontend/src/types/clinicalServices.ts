@@ -88,6 +88,10 @@ export interface outpatientCenter {
   name: string;
   slug?: string;
   description: string;
+  description_fr?: string;
+  description_es?: string;
+  description_zh?: string;
+  description_ru?: string;
   contact: ContactInfo;
   location: string;
   timings: Timings[];
