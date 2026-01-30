@@ -18,6 +18,37 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   );
   const [group, _setGroup] = useState(initialData?.group || "");
 
+  // Translation states
+  const [roleTranslations, setRoleTranslations] = useState({
+    fr: initialData?.role_fr || "",
+    es: initialData?.role_es || "",
+    zh: initialData?.role_zh || "",
+    ru: initialData?.role_ru || "",
+  });
+
+  const [descriptionTranslations, setDescriptionTranslations] = useState({
+    fr: initialData?.description_fr || "",
+    es: initialData?.description_es || "",
+    zh: initialData?.description_zh || "",
+    ru: initialData?.description_ru || "",
+  });
+
+  const [groupTranslations, setGroupTranslations] = useState({
+    fr: initialData?.group_fr || "",
+    es: initialData?.group_es || "",
+    zh: initialData?.group_zh || "",
+    ru: initialData?.group_ru || "",
+  });
+
+  // Track which translation panel is open
+  const [openTranslation, setOpenTranslation] = useState<
+    "role" | "description" | "group" | null
+  >(null);
+
+  const toggleTranslation = (field: "role" | "description" | "group") => {
+    setOpenTranslation((prev) => (prev === field ? null : field));
+  };
+
   // Images
   const [existingImage, setExistingImage] = useState<{
     url: string;
@@ -73,6 +104,22 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       formData.append("description", description);
       formData.append("group", group);
 
+      // Append translation fields
+      formData.append("role_fr", roleTranslations.fr);
+      formData.append("role_es", roleTranslations.es);
+      formData.append("role_zh", roleTranslations.zh);
+      formData.append("role_ru", roleTranslations.ru);
+
+      formData.append("description_fr", descriptionTranslations.fr);
+      formData.append("description_es", descriptionTranslations.es);
+      formData.append("description_zh", descriptionTranslations.zh);
+      formData.append("description_ru", descriptionTranslations.ru);
+
+      formData.append("group_fr", groupTranslations.fr);
+      formData.append("group_es", groupTranslations.es);
+      formData.append("group_zh", groupTranslations.zh);
+      formData.append("group_ru", groupTranslations.ru);
+
       if (newImage) {
         formData.append("image_file", newImage.file);
         formData.append("image_alt", newImage.alt);
@@ -97,6 +144,14 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
 
   const disabledClass = loading ? "opacity-50 pointer-events-none" : "";
 
+  // Map group codes to display names
+  const groupDisplayName =
+    {
+      BM: "Board of Management",
+      BT: "Board of Trustees",
+      SM: "Senior Management",
+    }[group] || "—";
+
   return (
     <form onSubmit={handleSubmit} className={`space-y-6 ${disabledClass}`}>
       <div>
@@ -112,6 +167,7 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         {errors.name && <p className="text-red-600 text-sm">{errors.name}</p>}
       </div>
 
+      {/* Role with Translations */}
       <div>
         <label className="font-semibold">
           Role {requiredMark}
@@ -123,8 +179,39 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
           />
         </label>
         {errors.role && <p className="text-red-600 text-sm">{errors.role}</p>}
+
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline block mt-1"
+          onClick={() => toggleTranslation("role")}
+        >
+          {openTranslation === "role"
+            ? "Hide Role Translations"
+            : "Show Role Translations"}
+        </button>
+
+        {openTranslation === "role" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <input
+                key={`role-${lang}`}
+                type="text"
+                placeholder={`Role (${lang.toUpperCase()})`}
+                className="border p-2 w-full"
+                value={roleTranslations[lang]}
+                onChange={(e) =>
+                  setRoleTranslations((prev) => ({
+                    ...prev,
+                    [lang]: e.target.value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+        )}
       </div>
 
+      {/* Description with Translations */}
       <div>
         <label className="font-semibold">Description</label>
         <textarea
@@ -132,17 +219,73 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline block mt-1"
+          onClick={() => toggleTranslation("description")}
+        >
+          {openTranslation === "description"
+            ? "Hide Description Translations"
+            : "Show Description Translations"}
+        </button>
+
+        {openTranslation === "description" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <textarea
+                key={`description-${lang}`}
+                placeholder={`Description (${lang.toUpperCase()})`}
+                className="border p-2 w-full"
+                value={descriptionTranslations[lang]}
+                onChange={(e) =>
+                  setDescriptionTranslations((prev) => ({
+                    ...prev,
+                    [lang]: e.target.value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+        )}
       </div>
 
+      {/* Group with Translations */}
       <div>
         <label className="font-semibold">Group</label>
         <div className="border p-2 w-full bg-gray-100 text-gray-700 rounded">
-          {{
-            BM: "Board of Management",
-            BT: "Board of Trustees",
-            SM: "Senior Management",
-          }[group] || "—"}
+          {groupDisplayName}
         </div>
+
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline block mt-1"
+          onClick={() => toggleTranslation("group")}
+        >
+          {openTranslation === "group"
+            ? "Hide Group Translations"
+            : "Show Group Translations"}
+        </button>
+
+        {openTranslation === "group" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <input
+                key={`group-${lang}`}
+                type="text"
+                placeholder={`Group Display Name (${lang.toUpperCase()})`}
+                className="border p-2 w-full"
+                value={groupTranslations[lang]}
+                onChange={(e) =>
+                  setGroupTranslations((prev) => ({
+                    ...prev,
+                    [lang]: e.target.value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Image with Alt Text */}
