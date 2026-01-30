@@ -29,6 +29,39 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
     initialData?.description || "",
   );
 
+  // Translation states
+  const [descriptionTranslations, setDescriptionTranslations] = useState({
+    fr: initialData?.description_fr || "",
+    es: initialData?.description_es || "",
+    zh: initialData?.description_zh || "",
+    ru: initialData?.description_ru || "",
+  });
+
+  const [shortdescTranslations, setShortdescTranslations] = useState({
+    fr: initialData?.shortdesc_fr || "",
+    es: initialData?.shortdesc_es || "",
+    zh: initialData?.shortdesc_zh || "",
+    ru: initialData?.shortdesc_ru || "",
+  });
+
+  const [longdescTranslations, setLongdescTranslations] = useState({
+    fr: initialData?.longdesc_fr || "",
+    es: initialData?.longdesc_es || "",
+    zh: initialData?.longdesc_zh || "",
+    ru: initialData?.longdesc_ru || "",
+  });
+
+  // Track which translation panel is open
+  const [openTranslation, setOpenTranslation] = useState<
+    "description" | "shortdesc" | "longdesc" | null
+  >(null);
+
+  const toggleTranslation = (
+    field: "description" | "shortdesc" | "longdesc",
+  ) => {
+    setOpenTranslation((prev) => (prev === field ? null : field));
+  };
+
   // Cover image (UPLOAD)
   const [coverImage, setCoverImage] = useState<ImageState | null>(
     initialData?.coverImage
@@ -122,9 +155,27 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       fd.append("title", title);
       fd.append("subtitle", subtitle);
       fd.append("blogsubtitle", blogsubtitle);
+
+      // Append main text fields
       fd.append("shortdesc", shortdesc);
       fd.append("longdesc", longdesc);
       fd.append("description", description);
+
+      // Append translations
+      fd.append("description_fr", descriptionTranslations.fr);
+      fd.append("description_es", descriptionTranslations.es);
+      fd.append("description_zh", descriptionTranslations.zh);
+      fd.append("description_ru", descriptionTranslations.ru);
+
+      fd.append("shortdesc_fr", shortdescTranslations.fr);
+      fd.append("shortdesc_es", shortdescTranslations.es);
+      fd.append("shortdesc_zh", shortdescTranslations.zh);
+      fd.append("shortdesc_ru", shortdescTranslations.ru);
+
+      fd.append("longdesc_fr", longdescTranslations.fr);
+      fd.append("longdesc_es", longdescTranslations.es);
+      fd.append("longdesc_zh", longdescTranslations.zh);
+      fd.append("longdesc_ru", longdescTranslations.ru);
 
       // Cover image handling (same logic as Blog)
       if (coverImage?.file) {
@@ -186,26 +237,122 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         onChange={(e) => setBlogsubtitle(e.target.value)}
       />
 
-      <textarea
-        className="border p-2 w-full"
-        placeholder="Short description"
-        value={shortdesc}
-        onChange={(e) => setShortdesc(e.target.value)}
-      />
+      {/* Short Description */}
+      <div>
+        <label className="font-semibold">Short Description</label>
+        <textarea
+          className="border p-2 w-full"
+          placeholder="Short description"
+          value={shortdesc}
+          onChange={(e) => setShortdesc(e.target.value)}
+        />
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline mt-1 block"
+          onClick={() => toggleTranslation("shortdesc")}
+        >
+          {openTranslation === "shortdesc"
+            ? "Hide Translations"
+            : "Show Short Description Translations"}
+        </button>
 
-      <textarea
-        className="border p-2 w-full"
-        placeholder="Long description"
-        value={longdesc}
-        onChange={(e) => setLongdesc(e.target.value)}
-      />
+        {openTranslation === "shortdesc" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <textarea
+                key={lang}
+                placeholder={`Short Description (${lang})`}
+                className="border p-2 w-full"
+                value={shortdescTranslations[lang]}
+                onChange={(e) =>
+                  setShortdescTranslations((prev) => ({
+                    ...prev,
+                    [lang]: e.target.value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+        )}
+      </div>
 
-      <textarea
-        className="border p-2 w-full"
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
+      {/* Long Description */}
+      <div>
+        <label className="font-semibold">Long Description</label>
+        <textarea
+          className="border p-2 w-full"
+          placeholder="Long description"
+          value={longdesc}
+          onChange={(e) => setLongdesc(e.target.value)}
+        />
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline mt-1 block"
+          onClick={() => toggleTranslation("longdesc")}
+        >
+          {openTranslation === "longdesc"
+            ? "Hide Translations"
+            : "Show Long Description Translations"}
+        </button>
+
+        {openTranslation === "longdesc" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <textarea
+                key={lang}
+                placeholder={`Long Description (${lang})`}
+                className="border p-2 w-full"
+                value={longdescTranslations[lang]}
+                onChange={(e) =>
+                  setLongdescTranslations((prev) => ({
+                    ...prev,
+                    [lang]: e.target.value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Description */}
+      <div>
+        <label className="font-semibold">Description</label>
+        <textarea
+          className="border p-2 w-full"
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline mt-1 block"
+          onClick={() => toggleTranslation("description")}
+        >
+          {openTranslation === "description"
+            ? "Hide Translations"
+            : "Show Description Translations"}
+        </button>
+
+        {openTranslation === "description" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <textarea
+                key={lang}
+                placeholder={`Description (${lang})`}
+                className="border p-2 w-full"
+                value={descriptionTranslations[lang]}
+                onChange={(e) =>
+                  setDescriptionTranslations((prev) => ({
+                    ...prev,
+                    [lang]: e.target.value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+        )}
+      </div>
 
       {renderImage(
         "Cover Image",
