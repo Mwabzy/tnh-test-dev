@@ -517,38 +517,6 @@ const BookingPage: React.FC<BookingPageProps> = ({
           </div>
         </div>
 
-        {/* GENERAL BOOKING - Show clinical service selector */}
-        {!isDoctorBooking && (
-          <div className="mb-6">
-            <label className="block font-semibold text-gray-800 mb-3 flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">
-                1
-              </span>
-              Select Clinical Service
-            </label>
-            <select
-              className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
-              value={selectedServiceId ?? ""}
-              onChange={(e) => {
-                const val = e.target.value;
-                setSelectedServiceId(val ? Number(val) : null);
-              }}
-              disabled={isLoadingServices}
-            >
-              <option value="">
-                {isLoadingServices
-                  ? "Loading services..."
-                  : "-- choose a service --"}
-              </option>
-              {clinicalServices.map((service) => (
-                <option key={service.id} value={service.id}>
-                  {service.title}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             {/* Doctor Info */}
@@ -600,6 +568,38 @@ const BookingPage: React.FC<BookingPageProps> = ({
                     </option>
                     {doctorInfo.services_offered?.map((service) => (
                       <option key={service.id} value={service.title}>
+                        {service.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {/* GENERAL BOOKING - Show clinical service selector */}
+              {!isDoctorBooking && (
+                <div className="mb-6">
+                  <label className="block font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">
+                      1
+                    </span>
+                    Select Clinical Service
+                  </label>
+                  <select
+                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
+                    value={selectedServiceId ?? ""}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setSelectedServiceId(val ? Number(val) : null);
+                    }}
+                    disabled={isLoadingServices}
+                  >
+                    <option value="">
+                      {isLoadingServices
+                        ? "Loading services..."
+                        : "-- choose a service --"}
+                    </option>
+                    {clinicalServices.map((service) => (
+                      <option key={service.id} value={service.id}>
                         {service.title}
                       </option>
                     ))}

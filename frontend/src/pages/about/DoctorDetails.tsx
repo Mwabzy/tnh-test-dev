@@ -120,6 +120,16 @@ const DoctorDetails: FC = () => {
               {firstParagraph}
             </p>
 
+            {/* Book Appointment Button */}
+            <div className="mt-6">
+              <Link
+                to={`/booking-calendar?doctorId=${doctor.id}&doctorName=${encodeURIComponent(doctor.name)}&doctorTitle=${encodeURIComponent(doctor.role)}`}
+                className="inline-block bg-red-900 text-white px-8 py-3 rounded-lg font-semibold shadow-md hover:bg-red-800 transition-all duration-300 hover:shadow-lg"
+              >
+                📅 Book Appointment with {doctor.name.split(" ")[0]}
+              </Link>
+            </div>
+
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-800">
               {doctor.email && (
                 <p>
