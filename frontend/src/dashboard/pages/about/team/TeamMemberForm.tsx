@@ -1,6 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { TeamMember } from "@/types";
+import RichTextEditor from "@/components/RichTextEditor"; // Adjust import path as needed
 
 interface Props {
   initialData?: TeamMember | null;
@@ -17,6 +18,9 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
     initialData?.description || "",
   );
   const [group, _setGroup] = useState(initialData?.group || "");
+
+  // For storing plain text description (if needed)
+  const [plainDescription, setPlainDescription] = useState("");
 
   // Translation states
   const [roleTranslations, setRoleTranslations] = useState({
@@ -211,18 +215,24 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         )}
       </div>
 
-      {/* Description with Translations */}
+      {/* Description with RichTextEditor */}
       <div>
         <label className="font-semibold">Description</label>
-        <textarea
-          className="border p-2 w-full"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+        <div className="mt-2">
+          <RichTextEditor
+            value={description}
+            onChange={(html, plainText) => {
+              setDescription(html);
+              setPlainDescription(plainText);
+            }}
+            placeholder="Enter team member description..."
+            minHeight="200px"
+          />
+        </div>
 
         <button
           type="button"
-          className="text-blue-600 text-sm underline block mt-1"
+          className="text-blue-600 text-sm underline block mt-3"
           onClick={() => toggleTranslation("description")}
         >
           {openTranslation === "description"
@@ -231,20 +241,24 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </button>
 
         {openTranslation === "description" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+          <div className="mt-3 space-y-3">
             {(["fr", "es", "zh", "ru"] as const).map((lang) => (
-              <textarea
-                key={`description-${lang}`}
-                placeholder={`Description (${lang.toUpperCase()})`}
-                className="border p-2 w-full"
-                value={descriptionTranslations[lang]}
-                onChange={(e) =>
-                  setDescriptionTranslations((prev) => ({
-                    ...prev,
-                    [lang]: e.target.value,
-                  }))
-                }
-              />
+              <div key={`description-${lang}`}>
+                <label className="block text-sm font-medium mb-1">
+                  Description ({lang.toUpperCase()})
+                </label>
+                <RichTextEditor
+                  value={descriptionTranslations[lang]}
+                  onChange={(html, plainText) => {
+                    setDescriptionTranslations((prev) => ({
+                      ...prev,
+                      [lang]: html,
+                    }));
+                  }}
+                  placeholder={`Description in ${lang.toUpperCase()}...`}
+                  minHeight="150px"
+                />
+              </div>
             ))}
           </div>
         )}
