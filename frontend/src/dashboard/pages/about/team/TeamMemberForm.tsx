@@ -1,7 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { TeamMember } from "@/types";
-import RichTextEditor from "@/components/RichTextEditor"; // Adjust import path as needed
+import RichTextEditor from "@/components/RichTextEditor";
 
 interface Props {
   initialData?: TeamMember | null;
