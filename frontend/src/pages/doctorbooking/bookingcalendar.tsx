@@ -3,6 +3,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { useLocation, useNavigate } from "react-router";
 import { fetchClinicalServices } from "@/api/api"; // Add this import
 import { ClinicalService, Doctor } from "@/types";
+import { fetchDoctorById } from "@/api/api";
 
 interface CalendarWithTimesProps {
   onDateSelected?: (date: Date) => void;
@@ -130,36 +131,49 @@ const BookingPage: React.FC<BookingPageProps> = ({
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(
     serviceId,
   );
-
+  const doctorServicesParam = searchParams.get("doctorServices");
+  const doctorServices = doctorServicesParam
+    ? JSON.parse(decodeURIComponent(doctorServicesParam))
+    : [];
   const [selectedService, setSelectedService] = useState<string | null>(null);
 
   const doctorIdNum = doctorIdParam ? Number(doctorIdParam) : null;
+
+  const [fetchedDoctor, setFetchedDoctor] = useState<Doctor | null>(null);
+  const [isLoadingDoctor, setIsLoadingDoctor] = useState(false);
+
   // Get doctor information
   const doctorInfo = useMemo(() => {
     if (!isDoctorBooking || !doctorIdParam) return null;
 
+    // Priority 1: Use fetched doctor data (has complete services_offered)
+    if (fetchedDoctor) {
+      console.log("Using fetched doctor:", fetchedDoctor); // Debug log
+      return fetchedDoctor;
+    }
+
+    // Priority 2: Check props
     const doctor = doctors.find((d) => d.id === doctorIdNum);
     if (doctor) return doctor;
-    // Fallback if doctor not found
+
+    // Priority 3: Fallback with URL params
     return {
       id: Number(doctorIdParam),
       name: doctorNameParam || "Doctor",
       role: doctorTitleParam || "Specialist",
-      services: [
-        "General Consultation",
-        "Follow-up Consultation",
-        "Specialist Assessment",
-        "Treatment Planning",
-      ],
+      services_offered: doctorServices.length > 0 ? doctorServices : [],
       locations: ["Main Hospital"],
       bio: "Biography not available",
     } as Doctor;
   }, [
     isDoctorBooking,
     doctorIdParam,
+    fetchedDoctor, // Add this dependency
     doctorNameParam,
     doctorTitleParam,
+    doctorServices,
     doctors,
+    doctorIdNum,
   ]);
 
   const selectedServiceFromList = useMemo(
@@ -172,13 +186,23 @@ const BookingPage: React.FC<BookingPageProps> = ({
       return doctorInfo.locations ?? [];
     }
 
-    // Service booking flow
+    // Service booking flow - get locations from the selected service
     if (selectedServiceFromList) {
       return selectedServiceFromList.locations ?? [];
     }
 
+    // If doctor booking but service is selected, get locations from that service
+    if (isDoctorBooking && selectedService && doctorInfo?.services_offered) {
+      const matchedService = doctorInfo.services_offered.find(
+        (s) => s.title === selectedService,
+      );
+      if (matchedService?.locations) {
+        return matchedService.locations;
+      }
+    }
+
     return [];
-  }, [isDoctorBooking, doctorInfo, selectedServiceFromList]);
+  }, [isDoctorBooking, doctorInfo, selectedServiceFromList, selectedService]);
 
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -293,6 +317,12 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
     loadClinicalServices();
   }, [isDoctorBooking]);
+  useEffect(() => {
+    // Auto-select service when serviceId is in URL
+    if (serviceId && clinicalServices.length > 0 && !selectedServiceId) {
+      setSelectedServiceId(serviceId);
+    }
+  }, [serviceId, clinicalServices]);
 
   // Weekday helpers
   // const weekdays: { [k: string]: number } = {
@@ -351,6 +381,45 @@ const BookingPage: React.FC<BookingPageProps> = ({
     setSelectedDate(null);
     setSelectedTime(null);
   }, [selectedServiceId]);
+
+  // Fetch doctor data when doctorId is in URL
+  // Fetch doctor data when doctorId is in URL
+  useEffect(() => {
+    const loadDoctor = async () => {
+      if (!doctorIdParam) return;
+
+      setIsLoadingDoctor(true);
+      try {
+        const doctorData = await fetchDoctorById(Number(doctorIdParam));
+        console.log("=== DOCTOR DATA FETCHED ===");
+        console.log("Full doctor data:", doctorData);
+        console.log("Services offered:", doctorData.services_offered);
+        console.log("Services length:", doctorData.services_offered?.length);
+
+        // ADD THESE NEW LOGS
+        if (
+          doctorData.services_offered &&
+          doctorData.services_offered.length > 0
+        ) {
+          console.log("First service object:", doctorData.services_offered[0]);
+          console.log("First service ID:", doctorData.services_offered[0]?.id);
+          console.log(
+            "First service title:",
+            doctorData.services_offered[0]?.title,
+          );
+        }
+
+        console.log("=========================");
+        setFetchedDoctor(doctorData);
+      } catch (error) {
+        console.error("Error fetching doctor:", error);
+      } finally {
+        setIsLoadingDoctor(false);
+      }
+    };
+
+    loadDoctor();
+  }, [doctorIdParam]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-red-50 py-12 px-4">
@@ -450,30 +519,71 @@ const BookingPage: React.FC<BookingPageProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             {/* Doctor Info */}
-            {isDoctorBooking && doctorInfo && (
+            {isDoctorBooking && (
               <div className="bg-gradient-to-br from-red-50 to-white p-6 rounded-xl shadow-md border-l-4 border-red-900 hover:shadow-lg transition-shadow">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-red-900 flex items-center justify-center text-white text-xl font-bold">
-                    👨‍⚕️
+                {isLoadingDoctor ? (
+                  <div className="text-center py-4 text-gray-600">
+                    Loading doctor information...
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-lg text-red-900">
-                      {doctorInfo.name}
-                    </h3>
-                    <p className="text-sm text-red-700 font-medium">
-                      {doctorInfo.role}
-                    </p>
-                    <p className="text-sm text-gray-600 mt-2">
-                      <span className="font-semibold">Available at:</span>{" "}
-                      {/* {doctorInfo.locations.join(", ")} */}
-                    </p>
+                ) : doctorInfo ? (
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-full bg-red-900 flex items-center justify-center text-white text-xl font-bold">
+                      👨‍⚕️
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-lg text-red-900">
+                        {doctorInfo.name}
+                      </h3>
+                      <p className="text-sm text-red-700 font-medium">
+                        {doctorInfo.role}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                ) : null}
               </div>
             )}
 
             {/* Service & Location */}
             <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border border-gray-100">
+              {/* DOCTOR BOOKING - Show service selector */}
+              {isDoctorBooking && doctorInfo && !isLoadingDoctor && (
+                <div className="mb-6">
+                  <label className="block font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">
+                      1
+                    </span>
+                    Select Service with {doctorInfo.name}
+                  </label>
+                  <select
+                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
+                    value={selectedService ?? ""}
+                    onChange={(e) => setSelectedService(e.target.value)}
+                  >
+                    <option value="">
+                      {doctorInfo.services_offered &&
+                      doctorInfo.services_offered.length > 0
+                        ? "-- choose a service --"
+                        : "-- no services available --"}
+                    </option>
+                    {doctorInfo.services_offered?.map((service) => (
+                      <option key={service.id} value={service.title}>
+                        {service.title}
+                      </option>
+                    ))}
+                  </select>
+
+                  {/* Debug info - remove this after testing */}
+                  {doctorInfo.services_offered &&
+                    doctorInfo.services_offered.length === 0 && (
+                      <p className="text-xs text-red-600 mt-2">
+                        Note: This doctor has no services assigned in the
+                        database.
+                      </p>
+                    )}
+                </div>
+              )}
+
+              {/* GENERAL BOOKING - Show clinical service selector */}
               {!isDoctorBooking && (
                 <div className="mb-6">
                   <label className="block font-semibold text-gray-800 mb-3 flex items-center gap-2">
@@ -505,11 +615,9 @@ const BookingPage: React.FC<BookingPageProps> = ({
                 </div>
               )}
 
-              {/* Location selector */}
-              {(isDoctorBooking && doctorInfo && selectedService) ||
-              (!isDoctorBooking &&
-                (selectedServiceId || selectedServiceFromList)) ? (
-                /* ADDED ref={locationSectionRef} HERE */
+              {/* Location selector - shows after service is selected */}
+              {((isDoctorBooking && doctorInfo && selectedService) ||
+                (!isDoctorBooking && selectedServiceFromList)) && (
                 <div ref={locationSectionRef}>
                   <label className="block font-semibold text-gray-800 mb-3 flex items-center gap-2">
                     <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">
@@ -530,7 +638,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
                     ))}
                   </select>
                 </div>
-              ) : null}
+              )}
             </div>
 
             {/* Calendar & Times */}

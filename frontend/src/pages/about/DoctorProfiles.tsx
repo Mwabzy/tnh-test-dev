@@ -123,6 +123,7 @@ const DoctorProfiles: FC = () => {
       try {
         setLoading(true);
         const data = await fetchDoctors();
+        console.log("Fetched doctors data:", data);
         const transformed = data.map((doc: any, idx: number) => ({
           ...doc,
           id: doc.id || `doctor-${idx}`,
@@ -341,9 +342,7 @@ const DoctorProfiles: FC = () => {
                   </div>
                   <div className="flex flex-wrap gap-3 mt-4">
                     <Link
-                      to={`/booking-calendar?serviceId=${getServiceIdFromDoctorServices(
-                        member.servicesOffered || [],
-                      )}`}
+                      to={`/booking-calendar?doctorId=${member.id}`}
                       className="flex items-center justify-center gap-2 text-red-900 border border-gray-300 px-4 py-2 rounded-md text-sm hover:bg-red-50 hover:border-red-300 transition font-medium"
                     >
                       <FaCalendarCheck />

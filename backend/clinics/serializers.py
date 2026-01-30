@@ -45,8 +45,15 @@ class SlimDoctorSerializer(serializers.ModelSerializer):
 
 
 class DoctorSerializer(serializers.ModelSerializer):
-    services_offered = serializers.PrimaryKeyRelatedField(queryset=ClinicalService.objects.all(), many=True, required=False)   
-    services_offered_ids = serializers.ListField(child=serializers.IntegerField(), write_only=True, required=False)
+     # For READ operations - return full service objects
+    services_offered = serializers.SerializerMethodField(read_only=True)
+    
+    # For WRITE operations - accept IDs
+    services_offered_ids = serializers.ListField(
+        child=serializers.IntegerField(), 
+        write_only=True, 
+        required=False
+    )
     research_publications = serializers.JSONField(required=False)
     awards = serializers.JSONField(required=False)
     image = DoctorImageSerializer(source="uploaded_images", many=True, read_only=True)
@@ -63,16 +70,39 @@ class DoctorSerializer(serializers.ModelSerializer):
             'research_publications', 'awards'
         ]
 
+    def get_services_offered(self, obj):
+        services = obj.services_offered.all()
+        
+
+        
+        result = []
+        for service in services:
+            result.append({
+                'id': service.id,
+                'title': service.title,
+                'tagline': service.tagline,
+                'overview': service.overview,
+                'locations': service.locations,
+                'isBookable': service.isBookable,
+            })
+        
+        return result
+    
+
 
     def to_internal_value(self, data):
      # If data is a QueryDict (from multipart/form-data), convert to dict of lists
      if hasattr(data, 'getlist'):
          data = {k: data.getlist(k) for k in data.keys()}
+
+         
  
      #  Flatten single-item lists for simple string fields 
      for field in ['name', 'role', 'bio']:
          if field in data and isinstance(data[field], list) and len(data[field]) == 1:
              data[field] = data[field][0]
+
+             
  
      #  JSON fields 
      json_fields = ['research_publications', 'awards', 'services_offered_ids']
@@ -133,6 +163,7 @@ class DoctorSerializer(serializers.ModelSerializer):
          DoctorImage.objects.create(doctor=doctor, image=img, alt=alt_text)
  
      return doctor
+    
  
     def update(self, instance, validated_data):
         services = validated_data.pop('services_offered', None)
