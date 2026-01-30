@@ -1,6 +1,6 @@
 import logging
 
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, parsers
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -50,7 +50,7 @@ class BlogPostViewSet(viewsets.ModelViewSet):
     queryset = BlogPost.objects.all()
     serializer_class = BlogPostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    parser_classes = (MultiPartParser, FormParser)
+    parser_classes = (parsers.MultiPartParser, parsers.FormParser)
 
     def create(self, request, *args, **kwargs):
         logger.info("Creating new blog post - User: %s", request.user)
@@ -62,6 +62,35 @@ class BlogPostViewSet(viewsets.ModelViewSet):
         
         logger.info("Blog post created successfully: %s", serializer.data.get('id'))
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        """Handle PUT/PATCH requests."""
+        logger.info("Updating blog post - User: %s", request.user)
+        logger.debug("Request data: %s", request.data)
+        
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        
+        # For PATCH requests, allow partial updates
+        if request.method == 'PATCH':
+            partial = True
+        
+        serializer = self.get_serializer(
+            instance, 
+            data=request.data, 
+            partial=partial
+        )
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        
+        logger.info("Blog post updated successfully: %s", instance.id)
+        return Response(serializer.data)
+
+    def partial_update(self, request, *args, **kwargs):
+        """Handle PATCH requests specifically."""
+        logger.info("Partial update (PATCH) for blog post - User: %s", request.user)
+        kwargs['partial'] = True
+        return self.update(request, *args, **kwargs)
 
 
 class CSRViewSet(viewsets.ModelViewSet):

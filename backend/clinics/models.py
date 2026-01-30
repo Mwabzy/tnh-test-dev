@@ -125,8 +125,6 @@ class ClinicalServiceFeatureImage(models.Model):
         return f"Feature image {self.feature_index} for {self.clinical_service.title}"
 
   
-
-  # OutpatientCenter
 class OutpatientCenter(models.Model):
     # Basic Info
     name = models.CharField(max_length=150)
