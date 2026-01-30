@@ -317,6 +317,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
     loadClinicalServices();
   }, [isDoctorBooking]);
+
   useEffect(() => {
     // Auto-select service when serviceId is in URL
     if (serviceId && clinicalServices.length > 0 && !selectedServiceId) {

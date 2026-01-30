@@ -145,7 +145,7 @@ class DoctorSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
      #  Pop out many-to-many and extra fields 
-     services_ids = validated_data.pop('services_offered', [])
+     services_ids = validated_data.pop('services_offered_ids', [])
      images_files = validated_data.pop('images_files', [])
      images_alt = validated_data.pop('images_files_alt', [])
  
@@ -166,7 +166,7 @@ class DoctorSerializer(serializers.ModelSerializer):
     
  
     def update(self, instance, validated_data):
-        services = validated_data.pop('services_offered', None)
+        services = validated_data.pop('services_offered_ids', None)
         images_files = validated_data.pop('images_files', [])
         images_files_alt = validated_data.pop('images_files_alt', [])
         images_to_delete = validated_data.pop('images_to_delete', [])

@@ -56,7 +56,7 @@ const DoctorDetails: FC = () => {
             fetchClinicalServiceById(service.id),
           ),
         );
-
+        console.log("Fetched services offered:", services);
         setServicesOffered(services);
         setError(null);
       })

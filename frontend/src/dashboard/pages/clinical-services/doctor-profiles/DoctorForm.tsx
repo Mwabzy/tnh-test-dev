@@ -155,7 +155,7 @@ const DoctorForm = ({
       formData.append("bio_es", bioTranslations.es);
       formData.append("bio_zh", bioTranslations.zh);
       formData.append("bio_ru", bioTranslations.ru);
-      formData.append("services_offered", JSON.stringify(servicesOffered));
+      formData.append("services_offered_ids", JSON.stringify(servicesOffered));
       formData.append(
         "research_publications",
         JSON.stringify(researchPublications),
