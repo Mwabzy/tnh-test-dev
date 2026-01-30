@@ -67,8 +67,6 @@ const DoctorForm = ({
     ru: initialData?.bio_ru || "",
   });
 
-  // Toggle translations visibility
-  // Track which translation panel is open: "role", "bio", or null
   const [openTranslation, setOpenTranslation] = useState<"role" | "bio" | null>(
     null,
   );
@@ -138,8 +136,7 @@ const DoctorForm = ({
 
   /* Bio editor handler */
   const handleBioChange = (html: string, plainText: string) => {
-    setBio(html); // Store HTML in bio state
-    // You might also want to store plainText if needed elsewhere
+    setBio(html);
   };
 
   /* Bio translation handlers */

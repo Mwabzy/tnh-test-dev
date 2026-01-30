@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import toast from "react-hot-toast";
 import type { Blog } from "@/types";
+import RichTextEditor from "@/components/RichTextEditor";
 
 interface Props {
   initialData?: Blog | null;
@@ -99,6 +100,21 @@ const BlogForm: React.FC<Props> = ({
   const mainInputRef = useRef<HTMLInputElement | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(false);
+
+  // New state for rich text translations
+  const [shortdescHTMLTranslations, setShortdescHTMLTranslations] = useState({
+    fr: "",
+    es: "",
+    zh: "",
+    ru: "",
+  });
+
+  const [longdescHTMLTranslations, setLongdescHTMLTranslations] = useState({
+    fr: "",
+    es: "",
+    zh: "",
+    ru: "",
+  });
 
   const validate = () => {
     const errs: FormErrors = {};
@@ -204,60 +220,35 @@ const BlogForm: React.FC<Props> = ({
       const translationsData = {
         subtitle: subtitleTranslations,
         category: categoryTranslations,
-        short_desc: shortdescTranslations,
-        long_desc: longdescTranslations,
+        short_desc: {
+          // Send both HTML and plain text translations
+          text: shortdescTranslations,
+          html: shortdescHTMLTranslations,
+        },
+        long_desc: {
+          text: longdescTranslations,
+          html: longdescHTMLTranslations,
+        },
       };
       fd.append("blog_subtitle", JSON.stringify(translationsData));
 
       // Handle images according to serializer
-      // Note: The serializer has bugs (coverImage vs cover_image)
-      // but we're sending what it expects based on the code
-
-      // Cover image - using serializer field names
       if (coverImage?.file) {
         fd.append("cover_image_file", coverImage.file);
       }
-      // Always send alt text and delete flag
       fd.append("cover_image_alt", coverImage?.alt || "");
       fd.append("cover_image_delete", deleteCoverImage.toString());
 
-      // Main image - using serializer field names
       if (mainImage?.file) {
         fd.append("image_file", mainImage.file);
       }
-      // Always send alt text and delete flag
       fd.append("image_alt", mainImage?.alt || "");
       fd.append("image_delete", deleteMainImage.toString());
-
-      // Debug: Log what's being sent
-      console.log("=== FormData being sent ===");
-      console.log("Operation:", initialData?.id ? "EDIT" : "CREATE");
-      console.log("Initial ID:", initialData?.id);
-
-      for (const [key, value] of fd.entries()) {
-        if (value instanceof File) {
-          console.log(
-            `${key}: File - ${value.name} (${value.type}, ${value.size} bytes)`,
-          );
-        } else if (key === "blog_subtitle") {
-          try {
-            const parsed = JSON.parse(value as string);
-            console.log(`${key}: JSON object with keys:`, Object.keys(parsed));
-          } catch {
-            console.log(`${key}: ${value}`);
-          }
-        } else {
-          console.log(`${key}: ${value}`);
-        }
-      }
-      console.log("=== End FormData ===");
 
       await onSave(fd);
       toast.success("Saved successfully");
     } catch (err: any) {
       console.error("Save error details:", err);
-
-      // Try to get more error info
       if (err.response?.data) {
         console.error("Server response error:", err.response.data);
         toast.error(`Server error: ${JSON.stringify(err.response.data)}`);
@@ -389,18 +380,26 @@ const BlogForm: React.FC<Props> = ({
         )}
       </div>
 
-      {/* Short Description */}
+      {/* Short Description - Replaced with Rich Text Editor */}
       <div>
         <label className="font-medium block mb-1">Short Description</label>
-        <textarea
-          className="border p-2 w-full rounded"
-          placeholder="Short description"
+        <RichTextEditor
           value={shortdesc}
-          onChange={(e) => setShortdesc(e.target.value)}
+          onChange={(html, plainText) => {
+            // Store HTML for main language
+            setShortdesc(html);
+            // Store plain text for translations
+            setShortdescTranslations((prev) => ({
+              ...prev,
+              en: plainText, // Optional: store English plain text
+            }));
+          }}
+          placeholder="Enter short description..."
+          minHeight="150px"
         />
         <button
           type="button"
-          className="text-blue-600 text-sm underline mt-1 block"
+          className="text-blue-600 text-sm underline mt-3 block"
           onClick={() => toggleTranslation("shortdesc")}
         >
           {openTranslation === "shortdesc"
@@ -409,37 +408,51 @@ const BlogForm: React.FC<Props> = ({
         </button>
 
         {openTranslation === "shortdesc" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+          <div className="space-y-4 mt-3">
             {(["fr", "es", "zh", "ru"] as const).map((lang) => (
-              <textarea
-                key={lang}
-                placeholder={`Short description (${lang})`}
-                className="border p-2 w-full rounded"
-                value={shortdescTranslations[lang]}
-                onChange={(e) =>
-                  setShortdescTranslations((prev) => ({
-                    ...prev,
-                    [lang]: e.target.value,
-                  }))
-                }
-              />
+              <div key={lang} className="border p-3 rounded bg-gray-50">
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  Short Description ({lang.toUpperCase()})
+                </label>
+                <RichTextEditor
+                  value={shortdescHTMLTranslations[lang]}
+                  onChange={(html, plainText) => {
+                    setShortdescHTMLTranslations((prev) => ({
+                      ...prev,
+                      [lang]: html,
+                    }));
+                    setShortdescTranslations((prev) => ({
+                      ...prev,
+                      [lang]: plainText,
+                    }));
+                  }}
+                  placeholder={`Enter short description in ${lang}...`}
+                  minHeight="120px"
+                />
+              </div>
             ))}
           </div>
         )}
       </div>
 
-      {/* Long Description */}
+      {/* Long Description - Replaced with Rich Text Editor */}
       <div>
         <label className="font-medium block mb-1">Full Content</label>
-        <textarea
-          className="border p-2 w-full h-40 rounded"
-          placeholder="Full content"
+        <RichTextEditor
           value={longdesc}
-          onChange={(e) => setLongdesc(e.target.value)}
+          onChange={(html, plainText) => {
+            setLongdesc(html);
+            setLongdescTranslations((prev) => ({
+              ...prev,
+              en: plainText,
+            }));
+          }}
+          placeholder="Enter full content..."
+          minHeight="300px"
         />
         <button
           type="button"
-          className="text-blue-600 text-sm underline mt-1 block"
+          className="text-blue-600 text-sm underline mt-3 block"
           onClick={() => toggleTranslation("longdesc")}
         >
           {openTranslation === "longdesc"
@@ -448,20 +461,28 @@ const BlogForm: React.FC<Props> = ({
         </button>
 
         {openTranslation === "longdesc" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+          <div className="space-y-4 mt-3">
             {(["fr", "es", "zh", "ru"] as const).map((lang) => (
-              <textarea
-                key={lang}
-                placeholder={`Full content (${lang})`}
-                className="border p-2 w-full h-40 rounded"
-                value={longdescTranslations[lang]}
-                onChange={(e) =>
-                  setLongdescTranslations((prev) => ({
-                    ...prev,
-                    [lang]: e.target.value,
-                  }))
-                }
-              />
+              <div key={lang} className="border p-3 rounded bg-gray-50">
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  Full Content ({lang.toUpperCase()})
+                </label>
+                <RichTextEditor
+                  value={longdescHTMLTranslations[lang]}
+                  onChange={(html, plainText) => {
+                    setLongdescHTMLTranslations((prev) => ({
+                      ...prev,
+                      [lang]: html,
+                    }));
+                    setLongdescTranslations((prev) => ({
+                      ...prev,
+                      [lang]: plainText,
+                    }));
+                  }}
+                  placeholder={`Enter full content in ${lang}...`}
+                  minHeight="200px"
+                />
+              </div>
             ))}
           </div>
         )}
