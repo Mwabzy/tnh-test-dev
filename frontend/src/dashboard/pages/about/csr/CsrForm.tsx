@@ -1,6 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { CSR } from "@/types";
+import RichTextEditor from "@/components/RichTextEditor"; // Adjust path as needed
 
 interface Props {
   initialData?: CSR | null;
@@ -23,11 +24,18 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   const [blogsubtitle, setBlogsubtitle] = useState(
     initialData?.blogsubtitle || "",
   );
+
+  // Rich text editor states
   const [shortdesc, setShortdesc] = useState(initialData?.shortdesc || "");
   const [longdesc, setLongdesc] = useState(initialData?.longdesc || "");
   const [description, setDescription] = useState(
     initialData?.description || "",
   );
+
+  // For plain text extraction (optional)
+  const [shortdescPlain, setShortdescPlain] = useState("");
+  const [longdescPlain, setLongdescPlain] = useState("");
+  const [descriptionPlain, setDescriptionPlain] = useState("");
 
   // Translation states
   const [descriptionTranslations, setDescriptionTranslations] = useState({
@@ -156,7 +164,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       fd.append("subtitle", subtitle);
       fd.append("blogsubtitle", blogsubtitle);
 
-      // Append main text fields
+      // Append rich text fields
       fd.append("shortdesc", shortdesc);
       fd.append("longdesc", longdesc);
       fd.append("description", description);
@@ -177,7 +185,12 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       fd.append("longdesc_zh", longdescTranslations.zh);
       fd.append("longdesc_ru", longdescTranslations.ru);
 
-      // Cover image handling (same logic as Blog)
+      // Optionally, you can also append plain text versions
+      // fd.append("shortdesc_plain", shortdescPlain);
+      // fd.append("longdesc_plain", longdescPlain);
+      // fd.append("description_plain", descriptionPlain);
+
+      // Cover image handling
       if (coverImage?.file) {
         fd.append("cover_image_file", coverImage.file);
         fd.append("cover_image_alt", coverImage.alt);
@@ -237,18 +250,21 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         onChange={(e) => setBlogsubtitle(e.target.value)}
       />
 
-      {/* Short Description */}
+      {/* Short Description - Rich Text Editor */}
       <div>
         <label className="font-semibold">Short Description</label>
-        <textarea
-          className="border p-2 w-full"
-          placeholder="Short description"
+        <RichTextEditor
           value={shortdesc}
-          onChange={(e) => setShortdesc(e.target.value)}
+          onChange={(html, plainText) => {
+            setShortdesc(html);
+            setShortdescPlain(plainText); // Optional: store plain text
+          }}
+          placeholder="Enter short description..."
+          minHeight="150px"
         />
         <button
           type="button"
-          className="text-blue-600 text-sm underline mt-1 block"
+          className="text-blue-600 text-sm underline mt-3 block"
           onClick={() => toggleTranslation("shortdesc")}
         >
           {openTranslation === "shortdesc"
@@ -257,37 +273,44 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </button>
 
         {openTranslation === "shortdesc" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+          <div className="space-y-3 mt-3">
             {(["fr", "es", "zh", "ru"] as const).map((lang) => (
-              <textarea
-                key={lang}
-                placeholder={`Short Description (${lang})`}
-                className="border p-2 w-full"
-                value={shortdescTranslations[lang]}
-                onChange={(e) =>
-                  setShortdescTranslations((prev) => ({
-                    ...prev,
-                    [lang]: e.target.value,
-                  }))
-                }
-              />
+              <div key={lang}>
+                <label className="text-sm font-medium mb-1 block">
+                  Short Description ({lang})
+                </label>
+                <RichTextEditor
+                  value={shortdescTranslations[lang]}
+                  onChange={(html, plainText) => {
+                    setShortdescTranslations((prev) => ({
+                      ...prev,
+                      [lang]: html,
+                    }));
+                  }}
+                  placeholder={`Enter short description in ${lang}...`}
+                  minHeight="120px"
+                />
+              </div>
             ))}
           </div>
         )}
       </div>
 
-      {/* Long Description */}
+      {/* Long Description - Rich Text Editor */}
       <div>
         <label className="font-semibold">Long Description</label>
-        <textarea
-          className="border p-2 w-full"
-          placeholder="Long description"
+        <RichTextEditor
           value={longdesc}
-          onChange={(e) => setLongdesc(e.target.value)}
+          onChange={(html, plainText) => {
+            setLongdesc(html);
+            setLongdescPlain(plainText); // Optional: store plain text
+          }}
+          placeholder="Enter long description..."
+          minHeight="200px"
         />
         <button
           type="button"
-          className="text-blue-600 text-sm underline mt-1 block"
+          className="text-blue-600 text-sm underline mt-3 block"
           onClick={() => toggleTranslation("longdesc")}
         >
           {openTranslation === "longdesc"
@@ -296,37 +319,44 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </button>
 
         {openTranslation === "longdesc" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+          <div className="space-y-3 mt-3">
             {(["fr", "es", "zh", "ru"] as const).map((lang) => (
-              <textarea
-                key={lang}
-                placeholder={`Long Description (${lang})`}
-                className="border p-2 w-full"
-                value={longdescTranslations[lang]}
-                onChange={(e) =>
-                  setLongdescTranslations((prev) => ({
-                    ...prev,
-                    [lang]: e.target.value,
-                  }))
-                }
-              />
+              <div key={lang}>
+                <label className="text-sm font-medium mb-1 block">
+                  Long Description ({lang})
+                </label>
+                <RichTextEditor
+                  value={longdescTranslations[lang]}
+                  onChange={(html, plainText) => {
+                    setLongdescTranslations((prev) => ({
+                      ...prev,
+                      [lang]: html,
+                    }));
+                  }}
+                  placeholder={`Enter long description in ${lang}...`}
+                  minHeight="150px"
+                />
+              </div>
             ))}
           </div>
         )}
       </div>
 
-      {/* Description */}
+      {/* Description - Rich Text Editor */}
       <div>
         <label className="font-semibold">Description</label>
-        <textarea
-          className="border p-2 w-full"
-          placeholder="Description"
+        <RichTextEditor
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(html, plainText) => {
+            setDescription(html);
+            setDescriptionPlain(plainText); // Optional: store plain text
+          }}
+          placeholder="Enter description..."
+          minHeight="200px"
         />
         <button
           type="button"
-          className="text-blue-600 text-sm underline mt-1 block"
+          className="text-blue-600 text-sm underline mt-3 block"
           onClick={() => toggleTranslation("description")}
         >
           {openTranslation === "description"
@@ -335,20 +365,24 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         </button>
 
         {openTranslation === "description" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+          <div className="space-y-3 mt-3">
             {(["fr", "es", "zh", "ru"] as const).map((lang) => (
-              <textarea
-                key={lang}
-                placeholder={`Description (${lang})`}
-                className="border p-2 w-full"
-                value={descriptionTranslations[lang]}
-                onChange={(e) =>
-                  setDescriptionTranslations((prev) => ({
-                    ...prev,
-                    [lang]: e.target.value,
-                  }))
-                }
-              />
+              <div key={lang}>
+                <label className="text-sm font-medium mb-1 block">
+                  Description ({lang})
+                </label>
+                <RichTextEditor
+                  value={descriptionTranslations[lang]}
+                  onChange={(html, plainText) => {
+                    setDescriptionTranslations((prev) => ({
+                      ...prev,
+                      [lang]: html,
+                    }));
+                  }}
+                  placeholder={`Enter description in ${lang}...`}
+                  minHeight="150px"
+                />
+              </div>
             ))}
           </div>
         )}
@@ -362,15 +396,19 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         "csr-cover-upload",
       )}
 
-      <div className="flex justify-end gap-2">
+      <div className="flex justify-end gap-2 pt-4">
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 border rounded"
+          className="px-4 py-2 border rounded hover:bg-gray-50"
         >
           Cancel
         </button>
-        <button type="submit" className="bg-green-600 text-white px-4 py-2">
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
+        >
           {loading ? "Saving..." : "Save"}
         </button>
       </div>
