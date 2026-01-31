@@ -73,14 +73,14 @@ const ClinicalServiceForm: React.FC<Props> = ({
   };
 
   const [title, setTitle] = useState(initialData?.title || "");
-  const [tagline, setTagline] = useState(initialData?.tagline || "");
+  const [tagline, _setTagline] = useState(initialData?.tagline || "");
   const [overview, setOverview] = useState(initialData?.overview || "");
   const [detailedDescription, setDetailedDescription] = useState(
     initialData?.detailedDescription || "",
   );
 
   // Translation states
-  const [taglineTranslations, setTaglineTranslations] = useState({
+  const [taglineTranslations, _setTaglineTranslations] = useState({
     fr: initialData?.tagline_fr || "",
     es: initialData?.tagline_es || "",
     zh: initialData?.tagline_zh || "",

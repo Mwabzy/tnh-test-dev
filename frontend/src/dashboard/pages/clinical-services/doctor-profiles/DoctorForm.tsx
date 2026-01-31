@@ -135,14 +135,14 @@ const DoctorForm = ({
   };
 
   /* Bio editor handler */
-  const handleBioChange = (html: string, plainText: string) => {
+  const handleBioChange = (html: string, _plainText: string) => {
     setBio(html);
   };
 
   /* Bio translation handlers */
   const handleBioTranslationChange =
     (lang: keyof typeof bioTranslations) =>
-    (html: string, plainText: string) => {
+    (html: string, _plainText: string) => {
       setBioTranslations((prev) => ({
         ...prev,
         [lang]: html,

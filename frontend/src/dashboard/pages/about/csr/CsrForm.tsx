@@ -281,7 +281,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
                 </label>
                 <RichTextEditor
                   value={shortdescTranslations[lang]}
-                  onChange={(html, plainText) => {
+                  onChange={(html, _plainText) => {
                     setShortdescTranslations((prev) => ({
                       ...prev,
                       [lang]: html,
@@ -327,7 +327,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
                 </label>
                 <RichTextEditor
                   value={longdescTranslations[lang]}
-                  onChange={(html, plainText) => {
+                  onChange={(html, _plainText) => {
                     setLongdescTranslations((prev) => ({
                       ...prev,
                       [lang]: html,
@@ -373,7 +373,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
                 </label>
                 <RichTextEditor
                   value={descriptionTranslations[lang]}
-                  onChange={(html, plainText) => {
+                  onChange={(html, _plainText) => {
                     setDescriptionTranslations((prev) => ({
                       ...prev,
                       [lang]: html,

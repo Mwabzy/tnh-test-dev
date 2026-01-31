@@ -64,7 +64,7 @@ const OutpatientCenterForm = ({
   );
 
   // Add a new state for plain text description (useful for summaries, etc.)
-  const [descriptionPlainText, setDescriptionPlainText] = useState("");
+  const [_descriptionPlainText, setDescriptionPlainText] = useState("");
 
   const toggleTranslation = () => {
     setOpenTranslation((prev) =>
@@ -344,7 +344,7 @@ const OutpatientCenterForm = ({
                 </div>
                 <RichTextEditor
                   value={descriptionTranslations[lang]}
-                  onChange={(html, plainText) => {
+                  onChange={(html, _plainText) => {
                     setDescriptionTranslations((prev) => ({
                       ...prev,
                       [lang]: html,

@@ -20,7 +20,7 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   const [group, _setGroup] = useState(initialData?.group || "");
 
   // For storing plain text description (if needed)
-  const [plainDescription, setPlainDescription] = useState("");
+  const [_plainDescription, setPlainDescription] = useState("");
 
   // Translation states
   const [roleTranslations, setRoleTranslations] = useState({
@@ -249,7 +249,7 @@ const TeamMemberForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
                 </label>
                 <RichTextEditor
                   value={descriptionTranslations[lang]}
-                  onChange={(html, plainText) => {
+                  onChange={(html, _plainText) => {
                     setDescriptionTranslations((prev) => ({
                       ...prev,
                       [lang]: html,
