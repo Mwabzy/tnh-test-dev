@@ -5,11 +5,11 @@ const blogpostSection: Dictionary = {
   content: {
     bloglatest: [
       t({
-        en: "Latest News",
-        fr: "Dernières nouvelles",
-        es: "Últimas noticias",
-        zh: "最新消息",
-        ru: "Последние новости",
+        en: "Book an appointment",
+        fr: "Prendre rendez-vous",
+        es: "Reservar una cita",
+        zh: "预约",
+        ru: "Записаться на прием",
       }),
     ],
     blogdescription: [

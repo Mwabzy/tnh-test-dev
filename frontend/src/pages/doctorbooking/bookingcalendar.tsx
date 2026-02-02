@@ -1,9 +1,10 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { useLocation, useNavigate } from "react-router";
-import { fetchClinicalServices } from "@/api/api"; // Add this import
+import { createBooking, fetchClinicalServices } from "@/api/api"; // Add this import
 import { ClinicalService, Doctor } from "@/types";
 import { fetchDoctorById } from "@/api/api";
+import { useIntlayer } from "react-intlayer";
 
 interface CalendarWithTimesProps {
   onDateSelected?: (date: Date) => void;
@@ -216,8 +217,10 @@ const BookingPage: React.FC<BookingPageProps> = ({
   const isReadyForDetails = Boolean(
     selectedLocation && selectedDate && selectedTime,
   );
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleConfirm = () => {
+  // Replace your entire handleConfirm function with this:
+  const handleConfirm = async () => {
     const serviceName = isDoctorBooking
       ? selectedService
       : selectedServiceFromList?.title;
@@ -226,6 +229,12 @@ const BookingPage: React.FC<BookingPageProps> = ({
       alert(
         "Please select service, location, date and time before confirming.",
       );
+      return;
+    }
+
+    // Validate user details
+    if (!name || !phone || !email) {
+      alert("Please fill in all required details (Name, Phone, Email).");
       return;
     }
 
@@ -242,15 +251,26 @@ const BookingPage: React.FC<BookingPageProps> = ({
     };
 
     console.log("Booking confirmed", booking);
-    const confirmationMessage = isDoctorBooking
-      ? `Booking confirmed with ${booking.doctor} for ${booking.service} on ${booking.date} at ${booking.time} at ${booking.location}`
-      : `Booking confirmed for ${booking.service} on ${booking.date} at ${booking.time} at ${booking.location}`;
 
-    alert(confirmationMessage);
-    navigate("/", { replace: true });
+    setIsSubmitting(true);
+    try {
+      const response = await createBooking(booking);
+      console.log("Booking created successfully:", response);
+
+      const confirmationMessage = isDoctorBooking
+        ? `Booking confirmed with ${booking.doctor} for ${booking.service} on ${booking.date} at ${booking.time} at ${booking.location}`
+        : `Booking confirmed for ${booking.service} on ${booking.date} at ${booking.time} at ${booking.location}`;
+
+      alert(confirmationMessage);
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.error("Error creating booking:", error);
+      alert("Failed to create booking. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  // Mock slots logic (replace with real API if needed)
   const getSlotsForDate = (date: Date | null, location: string | null) => {
     if (!date || !location) return [] as string[];
     const times = [
@@ -687,9 +707,11 @@ const BookingPage: React.FC<BookingPageProps> = ({
                 </div>
 
                 <button
-                  className="mt-6 w-full bg-red-900 text-white py-3 rounded-lg font-semibold shadow-md hover:bg-red-800 transition"
+                  className="mt-6 w-full bg-red-900 text-white py-3 rounded-lg font-semibold shadow-md hover:bg-red-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={handleConfirm}
+                  disabled={isSubmitting}
                 >
+                  {isSubmitting ? "Submitting..." : "Confirm Booking"}
                   Confirm Booking
                 </button>
               </div>
