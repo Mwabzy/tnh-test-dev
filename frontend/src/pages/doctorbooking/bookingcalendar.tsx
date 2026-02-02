@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router";
 import { createBooking, fetchClinicalServices } from "@/api/api"; // Add this import
 import { ClinicalService, Doctor } from "@/types";
 import { fetchDoctorById } from "@/api/api";
+import { useIntlayer } from "react-intlayer";
 
 interface CalendarWithTimesProps {
   onDateSelected?: (date: Date) => void;
