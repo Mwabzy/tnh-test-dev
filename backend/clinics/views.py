@@ -24,17 +24,25 @@ from .serializers import (
 DEBUG = True
 
 
-# Helper function to print all incoming form data, including files
+# Print all incoming form data, including files
 def log_request_data(request, label="Request"):
     print(f"\n[{label}] Incoming data:")
+    
+    # Use .dict() for QueryDict (handles multiple values per key)
+    if hasattr(request.data, "dict"):
+        data_items = request.data.dict()
+    else:
+        data_items = request.data
 
-    # request.data is already parsed by DRF (QueryDict or MultiPartParser)
-    for key, value in request.data.items():
+    for key, value in data_items.items():
         if hasattr(value, "name"):  # It's a file
             print(f"{key}: <File: {value.name}>")
+        elif isinstance(value, list):
+            print(f"{key}: {value} (list)")
         else:
-            print(f"{key}: {value}")
+            print(f"{key}: {value} ({type(value).__name__})")
     print("===========================\n")
+
 
 
 # ClinicalService
@@ -97,11 +105,24 @@ class DoctorViewSet(viewsets.ModelViewSet):
         partial = kwargs.pop("partial", True)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception as e:
+               # Log the exact validation errors
+               print("\n[VALIDATION ERROR]")
+               if hasattr(serializer, "errors"):
+                   print(serializer.errors)
+               else:
+                   print(str(e))
+               print("===========================\n")
+               return Response(
+                   {"detail": "Validation failed", "errors": serializer.errors},
+                   status=status.HTTP_400_BAD_REQUEST
+               )
+   
         instance = serializer.save()
         return Response(serializer.data)
-
-
+    
 class TestimonialViewSet(viewsets.ModelViewSet):
     queryset = Testimonial.objects.all()
     serializer_class = TestimonialSerializer

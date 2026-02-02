@@ -4,8 +4,13 @@ from clinics.models import ClinicalService, Doctor, Testimonial
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'role', 'image') 
-    search_fields = ('name', 'title')
+    list_display = ('id', 'name', 'role', 'image_count')
+    search_fields = ('name', 'role')
+
+    def image_count(self, obj):
+        return obj.uploaded_images.count()
+
+    image_count.short_description = "Images"
 
 @admin.register(Testimonial)
 class TestimonialAdmin(admin.ModelAdmin):

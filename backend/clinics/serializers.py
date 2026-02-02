@@ -41,7 +41,13 @@ class SlimDoctorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Doctor
-        fields = ['id', 'name', 'role', 'image', 'bio']
+        fields = [
+            'id',
+            'name',
+            'role', 'role_fr', 'role_es', 'role_zh', 'role_ru',
+            'bio', 'bio_fr', 'bio_es', 'bio_zh', 'bio_ru',
+            'image',
+        ]
 
 
 class DoctorSerializer(serializers.ModelSerializer):
@@ -62,12 +68,16 @@ class DoctorSerializer(serializers.ModelSerializer):
     images_to_delete = serializers.ListField(child=serializers.IntegerField(), write_only=True, required=False)
 
     class Meta:
-        model = Doctor
-        fields = [
-            'id', 'name', 'role', 'bio', 'image',
+          model = Doctor
+          fields = [
+            'id',
+            'name',
+            'role', 'role_fr', 'role_es', 'role_zh', 'role_ru',
+            'bio', 'bio_fr', 'bio_es', 'bio_zh', 'bio_ru',
+            'image',
             'images_files', 'images_files_alt', 'images_to_delete',
             'services_offered', 'services_offered_ids',
-            'research_publications', 'awards'
+            'research_publications', 'awards',
         ]
 
     def get_services_offered(self, obj):
@@ -91,55 +101,64 @@ class DoctorSerializer(serializers.ModelSerializer):
 
 
     def to_internal_value(self, data):
-     # If data is a QueryDict (from multipart/form-data), convert to dict of lists
-     if hasattr(data, 'getlist'):
-         data = {k: data.getlist(k) for k in data.keys()}
-
-         
+     # Make mutable copy
+     if hasattr(data, "copy"):
+         data = data.copy()
  
-     #  Flatten single-item lists for simple string fields 
-     for field in ['name', 'role', 'bio']:
-         if field in data and isinstance(data[field], list) and len(data[field]) == 1:
-             data[field] = data[field][0]
-
-             
+     # --- FLATTEN STRING FIELDS ---
+     string_fields = [
+         'name',
+         'role', 'role_fr', 'role_es', 'role_zh', 'role_ru',
+         'bio', 'bio_fr', 'bio_es', 'bio_zh', 'bio_ru',
+     ]
  
-     #  JSON fields 
-     json_fields = ['research_publications', 'awards', 'services_offered_ids']
+     for field in string_fields:
+         val = data.get(field)
+         if isinstance(val, list):
+             data[field] = val[0]
+ 
+     # --- PARSE JSON FIELDS ---
+     json_fields = ['research_publications', 'awards']
      for field in json_fields:
-         if field in data:
-             raw = data[field]
-             if isinstance(raw, list) and len(raw) == 1:
-                 raw = raw[0]  # extract single string
+         val = data.get(field)
+         if isinstance(val, list):
+             val = val[0]
+         if isinstance(val, str):
              try:
-                 parsed = json.loads(raw)
-                 # convert PKs to int if needed
-                 if field == 'services_offered_ids' and isinstance(parsed, list):
-                     parsed = [int(pk) for pk in parsed]
-                 data[field] = parsed
+                 data[field] = json.loads(val)
              except Exception:
                  data[field] = []
  
-     #  services_offered for write (PrimaryKeyRelatedField expects list of PKs) 
-     if 'services_offered' in data:
-         raw = data['services_offered']
-         if isinstance(raw, list) and len(raw) == 1:
-             raw = raw[0]
-         try:
-             parsed = json.loads(raw)
-             data['services_offered'] = parsed
-         except Exception:
-             data['services_offered'] = []
+     # --- SERVICES IDS ---
+         val = data.get('services_offered_ids')
+     
+          # Normalize to list
+         if isinstance(val, str):
+              try:
+                  val = json.loads(val)
+              except Exception:
+                  val = [val]
+     
+         if not isinstance(val, list):
+              val = [val]
+     
+          # FORCE CAST TO INT
+         clean_ids = []
+         for item in val:
+              try:
+                  clean_ids.append(int(item))
+              except (TypeError, ValueError):
+                  pass
+     
+         data['services_offered_ids'] = clean_ids
  
-     #  Images 
+     # --- IMAGES ---
      for img_field in ['images_files', 'images_files_alt', 'images_to_delete']:
          if img_field in data:
-             vals = data[img_field]
-             if not isinstance(vals, list):
-                 vals = [vals] if vals else []
+             val = data.getlist(img_field) if hasattr(data, "getlist") else data[img_field]
              if img_field == 'images_to_delete':
-                 vals = [int(i) for i in vals if i]
-             data[img_field] = vals
+                 val = [int(v) for v in val if v]
+             data[img_field] = val
  
      return super().to_internal_value(data)
 
@@ -277,21 +296,40 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClinicalService
         fields = [
-            'id', 'title', 'tagline', 'overview', 'detailedDescription',
-            'features_read', 'features', "feature_images","feature_images_files","feature_images_alt",
-            "feature_images_index",'doctors',  'doctor_ids', 'testimonials', 'contact',
-            'isBookable', 'hasReadMore', 'clinics',
-            'images',
-            'images_files',
-            'images_files_alt',
-            'images_to_delete',
-            'locations',
-        ]
+    'id',
+    'title',
+    'tagline', 'tagline_fr', 'tagline_es', 'tagline_zh', 'tagline_ru',
+    'overview', 'overview_fr', 'overview_es', 'overview_zh', 'overview_ru',
+    'detailedDescription',
+    'detailedDescription_fr', 'detailedDescription_es',
+    'detailedDescription_zh', 'detailedDescription_ru',
+
+    'features_read', 'features',
+    'feature_images',
+    'feature_images_files',
+    'feature_images_alt',
+    'feature_images_index',
+
+    'doctors',
+    'doctor_ids',
+    'testimonials',
+    'contact',
+    'isBookable',
+    'hasReadMore',
+    'clinics',
+    'images',
+    'images_files',
+    'images_files_alt',
+    'images_to_delete',
+    'locations',
+]
 
     
     # Parse JSON strings from FormData
     def to_internal_value(self, data):
      data = dict(data)
+
+    
  
      #  JSON fields 
      json_fields = ['doctor_ids', 'clinics', 'testimonials', 'features', 'locations', 'contact']
@@ -313,7 +351,22 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
                  data[field] = parsed
              except Exception:
                  data[field] = [] if field != 'contact' else {}
- 
+
+     string_fields = [
+          'title',
+          'tagline', 'tagline_fr', 'tagline_es', 'tagline_zh', 'tagline_ru',
+          'overview', 'overview_fr', 'overview_es', 'overview_zh', 'overview_ru',
+          'detailedDescription',
+          'detailedDescription_fr', 'detailedDescription_es',
+          'detailedDescription_zh', 'detailedDescription_ru',
+    ]
+
+     for field in string_fields:
+         if field in data:
+             val = data[field]
+             if isinstance(val, list):
+                 data[field] = val[0]
+
      #  Booleans 
      for bool_field in ['isBookable', 'hasReadMore']:
          if bool_field in data:
@@ -497,22 +550,26 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
     timings = serializers.JSONField()
 
     class Meta:
-        model = OutpatientCenter
-        fields = [
-            "id",
-            "name",
-            "slug",
-            "description",
-            "location",
-            "contact",
-            "services_offered",
-            "timings",
-        ]
+       fields = [
+    "id",
+    "name",
+    "slug",
+    "description",
+    "description_fr",
+    "description_es",
+    "description_zh",
+    "description_ru",
+    "location",
+    "contact",
+    "services_offered",
+    "timings",
+]
+
 
     def to_internal_value(self, data):
         data = dict(data)
 
-        # ---- JSON fields from FormData ----
+        #  JSON fields from FormData 
         json_fields = ["timings", "contact", "services_offered"]
 
         for field in json_fields:
@@ -534,10 +591,19 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
                 except Exception:
                     data[field] = [] if field != "contact" else {}
 
-        # ---- Plain strings ----
-        for field in ["name", "description", "location"]:
+        #  Plain strings 
+        for field in [
+            "name",
+            "description",
+            "description_fr",
+            "description_es",
+            "description_zh",
+            "description_ru",
+            "location",
+        ]:
             if field in data and isinstance(data[field], list):
                 data[field] = data[field][0]
+
 
         return super().to_internal_value(data)
 

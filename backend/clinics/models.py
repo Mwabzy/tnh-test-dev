@@ -5,23 +5,29 @@ from django.db import models
 # Doctor Model
 
 class Doctor(models.Model):
-    # Basic Info
     name = models.CharField(max_length=100)
+
     role = models.CharField(max_length=100)
+    role_fr = models.CharField(max_length=100, blank=True, null=True)
+    role_es = models.CharField(max_length=100, blank=True, null=True)
+    role_zh = models.CharField(max_length=100, blank=True, null=True)
+    role_ru = models.CharField(max_length=100, blank=True, null=True)
+
     bio = models.TextField(blank=True, null=True)
-    image = models.CharField(max_length=500, null=True, blank=True,  default="")
+    bio_fr = models.TextField(blank=True, null=True)
+    bio_es = models.TextField(blank=True, null=True)
+    bio_zh = models.TextField(blank=True, null=True)
+    bio_ru = models.TextField(blank=True, null=True)
 
-
-    # Relationships
     services_offered = models.ManyToManyField(
         'ClinicalService',
         blank=True,
         related_name='offered_by_doctors'
     )
 
-    # Additional Info
     research_publications = models.JSONField(default=list, blank=True)
     awards = models.JSONField(default=list, blank=True)
+
 
     def __str__(self):
         return self.name
@@ -77,9 +83,24 @@ class DoctorImage(models.Model):
 class ClinicalService(models.Model):
     # Basic Info
     title = models.CharField(max_length=100)
+
     tagline = models.CharField(max_length=255)
+    tagline_fr = models.CharField(max_length=255, blank=True, null=True)
+    tagline_es = models.CharField(max_length=255, blank=True, null=True)
+    tagline_zh = models.CharField(max_length=255, blank=True, null=True)
+    tagline_ru = models.CharField(max_length=255, blank=True, null=True)
+
     overview = models.TextField()
+    overview_fr = models.TextField(blank=True, null=True)
+    overview_es = models.TextField(blank=True, null=True)
+    overview_zh = models.TextField(blank=True, null=True)
+    overview_ru = models.TextField(blank=True, null=True)
+
     detailedDescription = models.TextField(blank=True, null=True)
+    detailedDescription_fr = models.TextField(blank=True, null=True)
+    detailedDescription_es = models.TextField(blank=True, null=True)
+    detailedDescription_zh = models.TextField(blank=True, null=True)
+    detailedDescription_ru = models.TextField(blank=True, null=True)
 
     # Relationships
     doctors = models.ManyToManyField(
@@ -126,19 +147,18 @@ class ClinicalServiceFeatureImage(models.Model):
 
   
 class OutpatientCenter(models.Model):
-    # Basic Info
     name = models.CharField(max_length=150)
-    slug = models.SlugField(
-        max_length=200,
-        unique=True,
-        blank=True,
-        null=True
-    )
-    description = models.TextField()
+    slug = models.SlugField(max_length=200, unique=True, blank=True, null=True)
 
-    # Location & Contact
+    description = models.TextField()
+    description_fr = models.TextField(blank=True, null=True)
+    description_es = models.TextField(blank=True, null=True)
+    description_zh = models.TextField(blank=True, null=True)
+    description_ru = models.TextField(blank=True, null=True)
+
     location = models.CharField(max_length=255)
     contact = models.JSONField(blank=True, null=True)
+
 
     # Relationships
     services_offered = models.ManyToManyField(
