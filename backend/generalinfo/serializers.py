@@ -236,3 +236,8 @@ class CSRSerializer(serializers.ModelSerializer):
             instance.cover_image = image_file
 
         return super().update(instance, validated_data)
+    
+class SendEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    subject = serializers.CharField(required=True)
+    body = serializers.CharField(required=True)

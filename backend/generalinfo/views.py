@@ -5,9 +5,11 @@ from rest_framework import viewsets, status, parsers
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.decorators import action
+from web.send_email import send_email
 
 from .models import TeamMember, BlogPost, CSR
-from .serializers import TeamMemberSerializer, BlogPostSerializer, CSRSerializer
+from .serializers import TeamMemberSerializer, BlogPostSerializer, CSRSerializer, SendEmailSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -164,3 +166,24 @@ class CSRViewSet(viewsets.ModelViewSet):
             {"detail": "Deleted successfully"},
             status=status.HTTP_204_NO_CONTENT
         )
+    
+
+class SendEmailViewSet(viewsets.ViewSet):
+    @action(detail=False, methods=['post'], url_path="send_email")
+    def send_email(self, request):
+        serializer = SendEmailSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        # Access validated data
+        recipient_email = serializer.validated_data['email']
+        subject = serializer.validated_data['subject']
+        body = serializer.validated_data['body']
+        
+        try:
+            # Send the email
+            send_email(recipient_email=recipient_email, subject=subject, body=body)
+            return Response({"status": "Email sent successfully"}, status=200)
+        except Exception as e:
+            logger.error(f"Failed to send email to {recipient_email}: {e}", exc_info=True)
+            return Response({"error": f"Failed to send email: {str(e)}"}, status=500)
+
