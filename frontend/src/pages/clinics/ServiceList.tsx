@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { ClinicalService } from "@/types";
 import { FaCalendarCheck, FaChevronRight } from "react-icons/fa";
 import { fetchClinicalServices } from "@/api/api";
+import { useIntlayer } from "react-intlayer";
 
 interface ServiceListProps {
   services?: ClinicalService[];
@@ -96,6 +97,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
 
   if (error)
     return <div className="py-20 text-center text-red-600">{error}</div>;
+  const content = useIntlayer("bookingContent");
 
   return (
     <div className="py-16 px-6 flex flex-col md:flex-row justify-center max-w-7xl mx-auto gap-8">
@@ -215,7 +217,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
                       to={`/booking-calendar?serviceId=${item.id}`}
                       className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900 hover:text-white transition w-full sm:w-auto"
                     >
-                      Book Appointment <FaCalendarCheck />
+                      {content.bookingtitle} <FaCalendarCheck />
                     </Link>
                   )}
 
@@ -223,7 +225,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
                     to={`/service-detail/${item.id}`}
                     className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900 hover:text-white transition w-full sm:w-auto"
                   >
-                    Read More <FaChevronRight />
+                    {content.readMore} <FaChevronRight />
                   </Link>
                 </div>
               </div>

@@ -21,6 +21,15 @@ const bookingContent: Dictionary = {
         ru: "Свяжитесь с нами",
       }),
     ],
+    readMore: [
+      t({
+        en: "Read More",
+        fr: "En savoir plus",
+        es: "Leer más",
+        zh: "阅读更多",
+        ru: "Подробнее",
+      }),
+    ],
   },
 };
 export default bookingContent;

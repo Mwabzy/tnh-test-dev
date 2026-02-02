@@ -6,6 +6,7 @@ import ContactForm from "@/components/ContactForm";
 import hospitalview from "@/assets/heroimages/heroimage2.jpg";
 import { fetchDoctors } from "@/api/api";
 import clinicalServices from "@/data/clinicalServices2.json";
+import { useIntlayer } from "react-intlayer";
 
 // Service name mapping to clinical service IDs
 const serviceMapping: { [key: string]: number } = {
@@ -215,6 +216,7 @@ const DoctorProfiles: FC = () => {
 
   if (loading) return <p className="text-center mt-10">Loading doctors...</p>;
   if (error) return <p className="text-center mt-10 text-red-600">{error}</p>;
+  const content = useIntlayer("bookingContent");
 
   return (
     <>
@@ -346,7 +348,7 @@ const DoctorProfiles: FC = () => {
                       className="flex items-center justify-center gap-2 text-red-900 border border-gray-300 px-4 py-2 rounded-md text-sm hover:bg-red-50 hover:border-red-300 transition font-medium"
                     >
                       <FaCalendarCheck />
-                      Book Appointment
+                      {content.bookingtitle}
                     </Link>
                     <Link
                       to={`/doctor-details/${member.id}`}
