@@ -11,6 +11,7 @@ const TEAM_API = `${BASE_URL}/team-members/`;
 const BLOGS_API = `${BASE_URL}/blog-posts/`;
 const CSR_API = `${BASE_URL}/csr/`;
 const OUTPATIENT_CENTER_API = "/outpatient-centers/";
+const BOOKING_API = `${BASE_URL}/send_email/`;
 
 // Axios Instance
 const api = axios.create({
@@ -248,5 +249,10 @@ export async function updateOutpatientCenter(id: number, data: any) {
 
 export async function deleteOutpatientCenter(id: number) {
   const res = await api.delete(`${OUTPATIENT_CENTER_API}${id}/`);
+  return res.data;
+}
+
+export async function createBooking(data: any) {
+  const res = await api.post(BOOKING_API, data);
   return res.data;
 }
