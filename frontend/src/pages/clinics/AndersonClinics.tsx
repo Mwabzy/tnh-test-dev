@@ -4,14 +4,15 @@ import ContactForm from "@/components/ContactForm";
 import FAQs from "./FAQs";
 import Heading from "@/components/Heading";
 import AndersonList from "./AndersonList";
-
+import { useIntlayer } from "react-intlayer";
 const Clinics = () => {
-  return ( 
+  const content = useIntlayer("andersonContent");
+  return (
     <div>
       <Heading
         image_url={hospitalview}
-        title="Anderson Speciality Clinics"
-        description="Clinical services offered at Anderson Center."
+        title={content.andersonSpecialityClinics?.[0]?.value}
+        description={content.clinicalServicesOffered?.[0]?.value}
         style="background"
       />
       {/* <ServicesBrief /> */}

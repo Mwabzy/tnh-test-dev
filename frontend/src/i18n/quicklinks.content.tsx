@@ -1,7 +1,7 @@
 import { t, type Dictionary } from "intlayer";
 
-const bookingContent: Dictionary = {
-  key: "bookingContent",
+const quickLinksContent: Dictionary = {
+  key: "quickLinksContent",
   content: {
     bookingtitle: [
       t({
@@ -21,15 +21,15 @@ const bookingContent: Dictionary = {
         ru: "Свяжитесь с нами",
       }),
     ],
-    readMore: [
+    emergency: [
       t({
-        en: "Read More",
-        fr: "En savoir plus",
-        es: "Leer más",
-        zh: "阅读更多",
-        ru: "Подробнее",
+        en: "Emergency :+254 703 082000",
+        fr: "Urgence :+254 703 082000",
+        es: "Emergencia :+254 703 082000",
+        zh: "紧急情况 :+254 703 082000",
+        ru: "Скорая помощь :+254 703 082000",
       }),
     ],
   },
 };
-export default bookingContent;
+export default quickLinksContent;

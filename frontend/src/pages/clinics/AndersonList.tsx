@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { ClinicalService } from "@/types";
 import { FaCalendarCheck, FaChevronRight } from "react-icons/fa";
 import { fetchClinicalServices } from "@/api/api";
+import { useIntlayer } from "react-intlayer";
 
 interface andersonListProps {
   services?: ClinicalService[];
@@ -17,6 +18,8 @@ const AndersonList: React.FC<andersonListProps> = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const content = useIntlayer("andersonContent");
 
   // Fetching via API instance
   useEffect(() => {
@@ -36,6 +39,7 @@ const AndersonList: React.FC<andersonListProps> = () => {
   }, []);
 
   // Filter logic
+
   // const filteredServices = data.filter((service) => {
   //   const matchesSearch = service.title
   //     .toLowerCase()
@@ -47,19 +51,19 @@ const AndersonList: React.FC<andersonListProps> = () => {
   // });
 
   // Filter logic - only show services with "Anderson" location
-const filteredServices = data.filter((service) => {
-  const hasAndersonLocation = service.locations?.some(loc => 
-    loc.toLowerCase().includes('anderson')
-  );
-  
-  const matchesSearch = service.title
-    .toLowerCase()
-    .includes(search.toLowerCase());
-  const matchesLetter =
-    !letterFilter || service.title.charAt(0).toUpperCase() === letterFilter;
+  const filteredServices = data.filter((service) => {
+    const hasAndersonLocation = service.locations?.some((loc) =>
+      loc.toLowerCase().includes("anderson"),
+    );
 
-  return hasAndersonLocation && matchesSearch && matchesLetter;
-});
+    const matchesSearch = service.title
+      .toLowerCase()
+      .includes(search.toLowerCase());
+    const matchesLetter =
+      !letterFilter || service.title.charAt(0).toUpperCase() === letterFilter;
+
+    return hasAndersonLocation && matchesSearch && matchesLetter;
+  });
 
   // Pagination
   const totalPages = Math.ceil(filteredServices.length / ITEMS_PER_PAGE);
@@ -84,9 +88,7 @@ const filteredServices = data.filter((service) => {
 
   if (loading)
     return (
-      <div className="py-20 text-center text-gray-600">
-        Loading clinical services...
-      </div>
+      <div className="py-20 text-center text-gray-600">{content.loading}</div>
     );
 
   if (error)
@@ -100,7 +102,7 @@ const filteredServices = data.filter((service) => {
           onClick={resetFilters}
           className="mb-6 text-sm bg-gray-200 hover:bg-gray-300 rounded px-4 py-2 w-full"
         >
-          Reset all filters
+          {content.resetFilters}
         </button>
 
         {/* Search */}
@@ -109,7 +111,7 @@ const filteredServices = data.filter((service) => {
             htmlFor="search"
             className="block font-semibold mb-2 font-serif"
           >
-            By Specialty
+            {content.specialty}
           </label>
           <input
             id="search"
@@ -119,7 +121,7 @@ const filteredServices = data.filter((service) => {
               setSearch(e.target.value);
               setCurrentPage(1);
             }}
-            placeholder="Search specialties..."
+            placeholder={"Search specialties..."}
             className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
           />
         </div>
@@ -127,7 +129,7 @@ const filteredServices = data.filter((service) => {
         {/* Letter Filter */}
         <div>
           <p className="font-semibold mb-2 font-serif">
-            Filter Specialty by First Letter
+            {content.letterFilter}
           </p>
           <div className="flex flex-wrap gap-2">
             {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
@@ -153,8 +155,8 @@ const filteredServices = data.filter((service) => {
       {/* Service Cards */}
       <main className="flex-1">
         <p className="mb-6 text-sm text-gray-700">
-          Displaying {filteredServices.length} Anderson Specialty
-          Clinics
+          {content.displaying} {filteredServices.length}{" "}
+          {content.andersonclinics}{" "}
         </p>
 
         <div className="grid grid-cols-1 gap-8 max-w-150">
@@ -181,7 +183,8 @@ const filteredServices = data.filter((service) => {
 
                 {item.locations && (
                   <p className="text-sm text-gray-600 mb-4">
-                    <strong>Available at:</strong> {item.locations.join(", ")}
+                    <strong>{content.availableAt}</strong>{" "}
+                    {item.locations.join(", ")}
                   </p>
                 )}
 
@@ -191,7 +194,7 @@ const filteredServices = data.filter((service) => {
                       to={`/booking-calendar?serviceId=${item.id}`}
                       className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900 hover:text-white transition w-full sm:w-auto"
                     >
-                      Book Appointment <FaCalendarCheck />
+                      {content.bookingtitle} <FaCalendarCheck />
                     </Link>
                   )}
 
@@ -199,7 +202,7 @@ const filteredServices = data.filter((service) => {
                     to={`/service-detail/${item.id}`}
                     className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900 hover:text-white transition w-full sm:w-auto"
                   >
-                    Read More <FaChevronRight />
+                    {content.readMore} <FaChevronRight />
                   </Link>
                 </div>
               </div>

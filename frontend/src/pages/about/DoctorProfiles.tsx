@@ -118,6 +118,8 @@ const DoctorProfiles: FC = () => {
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
+  const content = useIntlayer("doctorContent");
+
   // Fetch doctors from API
   useEffect(() => {
     const loadDoctors = async () => {
@@ -216,7 +218,6 @@ const DoctorProfiles: FC = () => {
 
   if (loading) return <p className="text-center mt-10">Loading doctors...</p>;
   if (error) return <p className="text-center mt-10 text-red-600">{error}</p>;
-  const content = useIntlayer("bookingContent");
 
   return (
     <>
@@ -355,7 +356,7 @@ const DoctorProfiles: FC = () => {
                       className="flex items-center justify-center gap-2 text-red-900 border border-gray-300 px-4 py-2 rounded-md text-sm hover:bg-red-50 hover:border-red-300 transition font-medium"
                     >
                       <FaUserMd />
-                      View Profile
+                      {content.viewprofile}
                     </Link>
                   </div>
                 </div>

@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { useIntlayer } from "react-intlayer";
 
 const Quicklinks = () => {
-  const content = useIntlayer("bookingContent");
+  const content = useIntlayer("quickLinksContent");
   return (
     <div className="flex items-center px-2 sm:px-4 py-1 w-full sticky top-0 z-50 bg-[#8B1C1C] text-white text-xs sm:text-sm h-11">
       <div className="flex flex-wrap items-center gap-x-4 sm:gap-x-6">
@@ -11,7 +11,7 @@ const Quicklinks = () => {
           <div className="flex items-center space-x-1 sm:space-x-2">
             <Ambulance className="w-4 h-4 text-yellow-400" />
             <div className="flex flex-col sm:flex-row text-[12px] sm:text-sm">
-              <span className="font-semibold">Emergency :+254 703 082000</span>
+              <span className="font-semibold">{content.emergency}</span>
             </div>
           </div>
         </Link>
