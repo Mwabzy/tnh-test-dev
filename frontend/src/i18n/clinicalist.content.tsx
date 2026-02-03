@@ -129,6 +129,96 @@ const clinicalistContent: Dictionary = {
         ru: "Поиск специальностей",
       }),
     ],
+    doctorProfiletitle: [
+      t({
+        en: "Doctors' Profiles",
+        fr: "Profils des médecins",
+        es: "Perfiles de médicos",
+        zh: "医生简介",
+        ru: "Профили врачей",
+      }),
+    ],
+    doctorProfiledescription: [
+      t({
+        en: "Get to know our doctors and their areas of expertise.",
+        fr: "Faites connaissance avec nos médecins et leurs domaines d'expertise.",
+        es: "Conozca a nuestros médicos y sus áreas de especialización.",
+        zh: "了解我们的医生及其专业领域。",
+        ru: "Познакомьтесь с нашими врачами и их областями специализации.",
+      }),
+    ],
+    viewprofile: [
+      t({
+        en: "View Profile",
+        fr: "Voir le profil",
+        es: "Ver perfil",
+        zh: "查看资料",
+        ru: "Просмотреть профиль",
+      }),
+    ],
+    narrowyoursearch: [
+      t({
+        en: "Narrow your search",
+        fr: "Affinez votre recherche",
+        es: "Restringe tu búsqueda",
+        zh: "缩小搜索范围",
+        ru: "Уточните поиск",
+      }),
+    ],
+    doctorsname: [
+      t({
+        en: "By Doctor's Name",
+        fr: "Par nom de médecin",
+        es: "Por nombre del médico",
+        zh: "按医生姓名",
+        ru: "По имени врача",
+      }),
+    ],
+    doctorspecialty: [
+      t({
+        en: "By Specialty Clinic",
+        fr: "Par clinique spécialisée",
+        es: "Por clínica especializada",
+        zh: "按专科诊所",
+        ru: "По специализированной клинике",
+      }),
+    ],
+    locationfilter: [
+      t({
+        en: "By Location",
+        fr: "Par lieu",
+        es: "Por ubicación",
+        zh: "按地点",
+        ru: "По местоположению",
+      }),
+    ],
+    byfirstletter: [
+      t({
+        en: "Filter by First Name",
+        fr: "Filtrer par prénom",
+        es: "Filtrar por nombre",
+        zh: "按名字筛选",
+        ru: "Фильтр по имени",
+      }),
+    ],
+    resetallFilters: [
+      t({
+        en: "Reset Filters",
+        fr: "Réinitialiser les filtres",
+        es: "Restablecer filtros",
+        zh: "重置筛选器",
+        ru: "Сбросить фильтры",
+      }),
+    ],
+    noDoctorsFound: [
+      t({
+        en: "No doctors found matching your filters.",
+        fr: "Aucun médecin trouvé correspondant à vos filtres.",
+        es: "No se encontraron médicos que coincidan con tus filtros.",
+        zh: "未找到符合您筛选条件的医生。",
+        ru: "Врачи, соответствующие вашим фильтрам, не найдены.",
+      }),
+    ],
   },
 };
 export default clinicalistContent;

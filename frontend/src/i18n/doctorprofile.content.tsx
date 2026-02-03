@@ -12,15 +12,6 @@ const doctorContent: Dictionary = {
         ru: "Записаться на прием",
       }),
     ],
-    viewprofile: [
-      t({
-        en: "View Profile",
-        fr: "Voir le profil",
-        es: "Ver perfil",
-        zh: "查看资料",
-        ru: "Просмотреть профиль",
-      }),
-    ],
   },
 };
 export default doctorContent;

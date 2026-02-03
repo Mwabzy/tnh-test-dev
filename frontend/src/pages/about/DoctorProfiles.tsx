@@ -118,8 +118,6 @@ const DoctorProfiles: FC = () => {
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-  const content = useIntlayer("doctorContent");
-
   // Fetch doctors from API
   useEffect(() => {
     const loadDoctors = async () => {
@@ -207,6 +205,7 @@ const DoctorProfiles: FC = () => {
       prev.includes(loc) ? prev.filter((l) => l !== loc) : [...prev, loc],
     );
   };
+  const content = useIntlayer("clinicalistContent");
 
   const resetFilters = () => {
     setSearchTerm("");
@@ -224,21 +223,21 @@ const DoctorProfiles: FC = () => {
       <Heading
         image_url={hospitalview}
         style="background"
-        title="Doctors' Profiles"
-        description="Get to know our doctors and their areas of expertise."
+        title={content.doctorProfiletitle?.[0]?.value}
+        description={content.doctorProfiledescription?.[0]?.value}
       />
 
       <div className="flex flex-col lg:flex-row gap-6 mt-6 md:mx-40 mb-10">
         {/* Filters Sidebar */}
         <div className="w-full lg:w-1/4 bg-white rounded-lg shadow-md border p-6 md:sticky md:top-28 h-fit">
           <h3 className="font-bold font-serif text-xl text-red-900 mb-6 pb-3">
-            Narrow your search
+            {content.narrowyoursearch}
           </h3>
 
           {/* Doctor Name Filter */}
           <div className="mb-6">
             <label className="block text-base font-serif font-semibold text-gray-800 mb-3">
-              By Doctor's Name
+              {content.doctorsname}
             </label>
             <input
               value={searchTerm}
@@ -251,7 +250,7 @@ const DoctorProfiles: FC = () => {
           {/* Specialty Filter */}
           <div className="mb-6">
             <label className="block text-base font-serif font-semibold text-gray-800 mb-3">
-              By Specialty Clinic
+              {content.doctorspecialty}
             </label>
             <input
               value={specialtyClinic}
@@ -264,7 +263,7 @@ const DoctorProfiles: FC = () => {
           {/* Location Filter */}
           <div className="mb-6">
             <label className="block text-base font-serif font-semibold text-gray-800 mb-3">
-              By Location
+              {content.locationfilter}
             </label>
             <div className="space-y-2">
               {locations.map((loc) => (
@@ -289,7 +288,7 @@ const DoctorProfiles: FC = () => {
           {/* First Letter Filter */}
           <div className="mb-6">
             <label className="block text-base font-serif font-semibold text-gray-800 mb-3">
-              Filter by First Name
+              {content.byfirstletter}
             </label>
             <div className="grid grid-cols-6 gap-2">
               {alphabet.map((letter) => (
@@ -312,7 +311,7 @@ const DoctorProfiles: FC = () => {
             onClick={resetFilters}
             className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-4 rounded-md transition-all duration-200 transform hover:scale-105 shadow-sm hover:shadow-md border border-gray-300"
           >
-            Reset all filters
+            {content.resetallFilters}
           </button>
         </div>
 
@@ -364,7 +363,7 @@ const DoctorProfiles: FC = () => {
             ))
           ) : (
             <p className="text-center text-gray-500 mt-10">
-              No doctors found matching your filters.
+              {content.noDoctorsFound}
             </p>
           )}
 
