@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useIntlayer } from "react-intlayer";
+
 import {
   Wifi,
   MicVocal,
@@ -9,6 +10,7 @@ import {
 } from "lucide-react";
 
 import Heading from "@/components/Heading";
+
 
 // --- IMAGE SLIDER COMPONENT ---
 interface ImageSliderProps {
@@ -25,54 +27,71 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
   const handleNext = () => {
     setIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
-
+  const [open, setOpen] = useState(false);
   return (
     <div className="relative h-48 w-full overflow-hidden rounded-t-xl">
+
+      <button
+        onClick={() => setOpen (true)}
+        className=" h-full w-full"
+        >
+
       <img
         src={images[index]}
         alt={`Slide ${index + 1}`}
         className="h-full w-full object-cover transition-all duration-500"
       />
 
+      </button>
+        {open && (
+ <div
+    className="fixed inset-0 bg-black/80 flex items-center justify-center z-[160]"
+    onClick={() => setOpen(false)}
+  >
+    <img
+      src={images[index]}
+      alt={`Slide ${index + 1}`}
+      className="max-h-[90%] max-w-[90%] rounded-xl shadow-2xl"
+
+    />
+    <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    className="absolute top-4 right-7 bg-grey w-13 hover:bg-black text-white font-bold py-2 px-4 rounded-full"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M6 6l12 12M6 18L18 6" />
+  </svg>
+  </div>
+)}
+
       {/* Previous Button */}
       <button
-        onClick={handlePrev}
-        aria-label="Previous slide"
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-black/40 hover:bg-black/60 text-white z-20"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth="2"
-          className="w-6 h-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-      </button>
+      onClick={(e) => {
+        e.stopPropagation();
+        handlePrev();
+      }}
+      className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/70 text-white"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-7 h-7">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
+      </svg>
+    </button>
 
-      {/* Next Button */}
-      <button
-        onClick={handleNext}
-        aria-label="Next slide"
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-black/40 hover:bg-black/60 text-white z-20"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth="2"
-          className="w-6 h-6"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
+    {/* NEXT BUTTON */}
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        handleNext();
+      }}
+      className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/70 text-white"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-7 h-7">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </button>
     </div>
   );
 };
