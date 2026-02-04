@@ -47,7 +47,30 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
  <div
     className="fixed inset-0 bg-black/80 flex items-center justify-center z-[160]"
     onClick={() => setOpen(false)}
-  >
+  ><button
+      onClick={(e) => {
+        e.stopPropagation();
+        handlePrev();
+      }}
+      className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/70 text-white"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-7 h-7">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
+      </svg>
+    </button>
+
+    {/* NEXT BUTTON */}
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        handleNext();
+      }}
+      className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/70 text-white"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-7 h-7">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </button>
     <img
       src={images[index]}
       alt={`Slide ${index + 1}`}
