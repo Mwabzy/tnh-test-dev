@@ -86,6 +86,13 @@ const DashboardRoutes = {
         import("@/dashboard/pages/clinical-services/outpatient-centers/OutpatientCenter"),
     ),
   },
+  Careers: {
+    name: "Careers",
+    path: "careers",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/new_events_blogs/Careers/Careers"),
+    ),
+  },
 };
 
 export const DashboardRoutesPath: Record<

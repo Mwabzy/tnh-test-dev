@@ -1,0 +1,130 @@
+import { useState, useEffect } from "react";
+import CareerDashboardTable from "./CareerTable";
+import CareerForm from "./CareerForm";
+import { JobListing } from "@/types";
+import {
+  fetchJobListings,
+  createJobListing,
+  updateJobListing,
+  deleteJobListing,
+} from "@/api/api";
+import toast from "react-hot-toast";
+
+const CareersPage = () => {
+  const [jobs, setJobs] = useState<JobListing[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [editingJob, setEditingJob] = useState<JobListing | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  // Load job listings on mount
+  useEffect(() => {
+    async function loadJobs() {
+      setLoading(true);
+      try {
+        const data = await fetchJobListings();
+        console.log("Fetched job listings from API:", data);
+        setJobs(data);
+        setError(null);
+      } catch (err) {
+        setError("Error loading job opportunities");
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadJobs();
+  }, []);
+
+  const handleSaveJob = async (job: JobListing | FormData) => {
+    try {
+      if (editingJob?.id) {
+        // UPDATE
+        const updated = await updateJobListing(editingJob.id, job as FormData);
+        setJobs((prev) => prev.map((j) => (j.id === updated.id ? updated : j)));
+        toast.success("Job opportunity updated successfully!");
+      } else {
+        // CREATE
+        const newJob = await createJobListing(job as FormData);
+        setJobs((prev) => [...prev, newJob]);
+        toast.success("Job opportunity created successfully!");
+      }
+
+      setShowForm(false);
+      setEditingJob(null);
+    } catch (err) {
+      toast.error("Failed to save job opportunity");
+      throw err;
+    }
+  };
+
+  const handleDeleteJob = async (id: string) => {
+    setDeletingId(id);
+    try {
+      await deleteJobListing(id);
+      setJobs((prev) => prev.filter((job) => job.id !== id));
+      toast.success("Job opportunity deleted successfully!");
+    } catch (err) {
+      toast.error("Failed to delete job opportunity");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  return (
+    <div>
+      <div className="flex justify-between mb-6">
+        <h1 className="text-3xl font-bold mb-6">Career Opportunities</h1>
+
+        {!showForm && !loading && (
+          <button
+            onClick={() => setShowForm(true)}
+            className="px-4 py-2 bg-green-600 text-white font-serif rounded-md"
+          >
+            Add Opportunity
+          </button>
+        )}
+      </div>
+
+      {/* {loading ? (
+        <p>Loading Career Opportunities...</p>
+      ) : error ? (
+        <p className="text-red-500">{error}</p>
+      ) : showForm ? (
+        <CareerForm
+          initialData={editingJob}
+          onSave={handleSaveJob}
+          onCancel={() => {
+            setShowForm(false);
+            setEditingJob(null);
+          }}
+        />
+      ) : ( */}
+
+      {loading ? (
+        <p>Loading Career Opportunities...</p>
+      ) : error || !error ? (
+        <CareerForm
+          initialData={editingJob}
+          onSave={handleSaveJob}
+          onCancel={() => {
+            setShowForm(false);
+            setEditingJob(null);
+          }}
+        />
+      ) : (
+        <CareerDashboardTable
+          data={jobs}
+          onEdit={(job) => {
+            setEditingJob(job);
+            setShowForm(true);
+          }}
+          onDelete={handleDeleteJob}
+          deletingId={deletingId}
+        />
+      )}
+    </div>
+  );
+};
+
+export default CareersPage;

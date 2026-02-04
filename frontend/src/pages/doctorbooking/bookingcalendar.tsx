@@ -382,6 +382,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
   const locationSectionRef = useRef<HTMLDivElement | null>(null);
   const calendarSectionRef = useRef<HTMLDivElement | null>(null);
 
+  const content = useIntlayer("calenderContent");
   // 1. Scroll to Clinic when Service is selected
   useEffect(() => {
     if (!selectedLocation) return;
@@ -450,12 +451,9 @@ const BookingPage: React.FC<BookingPageProps> = ({
           <h1 className="text-4xl font-bold text-red-900 mb-2">
             {isDoctorBooking
               ? `Book with ${doctorInfo?.name}`
-              : "Book an Appointment"}
+              : content.bookappoint}
           </h1>
-          <p className="text-lg text-gray-600">
-            A simple, secure booking experience — follow the steps below to
-            schedule your appointment.
-          </p>
+          <p className="text-lg text-gray-600">{content.bookingdescription}</p>
         </div>
 
         {/* Stepper */}
@@ -472,7 +470,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
                 <span>1</span>
               </div>
               <p className="text-xs font-semibold mt-2 text-gray-700 text-center">
-                Service
+                {content.service}
               </p>
             </div>
             <div
@@ -493,7 +491,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
                 <span>2</span>
               </div>
               <p className="text-xs font-semibold mt-2 text-gray-700 text-center">
-                Location
+                {content.bookinglocation}
               </p>
             </div>
             <div
@@ -512,7 +510,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
                 <span>3</span>
               </div>
               <p className="text-xs font-semibold mt-2 text-gray-700 text-center">
-                Date & Time
+                {content.bookingdateandtime}
               </p>
             </div>
             <div
@@ -531,7 +529,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
                 <span>4</span>
               </div>
               <p className="text-xs font-semibold mt-2 text-gray-700 text-center">
-                Details
+                {content.detailsform}
               </p>
             </div>
           </div>
@@ -544,7 +542,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
               <div className="bg-gradient-to-br from-red-50 to-white p-6 rounded-xl shadow-md border-l-4 border-red-900 hover:shadow-lg transition-shadow">
                 {isLoadingDoctor ? (
                   <div className="text-center py-4 text-gray-600">
-                    Loading doctor information...
+                    {content.loadingDoctorInfo}
                   </div>
                 ) : doctorInfo ? (
                   <div className="flex items-start gap-4">
@@ -573,7 +571,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
                     <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">
                       1
                     </span>
-                    Select Service with {doctorInfo.name}
+                    {content.servicewith} {doctorInfo.name}
                   </label>
                   <select
                     className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
@@ -581,9 +579,10 @@ const BookingPage: React.FC<BookingPageProps> = ({
                     onChange={(e) => setSelectedService(e.target.value)}
                   >
                     <option value="">
+                      -{content.chooseservice}
                       {doctorInfo.services_offered &&
                       doctorInfo.services_offered.length > 0
-                        ? "-- choose a service --"
+                        ? ""
                         : "-- no services available --"}
                     </option>
                     {doctorInfo.services_offered?.map((service) => (
@@ -602,7 +601,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
                     <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">
                       1
                     </span>
-                    Select Clinical Service
+                    {content.selectservice}
                   </label>
                   <select
                     className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
@@ -636,7 +635,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
                     <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">
                       2
                     </span>
-                    Select Location
+                    {content.selectlocation}
                   </label>
                   <select
                     className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-red-900 focus:ring-2 focus:ring-red-100 transition font-medium"
@@ -674,7 +673,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
             {isReadyForDetails && (
               <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
                 <h3 className="text-lg font-semibold text-red-900 mb-4">
-                  Your Details
+                  {content.details}
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <input
@@ -712,7 +711,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Submitting..." : "Confirm Booking"}
-                  Confirm Booking
+                  {content.confirmbooking}
                 </button>
               </div>
             )}
@@ -722,7 +721,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
           <div className="lg:col-span-1 sticky top-20 space-y-6">
             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
               <h3 className="font-semibold text-lg text-red-900 mb-4">
-                Booking Summary
+                {content.bookingsummary}
               </h3>
               <p className="text-gray-700">
                 <span className="font-semibold">Service:</span>{" "}
