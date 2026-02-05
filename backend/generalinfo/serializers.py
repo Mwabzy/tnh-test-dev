@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import TeamMember, BlogPost, CSR
+from .models import TeamMember, BlogPost, CSR, Tender
 
 
 # Translation helper
@@ -260,3 +260,49 @@ class SendEmailSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     subject = serializers.CharField(required=True)
     body = serializers.CharField(required=True)
+
+
+# Tender Serializer
+
+class TenderSerializer(serializers.ModelSerializer):
+    referenceNumber = serializers.CharField(source="reference_number")
+    opportunityType = serializers.CharField(source="opportunity_type")
+    datePosted = serializers.DateField(source="date_posted")
+    closingDate = serializers.DateField(source="closing_date")
+
+    fileUrl = serializers.SerializerMethodField(read_only=True)
+    existingFileUrl = serializers.CharField(write_only=True, required=False, allow_blank=True)
+
+    class Meta:
+        model = Tender
+        fields = (
+            "id",
+            "opportunity",
+            "referenceNumber",
+            "description",
+            "opportunityType",
+            "datePosted",
+            "closingDate",
+            "file",
+            "fileUrl",
+            "existingFileUrl",
+            "created_at",
+        )
+        read_only_fields = ("id", "created_at", "fileUrl")
+        extra_kwargs = {
+            "file": {"required": False, "allow_null": True},
+        }
+
+    def get_fileUrl(self, obj):
+        if not obj.file:
+            return ""
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.file.url) if request else obj.file.url
+
+    def create(self, validated_data):
+        validated_data.pop("existingFileUrl", None)
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        validated_data.pop("existingFileUrl", None)
+        return super().update(instance, validated_data)

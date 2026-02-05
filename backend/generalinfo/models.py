@@ -134,6 +134,24 @@ class CSR(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Tender(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    opportunity = models.CharField(max_length=255)
+    reference_number = models.CharField(max_length=100)
+    description = models.TextField()
+    opportunity_type = models.CharField(max_length=50, default="Tender")
+    date_posted = models.DateField()
+    closing_date = models.DateField()
+
+    file = models.FileField(upload_to="tenders/", blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.opportunity
     
     
 

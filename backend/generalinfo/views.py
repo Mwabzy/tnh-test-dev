@@ -8,8 +8,14 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import action
 from web.send_email import send_email
 
-from .models import TeamMember, BlogPost, CSR
-from .serializers import TeamMemberSerializer, BlogPostSerializer, CSRSerializer, SendEmailSerializer
+from .models import TeamMember, BlogPost, CSR, Tender
+from .serializers import (
+    TeamMemberSerializer,
+    BlogPostSerializer,
+    CSRSerializer,
+    SendEmailSerializer,
+    TenderSerializer,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -186,4 +192,40 @@ class SendEmailViewSet(viewsets.ViewSet):
         except Exception as e:
             logger.error(f"Failed to send email to {recipient_email}: {e}", exc_info=True)
             return Response({"error": f"Failed to send email: {str(e)}"}, status=500)
+
+
+class TenderViewSet(viewsets.ModelViewSet):
+    """ViewSet for managing tenders with file upload support."""
+
+    queryset = Tender.objects.all().order_by("-created_at")
+    serializer_class = TenderSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = (MultiPartParser, FormParser)
+
+    def create(self, request, *args, **kwargs):
+        logger.info("Creating new tender - User: %s", request.user)
+        logger.debug("Request data: %s | Files: %s", request.data, request.FILES)
+
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            print("❌ Tender validation errors:")
+            print(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        self.perform_create(serializer)
+
+        logger.info("Tender created successfully: %s", serializer.data.get("id"))
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop("partial", False)
+        instance = self.get_object()
+
+        logger.info("Updating tender %s", instance.id)
+        logger.debug("Request data: %s | Files: %s", request.data, request.FILES)
+
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(serializer.data)
 
