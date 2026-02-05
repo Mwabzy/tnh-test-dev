@@ -76,20 +76,24 @@ const CareersPage = () => {
       <div className="flex justify-between mb-6">
         <h1 className="text-3xl font-bold mb-6">Career Opportunities</h1>
 
-        {!showForm && !loading && (
+        {!loading && (
           <button
-            onClick={() => setShowForm(true)}
+            onClick={() => {
+              setError(null);
+              setShowForm((prev) => !prev);
+              if (showForm) {
+                setEditingJob(null);
+              }
+            }}
             className="px-4 py-2 bg-green-600 text-white font-serif rounded-md"
           >
-            Add Opportunity
+            {showForm ? "Back to List" : "Add Opportunity"}
           </button>
         )}
       </div>
 
-      {/* {loading ? (
+      {loading ? (
         <p>Loading Career Opportunities...</p>
-      ) : error ? (
-        <p className="text-red-500">{error}</p>
       ) : showForm ? (
         <CareerForm
           initialData={editingJob}
@@ -99,19 +103,8 @@ const CareersPage = () => {
             setEditingJob(null);
           }}
         />
-      ) : ( */}
-
-      {loading ? (
-        <p>Loading Career Opportunities...</p>
-      ) : error || !error ? (
-        <CareerForm
-          initialData={editingJob}
-          onSave={handleSaveJob}
-          onCancel={() => {
-            setShowForm(false);
-            setEditingJob(null);
-          }}
-        />
+      ) : error ? (
+        <p className="text-red-500">{error}</p>
       ) : (
         <CareerDashboardTable
           data={jobs}
