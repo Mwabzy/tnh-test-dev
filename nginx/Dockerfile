@@ -24,15 +24,19 @@ FROM nginx:1.28.0-alpine AS production
 RUN apk add --no-cache openssl curl coreutils
 
 # Copy config and startup script
-COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx/conf/nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx/manager.sh /manager.sh
+RUN mkdir -p /var/www/.well-known/pki-validation
+COPY nginx/conf/5A894CEE47B0673DD7D15D43698FB5BB.txt /var/www/.well-known/pki-validation
 # Copy frontend build from previous stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Set permissions
 RUN mkdir -p /vol/proxy && \
+    chmod +x  /manager.sh && \
     chmod -R 755 /vol/proxy && \
     mkdir -p /var/cache/nginx && \
     mkdir -p /run
 
-# CMD ["/manager.sh"]
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/manager.sh"]
+# CMD ["nginx", "-g", "daemon off;"]
