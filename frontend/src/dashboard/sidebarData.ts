@@ -118,13 +118,13 @@ export const newsMedia = [
   },
   {
     title: "Tenders",
-    href: "/dashboard/news/tenders",
+    href: "/dashboard/tenders",
     description:
       "Information about the tenders available at the Nairobi Hospital.",
   },
   {
     title: "Careers",
-    href: "/dashboard/news/careers",
+    href: "/dashboard/careers",
     description:
       "Information about the career opportunities available at the Nairobi Hospital.",
   },

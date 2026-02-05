@@ -4,14 +4,16 @@ import ContactForm from "@/components/ContactForm";
 import FAQs from "./FAQs";
 import Heading from "@/components/Heading";
 import ServiceList from "@/pages/clinics/ServiceList";
+import { useIntlayer } from "react-intlayer";
 
 const Clinics = () => {
+  const content = useIntlayer("clinicalistContent");
   return (
     <div>
       <Heading
         image_url={hospitalview}
-        title="Clinical Services"
-        description="Overview of the clinical services offered at The Nairobi Hospital."
+        title={content.clinicalServicetitle?.[0]?.value}
+        description={content.clinicalServicesDescription?.[0]?.value}
         style="background"
       />
       {/* <ServicesBrief /> */}

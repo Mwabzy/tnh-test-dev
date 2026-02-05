@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { useParams, Link } from "react-router";
 import { fetchDoctorById, fetchClinicalServiceById } from "@/api/api";
 import { ClinicalService } from "@/types";
+import { useIntlayer } from "react-intlayer";
 
 export interface Doctor {
   id: string | number;
@@ -29,6 +30,8 @@ const DoctorDetails: FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [servicesOffered, setServicesOffered] = useState<ClinicalService[]>([]);
+
+  const content = useIntlayer("doctorContent");
 
   useEffect(() => {
     if (!id) return;
@@ -126,7 +129,7 @@ const DoctorDetails: FC = () => {
                 to={`/booking-calendar?doctorId=${doctor.id}&doctorName=${encodeURIComponent(doctor.name)}&doctorTitle=${encodeURIComponent(doctor.role)}`}
                 className="inline-block bg-red-900 text-white px-8 py-3 rounded-lg font-semibold shadow-md hover:bg-red-800 transition-all duration-300 hover:shadow-lg"
               >
-                📅 Book Appointment with {doctor.name.split(" ")[0]}
+                📅 {content.bookappointment} {doctor.name.split(" ")[0]}
               </Link>
             </div>
 
@@ -156,7 +159,7 @@ const DoctorDetails: FC = () => {
               {doctor.clinicDepartment && (
                 <p>
                   <span className="font-semibold text-gray-700">
-                    Department:
+                    {content.department}:
                   </span>{" "}
                   {doctor.clinicDepartment}
                 </p>
@@ -170,7 +173,7 @@ const DoctorDetails: FC = () => {
               {doctor.licensingDetails && (
                 <p className="sm:col-span-2">
                   <span className="font-semibold text-gray-700">
-                    Licensing:
+                    {content.licensingDetails}:
                   </span>{" "}
                   {doctor.licensingDetails}
                 </p>
@@ -216,7 +219,7 @@ const DoctorDetails: FC = () => {
           {servicesOffered.length > 0 && (
             <div>
               <h3 className="text-2xl font-semibold text-red-800 mb-3 border-b border-indigo-300 pb-1">
-                Services Offered
+                {content.servicecesOffered}
               </h3>
               <ul className="list-disc list-inside text-gray-700 space-y-1">
                 {servicesOffered.map((service) => (
@@ -236,7 +239,7 @@ const DoctorDetails: FC = () => {
           {awards.length > 0 && (
             <div>
               <h3 className="text-2xl font-semibold text-red-800 mb-3 border-b border-indigo-300 pb-1">
-                Awards & Recognition
+                {content.awards}
               </h3>
               <ul className="list-disc list-inside text-gray-700 space-y-1">
                 {awards.map((award, i) => (
@@ -249,7 +252,7 @@ const DoctorDetails: FC = () => {
           {publications.length > 0 && (
             <div>
               <h3 className="text-2xl font-semibold text-red-800 mb-3 border-b border-indigo-300 pb-1">
-                Research & Publications
+                {content.researchPublications}
               </h3>
               <ul className="list-disc list-inside text-gray-700 space-y-1">
                 {publications.map((pub, i) => (
