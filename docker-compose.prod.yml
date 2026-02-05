@@ -26,8 +26,6 @@ services:
     volumes:
       - static_files:/app/staticfiles:rw
       - media_files:/app/media:rw
-    # expose:
-    #   - "8080"
 
   postgres:
       image: postgres:17.6-bookworm
@@ -51,7 +49,7 @@ services:
       env_file:
         - ./backend/.prod.env
       volumes:
-        # - ./nginx/ssl/:/vol/proxy/:ro
+        - ./nginx/ssl/:/vol/proxy/:ro
         - static_files:/app/staticfiles
         - media_files:/app/media:ro
       depends_on:
