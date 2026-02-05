@@ -5,7 +5,8 @@ import { FC } from "react";
 export interface Opportunity {
   opportunity: string;
   description: string;
-  location: string;
+  location?: string;
+  referenceNumber?: string;
   opportunityType: string;
   datePosted: string;
   closingDate?: string;
@@ -31,7 +32,13 @@ const OpportunityItem: FC<OpportunityItemProps> = ({ opportunity }) => {
         </div>
         <p className="text-gray-600">{opportunity.description}</p>
         <div className="flex gap-2">
-          <Badge className="bg-orange-200">{opportunity.location}</Badge>
+          {opportunity.referenceNumber ? (
+            <Badge className="bg-orange-200">
+              REFERENCE NUMBER: {opportunity.referenceNumber}
+            </Badge>
+          ) : (
+            <Badge className="bg-orange-200">{opportunity.location}</Badge>
+          )}
           <Badge className="bg-orange-200">{opportunity.opportunityType}</Badge>
         </div>
         <a

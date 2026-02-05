@@ -6,9 +6,9 @@ type TendersProps = {};
 const tendersData = [
   {
     opportunity: "PLUMBING AND DRAINAGE INSTALLATIONS",
+    referenceNumber: "TNH/TND/2025/001",
     description:
       "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES",
-    location: "Remote",
     opportunityType: "Tender",
     datePosted: "2023-10-01",
     closingDate: "2025-08-07",
@@ -17,9 +17,9 @@ const tendersData = [
   },
   {
     opportunity: "OPERATE AND MAINTENANCE OF STEAM SYSTEM.",
+    referenceNumber: "TNH/TND/2025/002",
     description:
       "REQUEST FOR PROPOSAL FOR BUILD, OPERATE AND MAINTENANCE OF STEAM SYSTEM.",
-    location: "Remote",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-08-07",
@@ -28,9 +28,9 @@ const tendersData = [
   },
   {
     opportunity: "TRAINING AND COMMISSIONING A GEL ELECTROPHORESIS MACHINE.",
+    referenceNumber: "TNH/TND/2025/003",
     description:
       "SUPPLY, DELIVERY, INSTALLATION, TESTING, AND COMMISSIONING OF A GEL ELECTROPHORESIS MACHINE.",
-    location: "Remote",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-07-31",
@@ -39,9 +39,9 @@ const tendersData = [
   },
   {
     opportunity: "MEDICAL GASES INSTALLATIONS.",
+    referenceNumber: "TNH/TND/2025/004",
     description:
       "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES ",
-    location: "Remote",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-08-07",
@@ -50,9 +50,9 @@ const tendersData = [
   },
   {
     opportunity: "TRAINING & COMMISSIONING OF MEDICAL AIR PLANT",
+    referenceNumber: "TNH/TND/2025/005",
     description:
       "SUPPLY, DELIVERY, INSTALLATION, TESTING, AND COMMISSIONING OF A MEDICAL AIR PLANT.",
-    location: "Remote",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-07-31",
@@ -61,10 +61,10 @@ const tendersData = [
   },
   {
     opportunity:
-      "REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES – MAIN WORKS.",
+      "REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ MAIN WORKS.",
+    referenceNumber: "TNH/TND/2025/006",
     description:
       "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES.",
-    location: "Remote",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-08-07",
@@ -73,9 +73,9 @@ const tendersData = [
   },
   {
     opportunity: "SECURITY SYSTEMS INSTALLATION.",
+    referenceNumber: "TNH/TND/2025/007",
     description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES – SECURITY SYSTEMS INSTALLATION.",
-    location: "Remote",
+      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ SECURITY SYSTEMS INSTALLATION.",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2023-11-05",
@@ -84,9 +84,9 @@ const tendersData = [
   },
   {
     opportunity: "NURSE CALL INSTALLATIONS.",
+    referenceNumber: "TNH/TND/2025/008",
     description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES – NURSE CALL INSTALLATIONS.",
-    location: "Remote",
+      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ NURSE CALL INSTALLATIONS.",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-08-07",
@@ -95,9 +95,9 @@ const tendersData = [
   },
   {
     opportunity: "LIFT INSTALLATION.",
+    referenceNumber: "TNH/TND/2025/009",
     description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES – LIFT INSTALLATION.",
-    location: "Remote",
+      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ LIFT INSTALLATION.",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-08-07",
@@ -106,9 +106,9 @@ const tendersData = [
   },
   {
     opportunity: "ICT AND STRUCTURED CABLING INSTALLATIONS.",
+    referenceNumber: "TNH/TND/2025/010",
     description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES – ICT AND STRUCTURED CABLING INSTALLATIONS.",
-    location: "Remote",
+      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ ICT AND STRUCTURED CABLING INSTALLATIONS.",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-08-07",
@@ -117,10 +117,10 @@ const tendersData = [
   },
   {
     opportunity:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES – HVAC..",
+      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ HVAC..",
+    referenceNumber: "TNH/TND/2025/011",
     description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES – HVAC INSTALLATIONS.",
-    location: "Remote",
+      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ HVAC INSTALLATIONS.",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-08-07",
@@ -129,9 +129,9 @@ const tendersData = [
   },
   {
     opportunity: "GENERAL ELECTRICAL INSTALLATIONS.",
+    referenceNumber: "TNH/TND/2025/012",
     description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES – ELECTRICAL INSTALLATIONS.",
-    location: "Remote",
+      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ ELECTRICAL INSTALLATIONS.",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-08-07",
@@ -140,9 +140,9 @@ const tendersData = [
   },
   {
     opportunity: "ELECTRICAL SUBSTATION WORKS.",
+    referenceNumber: "TNH/TND/2025/013",
     description:
       "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES",
-    location: "Remote",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-08-07",
@@ -152,9 +152,9 @@ const tendersData = [
   {
     opportunity:
       "CONDUCTING BASELINE SURVEY FOR OCCUPATIONAL MEDICAL EXAMINATIONS RE-TENDER",
+    referenceNumber: "TNH/TND/2025/014",
     description:
       "REQUEST FOR PROPOSAL FOR CONDUCTING BASELINE SURVEY FOR OCCUPATIONAL MEDICAL EXAMINATIONS RE-TENDER",
-    location: "Remote",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-07-31",
@@ -163,9 +163,9 @@ const tendersData = [
   },
   {
     opportunity: "COMMISSIONING AND MAINTENANCE OF LAPAROSCOPIC TOWER",
+    referenceNumber: "TNH/TND/2025/015",
     description:
       "SUPPLY, DELIVERY, INSTALLATION, TESTING, TRAINING, AND COMMISSIONING OF A LAPAROSCOPIC TOWER.",
-    location: "Remote",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-07-31",
@@ -175,9 +175,9 @@ const tendersData = [
   {
     opportunity:
       "SUPPLY, DELIVERY, INSTALLATION, TESTING, TRAINING AND COMMISSIONING OF A DIGITAL X-RAY MACHINE",
+    referenceNumber: "TNH/TND/2025/016",
     description:
       "SUPPLY, DELIVERY, INSTALLATION, TESTING, TRAINING AND COMMISSIONING OF A DIGITAL X-RAY MACHINE.",
-    location: "Remote",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-07-31",
@@ -187,9 +187,9 @@ const tendersData = [
   {
     opportunity:
       "MAINTENANCE OF HD VIDEO COLPOSCOPE WITH IMAGE MANAGEMENT SYSTEM",
+    referenceNumber: "TNH/TND/2025/017",
     description:
       "SUPPLY, DELIVERY, INSTALLATION, TESTING, TRAINING, COMMISSIONING AND MAINTENANCE OF HD VIDEO COLPOSCOPE WITH IMAGE MANAGEMENT SYSTEM",
-    location: "Remote",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-07-31",
@@ -198,8 +198,8 @@ const tendersData = [
   },
   {
     opportunity: "ADDENDUM NOTICE",
+    referenceNumber: "TNH/TND/2025/018",
     description: "ADDENDUM NOTICE",
-    location: "Remote",
     opportunityType: "Tender",
     datePosted: "2023-10-05",
     closingDate: "2025-08-07",

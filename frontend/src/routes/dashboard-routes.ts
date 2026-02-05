@@ -93,6 +93,13 @@ const DashboardRoutes = {
       () => import("@/dashboard/pages/new_events_blogs/Careers/Careers"),
     ),
   },
+  Tenders: {
+    name: "Tenders",
+    path: "tenders",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/new_events_blogs/tenders/Tenders"),
+    ),
+  },
 };
 
 export const DashboardRoutesPath: Record<
