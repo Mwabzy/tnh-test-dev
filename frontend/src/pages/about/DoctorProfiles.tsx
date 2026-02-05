@@ -5,48 +5,8 @@ import Heading from "@/components/Heading";
 import ContactForm from "@/components/ContactForm";
 import hospitalview from "@/assets/heroimages/heroimage2.jpg";
 import { fetchDoctors } from "@/api/api";
-import clinicalServices from "@/data/clinicalServices2.json";
+
 import { useIntlayer } from "react-intlayer";
-
-// Service name mapping to clinical service IDs
-const serviceMapping: { [key: string]: number } = {
-  antenatal: 16,
-  gynaecological: 16,
-  obstetric: 16,
-  gynecology: 16,
-  "obstetrics & gynecology": 16,
-  "ob-gyn": 16,
-  pregnancy: 16,
-  delivery: 16,
-  caesarean: 16,
-  maternity: 16,
-};
-
-// Get service ID from doctor services
-const getServiceIdFromDoctorServices = (
-  servicesOffered: string[],
-): number | null => {
-  if (!servicesOffered || servicesOffered.length === 0) return null;
-
-  for (const service of servicesOffered) {
-    const lowerService = service.toLowerCase();
-    for (const [key, id] of Object.entries(serviceMapping)) {
-      if (lowerService.includes(key)) return id;
-    }
-  }
-
-  for (const service of servicesOffered) {
-    const lowerService = service.toLowerCase();
-    const foundService = (clinicalServices as any[]).find(
-      (s) =>
-        s.title.toLowerCase().includes(lowerService) ||
-        lowerService.includes(s.title.toLowerCase()),
-    );
-    if (foundService) return foundService.id;
-  }
-
-  return 16; // default OB-GYN
-};
 
 // Truncate bio to first 3 sentences
 const truncateBioToThreeSentences = (

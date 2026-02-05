@@ -24,7 +24,7 @@ const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
     initialData?.closingDate ?? "",
   );
   const [file, setFile] = useState<File | null>(null);
-  const [existingFileUrl, setExistingFileUrl] = useState(
+  const [existingFileUrl, _setExistingFileUrl] = useState(
     initialData?.fileUrl ?? "",
   );
   const [saving, setSaving] = useState(false);
