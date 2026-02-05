@@ -19,7 +19,7 @@ const ClinicalServices = () => {
 
   const [showForm, setShowForm] = useState(false);
   const [editingService, setEditingService] = useState<ClinicalService | null>(
-    null
+    null,
   );
 
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
@@ -30,7 +30,7 @@ const ClinicalServices = () => {
       setLoading(true);
       try {
         const data = await fetchClinicalServices();
-        console.log("Clinical data:", data)
+        console.log("Clinical data:", data);
         setServices(data);
         setError(null);
       } catch (err: any) {
@@ -87,7 +87,7 @@ const ClinicalServices = () => {
       setServices((prev) =>
         editingService
           ? prev.map((s) => (s.id === result.id ? result : s))
-          : [...prev, result]
+          : [...prev, result],
       );
 
       setShowForm(false);
@@ -121,7 +121,7 @@ const ClinicalServices = () => {
   return (
     <div>
       <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-serif font-bold">Clinical Services</h1>
+        <h1 className="text-2xl font-serif font-bold">Clinical Servicess</h1>
 
         {!showForm && !loading && (
           <button

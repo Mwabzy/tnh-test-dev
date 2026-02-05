@@ -73,7 +73,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
   };
 
   const [title, setTitle] = useState(initialData?.title || "");
-  const [tagline, _setTagline] = useState(initialData?.tagline || "");
+  const [tagline, setTagline] = useState(initialData?.tagline || "");
   const [overview, setOverview] = useState(initialData?.overview || "");
   const [detailedDescription, setDetailedDescription] = useState(
     initialData?.detailedDescription || "",
@@ -426,6 +426,20 @@ const ClinicalServiceForm: React.FC<Props> = ({
       </div>
 
       {/* Tagline */}
+      <div>
+        <label className="font-semibold">
+          Tagline {requiredMark}
+          <input
+            type="text"
+            className="border p-2 w-full"
+            value={tagline}
+            onChange={(e) => setTagline(e.target.value)}
+          />
+        </label>
+        {errors.title && <p className="text-red-600 text-sm">{errors.title}</p>}
+      </div>
+
+      {/* Overview */}
       <div>
         <label className="font-semibold block mb-1">
           Overview {requiredMark}
