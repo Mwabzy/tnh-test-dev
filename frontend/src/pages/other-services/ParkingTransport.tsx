@@ -81,7 +81,7 @@ const ParkingTransport = () => {
 
 
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-3">
+      <h2 className="text-xl font-semibold ml t-gray-900 mb-3">
         Nearby Landmarks
       </h2>
       <ul className="space-y-1 text-gray-700 list-disc list-inside">
@@ -130,7 +130,7 @@ const ParkingTransport = () => {
     </div>
 </div>
 
-        
+
 
   )
 }
