@@ -237,3 +237,4 @@ class CareerViewSet(viewsets.ModelViewSet):
     queryset = Career.objects.all().order_by("-posted_date")
     serializer_class = CareerSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = (MultiPartParser, FormParser)

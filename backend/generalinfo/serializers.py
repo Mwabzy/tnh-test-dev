@@ -312,7 +312,10 @@ class CareerSerializer(serializers.ModelSerializer):
     location = serializers.CharField()
     description = serializers.CharField()
     requirements = serializers.CharField()
-    posted_date = serializers.DateField(read_only=True)
+    opportunityType = serializers.CharField(source="opportunity_type")
+    datePosted = serializers.DateField(source="posted_date")
+    closingDate = serializers.DateField(source="closing_date", required=False, allow_null=True)
+    fileUrl = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Career
@@ -322,6 +325,19 @@ class CareerSerializer(serializers.ModelSerializer):
             "location",
             "description",
             "requirements",
-            "posted_date",
+            "opportunityType",
+            "datePosted",
+            "closingDate",
+            "file",
+            "fileUrl",
         )
-        read_only_fields = ("id", "posted_date")
+        read_only_fields = ("id", "fileUrl")
+        extra_kwargs = {
+            "file": {"required": False, "allow_null": True},
+        }
+
+    def get_fileUrl(self, obj):
+        if not obj.file:
+            return ""
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.file.url) if request else obj.file.url

@@ -4,18 +4,19 @@ import toast from "react-hot-toast";
 
 interface CareerFormProps {
   initialData?: JobListing | null;
-  onSave: (job: JobListing | FormData) => Promise<void>;
+  onSave: (job: FormData) => Promise<void>;
   onCancel: () => void;
 }
 
 const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
-  const [opportunity, setOpportunity] = useState(
-    initialData?.opportunity ?? "",
-  );
+  const [title, setTitle] = useState(initialData?.title ?? "");
   const [description, setDescription] = useState(
     initialData?.description ?? "",
   );
   const [location, setLocation] = useState(initialData?.location ?? "");
+  const [requirements, setRequirements] = useState(
+    initialData?.requirements ?? "",
+  );
   const [opportunityType, setOpportunityType] = useState(
     initialData?.opportunityType ?? "",
   );
@@ -24,9 +25,6 @@ const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
     initialData?.closingDate ?? "",
   );
   const [file, setFile] = useState<File | null>(null);
-  const [existingFileUrl, _setExistingFileUrl] = useState(
-    initialData?.fileUrl ?? "",
-  );
   const [saving, setSaving] = useState(false);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,19 +39,18 @@ const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
 
     try {
       const formData = new FormData();
-
-      formData.append("opportunity", opportunity);
+      formData.append("title", title);
       formData.append("description", description);
       formData.append("location", location);
+      formData.append("requirements", requirements);
       formData.append("opportunityType", opportunityType);
       formData.append("datePosted", datePosted);
-      formData.append("closingDate", closingDate);
+      if (closingDate) {
+        formData.append("closingDate", closingDate);
+      }
 
-      // Append file if new one selected
       if (file) {
         formData.append("file", file);
-      } else if (existingFileUrl) {
-        formData.append("existingFileUrl", existingFileUrl);
       }
 
       await onSave(formData);
@@ -77,8 +74,8 @@ const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
         <input
           type="text"
           className="border p-2 w-full"
-          value={opportunity}
-          onChange={(e) => setOpportunity(e.target.value)}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           required
         />
       </div>
@@ -148,6 +145,17 @@ const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
           className="border p-2 w-full"
           value={closingDate}
           onChange={(e) => setClosingDate(e.target.value)}
+        />
+      </div>
+
+      {/* Requirements */}
+      <div>
+        <label className="font-medium block mb-1">Requirements</label>
+        <textarea
+          className="border p-2 w-full"
+          rows={3}
+          value={requirements}
+          onChange={(e) => setRequirements(e.target.value)}
           required
         />
       </div>
@@ -156,12 +164,12 @@ const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
       <div>
         <label className="font-medium block mb-1">Job Document (PDF)</label>
 
-        {existingFileUrl && !file && (
+        {initialData?.fileUrl && !file && (
           <div className="mb-2 p-2 bg-gray-50 border rounded">
             <p className="text-sm text-gray-600">
               Current file:{" "}
               <a
-                href={existingFileUrl}
+                href={initialData.fileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-600 underline"
@@ -180,7 +188,7 @@ const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
               onClick={() => setFile(null)}
               className="text-red-500 text-sm"
             >
-              ✕ Remove
+              Remove
             </button>
           </div>
         )}
@@ -197,7 +205,7 @@ const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
           onClick={() => document.getElementById("job-file-upload")?.click()}
           className="text-blue-600 text-sm underline"
         >
-          {file || existingFileUrl ? "Change File" : "+ Upload File"}
+          {file || initialData?.fileUrl ? "Change File" : "+ Upload File"}
         </button>
       </div>
 

@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.utils import timezone
 
 
 class TeamMember(models.Model):
@@ -182,7 +183,11 @@ class Career(models.Model):
     requirements_zh = models.TextField(blank=True)
     requirements_ru = models.TextField(blank=True)
 
-    posted_date = models.DateField(auto_now_add=True)
+    opportunity_type = models.CharField(max_length=50, blank=True, default="")
+    closing_date = models.DateField(blank=True, null=True)
+    file = models.FileField(upload_to="careers/", blank=True, null=True)
+
+    posted_date = models.DateField(default=timezone.now)
 
     def __str__(self):
         return self.title
