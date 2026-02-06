@@ -44,7 +44,7 @@ export const registerUser = async (
   email: string,
   password: string,
 ) => {
-  const res = await api.post(`${USER_API}register/`, {
+  const res = await api.post(`/auth/register/`, {
     username,
     email,
     password,
