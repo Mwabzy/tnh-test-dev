@@ -1,9 +1,9 @@
-import { useIntlayer } from "react-intlayer"
+
 
 
 
 const ParkingTransport = () => {
-    const content = useIntlayer("aboutUsPage");
+
   return (
     <div className="py-8 ml-10 max-w-7xl mx-auto">
         <div className="flex justify-between items-center mt-11 w-full flex-col md:flex-row">
@@ -22,7 +22,7 @@ const ParkingTransport = () => {
                  </ul>
           </div>
 
-          <div className="flex mr-10 flex-col items-center justify-center w-[90%] md:w-[40%] bg-orange-400 rounded-lg shadow-lg px-6 py-4 text-white mt-8 md:mt-0">
+          <div className="flex mr-10 flex-col items-center justify-center w-[90%] md:w-[40%] bg-yellow-500  rounded-lg shadow-lg px-6 py-4 text-white mt-8 md:mt-0">
            <div className="w-full max-w-2xl mx-auto ">
       <h2 className="text-2xl font-semibold  mb-4">
         Parking Fees
@@ -30,7 +30,7 @@ const ParkingTransport = () => {
 
       <div className="overflow-x-auto rounded-lg ">
         <table className="min-w-full bg-white border border-gray-300">
-          <thead className="bg-orange-400 text-white">
+          <thead className="bg-yellow-400 text-white">
             <tr>
               <th className="py-3 px-4 text-left text-sm font-semibold">Duration</th>
               <th className="py-3 px-4 text-left text-sm font-semibold">Cost</th>
@@ -60,15 +60,11 @@ const ParkingTransport = () => {
     </div>
        </div>
         </div>
-<div className="w-full mt-16 px-6">
-  <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-xl p-8 border border-gray-200">
-
-
-    <h1 className="text-4xl font-serif font-semibold text-red-900 text-center mb-8">
+<div className=" mt-16 px-6">
+  <div className=" bg-white shadow-lg rounded-xl p-8 border border-gray-200">
+    <h1 className="text-4xl font-serif font-semibold text-red-900  mb-8">
       Directions to The Nairobi Hospital
     </h1>
-
-
     <div className="mb-8">
       <h2 className="text-xl font-semibold text-gray-900 mb-3">
         Physical Address
@@ -93,7 +89,7 @@ const ParkingTransport = () => {
   </div>
 </div>
 
-   <div className="max-w-4xl mx-auto mt-12 px-6">
+   <div className=" mt-12 px-6">
       <div className="bg-white shadow-lg rounded-xl p-8 border border-gray-200">
 
         <h2 className="text-3xl font-serif font-semibold text-red-900 mb-4">
