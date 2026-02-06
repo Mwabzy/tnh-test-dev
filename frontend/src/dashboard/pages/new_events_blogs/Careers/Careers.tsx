@@ -36,16 +36,16 @@ const CareersPage = () => {
     loadJobs();
   }, []);
 
-  const handleSaveJob = async (job: JobListing | FormData) => {
+  const handleSaveJob = async (job: FormData) => {
     try {
       if (editingJob?.id) {
         // UPDATE
-        const updated = await updateJobListing(editingJob.id, job as FormData);
+        const updated = await updateJobListing(editingJob.id, job);
         setJobs((prev) => prev.map((j) => (j.id === updated.id ? updated : j)));
         toast.success("Job opportunity updated successfully!");
       } else {
         // CREATE
-        const newJob = await createJobListing(job as FormData);
+        const newJob = await createJobListing(job);
         setJobs((prev) => [...prev, newJob]);
         toast.success("Job opportunity created successfully!");
       }
