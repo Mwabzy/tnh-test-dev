@@ -26,7 +26,7 @@ type NavigationProps = object;
 
 const Navigation: FC<NavigationProps> = () => {
   const content = useIntlayer("navigationContent");
-  
+
 
   return (
     <div>
@@ -41,7 +41,7 @@ const Navigation: FC<NavigationProps> = () => {
           </MenubarTrigger>
         </MenubarMenu>
 
-        
+
 
         {/* About Us */}
         <MenubarMenu>
@@ -405,7 +405,7 @@ const Navigation: FC<NavigationProps> = () => {
             Research
           </MenubarTrigger>
           <MenubarContent>
-          
+
           </MenubarContent>
         </MenubarMenu> */}
 
@@ -512,8 +512,8 @@ const Navigation: FC<NavigationProps> = () => {
                     title="Convention & Conference Centre"
                     href="/convention-center"
                   />
-                  <ListItem title="Parking & Transport" href="#" />
-                  <ListItem title="Security & Safety" href="#" />
+                  <ListItem title="Parking & Transport" href="/parking-transport" />
+                  <ListItem title="Security & Safety" href="/security-safety" />
                 </ul>
               </li>{" "}
               {/* Column 2: Support Services */}
