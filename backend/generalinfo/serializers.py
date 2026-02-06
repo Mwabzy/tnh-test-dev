@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import TeamMember, BlogPost, CSR, Tender
+from .models import TeamMember, BlogPost, CSR, Tender, Career
 
 
 # Translation helper
@@ -306,3 +306,22 @@ class TenderSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         validated_data.pop("existingFileUrl", None)
         return super().update(instance, validated_data)
+
+class CareerSerializer(serializers.ModelSerializer):
+    title = serializers.CharField()
+    location = serializers.CharField()
+    description = serializers.CharField()
+    requirements = serializers.CharField()
+    posted_date = serializers.DateField(read_only=True)
+
+    class Meta:
+        model = Career
+        fields = (
+            "id",
+            "title",
+            "location",
+            "description",
+            "requirements",
+            "posted_date",
+        )
+        read_only_fields = ("id", "posted_date")
