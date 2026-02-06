@@ -1,9 +1,9 @@
-import { useIntlayer } from "react-intlayer"
+
 
 
 
 const ParkingTransport = () => {
-    
+
   return (
     <div className="py-8 ml-10 max-w-7xl mx-auto">
         <div className="flex justify-between items-center mt-11 w-full flex-col md:flex-row">
