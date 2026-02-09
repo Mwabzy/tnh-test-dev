@@ -6,6 +6,8 @@ import ClientsSay from "../ClientsSay";
 import { Link } from "react-router";
 import DOMPurify from "dompurify";
 import { addClassesToDescription } from "./utilities";
+import { useIntlayer } from "react-intlayer";
+import { Content } from "@radix-ui/react-accordion";
 
 export interface ServiceTemplateProps {
   serviceTypes: ClinicalService;
@@ -172,6 +174,8 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
     return rows;
   }, [locations, serviceTypes]);
 
+  const content = useIntlayer("service_template");
+
   return (
     <>
       {mainImage && (
@@ -191,20 +195,22 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
             {/* Main content */}
             <div className="lg:col-span-2">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                About this service
+                {content.aboutservice}
               </h2>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(addClassesToDescription(detailedDescription as string) ?? ""),
+                  __html: DOMPurify.sanitize(
+                    addClassesToDescription(detailedDescription as string) ??
+                      "",
+                  ),
                 }}
                 className="prose prose-gray max-w-none text-gray-700 leading-relaxed mb-6 prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
-              >
-              </div>
+              ></div>
 
               {features_read && features_read.length > 0 && (
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    Key offerings
+                    {content.key_offerings}
                   </h3>
                   <ul className="space-y-6">
                     {features_read.map((f, i) => (
@@ -245,17 +251,21 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
               {/* Our Clinic Timings (compact) */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                  Our Clinic Timings
+                  {content.clinic_timings}
                 </h3>
                 <div className="bg-white border border-gray-100 rounded-lg overflow-hidden">
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead className="bg-gray-50 text-gray-700">
                         <tr>
-                          <th className="px-4 py-3 text-left">Location</th>
-                          <th className="px-4 py-3 text-left">Timings</th>
+                          <th className="px-4 py-3 text-left">
+                            {content.location}
+                          </th>
+                          <th className="px-4 py-3 text-left">
+                            {content.clinic_timing}
+                          </th>
                           <th className="px-4 py-3 text-center">
-                            Book an appointment
+                            {content.book_appointment}
                           </th>
                         </tr>
                       </thead>
@@ -274,7 +284,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                                 onClick={() => setOpenTimings(row)}
                                 className="text-red-900 font-medium"
                               >
-                                View timings -
+                                {content.view_timings}
                               </button>
                             </td>
                             <td className="px-4 py-3 text-center">
@@ -282,7 +292,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                                 to={`/booking-calendar?serviceId=${serviceTypes.id}`}
                                 className="text-red-900 font-medium"
                               >
-                                Book Appointment -
+                                Book Appointment - &gt;
                               </Link>
                             </td>
                           </tr>
