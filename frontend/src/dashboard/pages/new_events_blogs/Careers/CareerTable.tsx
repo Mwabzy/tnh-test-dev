@@ -30,19 +30,21 @@ const CareerDashboardTable: FC<CareerDashboardTableProps> = ({
       <table className="w-full border-collapse">
         <thead>
           <tr className="bg-gray-100 text-left">
-            <th className="p-3">Opportunity</th>
+            <th className="p-3">Title</th>
             <th className="p-3">Description</th>
             <th className="p-3">Location</th>
             <th className="p-3">Type</th>
             <th className="p-3">Date Posted</th>
             <th className="p-3">Closing Date</th>
+            <th className="p-3">Requirements</th>
+            <th className="p-3">File</th>
             <th className="p-3">Actions</th>
           </tr>
         </thead>
         <tbody>
           {data.map((job) => (
             <tr key={job.id} className="border-b hover:bg-gray-50">
-              <td className="p-3 font-medium">{job.opportunity}</td>
+              <td className="p-3 font-medium">{job.title}</td>
               <td className="p-3">{job.description}</td>
               <td className="p-3">
                 <span className="px-2 py-1 bg-orange-100 text-orange-600 rounded text-sm">
@@ -54,11 +56,28 @@ const CareerDashboardTable: FC<CareerDashboardTableProps> = ({
                   {job.opportunityType}
                 </span>
               </td>
-              <td className="p-3 text-sm text-gray-600">{job.datePosted}</td>
+              <td className="p-3 text-sm text-gray-600">
+                {job.datePosted}
+              </td>
+              <td className="p-3 text-sm text-gray-600">
+                {job.closingDate ?? "-"}
+              </td>
               <td className="p-3">
-                <span className="px-2 py-1 bg-orange-100 text-orange-600 rounded text-sm">
-                  {job.closingDate}
-                </span>
+                {job.requirements}
+              </td>
+              <td className="p-3">
+                {job.fileUrl ? (
+                  <a
+                    href={job.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 underline text-sm"
+                  >
+                    View
+                  </a>
+                ) : (
+                  <span className="text-gray-400 text-sm">No file</span>
+                )}
               </td>
               <td className="p-3 flex gap-2">
                 <button

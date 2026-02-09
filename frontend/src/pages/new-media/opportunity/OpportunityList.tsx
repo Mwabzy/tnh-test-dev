@@ -1,16 +1,8 @@
 import { FC } from "react";
-import OpportunityItem from "./OpportunityItem";
+import OpportunityItem, { Opportunity } from "./OpportunityItem";
 
 interface OpportunityListProps {
-  opportunities: {
-    opportunity: string;
-    description: string;
-    location: string;
-    opportunityType: string;
-    datePosted: string;
-    closingDate?: string;
-    fileUrl?: string;
-  }[];
+  opportunities: Opportunity[];
 }
 
 const OpportunityList: FC<OpportunityListProps> = ({ opportunities }) => {

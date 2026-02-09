@@ -8,6 +8,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Mail, MapPin, Phone } from "lucide-react";
+import DOMPurify from "dompurify";
+import { addClassesToDescription } from "@/components/services/utilities";
 
 type AccordionItem = {
   title: string;
@@ -51,8 +53,14 @@ const OutpatientCenterDetails = () => {
         <div className="flex-1 space-y-6">
           <div className="mb-6">
             <h2 className="text-xl font-semibold">About the clinic</h2>
-            <p className="mt-2 text-gray-700">{details.description}</p>
-            <p></p>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(
+                  addClassesToDescription(details.description) ?? "",
+                ),
+              }}
+              className="mt-2 prose prose-gray max-w-none text-gray-700 leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+            ></div>
           </div>
 
           <h2 className="text-2xl text-red-900 font-bold underline">

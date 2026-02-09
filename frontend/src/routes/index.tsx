@@ -8,6 +8,7 @@ import DashboardLayout from "@/dashboard/DashboardLayout";
 import AuthPage from "@/dashboard/auth/AuthPage";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { DashboardRoutesPath } from "./dashboard-routes";
+import NotFound from "@/dashboard/pages/NotFound";
 
 /**
  * Automatically generated from the routes defined in the routes folder.
@@ -34,6 +35,7 @@ export function AppRoutes(): JSX.Element {
             />
           );
         })}
+        <Route path="*" element={<NotFound />} />
       </Route>
       <Route path="/dashboard/auth" element={<AuthPage />} />
 
@@ -56,6 +58,7 @@ export function AppRoutes(): JSX.Element {
             />
           );
         })}
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

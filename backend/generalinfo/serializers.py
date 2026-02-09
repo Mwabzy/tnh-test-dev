@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import TeamMember, BlogPost, CSR, Tender
+from .models import TeamMember, BlogPost, CSR, Tender, Career
 
 
 # Translation helper
@@ -306,3 +306,38 @@ class TenderSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         validated_data.pop("existingFileUrl", None)
         return super().update(instance, validated_data)
+
+class CareerSerializer(serializers.ModelSerializer):
+    title = serializers.CharField()
+    location = serializers.CharField()
+    description = serializers.CharField()
+    requirements = serializers.CharField()
+    opportunityType = serializers.CharField(source="opportunity_type")
+    datePosted = serializers.DateField(source="posted_date")
+    closingDate = serializers.DateField(source="closing_date", required=False, allow_null=True)
+    fileUrl = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Career
+        fields = (
+            "id",
+            "title",
+            "location",
+            "description",
+            "requirements",
+            "opportunityType",
+            "datePosted",
+            "closingDate",
+            "file",
+            "fileUrl",
+        )
+        read_only_fields = ("id", "fileUrl")
+        extra_kwargs = {
+            "file": {"required": False, "allow_null": True},
+        }
+
+    def get_fileUrl(self, obj):
+        if not obj.file:
+            return ""
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.file.url) if request else obj.file.url

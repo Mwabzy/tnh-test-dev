@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.utils import timezone
 
 
 class TeamMember(models.Model):
@@ -155,3 +156,38 @@ class Tender(models.Model):
     
     
 
+class Career(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    title = models.CharField(max_length=255)
+    title_fr = models.CharField(max_length=255, blank=True)
+    title_es = models.CharField(max_length=255, blank=True)
+    title_zh = models.CharField(max_length=255, blank=True)
+    title_ru = models.CharField(max_length=255, blank=True)
+
+    location = models.CharField(max_length=255)
+    location_fr = models.CharField(max_length=255, blank=True)
+    location_es = models.CharField(max_length=255, blank=True)
+    location_zh = models.CharField(max_length=255, blank=True)
+    location_ru = models.CharField(max_length=255, blank=True)
+
+    description = models.TextField()
+    description_fr = models.TextField(blank=True)
+    description_es = models.TextField(blank=True)
+    description_zh = models.TextField(blank=True)
+    description_ru = models.TextField(blank=True)
+
+    requirements = models.TextField()
+    requirements_fr = models.TextField(blank=True)
+    requirements_es = models.TextField(blank=True)
+    requirements_zh = models.TextField(blank=True)
+    requirements_ru = models.TextField(blank=True)
+
+    opportunity_type = models.CharField(max_length=50, blank=True, default="")
+    closing_date = models.DateField(blank=True, null=True)
+    file = models.FileField(upload_to="careers/", blank=True, null=True)
+
+    posted_date = models.DateField(default=timezone.now)
+
+    def __str__(self):
+        return self.title

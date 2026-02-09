@@ -2,16 +2,18 @@ import axios from "axios";
 
 //import { CSR } from "@/types";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = "http://localhost:8000/api/v1";
 
-const USER_API = `${BASE_URL}/auth/`;
-const CLINICS_API = `${BASE_URL}/clinical-services/`;
-const DOCTORS_API = `${BASE_URL}/doctors/`;
-const TEAM_API = `${BASE_URL}/team-members/`;
-const BLOGS_API = `${BASE_URL}/blog-posts/`;
-const CSR_API = `${BASE_URL}/csr/`;
+const USER_API = "/auth/login";
+const CLINICS_API = "/clinical-services/";
+const DOCTORS_API = "/doctors/";
+const TEAM_API = "/team-members/";
+const BLOGS_API = "/blog-posts/";
+const CSR_API = "/csr/";
 const OUTPATIENT_CENTER_API = "/outpatient-centers/";
-const BOOKING_API = `${BASE_URL}/send_email/`;
+const BOOKING_API = "/send_email/";
+const CAREERS_API = "/careers/";
+const TENDERS_API = "/tenders/";
 
 // Axios Instance
 const api = axios.create({
@@ -33,7 +35,7 @@ api.interceptors.request.use((config) => {
 // AUTH
 
 export const loginUser = async (username: string, password: string) => {
-  const res = await api.post(`${USER_API}login/`, { username, password });
+  const res = await api.post(`/auth/login/`, { username, password });
   return res.data;
 };
 
@@ -42,7 +44,7 @@ export const registerUser = async (
   email: string,
   password: string,
 ) => {
-  const res = await api.post(`${USER_API}register/`, {
+  const res = await api.post(USER_API, {
     username,
     email,
     password,
@@ -254,5 +256,69 @@ export async function deleteOutpatientCenter(id: number) {
 
 export async function createBooking(data: any) {
   const res = await api.post(BOOKING_API, data);
+  return res.data;
+}
+
+// CAREERS / JOB LISTINGS
+
+export async function fetchJobListings() {
+  const res = await api.get(CAREERS_API);
+  return res.data;
+}
+
+export async function fetchJobListingById(id: string) {
+  const res = await api.get(`${CAREERS_API}${id}/`);
+  return res.data;
+}
+
+export async function createJobListing(data: any) {
+  console.log("Creating Job Listing with data:", data);
+  const res = await api.post(CAREERS_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+}
+
+export async function updateJobListing(id: string, data: any) {
+  const res = await api.patch(`${CAREERS_API}${id}/`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+}
+
+export async function deleteJobListing(id: string) {
+  const res = await api.delete(`${CAREERS_API}${id}/`);
+  return res.data;
+}
+
+// TENDERS
+
+export async function fetchTenders() {
+  const res = await api.get(TENDERS_API);
+  return res.data;
+}
+
+export async function fetchTenderById(id: string) {
+  const res = await api.get(`${TENDERS_API}${id}/`);
+  return res.data;
+}
+
+export async function createTender(data: any) {
+  console.log("Creating Tender with data:", data);
+  const res = await api.post(TENDERS_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+}
+
+export async function updateTender(id: string, data: any) {
+  const res = await api.patch(`${TENDERS_API}${id}/`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+}
+
+export async function deleteTender(id: string) {
+  const res = await api.delete(`${TENDERS_API}${id}/`);
   return res.data;
 }

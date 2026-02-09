@@ -282,7 +282,7 @@ export const NAVIGATION_CONTENT = () => {
               title: content.convention_center,
               href: "/convention-center",
             },
-            { title: content.parking_transport, href: "#" },
+            { title: content.parking_transport, href: "/parking-transport" },
             { title: content.security_safety, href: "#" },
           ],
         },

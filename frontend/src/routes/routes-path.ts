@@ -27,6 +27,11 @@ const UIRoutes = {
     path: "/clinical-services",
     component: lazyLoad(() => import("../pages/clinics/Clinics")),
   },
+   parkingTransport: {
+    name: "navigation.parkingTransport",
+    path: "/parking-transport",
+    component: lazyLoad(() => import("../pages/other-services/ParkingTransport")),
+  },
   andersonServices: {
     name: "navigation.andersonServices",
     path: "/anderson-services",
