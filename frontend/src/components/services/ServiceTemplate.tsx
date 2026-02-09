@@ -252,7 +252,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">
                   {content.clinic_timings}
                 </h3>
-                <div className="bg-white border border-gray-100 rounded-lg overflow-hidden">
+                <div className="bg-white border border-gray-100 rounded-lg overflow-hidden shadow-md">
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead className="bg-gray-50 text-gray-700">
@@ -281,17 +281,17 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                               <button
                                 type="button"
                                 onClick={() => setOpenTimings(row)}
-                                className="text-red-900 font-medium"
+                                className="bg-white text-red-900 border border-red-900 px-4 py-2 rounded-lg font-medium hover:bg-red-900 hover:text-white transition-colors"
                               >
-                                {content.view_timings}
+                                {content.view_timings} - &gt;
                               </button>
                             </td>
                             <td className="px-4 py-3 text-center">
                               <Link
                                 to={`/booking-calendar?serviceId=${serviceTypes.id}`}
-                                className="text-red-900 font-medium"
+                                className="bg-red-900 text-white border border-red-900 px-4 py-2 rounded-lg font-medium  hover:text-white hover:bg-red-800 transition-colors inline-block"
                               >
-                                Book Appointment - &gt;
+                                {content.book} - &gt;
                               </Link>
                             </td>
                           </tr>
@@ -420,7 +420,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
               {/* Contact card (separate) */}
               <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
                 <h4 className="text-sm font-semibold text-gray-900 mb-3">
-                  Contact
+                  {content.contactinfo}
                 </h4>
                 <div className="space-y-3 mb-4">
                   <a
@@ -457,16 +457,16 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
               {/* Explore Speciality Clinics */}
               <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
                 <h4 className="text-sm font-semibold text-gray-900 mb-2">
-                  Explore Speciality Clinics
+                  {content.speciality_clinics}
                 </h4>
                 <p className="text-sm text-gray-600 mb-3">
-                  Browse all speciality clinics under Anderson Specialty.
+                  {content.speciality_clinics_description}
                 </p>
                 <Link
                   to={`/clinical-services`}
                   className="text-red-900 font-medium"
                 >
-                  View clinics →
+                  {content.view_clinics}
                 </Link>
               </div>
             </aside>

@@ -66,6 +66,51 @@ const service_template: Dictionary = {
         ru: "Посмотреть расписание",
       }),
     ],
+    speciality_clinics: [
+      t({
+        en: "Explore Speciality Clinics",
+        fr: "Explorer les cliniques spécialisées",
+        es: "Explorar clínicas especializadas",
+        zh: "探索专科诊所",
+        ru: "Исследуйте специализированные клиники",
+      }),
+    ],
+    speciality_clinics_description: [
+      t({
+        en: "Browse all speciality clinics under Anderson Specialty.",
+        fr: "Parcourez toutes les cliniques spécialisées sous Anderson Specialty.",
+        es: "Explore todas las clínicas especializadas bajo Anderson Specialty.",
+        zh: "浏览安德森专科下的所有专科诊所。",
+        ru: "Просмотрите все специализированные клиники под Anderson Specialty.",
+      }),
+    ],
+    view_clinics: [
+      t({
+        en: "View clinics →",
+        fr: "Voir les cliniques →",
+        es: "Ver clínicas →",
+        zh: "查看诊所 →",
+        ru: "Посмотреть клиники →",
+      }),
+    ],
+    contactinfo: [
+      t({
+        en: "Contact",
+        fr: "Contact",
+        es: "Contacto",
+        zh: "联系",
+        ru: "Контакт",
+      }),
+    ],
+    book: [
+      t({
+        en: "Book Appointment",
+        fr: "Prendre rendez-vous",
+        es: "Reservar una cita",
+        zh: "预约",
+        ru: "Записаться на прием",
+      }),
+    ],
   },
 };
 
