@@ -1,6 +1,8 @@
 name: tnhwebdev
 
 volumes:
+  dev_postgres17_app_data:
+    name: web_app_data_prod
   dev_app_data:
     name: web_app_data_dev
   static_files:
@@ -27,15 +29,17 @@ services:
       - ./backend:/app:rw
       - static_files:/app/staticfiles:rw
 
-  #   postgres:
-  #     image: postgres:16.4-bullseye
-  #     hostname: portal-postgres
-  #     container_name: tnhweb_postgres
-  #     volumes:
-  #       - dev_app_data:/var/lib/postgresql/data
-  #     env_file:
-  #       - backend/.env
-  #     restart: unless-stopped
+
+  # postgres:
+  #   image: postgres:16.4-bullseye
+  #   hostname: portal-postgres
+  #   container_name: tnhweb_postgres
+  #   volumes:
+  #     - dev_app_data:/var/lib/postgresql/data
+  #   env_file:
+  #     - backend/.env
+  #   restart: unless-stopped
+
 
   frontend:
     build:

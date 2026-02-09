@@ -27,6 +27,7 @@ const AndersonList: React.FC<andersonListProps> = () => {
       try {
         setLoading(true);
         const services = await fetchClinicalServices();
+        console.log("Fetched services:", services);
         setData(services);
       } catch (err) {
         console.error("Error fetching services:", err);
@@ -51,7 +52,7 @@ const AndersonList: React.FC<andersonListProps> = () => {
   // });
 
   // Filter logic - only show services with "Anderson" location
-  const filteredServices = data.filter((service) => {
+  const filteredServices = data ? (data.filter((service) => {
     const hasAndersonLocation = service.locations?.some((loc) =>
       loc.toLowerCase().includes("anderson"),
     );
@@ -63,7 +64,7 @@ const AndersonList: React.FC<andersonListProps> = () => {
       !letterFilter || service.title.charAt(0).toUpperCase() === letterFilter;
 
     return hasAndersonLocation && matchesSearch && matchesLetter;
-  });
+  })) : [];
 
   // Pagination
   const totalPages = Math.ceil(filteredServices.length / ITEMS_PER_PAGE);

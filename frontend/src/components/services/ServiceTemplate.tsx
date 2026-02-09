@@ -5,6 +5,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import ClientsSay from "../ClientsSay";
 import { Link } from "react-router";
 import DOMPurify from "dompurify";
+import { addClassesToDescription } from "./utilities";
 
 export interface ServiceTemplateProps {
   serviceTypes: ClinicalService;
@@ -194,12 +195,10 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
               </h2>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(detailedDescription ?? ""),
+                  __html: DOMPurify.sanitize(addClassesToDescription(detailedDescription as string) ?? ""),
                 }}
                 className="prose prose-gray max-w-none text-gray-700 leading-relaxed mb-6 prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
               >
-                {" "}
-                {/* {detailedDescription} */}
               </div>
 
               {features_read && features_read.length > 0 && (

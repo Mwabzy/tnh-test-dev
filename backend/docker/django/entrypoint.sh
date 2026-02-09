@@ -1,23 +1,29 @@
-
-#!/bin/bash
-
 # Exit on error (equivalent to set -o errexit)
 set -e
 
 postgres_ready() {
     python << END
 import sys
+import os
 from psycopg import connect
 from psycopg.errors import OperationalError
 
 try:
-    connect(
-        dbname="${POSTGRES_DATABASE}",
-        user="${POSTGRES_USER}",
-        password="${POSTGRES_PASSWORD}",
-        host="${POSTGRES_HOST}",
-        port="${POSTGRES_PORT}",
-    ).close()
+    database_url = os.environ.get("DATABASE_URL")
+    local_dev = os.environ.get("LOCAL_DEV", "True").lower() in ("true", "1", "yes")
+    
+    if local_dev and database_url:
+        # Use DATABASE_URL for local development
+        connect(database_url).close()
+    else:
+        # Use individual connection parameters
+        connect(
+            dbname=os.environ.get("POSTGRES_DATABASE"),
+            user=os.environ.get("POSTGRES_USER"),
+            password=os.environ.get("POSTGRES_PASSWORD"),
+            host=os.environ.get("POSTGRES_HOST"),
+            port=os.environ.get("POSTGRES_PORT"),
+        ).close()
 except OperationalError:
     sys.exit(-1)
 END
