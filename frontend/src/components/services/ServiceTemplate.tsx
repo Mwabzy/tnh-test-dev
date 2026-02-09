@@ -7,7 +7,6 @@ import { Link } from "react-router";
 import DOMPurify from "dompurify";
 import { addClassesToDescription } from "./utilities";
 import { useIntlayer } from "react-intlayer";
-import { Content } from "@radix-ui/react-accordion";
 
 export interface ServiceTemplateProps {
   serviceTypes: ClinicalService;
