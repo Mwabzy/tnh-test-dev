@@ -1,8 +1,10 @@
 import { ClinicalService } from "@/types";
+import React, { useMemo, useState } from "react";
 import Heading from "../Heading";
 import { Mail, MapPin, Phone } from "lucide-react";
 import ClientsSay from "../ClientsSay";
 import { Link } from "react-router";
+import DOMPurify from "dompurify";
 
 export interface ServiceTemplateProps {
   serviceTypes: ClinicalService;
@@ -25,6 +27,150 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
   const mainImage = images?.[0];
   console.log("features_read:", features_read);
 
+  const [openTimings, setOpenTimings] = useState<{
+    location: string;
+    entries: Array<{ day: string; time: string }>;
+  } | null>(null);
+
+  const timingRows = useMemo(() => {
+    const locs =
+      locations && locations.length > 0 ? locations.slice() : ["Main Hospital"];
+    locs.sort((a, b) =>
+      a === "Anderson Specialty"
+        ? -1
+        : b === "Anderson Specialty"
+          ? 1
+          : a.localeCompare(b),
+    );
+
+    const rows: Array<{
+      location: string;
+      entries: Array<{ day: string; time: string }>;
+    }> = [];
+
+    locs.forEach((loc) => {
+      let schedules = (serviceTypes as any).locationTimings?.[loc] as
+        | Array<any>
+        | undefined;
+
+      // If not found, try alternate keys (strip trailing words like 'Clinic', 'OPC', or common punctuation)
+      if (
+        (!schedules || schedules.length === 0) &&
+        (serviceTypes as any).locationTimings
+      ) {
+        const candidates = [
+          loc,
+          loc.replace(/\s*Clinic$/i, "").trim(),
+          loc.replace(/\s*OPC$/i, "").trim(),
+          loc.replace(/\s*Outpatient Clinic$/i, "").trim(),
+          loc
+            .replace(/\s*Clinic$/i, "")
+            .replace(/\s*OPC$/i, "")
+            .trim(),
+        ];
+        for (const c of candidates) {
+          if (!c) continue;
+          const found = (serviceTypes as any).locationTimings?.[c];
+          if (found && found.length > 0) {
+            schedules = found as Array<any>;
+            break;
+          }
+        }
+      }
+
+      const entries: Array<{ day: string; time: string }> = [];
+
+      if (schedules && schedules.length > 0) {
+        schedules.forEach((s) => {
+          // Normalize day and time display: if day is missing (or 'â€”'), try to extract from the from field
+          let dayDisplay =
+            s.day && String(s.day).trim() && String(s.day).trim() !== "â€”"
+              ? String(s.day).trim()
+              : "";
+          let fromRaw = s.from ? String(s.from) : "";
+          let toRaw = s.to ? String(s.to) : "";
+
+          // If day is empty, look for weekday name in the fromRaw string (e.g. 'Fridays 9am â€“ 11am (Room 6)')
+          if (!dayDisplay) {
+            const dayMatch = fromRaw.match(
+              /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
+            );
+            if (dayMatch) {
+              // Normalize to singular day name (e.g. 'Fridays' -> 'Friday')
+              dayDisplay = dayMatch[1].replace(/s$/i, "");
+              fromRaw = fromRaw.replace(dayMatch[0], "").trim();
+            }
+          }
+
+          // Remove room numbers or parenthetical notes from time strings
+          fromRaw = fromRaw.replace(/\s*\([^)]*\)/g, "").trim();
+          toRaw = toRaw.replace(/\s*\([^)]*\)/g, "").trim();
+
+          // If there's no explicit toRaw but fromRaw contains a range like '9am â€“ 11am', split it
+          if (
+            (!toRaw || toRaw === "") &&
+            /\d/.test(fromRaw) &&
+            /[-â€“â€”]/.test(fromRaw)
+          ) {
+            const parts = fromRaw.split(/[-â€“â€”]/).map((p) => p.trim());
+            if (parts.length >= 2) {
+              fromRaw = parts[0];
+              toRaw = parts[1];
+            }
+          }
+
+          // Remove any lingering weekday words from the time strings
+          const weekdayRegex =
+            /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i;
+          fromRaw = fromRaw.replace(weekdayRegex, "").trim();
+          toRaw = toRaw.replace(weekdayRegex, "").trim();
+
+          const timeDisplay = fromRaw + (toRaw ? ` â€” ${toRaw}` : "");
+          entries.push({
+            day: dayDisplay || "â€”",
+            time: timeDisplay || "â€”",
+          });
+        });
+      } else {
+        // No structured location timings: try to parse `timingsOnOverview` for day and times
+        const overview = (serviceTypes.timingsOnOverview || "Contact clinic")
+          .replace(/\s*\([^)]*\)/g, "")
+          .trim();
+        let dayDisplay = "";
+        let timeDisplay = overview;
+        const dayMatch = overview.match(
+          /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
+        );
+        if (dayMatch) {
+          dayDisplay = dayMatch[1].replace(/s$/i, "");
+          timeDisplay = overview.replace(dayMatch[0], "").trim();
+          // Clean leading separators
+          timeDisplay = timeDisplay.replace(/^[:,-â€“â€”\s]+/, "").trim();
+        }
+
+        // Remove any weekday words left in the timeDisplay
+        timeDisplay = timeDisplay
+          .replace(
+            /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
+            "",
+          )
+          .trim();
+
+        // If timeDisplay contains a range embedded, normalize spacing
+        timeDisplay = timeDisplay.replace(/\s*[-â€“â€”]\s*/g, " â€” ");
+
+        entries.push({
+          day: dayDisplay || "â€”",
+          time: timeDisplay || overview || "Contact clinic",
+        });
+      }
+
+      rows.push({ location: loc, entries });
+    });
+
+    return rows;
+  }, [locations, serviceTypes]);
+
   return (
     <>
       {mainImage && (
@@ -46,9 +192,15 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">
                 About this service
               </h2>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                {detailedDescription}
-              </p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(detailedDescription ?? ""),
+                }}
+                className="prose prose-gray max-w-none text-gray-700 leading-relaxed mb-6 prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+              >
+                {" "}
+                {/* {detailedDescription} */}
+              </div>
 
               {features_read && features_read.length > 0 && (
                 <div className="mb-6">
@@ -102,239 +254,96 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                       <thead className="bg-gray-50 text-gray-700">
                         <tr>
                           <th className="px-4 py-3 text-left">Location</th>
-                          <th className="px-4 py-3 text-left">Day</th>
-                          <th className="px-4 py-3 text-left">Time</th>
+                          <th className="px-4 py-3 text-left">Timings</th>
                           <th className="px-4 py-3 text-center">
                             Book an appointment
                           </th>
                         </tr>
                       </thead>
                       <tbody>
-                        {((): any[] => {
-                          const locs =
-                            locations && locations.length > 0
-                              ? locations.slice()
-                              : ["Main Hospital"];
-                          locs.sort((a, b) =>
-                            a === "Anderson Specialty"
-                              ? -1
-                              : b === "Anderson Specialty"
-                                ? 1
-                                : a.localeCompare(b),
-                          );
-
-                          const rows: any[] = [];
-                          locs.forEach((loc) => {
-                            let schedules = (serviceTypes as any)
-                              .locationTimings?.[loc] as Array<any> | undefined;
-
-                            // If not found, try alternate keys (strip trailing words like 'Clinic', 'OPC', or common punctuation)
-                            if (
-                              (!schedules || schedules.length === 0) &&
-                              (serviceTypes as any).locationTimings
-                            ) {
-                              const candidates = [
-                                loc,
-                                loc.replace(/\s*Clinic$/i, "").trim(),
-                                loc.replace(/\s*OPC$/i, "").trim(),
-                                loc
-                                  .replace(/\s*Outpatient Clinic$/i, "")
-                                  .trim(),
-                                loc
-                                  .replace(/\s*Clinic$/i, "")
-                                  .replace(/\s*OPC$/i, "")
-                                  .trim(),
-                              ];
-                              for (const c of candidates) {
-                                if (!c) continue;
-                                const found = (serviceTypes as any)
-                                  .locationTimings?.[c];
-                                if (found && found.length > 0) {
-                                  schedules = found as Array<any>;
-                                  break;
-                                }
-                              }
-                            }
-
-                            if (schedules && schedules.length > 0) {
-                              schedules.forEach((s, i) => {
-                                // Normalize day and time display: if day is missing (or '—'), try to extract from the from field
-                                let dayDisplay =
-                                  s.day &&
-                                  String(s.day).trim() &&
-                                  String(s.day).trim() !== "—"
-                                    ? String(s.day).trim()
-                                    : "";
-                                let fromRaw = s.from ? String(s.from) : "";
-                                let toRaw = s.to ? String(s.to) : "";
-
-                                // If day is empty, look for weekday name in the fromRaw string (e.g. 'Fridays 9am – 11am (Room 6)')
-                                if (!dayDisplay) {
-                                  const dayMatch = fromRaw.match(
-                                    /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
-                                  );
-                                  if (dayMatch) {
-                                    // Normalize to singular day name (e.g. 'Fridays' -> 'Friday')
-                                    dayDisplay = dayMatch[1].replace(/s$/i, "");
-                                    fromRaw = fromRaw
-                                      .replace(dayMatch[0], "")
-                                      .trim();
-                                  }
-                                }
-
-                                // Remove room numbers or parenthetical notes from time strings
-                                fromRaw = fromRaw
-                                  .replace(/\s*\([^)]*\)/g, "")
-                                  .trim();
-                                toRaw = toRaw
-                                  .replace(/\s*\([^)]*\)/g, "")
-                                  .trim();
-
-                                // If there's no explicit toRaw but fromRaw contains a range like '9am – 11am', split it
-                                if (
-                                  (!toRaw || toRaw === "") &&
-                                  /\d/.test(fromRaw) &&
-                                  /[-–—]/.test(fromRaw)
-                                ) {
-                                  const parts = fromRaw
-                                    .split(/[-–—]/)
-                                    .map((p) => p.trim());
-                                  if (parts.length >= 2) {
-                                    fromRaw = parts[0];
-                                    toRaw = parts[1];
-                                  }
-                                }
-
-                                // Remove any lingering weekday words from the time strings
-                                const weekdayRegex =
-                                  /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i;
-                                fromRaw = fromRaw
-                                  .replace(weekdayRegex, "")
-                                  .trim();
-                                toRaw = toRaw.replace(weekdayRegex, "").trim();
-
-                                rows.push(
-                                  <tr
-                                    key={`${loc}-${i}`}
-                                    className={
-                                      i % 2 === 0 ? "bg-white" : "bg-gray-50"
-                                    }
-                                  >
-                                    <td className="px-4 py-3 font-medium text-gray-900">
-                                      {i === 0 ? loc : ""}
-                                    </td>
-                                    <td className="px-4 py-3 text-gray-700">
-                                      {dayDisplay || "—"}
-                                    </td>
-                                    <td className="px-4 py-3 text-gray-700">
-                                      {fromRaw}
-                                      {toRaw ? ` — ${toRaw}` : ""}
-                                    </td>
-                                    <td className="px-4 py-3 text-center">
-                                      {/* <Link
-                                        to={`/booking?serviceId=${
-                                          serviceTypes.id
-                                        }&location=${encodeURIComponent(
-                                          loc
-                                        )}&day=${encodeURIComponent(
-                                          dayDisplay || ""
-                                        )}`}
-                                        className="text-red-900 font-medium"
-                                      >
-                                        Book Appointment →
-                                      </Link> */}
-                                      <Link
-                                        to={`/booking-calendar?serviceId=${serviceTypes.id}`}
-                                        className="text-red-900 font-medium"
-                                      >
-                                        Book Appointment →
-                                      </Link>
-                                    </td>
-                                  </tr>,
-                                );
-                              });
-                            } else {
-                              // No structured location timings: try to parse `timingsOnOverview` for day and times
-                              const overview = (
-                                serviceTypes.timingsOnOverview ||
-                                "Contact clinic"
-                              )
-                                .replace(/\s*\([^)]*\)/g, "")
-                                .trim();
-                              let dayDisplay = "";
-                              let timeDisplay = overview;
-                              const dayMatch = overview.match(
-                                /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
-                              );
-                              if (dayMatch) {
-                                dayDisplay = dayMatch[1].replace(/s$/i, "");
-                                timeDisplay = overview
-                                  .replace(dayMatch[0], "")
-                                  .trim();
-                                // Clean leading separators
-                                timeDisplay = timeDisplay
-                                  .replace(/^[:,-–—\s]+/, "")
-                                  .trim();
-                              }
-
-                              // Remove any weekday words left in the timeDisplay
-                              timeDisplay = timeDisplay
-                                .replace(
-                                  /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
-                                  "",
-                                )
-                                .trim();
-
-                              // If timeDisplay contains a range embedded, normalize spacing
-                              timeDisplay = timeDisplay.replace(
-                                /\s*[-–—]\s*/g,
-                                " — ",
-                              );
-
-                              rows.push(
-                                <tr
-                                  key={loc}
-                                  className="bg-white hover:bg-gray-50"
-                                >
-                                  <td className="px-4 py-3 font-medium text-gray-900">
-                                    {loc}
-                                  </td>
-                                  <td className="px-4 py-3 text-gray-700">
-                                    {dayDisplay || "—"}
-                                  </td>
-                                  <td className="px-4 py-3 text-gray-700">
-                                    {timeDisplay ||
-                                      overview ||
-                                      "Contact clinic"}
-                                  </td>
-                                  <td className="px-4 py-3 text-center">
-                                    {/* <Link
-                                      to={`/booking?serviceId=${
-                                        serviceTypes.id
-                                      }&location=${encodeURIComponent(loc)}`}
-                                      className="text-red-900 font-medium"
-                                    >
-                                      Book Appointment →
-                                    </Link> */}
-                                    <Link
-                                      to={`/booking-calendar?serviceId=${serviceTypes.id}`}
-                                      className="text-red-900 font-medium"
-                                    >
-                                      Book Appointment →
-                                    </Link>
-                                  </td>
-                                </tr>,
-                              );
-                            }
-                          });
-
-                          return rows;
-                        })()}
+                        {timingRows.map((row) => (
+                          <tr
+                            key={row.location}
+                            className="bg-white hover:bg-gray-50"
+                          >
+                            <td className="px-4 py-3 font-medium text-gray-900">
+                              {row.location}
+                            </td>
+                            <td className="px-4 py-3 text-gray-700">
+                              <button
+                                type="button"
+                                onClick={() => setOpenTimings(row)}
+                                className="text-red-900 font-medium"
+                              >
+                                View timings -
+                              </button>
+                            </td>
+                            <td className="px-4 py-3 text-center">
+                              <Link
+                                to={`/booking-calendar?serviceId=${serviceTypes.id}`}
+                                className="text-red-900 font-medium"
+                              >
+                                Book Appointment -
+                              </Link>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
                 </div>
               </div>
+
+              {openTimings && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+                  <div className="bg-white w-full max-w-lg rounded-lg shadow-lg">
+                    <div className="flex items-center justify-between border-b px-5 py-4">
+                      <div className="text-base font-semibold text-gray-900">
+                        {openTimings.location} Timings
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setOpenTimings(null)}
+                        className="text-gray-500 hover:text-gray-700"
+                        aria-label="Close timings"
+                      >
+                        X
+                      </button>
+                    </div>
+                    <div className="px-5 py-4">
+                      <table className="w-full text-sm">
+                        <thead className="text-gray-600">
+                          <tr>
+                            <th className="py-2 text-left">Day</th>
+                            <th className="py-2 text-left">Time</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {openTimings.entries.map((entry, idx) => (
+                            <tr key={`${openTimings.location}-${idx}`}>
+                              <td className="py-2 text-gray-700">
+                                {entry.day || "--"}
+                              </td>
+                              <td className="py-2 text-gray-700">
+                                {entry.time || "--"}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="flex justify-end border-t px-5 py-3">
+                      <button
+                        type="button"
+                        onClick={() => setOpenTimings(null)}
+                        className="px-4 py-2 text-sm border rounded-md"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Team (two aligned cards) */}
               {doctors && doctors.length > 0 && (
