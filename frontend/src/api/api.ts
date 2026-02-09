@@ -12,8 +12,6 @@ const BLOGS_API = `${BASE_URL}/blog-posts/`;
 const CSR_API = `${BASE_URL}/csr/`;
 const OUTPATIENT_CENTER_API = "/outpatient-centers/";
 const BOOKING_API = `${BASE_URL}/send_email/`;
-const CAREERS_API = `${BASE_URL}/careers/`;
-const TENDERS_API = `${BASE_URL}/tenders/`;
 
 // Axios Instance
 const api = axios.create({
@@ -256,69 +254,5 @@ export async function deleteOutpatientCenter(id: number) {
 
 export async function createBooking(data: any) {
   const res = await api.post(BOOKING_API, data);
-  return res.data;
-}
-
-// CAREERS / JOB LISTINGS
-
-export async function fetchJobListings() {
-  const res = await api.get(CAREERS_API);
-  return res.data;
-}
-
-export async function fetchJobListingById(id: string) {
-  const res = await api.get(`${CAREERS_API}${id}/`);
-  return res.data;
-}
-
-export async function createJobListing(data: any) {
-  console.log("Creating Job Listing with data:", data);
-  const res = await api.post(CAREERS_API, data, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
-  return res.data;
-}
-
-export async function updateJobListing(id: string, data: any) {
-  const res = await api.patch(`${CAREERS_API}${id}/`, data, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
-  return res.data;
-}
-
-export async function deleteJobListing(id: string) {
-  const res = await api.delete(`${CAREERS_API}${id}/`);
-  return res.data;
-}
-
-// TENDERS
-
-export async function fetchTenders() {
-  const res = await api.get(TENDERS_API);
-  return res.data;
-}
-
-export async function fetchTenderById(id: string) {
-  const res = await api.get(`${TENDERS_API}${id}/`);
-  return res.data;
-}
-
-export async function createTender(data: any) {
-  console.log("Creating Tender with data:", data);
-  const res = await api.post(TENDERS_API, data, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
-  return res.data;
-}
-
-export async function updateTender(id: string, data: any) {
-  const res = await api.patch(`${TENDERS_API}${id}/`, data, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
-  return res.data;
-}
-
-export async function deleteTender(id: string) {
-  const res = await api.delete(`${TENDERS_API}${id}/`);
   return res.data;
 }

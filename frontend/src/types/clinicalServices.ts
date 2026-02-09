@@ -117,3 +117,10 @@ export interface outpatientCenter {
   timings: Timings[];
   image: Image[];
 }
+
+export interface clinicalFaq {
+  Id?: number;
+  brief?: string;
+  startTime: string;
+  stopTime: string;
+}
