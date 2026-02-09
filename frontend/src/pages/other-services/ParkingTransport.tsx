@@ -5,7 +5,7 @@ const ParkingTransport = () => {
 
   return (
     <div className="py-8 px-6 max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mt-11 w-full">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mt-3 w-full">
         <div className="w-full md:w-1/2">
           <h1 className="text-4xl font-medium font-serif text-red-900 mb-4">
             {content.pageTitle}
@@ -44,7 +44,7 @@ const ParkingTransport = () => {
           </div>
         </div>
       </div>
-      <div className="mt-16">
+      <div className="mt-5">
         <div className="bg-white shadow-lg rounded-xl p-8 border border-gray-200">
           <h1 className="text-4xl font-serif font-semibold text-red-900 mb-8">
             {content.directionsTitle}
