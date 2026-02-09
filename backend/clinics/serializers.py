@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ClinicalService, ClinicalServiceFeatureImage, Doctor, Testimonial, ClinicalServiceImage, DoctorImage, OutpatientCenter
+from .models import ClinicalService, ClinicalServiceFeatureImage, Doctor, Testimonial, ClinicalServiceImage, DoctorImage, OutpatientCenter, ClinicalFAQ
 import json
 from itertools import zip_longest
 
@@ -606,4 +606,26 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
 
 
         return super().to_internal_value(data)
+
+class ClinicalFAQSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = ClinicalFAQ
+        fields = [
+            "id",
+            "brief",
+            "question",
+            "answer",
+
+            "question_fr",
+            "question_es",
+            "question_zh",
+            "question_ru",
+
+            "answer_fr",
+            "answer_es",
+            "answer_zh",
+            "answer_ru",
+        ]
 
