@@ -11,6 +11,7 @@ const TEAM_API = "/team-members/";
 const BLOGS_API = "/blog-posts/";
 const CSR_API = "/csr/";
 const OUTPATIENT_CENTER_API = "/outpatient-centers/";
+const CLINICAL_FAQS_API = "/clinical-faqs/";
 const BOOKING_API = "/send_email/";
 const CAREERS_API = "/careers/";
 const TENDERS_API = "/tenders/";
@@ -256,6 +257,31 @@ export async function deleteOutpatientCenter(id: number) {
 
 export async function createBooking(data: any) {
   const res = await api.post(BOOKING_API, data);
+  return res.data;
+}
+// ---------------- CLINICAL FAQS ----------------
+export async function fetchClinicalFaqs() {
+  const res = await api.get(CLINICAL_FAQS_API);
+  return res.data;
+}
+
+export async function createClinicalFaq(data: any) {
+  const res = await api.post(CLINICAL_FAQS_API, data);
+  return res.data;
+}
+
+export async function updateClinicalFaq(id: number, data: any) {
+  const res = await api.patch(`${CLINICAL_FAQS_API}${id}/`, data);
+  return res.data;
+}
+
+export async function deleteClinicalFaq(id: number) {
+  const res = await api.delete(`${CLINICAL_FAQS_API}${id}/`);
+  return res.data;
+}
+
+export async function fetchClinicalFaqById(data: any) {
+  const res = await api.post(CLINICAL_FAQS_API, data);
   return res.data;
 }
 

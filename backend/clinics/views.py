@@ -11,6 +11,7 @@ from .models import (
     ClinicalServiceFeatureImage,  
     DoctorImage,
     OutpatientCenter,
+    ClinicalFAQ,
 )
 from .serializers import (
     ClinicalServiceSerializer,
@@ -19,6 +20,7 @@ from .serializers import (
     ClinicalServiceImageSerializer,
     ClinicalServiceFeatureImageSerializer, 
     OutpatientCenterSerializer,
+     ClinicalFAQSerializer,
 )
 
 DEBUG = True
@@ -198,3 +200,58 @@ class OutpatientCenterViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         instance = serializer.save()
         return Response(serializer.data)
+
+
+class ClinicalFAQViewSet(viewsets.ModelViewSet):
+    queryset = ClinicalFAQ.objects.all()
+    serializer_class = ClinicalFAQSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = [JSONParser, FormParser]
+
+    def create(self, request, *args, **kwargs):
+        if DEBUG:
+            log_request_data(request, "ClinicalFAQ CREATE")
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        if DEBUG:
+            log_request_data(request, "ClinicalFAQ UPDATE")
+
+        partial = kwargs.pop("partial", True)
+        instance = self.get_object()
+        serializer = self.get_serializer(
+            instance,
+            data=request.data,
+            partial=partial
+        )
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception as e:
+            print("\n[ClinicalFAQ VALIDATION ERROR]")
+            if hasattr(serializer, "errors"):
+                print(serializer.errors)
+            else:
+                print(str(e))
+            print("===========================\n")
+
+            return Response(
+                {
+                    "detail": "Validation failed",
+                    "errors": serializer.errors
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        instance = serializer.save()
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        if DEBUG:
+            print(f"\n[ClinicalFAQ DELETE] ID: {kwargs.get('pk')}")
+            print("===========================\n")
+        return super().destroy(request, *args, **kwargs)

@@ -37,9 +37,6 @@ const clinicalFaqForm: React.FC<Props> = ({
     "question" | "answer" | null
   >(null);
 
-  const [startTime, setStartTime] = useState(initialData?.startTime ?? "");
-  const [stopTime, setStopTime] = useState(initialData?.stopTime ?? "");
-
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ question?: string; answer?: string }>(
     {},
@@ -69,8 +66,6 @@ const clinicalFaqForm: React.FC<Props> = ({
       answer_es: answerTranslations.es,
       answer_zh: answerTranslations.zh,
       answer_ru: answerTranslations.ru,
-      startTime,
-      stopTime,
     };
 
     setLoading(true);

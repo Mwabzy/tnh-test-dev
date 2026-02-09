@@ -1,9 +1,9 @@
 import { FC } from "react";
-import { ClinicalService } from "@/types";
+import { clinicalFaq } from "@/types";
 
 interface DashboardTableProps {
-  data: ClinicalService[];
-  onEdit: (service: ClinicalService) => void;
+  data: clinicalFaq[];
+  onEdit: (service: clinicalFaq) => void;
   onDelete: (id: number) => void; // triggers parent modal
   deletingId?: number | null; // loading state on delete button
 }
@@ -29,15 +29,15 @@ const ClinicalFaqsTables: FC<DashboardTableProps> = ({
         <thead>
           <tr className="bg-gray-100 text-left">
             <th className="p-3">Title</th>
-            <th className="p-3">Tagline</th>
+
             <th className="p-3">Actions</th>
           </tr>
         </thead>
         <tbody>
           {data.map((item) => (
             <tr key={item.id} className="border-b hover:bg-gray-50">
-              <td className="p-3 font-medium">{item.title}</td>
-              <td className="p-3">{item.tagline}</td>
+              <td className="p-3 font-medium">{item.question}</td>
+
               <td className="p-3 flex gap-2">
                 <button
                   onClick={() => onEdit(item)}
@@ -47,7 +47,7 @@ const ClinicalFaqsTables: FC<DashboardTableProps> = ({
                   Edit
                 </button>
                 <button
-                  onClick={() => onDelete(item.id)}
+                  onClick={() => item.id !== undefined && onDelete(item.id)}
                   className={`px-3 py-1 rounded text-white ${
                     deletingId === item.id
                       ? "bg-gray-400 cursor-not-allowed"

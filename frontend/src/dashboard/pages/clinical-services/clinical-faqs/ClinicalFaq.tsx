@@ -12,7 +12,7 @@ import {
 import { clinicalFaq } from "@/types";
 
 // ---------------- PARENT ----------------
-const ClinicalFaqsParent = () => {
+const ClinicalFaqs = () => {
   const [faqs, setFaqs] = useState<clinicalFaq[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -49,8 +49,8 @@ const ClinicalFaqsParent = () => {
     try {
       const payload = {
         brief: faq.brief,
-        startTime: faq.startTime,
-        stopTime: faq.stopTime,
+        question: faq.question,
+        answer: faq.answer,
       };
 
       const saved = editingFaq?.id
@@ -145,4 +145,4 @@ const ClinicalFaqsParent = () => {
   );
 };
 
-export default ClinicalFaqsParent;
+export default ClinicalFaqs;

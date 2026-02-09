@@ -121,8 +121,6 @@ export interface outpatientCenter {
 export interface clinicalFaq {
   id?: number;
   brief?: string;
-  startTime: string;
-  stopTime: string;
   question: string;
   answer: string;
   question_fr?: string;
