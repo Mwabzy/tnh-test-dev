@@ -4,7 +4,6 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:8000/api/v1";
 
-const USER_API = "/auth/login";
 const CLINICS_API = "/clinical-services/";
 const DOCTORS_API = "/doctors/";
 const TEAM_API = "/team-members/";
