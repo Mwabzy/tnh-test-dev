@@ -2,6 +2,8 @@
 import { useParams } from "react-router";
 import { FC, useState, useEffect } from "react";
 import { fetchTeamMembers } from "@/api/api";
+import DOMPurify from "dompurify";
+import { addClassesToDescription } from "@/components/services/utilities";
 
 // export interface TeamMember {
 //   id: string;
@@ -67,9 +69,14 @@ const MemberPage: FC<MemberPageProps> = () => {
                     {user.name}
                   </h1>
                   <p className="text-lg text-gray-600 mt-2">{user.role}</p>
-                  <p className="mt-4 text-gray-700 max-w-xl">
-                    {user.description}
-                  </p>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(
+                        addClassesToDescription(user.description) ?? "",
+                      ),
+                    }}
+                    className="mt-4 prose prose-gray max-w-xl text-gray-700 leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+                  ></div>
 
                   {/* <div className="mt-4">
                     <p>

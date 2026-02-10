@@ -6,6 +6,7 @@ from .views import (
     ClinicalServiceImageViewSet,
     ClinicalServiceFeatureImageViewSet,  
     OutpatientCenterViewSet,
+     ClinicalFAQViewSet
 )
 
 router = DefaultRouter()
@@ -18,5 +19,6 @@ router.register(
     ClinicalServiceFeatureImageViewSet,
 )
 router.register("outpatient-centers", OutpatientCenterViewSet)
+router.register("clinical-faqs", ClinicalFAQViewSet)
 
 urlpatterns = router.urls

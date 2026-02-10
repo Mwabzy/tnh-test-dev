@@ -7,6 +7,8 @@ import hospitalview from "@/assets/heroimages/heroimage2.jpg";
 import { fetchDoctors } from "@/api/api";
 
 import { useIntlayer } from "react-intlayer";
+import DOMPurify from "dompurify";
+import { addClassesToDescription } from "@/components/services/utilities";
 
 // Truncate bio to first 3 sentences
 const truncateBioToThreeSentences = (
@@ -298,9 +300,16 @@ const DoctorProfiles: FC = () => {
                     <p className="text-sm font-semibold text-gray-700 mb-3">
                       {member.specialization}
                     </p>
-                    <p className="text-gray-600 text-sm font-sans leading-relaxed">
-                      {truncateBioToThreeSentences(member.bio)}
-                    </p>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(
+                          addClassesToDescription(
+                            truncateBioToThreeSentences(member.bio),
+                          ) ?? "",
+                        ),
+                      }}
+                      className="prose prose-gray max-w-none text-gray-600 text-sm font-sans leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+                    ></div>
                   </div>
                   <div className="flex flex-wrap gap-3 mt-4">
                     <Link

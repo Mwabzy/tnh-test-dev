@@ -173,3 +173,23 @@ class OutpatientCenter(models.Model):
     def __str__(self):
         return self.name
     
+class ClinicalFAQ(models.Model):
+    brief = models.CharField(max_length=255, blank=True, null=True)
+
+    question = models.TextField()
+    answer = models.TextField()
+
+    question_fr = models.TextField(blank=True, null=True)
+    question_es = models.TextField(blank=True, null=True)
+    question_zh = models.TextField(blank=True, null=True)
+    question_ru = models.TextField(blank=True, null=True)
+
+    answer_fr = models.TextField(blank=True, null=True)
+    answer_es = models.TextField(blank=True, null=True)
+    answer_zh = models.TextField(blank=True, null=True)
+    answer_ru = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.brief
+
+    

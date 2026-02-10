@@ -100,6 +100,14 @@ const DashboardRoutes = {
       () => import("@/dashboard/pages/new_events_blogs/tenders/Tenders"),
     ),
   },
+  ClinicalFaqs: {
+    name: "Clinical FAQs",
+    path: "clinical-faqs",
+    component: lazyLoad(
+      () =>
+        import("@/dashboard/pages/clinical-services/clinical-faqs/ClinicalFaq"),
+    ),
+  },
 };
 
 export const DashboardRoutesPath: Record<

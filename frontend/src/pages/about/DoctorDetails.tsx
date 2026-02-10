@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router";
 import { fetchDoctorById, fetchClinicalServiceById } from "@/api/api";
 import { ClinicalService } from "@/types";
 import { useIntlayer } from "react-intlayer";
+import DOMPurify from "dompurify";
+import { addClassesToDescription } from "@/components/services/utilities";
 
 export interface Doctor {
   id: string | number;
@@ -119,9 +121,14 @@ const DoctorDetails: FC = () => {
             </h1>
             <p className="text-xl text-red-700 mt-1 italic">{doctor.role}</p>
 
-            <p className="mt-5 text-gray-700 leading-relaxed max-w-xl">
-              {firstParagraph}
-            </p>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(
+                  addClassesToDescription(firstParagraph) ?? "",
+                ),
+              }}
+              className="mt-5 prose prose-gray max-w-xl text-gray-700 leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+            ></div>
 
             {/* Book Appointment Button */}
             <div className="mt-6">
@@ -207,9 +214,17 @@ const DoctorDetails: FC = () => {
             <h2 className="text-3xl font-semibold text-red-900 mb-6">
               About {doctor.name}
             </h2>
-            <div className="space-y-5 text-gray-700 leading-relaxed max-w-4xl">
+            <div className="space-y-5 max-w-4xl">
               {descriptionArray.slice(1).map((para, i) => (
-                <p key={i}>{para}</p>
+                <div
+                  key={i}
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(
+                      addClassesToDescription(para) ?? "",
+                    ),
+                  }}
+                  className="prose prose-gray max-w-none text-gray-700 leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+                ></div>
               ))}
             </div>
           </section>

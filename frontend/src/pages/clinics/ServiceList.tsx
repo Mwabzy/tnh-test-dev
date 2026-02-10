@@ -4,6 +4,8 @@ import { ClinicalService } from "@/types";
 import { FaCalendarCheck, FaChevronRight } from "react-icons/fa";
 import { fetchClinicalServices } from "@/api/api";
 import { useIntlayer } from "react-intlayer";
+import DOMPurify from "dompurify";
+import { addClassesToDescription } from "@/components/services/utilities";
 
 interface ServiceListProps {
   services?: ClinicalService[];
@@ -200,9 +202,14 @@ const ServiceList: React.FC<ServiceListProps> = () => {
                 <h5 className="text-xl font-semibold text-red-900 mb-3 font-serif">
                   {item.title}
                 </h5>
-                <p className="text-gray-700 mb-6 leading-relaxed text-justify">
-                  {item.overview}
-                </p>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(
+                      addClassesToDescription(item.overview) ?? "",
+                    ),
+                  }}
+                  className="prose prose-gray max-w-none text-gray-700 mb-6 leading-relaxed text-justify prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+                ></div>
 
                 {item.locations && (
                   <p className="text-sm text-gray-600 mb-4">
