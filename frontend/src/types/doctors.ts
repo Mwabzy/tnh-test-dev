@@ -12,5 +12,5 @@ export interface Doctor {
   services_offered: number[];
   research_publications: string[];
   awards: string[];
-  image: Image[];
+  images: Image[];
 }

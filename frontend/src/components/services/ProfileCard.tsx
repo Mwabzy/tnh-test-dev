@@ -6,13 +6,13 @@ type ProfileCardProps = Doctor & { bookHref?: string };
 const ProfileCard: React.FC<ProfileCardProps> = ({
   name,
   role,
-  image,
+  images,
   bio,
   bookHref,
 }) => (
   <div className="bg-white shadow-md rounded-lg p-4 flex flex-col items-center text-center">
     <img
-      src={image?.[0]?.url}
+      src={images?.[0]?.url}
       alt={`Dr. ${name}`}
       className="w-24 h-24 rounded-full mb-4 object-cover"
     />

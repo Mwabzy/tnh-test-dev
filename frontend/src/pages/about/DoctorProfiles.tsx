@@ -27,7 +27,7 @@ type Doctor = {
   id: string;
   name: string;
   role?: string;
-  image: string;
+  images: string[];
   bio: string;
   specialization?: string;
   medicalQualifications?: string;
@@ -285,7 +285,7 @@ const DoctorProfiles: FC = () => {
               >
                 <div className="p-2">
                   <img
-                    src={member.image}
+                    src={member.images[0]}
                     alt={member.name}
                     className="w-full md:w-56 md:h-60 object-cover rounded"
                   />

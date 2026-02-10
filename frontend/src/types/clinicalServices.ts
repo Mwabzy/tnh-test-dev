@@ -41,7 +41,7 @@ export interface Doctor {
   bio_es?: string;
   bio_zh?: string;
   bio_ru?: string;
-  image?: Image[];
+  images?: Image[];
   services_offered?: ClinicalService[];
   research_publications?: string[];
   awards?: string[];

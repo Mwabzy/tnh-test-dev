@@ -81,6 +81,7 @@ class ClinicalServiceViewSet(viewsets.ModelViewSet):
 class DoctorViewSet(viewsets.ModelViewSet):
     queryset = Doctor.objects.all()
     serializer_class = DoctorSerializer
+    
     permission_classes = [IsAuthenticatedOrReadOnly]
     parser_classes = [MultiPartParser, FormParser]
 
@@ -94,6 +95,9 @@ class DoctorViewSet(viewsets.ModelViewSet):
             log_request_data(request, "Doctor CREATE")
 
         serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+          print("❌ SERIALIZER ERRORS:", serializer.errors)
+          return Response(serializer.errors, status=400)
         serializer.is_valid(raise_exception=True)
         instance = serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)

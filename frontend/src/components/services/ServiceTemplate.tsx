@@ -352,9 +352,9 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                         key={idx}
                         className="flex gap-4 items-start bg-gray-50 rounded-lg p-4"
                       >
-                        {d.image ? (
+                        {d.images ? (
                           <img
-                            src={d.image?.[0]?.url}
+                            src={d.images?.[0]?.url}
                             alt={d.name}
                             className="w-16 h-16 rounded-full object-cover"
                           />

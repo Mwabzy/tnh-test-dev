@@ -27,7 +27,7 @@ export const mockClinicalServices: ClinicalService[] = [
       {
         name: "Dr. Jane Doe",
         role: "Pharmacist",
-        image: [
+        images: [
           {
             url: "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
             alt: "Dr. Jane Doe",
@@ -38,7 +38,7 @@ export const mockClinicalServices: ClinicalService[] = [
       {
         name: "Dr. John Smith",
         role: "Pharmacist",
-        image: [
+        images: [
           {
             url: "https://img.freepik.com/free-photo/portrait-you",
             alt: "Dr. John Smith",
@@ -98,7 +98,7 @@ export const mockClinicalServices: ClinicalService[] = [
       {
         name: "Dr. Jane Doe",
         role: "Lab Technologist",
-        image: [
+        images: [
           {
             url: "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
             alt: "Dr. Jane Doe",
@@ -152,7 +152,7 @@ export const mockClinicalServices: ClinicalService[] = [
       {
         name: "Dr. Jane Doe",
         role: "Radiologist",
-        image: [
+        images: [
           {
             url: "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
             alt: "Dr. Jane Doe",
@@ -210,7 +210,7 @@ export const mockClinicalServices: ClinicalService[] = [
       {
         name: "Dr. Jane Doe",
         role: "Dentist",
-        image: [
+        images: [
           {
             url: "https://img.freepik.com/free-photo/portrait-of-young-female-pharmacist_23-2148756260.jpg",
             alt: "Dr. Jane Doe",

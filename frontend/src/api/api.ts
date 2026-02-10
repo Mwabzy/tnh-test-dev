@@ -4,16 +4,16 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const USER_API = '/auth/login';
-const CLINICS_API = '/clinical-services/';
-const DOCTORS_API = '/doctors/';
-const TEAM_API = '/team-members/';
-const BLOGS_API = '/blog-posts/';
-const CSR_API = '/csr/';
-const OUTPATIENT_CENTER_API = '/outpatient-centers/';
-const BOOKING_API = '/send_email/';
-const CAREERS_API = '/careers/';
-const TENDERS_API = '/tenders/';
+//const USER_API = "/auth/";
+const CLINICS_API = "/clinical-services/";
+const DOCTORS_API = "/doctors/";
+const TEAM_API = "/team-members/";
+const BLOGS_API = "/blog-posts/";
+const CSR_API = "/csr/";
+const OUTPATIENT_CENTER_API = "/outpatient-centers/";
+const BOOKING_API = "/send_email/";
+const CAREERS_API = "/careers/";
+const TENDERS_API = "/tenders/";
 
 // Axios Instance
 const api = axios.create({
@@ -44,7 +44,7 @@ export const registerUser = async (
   email: string,
   password: string,
 ) => {
-  const res = await api.post(USER_API, {
+  const res = await api.post(`/auth/register/`, {
     username,
     email,
     password,

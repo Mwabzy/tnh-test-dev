@@ -46,172 +46,149 @@ class SlimDoctorSerializer(serializers.ModelSerializer):
             'name',
             'role', 'role_fr', 'role_es', 'role_zh', 'role_ru',
             'bio', 'bio_fr', 'bio_es', 'bio_zh', 'bio_ru',
-            'image',
+            'images',
         ]
 
 
 class DoctorSerializer(serializers.ModelSerializer):
-     # For READ operations - return full service objects
+    # ---------- READ ----------
     services_offered = serializers.SerializerMethodField(read_only=True)
-    
-    # For WRITE operations - accept IDs
+    images = DoctorImageSerializer(
+        source="uploaded_images",
+        many=True,
+        read_only=True
+    )
+
+    # ---------- WRITE ----------
     services_offered_ids = serializers.ListField(
-        child=serializers.IntegerField(), 
-        write_only=True, 
+        child=serializers.IntegerField(),
+        write_only=True,
         required=False
     )
-    research_publications = serializers.JSONField(required=False)
-    awards = serializers.JSONField(required=False)
-    image = DoctorImageSerializer(source="uploaded_images", many=True, read_only=True)
-    images_files = serializers.ListField(child=serializers.ImageField(), write_only=True, required=False)
-    images_files_alt = serializers.ListField(child=serializers.CharField(allow_blank=True), write_only=True, required=False)
-    images_to_delete = serializers.ListField(child=serializers.IntegerField(), write_only=True, required=False)
+
+    research_publications = JSONStringListField(required=False)
+    awards = JSONStringListField(required=False)
+    images_files = serializers.ListField(
+        child=serializers.ImageField(),
+        write_only=True,
+        required=False
+    )
+
+    images_files_alt = serializers.ListField(
+        child=serializers.CharField(),
+        write_only=True,
+        required=False
+    )
+
+    images_to_delete = serializers.ListField(
+        child=serializers.IntegerField(),
+        write_only=True,
+        required=False
+    )
 
     class Meta:
-          model = Doctor
-          fields = [
-            'id',
-            'name',
-            'role', 'role_fr', 'role_es', 'role_zh', 'role_ru',
-            'bio', 'bio_fr', 'bio_es', 'bio_zh', 'bio_ru',
-            'image',
-            'images_files', 'images_files_alt', 'images_to_delete',
-            'services_offered', 'services_offered_ids',
-            'research_publications', 'awards',
+        model = Doctor
+        fields = [
+            "id",
+            "name",
+            "role", "role_fr", "role_es", "role_zh", "role_ru",
+            "bio", "bio_fr", "bio_es", "bio_zh", "bio_ru",
+            "images",             # READ nested images
+            "images_files",       # WRITE uploads
+            "images_files_alt",
+            "images_to_delete",
+            "services_offered",
+            "services_offered_ids",
+            "research_publications",
+            "awards",
         ]
 
     def get_services_offered(self, obj):
-        services = obj.services_offered.all()
-        
-
-        
-        result = []
-        for service in services:
-            result.append({
-                'id': service.id,
-                'title': service.title,
-                'tagline': service.tagline,
-                'overview': service.overview,
-                'locations': service.locations,
-                'isBookable': service.isBookable,
-            })
-        
-        return result
-    
-
+        return [
+            {
+                "id": s.id,
+                "title": s.title,
+                "tagline": s.tagline,
+                "overview": s.overview,
+                "locations": s.locations,
+                "isBookable": s.isBookable,
+            }
+            for s in obj.services_offered.all()
+        ]
 
     def to_internal_value(self, data):
-     # Make mutable copy
-     if hasattr(data, "copy"):
-         data = data.copy()
+     data = data.copy()  #  KEEP QueryDict
  
-     # --- FLATTEN STRING FIELDS ---
-     string_fields = [
-         'name',
-         'role', 'role_fr', 'role_es', 'role_zh', 'role_ru',
-         'bio', 'bio_fr', 'bio_es', 'bio_zh', 'bio_ru',
-     ]
- 
-     for field in string_fields:
+     # Flatten text fields
+     for field in [
+         "name",
+         "role", "role_fr", "role_es", "role_zh", "role_ru",
+         "bio", "bio_fr", "bio_es", "bio_zh", "bio_ru",
+     ]:
          val = data.get(field)
          if isinstance(val, list):
              data[field] = val[0]
  
-     # --- PARSE JSON FIELDS ---
-     json_fields = ['research_publications', 'awards']
-     for field in json_fields:
-         val = data.get(field)
-         if isinstance(val, list):
-             val = val[0]
-         if isinstance(val, str):
-             try:
-                 data[field] = json.loads(val)
-             except Exception:
-                 data[field] = []
+     # services_offered_ids
+     raw = data.get("services_offered_ids", [])
+     if isinstance(raw, list) and len(raw) == 1:
+         raw = raw[0]
  
-     # --- SERVICES IDS ---
-         val = data.get('services_offered_ids')
-     
-          # Normalize to list
-         if isinstance(val, str):
-              try:
-                  val = json.loads(val)
-              except Exception:
-                  val = [val]
-     
-         if not isinstance(val, list):
-              val = [val]
-     
-          # FORCE CAST TO INT
-         clean_ids = []
-         for item in val:
-              try:
-                  clean_ids.append(int(item))
-              except (TypeError, ValueError):
-                  pass
-     
-         data['services_offered_ids'] = clean_ids
+     if isinstance(raw, str):
+         try:
+             raw = json.loads(raw)
+         except Exception:
+             raw = []
  
-     # --- IMAGES ---
-     for img_field in ['images_files', 'images_files_alt', 'images_to_delete']:
-         if img_field in data:
-             val = data.getlist(img_field) if hasattr(data, "getlist") else data[img_field]
-             if img_field == 'images_to_delete':
-                 val = [int(v) for v in val if v]
-             data[img_field] = val
+     data.setlist(
+         "services_offered_ids",
+         [int(v) for v in raw if str(v).isdigit()]
+     )
+ 
+     # images
+     for field in ["images_files", "images_files_alt", "images_to_delete"]:
+         if field in data:
+             values = data.getlist(field)
+             if field == "images_to_delete":
+                 values = [int(v) for v in values if str(v).isdigit()]
+             data.setlist(field, values)
  
      return super().to_internal_value(data)
 
     def create(self, validated_data):
-     #  Pop out many-to-many and extra fields 
-     services_ids = validated_data.pop('services_offered_ids', [])
-     images_files = validated_data.pop('images_files', [])
-     images_alt = validated_data.pop('images_files_alt', [])
- 
-     #  Create the Doctor instance 
-     doctor = Doctor.objects.create(**validated_data)
- 
-     #  Assign many-to-many relations 
-     if services_ids:
-         doctor.services_offered.set(services_ids)
- 
-     #  Handle uploaded images 
-     for idx, img in enumerate(images_files):
-         alt_text = images_alt[idx] if idx < len(images_alt) else ""
-         #  DoctorImage model with FK to Doctor
-         DoctorImage.objects.create(doctor=doctor, image=img, alt=alt_text)
- 
-     return doctor
-    
- 
-    def update(self, instance, validated_data):
-        services = validated_data.pop('services_offered_ids', None)
+        services_ids = validated_data.pop('services_offered_ids', [])
         images_files = validated_data.pop('images_files', [])
-        images_files_alt = validated_data.pop('images_files_alt', [])
+        images_alt = validated_data.pop('images_files_alt', [])
+
+        doctor = Doctor.objects.create(**validated_data)
+
+        if services_ids:
+            doctor.services_offered.set(services_ids)
+
+        for idx, img in enumerate(images_files):
+            alt_text = images_alt[idx] if idx < len(images_alt) else ""
+            DoctorImage.objects.create(doctor=doctor, image=img, alt=alt_text)
+
+        return doctor
+
+    def update(self, instance, validated_data):
+        services_ids = validated_data.pop('services_offered_ids', None)
+        images_files = validated_data.pop('images_files', [])
+        images_alt = validated_data.pop('images_files_alt', [])
         images_to_delete = validated_data.pop('images_to_delete', [])
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
-        if services is not None:
-            instance.services_offered.set(services)
+        if services_ids is not None:
+            instance.services_offered.set(services_ids)
 
         if images_to_delete:
-            DoctorImage.objects.filter(
-                id__in=images_to_delete,
-                doctor=instance
-            ).delete()
+            DoctorImage.objects.filter(id__in=images_to_delete, doctor=instance).delete()
 
-        for index, img in enumerate(images_files):
-            alt_text = ""
-            if index < len(images_files_alt):
-                alt_text = images_files_alt[index]
-
-            DoctorImage.objects.create(
-                doctor=instance,
-                image=img,
-                alt=alt_text
-            )
+        for idx, img in enumerate(images_files):
+            alt_text = images_alt[idx] if idx < len(images_alt) else ""
+            DoctorImage.objects.create(doctor=instance, image=img, alt=alt_text)
 
         instance.save()
         return instance

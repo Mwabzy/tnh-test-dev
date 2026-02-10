@@ -42,7 +42,7 @@ const DoctorForm = ({
   );
 
   const [images, setImages] = useState<Image[]>(
-    (initialData?.image || []).map((img) => ({
+    (initialData?.images || []).map((img) => ({
       ...img,
       alt: img.alt || "",
     })),
