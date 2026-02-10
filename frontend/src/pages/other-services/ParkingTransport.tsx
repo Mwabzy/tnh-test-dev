@@ -16,8 +16,8 @@ const ParkingTransport = () => {
           </p>
 
           <ul className="list-disc list-inside text-gray-600 mt-2">
-            {content.parkingList.map((item, i) => (
-              <li key={i}>{item}</li>
+            {content.parkingList.map((parkingList, i) => (
+              <li key={i}>{parkingList}</li>
             ))}
           </ul>
         </div>
@@ -64,8 +64,8 @@ const ParkingTransport = () => {
               {content.physicalAddressTitle}
             </h2>
             <ul className="space-y-1 text-gray-700 list-disc list-inside">
-              {content.physicalAddressList.map((item, i) => (
-                <li key={i}>{item}</li>
+              {content.physicalAddressList.map((physicalAddressTitle, i) => (
+                <li key={i}>{physicalAddressTitle}</li>
               ))}
             </ul>
           </div>
@@ -75,8 +75,8 @@ const ParkingTransport = () => {
               {content.nearbyLandmarksTitle}
             </h2>
             <ul className="space-y-1 text-gray-700 list-disc list-inside">
-              {content.nearbyLandmarksList.map((item, i) => (
-                <li key={i}>{item}</li>
+              {content.nearbyLandmarksList.map((nearbyLandmarksTitle, i) => (
+                <li key={i}>{nearbyLandmarksTitle}</li>
               ))}
             </ul>
           </div>
@@ -94,14 +94,16 @@ const ParkingTransport = () => {
           </p>
 
           <ul className="space-y-4 text-gray-700">
-            {content.publicTransportList.map((item: any, i: number) => (
-              <li key={i}>
-                <span className="font-semibold text-gray-900">
-                  {item.label}{" "}
-                </span>
-                {item.text}
-              </li>
-            ))}
+            {content.publicTransportList.map(
+              (publicTransportDescription, i) => (
+                <li key={i}>
+                  <span className="font-semibold text-gray-900">
+                    {publicTransportDescription.label}{" "}
+                  </span>
+                  {publicTransportDescription.text}
+                </li>
+              ),
+            )}
           </ul>
         </div>
       </div>

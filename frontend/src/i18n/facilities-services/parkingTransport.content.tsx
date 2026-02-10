@@ -4,6 +4,7 @@ export type ParkingTransportContent = {
   pageTitle: string;
   parkingDescription: string;
   parkingList: string[];
+
   parkingFees: {
     title: string;
     table: { duration: string; cost: string }[];
