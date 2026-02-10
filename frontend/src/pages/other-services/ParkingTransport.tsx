@@ -16,9 +16,11 @@ const ParkingTransport = () => {
           </p>
 
           <ul className="list-disc list-inside text-gray-600 mt-2">
-            {content.parkingList.map((parkingList, i) => (
-              <li key={i}>{parkingList}</li>
-            ))}
+            {content.parkingList.map(
+              (item: (typeof content.parkingList)[number], i: number) => (
+                <li key={i}>{item}</li>
+              ),
+            )}
           </ul>
         </div>
 
@@ -64,9 +66,14 @@ const ParkingTransport = () => {
               {content.physicalAddressTitle}
             </h2>
             <ul className="space-y-1 text-gray-700 list-disc list-inside">
-              {content.physicalAddressList.map((physicalAddressTitle, i) => (
-                <li key={i}>{physicalAddressTitle}</li>
-              ))}
+              {content.physicalAddressList.map(
+                (
+                  item: (typeof content.physicalAddressList)[number],
+                  i: number,
+                ) => (
+                  <li key={i}>{item}</li>
+                ),
+              )}
             </ul>
           </div>
 
@@ -75,9 +82,14 @@ const ParkingTransport = () => {
               {content.nearbyLandmarksTitle}
             </h2>
             <ul className="space-y-1 text-gray-700 list-disc list-inside">
-              {content.nearbyLandmarksList.map((nearbyLandmarksTitle, i) => (
-                <li key={i}>{nearbyLandmarksTitle}</li>
-              ))}
+              {content.nearbyLandmarksList.map(
+                (
+                  item: (typeof content.nearbyLandmarksList)[number],
+                  i: number,
+                ) => (
+                  <li key={i}>{item}</li>
+                ),
+              )}
             </ul>
           </div>
         </div>
@@ -95,12 +107,15 @@ const ParkingTransport = () => {
 
           <ul className="space-y-4 text-gray-700">
             {content.publicTransportList.map(
-              (publicTransportDescription, i) => (
+              (
+                item: (typeof content.publicTransportList)[number],
+                i: number,
+              ) => (
                 <li key={i}>
                   <span className="font-semibold text-gray-900">
-                    {publicTransportDescription.label}{" "}
+                    {item.label}{" "}
                   </span>
-                  {publicTransportDescription.text}
+                  {item.text}
                 </li>
               ),
             )}
