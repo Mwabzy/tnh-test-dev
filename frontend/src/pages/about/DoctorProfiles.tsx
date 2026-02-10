@@ -100,7 +100,7 @@ const DoctorProfiles: FC = () => {
           socialMediaWebsite: doc.socialMedia ? [doc.socialMedia] : [],
           email: doc.contactEmail || "",
           phone: doc.contactPhone || "",
-          image: doc.image?.[0]?.url,
+          images: doc.images?.map((img: any) => img.url) || [],
           awardsAndRecognition: doc.awardsAndRecognition
             ? Array.isArray(doc.awardsAndRecognition)
               ? doc.awardsAndRecognition
