@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Select from "react-select";
 import {
@@ -9,7 +9,7 @@ import {
   Image,
   Testimonial,
 } from "@/types";
-import { updateImageAlt } from "@/api/api";
+import { fetchOutpatientCenter, updateImageAlt } from "@/api/api";
 import RichTextEditor from "@/components/RichTextEditor";
 
 interface Props {
@@ -46,20 +46,6 @@ type FeatureForm = Omit<Feature, "image"> & {
 };
 
 const requiredMark = <span className="text-red-600">*</span>;
-
-const locationOptions = [
-  { value: "Main Hospital", label: "Main Hospital" },
-  { value: "Anderson Centre", label: "Anderson Centre" },
-  { value: "Capital Outpatient Centre", label: "Capital Outpatient Centre" },
-  { value: "Galleria Outpatient Centre", label: "Galleria Outpatient Centre" },
-  { value: "Kiambu Outpatient Centre", label: "Kiambu Outpatient Centre" },
-  { value: "Rosslyn Outpatient Centre", label: "Rosslyn Outpatient Centre" },
-  {
-    value: "Southfield Outpatient Centre",
-    label: "Southfield Outpatient Centre",
-  },
-  { value: "Warwick Outpatient Centre", label: "Warwick Outpatient Centre" },
-];
 
 const ClinicalServiceForm: React.FC<Props> = ({
   initialData,
@@ -167,6 +153,9 @@ const ClinicalServiceForm: React.FC<Props> = ({
   const [locations, setLocations] = useState<string[]>(
     initialData?.locations || [],
   );
+  const [locationOptions, setLocationOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ title?: string; tagline?: string }>(
@@ -174,6 +163,37 @@ const ClinicalServiceForm: React.FC<Props> = ({
   );
   const [imagesToDelete, setImagesToDelete] = useState<number[]>([]);
   const [newImages, setNewImages] = useState<NewImage[]>([]);
+
+  useEffect(() => {
+    const loadLocations = async () => {
+      try {
+        const data = await fetchOutpatientCenter();
+        const centers = Array.isArray(data)
+          ? data
+          : data?.results ?? data?.data ?? [];
+        const seen = new Set<string>();
+        const options = centers
+          .map((center: any) => {
+            const name =
+              center?.name ??
+              center?.title ??
+              center?.location ??
+              center?.slug ??
+              "";
+            const label = String(name).trim();
+            if (!label || seen.has(label)) return null;
+            seen.add(label);
+            return { value: label, label };
+          })
+          .filter(Boolean) as { value: string; label: string }[];
+        setLocationOptions(options);
+      } catch {
+        toast.error("Failed to load outpatient centers");
+      }
+    };
+
+    loadLocations();
+  }, []);
 
   // Feature translation state
   const [openFeatureTranslations, setOpenFeatureTranslations] = useState<
