@@ -2,7 +2,7 @@ import logging
 
 
 from rest_framework import viewsets, status, parsers
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import action
@@ -176,8 +176,8 @@ class CSRViewSet(viewsets.ModelViewSet):
     
 
 class SendEmailViewSet(viewsets.ViewSet):
-    @action(detail=False, methods=['post'], url_path="send_email")
-    def send_email(self, request):
+    permission_classes = [AllowAny]
+    def _send(self, request):
         serializer = SendEmailSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         
@@ -193,6 +193,13 @@ class SendEmailViewSet(viewsets.ViewSet):
         except Exception as e:
             logger.error(f"Failed to send email to {recipient_email}: {e}", exc_info=True)
             return Response({"error": f"Failed to send email: {str(e)}"}, status=500)
+
+    def create(self, request, *args, **kwargs):
+        return self._send(request)
+
+    @action(detail=False, methods=['post'], url_path="send_email")
+    def send_email(self, request):
+        return self._send(request)
 
 
 class TenderViewSet(viewsets.ModelViewSet):

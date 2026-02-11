@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { useLocation, useNavigate } from "react-router";
-import { createBooking, fetchClinicalServices } from "@/api/api"; // Add this import
+import { sendEmail, fetchClinicalServices } from "@/api/api"; // Add this import
 import { ClinicalService, Doctor } from "@/types";
 import { fetchDoctorById } from "@/api/api";
 import { useIntlayer } from "react-intlayer";
@@ -254,8 +254,8 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
     setIsSubmitting(true);
     try {
-      const response = await createBooking(booking);
-      console.log("Booking created successfully:", response);
+      const response = await sendEmail(booking);
+      console.log("Booking email sent successfully:", response);
 
       const confirmationMessage = isDoctorBooking
         ? `Booking confirmed with ${booking.doctor} for ${booking.service} on ${booking.date} at ${booking.time} at ${booking.location}`
