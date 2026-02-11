@@ -23,7 +23,7 @@ const OutpatientCenterPage = () => {
 
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
-  const [clinics, setClinics] = useState<{ id: number; name: string }[]>([]);
+  const [clinics, setClinics] = useState<{ id: number; title: string }[]>([]);
 
   /* -------------------- Load clinics -------------------- */
   useEffect(() => {
@@ -33,7 +33,7 @@ const OutpatientCenterPage = () => {
         setClinics(
           data.map((c: any) => ({
             id: c.id,
-            name: c.name ?? c.title ?? c.service_name ?? "",
+            title: c.title ?? c.name ?? c.service_name ?? "",
           })),
         );
       } catch {
