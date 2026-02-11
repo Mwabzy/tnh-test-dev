@@ -4,7 +4,7 @@ import RichTextEditor from "@/components/RichTextEditor"; // Adjust the import p
 
 export type Clinic = {
   id: number;
-  name: string;
+  title: string;
 };
 
 interface Props {
@@ -27,7 +27,7 @@ const EMPTY_CONTACT: ContactInfo = {
 const OutpatientCenterForm = ({
   initialData,
   onSave,
-  onCancel,
+
   clinics,
 }: Props) => {
   const [name, setName] = useState("");
@@ -49,6 +49,7 @@ const OutpatientCenterForm = ({
   );
   const [newImages, setNewImages] = useState<NewImage[]>([]);
   const [imagesToDelete, setImagesToDelete] = useState<number[]>([]);
+  const [submitting, setSubmitting] = useState(false);
 
   /* Translation state for description */
   const [descriptionTranslations, setDescriptionTranslations] = useState({
@@ -161,7 +162,7 @@ const OutpatientCenterForm = ({
     if (Array.isArray(initialData.timings) && initialData.timings.length > 0) {
       setTimings(
         initialData.timings.map((t: any) => ({
-          clinicId: t.clinic ? String(t.clinic) : "",
+          clinicId: t.clinic?.id ? String(t.clinic.id) : "",
           day: t.day || "",
           startTime: t.start_time || t.startTime || "",
           stopTime: t.stop_time || t.stopTime || "",
@@ -243,18 +244,18 @@ const OutpatientCenterForm = ({
   /* Submit */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitting(true); // start loader
+
     const cleanedTimings = timings.map((t) => ({
       ...t,
       clinicId: t.clinicId ? Number(t.clinicId) : null,
     }));
 
     const formData = new FormData();
-
     formData.append("name", name);
     formData.append("location", location);
     formData.append("description", description);
 
-    // Append description translations
     formData.append("description_fr", descriptionTranslations.fr);
     formData.append("description_es", descriptionTranslations.es);
     formData.append("description_zh", descriptionTranslations.zh);
@@ -263,13 +264,11 @@ const OutpatientCenterForm = ({
     formData.append("timings", JSON.stringify(cleanedTimings));
     formData.append("contact", JSON.stringify(contact));
 
-    // Append existing images alt text
     images.forEach((img, index) => {
       formData.append(`images[${index}][id]`, String(img.id));
       formData.append(`images[${index}][alt]`, img.alt || "");
     });
 
-    // Append new images
     newImages.forEach((img) => {
       if (img.file) {
         formData.append("images_files", img.file);
@@ -277,12 +276,16 @@ const OutpatientCenterForm = ({
       }
     });
 
-    // Append images to delete
     imagesToDelete.forEach((id) => {
       formData.append("images_to_delete", String(id));
     });
 
     onSave(formData);
+
+    // You might want to reset submitting after onSave completes
+    // If onSave is async, you can do:
+    // await onSave(formData);
+    setSubmitting(false);
   };
 
   // Handler for description changes from RichTextEditor
@@ -319,6 +322,7 @@ const OutpatientCenterForm = ({
       <div>
         <label className="font-medium block mb-1">Description</label>
         <RichTextEditor
+          key={initialData?.id || "new-center"}
           value={description}
           onChange={handleDescriptionChange}
           placeholder="Enter center description..."
@@ -462,9 +466,11 @@ const OutpatientCenterForm = ({
                   className="border p-2 w-full"
                   placeholder="Search clinic..."
                   value={
-                    selectedClinic ? selectedClinic.name : clinicSearch[i] || ""
+                    selectedClinic
+                      ? selectedClinic.title
+                      : clinicSearch[i] || ""
                   }
-                  readOnly={!!selectedClinic}
+                  //    readOnly={!!selectedClinic}
                   onChange={(e) =>
                     setClinicSearch((prev) => ({
                       ...prev,
@@ -478,7 +484,7 @@ const OutpatientCenterForm = ({
                   <div className="absolute z-10 bg-white border w-full max-h-40 overflow-y-auto rounded shadow">
                     {clinics
                       .filter((c) =>
-                        c.name
+                        c.title
                           .toLowerCase()
                           .includes(clinicSearch[i]!.toLowerCase()),
                       )
@@ -503,13 +509,13 @@ const OutpatientCenterForm = ({
                             }));
                           }}
                         >
-                          {c.name}
+                          {c.title}
                         </button>
                       ))}
 
                     {/* Show no results if nothing matches */}
                     {clinics.filter((c) =>
-                      c.name
+                      c.title
                         .toLowerCase()
                         .includes(clinicSearch[i]!.toLowerCase()),
                     ).length === 0 && (
@@ -634,21 +640,16 @@ const OutpatientCenterForm = ({
         onChange={(e) => setContact({ ...contact, email: e.target.value })}
       />
 
-      <div className="flex gap-4 pt-2">
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          Save
-        </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          className="bg-gray-400 text-white px-4 py-2 rounded"
-        >
-          Cancel
-        </button>
-      </div>
+      <button
+        type="submit"
+        className="bg-blue-600 text-white px-4 py-2 rounded flex items-center justify-center"
+        disabled={submitting}
+      >
+        {submitting ? (
+          <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4 mr-2"></span>
+        ) : null}
+        {submitting ? "Saving..." : "Save"}
+      </button>
     </form>
   );
 };

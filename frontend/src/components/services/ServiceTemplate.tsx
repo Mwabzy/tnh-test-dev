@@ -177,14 +177,12 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
 
   return (
     <>
-      {mainImage && (
-        <Heading
-          image_url={mainImage.url}
-          title={title}
-          description={tagline}
-          style="background"
-        />
-      )}
+      <Heading
+        image_url={mainImage?.url ?? null}
+        title={title}
+        description={tagline}
+        style="background"
+      />
 
       {/* Main Content (Simple Professional Layout) */}
       <div className="bg-white w-full">
@@ -215,7 +213,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                     {features_read.map((f, i) => (
                       <li key={i} className="flex items-start gap-3">
                         {/* Check icon */}
-                        <div className="flex-shrink-0 w-6 h-6 bg-red-900 rounded-full flex items-center justify-center mt-1 text-white text-xs">
+                        <div className="shrink-0 w-6 h-6 bg-red-900 rounded-full flex items-center justify-center mt-1 text-white text-xs">
                           ✓
                         </div>
 

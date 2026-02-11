@@ -37,7 +37,7 @@ class DoctorImageSerializer(serializers.ModelSerializer):
 # Nested serializers
 
 class SlimDoctorSerializer(serializers.ModelSerializer):
-    image = DoctorImageSerializer(source="uploaded_images", many=True, read_only=True)
+    images = DoctorImageSerializer(source="uploaded_images", many=True, read_only=True)
 
     class Meta:
         model = Doctor
@@ -527,6 +527,7 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
     timings = serializers.JSONField()
 
     class Meta:
+       model = OutpatientCenter
        fields = [
     "id",
     "name",
