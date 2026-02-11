@@ -9,7 +9,7 @@ export type Clinic = {
 
 interface Props {
   initialData: outpatientCenter | null;
-  onSave: (center: outpatientCenter | FormData) => void;
+  onSave: (center: outpatientCenter | FormData) => Promise<any>;
   onCancel: () => void;
   clinics: Clinic[];
 }
@@ -27,7 +27,7 @@ const EMPTY_CONTACT: ContactInfo = {
 const OutpatientCenterForm = ({
   initialData,
   onSave,
-
+  onCancel,
   clinics,
 }: Props) => {
   const [name, setName] = useState("");
@@ -74,6 +74,9 @@ const OutpatientCenterForm = ({
   };
 
   const DAYS = [
+    "monday - friday",
+    "monday - saturday",
+    "monday - sunday",
     "monday",
     "tuesday",
     "wednesday",
@@ -162,7 +165,13 @@ const OutpatientCenterForm = ({
     if (Array.isArray(initialData.timings) && initialData.timings.length > 0) {
       setTimings(
         initialData.timings.map((t: any) => ({
-          clinicId: t.clinic?.id ? String(t.clinic.id) : "",
+          clinicId: t.clinic?.id
+            ? String(t.clinic.id)
+            : t.clinic
+              ? String(t.clinic)
+              : t.clinicId
+                ? String(t.clinicId)
+                : "",
           day: t.day || "",
           startTime: t.start_time || t.startTime || "",
           stopTime: t.stop_time || t.stopTime || "",
@@ -242,13 +251,15 @@ const OutpatientCenterForm = ({
   };
 
   /* Submit */
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true); // start loader
 
     const cleanedTimings = timings.map((t) => ({
-      ...t,
-      clinicId: t.clinicId ? Number(t.clinicId) : null,
+      clinic: t.clinicId ? Number(t.clinicId) : null,
+      day: t.day,
+      startTime: t.startTime,
+      stopTime: t.stopTime,
     }));
 
     const formData = new FormData();
@@ -280,12 +291,11 @@ const OutpatientCenterForm = ({
       formData.append("images_to_delete", String(id));
     });
 
-    onSave(formData);
-
-    // You might want to reset submitting after onSave completes
-    // If onSave is async, you can do:
-    // await onSave(formData);
-    setSubmitting(false);
+    try {
+      await onSave(formData);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // Handler for description changes from RichTextEditor
@@ -640,16 +650,47 @@ const OutpatientCenterForm = ({
         onChange={(e) => setContact({ ...contact, email: e.target.value })}
       />
 
-      <button
-        type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded flex items-center justify-center"
-        disabled={submitting}
-      >
-        {submitting ? (
-          <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4 mr-2"></span>
-        ) : null}
-        {submitting ? "Saving..." : "Save"}
-      </button>
+      <div className="flex justify-end gap-2">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="px-4 py-2 border rounded"
+          disabled={submitting}
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          disabled={submitting}
+          className={`px-4 py-2 rounded text-white flex items-center gap-2 ${
+            submitting ? "bg-gray-400 cursor-not-allowed" : "bg-green-600"
+          }`}
+        >
+          {submitting && (
+            <svg
+              className="animate-spin h-5 w-5 text-white"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+                fill="none"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 108 8h-4l3 3 3-3h-4a8 8 0 01-8 8z"
+              />
+            </svg>
+          )}
+          {submitting ? "Saving..." : "Save"}
+        </button>
+      </div>
     </form>
   );
 };
