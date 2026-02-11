@@ -261,7 +261,7 @@ export async function deleteOutpatientCenter(id: number) {
   return res.data;
 }
 
-export async function createBooking(data: any) {
+export async function sendEmail(data: any) {
   const res = await api.post(BOOKING_API, data);
   return res.data;
 }

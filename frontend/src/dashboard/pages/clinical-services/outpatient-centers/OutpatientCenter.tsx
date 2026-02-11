@@ -70,6 +70,7 @@ const OutpatientCenterPage = () => {
 
   const startEdit = (center: outpatientCenter) => {
     setEditingCenter(center);
+    console.log("Editing center:", center);
     setShowForm(true);
   };
 

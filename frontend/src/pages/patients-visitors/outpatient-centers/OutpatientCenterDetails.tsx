@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
-import opcData from "@/data/opcData.json";
 import {
   Accordion,
   AccordionContent,
@@ -10,25 +10,138 @@ import {
 import { Mail, MapPin, Phone } from "lucide-react";
 import DOMPurify from "dompurify";
 import { addClassesToDescription } from "@/components/services/utilities";
+import { fetchClinicalServices, fetchOutpatientCenter } from "@/api/api";
 
-type AccordionItem = {
+type ServiceSummary = {
+  id: number;
   title: string;
-  Subject: string;
+  tagline?: string;
+  overview?: string;
+};
+
+type Contact = {
+  phone?: string;
+  email?: string;
 };
 
 type Opc = {
-  id: string;
+  id: number;
+  slug?: string | null;
   name: string;
   description: string;
-  contact: string;
-  email: string;
+  contact?: Contact;
   location: string;
-  accordionItems?: Record<string, AccordionItem>;
+  servicesOffered: number[];
 };
 
 const OutpatientCenterDetails = () => {
   const { id } = useParams();
-  const details = opcData.find((item) => item.id === String(id)) as Opc;
+  const [details, setDetails] = useState<Opc | null>(null);
+  const [services, setServices] = useState<ServiceSummary[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const parseContact = (value: any): Contact => {
+      if (!value) return {};
+      if (typeof value === "string") {
+        try {
+          const parsed = JSON.parse(value);
+          if (parsed && typeof parsed === "object") {
+            return {
+              phone: parsed.phone ?? "",
+              email: parsed.email ?? "",
+            };
+          }
+        } catch {
+          return { phone: value };
+        }
+        return {};
+      }
+      if (typeof value === "object") {
+        return {
+          phone: value.phone ?? "",
+          email: value.email ?? "",
+        };
+      }
+      return {};
+    };
+
+    const loadDetails = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchOutpatientCenter();
+        const list = Array.isArray(data)
+          ? data
+          : data?.results ?? data?.data ?? [];
+        const found = list.find(
+          (item: any) =>
+            String(item.slug ?? item.id) === String(id ?? ""),
+        );
+
+        if (!found) {
+          setDetails(null);
+          setError("Service not found.");
+          return;
+        }
+
+        const mapped: Opc = {
+          id: found.id,
+          slug: found.slug ?? null,
+          name: found.name ?? found.title ?? "",
+          description: found.description ?? "",
+          contact: parseContact(found.contact),
+          location: found.location ?? "",
+          servicesOffered: Array.isArray(found.services_offered)
+            ? found.services_offered
+            : [],
+        };
+
+        setDetails(mapped);
+        setError(null);
+
+        if (mapped.servicesOffered.length > 0) {
+          const servicesData = await fetchClinicalServices();
+          const serviceList = Array.isArray(servicesData)
+            ? servicesData
+            : servicesData?.results ?? servicesData?.data ?? [];
+          const byId = new Map(
+            serviceList.map((s: any) => [
+              s.id,
+              {
+                id: s.id,
+                title: s.title ?? "",
+                tagline: s.tagline ?? "",
+                overview: s.overview ?? "",
+              },
+            ]),
+          );
+          const matched = mapped.servicesOffered
+            .map((serviceId) => byId.get(serviceId))
+            .filter(Boolean) as ServiceSummary[];
+          setServices(matched);
+        } else {
+          setServices([]);
+        }
+      } catch {
+        setError("Failed to load outpatient center.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDetails();
+  }, [id]);
+
+  if (loading)
+    return (
+      <div className="text-center mt-10 text-gray-500">
+        Loading outpatient center...
+      </div>
+    );
+
+  if (error)
+    return <div className="text-center mt-10 text-red-600">{error}</div>;
 
   if (!details)
     return (
@@ -70,17 +183,20 @@ const OutpatientCenterDetails = () => {
           {/* Accordion */}
           <div className="">
             <Accordion type="single" collapsible className="w-full">
-              {details.accordionItems &&
-                Object.keys(details.accordionItems).map((key, index) => {
-                  const item = details.accordionItems![key];
-                  return (
-                    <AccordionItem key={index} value={`item-${index}`}>
-                      <AccordionTrigger>{item.title}</AccordionTrigger>
-                      <AccordionContent>{item.Subject}</AccordionContent>
-                    </AccordionItem>
-                  );
-                })}
+              {services.map((service, index) => (
+                <AccordionItem key={service.id} value={`item-${index}`}>
+                  <AccordionTrigger>{service.title}</AccordionTrigger>
+                  <AccordionContent>
+                    {service.tagline || service.overview || "Details coming soon."}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
             </Accordion>
+            {services.length === 0 && (
+              <p className="text-gray-600 mt-2">
+                No clinical services listed yet.
+              </p>
+            )}
           </div>
         </div>
 
@@ -104,15 +220,26 @@ const OutpatientCenterDetails = () => {
           <div className="flex flex-col space-y-2 items-start text-lg">
             <span className="flex items-center gap-2">
               <Phone className="h-5 w-5 text-red-900" aria-label="Phone icon" />
-              <a className="text-sm " href="tel:+254703082000">
-                {details.contact}
-              </a>
+              {details.contact?.phone ? (
+                <a className="text-sm " href={`tel:${details.contact.phone}`}>
+                  {details.contact.phone}
+                </a>
+              ) : (
+                <span className="text-sm text-gray-600">Not available</span>
+              )}
             </span>
             <span className="flex items-center gap-2">
               <Mail className="h-5 w-5 text-red-900" aria-label="Mail icon" />
-              <a className="text-sm" href="mailto:hosp@nbihosp.org">
-                {details.email}
-              </a>
+              {details.contact?.email ? (
+                <a
+                  className="text-sm"
+                  href={`mailto:${details.contact.email}`}
+                >
+                  {details.contact.email}
+                </a>
+              ) : (
+                <span className="text-sm text-gray-600">Not available</span>
+              )}
             </span>
             <span className="flex items-center gap-2">
               <MapPin
