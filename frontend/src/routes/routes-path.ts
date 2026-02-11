@@ -27,10 +27,12 @@ const UIRoutes = {
     path: "/clinical-services",
     component: lazyLoad(() => import("../pages/clinics/Clinics")),
   },
-   parkingTransport: {
+  parkingTransport: {
     name: "navigation.parkingTransport",
     path: "/parking-transport",
-    component: lazyLoad(() => import("../pages/other-services/ParkingTransport")),
+    component: lazyLoad(
+      () => import("../pages/other-services/ParkingTransport"),
+    ),
   },
   andersonServices: {
     name: "navigation.andersonServices",
@@ -44,7 +46,7 @@ const UIRoutes = {
   },
   serviceDetails: {
     name: "navigation.serviceDetails",
-    path: "/service-detail/:id",
+    path: "/service-detail/*",
     component: lazyLoad(() => import("../pages/clinics/ServiceDetails")),
   },
   boardOfManagement: {
@@ -240,34 +242,34 @@ const UIRoutes = {
     path: "/outpatient-clinics",
     component: lazyLoad(() => import("../pages/clinicListing/ClinicListing")),
   },
-  MedicalDepartment: {
-    name: "navigation.medicalDepartment",
-    path: "/clinical-services/MedicalDepartment",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/MedicalDepartment"),
-    ),
-  },
-  LaboratoryServices: {
-    name: "navigation.laboratoryServices",
-    path: "/clinical-services/laboratory-services",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/laboratory-services/page"),
-    ),
-  },
-  PharmacyServices: {
-    name: "navigation.pharmacyServices",
-    path: "/clinical-services/pharmacy-services",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/pharmacy-services/page"),
-    ),
-  },
-  RadiologyServices: {
-    name: "navigation.radiologyServices",
-    path: "/clinical-services/radiology-services",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/radiology-services/page"),
-    ),
-  },
+  // MedicalDepartment: {
+  //   name: "navigation.medicalDepartment",
+  //   path: "/clinical-services/MedicalDepartment",
+  //   component: lazyLoad(
+  //     () => import("../pages/clinical-services/MedicalDepartment"),
+  //   ),
+  // },
+  // LaboratoryServices: {
+  //   name: "navigation.laboratoryServices",
+  //   path: "/clinical-services/laboratory-services",
+  //   component: lazyLoad(
+  //     () => import("../pages/clinical-services/laboratory-services/page"),
+  //   ),
+  // },
+  // PharmacyServices: {
+  //   name: "navigation.pharmacyServices",
+  //   path: "/clinical-services/pharmacy-services",
+  //   component: lazyLoad(
+  //     () => import("../pages/clinical-services/pharmacy-services/page"),
+  //   ),
+  // },
+  // RadiologyServices: {
+  //   name: "navigation.radiologyServices",
+  //   path: "/clinical-services/radiology-services",
+  //   component: lazyLoad(
+  //     () => import("../pages/clinical-services/radiology-services/page"),
+  //   ),
+  // },
 
   Alumni: {
     name: "navigation.alumni",
@@ -276,13 +278,13 @@ const UIRoutes = {
       () => import("../pages/college-of-health-science/Alumni"),
     ),
   },
-  AccidentEmergency: {
-    name: "navigation.accidentEmergency",
-    path: "/clinical-services/accident-emergency",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/accident-emergency/page"),
-    ),
-  },
+  // AccidentEmergency: {
+  //   name: "navigation.accidentEmergency",
+  //   path: "/clinical-services/accident-emergency",
+  //   component: lazyLoad(
+  //     () => import("../pages/clinical-services/accident-emergency/page"),
+  //   ),
+  // },
   ContactUs: {
     name: "navigation.contactus",
     path: "/contact-us",
@@ -310,62 +312,62 @@ const UIRoutes = {
     path: "/booking-calendar",
     component: lazyLoad(() => import("../pages/doctorbooking/bookingcalendar")),
   },
-  EndoscopyServices: {
-    name: "navigation.endoscopyServices",
-    path: "/clinical-services/endoscopy-services",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/endoscopy-services/page"),
-    ),
-  },
-  PhysicalMedicineCenter: {
-    name: "navigation.physicalMedicineCenter",
-    path: "/clinical-services/physical-medicine-center",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/physical-medicine-center/page"),
-    ),
-  },
-  PsychosocialDepartment: {
-    name: "navigation.psychosocialDepartment",
-    path: "/clinical-services/psychosocial-department",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/psychosocial-department/page"),
-    ),
-  },
-  CathLabServices: {
-    name: "navigation.cathLabServices",
-    path: "/clinical-services/cath-lab-services",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/cath-lab-services/page"),
-    ),
-  },
-  AntenatalServices: {
-    name: "navigation.antenatalServices",
-    path: "/clinical-services/antenatal-services",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/antenatal-services/page"),
-    ),
-  },
-  RenalServices: {
-    name: "navigation.renalServices",
-    path: "/clinical-services/renal-services",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/renal-services/page"),
-    ),
-  },
-  OncologyServices: {
-    name: "navigation.oncologyServices",
-    path: "/clinical-services/oncology-services",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/oncology-services/page"),
-    ),
-  },
-  DentalProcedures: {
-    name: "navigation.dentalProcedures",
-    path: "/clinical-services/dental-procedures",
-    component: lazyLoad(
-      () => import("../pages/clinical-services/dental-procedures/page"),
-    ),
-  },
+  // EndoscopyServices: {
+  //   name: "navigation.endoscopyServices",
+  //   path: "/clinical-services/endoscopy-services",
+  //   component: lazyLoad(
+  //     () => import("../pages/clinical-services/endoscopy-services/page"),
+  //   ),
+  // },
+  // PhysicalMedicineCenter: {
+  //   name: "navigation.physicalMedicineCenter",
+  //   path: "/clinical-services/physical-medicine-center",
+  //   component: lazyLoad(
+  //     () => import("../pages/clinical-services/physical-medicine-center/page"),
+  //   ),
+  // },
+  // PsychosocialDepartment: {
+  //   name: "navigation.psychosocialDepartment",
+  //   path: "/clinical-services/psychosocial-department",
+  //   component: lazyLoad(
+  //     () => import("../pages/clinical-services/psychosocial-department/page"),
+  //   ),
+  // },
+  // CathLabServices: {
+  //   name: "navigation.cathLabServices",
+  //   path: "/clinical-services/cath-lab-services",
+  //   component: lazyLoad(
+  //     () => import("../pages/clinical-services/cath-lab-services/page"),
+  //   ),
+  // },
+  // AntenatalServices: {
+  //   name: "navigation.antenatalServices",
+  //   path: "/clinical-services/antenatal-services",
+  //   component: lazyLoad(
+  //     () => import("../pages/clinical-services/antenatal-services/page"),
+  //   ),
+  // },
+  // RenalServices: {
+  //   name: "navigation.renalServices",
+  //   path: "/clinical-services/renal-services",
+  //   component: lazyLoad(
+  //     () => import("../pages/clinical-services/renal-services/page"),
+  //   ),
+  // },
+  // OncologyServices: {
+  //   name: "navigation.oncologyServices",
+  //   path: "/clinical-services/oncology-services",
+  //   component: lazyLoad(
+  //     () => import("../pages/clinical-services/oncology-services/page"),
+  //   ),
+  // },
+  // DentalProcedures: {
+  //   name: "navigation.dentalProcedures",
+  //   path: "/clinical-services/dental-procedures",
+  //   component: lazyLoad(
+  //     () => import("../pages/clinical-services/dental-procedures/page"),
+  //   ),
+  // },
   AdmissionProcess: {
     name: "navigation.admissionProcess",
     path: "/inpatient/admission",

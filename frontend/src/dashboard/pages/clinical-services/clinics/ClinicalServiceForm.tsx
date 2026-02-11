@@ -73,6 +73,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
   };
 
   const [title, setTitle] = useState(initialData?.title || "");
+  const [path, setPath] = useState(initialData?.path || "");
   const [tagline, setTagline] = useState(initialData?.tagline || "");
   const [overview, setOverview] = useState(initialData?.overview || "");
   const [detailedDescription, setDetailedDescription] = useState(
@@ -318,6 +319,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
     const formData = new FormData();
 
     formData.append("title", title);
+    formData.append("path", path.trim());
     formData.append("tagline", tagline);
     formData.append("tagline_fr", taglineTranslations.fr);
     formData.append("tagline_es", taglineTranslations.es);
@@ -423,6 +425,20 @@ const ClinicalServiceForm: React.FC<Props> = ({
           />
         </label>
         {errors.title && <p className="text-red-600 text-sm">{errors.title}</p>}
+      </div>
+
+      {/* Path */}
+      <div>
+        <label className="font-semibold">
+          Path (URL slug)
+          <input
+            type="text"
+            className="border p-2 w-full"
+            value={path}
+            onChange={(e) => setPath(e.target.value)}
+            placeholder="e.g. accident-emergency or /clinical-services/accident-emergency"
+          />
+        </label>
       </div>
 
       {/* Tagline */}

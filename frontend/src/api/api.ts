@@ -63,6 +63,13 @@ export async function fetchClinicalServiceById(id: number) {
   return res.data;
 }
 
+export async function fetchClinicalServiceByPath(path: string) {
+  const res = await api.get(`${CLINICS_API}by-path/`, {
+    params: { path },
+  });
+  return res.data;
+}
+
 export async function createClinicalService(data: any) {
   console.log(" Creating Clinical Service with data:", data);
   const res = await api.post(CLINICS_API, data, {
