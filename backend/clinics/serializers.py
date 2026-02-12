@@ -523,6 +523,7 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
     timings = serializers.JSONField()
 
     class Meta:
+       model = OutpatientCenter
        fields = [
     "id",
     "name",

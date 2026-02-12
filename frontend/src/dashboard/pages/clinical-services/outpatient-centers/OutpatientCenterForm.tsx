@@ -86,6 +86,21 @@ const OutpatientCenterForm = ({
     "sunday",
   ];
 
+  const MONTHS = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   const HOURS = [
     "12:00 AM",
     "1:00 AM",
@@ -173,13 +188,16 @@ const OutpatientCenterForm = ({
                 ? String(t.clinicId)
                 : "",
           day: t.day || "",
+          month: t.month || "",
           startTime: t.start_time || t.startTime || "",
           stopTime: t.stop_time || t.stopTime || "",
         })),
       );
     } else {
       // auto-create one row for editing
-      setTimings([{ clinicId: "", day: "", startTime: "", stopTime: "" }]);
+      setTimings([
+        { clinicId: "", day: "", month: "", startTime: "", stopTime: "" },
+      ]);
     }
 
     let parsedContact: ContactInfo = EMPTY_CONTACT;
@@ -214,7 +232,9 @@ const OutpatientCenterForm = ({
   useEffect(() => {
     if (initialData) {
       if (!initialData.timings || initialData.timings.length === 0) {
-        setTimings([{ clinicId: "", day: "", startTime: "", stopTime: "" }]);
+        setTimings([
+          { clinicId: "", day: "", month: "", startTime: "", stopTime: "" },
+        ]);
       }
     }
   }, [initialData]);
@@ -258,6 +278,7 @@ const OutpatientCenterForm = ({
     const cleanedTimings = timings.map((t) => ({
       clinic: t.clinicId ? Number(t.clinicId) : null,
       day: t.day,
+      month: t.month || "",
       startTime: t.startTime,
       stopTime: t.stopTime,
     }));
@@ -468,7 +489,7 @@ const OutpatientCenterForm = ({
           return (
             <div
               key={i}
-              className="grid grid-cols-4 gap-2 items-center border p-2 mb-2 rounded"
+              className="grid grid-cols-5 gap-2 items-center border p-2 mb-2 rounded"
             >
               {/* Clinic search */}
               <div className="relative">
@@ -556,6 +577,25 @@ const OutpatientCenterForm = ({
                 ))}
               </select>
 
+              <select
+                className="border p-2"
+                value={t.month || ""}
+                onChange={(e) =>
+                  setTimings((prev) =>
+                    prev.map((row, idx) =>
+                      idx === i ? { ...row, month: e.target.value } : row,
+                    ),
+                  )
+                }
+              >
+                <option value="">All Months</option>
+                {MONTHS.map((m) => (
+                  <option key={m} value={m}>
+                    {m}
+                  </option>
+                ))}
+              </select>
+
               {/* Start time */}
               <select
                 className="border p-2"
@@ -610,7 +650,7 @@ const OutpatientCenterForm = ({
 
               <button
                 type="button"
-                className="text-red-500 text-sm col-span-4 text-right"
+                className="text-red-500 text-sm col-span-5 text-right"
                 onClick={() =>
                   setTimings((prev) => prev.filter((_, idx) => idx !== i))
                 }
@@ -626,7 +666,7 @@ const OutpatientCenterForm = ({
           onClick={() =>
             setTimings((prev) => [
               ...prev,
-              { clinicId: "", day: "", startTime: "", stopTime: "" },
+              { clinicId: "", day: "", month: "", startTime: "", stopTime: "" },
             ])
           }
           className="text-blue-600 text-sm underline"

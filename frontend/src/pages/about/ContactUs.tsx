@@ -18,6 +18,17 @@ export default function ContactUs() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const formRef = useRef<HTMLFormElement | null>(null);
 
+  const escapeHtml = (value: string) =>
+    value
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+
+  const formatMultiline = (value: string) =>
+    escapeHtml(value).replace(/\r?\n/g, "<br />");
+
   useEffect(() => {
     // scroll to form when desk selected
     if (selectedDesk) {
@@ -44,14 +55,44 @@ export default function ContactUs() {
     setSubmitting(true);
     try {
       const department = selectedDesk || "General Enquiries";
-      const body = [
-        `Department: ${department}`,
-        `Name: ${name}`,
-        `Email: ${email}`,
-        phone ? `Phone: ${phone}` : "Phone: N/A",
-        "",
-        message,
-      ].join("\n");
+      const safeName = escapeHtml(name.trim());
+      const safeEmail = escapeHtml(email.trim());
+      const safePhone = phone.trim() ? escapeHtml(phone.trim()) : "N/A";
+      const safeDepartment = escapeHtml(department);
+      const safeMessage = message.trim()
+        ? formatMultiline(message.trim())
+        : "N/A";
+
+      const body = `
+        <div style="font-family: Arial, sans-serif; color: #111827;">
+          <h2 style="margin: 0 0 12px;">Contact Enquiry</h2>
+          <table style="border-collapse: collapse; width: 100%; max-width: 640px;">
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600; width: 180px;">Full Name</td>
+              <td style="padding: 6px 0;">${safeName}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600;">Email</td>
+              <td style="padding: 6px 0;">${safeEmail}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600;">Phone Number</td>
+              <td style="padding: 6px 0;">${safePhone}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600;">Department</td>
+              <td style="padding: 6px 0;">${safeDepartment}</td>
+            </tr>
+          </table>
+
+          <div style="margin-top: 16px;">
+            <div style="font-weight: 600; margin-bottom: 6px;">Share Your Message</div>
+            <div style="padding: 12px; border: 1px solid #e5e7eb; border-radius: 6px; background: #f9fafb;">
+              ${safeMessage}
+            </div>
+          </div>
+        </div>
+      `;
 
       await sendEmail({
         email: "immanuelmwabili@gmail.com",

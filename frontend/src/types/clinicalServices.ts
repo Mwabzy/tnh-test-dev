@@ -100,6 +100,7 @@ export interface Timings {
   clinicId: string;
   services_offered?: ClinicalService[];
   day: string;
+  month?: string;
   startTime: string;
   stopTime: string;
 }
