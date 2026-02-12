@@ -140,7 +140,7 @@ const ClinicalServices = () => {
             <input
               value={locationQuery}
               onChange={(e) => setLocationQuery(e.target.value)}
-              placeholder="Search by location (e.g. Anderson)"
+              placeholder="Search clinical services by location"
               className="w-full sm:w-80 border border-gray-300 rounded-md px-3 py-2 text-sm"
             />
             {!loading && (
