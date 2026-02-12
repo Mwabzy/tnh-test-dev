@@ -96,9 +96,14 @@ const DoctorsPage = () => {
 
   const normalizedQuery = locationQuery.trim().toLowerCase();
   const filteredDoctors = normalizedQuery
-    ? doctors.filter((doctor) =>
-        (doctor.location ?? "").toLowerCase().includes(normalizedQuery),
-      )
+    ? doctors.filter((doctor) => {
+        const locations = Array.isArray(doctor.locations)
+          ? doctor.locations
+          : [];
+        return locations.some((loc) =>
+          loc.toLowerCase().includes(normalizedQuery),
+        );
+      })
     : doctors;
 
   return (
