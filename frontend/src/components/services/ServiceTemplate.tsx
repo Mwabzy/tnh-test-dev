@@ -449,7 +449,12 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                             {d.role}
                           </div>
                           {d.bio && (
-                            <div className="text-sm text-gray-700">{d.bio}</div>
+                            <div
+                              className="text-sm text-gray-700"
+                              dangerouslySetInnerHTML={{
+                                __html: DOMPurify.sanitize(d.bio),
+                              }}
+                            ></div>
                           )}
                         </div>
                       </div>
