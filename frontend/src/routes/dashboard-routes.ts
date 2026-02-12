@@ -86,6 +86,13 @@ const DashboardRoutes = {
         import("@/dashboard/pages/clinical-services/outpatient-centers/OutpatientCenter"),
     ),
   },
+  RoomWards: {
+    name: "Rooms & Wards",
+    path: "rooms-and-wards",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/clinical-services/rooms-wards/RoomWards"),
+    ),
+  },
   Careers: {
     name: "Careers",
     path: "careers",
@@ -106,6 +113,13 @@ const DashboardRoutes = {
     component: lazyLoad(
       () =>
         import("@/dashboard/pages/clinical-services/clinical-faqs/ClinicalFaq"),
+    ),
+  },
+  RoomWard: {
+    name: "RoomWard",
+    path: "room-wards",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/clinical-services/rooms-wards/RoomWards"),
     ),
   },
 };

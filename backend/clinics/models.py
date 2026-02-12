@@ -191,5 +191,17 @@ class ClinicalFAQ(models.Model):
 
     def __str__(self):
         return self.brief
+    
+class RoomWard(models.Model):
+    title = models.CharField(max_length=150)
+    image = models.ImageField(upload_to="room_wards/", blank=True, null=True)
+
+    name_fr = models.CharField(max_length=150, blank=True, null=True)
+    name_es = models.CharField(max_length=150, blank=True, null=True)
+    name_zh = models.CharField(max_length=150, blank=True, null=True)
+    name_ru = models.CharField(max_length=150, blank=True, null=True)
+
+    def __str__(self):
+        return self.title
 
     

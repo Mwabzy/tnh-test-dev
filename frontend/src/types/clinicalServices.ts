@@ -133,3 +133,13 @@ export interface clinicalFaq {
   answer_zh?: string;
   answer_ru?: string;
 }
+
+export interface RoomWard {
+  id?: number;
+  title: string;
+  image?: string | null;
+  name_fr?: string;
+  name_es?: string;
+  name_zh?: string;
+  name_ru?: string;
+}
