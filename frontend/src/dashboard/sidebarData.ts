@@ -13,7 +13,7 @@ export const clinicalSection = [
   },
   {
     title: "Rooms & Wards",
-    href: "/dashboard/rooms-and-wards",
+    href: "/dashboard/rooms-wards",
   },
   {
     title: "Clinical FAQs",

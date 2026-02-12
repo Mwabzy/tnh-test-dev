@@ -11,6 +11,7 @@ const BLOGS_API = "/blog-posts/";
 const CSR_API = "/csr/";
 const OUTPATIENT_CENTER_API = "/outpatient-centers/";
 const CLINICAL_FAQS_API = "/clinical-faqs/";
+const ROOM_WARDS_API = "/room-wards/";
 const BOOKING_API = "/send_email/";
 const CAREERS_API = "/careers/";
 const TENDERS_API = "/tenders/";
@@ -288,6 +289,36 @@ export async function deleteClinicalFaq(id: number) {
 
 export async function fetchClinicalFaqById(data: any) {
   const res = await api.post(CLINICAL_FAQS_API, data);
+  return res.data;
+}
+
+// ---------------- ROOMS & WARDS ----------------
+export async function fetchRoomWards() {
+  const res = await api.get(ROOM_WARDS_API);
+  return res.data;
+}
+
+export async function fetchRoomWardById(id: number) {
+  const res = await api.get(`${ROOM_WARDS_API}${id}/`);
+  return res.data;
+}
+
+export async function createRoomWard(data: any) {
+  const res = await api.post(ROOM_WARDS_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+}
+
+export async function updateRoomWard(id: number, data: any) {
+  const res = await api.patch(`${ROOM_WARDS_API}${id}/`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+}
+
+export async function deleteRoomWard(id: number) {
+  const res = await api.delete(`${ROOM_WARDS_API}${id}/`);
   return res.data;
 }
 
