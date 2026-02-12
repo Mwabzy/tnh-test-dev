@@ -53,11 +53,7 @@ class SlimDoctorSerializer(serializers.ModelSerializer):
 class DoctorSerializer(serializers.ModelSerializer):
     # ---------- READ ----------
     services_offered = serializers.SerializerMethodField(read_only=True)
-    images = DoctorImageSerializer(
-        source="uploaded_images",
-        many=True,
-        read_only=True
-    )
+    images = DoctorImageSerializer(source="uploaded_images", many=True, read_only=True)
 
     # ---------- WRITE ----------
     services_offered_ids = serializers.ListField(
@@ -107,7 +103,6 @@ class DoctorSerializer(serializers.ModelSerializer):
         return [
             {
                 "id": s.id,
-                "path": s.path,
                 "title": s.title,
                 "tagline": s.tagline,
                 "overview": s.overview,
@@ -236,7 +231,6 @@ class ClinicalServiceFeatureImageSerializer(serializers.ModelSerializer):
 # ClinicalService Serializer
 
 class ClinicalServiceSerializer(serializers.ModelSerializer):
-    path = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     doctors = SlimDoctorSerializer(many=True, read_only=True)
 
     doctor_ids = serializers.PrimaryKeyRelatedField(source='doctors', queryset=Doctor.objects.all(), many=True, write_only=True, required=False)
@@ -277,7 +271,6 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         fields = [
     'id',
     'title',
-    'path',
     'tagline', 'tagline_fr', 'tagline_es', 'tagline_zh', 'tagline_ru',
     'overview', 'overview_fr', 'overview_es', 'overview_zh', 'overview_ru',
     'detailedDescription',
@@ -303,18 +296,6 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
     'images_to_delete',
     'locations',
 ]
-
-    def validate_path(self, value):
-        if value is None:
-            return None
-
-        cleaned = str(value).strip()
-        if not cleaned:
-            return None
-
-        cleaned = cleaned.split("?", 1)[0].split("#", 1)[0]
-        cleaned = "/".join(seg.strip() for seg in cleaned.strip("/").split("/") if seg.strip())
-        return cleaned or None
 
     
     # Parse JSON strings from FormData
@@ -346,7 +327,6 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
 
      string_fields = [
           'title',
-          'path',
           'tagline', 'tagline_fr', 'tagline_es', 'tagline_zh', 'tagline_ru',
           'overview', 'overview_fr', 'overview_es', 'overview_zh', 'overview_ru',
           'detailedDescription',
@@ -359,9 +339,6 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
              val = data[field]
              if isinstance(val, list):
                  data[field] = val[0]
-
-     if "path" in data and (data["path"] is None or str(data["path"]).strip() == ""):
-         data["path"] = None
 
      #  Booleans 
      for bool_field in ['isBookable', 'hasReadMore']:
@@ -546,7 +523,6 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
     timings = serializers.JSONField()
 
     class Meta:
-       model = OutpatientCenter
        fields = [
     "id",
     "name",
