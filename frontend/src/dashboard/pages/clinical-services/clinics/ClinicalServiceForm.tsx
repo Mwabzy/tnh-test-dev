@@ -627,13 +627,11 @@ const ClinicalServiceForm: React.FC<Props> = ({
             {/* Feature Description */}
             <div>
               <RichTextEditor
-                value={detailedDescription}
-                onChange={(html, plainText) => {
-                  setDetailedDescription(html);
-                  // If you need the plain text for any purpose
-                  console.log("Plain text:", plainText);
+                value={f.description || ""}
+                onChange={(html) => {
+                  handleFeatureChange(i, "description", html);
                 }}
-                placeholder="Enter detailed description here..."
+                placeholder="Enter feature description here..."
                 minHeight="200px"
               />
 
