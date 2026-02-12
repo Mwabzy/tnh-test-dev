@@ -44,14 +44,14 @@ const AlumniInfo: React.FC = () => {
     <>
       <Heading
         image_url="https://lh3.googleusercontent.com/aida-public/AB6AXuBCBXUN1JxBmGMt8j6gJYC7YdQjw94pMuRi4rHhD-ruDxkZ5WVj7Da-q34shVdYoC0FvSgUFRU3hAyjy7uaSvsYrtZvR3S5plT67Y7c7USNMfg-qW7PCuhvGXktJWWWNg5MenYv3lW8rNRtUudE6iXkLwq9YnPURXb-f1J6Mrnk2uoBUqQ9Hj4YGucKbOmR9eMRWqcTvmsxt70nahOEjx-8PXEMjxq37qSUL-rZfDi6wRKx00r7LZMOqALWasn4JIrww1Y8bB9w7Auf"
-        title={content.headingTitle}
-        description={content.headingDescription}
+        title={content.headingTitle?.value ?? ""}
+        description={content.headingDescription?.value ?? ""}
         style="image"
       />
 
       <div className="bg-white p-8 max-w-7xl shadow-xl my-8 mx-4 rounded-md md:mx-auto text-gray-800">
         <h1 className="text-2xl font-bold mb-4 text-center">
-          {content.pageTitle}
+          {content.pageTitle?.value ?? ""}
         </h1>
 
         <div className="mb-6">
@@ -69,7 +69,7 @@ const AlumniInfo: React.FC = () => {
 
         <div className="mb-6">
           <h2 className="text-lg font-semibold text-red-800 mb-2">
-            {content.objectivesTitle}
+            {content.objectivesTitle?.value ?? ""}
           </h2>
           <ol className="list-decimal list-inside space-y-1">
             {alumniData.objectives.map((obj, i) => (
@@ -80,7 +80,7 @@ const AlumniInfo: React.FC = () => {
         <div className="flex flex-col md:flex-row gap-6">
           <div className="mb-6">
             <h2 className="text-lg font-semibold text-red-800 mb-2">
-              {content.registrationTitle}
+              {content.registrationTitle?.value ?? ""}
             </h2>
             <ol className="list-decimal list-inside space-y-1">
               {alumniData.registrationInfo.map((item, i) => (
@@ -91,7 +91,7 @@ const AlumniInfo: React.FC = () => {
 
           <div>
             <h2 className="text-lg font-semibold text-red-800 mb-2">
-              {content.accountTitle}
+              {content.accountTitle?.value ?? ""}
             </h2>
             <ol className="list-decimal list-inside space-y-1">
               {alumniData.accountDetails.map((detail, i) => (

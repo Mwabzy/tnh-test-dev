@@ -96,15 +96,15 @@ const Facilitiesdownloads = () => {
     <>
       <Heading
         image_url="https://lh3.googleusercontent.com/aida-public/AB6AXuBCBXUN1JxBmGMt8j6gJYC7YdQjw94pMuRi4rHhD-ruDxkZ5WVj7Da-q34shVdYoC0FvSgUFRU3hAyjy7uaSvsYrtZvR3S5plT67Y7c7USNMfg-qW7PCuhvGXktJWWWNg5MenYv3lW8rNRtUudE6iXkLwq9YnPURXb-f1J6Mrnk2uoBUqQ9Hj4YGucKbOmR9eMRWqcTvmsxt70nahOEjx-8PXEMjxq37qSUL-rZfDi6wRKx00r7LZMOqALWasn4JIrww1Y8bB9w7Auf"
-        title={content.headingTitle}
-        description={content.headingDescription}
+        title={content.headingTitle?.value ?? ""}
+        description={content.headingDescription?.value ?? ""}
         style="image"
       />
       <div className="bg-gray-50 text-gray-800  md:p-12 ">
         <div className="bg-white py-9 px-4 mx-[10%] md:px-10 lg:px-24">
           <div className="text-center mb-16 pl-5 flex flex-col items-center">
             <h1 className="text-4xl text-left font-bold text-red-800 mb-2 mt-4 font-serif">
-              {content.sectionTitle}
+              {content.sectionTitle?.value ?? ""}
             </h1>
             <p className="text-gray-700 max-w-5xl text-left mb-2">
               Cicely McDowell College of Health Sciences provides modern
@@ -116,7 +116,7 @@ const Facilitiesdownloads = () => {
           </div>
           <div className="space-y-12 ">
             {facilitiesData.map((item, index) => {
-              const title = content.facilityTitles[index] ?? "";
+              const title = content.facilityTitles?.[index]?.value ?? "";
 
               return (
                 <div
@@ -160,7 +160,7 @@ const Facilitiesdownloads = () => {
 
         <section className="flex flex-col items-center mt-12 gap-4 text-center">
           <h2 className="text-3xl font-semibold text-red-900 mb-4">
-            {content.downloadsTitle}
+            {content.downloadsTitle?.value ?? ""}
           </h2>
           <div className="flex flex-col md:flex-row gap-8 text-gray-800">
             {downloads.map((item, index) => (

@@ -14,15 +14,15 @@ const CollegeFaqs: FunctionComponent<CollegeFaqsProps> = () => {
     <>
       <Heading
         style="background"
-        title={content.headingTitle}
-        description={content.headingDescription}
+        title={content.headingTitle?.value ?? ""}
+        description={content.headingDescription?.value ?? ""}
       />
       <div className="flex flex-col lg:flex-row items-start justify-center w-full max-w-7xl mx-auto mt-8 gap-8">
         <div className="w-full lg:w-[70%] pr-10">
           {/* Service Overview */}
           <section className="mb-8 mx-5">
             <h2 className="text-2xl font-semibold mb-4">
-              {content.overviewTitle}
+              {content.overviewTitle?.value ?? ""}
             </h2>
             <p className="text-gray-700 mb-4">
               Frequently Asked Questions (FAQs) about our school of nursing are
@@ -123,13 +123,13 @@ const CollegeFaqs: FunctionComponent<CollegeFaqsProps> = () => {
           <div className="flex items-center justify-center mb-8 mx-5">
             <img
               src="https://img.freepik.com/premium-photo/young-woman-carries-oversized-books-her-head-with-question-marks-floating-around-air_176697-13098.jpg?ga=GA1.1.1216082383.1749889385&semt=ais_hybrid&w=740"
-              alt={content.headingTitle}
+              alt={content.headingTitle?.value ?? ""}
               className="w-full rounded-xl shadow-md object-cover max-h-[300px]"
             />
           </div>
           <div className="w-full bg-red-50 h-min rounded-xl p-6 shadow-md text-sm text-gray-800">
             <h3 className="font-semibold mb-4 text-xl">
-              {content.sidebarTitle}
+              {content.sidebarTitle?.value ?? ""}
             </h3>
 
             <div className="flex flex-col space-y-2 items-start text-lg">
