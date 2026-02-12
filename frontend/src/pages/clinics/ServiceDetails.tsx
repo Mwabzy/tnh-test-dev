@@ -4,23 +4,56 @@ import { ClinicalService } from "@/types";
 import ServiceTemplate from "@/components/services/ServiceTemplate";
 import ServiceList from "@/pages/clinics/ServiceList";
 import Heading from "@/components/Heading";
-import { fetchClinicalServiceById } from "@/api/api";
+import { fetchClinicalServiceById, fetchClinicalServiceByPath } from "@/api/api";
+import { ServiceDetailSkeleton } from "@/components/layout/page-skeletons";
 
 const ServiceDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const params = useParams<{ "*": string }>();
+  const rawPath = params["*"];
+  let path = rawPath;
+
+  if (rawPath) {
+    try {
+      path = decodeURIComponent(rawPath);
+    } catch {
+      path = rawPath;
+    }
+  }
+
   const [service, setService] = useState<ClinicalService | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchService = async () => {
-      if (!id) return;
+      if (!path) {
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+      const isNumericPath = /^\d+$/.test(path);
 
       try {
-        const data = await fetchClinicalServiceById(Number(id));
-        console.log("Fetched service from API:", data);
+        const data = isNumericPath
+          ? await fetchClinicalServiceById(Number(path))
+          : await fetchClinicalServiceByPath(path);
         setService(data);
-      } catch (error) {
-        console.error("Error fetching service:", error);
+      } catch (primaryError) {
+        if (isNumericPath) {
+          try {
+            const data = await fetchClinicalServiceByPath(path);
+            setService(data);
+            return;
+          } catch (fallbackError) {
+            console.error("Error fetching service by id and path:", {
+              primaryError,
+              fallbackError,
+            });
+          }
+        } else {
+          console.error("Error fetching service by path:", primaryError);
+        }
+
         setService(null);
       } finally {
         setLoading(false);
@@ -28,9 +61,9 @@ const ServiceDetail = () => {
     };
 
     fetchService();
-  }, [id]);
+  }, [path]);
 
-  if (loading) return <p>Loading service...</p>;
+  if (loading) return <ServiceDetailSkeleton />;
 
   if (!service) {
     return (

@@ -1,10 +1,15 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { useLocation, useNavigate } from "react-router";
-import { createBooking, fetchClinicalServices } from "@/api/api"; // Add this import
+import {
+  sendEmail,
+  fetchClinicalServices,
+  fetchOutpatientCenter,
+} from "@/api/api"; // Add this import
 import { ClinicalService, Doctor } from "@/types";
 import { fetchDoctorById } from "@/api/api";
 import { useIntlayer } from "react-intlayer";
+import toast from "react-hot-toast";
 
 interface CalendarWithTimesProps {
   onDateSelected?: (date: Date) => void;
@@ -125,6 +130,8 @@ const BookingPage: React.FC<BookingPageProps> = ({
   const [clinicalServices, setClinicalServices] =
     useState<ClinicalService[]>(services);
   const [isLoadingServices, setIsLoadingServices] = useState(false);
+  const [opcCenters, setOpcCenters] = useState<any[]>([]);
+  const [isLoadingTimings, setIsLoadingTimings] = useState(false);
 
   const serviceId = serviceIdParam ? Number(serviceIdParam) : null;
   const isDoctorBooking = Boolean(doctorIdParam);
@@ -181,6 +188,16 @@ const BookingPage: React.FC<BookingPageProps> = ({
     () => clinicalServices.find((s) => s.id === selectedServiceId) || null,
     [clinicalServices, selectedServiceId],
   );
+  const activeServiceId = useMemo(() => {
+    if (isDoctorBooking) {
+      if (!selectedService) return null;
+      const match = doctorInfo?.services_offered?.find(
+        (service) => service.title === selectedService,
+      );
+      return match?.id ?? null;
+    }
+    return selectedServiceId;
+  }, [isDoctorBooking, selectedService, selectedServiceId, doctorInfo]);
   const availableLocations = useMemo(() => {
     // Priority 1: If doctor booking AND service is selected, get locations from that service
     if (isDoctorBooking && selectedService && doctorInfo?.services_offered) {
@@ -209,6 +226,267 @@ const BookingPage: React.FC<BookingPageProps> = ({
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
+  const escapeHtml = (value: string) =>
+    value
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+
+  const formatMultiline = (value: string) =>
+    escapeHtml(value).replace(/\r?\n/g, "<br />");
+
+  const SLOT_INTERVAL_MINUTES = 30;
+  const DAY_INDEX: Record<string, number> = {
+    sunday: 0,
+    sun: 0,
+    monday: 1,
+    mon: 1,
+    tuesday: 2,
+    tue: 2,
+    wednesday: 3,
+    wed: 3,
+    thursday: 4,
+    thu: 4,
+    friday: 5,
+    fri: 5,
+    saturday: 6,
+    sat: 6,
+  };
+
+  const MONTH_INDEX: Record<string, number> = {
+    january: 0,
+    jan: 0,
+    february: 1,
+    feb: 1,
+    march: 2,
+    mar: 2,
+    april: 3,
+    apr: 3,
+    may: 4,
+    june: 5,
+    jun: 5,
+    july: 6,
+    jul: 6,
+    august: 7,
+    aug: 7,
+    september: 8,
+    sept: 8,
+    sep: 8,
+    october: 9,
+    oct: 9,
+    november: 10,
+    nov: 10,
+    december: 11,
+    dec: 11,
+  };
+
+  const normalizeDay = (value: string) =>
+    value.toLowerCase().replace(/\s+/g, " ").trim();
+
+  const normalizeMonth = (value: string) =>
+    value.toLowerCase().replace(/\s+/g, " ").trim();
+
+  const parseMonthToken = (value: string) => {
+    const normalized = normalizeMonth(value);
+    if (!normalized) return null;
+    if (MONTH_INDEX[normalized] !== undefined) return MONTH_INDEX[normalized];
+    const num = Number(normalized);
+    if (!Number.isNaN(num) && num >= 1 && num <= 12) return num - 1;
+    return null;
+  };
+
+  const expandMonths = (value?: string): number[] | null => {
+    if (!value) return null;
+    const normalized = normalizeMonth(value);
+    if (!normalized) return null;
+
+    const rangeMatch = normalized.match(
+      /(january|february|march|april|may|june|july|august|september|sept|sep|october|november|december|jan|feb|mar|apr|jun|jul|aug|oct|nov|dec|\d{1,2})\s*[-to]+\s*(january|february|march|april|may|june|july|august|september|sept|sep|october|november|december|jan|feb|mar|apr|jun|jul|aug|oct|nov|dec|\d{1,2})/i,
+    );
+    if (rangeMatch) {
+      const start = parseMonthToken(rangeMatch[1]);
+      const end = parseMonthToken(rangeMatch[2]);
+      if (start === null || end === null) return null;
+      const months: number[] = [];
+      let current = start;
+      while (true) {
+        months.push(current);
+        if (current === end) break;
+        current = (current + 1) % 12;
+      }
+      return months;
+    }
+
+    if (normalized.includes(",") || normalized.includes(" and ")) {
+      const tokens = normalized
+        .split(/,|and/)
+        .map((part) => part.trim())
+        .filter(Boolean);
+      const months = tokens
+        .map(parseMonthToken)
+        .filter((m): m is number => m !== null);
+      return months.length > 0 ? months : null;
+    }
+
+    const single = parseMonthToken(normalized);
+    return single !== null ? [single] : null;
+  };
+
+  const expandDays = (value: string): number[] => {
+    const normalized = normalizeDay(value);
+    if (!normalized) return [];
+
+    // Handle ranges like "monday - friday"
+    const rangeMatch = normalized.match(
+      /(sunday|monday|tuesday|wednesday|thursday|friday|saturday|sun|mon|tue|wed|thu|fri|sat)\s*-\s*(sunday|monday|tuesday|wednesday|thursday|friday|saturday|sun|mon|tue|wed|thu|fri|sat)/i,
+    );
+    if (rangeMatch) {
+      const start = DAY_INDEX[rangeMatch[1]];
+      const end = DAY_INDEX[rangeMatch[2]];
+      if (start === undefined || end === undefined) return [];
+      const days: number[] = [];
+      let current = start;
+      while (true) {
+        days.push(current);
+        if (current === end) break;
+        current = (current + 1) % 7;
+      }
+      return days;
+    }
+
+    // Handle multiple days separated by commas or "and"
+    if (normalized.includes(",") || normalized.includes(" and ")) {
+      return normalized
+        .split(/,|and/)
+        .map((part) => part.trim())
+        .filter(Boolean)
+        .flatMap((part) =>
+          DAY_INDEX[part] !== undefined ? [DAY_INDEX[part]] : [],
+        );
+    }
+
+    return DAY_INDEX[normalized] !== undefined ? [DAY_INDEX[normalized]] : [];
+  };
+
+  const parseTimeToMinutes = (value: string) => {
+    const match = value
+      .trim()
+      .match(/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)$/i);
+    if (!match) return null;
+    let hour = Number(match[1]);
+    const minutes = Number(match[2] ?? "0");
+    const meridian = match[3].toUpperCase();
+    if (meridian === "PM" && hour !== 12) hour += 12;
+    if (meridian === "AM" && hour === 12) hour = 0;
+    return hour * 60 + minutes;
+  };
+
+  const formatMinutesToTime = (totalMinutes: number) => {
+    const hour24 = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    const meridian = hour24 >= 12 ? "PM" : "AM";
+    const hour12 = ((hour24 + 11) % 12) + 1;
+    return `${String(hour12).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0",
+    )} ${meridian}`;
+  };
+
+  const buildSlotsFromRanges = (
+    ranges: Array<{ start: number; end: number }>,
+  ) => {
+    const slotSet = new Set<number>();
+    ranges.forEach((range) => {
+      if (range.end <= range.start) return;
+      for (
+        let t = range.start;
+        t < range.end;
+        t += SLOT_INTERVAL_MINUTES
+      ) {
+        slotSet.add(t);
+      }
+    });
+    return Array.from(slotSet)
+      .sort((a, b) => a - b)
+      .map(formatMinutesToTime);
+  };
+
+  const normalizeLocation = (value: string) =>
+    value
+      .toLowerCase()
+      .replace(/\s*(clinic|opc|outpatient clinic)\b/gi, "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+  const timingsByLocation = useMemo(() => {
+    const map: Record<
+      string,
+      Array<{ day: string; month?: string; startTime: string; stopTime: string }>
+    > = {};
+
+    if (!activeServiceId) return map;
+
+    opcCenters.forEach((center) => {
+      const timings = Array.isArray(center?.timings) ? center.timings : [];
+      const matches = timings.filter((t: any) => {
+        const clinicId =
+          t?.clinic ?? t?.clinicId ?? t?.clinic_id ?? t?.clinic?.id;
+        return String(clinicId ?? "") === String(activeServiceId);
+      });
+
+      if (matches.length === 0) return;
+
+      const label = center?.name ?? center?.title ?? center?.location ?? "";
+      if (!label) return;
+
+      if (!map[label]) map[label] = [];
+
+      matches.forEach((t: any) => {
+        map[label].push({
+          day: t?.day ?? "",
+          month: t?.month ?? "",
+          startTime: t?.startTime ?? t?.start_time ?? "",
+          stopTime: t?.stopTime ?? t?.stop_time ?? "",
+        });
+      });
+    });
+
+    return map;
+  }, [opcCenters, activeServiceId]);
+
+  const locationTimings = useMemo(() => {
+    if (!selectedLocation) return [];
+    if (timingsByLocation[selectedLocation]) {
+      return timingsByLocation[selectedLocation];
+    }
+    const normalized = normalizeLocation(selectedLocation);
+    const match = Object.entries(timingsByLocation).find(
+      ([key]) => normalizeLocation(key) === normalized,
+    );
+    return match ? match[1] : [];
+  }, [selectedLocation, timingsByLocation]);
+
+  const timingRulesByDay = useMemo(() => {
+    const rules: Record<
+      number,
+      Array<{ start: number; end: number; months: number[] | null }>
+    > = {};
+    locationTimings.forEach((timing) => {
+      const days = expandDays(timing.day);
+      const start = parseTimeToMinutes(timing.startTime);
+      const end = parseTimeToMinutes(timing.stopTime);
+      const months = expandMonths(timing.month);
+      if (start === null || end === null) return;
+      days.forEach((dayIndex) => {
+        if (!rules[dayIndex]) rules[dayIndex] = [];
+        rules[dayIndex].push({ start, end, months });
+      });
+    });
+    return rules;
+  }, [locationTimings]);
+
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -226,7 +504,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
       : selectedServiceFromList?.title;
 
     if (!serviceName || !selectedLocation || !selectedDate || !selectedTime) {
-      alert(
+      toast.error(
         "Please select service, location, date and time before confirming.",
       );
       return;
@@ -234,7 +512,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
     // Validate user details
     if (!name || !phone || !email) {
-      alert("Please fill in all required details (Name, Phone, Email).");
+      toast.error("Please fill in all required details (Name, Phone, Email).");
       return;
     }
 
@@ -254,48 +532,103 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
     setIsSubmitting(true);
     try {
-      const response = await createBooking(booking);
-      console.log("Booking created successfully:", response);
+      const safeName = escapeHtml(name.trim());
+      const safeEmail = escapeHtml(email.trim());
+      const safePhone = escapeHtml(phone.trim());
+      const safeService = escapeHtml(serviceName);
+      const safeDoctor = booking.doctor ? escapeHtml(booking.doctor) : "";
+      const safeLocation = escapeHtml(booking.location);
+      const safeDate = escapeHtml(booking.date);
+      const safeTime = escapeHtml(booking.time);
+      const safeMessage = additionalInfo.trim()
+        ? formatMultiline(additionalInfo.trim())
+        : "N/A";
+
+      const body = `
+        <div style="font-family: Arial, sans-serif; color: #111827;">
+          <h2 style="margin: 0 0 8px;">Confirm Booking Request</h2>
+          <p style="margin: 0 0 16px; color: #6b7280;">So our team can reach out to you on time.</p>
+          <table style="border-collapse: collapse; width: 100%; max-width: 640px;">
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600; width: 180px;">Full Name</td>
+              <td style="padding: 6px 0;">${safeName}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600;">Email</td>
+              <td style="padding: 6px 0;">${safeEmail}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600;">Phone Number</td>
+              <td style="padding: 6px 0;">${safePhone}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600;">Service</td>
+              <td style="padding: 6px 0;">${safeService}</td>
+            </tr>
+            ${
+              safeDoctor
+                ? `<tr><td style="padding: 6px 0; font-weight: 600;">Doctor</td><td style="padding: 6px 0;">${safeDoctor}</td></tr>`
+                : ""
+            }
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600;">Location</td>
+              <td style="padding: 6px 0;">${safeLocation}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600;">Available Date</td>
+              <td style="padding: 6px 0;">${safeDate}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; font-weight: 600;">Time</td>
+              <td style="padding: 6px 0;">${safeTime}</td>
+            </tr>
+          </table>
+
+          <div style="margin-top: 16px;">
+            <div style="font-weight: 600; margin-bottom: 6px;">Share Your Message</div>
+            <div style="padding: 12px; border: 1px solid #e5e7eb; border-radius: 6px; background: #f9fafb;">
+              ${safeMessage}
+            </div>
+          </div>
+        </div>
+      `;
+
+      const response = await sendEmail({
+        email: "immanuelmwabili@gmail.com",
+        subject: `Booking Request - ${serviceName}`,
+        body,
+      });
+      console.log("Booking email sent successfully:", response);
 
       const confirmationMessage = isDoctorBooking
         ? `Booking confirmed with ${booking.doctor} for ${booking.service} on ${booking.date} at ${booking.time} at ${booking.location}`
         : `Booking confirmed for ${booking.service} on ${booking.date} at ${booking.time} at ${booking.location}`;
 
-      alert(confirmationMessage);
-      navigate("/", { replace: true });
+      toast.success(confirmationMessage);
+      setTimeout(() => {
+        navigate("/", { replace: true });
+      }, 600);
     } catch (error) {
       console.error("Error creating booking:", error);
-      alert("Failed to create booking. Please try again.");
+      toast.error("Failed to create booking. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const getSlotsForDate = (date: Date | null, location: string | null) => {
-    if (!date || !location) return [] as string[];
-    const times = [
-      "09:00 AM",
-      "09:30 AM",
-      "10:00 AM",
-      "10:30 AM",
-      "11:00 AM",
-      "11:30 AM",
-      "12:00 PM",
-      "01:00 PM",
-      "01:30 PM",
-      "02:00 PM",
-      "02:30 PM",
-      "03:00 PM",
-      "03:30 PM",
-      "04:00 PM",
-      "04:30 PM",
-    ];
-    return times;
+  const getSlotsForDate = (date: Date | null) => {
+    if (!date) return [] as string[];
+    const monthIndex = date.getMonth();
+    const ranges = (timingRulesByDay[date.getDay()] || [])
+      .filter((rule) => !rule.months || rule.months.includes(monthIndex))
+      .map((rule) => ({ start: rule.start, end: rule.end }));
+    if (ranges.length === 0) return [] as string[];
+    return buildSlotsFromRanges(ranges);
   };
 
   const availableSlots = useMemo(
-    () => getSlotsForDate(selectedDate, selectedLocation),
-    [selectedDate, selectedLocation],
+    () => getSlotsForDate(selectedDate),
+    [selectedDate, timingRulesByDay],
   );
 
   // Prefill state from query params
@@ -337,6 +670,26 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
     loadClinicalServices();
   }, [isDoctorBooking]);
+
+  useEffect(() => {
+    const loadOutpatientCenters = async () => {
+      setIsLoadingTimings(true);
+      try {
+        const data = await fetchOutpatientCenter();
+        const centers = Array.isArray(data)
+          ? data
+          : data?.results ?? data?.data ?? [];
+        setOpcCenters(centers);
+      } catch (error) {
+        console.error("Error fetching outpatient centers:", error);
+        setOpcCenters([]);
+      } finally {
+        setIsLoadingTimings(false);
+      }
+    };
+
+    loadOutpatientCenters();
+  }, []);
 
   useEffect(() => {
     // Auto-select service when serviceId is in URL
@@ -663,7 +1016,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
                   selectedTime={selectedTime}
                   onTimeSelected={setSelectedTime}
                   isDateAvailable={(d) =>
-                    getSlotsForDate(d, selectedLocation).length > 0
+                    !isLoadingTimings && getSlotsForDate(d).length > 0
                   }
                 />
               </div>

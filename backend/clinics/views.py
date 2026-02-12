@@ -1,7 +1,9 @@
 from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from django.shortcuts import get_object_or_404
 
 from .models import (
     ClinicalService,
@@ -79,6 +81,26 @@ class ClinicalServiceViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         instance = serializer.save()
+        return Response(serializer.data)
+
+    @action(detail=False, methods=["get"], url_path="by-path")
+    def by_path(self, request):
+        path = request.query_params.get("path")
+        if path is None:
+            return Response(
+                {"detail": "Missing 'path' query parameter."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        path = path.strip().strip("/")
+        if not path:
+            return Response(
+                {"detail": "'path' cannot be empty."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        service = get_object_or_404(ClinicalService, path=path)
+        serializer = self.get_serializer(service)
         return Response(serializer.data)
 
 

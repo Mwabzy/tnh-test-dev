@@ -2,6 +2,7 @@
 import ContactForm from "@/components/ContactForm";
 import Heading from "@/components/Heading";
 import React from "react";
+import { useIntlayer } from "react-intlayer";
 
 const alumniData = {
   vision:
@@ -16,8 +17,6 @@ const alumniData = {
     "Integrity",
     "Partnership",
   ],
-  objectivesTitle:
-    "The Objectives of the Cecily McDonell CHS Alumni Association",
   objectives: [
     "To encourage, foster, and promote close relations among the alumni themselves.",
     "To promote a sustained sense of belonging to The Nairobi Hospital Cecily McDonell School of Nursing to Alumni by being in regular contact with them.",
@@ -27,12 +26,10 @@ const alumniData = {
     "To provide a forum for the Alumni for exchange of ideas on academic, cultural and social issues of the day by organizing and coordinating reunion activities of the Alumni.",
     "To let the Alumni, acknowledge their gratitude to the Cecily McDonell CHS.",
   ],
-  registrationTitle: "Membership Registration & Subscriptions",
   registrationInfo: [
     "Registration fee is Ksh. 500.",
     "Subscription fees of Ksh. 200 per month or Ksh. 2,400 per annum.",
   ],
-  accountTitle: "Cecily McDonell CHS Alumni Association Account",
   accountDetails: [
     "The account number is 5503210019.",
     "The account name is Sara, Frederick & Margaret.",
@@ -41,18 +38,20 @@ const alumniData = {
 };
 
 const AlumniInfo: React.FC = () => {
+  const content = useIntlayer("collegeAlumni");
+
   return (
     <>
       <Heading
         image_url="https://lh3.googleusercontent.com/aida-public/AB6AXuBCBXUN1JxBmGMt8j6gJYC7YdQjw94pMuRi4rHhD-ruDxkZ5WVj7Da-q34shVdYoC0FvSgUFRU3hAyjy7uaSvsYrtZvR3S5plT67Y7c7USNMfg-qW7PCuhvGXktJWWWNg5MenYv3lW8rNRtUudE6iXkLwq9YnPURXb-f1J6Mrnk2uoBUqQ9Hj4YGucKbOmR9eMRWqcTvmsxt70nahOEjx-8PXEMjxq37qSUL-rZfDi6wRKx00r7LZMOqALWasn4JIrww1Y8bB9w7Auf"
-        title="College of Health Sciences"
-        description="College Alumni Information"
+        title={content.headingTitle?.value ?? ""}
+        description={content.headingDescription?.value ?? ""}
         style="image"
       />
 
       <div className="bg-white p-8 max-w-7xl shadow-xl my-8 mx-4 rounded-md md:mx-auto text-gray-800">
         <h1 className="text-2xl font-bold mb-4 text-center">
-          The Nairobi Hospital College of Health Sciences Alumni
+          {content.pageTitle?.value ?? ""}
         </h1>
 
         <div className="mb-6">
@@ -70,7 +69,7 @@ const AlumniInfo: React.FC = () => {
 
         <div className="mb-6">
           <h2 className="text-lg font-semibold text-red-800 mb-2">
-            {alumniData.objectivesTitle}
+            {content.objectivesTitle?.value ?? ""}
           </h2>
           <ol className="list-decimal list-inside space-y-1">
             {alumniData.objectives.map((obj, i) => (
@@ -81,7 +80,7 @@ const AlumniInfo: React.FC = () => {
         <div className="flex flex-col md:flex-row gap-6">
           <div className="mb-6">
             <h2 className="text-lg font-semibold text-red-800 mb-2">
-              {alumniData.registrationTitle}
+              {content.registrationTitle?.value ?? ""}
             </h2>
             <ol className="list-decimal list-inside space-y-1">
               {alumniData.registrationInfo.map((item, i) => (
@@ -92,7 +91,7 @@ const AlumniInfo: React.FC = () => {
 
           <div>
             <h2 className="text-lg font-semibold text-red-800 mb-2">
-              {alumniData.accountTitle}
+              {content.accountTitle?.value ?? ""}
             </h2>
             <ol className="list-decimal list-inside space-y-1">
               {alumniData.accountDetails.map((detail, i) => (

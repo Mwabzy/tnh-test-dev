@@ -4,6 +4,7 @@ import { ClinicalService } from "@/types";
 import { FaCalendarCheck, FaChevronRight } from "react-icons/fa";
 import { fetchClinicalServices } from "@/api/api";
 import { useIntlayer } from "react-intlayer";
+import DOMPurify from "dompurify";
 
 interface andersonListProps {
   services?: ClinicalService[];
@@ -178,9 +179,12 @@ const AndersonList: React.FC<andersonListProps> = () => {
                 <h5 className="text-xl font-semibold text-red-900 mb-3 font-serif">
                   {item.title}
                 </h5>
-                <p className="text-gray-700 mb-6 leading-relaxed text-justify">
-                  {item.overview}
-                </p>
+                <div
+                  className="text-gray-700 mb-6 leading-relaxed text-justify"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(item.overview ?? ""),
+                  }}
+                ></div>
 
                 {item.locations && (
                   <p className="text-sm text-gray-600 mb-4">
@@ -200,7 +204,7 @@ const AndersonList: React.FC<andersonListProps> = () => {
                   )}
 
                   <Link
-                    to={`/service-detail/${item.id}`}
+                    to={`/service-detail/${encodeURI(item.path || String(item.id))}`}
                     className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900 hover:text-white transition w-full sm:w-auto"
                   >
                     {content.readMore} <FaChevronRight />

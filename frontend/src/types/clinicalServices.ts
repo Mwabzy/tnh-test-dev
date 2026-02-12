@@ -63,6 +63,7 @@ export interface ContactInfo {
 export interface ClinicalService {
   id: number;
   title: string;
+  path?: string;
   tagline: string;
   tagline_fr?: string;
   tagline_es?: string;
@@ -99,6 +100,7 @@ export interface Timings {
   clinicId: string;
   services_offered?: ClinicalService[];
   day: string;
+  month?: string;
   startTime: string;
   stopTime: string;
 }

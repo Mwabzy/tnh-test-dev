@@ -41,7 +41,7 @@ const Services = () => {
                 {item.description}
               </p>
               <Link
-                to={`/service-detail/${item.id}`}
+                to={`/service-detail/${encodeURIComponent(String(item.id))}`}
                 className="text-white font-semibold mt-4 inline-flex items-center group"
               >
                 Read More

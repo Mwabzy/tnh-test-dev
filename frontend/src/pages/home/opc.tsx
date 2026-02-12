@@ -1,82 +1,68 @@
 // App.tsx
-import React from "react";
-import galleria from "@/assets/opc_images/galleria.jpg";
-import kiambu from "@/assets/opc_images/kiambu.jpeg";
-import capital from "@/assets/opc_images/capital.jpg";
-import southfield from "@/assets/opc_images/southfield.png";
-import warwick from "@/assets/opc_images/warwick.png";
-import rosslyn from "@/assets/opc_images/rosslyn.jpeg";
-import anderson from "@/assets/opc_images/anderson.jpg";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { useIntlayer } from "react-intlayer";
-
+import { fetchOutpatientCenter } from "@/api/api";
 
 interface OutpatientCenter {
-  id: string;
+  id: number;
+  slug?: string | null;
   name: string;
   location: string;
-  imageUrl: string;
+  imageUrl?: string | null;
 }
-
-const outpatientCenters: OutpatientCenter[] = [
-    {
-    id: "anderson-opc",
-    name: "Anderson Specialty Center",
-    location: "Argwings Kodhek Road, Gate 1, Main Hospital",
-    imageUrl: anderson,
-  },
-    {
-    id: "capital-opc",
-    name: "Capital Center OPC",
-    location: "Capital Centre, 1st floor, above DTB Bank, Mombasa Road.",
-    imageUrl: capital,
-  },
-  {
-    id: "galleria-opc",
-    name: "Galleria Mall OPC",
-    location: "Galleria Shopping Mall, 2nd Floor, Lang’ata Road",
-    imageUrl: galleria,
-  },
-  {
-    id: "kiambu-opc",
-    name: "Kiambu Mall OPC",
-    location: "Kiambu Mall, 2nd Floor, Kiambu Road",
-    imageUrl: kiambu,
-  },
- {
-    id: "rosslyn-opc",
-    name: "Rosslyn Riviera OPC",
-    location: "Rosslyn Riviera Mall, 3rd Floor, Limuru Rd",
-    imageUrl: rosslyn,
-  },
-  {
-    id: "galleria-opc",
-    name: "South Field Mall OPC",
-    location: "Southfield Mall, 2nd Floor, Airport North Road, Embakasi",
-    imageUrl: southfield,
-  },
-  {
-    id: "warwick-opc",
-    name: "Warwick Center OPC",
-    location: "Warwick Centre, UN Avenue, Gigiri",
-    imageUrl: warwick,
-  },
- 
-
-];
 
 const Opc: React.FC = () => {
   const opcdata = useIntlayer("heroContent");
+  const [outpatientCenters, setOutpatientCenters] = useState<
+    OutpatientCenter[]
+  >([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const loadCenters = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchOutpatientCenter();
+        const list = Array.isArray(data)
+          ? data
+          : data?.results ?? data?.data ?? [];
+        const mapped = list
+          .map((center: any) => ({
+            id: center.id,
+            slug: center.slug ?? null,
+            name: center.name ?? center.title ?? "",
+            location: center.location ?? "",
+            imageUrl:
+              center.image?.[0]?.url ??
+              center.image?.url ??
+              center.imageUrl ??
+              null,
+          }))
+          .filter((c: OutpatientCenter) => c.id && c.name);
+        setOutpatientCenters(mapped);
+        setError(null);
+      } catch {
+        setError("Failed to load outpatient centers.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCenters();
+  }, []);
 
   return (
     <div className="px-4 py-10 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Top-left title section */}
         <div className="flex flex-col justify-center bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-          <h2 className="text-3xl font-serif font-bold mb-3">{opcdata.opctitle}</h2>
+          <h2 className="text-3xl font-serif font-bold mb-3">
+            {opcdata.opctitle}
+          </h2>
           <p className="text-gray-600 font-sans mb-6 text-sm">
-                {opcdata.opcdesc}.
+            {opcdata.opcdesc}.
           </p>
           <Link
             to="/outpatient-centers"
@@ -87,29 +73,45 @@ const Opc: React.FC = () => {
         </div>
 
         {/* Outpatient cards */}
-
-        {outpatientCenters.map((center, index) => (
-          <div
-            key={index}
-            className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
-          >
-            <Link to={`/outpatient-center/${center.id}`}>
-              <div className="relative h-48 sm:h-56 md:h-full">
-                <img
-                  src={center.imageUrl}
-                  alt={center.name}
-                  className="object-cover w-full h-full"
-                />
-                <div className="bg-gradient-to-t from-black to-transparent absolute inset-0 flex flex-col justify-end p-4 text-white">
-                  <h3 className="font-semibold text-lg flex items-center justify-between">
-                    {center.name} <span className="text-xl font-light">›</span>
-                  </h3>
-                  <p className="text-sm">{center.location}</p>
-                </div>
-              </div>
-            </Link>
+        {loading && (
+          <div className="col-span-full text-gray-500 text-sm">
+            Loading outpatient centers...
           </div>
-        ))}
+        )}
+
+        {!loading && error && (
+          <div className="col-span-full text-red-600 text-sm">{error}</div>
+        )}
+
+        {!loading &&
+          !error &&
+          outpatientCenters.map((center) => (
+            <div
+              key={center.slug ?? center.id}
+              className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
+            >
+              <Link to={`/outpatient-center/${center.slug ?? center.id}`}>
+                <div className="relative h-48 sm:h-56 md:h-full">
+                  {center.imageUrl ? (
+                    <img
+                      src={center.imageUrl}
+                      alt={center.name}
+                      className="object-cover w-full h-full"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-300" />
+                  )}
+                  <div className="bg-gradient-to-t from-black to-transparent absolute inset-0 flex flex-col justify-end p-4 text-white">
+                    <h3 className="font-semibold text-lg flex items-center justify-between">
+                      {center.name} <span className="text-xl font-light">{">"}</span>
+                    </h3>
+                    <p className="text-sm">{center.location}</p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          ))}
       </div>
     </div>
   );

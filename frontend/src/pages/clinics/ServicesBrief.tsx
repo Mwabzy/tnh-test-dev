@@ -40,7 +40,7 @@ const ServicesBrief = () => {
             className="flex items-center before:content-['•'] before:mr-2 text-red-900 before:text-lg"
           >
             <Link
-              to={`/service-detail/${item.id}`}
+              to={`/service-detail/${encodeURI(item.path || String(item.id))}`}
               className="hover:text-red-700 transition-colors"
             >
               {item.title}

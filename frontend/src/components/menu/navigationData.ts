@@ -84,27 +84,27 @@ export const NAVIGATION_CONTENT = () => {
             { title: content.anderson_clinic, href: "/anderson-services" },
             {
               title: content.accident_emergency,
-              href: "/clinical-services/accident-emergency",
+              href: "/service-detail/accident-emergency",
             },
             {
               title: content.pharmacy_services,
-              href: "/clinical-services/pharmacy-services",
+              href: "/service-detail/pharmacy-services",
             },
             {
               title: content.laboratory_services,
-              href: "/clinical-services/laboratory-services",
+              href: "/service-detail/laboratory-services",
             },
             {
               title: content.radiology_services,
-              href: "/clinical-services/radiology-services",
+              href: "/service-detail/radiology-services",
             },
             {
               title: content.endoscopy_services,
-              href: "/clinical-services/endoscopy-services",
+              href: "/service-detail/endoscopy-services",
             },
             {
               title: content.dental_procedures,
-              href: "/clinical-services/dental-procedures",
+              href: "/service-detail/dental-procedures",
             },
           ],
         },
@@ -113,27 +113,27 @@ export const NAVIGATION_CONTENT = () => {
           items: [
             {
               title: content.physical_medicine_center,
-              href: "/clinical-services/physical-medicine-center",
+              href: "/service-detail/physical-medicine-center",
             },
             {
               title: content.psychosocial_department,
-              href: "/clinical-services/psychosocial-department",
+              href: "/service-detail/psychosocial-department",
             },
             {
               title: content.cath_lab_services,
-              href: "/clinical-services/cath-lab-services",
+              href: "/service-detail/cath-lab-services",
             },
             {
               title: content.antenatal_services,
-              href: "/clinical-services/antenatal-services",
+              href: "/service-detail/antenatal-services",
             },
             {
               title: content.renal_services,
-              href: "/clinical-services/renal-services",
+              href: "/service-detail/renal-services",
             },
             {
               title: content.oncology_services,
-              href: "/clinical-services/oncology-services",
+              href: "/service-detail/oncology-services",
             },
           ],
         },

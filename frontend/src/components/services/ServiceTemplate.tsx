@@ -1,5 +1,5 @@
 import { ClinicalService } from "@/types";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Heading from "../Heading";
 import { Mail, MapPin, Phone } from "lucide-react";
 import ClientsSay from "../ClientsSay";
@@ -7,6 +7,7 @@ import { Link } from "react-router";
 import DOMPurify from "dompurify";
 import { addClassesToDescription } from "./utilities";
 import { useIntlayer } from "react-intlayer";
+import { fetchOutpatientCenter } from "@/api/api";
 
 export interface ServiceTemplateProps {
   serviceTypes: ClinicalService;
@@ -33,10 +34,59 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
     location: string;
     entries: Array<{ day: string; time: string }>;
   } | null>(null);
+  const [opcTimings, setOpcTimings] = useState<
+    Record<string, Array<{ day: string; from: string; to: string }>>
+  >({});
+
+  useEffect(() => {
+    const loadOpcTimings = async () => {
+      try {
+        const data = await fetchOutpatientCenter();
+        const centers = Array.isArray(data)
+          ? data
+          : data?.results ?? data?.data ?? [];
+
+        const map: Record<string, Array<{ day: string; from: string; to: string }>> =
+          {};
+
+        centers.forEach((center: any) => {
+          const timings = Array.isArray(center?.timings) ? center.timings : [];
+          const matches = timings.filter((t: any) => {
+            const clinicId =
+              t?.clinic ?? t?.clinicId ?? t?.clinic_id ?? t?.clinic?.id;
+            return String(clinicId ?? "") === String(serviceTypes.id);
+          });
+
+          if (matches.length === 0) return;
+
+          const locationLabel =
+            center?.name ?? center?.title ?? center?.location ?? "";
+          if (!locationLabel) return;
+
+          map[locationLabel] = matches.map((t: any) => ({
+            day: t?.day ?? "",
+            from: t?.startTime ?? t?.start_time ?? "",
+            to: t?.stopTime ?? t?.stop_time ?? "",
+          }));
+        });
+
+        setOpcTimings(map);
+      } catch {
+        setOpcTimings({});
+      }
+    };
+
+    loadOpcTimings();
+  }, [serviceTypes.id]);
 
   const timingRows = useMemo(() => {
+    const opcLocations = Object.keys(opcTimings || {});
     const locs =
-      locations && locations.length > 0 ? locations.slice() : ["Main Hospital"];
+      opcLocations.length > 0
+        ? opcLocations.slice()
+        : locations && locations.length > 0
+          ? locations.slice()
+          : ["Main Hospital"];
     locs.sort((a, b) =>
       a === "Anderson Specialty"
         ? -1
@@ -51,14 +101,19 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
     }> = [];
 
     locs.forEach((loc) => {
-      let schedules = (serviceTypes as any).locationTimings?.[loc] as
+      const locationTimings =
+        Object.keys(opcTimings || {}).length > 0
+          ? opcTimings
+          : (serviceTypes as any).locationTimings;
+
+      let schedules = locationTimings?.[loc] as
         | Array<any>
         | undefined;
 
       // If not found, try alternate keys (strip trailing words like 'Clinic', 'OPC', or common punctuation)
       if (
         (!schedules || schedules.length === 0) &&
-        (serviceTypes as any).locationTimings
+        locationTimings
       ) {
         const candidates = [
           loc,
@@ -72,7 +127,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
         ];
         for (const c of candidates) {
           if (!c) continue;
-          const found = (serviceTypes as any).locationTimings?.[c];
+          const found = locationTimings?.[c];
           if (found && found.length > 0) {
             schedules = found as Array<any>;
             break;
@@ -84,15 +139,23 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
 
       if (schedules && schedules.length > 0) {
         schedules.forEach((s) => {
-          // Normalize day and time display: if day is missing (or 'â€”'), try to extract from the from field
+          // Normalize day and time display: if day is missing, try to extract from the from field
           let dayDisplay =
-            s.day && String(s.day).trim() && String(s.day).trim() !== "â€”"
+            s.day && String(s.day).trim() && String(s.day).trim() !== "--"
               ? String(s.day).trim()
               : "";
-          let fromRaw = s.from ? String(s.from) : "";
-          let toRaw = s.to ? String(s.to) : "";
+          let fromRaw = s.from
+            ? String(s.from)
+            : s.startTime
+              ? String(s.startTime)
+              : "";
+          let toRaw = s.to
+            ? String(s.to)
+            : s.stopTime
+              ? String(s.stopTime)
+              : "";
 
-          // If day is empty, look for weekday name in the fromRaw string (e.g. 'Fridays 9am â€“ 11am (Room 6)')
+          // If day is empty, look for weekday name in the fromRaw string (e.g. 'Fridays 9am - 11am (Room 6)')
           if (!dayDisplay) {
             const dayMatch = fromRaw.match(
               /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
@@ -108,13 +171,13 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
           fromRaw = fromRaw.replace(/\s*\([^)]*\)/g, "").trim();
           toRaw = toRaw.replace(/\s*\([^)]*\)/g, "").trim();
 
-          // If there's no explicit toRaw but fromRaw contains a range like '9am â€“ 11am', split it
+          // If there's no explicit toRaw but fromRaw contains a range like '9am - 11am', split it
           if (
             (!toRaw || toRaw === "") &&
             /\d/.test(fromRaw) &&
-            /[-â€“â€”]/.test(fromRaw)
+            /[-\u2013\u2014]/.test(fromRaw)
           ) {
-            const parts = fromRaw.split(/[-â€“â€”]/).map((p) => p.trim());
+            const parts = fromRaw.split(/[-\u2013\u2014]/).map((p) => p.trim());
             if (parts.length >= 2) {
               fromRaw = parts[0];
               toRaw = parts[1];
@@ -127,44 +190,57 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
           fromRaw = fromRaw.replace(weekdayRegex, "").trim();
           toRaw = toRaw.replace(weekdayRegex, "").trim();
 
-          const timeDisplay = fromRaw + (toRaw ? ` â€” ${toRaw}` : "");
+          const timeDisplay = fromRaw + (toRaw ? ` - ${toRaw}` : "");
           entries.push({
-            day: dayDisplay || "â€”",
-            time: timeDisplay || "â€”",
+            day: dayDisplay || "--",
+            time: timeDisplay || "--",
           });
         });
       } else {
         // No structured location timings: try to parse `timingsOnOverview` for day and times
-        const overview = (serviceTypes.timingsOnOverview || "Contact clinic")
+        const overviewRaw = (serviceTypes.timingsOnOverview || "")
           .replace(/\s*\([^)]*\)/g, "")
           .trim();
-        let dayDisplay = "";
-        let timeDisplay = overview;
-        const dayMatch = overview.match(
-          /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
-        );
-        if (dayMatch) {
-          dayDisplay = dayMatch[1].replace(/s$/i, "");
-          timeDisplay = overview.replace(dayMatch[0], "").trim();
-          // Clean leading separators
-          timeDisplay = timeDisplay.replace(/^[:,-â€“â€”\s]+/, "").trim();
-        }
+        const overviewNormalized = overviewRaw.toLowerCase();
+        const hasOverviewTimings =
+          Boolean(overviewRaw) &&
+          !overviewNormalized.includes("contact clinic") &&
+          !overviewNormalized.includes("contact the hospital") &&
+          overviewNormalized !== "n/a" &&
+          overviewNormalized !== "na" &&
+          overviewNormalized !== "--";
 
-        // Remove any weekday words left in the timeDisplay
-        timeDisplay = timeDisplay
-          .replace(
+        if (hasOverviewTimings) {
+          let dayDisplay = "";
+          let timeDisplay = overviewRaw;
+          const dayMatch = overviewRaw.match(
             /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
-            "",
-          )
-          .trim();
+          );
+          if (dayMatch) {
+            dayDisplay = dayMatch[1].replace(/s$/i, "");
+            timeDisplay = overviewRaw.replace(dayMatch[0], "").trim();
+            // Clean leading separators
+            timeDisplay = timeDisplay
+              .replace(/^[:,-\u2013\u2014\s]+/, "")
+              .trim();
+          }
 
-        // If timeDisplay contains a range embedded, normalize spacing
-        timeDisplay = timeDisplay.replace(/\s*[-â€“â€”]\s*/g, " â€” ");
+          // Remove any weekday words left in the timeDisplay
+          timeDisplay = timeDisplay
+            .replace(
+              /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
+              "",
+            )
+            .trim();
 
-        entries.push({
-          day: dayDisplay || "â€”",
-          time: timeDisplay || overview || "Contact clinic",
-        });
+          // If timeDisplay contains a range embedded, normalize spacing
+          timeDisplay = timeDisplay.replace(/\s*[-\u2013\u2014]\s*/g, " - ");
+
+          entries.push({
+            day: dayDisplay || "--",
+            time: timeDisplay || overviewRaw,
+          });
+        }
       }
 
       rows.push({ location: loc, entries });
@@ -177,14 +253,12 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
 
   return (
     <>
-      {mainImage && (
-        <Heading
-          image_url={mainImage.url}
-          title={title}
-          description={tagline}
-          style="background"
-        />
-      )}
+      <Heading
+        image_url={mainImage?.url ?? null}
+        title={title}
+        description={tagline}
+        style="background"
+      />
 
       {/* Main Content (Simple Professional Layout) */}
       <div className="bg-white w-full">
@@ -215,7 +289,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                     {features_read.map((f, i) => (
                       <li key={i} className="flex items-start gap-3">
                         {/* Check icon */}
-                        <div className="flex-shrink-0 w-6 h-6 bg-red-900 rounded-full flex items-center justify-center mt-1 text-white text-xs">
+                        <div className="shrink-0 w-6 h-6 bg-red-900 rounded-full flex items-center justify-center mt-1 text-white text-xs">
                           ✓
                         </div>
 
@@ -283,7 +357,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                                 onClick={() => setOpenTimings(row)}
                                 className="bg-white text-red-900 border border-red-900 px-4 py-2 rounded-lg font-medium hover:bg-red-900 hover:text-white transition-colors"
                               >
-                                {content.view_timings} - &gt;
+                                {content.view_timings}
                               </button>
                             </td>
                             <td className="px-4 py-3 text-center">
@@ -291,7 +365,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                                 to={`/booking-calendar?serviceId=${serviceTypes.id}`}
                                 className="bg-red-900 text-white border border-red-900 px-4 py-2 rounded-lg font-medium  hover:text-white hover:bg-red-800 transition-colors inline-block"
                               >
-                                {content.book} - &gt;
+                                {content.book}
                               </Link>
                             </td>
                           </tr>
@@ -319,26 +393,32 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                       </button>
                     </div>
                     <div className="px-5 py-4">
-                      <table className="w-full text-sm">
-                        <thead className="text-gray-600">
-                          <tr>
-                            <th className="py-2 text-left">Day</th>
-                            <th className="py-2 text-left">Time</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {openTimings.entries.map((entry, idx) => (
-                            <tr key={`${openTimings.location}-${idx}`}>
-                              <td className="py-2 text-gray-700">
-                                {entry.day || "--"}
-                              </td>
-                              <td className="py-2 text-gray-700">
-                                {entry.time || "--"}
-                              </td>
+                      {openTimings.entries.length === 0 ? (
+                        <div className="text-sm text-gray-600 bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                          Timings not set. Contact the hospital.
+                        </div>
+                      ) : (
+                        <table className="w-full text-sm">
+                          <thead className="text-gray-600">
+                            <tr>
+                              <th className="py-2 text-left">Day</th>
+                              <th className="py-2 text-left">Time</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {openTimings.entries.map((entry, idx) => (
+                              <tr key={`${openTimings.location}-${idx}`}>
+                                <td className="py-2 text-gray-700">
+                                  {entry.day || "--"}
+                                </td>
+                                <td className="py-2 text-gray-700">
+                                  {entry.time || "--"}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      )}
                     </div>
                     <div className="flex justify-end border-t px-5 py-3">
                       <button
@@ -388,7 +468,12 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                             {d.role}
                           </div>
                           {d.bio && (
-                            <div className="text-sm text-gray-700">{d.bio}</div>
+                            <div
+                              className="text-sm text-gray-700"
+                              dangerouslySetInnerHTML={{
+                                __html: DOMPurify.sanitize(d.bio),
+                              }}
+                            ></div>
                           )}
                         </div>
                       </div>

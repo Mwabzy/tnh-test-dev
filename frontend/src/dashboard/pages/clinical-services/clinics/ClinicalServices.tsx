@@ -121,7 +121,7 @@ const ClinicalServices = () => {
   return (
     <div>
       <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-serif font-bold">Clinical Servicess</h1>
+        <h1 className="text-2xl font-serif font-bold">Clinical Services</h1>
 
         {!showForm && !loading && (
           <button

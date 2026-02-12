@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import ClinicalService, ClinicalServiceFeatureImage, Doctor, Testimonial, ClinicalServiceImage, DoctorImage, OutpatientCenter, ClinicalFAQ, RoomWard
 import json
 from itertools import zip_longest
+from django.conf import settings
 
 # Helpers
 
@@ -20,6 +21,13 @@ class JSONStringListField(serializers.Field):
         return value or []
 
 
+def build_media_url(request, relative_url):
+    use_absolute = getattr(settings, "USE_ABSOLUTE_MEDIA_URLS", settings.DEBUG)
+    if use_absolute and request:
+        return request.build_absolute_uri(relative_url)
+    return relative_url
+
+
 class DoctorImageSerializer(serializers.ModelSerializer):
 
      url = serializers.SerializerMethodField()
@@ -29,15 +37,12 @@ class DoctorImageSerializer(serializers.ModelSerializer):
          fields = ["id", "url", "alt"]
  
      def get_url(self, obj):
-         request = self.context.get("request")
-         if request:
-             return request.build_absolute_uri(obj.image.url)
-         return obj.image.url
+         return build_media_url(self.context.get("request"), obj.image.url)
 
 # Nested serializers
 
 class SlimDoctorSerializer(serializers.ModelSerializer):
-    image = DoctorImageSerializer(source="uploaded_images", many=True, read_only=True)
+    images = DoctorImageSerializer(source="uploaded_images", many=True, read_only=True)
 
     class Meta:
         model = Doctor
@@ -53,11 +58,7 @@ class SlimDoctorSerializer(serializers.ModelSerializer):
 class DoctorSerializer(serializers.ModelSerializer):
     # ---------- READ ----------
     services_offered = serializers.SerializerMethodField(read_only=True)
-    images = DoctorImageSerializer(
-        source="uploaded_images",
-        many=True,
-        read_only=True
-    )
+    images = DoctorImageSerializer(source="uploaded_images", many=True, read_only=True)
 
     # ---------- WRITE ----------
     services_offered_ids = serializers.ListField(
@@ -210,10 +211,7 @@ class ClinicalServiceImageSerializer(serializers.ModelSerializer):
         fields = ["id", "url", "alt"]
 
     def get_url(self, obj):
-        request = self.context.get("request")
-        if request:
-                return request.build_absolute_uri(obj.image.url)
-        return obj.image.url
+        return build_media_url(self.context.get("request"), obj.image.url)
     
 
 # Clinical Features Image serializer
@@ -225,10 +223,7 @@ class ClinicalServiceFeatureImageSerializer(serializers.ModelSerializer):
          fields = ["id", "feature_index", "url", "alt"]
  
      def get_url(self, obj):
-         request = self.context.get("request")
-         if request:
-             return request.build_absolute_uri(obj.image.url)
-         return obj.image.url
+         return build_media_url(self.context.get("request"), obj.image.url)
 
 
 
@@ -380,10 +375,8 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
              "image": (
                  {
                      "id": image.id,
-                     "url": (
-                         request.build_absolute_uri(image.image.url)
-                         if request
-                         else image.image.url
+                    "url": (
+                        build_media_url(request, image.image.url)
                      ),
                      "alt": image.alt,
                  }
@@ -527,6 +520,7 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
     timings = serializers.JSONField()
 
     class Meta:
+       model = OutpatientCenter
        fields = [
     "id",
     "name",

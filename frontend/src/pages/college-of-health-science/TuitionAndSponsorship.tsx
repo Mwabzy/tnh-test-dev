@@ -1,8 +1,10 @@
 import ContactForm from "@/components/ContactForm";
 import { useState } from "react";
+import { useIntlayer } from "react-intlayer";
 
 const TuitionAndSponsorship = () => {
   const [activeTab, setActiveTab] = useState("basic");
+  const content = useIntlayer("collegeTuition");
 
   const postBasicPrograms = [
     {
@@ -81,7 +83,9 @@ const TuitionAndSponsorship = () => {
   return (
     <>
       <div className="max-w-7xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-semibold mb-6">Tuition & Sponsorship</h1>
+        <h1 className="text-2xl font-semibold mb-6">
+          {content.pageTitle?.value ?? ""}
+        </h1>
 
         {/* Tabs */}
         <div className="flex space-x-6 border-b border-gray-200 mb-6">
@@ -127,7 +131,7 @@ const TuitionAndSponsorship = () => {
               />
               <div className="md:w-1/2">
                 <h2 className="text-lg font-semibold mb-2">
-                  Kenya Registered Nursing (KRN) Program
+                  {content.basicProgramTitle?.value ?? ""}
                 </h2>
                 <p className="text-sm text-gray-700 mb-4">
                   The KRN program at Nursing Academy offers comprehensive
@@ -138,7 +142,7 @@ const TuitionAndSponsorship = () => {
                 </p>
 
                 <h3 className="text-md font-semibold mb-4 mt-8">
-                  Minimum Entry Requirements
+                  {content.minimumEntryRequirements?.value ?? ""}
                 </h3>
                 <ul className=" list-disc space-y-3 text-sm text-gray-800">
                   <li className=" list-item ml-5 ">
@@ -159,7 +163,7 @@ const TuitionAndSponsorship = () => {
 
             <div className="mb-8">
               <h3 className="text-md font-semibold mb-4 text-red-900">
-                Program Details
+                {content.programDetailsTitle?.value ?? ""}
               </h3>
               <ul className="text-sm space-y-2">
                 <li className="grid grid-cols-2 border-b py-2">
@@ -185,7 +189,9 @@ const TuitionAndSponsorship = () => {
                 </li>
               </ul>
             </div>
-            <h2 className="text-lg font-semibold mb-2">Foreign Applicants:</h2>
+            <h2 className="text-lg font-semibold mb-2">
+              {content.foreignApplicantsTitle?.value ?? ""}
+            </h2>
 
             <ul className="list-disc pl-5 space-y-2">
               <li>
@@ -221,7 +227,7 @@ const TuitionAndSponsorship = () => {
               />
               <div className="md:w-1/2">
                 <h2 className="text-lg font-semibold mb-2">
-                  Post-Basic Nursing Programs
+                  {content.postBasicProgramsTitle?.value ?? ""}
                 </h2>
                 <p className="text-sm text-gray-700 mb-4">
                   The post-basic nursing program is designed for registered
@@ -231,7 +237,7 @@ const TuitionAndSponsorship = () => {
                   training and research-based practice.
                 </p>
                 <h3 className="text-md font-semibold mb-4 mt-8">
-                  Minimum Entry Requirements
+                  {content.minimumEntryRequirements?.value ?? ""}
                 </h3>
                 <ul className=" list-disc space-y-3 text-sm text-gray-800">
                   <li className=" list-item ml-5 ">Be a Registered nurse</li>
@@ -250,7 +256,7 @@ const TuitionAndSponsorship = () => {
             {postBasicPrograms.map((program, idx) => (
               <div key={idx} className="mb-8 shadow-lg p-4 rounded-md">
                 <h3 className="text-xl uppercase font-bold text-red-900 mb-4">
-                  {program.title} – Program Details
+                  {program.title} – {content.programDetailsTitle?.value ?? ""}
                 </h3>
                 <ul className="text-md py-3 space-y-2">
                   <li className="grid grid-cols-2 border-b py-2">
@@ -282,7 +288,7 @@ const TuitionAndSponsorship = () => {
               by the Nursing Council of Kenya.
             </span>
             <h3 className="mt-4 text-lg text-red-900 font-semibold">
-              Teaching Modalities
+              {content.teachingModalitiesTitle?.value ?? ""}
             </h3>
             <ul className="list-disc pl-5 text-md text-gray-800">
               <li>

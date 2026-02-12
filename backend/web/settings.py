@@ -138,6 +138,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+# True in local by default, false in live by default.
+USE_ABSOLUTE_MEDIA_URLS = env.bool("USE_ABSOLUTE_MEDIA_URLS", default=LOCAL_DEV)
 
 # USE_X_FORWARDED_HOST = True
 # SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "http")

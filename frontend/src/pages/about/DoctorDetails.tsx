@@ -240,7 +240,7 @@ const DoctorDetails: FC = () => {
                 {servicesOffered.map((service) => (
                   <li key={service.id}>
                     <Link
-                      to={`/service-detail/${service.id}`}
+                      to={`/service-detail/${encodeURI(service.path || String(service.id))}`}
                       className="text-red-700 hover:underline"
                     >
                       {service.title}

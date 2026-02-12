@@ -4,12 +4,12 @@ import RichTextEditor from "@/components/RichTextEditor"; // Adjust the import p
 
 export type Clinic = {
   id: number;
-  name: string;
+  title: string;
 };
 
 interface Props {
   initialData: outpatientCenter | null;
-  onSave: (center: outpatientCenter | FormData) => void;
+  onSave: (center: outpatientCenter | FormData) => Promise<any>;
   onCancel: () => void;
   clinics: Clinic[];
 }
@@ -49,6 +49,7 @@ const OutpatientCenterForm = ({
   );
   const [newImages, setNewImages] = useState<NewImage[]>([]);
   const [imagesToDelete, setImagesToDelete] = useState<number[]>([]);
+  const [submitting, setSubmitting] = useState(false);
 
   /* Translation state for description */
   const [descriptionTranslations, setDescriptionTranslations] = useState({
@@ -73,6 +74,9 @@ const OutpatientCenterForm = ({
   };
 
   const DAYS = [
+    "monday - friday",
+    "monday - saturday",
+    "monday - sunday",
     "monday",
     "tuesday",
     "wednesday",
@@ -80,6 +84,21 @@ const OutpatientCenterForm = ({
     "friday",
     "saturday",
     "sunday",
+  ];
+
+  const MONTHS = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   const HOURS = [
@@ -161,15 +180,24 @@ const OutpatientCenterForm = ({
     if (Array.isArray(initialData.timings) && initialData.timings.length > 0) {
       setTimings(
         initialData.timings.map((t: any) => ({
-          clinicId: t.clinic ? String(t.clinic) : "",
+          clinicId: t.clinic?.id
+            ? String(t.clinic.id)
+            : t.clinic
+              ? String(t.clinic)
+              : t.clinicId
+                ? String(t.clinicId)
+                : "",
           day: t.day || "",
+          month: t.month || "",
           startTime: t.start_time || t.startTime || "",
           stopTime: t.stop_time || t.stopTime || "",
         })),
       );
     } else {
       // auto-create one row for editing
-      setTimings([{ clinicId: "", day: "", startTime: "", stopTime: "" }]);
+      setTimings([
+        { clinicId: "", day: "", month: "", startTime: "", stopTime: "" },
+      ]);
     }
 
     let parsedContact: ContactInfo = EMPTY_CONTACT;
@@ -204,7 +232,9 @@ const OutpatientCenterForm = ({
   useEffect(() => {
     if (initialData) {
       if (!initialData.timings || initialData.timings.length === 0) {
-        setTimings([{ clinicId: "", day: "", startTime: "", stopTime: "" }]);
+        setTimings([
+          { clinicId: "", day: "", month: "", startTime: "", stopTime: "" },
+        ]);
       }
     }
   }, [initialData]);
@@ -241,20 +271,23 @@ const OutpatientCenterForm = ({
   };
 
   /* Submit */
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitting(true); // start loader
+
     const cleanedTimings = timings.map((t) => ({
-      ...t,
-      clinicId: t.clinicId ? Number(t.clinicId) : null,
+      clinic: t.clinicId ? Number(t.clinicId) : null,
+      day: t.day,
+      month: t.month || "",
+      startTime: t.startTime,
+      stopTime: t.stopTime,
     }));
 
     const formData = new FormData();
-
     formData.append("name", name);
     formData.append("location", location);
     formData.append("description", description);
 
-    // Append description translations
     formData.append("description_fr", descriptionTranslations.fr);
     formData.append("description_es", descriptionTranslations.es);
     formData.append("description_zh", descriptionTranslations.zh);
@@ -263,13 +296,11 @@ const OutpatientCenterForm = ({
     formData.append("timings", JSON.stringify(cleanedTimings));
     formData.append("contact", JSON.stringify(contact));
 
-    // Append existing images alt text
     images.forEach((img, index) => {
       formData.append(`images[${index}][id]`, String(img.id));
       formData.append(`images[${index}][alt]`, img.alt || "");
     });
 
-    // Append new images
     newImages.forEach((img) => {
       if (img.file) {
         formData.append("images_files", img.file);
@@ -277,12 +308,15 @@ const OutpatientCenterForm = ({
       }
     });
 
-    // Append images to delete
     imagesToDelete.forEach((id) => {
       formData.append("images_to_delete", String(id));
     });
 
-    onSave(formData);
+    try {
+      await onSave(formData);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // Handler for description changes from RichTextEditor
@@ -319,6 +353,7 @@ const OutpatientCenterForm = ({
       <div>
         <label className="font-medium block mb-1">Description</label>
         <RichTextEditor
+          key={initialData?.id || "new-center"}
           value={description}
           onChange={handleDescriptionChange}
           placeholder="Enter center description..."
@@ -454,7 +489,7 @@ const OutpatientCenterForm = ({
           return (
             <div
               key={i}
-              className="grid grid-cols-4 gap-2 items-center border p-2 mb-2 rounded"
+              className="grid grid-cols-5 gap-2 items-center border p-2 mb-2 rounded"
             >
               {/* Clinic search */}
               <div className="relative">
@@ -462,9 +497,11 @@ const OutpatientCenterForm = ({
                   className="border p-2 w-full"
                   placeholder="Search clinic..."
                   value={
-                    selectedClinic ? selectedClinic.name : clinicSearch[i] || ""
+                    selectedClinic
+                      ? selectedClinic.title
+                      : clinicSearch[i] || ""
                   }
-                  readOnly={!!selectedClinic}
+                  //    readOnly={!!selectedClinic}
                   onChange={(e) =>
                     setClinicSearch((prev) => ({
                       ...prev,
@@ -478,7 +515,7 @@ const OutpatientCenterForm = ({
                   <div className="absolute z-10 bg-white border w-full max-h-40 overflow-y-auto rounded shadow">
                     {clinics
                       .filter((c) =>
-                        c.name
+                        c.title
                           .toLowerCase()
                           .includes(clinicSearch[i]!.toLowerCase()),
                       )
@@ -503,13 +540,13 @@ const OutpatientCenterForm = ({
                             }));
                           }}
                         >
-                          {c.name}
+                          {c.title}
                         </button>
                       ))}
 
                     {/* Show no results if nothing matches */}
                     {clinics.filter((c) =>
-                      c.name
+                      c.title
                         .toLowerCase()
                         .includes(clinicSearch[i]!.toLowerCase()),
                     ).length === 0 && (
@@ -536,6 +573,25 @@ const OutpatientCenterForm = ({
                 {DAYS.map((d) => (
                   <option key={d} value={d}>
                     {d.charAt(0).toUpperCase() + d.slice(1)}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className="border p-2"
+                value={t.month || ""}
+                onChange={(e) =>
+                  setTimings((prev) =>
+                    prev.map((row, idx) =>
+                      idx === i ? { ...row, month: e.target.value } : row,
+                    ),
+                  )
+                }
+              >
+                <option value="">All Months</option>
+                {MONTHS.map((m) => (
+                  <option key={m} value={m}>
+                    {m}
                   </option>
                 ))}
               </select>
@@ -594,7 +650,7 @@ const OutpatientCenterForm = ({
 
               <button
                 type="button"
-                className="text-red-500 text-sm col-span-4 text-right"
+                className="text-red-500 text-sm col-span-5 text-right"
                 onClick={() =>
                   setTimings((prev) => prev.filter((_, idx) => idx !== i))
                 }
@@ -610,7 +666,7 @@ const OutpatientCenterForm = ({
           onClick={() =>
             setTimings((prev) => [
               ...prev,
-              { clinicId: "", day: "", startTime: "", stopTime: "" },
+              { clinicId: "", day: "", month: "", startTime: "", stopTime: "" },
             ])
           }
           className="text-blue-600 text-sm underline"
@@ -634,19 +690,45 @@ const OutpatientCenterForm = ({
         onChange={(e) => setContact({ ...contact, email: e.target.value })}
       />
 
-      <div className="flex gap-4 pt-2">
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          Save
-        </button>
+      <div className="flex justify-end gap-2">
         <button
           type="button"
           onClick={onCancel}
-          className="bg-gray-400 text-white px-4 py-2 rounded"
+          className="px-4 py-2 border rounded"
+          disabled={submitting}
         >
           Cancel
+        </button>
+
+        <button
+          type="submit"
+          disabled={submitting}
+          className={`px-4 py-2 rounded text-white flex items-center gap-2 ${
+            submitting ? "bg-gray-400 cursor-not-allowed" : "bg-green-600"
+          }`}
+        >
+          {submitting && (
+            <svg
+              className="animate-spin h-5 w-5 text-white"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+                fill="none"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 108 8h-4l3 3 3-3h-4a8 8 0 01-8 8z"
+              />
+            </svg>
+          )}
+          {submitting ? "Saving..." : "Save"}
         </button>
       </div>
     </form>

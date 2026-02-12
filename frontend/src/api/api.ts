@@ -64,6 +64,13 @@ export async function fetchClinicalServiceById(id: number) {
   return res.data;
 }
 
+export async function fetchClinicalServiceByPath(path: string) {
+  const res = await api.get(`${CLINICS_API}by-path/`, {
+    params: { path },
+  });
+  return res.data;
+}
+
 export async function createClinicalService(data: any) {
   console.log(" Creating Clinical Service with data:", data);
   const res = await api.post(CLINICS_API, data, {
@@ -255,7 +262,7 @@ export async function deleteOutpatientCenter(id: number) {
   return res.data;
 }
 
-export async function createBooking(data: any) {
+export async function sendEmail(data: any) {
   const res = await api.post(BOOKING_API, data);
   return res.data;
 }
