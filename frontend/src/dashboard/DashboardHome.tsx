@@ -1,11 +1,40 @@
 import { useState, useEffect } from "react";
-import { mockClinicalServices } from "./pages/clinical-services/clinics/clinicalDummyData";
+import { fetchClinicalServices, fetchDoctors } from "@/api/api";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const DashboardHome = () => {
   const [serviceCount, setServiceCount] = useState(0);
+  const [doctorCount, setDoctorCount] = useState(0);
+  const [isLoadingCounts, setIsLoadingCounts] = useState(true);
 
   useEffect(() => {
-    setServiceCount(mockClinicalServices.length);
+    const loadCounts = async () => {
+      try {
+        setIsLoadingCounts(true);
+        const [servicesRes, doctorsRes] = await Promise.all([
+          fetchClinicalServices(),
+          fetchDoctors(),
+        ]);
+
+        const servicesList = Array.isArray(servicesRes)
+          ? servicesRes
+          : (servicesRes?.results ?? servicesRes?.data ?? []);
+        const doctorsList = Array.isArray(doctorsRes)
+          ? doctorsRes
+          : (doctorsRes?.results ?? doctorsRes?.data ?? []);
+
+        setServiceCount(servicesList.length);
+        setDoctorCount(doctorsList.length);
+      } catch (error) {
+        console.error("Error loading dashboard counts:", error);
+        setServiceCount(0);
+        setDoctorCount(0);
+      } finally {
+        setIsLoadingCounts(false);
+      }
+    };
+
+    loadCounts();
   }, []);
 
   const handleLogout = () => {
@@ -31,15 +60,27 @@ const DashboardHome = () => {
           <h2 className="text-xl font-serif font-semibold">
             Clinical Services
           </h2>
-          <p className="text-4xl mt-4">{serviceCount}</p>
+          <div className="text-4xl mt-4">
+            {isLoadingCounts ? (
+              <Skeleton className="h-10 w-16" />
+            ) : (
+              serviceCount
+            )}
+          </div>
         </div>
         <div className="bg-white p-6 rounded shadow">
           <h2 className="text-xl font-serif font-semibold">Doctors</h2>
-          <p className="text-4xl mt-4">12</p>
+          <div className="text-4xl mt-4">
+            {isLoadingCounts ? (
+              <Skeleton className="h-10 w-16" />
+            ) : (
+              doctorCount
+            )}
+          </div>
         </div>
         <div className="bg-white p-6 rounded shadow">
           <h2 className="text-xl font-serif font-semibold">Pending Updates</h2>
-          <p className="text-4xl mt-4">3</p>
+          <p className="text-4xl mt-4">0</p>
         </div>
       </div>
     </div>

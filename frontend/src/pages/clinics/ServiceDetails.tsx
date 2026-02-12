@@ -5,6 +5,7 @@ import ServiceTemplate from "@/components/services/ServiceTemplate";
 import ServiceList from "@/pages/clinics/ServiceList";
 import Heading from "@/components/Heading";
 import { fetchClinicalServiceById, fetchClinicalServiceByPath } from "@/api/api";
+import { ServiceDetailSkeleton } from "@/components/layout/page-skeletons";
 
 const ServiceDetail = () => {
   const params = useParams<{ "*": string }>();
@@ -62,7 +63,7 @@ const ServiceDetail = () => {
     fetchService();
   }, [path]);
 
-  if (loading) return <p>Loading service...</p>;
+  if (loading) return <ServiceDetailSkeleton />;
 
   if (!service) {
     return (

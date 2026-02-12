@@ -9,6 +9,7 @@ import {
 import { ClinicalService, Doctor } from "@/types";
 import { fetchDoctorById } from "@/api/api";
 import { useIntlayer } from "react-intlayer";
+import toast from "react-hot-toast";
 
 interface CalendarWithTimesProps {
   onDateSelected?: (date: Date) => void;
@@ -503,7 +504,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
       : selectedServiceFromList?.title;
 
     if (!serviceName || !selectedLocation || !selectedDate || !selectedTime) {
-      alert(
+      toast.error(
         "Please select service, location, date and time before confirming.",
       );
       return;
@@ -511,7 +512,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
     // Validate user details
     if (!name || !phone || !email) {
-      alert("Please fill in all required details (Name, Phone, Email).");
+      toast.error("Please fill in all required details (Name, Phone, Email).");
       return;
     }
 
@@ -603,11 +604,13 @@ const BookingPage: React.FC<BookingPageProps> = ({
         ? `Booking confirmed with ${booking.doctor} for ${booking.service} on ${booking.date} at ${booking.time} at ${booking.location}`
         : `Booking confirmed for ${booking.service} on ${booking.date} at ${booking.time} at ${booking.location}`;
 
-      alert(confirmationMessage);
-      navigate("/", { replace: true });
+      toast.success(confirmationMessage);
+      setTimeout(() => {
+        navigate("/", { replace: true });
+      }, 600);
     } catch (error) {
       console.error("Error creating booking:", error);
-      alert("Failed to create booking. Please try again.");
+      toast.error("Failed to create booking. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
