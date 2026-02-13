@@ -14,6 +14,7 @@ from .models import (
     DoctorImage,
     OutpatientCenter,
     ClinicalFAQ,
+    RoomWard,
 )
 from .serializers import (
     ClinicalServiceSerializer,
@@ -23,6 +24,7 @@ from .serializers import (
     ClinicalServiceFeatureImageSerializer, 
     OutpatientCenterSerializer,
      ClinicalFAQSerializer,
+     RoomWardSerializer,
 )
 
 DEBUG = True
@@ -279,5 +281,60 @@ class ClinicalFAQViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         if DEBUG:
             print(f"\n[ClinicalFAQ DELETE] ID: {kwargs.get('pk')}")
+            print("===========================\n")
+        return super().destroy(request, *args, **kwargs)
+
+
+class RoomWardViewSet(viewsets.ModelViewSet):
+    queryset = RoomWard.objects.all()
+    serializer_class = RoomWardSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+    def create(self, request, *args, **kwargs):
+        if DEBUG:
+            log_request_data(request, "RoomWard CREATE")
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        if DEBUG:
+            log_request_data(request, "RoomWard UPDATE")
+
+        partial = kwargs.pop("partial", True)
+        instance = self.get_object()
+        serializer = self.get_serializer(
+            instance,
+            data=request.data,
+            partial=partial
+        )
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception as e:
+            print("\n[RoomWard VALIDATION ERROR]")
+            if hasattr(serializer, "errors"):
+                print(serializer.errors)
+            else:
+                print(str(e))
+            print("===========================\n")
+
+            return Response(
+                {
+                    "detail": "Validation failed",
+                    "errors": serializer.errors
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        instance = serializer.save()
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        if DEBUG:
+            print(f"\n[RoomWard DELETE] ID: {kwargs.get('pk')}")
             print("===========================\n")
         return super().destroy(request, *args, **kwargs)

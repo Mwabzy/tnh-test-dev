@@ -5,7 +5,8 @@ from .views import (
     CSRViewSet,
     SendEmailViewSet,
     TenderViewSet,
-    CareerViewSet
+    CareerViewSet,
+    HeroViewSet,
 )
 
 router = DefaultRouter()
@@ -15,5 +16,6 @@ router.register('csr', CSRViewSet, basename='csr')
 router.register('send_email', SendEmailViewSet, basename="send_email" )
 router.register('tenders', TenderViewSet, basename='tenders')
 router.register('careers', CareerViewSet, basename='careers')
+router.register('hero', HeroViewSet, basename='hero')
 
 urlpatterns = router.urls

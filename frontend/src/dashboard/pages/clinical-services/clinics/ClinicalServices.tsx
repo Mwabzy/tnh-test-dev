@@ -21,6 +21,7 @@ const ClinicalServices = () => {
   const [editingService, setEditingService] = useState<ClinicalService | null>(
     null,
   );
+  const [locationQuery, setLocationQuery] = useState("");
 
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
@@ -58,6 +59,17 @@ const ClinicalServices = () => {
     setEditingService(null);
     setShowForm(true);
   };
+
+  const normalizedQuery = locationQuery.trim().toLowerCase();
+  const filteredServices = normalizedQuery
+    ? services.filter((service) =>
+        Array.isArray(service.locations)
+          ? service.locations.some((loc) =>
+              loc.toLowerCase().includes(normalizedQuery),
+            )
+          : false,
+      )
+    : services;
 
   const handleSave = async (service: ClinicalService | FormData) => {
     try {
@@ -120,16 +132,26 @@ const ClinicalServices = () => {
 
   return (
     <div>
-      <div className="flex justify-between mb-4">
+      <div className="flex flex-col gap-4 mb-4 md:flex-row md:items-center md:justify-between">
         <h1 className="text-2xl font-serif font-bold">Clinical Services</h1>
 
-        {!showForm && !loading && (
-          <button
-            onClick={handleAdd}
-            className="px-4 py-2 bg-green-600 text-white rounded-md"
-          >
-            Add Service
-          </button>
+        {!showForm && (
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <input
+              value={locationQuery}
+              onChange={(e) => setLocationQuery(e.target.value)}
+              placeholder="Search clinical services by location"
+              className="w-full sm:w-80 border border-gray-300 rounded-md px-3 py-2 text-sm"
+            />
+            {!loading && (
+              <button
+                onClick={handleAdd}
+                className="px-4 py-2 bg-green-600 text-white rounded-md"
+              >
+                Add Service
+              </button>
+            )}
+          </div>
         )}
       </div>
 
@@ -149,9 +171,13 @@ const ClinicalServices = () => {
             availableDoctors={AvailableDoctors}
           />
         </>
+      ) : filteredServices.length === 0 ? (
+        <div className="bg-white shadow rounded-lg p-6 text-center text-gray-500">
+          No clinical services match that location.
+        </div>
       ) : (
         <DashboardTable
-          data={services}
+          data={filteredServices}
           onEdit={(service) => {
             setEditingService(service);
             setShowForm(true);

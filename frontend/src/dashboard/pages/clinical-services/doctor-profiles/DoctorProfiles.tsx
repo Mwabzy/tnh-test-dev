@@ -21,6 +21,7 @@ const DoctorsPage = () => {
   const [availableServices, setAvailableServices] = useState<ClinicalService[]>(
     []
   );
+  const [locationQuery, setLocationQuery] = useState("");
 
   // Load doctors on mount
   useEffect(() => {
@@ -93,18 +94,40 @@ const DoctorsPage = () => {
     }
   };
 
+  const normalizedQuery = locationQuery.trim().toLowerCase();
+  const filteredDoctors = normalizedQuery
+    ? doctors.filter((doctor) => {
+        const locations = Array.isArray(doctor.locations)
+          ? doctor.locations
+          : [];
+        return locations.some((loc) =>
+          loc.toLowerCase().includes(normalizedQuery),
+        );
+      })
+    : doctors;
+
   return (
     <div>
-      <div className="flex justify-between mb-6">
+      <div className="flex flex-col gap-4 mb-6 md:flex-row md:items-center md:justify-between">
         <h1 className="text-3xl font-bold mb-6">Doctors</h1>
 
-        {!showForm && !loading && (
-          <button
-            onClick={() => setShowForm(true)}
-            className="px-4 py-2 bg-green-600 text-white font-serif rounded-md"
-          >
-            Add Doctor
-          </button>
+        {!showForm && (
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <input
+              value={locationQuery}
+              onChange={(e) => setLocationQuery(e.target.value)}
+              placeholder="Search doctors by location"
+              className="w-full sm:w-80 border border-gray-300 rounded-md px-3 py-2 text-sm"
+            />
+            {!loading && (
+              <button
+                onClick={() => setShowForm(true)}
+                className="px-4 py-2 bg-green-600 text-white font-serif rounded-md"
+              >
+                Add Doctor
+              </button>
+            )}
+          </div>
         )}
       </div>
 
@@ -119,9 +142,13 @@ const DoctorsPage = () => {
           onCancel={() => setShowForm(false)}
           availableServices={availableServices}
         />
+      ) : filteredDoctors.length === 0 ? (
+        <div className="bg-white shadow rounded-lg p-6 text-center text-gray-500">
+          No doctors match that location.
+        </div>
       ) : (
         <DoctorDashboardTable
-          data={doctors}
+          data={filteredDoctors}
           onEdit={(doctor) => {
             setEditingDoctor(doctor);
             setShowForm(true);

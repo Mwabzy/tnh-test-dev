@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Search } from "lucide-react";
 import OutpatientCenterTable from "./OutpatientCenterTable";
 import OutpatientCenterForm from "./OutpatientCenterForm";
 import { outpatientCenter } from "@/types";
@@ -20,6 +21,7 @@ const OutpatientCenterPage = () => {
   const [editingCenter, setEditingCenter] = useState<outpatientCenter | null>(
     null,
   );
+  const [locationQuery, setLocationQuery] = useState("");
 
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
@@ -117,19 +119,39 @@ const OutpatientCenterPage = () => {
     }
   };
 
+  const normalizedQuery = locationQuery.trim().toLowerCase();
+  const filteredCenters = normalizedQuery
+    ? centers.filter((center) =>
+        (center.location ?? "").toLowerCase().includes(normalizedQuery),
+      )
+    : centers;
+
   /* -------------------- Render -------------------- */
   return (
     <div>
-      <div className="flex justify-between mb-6">
+      <div className="flex flex-col gap-4 mb-6 md:flex-row md:items-center md:justify-between">
         <h1 className="text-3xl font-bold">Outpatient Centers</h1>
 
-        {!showForm && !loading && (
-          <button
-            onClick={startCreate}
-            className="px-4 py-2 bg-green-600 text-white rounded"
-          >
-            Add Outpatient Center
-          </button>
+        {!showForm && (
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="relative w-full sm:w-80">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <input
+                value={locationQuery}
+                onChange={(e) => setLocationQuery(e.target.value)}
+                placeholder="Search outpatient centers by location"
+                className="w-full border border-gray-300 rounded-md px-9 py-2 text-sm"
+              />
+            </div>
+            {!loading && (
+              <button
+                onClick={startCreate}
+                className="px-4 py-2 bg-green-600 text-white rounded"
+              >
+                Add Outpatient Center
+              </button>
+            )}
+          </div>
         )}
       </div>
 
@@ -144,9 +166,13 @@ const OutpatientCenterPage = () => {
           onCancel={closeForm}
           clinics={clinics}
         />
+      ) : filteredCenters.length === 0 ? (
+        <div className="bg-white shadow rounded-lg p-6 text-center text-gray-500">
+          No outpatient centers match that location.
+        </div>
       ) : (
         <OutpatientCenterTable
-          data={centers}
+          data={filteredCenters}
           onEdit={startEdit}
           onDelete={handleDelete}
           deletingId={deletingId}

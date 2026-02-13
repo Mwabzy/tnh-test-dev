@@ -1,8 +1,8 @@
 import Heading from "@/components/Heading";
 import { FC } from "react";
-import Opc from "../home/opc";
+import Opc from "../home/Opc";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
-import InsuranceSlider from '@/components/InsuranceSlider';
+import InsuranceSlider from "@/components/InsuranceSlider";
 import ContactForm from "@/components/ContactForm";
 import { useIntlayer } from "react-intlayer";
 

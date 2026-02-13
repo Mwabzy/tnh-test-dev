@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ClinicalService, ClinicalServiceFeatureImage, Doctor, Testimonial, ClinicalServiceImage, DoctorImage, OutpatientCenter, ClinicalFAQ
+from .models import ClinicalService, ClinicalServiceFeatureImage, Doctor, Testimonial, ClinicalServiceImage, DoctorImage, OutpatientCenter, ClinicalFAQ, RoomWard
 import json
 from itertools import zip_longest
 from django.conf import settings
@@ -599,4 +599,73 @@ class ClinicalFAQSerializer(serializers.ModelSerializer):
             "answer_zh",
             "answer_ru",
         ]
+
+class RoomWardSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    image = serializers.SerializerMethodField(read_only=True)
+    image_file = serializers.ImageField(write_only=True, required=False, allow_null=True)
+
+    class Meta:
+        model = RoomWard
+        fields = [
+            "id",
+            "title",
+            "image",
+            "image_file",
+            "name_fr",
+            "name_es",
+            "name_zh",
+            "name_ru",
+        ]
+
+    def get_image(self, obj):
+        if not obj.image:
+            return None
+        request = self.context.get("request")
+        if request:
+            return request.build_absolute_uri(obj.image.url)
+        return obj.image.url
+
+    def to_internal_value(self, data):
+        """
+        Support FormData submissions and flatten single-value lists.
+        Keeps behavior consistent with your existing serializers.
+        """
+        data = dict(data)
+
+        string_fields = [
+            "title",
+            "name_fr",
+            "name_es",
+            "name_zh",
+            "name_ru",
+        ]
+
+        for field in string_fields:
+            if field in data:
+                value = data[field]
+                if isinstance(value, list):
+                    data[field] = value[0]
+
+        if "image_file" in data and isinstance(data["image_file"], list):
+            data["image_file"] = data["image_file"][0]
+
+        return super().to_internal_value(data)
+
+    def create(self, validated_data):
+        image_file = validated_data.pop("image_file", None)
+        instance = RoomWard.objects.create(**validated_data)
+        if image_file is not None:
+            instance.image = image_file
+            instance.save(update_fields=["image"])
+        return instance
+
+    def update(self, instance, validated_data):
+        image_file = validated_data.pop("image_file", None)
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        if image_file is not None:
+            instance.image = image_file
+        instance.save()
+        return instance
 

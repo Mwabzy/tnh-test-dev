@@ -4,3 +4,4 @@ export * from "./teamMembers";
 export * from "./blogs";
 export * from "./careers";
 export * from "./tenders";
+export * from "./hero";

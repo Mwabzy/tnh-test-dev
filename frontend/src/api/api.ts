@@ -11,9 +11,11 @@ const BLOGS_API = "/blog-posts/";
 const CSR_API = "/csr/";
 const OUTPATIENT_CENTER_API = "/outpatient-centers/";
 const CLINICAL_FAQS_API = "/clinical-faqs/";
+const ROOM_WARDS_API = "/room-wards/";
 const BOOKING_API = "/send_email/";
 const CAREERS_API = "/careers/";
 const TENDERS_API = "/tenders/";
+const HERO_API = "/hero/";
 
 // Axios Instance
 const api = axios.create({
@@ -291,6 +293,36 @@ export async function fetchClinicalFaqById(data: any) {
   return res.data;
 }
 
+// ROOM WARDS
+export async function fetchRoomWards() {
+  const res = await api.get(ROOM_WARDS_API);
+  return res.data;
+}
+
+export async function fetchRoomWardById(id: number) {
+  const res = await api.get(`${ROOM_WARDS_API}${id}/`);
+  return res.data;
+}
+
+export async function createRoomWard(data: any) {
+  const res = await api.post(ROOM_WARDS_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+}
+
+export async function updateRoomWard(id: number, data: any) {
+  const res = await api.patch(`${ROOM_WARDS_API}${id}/`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+}
+
+export async function deleteRoomWard(id: number) {
+  const res = await api.delete(`${ROOM_WARDS_API}${id}/`);
+  return res.data;
+}
+
 // CAREERS / JOB LISTINGS
 
 export async function fetchJobListings() {
@@ -352,5 +384,36 @@ export async function updateTender(id: string, data: any) {
 
 export async function deleteTender(id: string) {
   const res = await api.delete(`${TENDERS_API}${id}/`);
+  return res.data;
+}
+
+//HERO
+export async function fetchHero() {
+  const res = await api.get(HERO_API);
+  return res.data;
+}
+
+export async function fetchHeroById(id: number) {
+  const res = await api.get(`${HERO_API}${id}/`);
+  return res.data;
+}
+
+export async function createHero(data: any) {
+  console.log("Creating Hero with data:", data);
+  const res = await api.post(HERO_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+}
+
+export async function updateHero(id: number, data: any) {
+  const res = await api.patch(`${HERO_API}${id}/`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+}
+
+export async function deleteHero(id: number) {
+  const res = await api.delete(`${HERO_API}${id}/`);
   return res.data;
 }

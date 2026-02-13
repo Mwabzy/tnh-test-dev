@@ -191,3 +191,26 @@ class Career(models.Model):
 
     def __str__(self):
         return self.title
+
+class Hero(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    title = models.CharField(max_length=255)
+    title_fr = models.CharField(max_length=255, blank=True)
+    title_es = models.CharField(max_length=255, blank=True)
+    title_zh = models.CharField(max_length=255, blank=True)
+    title_ru = models.CharField(max_length=255, blank=True)
+
+    description = models.TextField()
+    description_fr = models.TextField(blank=True)
+    description_es = models.TextField(blank=True)
+    description_zh = models.TextField(blank=True)
+    description_ru = models.TextField(blank=True)
+
+    image = models.ImageField(upload_to="hero_section/", blank=True, null=True)
+    image_alt = models.CharField(max_length=255, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

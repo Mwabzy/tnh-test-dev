@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import TeamMember, BlogPost, CSR, Tender, Career
+from .models import TeamMember, BlogPost, CSR, Tender, Career, Hero
 
 
 # Translation helper
@@ -341,3 +341,16 @@ class CareerSerializer(serializers.ModelSerializer):
             return ""
         request = self.context.get("request")
         return request.build_absolute_uri(obj.file.url) if request else obj.file.url
+
+class HeroSerializer(serializers.ModelSerializer):
+    title = serializers.CharField()
+    description = serializers.CharField()
+
+    class Meta:
+        model = Hero
+        fields = (
+            "id",
+            "title",
+            "description",
+        )
+        read_only_fields = ("id",)

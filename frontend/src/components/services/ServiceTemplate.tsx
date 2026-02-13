@@ -195,36 +195,49 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
         });
       } else {
         // No structured location timings: try to parse `timingsOnOverview` for day and times
-        const overview = (serviceTypes.timingsOnOverview || "Contact clinic")
+        const overviewRaw = (serviceTypes.timingsOnOverview || "")
           .replace(/\s*\([^)]*\)/g, "")
           .trim();
-        let dayDisplay = "";
-        let timeDisplay = overview;
-        const dayMatch = overview.match(
-          /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
-        );
-        if (dayMatch) {
-          dayDisplay = dayMatch[1].replace(/s$/i, "");
-          timeDisplay = overview.replace(dayMatch[0], "").trim();
-          // Clean leading separators
-          timeDisplay = timeDisplay.replace(/^[:,-\u2013\u2014\s]+/, "").trim();
-        }
+        const overviewNormalized = overviewRaw.toLowerCase();
+        const hasOverviewTimings =
+          Boolean(overviewRaw) &&
+          !overviewNormalized.includes("contact clinic") &&
+          !overviewNormalized.includes("contact the hospital") &&
+          overviewNormalized !== "n/a" &&
+          overviewNormalized !== "na" &&
+          overviewNormalized !== "--";
 
-        // Remove any weekday words left in the timeDisplay
-        timeDisplay = timeDisplay
-          .replace(
+        if (hasOverviewTimings) {
+          let dayDisplay = "";
+          let timeDisplay = overviewRaw;
+          const dayMatch = overviewRaw.match(
             /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
-            "",
-          )
-          .trim();
+          );
+          if (dayMatch) {
+            dayDisplay = dayMatch[1].replace(/s$/i, "");
+            timeDisplay = overviewRaw.replace(dayMatch[0], "").trim();
+            // Clean leading separators
+            timeDisplay = timeDisplay
+              .replace(/^[:,-\u2013\u2014\s]+/, "")
+              .trim();
+          }
 
-        // If timeDisplay contains a range embedded, normalize spacing
-        timeDisplay = timeDisplay.replace(/\s*[-\u2013\u2014]\s*/g, " - ");
+          // Remove any weekday words left in the timeDisplay
+          timeDisplay = timeDisplay
+            .replace(
+              /\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|Mon|Tue|Wed|Thu|Fri|Sat|Sun)s?\b/i,
+              "",
+            )
+            .trim();
 
-        entries.push({
-          day: dayDisplay || "--",
-          time: timeDisplay || overview || "Contact clinic",
-        });
+          // If timeDisplay contains a range embedded, normalize spacing
+          timeDisplay = timeDisplay.replace(/\s*[-\u2013\u2014]\s*/g, " - ");
+
+          entries.push({
+            day: dayDisplay || "--",
+            time: timeDisplay || overviewRaw,
+          });
+        }
       }
 
       rows.push({ location: loc, entries });
@@ -377,26 +390,32 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                       </button>
                     </div>
                     <div className="px-5 py-4">
-                      <table className="w-full text-sm">
-                        <thead className="text-gray-600">
-                          <tr>
-                            <th className="py-2 text-left">Day</th>
-                            <th className="py-2 text-left">Time</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {openTimings.entries.map((entry, idx) => (
-                            <tr key={`${openTimings.location}-${idx}`}>
-                              <td className="py-2 text-gray-700">
-                                {entry.day || "--"}
-                              </td>
-                              <td className="py-2 text-gray-700">
-                                {entry.time || "--"}
-                              </td>
+                      {openTimings.entries.length === 0 ? (
+                        <div className="text-sm text-gray-600 bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                          Timings not set. Contact the hospital.
+                        </div>
+                      ) : (
+                        <table className="w-full text-sm">
+                          <thead className="text-gray-600">
+                            <tr>
+                              <th className="py-2 text-left">Day</th>
+                              <th className="py-2 text-left">Time</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {openTimings.entries.map((entry, idx) => (
+                              <tr key={`${openTimings.location}-${idx}`}>
+                                <td className="py-2 text-gray-700">
+                                  {entry.day || "--"}
+                                </td>
+                                <td className="py-2 text-gray-700">
+                                  {entry.time || "--"}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      )}
                     </div>
                     <div className="flex justify-end border-t px-5 py-3">
                       <button

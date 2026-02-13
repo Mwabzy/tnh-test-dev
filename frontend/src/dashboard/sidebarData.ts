@@ -13,7 +13,7 @@ export const clinicalSection = [
   },
   {
     title: "Rooms & Wards",
-    href: "/dashboard/rooms-and-wards",
+    href: "/dashboard/rooms-wards",
   },
   {
     title: "Clinical FAQs",
@@ -22,6 +22,12 @@ export const clinicalSection = [
 ];
 
 export const aboutPages = [
+  {
+    title: "Hero Section",
+    href: "/dashboard/hero-section",
+    description:
+      "Manage the hero section of the website, including title, description, and image.",
+  },
   {
     title: "Board of Management",
     href: "/dashboard/board-of-management",
