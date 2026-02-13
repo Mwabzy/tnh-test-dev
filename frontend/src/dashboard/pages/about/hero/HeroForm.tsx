@@ -105,9 +105,6 @@ const HeroForm = ({ initialData, onSave, onCancel }: Props) => {
               <option value="hospitalview">hospitalview</option>
               <option value="accident">accident</option>
             </select>
-            <span className="text-xs text-gray-500">
-              Use your frontend map keys (e.g. accident / hospitalview).
-            </span>
           </label>
 
           <label className="grid gap-1">
@@ -140,9 +137,6 @@ const HeroForm = ({ initialData, onSave, onCancel }: Props) => {
             accept="image/*"
             onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
           />
-          <span className="text-xs text-gray-500">
-            If your backend supports file upload; otherwise remove this field.
-          </span>
         </label>
       </div>
 
