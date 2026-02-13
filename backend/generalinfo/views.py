@@ -8,7 +8,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import action
 from web.send_email import send_email
 
-from .models import TeamMember, BlogPost, CSR, Tender, Career
+from .models import TeamMember, BlogPost, CSR, Tender, Career, Hero
 from .serializers import (
     TeamMemberSerializer,
     BlogPostSerializer,
@@ -16,6 +16,7 @@ from .serializers import (
     SendEmailSerializer,
     TenderSerializer,
     CareerSerializer,
+    HeroSerializer,
 )
 
 logger = logging.getLogger(__name__)
@@ -243,5 +244,13 @@ class CareerViewSet(viewsets.ModelViewSet):
     
     queryset = Career.objects.all().order_by("-posted_date")
     serializer_class = CareerSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = (MultiPartParser, FormParser)
+
+class HeroViewSet(viewsets.ModelViewSet):
+    """ViewSet for managing the hero section content."""
+    
+    queryset = Hero.objects.all()
+    serializer_class = HeroSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     parser_classes = (MultiPartParser, FormParser)
