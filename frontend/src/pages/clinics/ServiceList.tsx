@@ -219,6 +219,21 @@ const ServiceList: React.FC<ServiceListProps> = () => {
                 )}
 
                 <div className="flex flex-col sm:flex-row gap-4">
+                  {(
+                    item.hasReadMore ??
+                    (item as ClinicalService & { isReadMore?: boolean })
+                      .isReadMore ??
+                    (item as ClinicalService & { isreadmore?: boolean })
+                      .isreadmore
+                  ) && (
+                    <Link
+                      to={`/service-detail/${encodeURI(item.path || String(item.id))}`}
+                      className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900 hover:text-white transition w-full sm:w-auto"
+                    >
+                      {content.readMore} <FaChevronRight />
+                    </Link>
+                  )}
+
                   {item.isBookable && (
                     <Link
                       to={`/booking-calendar?serviceId=${item.id}`}
@@ -227,13 +242,6 @@ const ServiceList: React.FC<ServiceListProps> = () => {
                       {content.bookingtitle} <FaCalendarCheck />
                     </Link>
                   )}
-
-                  <Link
-                    to={`/service-detail/${encodeURI(item.path || String(item.id))}`}
-                    className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900 hover:text-white transition w-full sm:w-auto"
-                  >
-                    {content.readMore} <FaChevronRight />
-                  </Link>
                 </div>
               </div>
             </div>

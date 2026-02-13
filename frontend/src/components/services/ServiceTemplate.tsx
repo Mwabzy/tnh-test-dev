@@ -44,10 +44,12 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
         const data = await fetchOutpatientCenter();
         const centers = Array.isArray(data)
           ? data
-          : data?.results ?? data?.data ?? [];
+          : (data?.results ?? data?.data ?? []);
 
-        const map: Record<string, Array<{ day: string; from: string; to: string }>> =
-          {};
+        const map: Record<
+          string,
+          Array<{ day: string; from: string; to: string }>
+        > = {};
 
         centers.forEach((center: any) => {
           const timings = Array.isArray(center?.timings) ? center.timings : [];
@@ -106,15 +108,10 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
           ? opcTimings
           : (serviceTypes as any).locationTimings;
 
-      let schedules = locationTimings?.[loc] as
-        | Array<any>
-        | undefined;
+      let schedules = locationTimings?.[loc] as Array<any> | undefined;
 
       // If not found, try alternate keys (strip trailing words like 'Clinic', 'OPC', or common punctuation)
-      if (
-        (!schedules || schedules.length === 0) &&
-        locationTimings
-      ) {
+      if ((!schedules || schedules.length === 0) && locationTimings) {
         const candidates = [
           loc,
           loc.replace(/\s*Clinic$/i, "").trim(),
@@ -448,14 +445,6 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                           <div className="text-xs text-gray-600 mb-2">
                             {d.role}
                           </div>
-                          {d.bio && (
-                            <div
-                              className="text-sm text-gray-700"
-                              dangerouslySetInnerHTML={{
-                                __html: DOMPurify.sanitize(d.bio),
-                              }}
-                            ></div>
-                          )}
                         </div>
                       </div>
                     ))}
