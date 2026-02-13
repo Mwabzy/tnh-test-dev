@@ -1,5 +1,6 @@
 import { lazyLoad } from "@/components/layout/lazy-load";
 import { UIRoutesType } from "./routes-path";
+import path from "path";
 
 const DashboardRoutes = {
   home: {
@@ -24,6 +25,12 @@ const DashboardRoutes = {
       () =>
         import("@/dashboard/pages/clinical-services/doctor-profiles/DoctorProfiles"),
     ),
+  },
+
+  hero: {
+    name: "Hero Section",
+    path: "hero-section",
+    component: lazyLoad(() => import("@/dashboard/pages/about/hero/Hero")),
   },
 
   boardM: {
