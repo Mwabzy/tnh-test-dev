@@ -1,4 +1,5 @@
 import uuid
+import re
 from django.db import models
 from django.utils import timezone
 
@@ -214,3 +215,47 @@ class Hero(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Appointment(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    service = models.CharField(max_length=255)
+    doctor = models.CharField(max_length=255, blank=True)
+    location = models.CharField(max_length=255)
+
+    appointment_date = models.DateField()
+    appointment_time = models.TimeField()
+
+    patient_name = models.CharField(max_length=255)
+    patient_phone = models.CharField(max_length=50)
+    patient_email = models.EmailField()
+    additional_info = models.TextField(blank=True)
+
+    # Prevent double booking for the same location/date/time.
+    slot_key = models.CharField(max_length=512, unique=True, editable=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    @staticmethod
+    def _normalize(value: str) -> str:
+        return re.sub(r"\s+", " ", (value or "").strip().lower())
+
+    def build_slot_key(self) -> str:
+        return "|".join(
+            [
+                self._normalize(self.location),
+                self.appointment_date.isoformat(),
+                self.appointment_time.strftime("%H:%M"),
+            ]
+        )
+
+    def save(self, *args, **kwargs):
+        self.slot_key = self.build_slot_key()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return (
+            f"{self.service} @ {self.location} on "
+            f"{self.appointment_date} {self.appointment_time}"
+        )

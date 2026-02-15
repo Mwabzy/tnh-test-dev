@@ -261,6 +261,55 @@ class SendEmailSerializer(serializers.Serializer):
     subject = serializers.CharField(required=True)
     body = serializers.CharField(required=True)
 
+    # Optional booking metadata used to reserve appointment slots.
+    appointmentDate = serializers.DateField(
+        required=False,
+        input_formats=["%Y-%m-%d", "%a %b %d %Y"],
+    )
+    appointmentTime = serializers.TimeField(
+        required=False,
+        input_formats=["%I:%M %p", "%H:%M", "%H:%M:%S"],
+    )
+    service = serializers.CharField(required=False)
+    doctor = serializers.CharField(required=False, allow_blank=True)
+    location = serializers.CharField(required=False)
+    name = serializers.CharField(required=False)
+    phone = serializers.CharField(required=False)
+    patientEmail = serializers.EmailField(required=False)
+    additionalInfo = serializers.CharField(required=False, allow_blank=True)
+
+    def validate(self, attrs):
+        required_booking_fields = [
+            "appointmentDate",
+            "appointmentTime",
+            "service",
+            "location",
+            "name",
+            "phone",
+            "patientEmail",
+        ]
+
+        has_booking_payload = any(
+            field in attrs
+            for field in [*required_booking_fields, "doctor", "additionalInfo"]
+        )
+
+        if has_booking_payload:
+            missing = [
+                field
+                for field in required_booking_fields
+                if not attrs.get(field)
+            ]
+            if missing:
+                raise serializers.ValidationError(
+                    {
+                        field: "This field is required for booking requests."
+                        for field in missing
+                    }
+                )
+
+        return attrs
+
 
 # Tender Serializer
 
