@@ -10,6 +10,8 @@ export interface Doctor {
   id: string | number;
   name: string;
   role: string;
+  images?: { id: number; url: string; alt?: string }[] | null;
+  // Backward-compatible fallback for older payloads.
   image?: { id: number; url: string; alt?: string }[] | null;
   bio?: string;
   description?: string[] | string;
@@ -78,16 +80,19 @@ const DoctorDetails: FC = () => {
       </p>
     );
 
-  // Image handling
+  // Image handling: backend returns `images`; keep `image` as fallback.
+  const doctorImages =
+    Array.isArray(doctor.images) && doctor.images.length > 0
+      ? doctor.images
+      : Array.isArray(doctor.image) && doctor.image.length > 0
+        ? doctor.image
+        : [];
+
   const imageSrc =
-    Array.isArray(doctor.image) && doctor.image.length > 0
-      ? doctor.image[0].url
-      : "/placeholder-doctor.png";
+    doctorImages.length > 0 ? doctorImages[0].url : "/placeholder-doctor.png";
 
   const imageAlt =
-    Array.isArray(doctor.image) && doctor.image.length > 0
-      ? doctor.image[0].alt || doctor.name
-      : doctor.name;
+    doctorImages.length > 0 ? doctorImages[0].alt || doctor.name : doctor.name;
 
   // Description
   const descriptionArray = doctor.description
