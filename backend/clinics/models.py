@@ -196,6 +196,7 @@ class ClinicalFAQ(models.Model):
 class RoomWard(models.Model):
     title = models.CharField(max_length=150)
     image = models.ImageField(upload_to="room_wards/", blank=True, null=True)
+    features = models.JSONField(default=list, blank=True)
 
     name_fr = models.CharField(max_length=150, blank=True, null=True)
     name_es = models.CharField(max_length=150, blank=True, null=True)

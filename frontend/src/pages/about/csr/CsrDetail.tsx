@@ -1,210 +1,170 @@
-import React from "react";
-import { Sparkles } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router";
 import Heading from "@/components/Heading";
+import { fetchCsrById } from "@/api/api";
+import DOMPurify from "dompurify";
+import { addClassesToDescription } from "@/components/services/utilities";
 
-// --- MOCK DATA (Simulating fetched data from csrPosts and useParams) ---
-const mockCsrItem = {
-  id: 1,
-  coverImage:
-    "https://images.pexels.com/photos/5206940/pexels-photo-5206940.jpeg",
-  blogsubtitle:
-    "The Critical Importance of Staff Ear Health and Sleep Assessment",
-  author: "Dr. Jane Doe, Head of Research",
-  title: "Comprehensive Well-being: Beyond the Physical",
-  shortdesc:
-    "When we think of a heart attack, we often picture someone clutching their chest in pain. But in reality, heart attack symptoms can be far more subtle—and they vary significantly between men and women. Our staff program focuses on early detection, wellness education, and proactive intervention.",
-  longdesc:
-    "Strong professional relationships are the bedrock of an effective clinical environment. Dynamics within a team directly impact patient care quality and staff burnout rates. This section explores strategies for fostering open communication, mutual respect, and collaborative problem-solving to enhance our internal dynamics and overall productivity, ensuring long-term success.",
-  image: [
-    "https://media.licdn.com/dms/image/v2/D4D22AQHDyc3fDYf4fQ/feedshare-shrink_800/feedshare-shrink_800/0/1710427125536?e=2147483647&v=beta&t=0PHcH1TNsnREokrdIB_FLRT0ucuUvDqecRWh-0U6rNw",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyEPYSTrw5FVjTZMlTr1vI86U_JN_6Y26MmA&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPREqzYdlCzqJ28w8jxbGzPq0KvjSU22XkCw&s",
-    "https://images.pexels.com/photos/4386466/pexels-photo-4386466.jpeg?auto=compress&cs=tinysrgb&w=800",
-  ],
+type CsrItem = {
+  id: string;
+  author: string;
+  title: string;
+  subtitle: string;
+  blogsubtitle: string;
+  description: string;
+  shortdesc: string;
+  longdesc: string;
+  coverImage: string;
+  image: string[];
 };
 
-// --- Types ---
-type CardProps = {
-  children: React.ReactNode;
-  className?: string;
-  title?: string;
-  dark?: boolean;
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "";
+
+const toMediaUrl = (url?: string | null) => {
+  if (!url) return "";
+  if (/^https?:\/\//i.test(url)) return url;
+  try {
+    if (apiBaseUrl) return new URL(url, apiBaseUrl).toString();
+  } catch {
+    // no-op
+  }
+  return url;
 };
 
-// --- Components ---
-const BentoCard = ({
-  children,
-  className = "",
-  title,
-  dark = false,
-}: CardProps) => {
-  return (
-    <div
-      className={`
-        relative overflow-hidden rounded-3xl p-6 transition-all duration-300 hover:shadow-xl
-        group flex flex-col h-full
-        ${
-          dark
-            ? "bg-slate-900 text-white"
-            : "bg-white text-slate-800 border border-slate-100 shadow-lg"
-        }
-        ${className}
-      `}
-    >
-      {title && (
-        <div className="mb-4 flex items-center gap-2">
-          <h3
-            className={`text-xl font-serif ${
-              dark ? "text-red-900" : "text-red-900"
-            }`}
-          >
-            {title}
-          </h3>
-        </div>
-      )}
-      <div className="relative z-10 h-full flex flex-col">{children}</div>
+const normalizeCsr = (row: any): CsrItem => {
+  const coverImage = toMediaUrl(row?.coverImage || row?.cover_image || "");
+  const images = Array.isArray(row?.image)
+    ? row.image.map((img: string) => toMediaUrl(img)).filter(Boolean)
+    : coverImage
+      ? [coverImage]
+      : [];
 
-      {!dark && (
-        <div className="absolute top-0 right-0 -mr-16 -mt-16 h-32 w-32 rounded-full bg-slate-50 transition-transform group-hover:scale-150 duration-700 ease-in-out" />
-      )}
-    </div>
-  );
+  return {
+    id: String(row?.id ?? ""),
+    author: row?.author ?? "",
+    title: row?.title ?? "",
+    subtitle: row?.subtitle ?? "",
+    blogsubtitle: row?.blogsubtitle ?? row?.blog_subtitle ?? "",
+    description: row?.description ?? "",
+    shortdesc: row?.shortdesc ?? row?.short_desc ?? "",
+    longdesc: row?.longdesc ?? row?.long_desc ?? "",
+    coverImage,
+    image: images,
+  };
 };
 
-// Image Card Component with actual images and dynamic gradients
-const ImageCard = ({
-  index,
-  imageUrl,
-  alt,
-}: {
-  index: number;
-  imageUrl: string;
-  alt: string;
-}) => {
-  const gradients = ["", "", "", ""];
+const CsrDetail = () => {
+  const { id } = useParams<{ id: string }>();
+  const [csrItem, setCsrItem] = useState<CsrItem | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  return (
-    <div
-      className={`relative w-full h-full min-h-[200px] overflow-hidden rounded-3xl group cursor-pointer`}
-    >
-      {/* Actual Image */}
-      <img
-        src={imageUrl}
-        alt={alt}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-        onError={(e) => {
-          // Fallback if image fails to load
-          e.currentTarget.style.display = "none";
-        }}
-      />
+  useEffect(() => {
+    if (!id) {
+      setError("CSR post not found.");
+      setLoading(false);
+      return;
+    }
 
-      {/* Dynamic Gradient Overlay */}
-      <div
-        className={`absolute inset-0 bg-gradient-to-br ${
-          gradients[index % gradients.length]
-        } mix-blend-multiply transition-opacity duration-300 group-hover:opacity-80`}
-      />
+    const loadCsrDetail = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchCsrById(id);
+        setCsrItem(normalizeCsr(data));
+        setError(null);
+      } catch (err: any) {
+        setError(err?.message || "Failed to load CSR post.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      {/* Bottom gradient for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+    loadCsrDetail();
+  }, [id]);
 
-      {/* Icon decoration */}
-      <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-md p-2 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <Sparkles size={16} />
+  const galleryImages = useMemo(() => {
+    if (!csrItem) return [] as string[];
+    if (csrItem.image.length > 0) return csrItem.image;
+    return csrItem.coverImage ? [csrItem.coverImage] : [];
+  }, [csrItem]);
+
+  if (loading) {
+    return <div className="py-20 text-center text-gray-600">Loading...</div>;
+  }
+
+  if (error || !csrItem) {
+    return (
+      <div className="py-20 text-center text-red-600">
+        {error || "CSR post not found."}
       </div>
-
-      {/* Bottom text - optional, remove if not needed */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-        <span className="text-white font-medium text-sm drop-shadow-lg">
-          View Image
-        </span>
-      </div>
-    </div>
-  );
-};
-
-// --- CsrDetail Component ---
-export default function CsrDetailMockup() {
-  const csrItem = mockCsrItem;
-  const heroItem = mockCsrItem;
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
-      {/* Dynamic Hero Banner */}
-      <div>
-        <Heading
-          image_url={heroItem.coverImage}
-          title="Cooperate Social Responsibility"
-          description="prioritizing initiatives that are creating measurable social impact while aligning with the company’s strategic objectives"
-          style="background"
-        />
-      </div>
+      <Heading
+        image_url={csrItem.coverImage || null}
+        title={csrItem.title || "Corporate Social Responsibility"}
+        description={
+          csrItem.blogsubtitle ||
+          csrItem.subtitle ||
+          "Prioritizing initiatives that create measurable social impact."
+        }
+        style="background"
+      />
 
-      {/* --- CONTENT SECTION: Bento Grid Integration --- */}
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        {/* Main Title and Intro Text (Full Width) */}
-        <div className="max-w-6xl mx-auto mb-16 text-left">
-          <h2 className="text-4xl font-serif text-gray-900 mb-4">
+      <div className="max-w-6xl mx-auto px-4 py-12 space-y-8">
+        <div className="bg-white rounded-2xl shadow p-8">
+          <h1 className="text-3xl font-serif text-gray-900 mb-3">
             {csrItem.title}
-          </h2>
-          <p className="text-xl leading-relaxed text-gray-600">
-            {csrItem.shortdesc}
-          </p>
+          </h1>
+
+          {csrItem.author && (
+            <p className="text-sm text-gray-500 mb-6">By {csrItem.author}</p>
+          )}
+
+          {csrItem.shortdesc && (
+            <div
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(
+                  addClassesToDescription(csrItem.shortdesc) ?? "",
+                ),
+              }}
+              className="prose prose-gray max-w-none text-gray-700 mb-6 prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+            ></div>
+          )}
+
+          {csrItem.longdesc && (
+            <div
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(
+                  addClassesToDescription(csrItem.longdesc) ?? "",
+                ),
+              }}
+              className="prose prose-gray max-w-none text-gray-700 prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+            ></div>
+          )}
         </div>
 
-        {/* 3-Column Bento Grid */}
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          {/* 1. Extended Content Card (Ear Health / Short Desc) - Spans 2 cols */}
-          <BentoCard
-            className="col-span-1 md:col-span-2 min-h-[300px]"
-            title="Staff Ear Health & Sleep Assessment"
-          >
-            <div className="flex flex-col h-full justify-between">
-              <div className="space-y-3">
-                <p className="text-slate-600 text-lg leading-relaxed">
-                  {csrItem.shortdesc}
-                </p>
+        {galleryImages.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {galleryImages.map((imageUrl, index) => (
+              <div
+                key={`${csrItem.id}-${index}`}
+                className="bg-white rounded-2xl overflow-hidden shadow"
+              >
+                <img
+                  src={imageUrl}
+                  alt={`${csrItem.title} ${index + 1}`}
+                  className="w-full h-56 object-cover"
+                />
               </div>
-            </div>
-          </BentoCard>
-
-          {/* 2. Photo 1 (Dynamic Content) - Blue gradient */}
-          <div className="col-span-1 h-full">
-            <ImageCard
-              index={0}
-              imageUrl={csrItem.image[0]}
-              alt="Staff Health Assessment"
-            />
+            ))}
           </div>
-
-          {/* 3. Photo 2 (Dynamic Content) - Green gradient */}
-          <div className="col-span-1 h-full">
-            <ImageCard
-              index={1}
-              imageUrl={csrItem.image[1]}
-              alt="Clinical Services"
-            />
-          </div>
-
-          {/* 4. Photo 3 (Dynamic Content) - Orange/Red gradient */}
-          <div className="col-span-1 h-full">
-            <ImageCard
-              index={2}
-              imageUrl={csrItem.image[2]}
-              alt="Healthcare Professional"
-            />
-          </div>
-
-          {/* 5. Photo 4 (Dynamic Content) - Purple gradient */}
-          <div className="col-span-1 h-full">
-            <ImageCard
-              index={3}
-              imageUrl={csrItem.image[3]}
-              alt="Medical Care"
-            />
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
-}
+};
+
+export default CsrDetail;

@@ -49,7 +49,7 @@ const RoomWards = () => {
   const handleSave = async (
     item: Pick<
       RoomWard,
-      "title" | "name_fr" | "name_es" | "name_zh" | "name_ru"
+      "title" | "name_fr" | "name_es" | "name_zh" | "name_ru" | "features"
     > & { image_file?: File | null },
   ) => {
     try {
@@ -59,6 +59,7 @@ const RoomWards = () => {
       payload.append("name_es", item.name_es ?? "");
       payload.append("name_zh", item.name_zh ?? "");
       payload.append("name_ru", item.name_ru ?? "");
+      payload.append("features", JSON.stringify(item.features ?? []));
       if (item.image_file) {
         payload.append("image_file", item.image_file);
       }

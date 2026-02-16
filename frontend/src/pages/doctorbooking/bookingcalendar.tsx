@@ -516,6 +516,10 @@ const BookingPage: React.FC<BookingPageProps> = ({
       return;
     }
 
+    const appointmentDate = `${selectedDate.getFullYear()}-${String(
+      selectedDate.getMonth() + 1,
+    ).padStart(2, "0")}-${String(selectedDate.getDate()).padStart(2, "0")}`;
+
     const booking = {
       service: serviceName,
       doctor: isDoctorBooking ? doctorInfo?.name : undefined,
@@ -597,6 +601,15 @@ const BookingPage: React.FC<BookingPageProps> = ({
         email: "immanuelmwabili@gmail.com",
         subject: `Booking Request - ${serviceName}`,
         body,
+        service: booking.service,
+        doctor: booking.doctor,
+        location: booking.location,
+        appointmentDate,
+        appointmentTime: booking.time,
+        name: booking.name,
+        phone: booking.phone,
+        patientEmail: booking.email,
+        additionalInfo: booking.additionalInfo,
       });
       console.log("Booking email sent successfully:", response);
 
@@ -608,9 +621,16 @@ const BookingPage: React.FC<BookingPageProps> = ({
       setTimeout(() => {
         navigate("/", { replace: true });
       }, 600);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error creating booking:", error);
-      toast.error("Failed to create booking. Please try again.");
+      const statusCode = error?.response?.status;
+      const apiError = error?.response?.data?.error;
+
+      if (statusCode === 409) {
+        toast.error(apiError || "This slot is already booked. Choose another.");
+      } else {
+        toast.error(apiError || "Failed to create booking. Please try again.");
+      }
     } finally {
       setIsSubmitting(false);
     }

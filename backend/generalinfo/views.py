@@ -6,9 +6,10 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import action
+from django.db import IntegrityError, transaction
 from web.send_email import send_email
 
-from .models import TeamMember, BlogPost, CSR, Tender, Career, Hero
+from .models import TeamMember, BlogPost, CSR, Tender, Career, Hero, Appointment
 from .serializers import (
     TeamMemberSerializer,
     BlogPostSerializer,
@@ -178,19 +179,58 @@ class CSRViewSet(viewsets.ModelViewSet):
 
 class SendEmailViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
+
+    def _build_appointment_payload(self, validated_data):
+        if "appointmentDate" not in validated_data:
+            return None
+
+        return {
+            "service": validated_data["service"],
+            "doctor": validated_data.get("doctor", ""),
+            "location": validated_data["location"],
+            "appointment_date": validated_data["appointmentDate"],
+            "appointment_time": validated_data["appointmentTime"],
+            "patient_name": validated_data["name"],
+            "patient_phone": validated_data["phone"],
+            "patient_email": validated_data["patientEmail"],
+            "additional_info": validated_data.get("additionalInfo", ""),
+        }
+
     def _send(self, request):
         serializer = SendEmailSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
-        # Access validated data
-        recipient_email = serializer.validated_data['email']
-        subject = serializer.validated_data['subject']
-        body = serializer.validated_data['body']
-        
+
+        validated_data = serializer.validated_data
+        recipient_email = validated_data["email"]
+        subject = validated_data["subject"]
+        body = validated_data["body"]
+        appointment_payload = self._build_appointment_payload(validated_data)
+
         try:
-            # Send the email
-            send_email(recipient_email=recipient_email, subject=subject, body=body)
+            if appointment_payload:
+                with transaction.atomic():
+                    Appointment.objects.create(**appointment_payload)
+                    send_email(
+                        recipient_email=recipient_email,
+                        subject=subject,
+                        body=body,
+                    )
+            else:
+                send_email(
+                    recipient_email=recipient_email,
+                    subject=subject,
+                    body=body,
+                )
+
             return Response({"status": "Email sent successfully"}, status=200)
+        except IntegrityError:
+            return Response(
+                {
+                    "error": "This slot has already been booked. Please choose another time.",
+                    "code": "SLOT_ALREADY_BOOKED",
+                },
+                status=409,
+            )
         except Exception as e:
             logger.error(f"Failed to send email to {recipient_email}: {e}", exc_info=True)
             return Response({"error": f"Failed to send email: {str(e)}"}, status=500)

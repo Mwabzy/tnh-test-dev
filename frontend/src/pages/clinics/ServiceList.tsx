@@ -6,6 +6,7 @@ import { fetchClinicalServices } from "@/api/api";
 import { useIntlayer } from "react-intlayer";
 import DOMPurify from "dompurify";
 import { addClassesToDescription } from "@/components/services/utilities";
+import { ListWithSidebarSkeleton } from "@/components/layout/page-skeletons";
 
 interface ServiceListProps {
   services?: ClinicalService[];
@@ -92,10 +93,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
     setCurrentPage(1);
   };
 
-  if (loading)
-    return (
-      <div className="py-20 text-center text-gray-600">{content.loading}</div>
-    );
+  if (loading) return <ListWithSidebarSkeleton />;
 
   if (error)
     return <div className="py-20 text-center text-red-600">{error}</div>;
@@ -192,7 +190,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
             >
               {item.images?.length > 0 && (
                 <img
-                  className="w-full h-60 object-cover rounded-t-lg"
+                  className="w-full h-72 object-cover rounded-t-lg"
                   src={item.images[0].url}
                   alt={item.images[0].alt || "Service image"}
                 />

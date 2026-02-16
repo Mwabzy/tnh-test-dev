@@ -140,6 +140,7 @@ export interface RoomWard {
   id?: number;
   title: string;
   image?: string | null;
+  features?: Feature[];
   name_fr?: string;
   name_es?: string;
   name_zh?: string;
