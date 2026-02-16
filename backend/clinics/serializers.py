@@ -612,6 +612,7 @@ class RoomWardSerializer(serializers.ModelSerializer):
             "title",
             "image",
             "image_file",
+            "features",
             "name_fr",
             "name_es",
             "name_zh",
@@ -646,6 +647,16 @@ class RoomWardSerializer(serializers.ModelSerializer):
                 value = data[field]
                 if isinstance(value, list):
                     data[field] = value[0]
+
+        if "features" in data:
+            raw_features = data["features"]
+            if isinstance(raw_features, list) and len(raw_features) == 1:
+                raw_features = raw_features[0]
+            if isinstance(raw_features, str):
+                try:
+                    data["features"] = json.loads(raw_features)
+                except Exception:
+                    data["features"] = []
 
         if "image_file" in data and isinstance(data["image_file"], list):
             data["image_file"] = data["image_file"][0]

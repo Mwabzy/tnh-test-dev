@@ -30,6 +30,7 @@ const RoomWardsTable: FC<DashboardTableProps> = ({
           <tr className="bg-gray-100 text-left">
             <th className="p-3">Image</th>
             <th className="p-3">Title</th>
+            <th className="p-3">Features</th>
             <th className="p-3">Actions</th>
           </tr>
         </thead>
@@ -49,6 +50,16 @@ const RoomWardsTable: FC<DashboardTableProps> = ({
               </td>
               <td className="p-3 font-medium">
                 {item.title ?? "-"}
+              </td>
+              <td className="p-3">
+                {item.features && item.features.length > 0
+                  ? item.features
+                      .map((feature) =>
+                        (feature.title ?? "").replace(/<[^>]*>/g, "").trim(),
+                      )
+                      .filter(Boolean)
+                      .join(", ")
+                  : "-"}
               </td>
               <td className="p-3 flex gap-2">
                 <button

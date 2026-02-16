@@ -1,11 +1,13 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import RichTextEditor from "@/components/RichTextEditor";
 import { RoomWard } from "@/types";
 
 type RoomWardPayload = Pick<
   RoomWard,
   "title" | "name_fr" | "name_es" | "name_zh" | "name_ru"
 > & {
+  features?: RoomWard["features"];
   image_file?: File | null;
 };
 
@@ -28,6 +30,9 @@ const RoomWardsForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   });
 
   const [openTranslations, setOpenTranslations] = useState(false);
+  const [featuresHtml, setFeaturesHtml] = useState(
+    initialData?.features?.[0]?.title ?? "",
+  );
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ name?: string }>({});
@@ -53,6 +58,7 @@ const RoomWardsForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       name_es: nameTranslations.es,
       name_zh: nameTranslations.zh,
       name_ru: nameTranslations.ru,
+      features: featuresHtml.trim() ? [{ title: featuresHtml }] : [],
       image_file: imageFile,
     };
 
@@ -109,6 +115,16 @@ const RoomWardsForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
             ))}
           </div>
         )}
+      </div>
+
+      <div>
+        <label className="font-semibold">Features</label>
+        <RichTextEditor
+          value={featuresHtml}
+          onChange={(html) => setFeaturesHtml(html)}
+          placeholder="Enter feature details..."
+          minHeight="140px"
+        />
       </div>
 
       <div>
