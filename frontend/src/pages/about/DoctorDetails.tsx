@@ -5,6 +5,7 @@ import { ClinicalService } from "@/types";
 import { useIntlayer } from "react-intlayer";
 import DOMPurify from "dompurify";
 import { addClassesToDescription } from "@/components/services/utilities";
+import { FaCalendarCheck } from "react-icons/fa";
 
 export interface Doctor {
   id: string | number;
@@ -139,9 +140,13 @@ const DoctorDetails: FC = () => {
             <div className="mt-6">
               <Link
                 to={`/booking-calendar?doctorId=${doctor.id}&doctorName=${encodeURIComponent(doctor.name)}&doctorTitle=${encodeURIComponent(doctor.role)}`}
-                className="inline-block bg-red-900 text-white px-8 py-3 rounded-lg font-semibold shadow-md hover:bg-red-800 transition-all duration-300 hover:shadow-lg"
+                className="inline-flex w-full sm:w-auto max-w-full items-center gap-2 bg-red-900 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-red-800 transition-all duration-300 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700"
               >
-                📅 {content.bookappointment} {doctor.name.split(" ")[0]}
+                <FaCalendarCheck className="shrink-0" aria-hidden="true" />
+                <span className="text-left whitespace-normal break-words leading-snug">
+                  {content.bookappointment}{" "}
+                  <span className="font-semibold">{doctor.name}</span>
+                </span>
               </Link>
             </div>
 
