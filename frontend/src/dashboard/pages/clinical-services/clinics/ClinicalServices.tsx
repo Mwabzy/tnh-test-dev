@@ -21,7 +21,7 @@ const ClinicalServices = () => {
   const [editingService, setEditingService] = useState<ClinicalService | null>(
     null,
   );
-  const [locationQuery, setLocationQuery] = useState("");
+  const [locationQuery, _setLocationQuery] = useState("");
 
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
