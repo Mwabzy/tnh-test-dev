@@ -103,7 +103,7 @@ const CsrDetail = () => {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-800">
       <Heading
-        image_url={csrItem.coverImage || null}
+        image_url={csrItem.coverImage || undefined}
         title={csrItem.title || "Corporate Social Responsibility"}
         description={
           csrItem.blogsubtitle ||

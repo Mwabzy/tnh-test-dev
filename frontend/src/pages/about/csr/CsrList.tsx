@@ -66,7 +66,7 @@ const CsrList: FC = () => {
       try {
         setLoading(true);
         const data = await fetchCsr();
-        const list = Array.isArray(data)
+        const list: unknown[] = Array.isArray(data)
           ? data
           : (data?.results ?? data?.data ?? []);
         setPosts(list.map(normalizeCsr).filter((item) => item.id));

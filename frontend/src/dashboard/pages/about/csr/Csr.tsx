@@ -38,9 +38,14 @@ const Csr = () => {
   /* CREATE / UPDATE (Doctors-style) */
   const handleSaveCsr = async (formData: FormData) => {
     try {
-      if (editingCsr?.id) {
+      if (editingCsr?.id != null) {
         // UPDATE
-        const updated = await updateCsr(editingCsr.id, formData);
+        const csrId = Number(editingCsr.id);
+        if (Number.isNaN(csrId)) {
+          toast.error("Invalid CSR ID");
+          return;
+        }
+        const updated = await updateCsr(csrId, formData);
         setCsrs((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
         toast.success("CSR updated successfully!");
       } else {

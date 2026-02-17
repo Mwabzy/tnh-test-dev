@@ -48,7 +48,7 @@ const CsrTable: FC<CsrTableProps> = ({
                   Edit
                 </button>
                 <button
-                  onClick={() => onDelete(csr.id)}
+                  onClick={() => onDelete(Number(csr.id))}
                   className={`px-3 py-1 rounded text-white ${
                     deletingId === csr.id
                       ? "bg-gray-400 cursor-not-allowed"
