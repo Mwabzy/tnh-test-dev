@@ -30,6 +30,9 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
   const mainImage = images?.[0];
   const isServiceBookable =
     String(serviceTypes?.isBookable).toLowerCase() === "true";
+  const hasSelectedLocations =
+    Array.isArray(locations) &&
+    locations.some((loc) => String(loc ?? "").trim().length > 0);
   console.log("features_read:", features_read);
 
   const [openTimings, setOpenTimings] = useState<{
@@ -90,7 +93,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
         ? opcLocations.slice()
         : locations && locations.length > 0
           ? locations.slice()
-          : ["Main Hospital"];
+          : [];
     locs.sort((a, b) =>
       a === "Anderson Specialty"
         ? -1
@@ -325,7 +328,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                 </div>
               )}
 
-              {isServiceBookable && (
+              {isServiceBookable && hasSelectedLocations && (
                 <>
                   {/* Our Clinic Timings (compact) */}
                   <div className="mb-6">
