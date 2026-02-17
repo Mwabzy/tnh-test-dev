@@ -100,9 +100,17 @@ const DoctorsPage = () => {
         const locations = Array.isArray(doctor.locations)
           ? doctor.locations
           : [];
-        return locations.some((loc) =>
-          loc.toLowerCase().includes(normalizedQuery),
+        const nameMatch = String(doctor.name ?? "")
+          .toLowerCase()
+          .includes(normalizedQuery);
+        const roleMatch = String(doctor.role ?? "")
+          .toLowerCase()
+          .includes(normalizedQuery);
+        const locationMatch = locations.some((loc) =>
+          String(loc ?? "").toLowerCase().includes(normalizedQuery),
         );
+
+        return nameMatch || roleMatch || locationMatch;
       })
     : doctors;
 
@@ -116,7 +124,7 @@ const DoctorsPage = () => {
             <input
               value={locationQuery}
               onChange={(e) => setLocationQuery(e.target.value)}
-              placeholder="Search doctors by location"
+              placeholder="Search doctors by name, role, or location"
               className="w-full sm:w-80 border border-gray-300 rounded-md px-3 py-2 text-sm"
             />
             {!loading && (

@@ -21,7 +21,7 @@ const ClinicalServices = () => {
   const [editingService, setEditingService] = useState<ClinicalService | null>(
     null,
   );
-  const [locationQuery, _setLocationQuery] = useState("");
+  const [locationQuery, setLocationQuery] = useState("");
 
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
@@ -62,13 +62,21 @@ const ClinicalServices = () => {
 
   const normalizedQuery = locationQuery.trim().toLowerCase();
   const filteredServices = normalizedQuery
-    ? services.filter((service) =>
-        Array.isArray(service.locations)
+    ? services.filter((service) => {
+        const titleMatch = String(service.title ?? "")
+          .toLowerCase()
+          .includes(normalizedQuery);
+        const taglineMatch = String(service.tagline ?? "")
+          .toLowerCase()
+          .includes(normalizedQuery);
+        const locationMatch = Array.isArray(service.locations)
           ? service.locations.some((loc) =>
-              loc.toLowerCase().includes(normalizedQuery),
+              String(loc ?? "").toLowerCase().includes(normalizedQuery),
             )
-          : false,
-      )
+          : false;
+
+        return titleMatch || taglineMatch || locationMatch;
+      })
     : services;
 
   const handleSave = async (service: ClinicalService | FormData) => {
@@ -155,12 +163,12 @@ const ClinicalServices = () => {
 
         {!showForm && (
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            {/* <input
+            <input
               value={locationQuery}
               onChange={(e) => setLocationQuery(e.target.value)}
-              placeholder="Search clinical service..."
+              placeholder="Search services by title, tagline, or location"
               className="w-full sm:w-80 border border-gray-300 rounded-md px-3 py-2 text-sm"
-            /> */}
+            />
             {!loading && (
               <button
                 onClick={handleAdd}

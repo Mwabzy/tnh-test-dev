@@ -122,7 +122,12 @@ const OutpatientCenterPage = () => {
   const normalizedQuery = locationQuery.trim().toLowerCase();
   const filteredCenters = normalizedQuery
     ? centers.filter((center) =>
-        (center.location ?? "").toLowerCase().includes(normalizedQuery),
+        String(center.name ?? "")
+          .toLowerCase()
+          .includes(normalizedQuery) ||
+        String(center.location ?? "")
+          .toLowerCase()
+          .includes(normalizedQuery),
       )
     : centers;
 
@@ -139,7 +144,7 @@ const OutpatientCenterPage = () => {
               <input
                 value={locationQuery}
                 onChange={(e) => setLocationQuery(e.target.value)}
-                placeholder="Search outpatient centers by location"
+                placeholder="Search outpatient centers by name or location"
                 className="w-full border border-gray-300 rounded-md px-9 py-2 text-sm"
               />
             </div>
