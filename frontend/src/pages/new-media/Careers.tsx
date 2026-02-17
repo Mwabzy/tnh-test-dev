@@ -1,53 +1,48 @@
-import { FC } from "react";
+import { fetchJobListings } from "@/api/api";
 import OpportunityTemplate from "./opportunity/OpportunityTemplate";
+import { FC, useEffect, useState } from "react";
 import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
+import { Opportunity } from "./opportunity/OpportunityItem";
 
 type CareersProps = {};
 
-const careersData = [
-  {
-    opportunity: "System Analyst & LIMS Administrator",
-    description: "Develop and maintain software applications.",
-    location: "On-site",
-    opportunityType: "Full-time",
-    datePosted: "2023-10-01",
-    closingDate: "3rd August 2025",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Systems_Analyst_Admin_and_LIMS_74e768fba3.pdf?updated_at=2025-07-21T10:36:40.613Z",
-  },
-  {
-    opportunity: "Senior Registrar",
-    description: " Pediatricts",
-    location: "On-site",
-    opportunityType: "2 Years Contract",
-    datePosted: "2023-10-05",
-    closingDate: "31st July 2025",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Full_Advert_Senior_Registrar_Paediatrics_2025_874b73241f.pdf?updated_at=2025-07-24T04:43:12.005Z",
-  },
-  {
-    opportunity: "Locum Specialist",
-    description: " Radiologist",
-    location: "On-site",
-    opportunityType: "Part-time",
-    datePosted: "2023-10-05",
-    closingDate: "31st July 2025",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Advert_Locum_Specialist_Radiologist_395e9c3c6e.pdf?updated_at=2025-07-24T10:12:02.222Z",
-  },
-  {
-    opportunity: "Clinical Radiation",
-    description: "Oncologist",
-    location: "On-site",
-    opportunityType: "Part-time",
-    datePosted: "2023-10-05",
-    closingDate: "31st July 2025",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Adverts_CLINICAL_ONCOLOGIST_JULY_2025_85737ed402.pdf?updated_at=2025-07-25T12:55:17.948Z",
-  },
-];
-
 const Careers: FC<CareersProps> = () => {
+  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
+
+  useEffect(() => {
+    const loadCareers = async () => {
+      try {
+        const response = await fetchJobListings();
+        const items = Array.isArray(response)
+          ? response
+          : Array.isArray(response?.results)
+            ? response.results
+            : Array.isArray(response?.data)
+              ? response.data
+              : [];
+
+        const mapped: Opportunity[] = items.map((item: any) => ({
+          opportunity: String(item?.opportunity ?? item?.title ?? "").trim(),
+          description: String(item?.description ?? "").trim(),
+          location: item?.location ? String(item.location).trim() : undefined,
+          opportunityType: String(
+            item?.opportunityType ?? item?.opportunity_type ?? "Career",
+          ).trim(),
+          datePosted: String(item?.datePosted ?? item?.date_posted ?? "").trim(),
+          closingDate: item?.closingDate ?? item?.closing_date ?? undefined,
+          fileUrl: String(item?.fileUrl ?? item?.file_url ?? item?.file ?? ""),
+        }));
+
+        setOpportunities(mapped);
+      } catch (error) {
+        console.error("Failed to fetch careers:", error);
+        setOpportunities([]);
+      }
+    };
+
+    loadCareers();
+  }, []);
+
   return (
     <div>
       <OpportunityTemplate
@@ -70,7 +65,7 @@ const Careers: FC<CareersProps> = () => {
           },
         ]}
         contactInfo={PAGE_CONTACT_INFO}
-        opportunities={careersData}
+        opportunities={opportunities}
       />
     </div>
   );

@@ -1,215 +1,48 @@
-import { FC } from "react";
-import OpportunityTemplate from "./opportunity/OpportunityTemplate";
+import { fetchTenders } from "@/api/api";
+import { FC, useEffect, useState } from "react";
 import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
+import { Opportunity } from "./opportunity/OpportunityItem";
+import OpportunityTemplate from "./opportunity/OpportunityTemplate";
 
 type TendersProps = {};
 
-const tendersData = [
-  {
-    opportunity: "PLUMBING AND DRAINAGE INSTALLATIONS",
-    referenceNumber: "TNH/TND/2025/001",
-    description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES",
-    opportunityType: "Tender",
-    datePosted: "2023-10-01",
-    closingDate: "2025-08-07",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Proposed_Renovations_and_Reorganization_Works_at_the_Day_Surgery_Unit_DSU_Plumbing_and_Drainage_Installations_52bf78052a.pdf?updated_at=2025-07-30T11:23:49.920Z",
-  },
-  {
-    opportunity: "OPERATE AND MAINTENANCE OF STEAM SYSTEM.",
-    referenceNumber: "TNH/TND/2025/002",
-    description:
-      "REQUEST FOR PROPOSAL FOR BUILD, OPERATE AND MAINTENANCE OF STEAM SYSTEM.",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-08-07",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Request_for_Proposal_to_Build_Operate_and_Maintenace_of_Steam_System_a9a047b796.pdf?updated_at=2025-07-30T11:25:54.650Z",
-  },
-  {
-    opportunity: "TRAINING AND COMMISSIONING A GEL ELECTROPHORESIS MACHINE.",
-    referenceNumber: "TNH/TND/2025/003",
-    description:
-      "SUPPLY, DELIVERY, INSTALLATION, TESTING, AND COMMISSIONING OF A GEL ELECTROPHORESIS MACHINE.",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-07-31",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Supply_Delivery_Installation_Testing_Training_and_Commissioning_of_a_Gel_Etlectrophororis_Machine_7604f2c22f.pdf?updated_at=2025-07-18T04:49:11.957Z",
-  },
-  {
-    opportunity: "MEDICAL GASES INSTALLATIONS.",
-    referenceNumber: "TNH/TND/2025/004",
-    description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES ",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-08-07",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Proposed_Renovations_and_Reorganization_Works_at_the_Day_Surgery_Unit_DSU_Medical_Gases_Installations_5e6c69d21c.pdf?updated_at=2025-07-30T09:56:02.197Z",
-  },
-  {
-    opportunity: "TRAINING & COMMISSIONING OF MEDICAL AIR PLANT",
-    referenceNumber: "TNH/TND/2025/005",
-    description:
-      "SUPPLY, DELIVERY, INSTALLATION, TESTING, AND COMMISSIONING OF A MEDICAL AIR PLANT.",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-07-31",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Supply_Delivery_Installation_Training_and_Commissioning_of_Medical_Air_Plant_947daafb77.pdf?updated_at=2025-07-18T06:11:43.882Z",
-  },
-  {
-    opportunity:
-      "REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ MAIN WORKS.",
-    referenceNumber: "TNH/TND/2025/006",
-    description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES.",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-08-07",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Proposed_Renovations_and_Reorganization_Works_at_the_Day_Surgery_Unit_DSU_Theatres_Main_Works_e398b118b5.pdf?updated_at=2025-07-30T11:25:21.508Z",
-  },
-  {
-    opportunity: "SECURITY SYSTEMS INSTALLATION.",
-    referenceNumber: "TNH/TND/2025/007",
-    description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ SECURITY SYSTEMS INSTALLATION.",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2023-11-05",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Proposed_Renovations_and_Reorganization_Works_at_the_Day_Surgery_Unit_DSU_Security_Systems_Installations_e4badb14d4.pdf?updated_at=2025-07-30T11:24:21.935Z",
-  },
-  {
-    opportunity: "NURSE CALL INSTALLATIONS.",
-    referenceNumber: "TNH/TND/2025/008",
-    description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ NURSE CALL INSTALLATIONS.",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-08-07",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Proposed_Renovations_and_Reorganization_Works_at_the_Day_Surgery_Unit_DSU_Nurse_Call_Installations_583ecbb93a.pdf?updated_at=2025-07-30T11:23:22.549Z",
-  },
-  {
-    opportunity: "LIFT INSTALLATION.",
-    referenceNumber: "TNH/TND/2025/009",
-    description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ LIFT INSTALLATION.",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-08-07",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Proposed_Renovations_and_Reorganization_Works_at_the_Day_Surgery_Unit_DSU_Lift_Installations_91da08191c.pdf?updated_at=2025-07-30T09:55:19.243Z",
-  },
-  {
-    opportunity: "ICT AND STRUCTURED CABLING INSTALLATIONS.",
-    referenceNumber: "TNH/TND/2025/010",
-    description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ ICT AND STRUCTURED CABLING INSTALLATIONS.",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-08-07",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Proposed_Renovations_and_Reorganization_Works_at_the_Day_Surgery_Unit_DSU_Structured_Cabling_393e064602.pdf?updated_at=2025-07-30T11:24:49.519Z",
-  },
-  {
-    opportunity:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ HVAC..",
-    referenceNumber: "TNH/TND/2025/011",
-    description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ HVAC INSTALLATIONS.",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-08-07",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Proposed_Renovations_and_Reorganization_Works_at_the_Day_Surgery_Unit_DSU_HVAC_Installations_38ff091927.pdf?updated_at=2025-07-30T09:54:30.815Z",
-  },
-  {
-    opportunity: "GENERAL ELECTRICAL INSTALLATIONS.",
-    referenceNumber: "TNH/TND/2025/012",
-    description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES â€“ ELECTRICAL INSTALLATIONS.",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-08-07",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Proposed_Renovations_and_Reorganization_Works_at_the_Day_Surgery_Unit_DSU_General_Electrical_Installations_0f9466671f.pdf?updated_at=2025-07-30T09:53:59.789Z",
-  },
-  {
-    opportunity: "ELECTRICAL SUBSTATION WORKS.",
-    referenceNumber: "TNH/TND/2025/013",
-    description:
-      "PROPOSED RENOVATIONS AND REORGANIZATION WORKS AT THE DAY SURGERY UNIT (DSU) THEATRES",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-08-07",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Proposed_Renovations_and_Reorganization_Works_at_the_Day_Surgery_Unit_DSU_Electrical_Sub_Station_Installations_609d2ab3f6.pdf?updated_at=2025-07-30T09:44:29.852Z",
-  },
-  {
-    opportunity:
-      "CONDUCTING BASELINE SURVEY FOR OCCUPATIONAL MEDICAL EXAMINATIONS RE-TENDER",
-    referenceNumber: "TNH/TND/2025/014",
-    description:
-      "REQUEST FOR PROPOSAL FOR CONDUCTING BASELINE SURVEY FOR OCCUPATIONAL MEDICAL EXAMINATIONS RE-TENDER",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-07-31",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/CONDUCTING_BASELINE_SURVEY_FOR_OCCUPATIONAL_MEDICAL_EXAMINATIONS_RE_TENDER_697f6a2b76.pdf?updated_at=2025-07-18T06:52:09.617Z",
-  },
-  {
-    opportunity: "COMMISSIONING AND MAINTENANCE OF LAPAROSCOPIC TOWER",
-    referenceNumber: "TNH/TND/2025/015",
-    description:
-      "SUPPLY, DELIVERY, INSTALLATION, TESTING, TRAINING, AND COMMISSIONING OF A LAPAROSCOPIC TOWER.",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-07-31",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Supply_Delivery_Installation_Testing_Training_Commissioning_and_Maintenance_of_Laparoscopic_Tower_6b6451f0f7.pdf?updated_at=2025-07-18T10:08:42.389Z",
-  },
-  {
-    opportunity:
-      "SUPPLY, DELIVERY, INSTALLATION, TESTING, TRAINING AND COMMISSIONING OF A DIGITAL X-RAY MACHINE",
-    referenceNumber: "TNH/TND/2025/016",
-    description:
-      "SUPPLY, DELIVERY, INSTALLATION, TESTING, TRAINING AND COMMISSIONING OF A DIGITAL X-RAY MACHINE.",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-07-31",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Supply_Delivery_Installation_Testing_Training_and_Commissioning_of_a_Digital_X_Ray_Machine_2c8f0b1d5e.pdf?updated_at=2025-07-18T10:09:59.646Z",
-  },
-  {
-    opportunity:
-      "MAINTENANCE OF HD VIDEO COLPOSCOPE WITH IMAGE MANAGEMENT SYSTEM",
-    referenceNumber: "TNH/TND/2025/017",
-    description:
-      "SUPPLY, DELIVERY, INSTALLATION, TESTING, TRAINING, COMMISSIONING AND MAINTENANCE OF HD VIDEO COLPOSCOPE WITH IMAGE MANAGEMENT SYSTEM",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-07-31",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/Supply_Delivery_Installation_Testing_Training_Commissioning_and_Maintenance_of_HD_Video_Colposcope_with_Image_Management_System_d7e6076f04.pdf?updated_at=2025-07-18T10:09:41.676Z",
-  },
-  {
-    opportunity: "ADDENDUM NOTICE",
-    referenceNumber: "TNH/TND/2025/018",
-    description: "ADDENDUM NOTICE",
-    opportunityType: "Tender",
-    datePosted: "2023-10-05",
-    closingDate: "2025-08-07",
-    fileUrl:
-      "https://cms.thenairobihosp.org/uploads/ADDENDUM_NOTICE_472c8c014e.pdf?updated_at=2025-07-30T11:26:22.505Z",
-  },
-];
-
 const Tenders: FC<TendersProps> = () => {
+  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
+
+  useEffect(() => {
+    const loadTenders = async () => {
+      try {
+        const response = await fetchTenders();
+        const items = Array.isArray(response)
+          ? response
+          : Array.isArray(response?.results)
+            ? response.results
+            : Array.isArray(response?.data)
+              ? response.data
+              : [];
+
+        const mapped: Opportunity[] = items.map((item: any) => ({
+          opportunity: String(item?.opportunity ?? item?.title ?? "").trim(),
+          referenceNumber: item?.referenceNumber ?? item?.reference_number,
+          description: String(item?.description ?? "").trim(),
+          opportunityType: String(
+            item?.opportunityType ?? item?.opportunity_type ?? "Tender",
+          ).trim(),
+          datePosted: String(item?.datePosted ?? item?.date_posted ?? "").trim(),
+          closingDate: item?.closingDate ?? item?.closing_date ?? undefined,
+          fileUrl: String(item?.fileUrl ?? item?.file_url ?? item?.file ?? ""),
+        }));
+
+        setOpportunities(mapped);
+      } catch (error) {
+        console.error("Failed to fetch tenders:", error);
+        setOpportunities([]);
+      }
+    };
+
+    loadTenders();
+  }, []);
+
   return (
     <div>
       <OpportunityTemplate
@@ -231,7 +64,7 @@ const Tenders: FC<TendersProps> = () => {
           },
         ]}
         contactInfo={PAGE_CONTACT_INFO}
-        opportunities={tendersData}
+        opportunities={opportunities}
       />
     </div>
   );
