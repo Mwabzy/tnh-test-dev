@@ -244,7 +244,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
     });
 
     return rows;
-  }, [locations, serviceTypes]);
+  }, [locations, opcTimings, serviceTypes]);
 
   const content = useIntlayer("service_template");
 
