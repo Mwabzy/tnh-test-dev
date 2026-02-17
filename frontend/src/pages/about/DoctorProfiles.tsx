@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useMemo } from "react";
 import { Link } from "react-router";
 import { FaUserMd, FaCalendarCheck } from "react-icons/fa";
 import Heading from "@/components/Heading";
@@ -31,6 +31,11 @@ type Doctor = {
   role?: string;
   images: string[];
   bio: string;
+  services_offered?: {
+    id: number;
+    title?: string;
+    locations?: string[];
+  }[];
   specialization?: string;
   medicalQualifications?: string;
   yearsOfExperience?: string;
@@ -40,6 +45,7 @@ type Doctor = {
   clinicDepartment?: string;
   schedule?: string[];
   location?: string;
+  locations?: string[];
   licensingDetails?: string;
   servicesOffered?: string[];
   awardsAndRecognition?: string[];
@@ -54,6 +60,39 @@ type Doctor = {
 
 const ITEMS_PER_PAGE = 6;
 
+const sanitizeLocationValue = (value: unknown): string | null => {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+};
+
+const extractDoctorLocations = (doctor: any): string[] => {
+  const unique = new Set<string>();
+
+  const addLocation = (value: unknown) => {
+    const cleaned = sanitizeLocationValue(value);
+    if (cleaned) unique.add(cleaned);
+  };
+
+  // Backward-compatible direct location shapes
+  addLocation(doctor?.location);
+  if (Array.isArray(doctor?.locations)) {
+    doctor.locations.forEach(addLocation);
+  }
+
+  // Primary source: locations on dashboard clinical services linked to doctor
+  if (Array.isArray(doctor?.services_offered)) {
+    doctor.services_offered.forEach((service: any) => {
+      if (Array.isArray(service?.locations)) {
+        service.locations.forEach(addLocation);
+      }
+      addLocation(service?.location);
+    });
+  }
+
+  return Array.from(unique);
+};
+
 const DoctorProfiles: FC = () => {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
@@ -65,19 +104,6 @@ const DoctorProfiles: FC = () => {
   const [firstLetter, setFirstLetter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const locations = [
-    "Main Hospital",
-    "Anderson clinic",
-    "The Nairobi Hospital",
-    "Anderson Specialty",
-    "Capital Center OPC",
-    "Galleria OPC",
-    "Kiambu OPC",
-    "Roslyn Riviera OPC",
-    "South Field OPC",
-    "Warwick OPC",
-  ];
-
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
   // Fetch doctors from API
@@ -87,36 +113,42 @@ const DoctorProfiles: FC = () => {
         setLoading(true);
         const data = await fetchDoctors();
         console.log("Fetched doctors data:", data);
-        const transformed = data.map((doc: any, idx: number) => ({
-          ...doc,
-          id: doc.id || `doctor-${idx}`,
-          role: doc.role || doc.specialization || "",
-          specialization: doc.specialization || doc.role || "",
-          description: doc.bio ? [doc.bio] : [],
-          languages: doc.languagesSpoken
-            ? doc.languagesSpoken.split(/,|;/).map((s: string) => s.trim())
-            : [],
-          schedule: doc.schedule
-            ? doc.schedule.split(/,|;|\n/).map((s: string) => s.trim())
-            : [],
-          socialMediaWebsite: doc.socialMedia ? [doc.socialMedia] : [],
-          email: doc.contactEmail || "",
-          phone: doc.contactPhone || "",
-          images:
-            doc.images?.map((img: any) => img.url).filter(Boolean) ||
-            doc.image?.map((img: any) => img.url).filter(Boolean) ||
-            [],
-          awardsAndRecognition: doc.awardsAndRecognition
-            ? Array.isArray(doc.awardsAndRecognition)
-              ? doc.awardsAndRecognition
-              : [doc.awardsAndRecognition]
-            : [],
-          ResearchAndPublications: doc.researchAndPublications
-            ? Array.isArray(doc.researchAndPublications)
-              ? doc.researchAndPublications
-              : [doc.researchAndPublications]
-            : [],
-        }));
+        const transformed = data.map((doc: any, idx: number) => {
+          const doctorLocations = extractDoctorLocations(doc);
+
+          return {
+            ...doc,
+            id: doc.id || `doctor-${idx}`,
+            role: doc.role || doc.specialization || "",
+            specialization: doc.specialization || doc.role || "",
+            description: doc.bio ? [doc.bio] : [],
+            languages: doc.languagesSpoken
+              ? doc.languagesSpoken.split(/,|;/).map((s: string) => s.trim())
+              : [],
+            schedule: doc.schedule
+              ? doc.schedule.split(/,|;|\n/).map((s: string) => s.trim())
+              : [],
+            socialMediaWebsite: doc.socialMedia ? [doc.socialMedia] : [],
+            email: doc.contactEmail || "",
+            phone: doc.contactPhone || "",
+            locations: doctorLocations,
+            location: doctorLocations[0] || "",
+            images:
+              doc.images?.map((img: any) => img.url).filter(Boolean) ||
+              doc.image?.map((img: any) => img.url).filter(Boolean) ||
+              [],
+            awardsAndRecognition: doc.awardsAndRecognition
+              ? Array.isArray(doc.awardsAndRecognition)
+                ? doc.awardsAndRecognition
+                : [doc.awardsAndRecognition]
+              : [],
+            ResearchAndPublications: doc.researchAndPublications
+              ? Array.isArray(doc.researchAndPublications)
+                ? doc.researchAndPublications
+                : [doc.researchAndPublications]
+              : [],
+          };
+        });
         setDoctors(transformed);
       } catch (err) {
         console.error(err);
@@ -127,6 +159,30 @@ const DoctorProfiles: FC = () => {
     };
     loadDoctors();
   }, []);
+
+  const locations = useMemo(() => {
+    const unique = new Set<string>();
+    doctors.forEach((doctor) => {
+      if (Array.isArray(doctor.locations)) {
+        doctor.locations.forEach((loc) => {
+          const cleaned = sanitizeLocationValue(loc);
+          if (cleaned) unique.add(cleaned);
+        });
+      }
+    });
+    return Array.from(unique).sort((a, b) => a.localeCompare(b));
+  }, [doctors]);
+
+  useEffect(() => {
+    setSelectedLocations((prev) =>
+      prev.filter((selected) =>
+        locations.some(
+          (available) =>
+            available.toLowerCase().trim() === selected.toLowerCase().trim(),
+        ),
+      ),
+    );
+  }, [locations]);
 
   // Filters
   const filteredDoctors = doctors.filter((member) => {
@@ -140,10 +196,20 @@ const DoctorProfiles: FC = () => {
           .includes(specialtyClinic.toLowerCase())
       : true;
 
+    const doctorLocations = (
+      Array.isArray(member.locations) ? member.locations : [member.location]
+    )
+      .map((loc) => sanitizeLocationValue(loc))
+      .filter((loc): loc is string => Boolean(loc));
+
     const matchesLocation =
       selectedLocations.length > 0
-        ? selectedLocations.some((loc) =>
-            member.location?.toLowerCase().includes(loc.toLowerCase()),
+        ? selectedLocations.some((selected) =>
+            doctorLocations.some(
+              (doctorLoc) =>
+                doctorLoc.toLowerCase().trim() ===
+                selected.toLowerCase().trim(),
+            ),
           )
         : true;
 
@@ -232,24 +298,28 @@ const DoctorProfiles: FC = () => {
             <label className="block text-base font-serif font-semibold text-gray-800 mb-3">
               {content.locationfilter}
             </label>
-            <div className="space-y-2">
-              {locations.map((loc) => (
-                <div key={loc} className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={selectedLocations.includes(loc)}
-                    onChange={() => toggleLocation(loc)}
-                    className="mr-3 w-4 h-4 text-red-600 border-2 border-gray-300 rounded focus:ring-red-500 focus:ring-2"
-                  />
-                  <span
-                    className="text-sm text-gray-700 hover:text-red-900 cursor-pointer select-none"
-                    onClick={() => toggleLocation(loc)}
-                  >
-                    {loc}
-                  </span>
-                </div>
-              ))}
-            </div>
+            {locations.length > 0 ? (
+              <div className="space-y-2">
+                {locations.map((loc) => (
+                  <div key={loc} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={selectedLocations.includes(loc)}
+                      onChange={() => toggleLocation(loc)}
+                      className="mr-3 w-4 h-4 text-red-600 border-2 border-gray-300 rounded focus:ring-red-500 focus:ring-2"
+                    />
+                    <span
+                      className="text-sm text-gray-700 hover:text-red-900 cursor-pointer select-none"
+                      onClick={() => toggleLocation(loc)}
+                    >
+                      {loc}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-gray-500">No locations available.</p>
+            )}
           </div>
 
           {/* First Letter Filter */}
