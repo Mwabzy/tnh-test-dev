@@ -1,12 +1,37 @@
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
-import clinicalServices from "@/data/clinicalServices.json";
+import { fetchClinicalServices } from "@/api/api";
+import { ClinicalService } from "@/types";
 import { useIntlayer } from "react-intlayer";
 
+const stripHtml = (value: string) =>
+  value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+
+const truncateText = (value: string, maxLength: number) =>
+  value.length > maxLength ? `${value.slice(0, maxLength).trim()}...` : value;
 
 const Services = () => {
   const servicedata = useIntlayer("heroContent");
+  const [services, setServices] = useState<ClinicalService[]>([]);
 
-  const servicesToShow = clinicalServices.slice(0, 3);
+  useEffect(() => {
+    const loadServices = async () => {
+      try {
+        const data = await fetchClinicalServices();
+        setServices(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Failed to load clinical services for homepage:", error);
+      }
+    };
+
+    loadServices();
+  }, []);
+
+  const servicesToShow = useMemo(
+    () => services.filter((item) => Boolean(item.ftOnHomepage)).slice(0, 3),
+    [services],
+  );
+
   return (
     <div className="bg-red-900 flex flex-col items-center justify-center mt-10">
       <div className="text-center mb-12">
@@ -21,27 +46,25 @@ const Services = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-[5%]">
         {servicesToShow.map((item) => (
           <div
-            key={item.name}
+            key={item.id}
             className="max-w-sm bg-red-900  rounded-lg  dark:bg-gray-800"
           >
-            <img
-              className="rounded-t-lg w-full h-56 object-cover"
-              src={
-                Array.isArray(item.image.src)
-                  ? item.image.src[0]
-                  : item.image.src
-              }
-              alt={item.image.alt}
-            />
+            {item.images?.[0]?.url && (
+              <img
+                className="rounded-t-lg w-full h-56 object-cover"
+                src={item.images[0].url}
+                alt={item.images[0].alt || item.title}
+              />
+            )}
             <div className="p-5 px-0">
               <h5 className="mb-2 text-xl sm:text-2xl md:text-2xl font-serif  font-bold tracking-tight text-white dark:text-white ">
-                {item.name}
+                {item.title}
               </h5>
               <p className="mb-3 font-sans font-normal text-white ">
-                {item.description}
+                {truncateText(stripHtml(item.overview || ""), 180)}
               </p>
               <Link
-                to={`/service-detail/${encodeURIComponent(String(item.id))}`}
+                to={`/service-detail/${encodeURI(item.path || String(item.id))}`}
                 className="text-white font-semibold mt-4 inline-flex items-center group"
               >
                 Read More
@@ -64,7 +87,7 @@ const Services = () => {
           </div>
         ))}
       </div>
-      {clinicalServices.length > 4 && (
+      {services.length > 3 && (
         <div className="flex flex-col mt-15 mx-4  items-center justify-between bg-white shadow-md rounded-xl p-6 mb-10">
           {/* Text Section */}
           <div className="text-center md:text-left">

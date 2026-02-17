@@ -120,6 +120,7 @@ class ClinicalService(models.Model):
     # Checkboxes
     isBookable = models.BooleanField(default=False)
     hasReadMore = models.BooleanField(default=False)
+    ftOnHomepage = models.BooleanField(default=False)
 
     # Sub clinics
     clinics = models.ManyToManyField(

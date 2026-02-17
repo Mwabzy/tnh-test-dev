@@ -72,6 +72,24 @@ const ClinicalServices = () => {
     : services;
 
   const handleSave = async (service: ClinicalService | FormData) => {
+    const wantsFtOnHomepage =
+      service instanceof FormData
+        ? String(service.get("ftOnHomepage")).toLowerCase() === "true"
+        : Boolean(service.ftOnHomepage);
+
+    if (wantsFtOnHomepage) {
+      const featuredWithoutCurrent = services.filter(
+        (item) =>
+          Boolean(item.ftOnHomepage) &&
+          (!editingService || item.id !== editingService.id),
+      ).length;
+
+      if (featuredWithoutCurrent >= 3) {
+        toast.error("unselect another ft on homepage service to add a new one");
+        return;
+      }
+    }
+
     try {
       let result;
 
@@ -137,12 +155,12 @@ const ClinicalServices = () => {
 
         {!showForm && (
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <input
+            {/* <input
               value={locationQuery}
               onChange={(e) => setLocationQuery(e.target.value)}
-              placeholder="Search clinical services by location"
+              placeholder="Search clinical service..."
               className="w-full sm:w-80 border border-gray-300 rounded-md px-3 py-2 text-sm"
-            />
+            /> */}
             {!loading && (
               <button
                 onClick={handleAdd}

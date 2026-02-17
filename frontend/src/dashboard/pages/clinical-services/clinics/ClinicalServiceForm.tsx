@@ -144,6 +144,9 @@ const ClinicalServiceForm: React.FC<Props> = ({
   const [hasReadMore, setHasReadMore] = useState(
     initialData?.hasReadMore ?? false,
   );
+  const [ftOnHomepage, setFtOnHomepage] = useState(
+    initialData?.ftOnHomepage ?? false,
+  );
   const [images, setImages] = useState<Image[]>(
     (initialData?.images || []).map((img) => ({
       ...img,
@@ -372,6 +375,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
     formData.append("isBookable", String(isBookable));
     formData.append("hasReadMore", String(hasReadMore));
+    formData.append("ftOnHomepage", String(ftOnHomepage));
     formData.append("features", JSON.stringify(featuresPayload));
 
     features.forEach((f, index) => {
@@ -1021,6 +1025,15 @@ const ClinicalServiceForm: React.FC<Props> = ({
             onChange={(e) => setHasReadMore(e.target.checked)}
           />
           Has Read More
+        </label>
+
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={ftOnHomepage}
+            onChange={(e) => setFtOnHomepage(e.target.checked)}
+          />
+          FT on homepage
         </label>
       </div>
 

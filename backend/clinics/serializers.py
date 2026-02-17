@@ -288,6 +288,7 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
     'contact',
     'isBookable',
     'hasReadMore',
+    'ftOnHomepage',
     'clinics',
     'images',
     'images_files',
@@ -295,6 +296,27 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
     'images_to_delete',
     'locations',
 ]
+
+    def validate(self, attrs):
+        ft_on_homepage = attrs.get("ftOnHomepage")
+        if ft_on_homepage is None and self.instance is not None:
+            ft_on_homepage = self.instance.ftOnHomepage
+
+        if ft_on_homepage:
+            featured_query = ClinicalService.objects.filter(ftOnHomepage=True)
+            if self.instance is not None:
+                featured_query = featured_query.exclude(pk=self.instance.pk)
+
+            if featured_query.count() >= 3:
+                raise serializers.ValidationError(
+                    {
+                        "ftOnHomepage": (
+                            "Unselect another ft on homepage service to add a new one"
+                        )
+                    }
+                )
+
+        return attrs
 
     
     # Parse JSON strings from FormData
@@ -340,7 +362,7 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
                  data[field] = val[0]
 
      #  Booleans 
-     for bool_field in ['isBookable', 'hasReadMore']:
+     for bool_field in ['isBookable', 'hasReadMore', 'ftOnHomepage']:
          if bool_field in data:
              val = data[bool_field]
              if isinstance(val, list):

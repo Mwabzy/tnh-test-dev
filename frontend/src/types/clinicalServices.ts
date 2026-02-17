@@ -90,6 +90,7 @@ export interface ClinicalService {
   contact: ContactInfo;
   isBookable: boolean;
   hasReadMore: boolean;
+  ftOnHomepage?: boolean;
   timingsOnOverview?: string;
   clinics?: ClinicalService[];
   images: Image[];
