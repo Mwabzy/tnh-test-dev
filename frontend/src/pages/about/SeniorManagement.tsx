@@ -1,4 +1,5 @@
 import { FC, useState, useEffect } from "react";
+import { useIntlayer } from "react-intlayer";
 import TeamPage from "./TeamPage";
 import { fetchTeamMembers } from "@/api/api";
 
@@ -206,6 +207,7 @@ type TeamMember = {
 // ];
 
 const SeniorManagement: FC<TeamPageProps> = () => {
+  const content = useIntlayer("aboutTeamPages");
   const group = "SM";
   const [_loading, setLoading] = useState(true);
   const [members, setMembers] = useState<TeamMember[]>([]);
@@ -232,8 +234,8 @@ const SeniorManagement: FC<TeamPageProps> = () => {
     <>
       {/* <NavigationTabs /> */}
       <TeamPage
-        title="Senior Management Team"
-        description="Our Senior Management Team is dedicated to providing exceptional healthcare services and operational leadership at The Nairobi Hospital. With a wealth of experience and expertise, they ensure the hospital's mission is fulfilled with integrity and excellence."
+        title={content.seniorManagementTitle[0]?.value ?? ""}
+        description={content.seniorManagementDescription[0]?.value ?? ""}
         members={members}
       />
     </>

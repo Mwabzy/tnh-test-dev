@@ -49,32 +49,29 @@ const BoardOfTrustees = () => {
 
   const handleSave = async (member: TeamMember | FormData): Promise<any> => {
     try {
-      // Convert FormData to TeamMember if needed
-      const memberData =
-        member instanceof FormData
-          ? (Object.fromEntries(member) as unknown as TeamMember)
-          : member;
       // Ensure the member gets the correct group
-      memberData.group = group;
+      if (member instanceof FormData) {
+        member.set("group", group);
+      } else {
+        member.group = group;
+      }
 
       if (editingMember) {
-        const updated = await updateTeamMember(memberData.id, memberData);
+        const updated = await updateTeamMember(editingMember.id, member);
         setMembers((prev) =>
           prev.map((m) => (m.id === updated.id ? updated : m))
         );
       } else {
-        const created = await createTeamMember(memberData);
+        const created = await createTeamMember(member);
         setMembers((prev) => [...prev, created]);
       }
 
       setShowForm(false);
       setEditingMember(null);
-      toast.success("Team member saved successfully!");
-    } catch (err: any) {
-      toast.error(`Error saving member: ${err.message}`);
+    } catch (err) {
+      throw err;
     }
   };
-
   const handleDeleteClick = (id: string) => setDeleteConfirmId(id);
 
   const confirmDelete = async () => {

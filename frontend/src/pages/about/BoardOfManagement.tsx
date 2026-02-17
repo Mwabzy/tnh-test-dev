@@ -1,4 +1,5 @@
 import { FC, useState, useEffect } from "react";
+import { useIntlayer } from "react-intlayer";
 import TeamPage from "./TeamPage";
 import { fetchTeamMembers } from "@/api/api";
 
@@ -199,6 +200,7 @@ export const teamMembers: TeamMember[] = [
 ];*/
 
 const BoardOfManagement: FC<TeamPageProps> = () => {
+  const content = useIntlayer("aboutTeamPages");
   const group = "BM";
   const [_loading, setLoading] = useState(true);
   const [members, setMembers] = useState<TeamMember[]>([]);
@@ -225,8 +227,8 @@ const BoardOfManagement: FC<TeamPageProps> = () => {
     <>
       {/* <NavigationTabs /> */}
       <TeamPage
-        title="Board of Management"
-        description="The Nairobi Hospital Board of Management is in charge of the hospital’s corporate governance and is accountable to the Kenya Hospital Association which ensures the hospital’s compliance with the law while maintaining the highest standards of corporate governance. The Nairobi Hospital Board complies with the 2/3 gender rule, with 34% female and 64% male members."
+        title={content.boardOfManagementTitle[0]?.value ?? ""}
+        description={content.boardOfManagementDescription[0]?.value ?? ""}
         members={members}
       />
     </>

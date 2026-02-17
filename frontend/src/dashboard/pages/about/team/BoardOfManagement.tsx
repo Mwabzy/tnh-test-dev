@@ -68,12 +68,10 @@ const BoardManagement = () => {
 
       setShowForm(false);
       setEditingMember(null);
-      toast.success("Team member saved successfully!");
-    } catch (err: any) {
-      toast.error(`Error saving member: ${err.message}`);
+    } catch (err) {
+      throw err;
     }
   };
-
   const handleDeleteClick = (id: string) => setDeleteConfirmId(id);
 
   const confirmDelete = async () => {

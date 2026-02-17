@@ -1,4 +1,5 @@
 import { FC, useState, useEffect } from "react";
+import { useIntlayer } from "react-intlayer";
 import TeamPage from "./TeamPage";
 import { fetchTeamMembers } from "@/api/api";
 
@@ -105,6 +106,7 @@ export const teamMembers: TeamMember[] = [
 ];*/
 
 const BoardOfTrustees: FC<TeamPageProps> = () => {
+  const content = useIntlayer("aboutTeamPages");
   const group = "BT";
   const [_loading, setLoading] = useState(true);
   const [members, setMembers] = useState<TeamMember[]>([]);
@@ -130,7 +132,11 @@ const BoardOfTrustees: FC<TeamPageProps> = () => {
   return (
     <>
       {/* <NavigationTabs /> */}
-      <TeamPage title="Board of Trustees" description="" members={members} />
+      <TeamPage
+        title={content.boardOfTrusteesTitle[0]?.value ?? ""}
+        description={content.boardOfTrusteesDescription[0]?.value ?? ""}
+        members={members}
+      />
     </>
   );
 };

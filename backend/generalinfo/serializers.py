@@ -21,11 +21,6 @@ def get_translated_field(obj, field, lang):
 class TeamMemberSerializer(serializers.ModelSerializer):
     """Serializer for TeamMember model with image + i18n handling."""
 
-    # Translated read fields
-    role = serializers.SerializerMethodField()
-    description = serializers.SerializerMethodField()
-    group = serializers.SerializerMethodField()
-
     # Image handling
     image_url = serializers.SerializerMethodField(read_only=True)
     image_file = serializers.ImageField(write_only=True, required=False)
@@ -41,15 +36,15 @@ class TeamMemberSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         return request.query_params.get("lang", "en") if request else "en"
 
-    def get_role(self, obj):
-        return get_translated_field(obj, "role", self._lang())
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        lang = self._lang()
 
-    def get_description(self, obj):
-        return get_translated_field(obj, "description", self._lang())
-
-    def get_group(self, obj):
-        return get_translated_field(obj, "group", self._lang())
-
+        # Keep these fields writable, then localize only the response payload.
+        data["role"] = get_translated_field(instance, "role", lang)
+        data["description"] = get_translated_field(instance, "description", lang)
+        data["group"] = get_translated_field(instance, "group", lang)
+        return data
     # ---------- image ----------
     def get_image_url(self, obj):
         if not obj.image:
