@@ -28,6 +28,8 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
   } = serviceTypes;
 
   const mainImage = images?.[0];
+  const isServiceBookable =
+    String(serviceTypes?.isBookable).toLowerCase() === "true";
   console.log("features_read:", features_read);
 
   const [openTimings, setOpenTimings] = useState<{
@@ -244,7 +246,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
     });
 
     return rows;
-  }, [locations, serviceTypes]);
+  }, [locations, opcTimings, serviceTypes]);
 
   const content = useIntlayer("service_template");
 
@@ -307,9 +309,14 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
 
                           {/* Feature description */}
                           {f.description && (
-                            <div className="text-sm text-gray-600">
-                              {f.description}
-                            </div>
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: DOMPurify.sanitize(
+                                  addClassesToDescription(f.description) ?? "",
+                                ),
+                              }}
+                              className="prose prose-gray max-w-none text-sm text-gray-600 leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+                            ></div>
                           )}
                         </div>
                       </li>
@@ -318,116 +325,120 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                 </div>
               )}
 
-              {/* Our Clinic Timings (compact) */}
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                  {content.clinic_timings}
-                </h3>
-                <div className="bg-white border border-gray-100 rounded-lg overflow-hidden shadow-md">
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead className="bg-gray-50 text-gray-700">
-                        <tr>
-                          <th className="px-4 py-3 text-left">
-                            {content.location}
-                          </th>
-                          <th className="px-4 py-3 text-left">
-                            {content.clinic_timing}
-                          </th>
-                          <th className="px-4 py-3 text-center">
-                            {content.book_appointment}
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {timingRows.map((row) => (
-                          <tr
-                            key={row.location}
-                            className="bg-white hover:bg-gray-50"
-                          >
-                            <td className="px-4 py-3 font-medium text-gray-900">
-                              {row.location}
-                            </td>
-                            <td className="px-4 py-3 text-gray-700">
-                              <button
-                                type="button"
-                                onClick={() => setOpenTimings(row)}
-                                className="bg-white text-red-900 border border-red-900 px-4 py-2 rounded-lg font-medium hover:bg-red-900 hover:text-white transition-colors"
-                              >
-                                {content.view_timings}
-                              </button>
-                            </td>
-                            <td className="px-4 py-3 text-center">
-                              <Link
-                                to={`/booking-calendar?serviceId=${serviceTypes.id}`}
-                                className="bg-red-900 text-white border border-red-900 px-4 py-2 rounded-lg font-medium  hover:text-white hover:bg-red-800 transition-colors inline-block"
-                              >
-                                {content.book}
-                              </Link>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-
-              {openTimings && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-                  <div className="bg-white w-full max-w-lg rounded-lg shadow-lg">
-                    <div className="flex items-center justify-between border-b px-5 py-4">
-                      <div className="text-base font-semibold text-gray-900">
-                        {openTimings.location} Timings
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setOpenTimings(null)}
-                        className="text-gray-500 hover:text-gray-700"
-                        aria-label="Close timings"
-                      >
-                        X
-                      </button>
-                    </div>
-                    <div className="px-5 py-4">
-                      {openTimings.entries.length === 0 ? (
-                        <div className="text-sm text-gray-600 bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                          Timings not set. Contact the hospital.
-                        </div>
-                      ) : (
+              {isServiceBookable && (
+                <>
+                  {/* Our Clinic Timings (compact) */}
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                      {content.clinic_timings}
+                    </h3>
+                    <div className="bg-white border border-gray-100 rounded-lg overflow-hidden shadow-md">
+                      <div className="overflow-x-auto">
                         <table className="w-full text-sm">
-                          <thead className="text-gray-600">
+                          <thead className="bg-gray-50 text-gray-700">
                             <tr>
-                              <th className="py-2 text-left">Day</th>
-                              <th className="py-2 text-left">Time</th>
+                              <th className="px-4 py-3 text-left">
+                                {content.location}
+                              </th>
+                              <th className="px-4 py-3 text-left">
+                                {content.clinic_timing}
+                              </th>
+                              <th className="px-4 py-3 text-center">
+                                {content.book_appointment}
+                              </th>
                             </tr>
                           </thead>
                           <tbody>
-                            {openTimings.entries.map((entry, idx) => (
-                              <tr key={`${openTimings.location}-${idx}`}>
-                                <td className="py-2 text-gray-700">
-                                  {entry.day || "--"}
+                            {timingRows.map((row) => (
+                              <tr
+                                key={row.location}
+                                className="bg-white hover:bg-gray-50"
+                              >
+                                <td className="px-4 py-3 font-medium text-gray-900">
+                                  {row.location}
                                 </td>
-                                <td className="py-2 text-gray-700">
-                                  {entry.time || "--"}
+                                <td className="px-4 py-3 text-gray-700">
+                                  <button
+                                    type="button"
+                                    onClick={() => setOpenTimings(row)}
+                                    className="bg-white text-red-900 border border-red-900 px-4 py-2 rounded-lg font-medium hover:bg-red-900 hover:text-white transition-colors"
+                                  >
+                                    {content.view_timings}
+                                  </button>
+                                </td>
+                                <td className="px-4 py-3 text-center">
+                                  <Link
+                                    to={`/booking-calendar?serviceId=${serviceTypes.id}`}
+                                    className="bg-red-900 text-white border border-red-900 px-4 py-2 rounded-lg font-medium  hover:text-white hover:bg-red-800 transition-colors inline-block"
+                                  >
+                                    {content.book}
+                                  </Link>
                                 </td>
                               </tr>
                             ))}
                           </tbody>
                         </table>
-                      )}
-                    </div>
-                    <div className="flex justify-end border-t px-5 py-3">
-                      <button
-                        type="button"
-                        onClick={() => setOpenTimings(null)}
-                        className="px-4 py-2 text-sm border rounded-md"
-                      >
-                        Close
-                      </button>
+                      </div>
                     </div>
                   </div>
-                </div>
+
+                  {openTimings && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+                      <div className="bg-white w-full max-w-lg rounded-lg shadow-lg">
+                        <div className="flex items-center justify-between border-b px-5 py-4">
+                          <div className="text-base font-semibold text-gray-900">
+                            {openTimings.location} Timings
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setOpenTimings(null)}
+                            className="text-gray-500 hover:text-gray-700"
+                            aria-label="Close timings"
+                          >
+                            X
+                          </button>
+                        </div>
+                        <div className="px-5 py-4">
+                          {openTimings.entries.length === 0 ? (
+                            <div className="text-sm text-gray-600 bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                              Timings not set. Contact the hospital.
+                            </div>
+                          ) : (
+                            <table className="w-full text-sm">
+                              <thead className="text-gray-600">
+                                <tr>
+                                  <th className="py-2 text-left">Day</th>
+                                  <th className="py-2 text-left">Time</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {openTimings.entries.map((entry, idx) => (
+                                  <tr key={`${openTimings.location}-${idx}`}>
+                                    <td className="py-2 text-gray-700">
+                                      {entry.day || "--"}
+                                    </td>
+                                    <td className="py-2 text-gray-700">
+                                      {entry.time || "--"}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          )}
+                        </div>
+                        <div className="flex justify-end border-t px-5 py-3">
+                          <button
+                            type="button"
+                            onClick={() => setOpenTimings(null)}
+                            className="px-4 py-2 text-sm border rounded-md"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
 
               {/* Team (two aligned cards) */}
