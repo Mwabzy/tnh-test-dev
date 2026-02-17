@@ -92,6 +92,38 @@ const OutpatientCenterDetails = () => {
           return;
         }
 
+        const timingServiceIds = Array.isArray(found.timings)
+          ? found.timings
+              .map((timing: any) => {
+                const clinicRaw =
+                  timing?.clinicId ??
+                  timing?.clinic_id ??
+                  timing?.clinic?.id ??
+                  timing?.clinic ??
+                  null;
+                const clinicNumber = Number(clinicRaw);
+                return Number.isFinite(clinicNumber) ? clinicNumber : null;
+              })
+              .filter((serviceId: number | null): serviceId is number =>
+                Number.isFinite(serviceId),
+              )
+          : [];
+
+        const declaredServiceIds = Array.isArray(found.services_offered)
+          ? found.services_offered
+              .map((service: any) =>
+                typeof service === "object" ? service?.id : service,
+              )
+              .filter((serviceId: any) =>
+                Number.isFinite(Number(serviceId)),
+              )
+              .map((serviceId: any) => Number(serviceId))
+          : [];
+
+        const mergedServiceIds = Array.from(
+          new Set([...declaredServiceIds, ...timingServiceIds]),
+        );
+
         const mapped: Opc = {
           id: found.id,
           slug: found.slug ?? null,
@@ -99,16 +131,7 @@ const OutpatientCenterDetails = () => {
           description: found.description ?? "",
           contact: parseContact(found.contact),
           location: found.location ?? "",
-          servicesOffered: Array.isArray(found.services_offered)
-            ? found.services_offered
-                .map((service: any) =>
-                  typeof service === "object" ? service?.id : service,
-                )
-                .filter((serviceId: any) =>
-                  Number.isFinite(Number(serviceId)),
-                )
-                .map((serviceId: any) => Number(serviceId))
-            : [],
+          servicesOffered: mergedServiceIds,
           timings: Array.isArray(found.timings)
             ? found.timings.map((timing: any) => {
                 const clinicRaw =
@@ -244,62 +267,50 @@ const OutpatientCenterDetails = () => {
           {/* Accordion */}
           <div className="">
             <Accordion type="single" collapsible className="w-full">
-              {services.map((service, index) => (
-                <AccordionItem key={service.id} value={`item-${index}`}>
-                  <AccordionTrigger>{service.title}</AccordionTrigger>
-                  <AccordionContent>
-                    <div className="space-y-3">
-                      <p>
-                        {service.tagline ||
-                          service.overview ||
-                          "Details coming soon."}
-                      </p>
+              {services.map((service, index) => {
+                const serviceTimings = timingsByServiceId.get(service.id) ?? [];
 
-                      <div>
+                return (
+                  <AccordionItem key={service.id} value={`item-${index}`}>
+                    <AccordionTrigger>{service.title}</AccordionTrigger>
+                    <AccordionContent>
+                      <div className="rounded-md border border-gray-200 bg-gray-50 p-4">
                         <p className="text-sm font-semibold text-gray-900">
                           Clinic timings
                         </p>
-                        {(() => {
-                          const serviceTimings =
-                            timingsByServiceId.get(service.id) ?? [];
 
-                          if (serviceTimings.length === 0) {
-                            return (
-                              <p className="text-sm text-gray-600 mt-1">
-                                No timings set for this clinic service.
-                              </p>
-                            );
-                          }
+                        {serviceTimings.length === 0 ? (
+                          <p className="text-sm text-gray-600 mt-2">
+                            No timings set for this clinic service.
+                          </p>
+                        ) : (
+                          <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
+                            {serviceTimings.map((timing, timingIndex) => {
+                              const dayPart = timing.day || "Day not set";
+                              const monthPart = timing.month
+                                ? ` (${timing.month})`
+                                : "";
+                              const fromPart =
+                                timing.startTime || "Start not set";
+                              const toPart = timing.stopTime || "End not set";
 
-                          return (
-                            <ul className="mt-2 space-y-1 text-sm text-gray-700">
-                              {serviceTimings.map((timing, timingIndex) => {
-                                const dayPart = timing.day || "Day not set";
-                                const monthPart = timing.month
-                                  ? ` (${timing.month})`
-                                  : "";
-                                const fromPart =
-                                  timing.startTime || "Start not set";
-                                const toPart = timing.stopTime || "End not set";
-
-                                return (
-                                  <li
-                                    key={`${service.id}-timing-${timingIndex}`}
-                                    className="leading-relaxed"
-                                  >
-                                    {dayPart}
-                                    {monthPart}: {fromPart} - {toPart}
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          );
-                        })()}
+                              return (
+                                <li
+                                  key={`${service.id}-timing-${timingIndex}`}
+                                  className="leading-relaxed"
+                                >
+                                  {dayPart}
+                                  {monthPart}: {fromPart} - {toPart}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        )}
                       </div>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                );
+              })}
             </Accordion>
             {services.length === 0 && (
               <p className="text-gray-600 mt-2">

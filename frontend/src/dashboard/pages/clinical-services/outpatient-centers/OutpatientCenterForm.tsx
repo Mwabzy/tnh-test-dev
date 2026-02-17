@@ -282,6 +282,15 @@ const OutpatientCenterForm = ({
       startTime: t.startTime,
       stopTime: t.stopTime,
     }));
+    const selectedServices = Array.from(
+      new Set(
+        cleanedTimings
+          .map((t) => t.clinic)
+          .filter((clinic): clinic is number =>
+            Number.isFinite(Number(clinic)),
+          ),
+      ),
+    );
 
     const formData = new FormData();
     formData.append("name", name);
@@ -294,6 +303,7 @@ const OutpatientCenterForm = ({
     formData.append("description_ru", descriptionTranslations.ru);
 
     formData.append("timings", JSON.stringify(cleanedTimings));
+    formData.append("services_offered", JSON.stringify(selectedServices));
     formData.append("contact", JSON.stringify(contact));
 
     images.forEach((img, index) => {
