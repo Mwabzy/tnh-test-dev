@@ -270,6 +270,7 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         fields = [
     'id',
     'title',
+    'path',
     'tagline', 'tagline_fr', 'tagline_es', 'tagline_zh', 'tagline_ru',
     'overview', 'overview_fr', 'overview_es', 'overview_zh', 'overview_ru',
     'detailedDescription',
@@ -348,6 +349,7 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
 
      string_fields = [
           'title',
+          'path',
           'tagline', 'tagline_fr', 'tagline_es', 'tagline_zh', 'tagline_ru',
           'overview', 'overview_fr', 'overview_es', 'overview_zh', 'overview_ru',
           'detailedDescription',
@@ -370,7 +372,7 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
              data[bool_field] = str(val).lower() == 'true'
  
      # Strings 
-     for field in ['title', 'tagline', 'overview', 'detailedDescription']:
+     for field in ['title', 'path', 'tagline', 'overview', 'detailedDescription']:
          if field in data:
              val = data[field]
              if isinstance(val, list):
