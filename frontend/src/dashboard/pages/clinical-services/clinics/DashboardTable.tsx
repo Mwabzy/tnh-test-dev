@@ -29,7 +29,7 @@ const DashboardTable: FC<DashboardTableProps> = ({
         <thead>
           <tr className="bg-gray-100 text-left">
             <th className="p-3">Title</th>
-            <th className="p-3">Tagline</th>
+            <th className="p-3">Location</th>
             <th className="p-3">Actions</th>
           </tr>
         </thead>
@@ -37,7 +37,11 @@ const DashboardTable: FC<DashboardTableProps> = ({
           {data.map((item) => (
             <tr key={item.id} className="border-b hover:bg-gray-50">
               <td className="p-3 font-medium">{item.title}</td>
-              <td className="p-3">{item.tagline}</td>
+              <td className="p-3">
+                {Array.isArray(item.locations) && item.locations.length > 0
+                  ? item.locations.join(", ")
+                  : "No location set"}
+              </td>
               <td className="p-3 flex gap-2">
                 <button
                   onClick={() => onEdit(item)}

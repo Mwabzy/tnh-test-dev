@@ -66,16 +66,13 @@ const ClinicalServices = () => {
         const titleMatch = String(service.title ?? "")
           .toLowerCase()
           .includes(normalizedQuery);
-        const taglineMatch = String(service.tagline ?? "")
-          .toLowerCase()
-          .includes(normalizedQuery);
         const locationMatch = Array.isArray(service.locations)
           ? service.locations.some((loc) =>
               String(loc ?? "").toLowerCase().includes(normalizedQuery),
             )
           : false;
 
-        return titleMatch || taglineMatch || locationMatch;
+        return titleMatch || locationMatch;
       })
     : services;
 
@@ -166,7 +163,7 @@ const ClinicalServices = () => {
             <input
               value={locationQuery}
               onChange={(e) => setLocationQuery(e.target.value)}
-              placeholder="Search services by title, tagline, or location"
+              placeholder="Search service by title or location"
               className="w-full sm:w-80 border border-gray-300 rounded-md px-3 py-2 text-sm"
             />
             {!loading && (
