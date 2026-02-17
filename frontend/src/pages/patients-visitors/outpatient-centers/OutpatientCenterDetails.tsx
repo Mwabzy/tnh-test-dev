@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
 
 import {
@@ -32,6 +32,13 @@ type Opc = {
   contact?: Contact;
   location: string;
   servicesOffered: number[];
+  timings: Array<{
+    clinicId: number | null;
+    day: string;
+    month: string;
+    startTime: string;
+    stopTime: string;
+  }>;
 };
 
 const OutpatientCenterDetails = () => {
@@ -94,6 +101,35 @@ const OutpatientCenterDetails = () => {
           location: found.location ?? "",
           servicesOffered: Array.isArray(found.services_offered)
             ? found.services_offered
+                .map((service: any) =>
+                  typeof service === "object" ? service?.id : service,
+                )
+                .filter((serviceId: any) =>
+                  Number.isFinite(Number(serviceId)),
+                )
+                .map((serviceId: any) => Number(serviceId))
+            : [],
+          timings: Array.isArray(found.timings)
+            ? found.timings.map((timing: any) => {
+                const clinicRaw =
+                  timing?.clinicId ??
+                  timing?.clinic_id ??
+                  timing?.clinic?.id ??
+                  timing?.clinic ??
+                  null;
+                const clinicNumber = Number(clinicRaw);
+                return {
+                  clinicId: Number.isFinite(clinicNumber) ? clinicNumber : null,
+                  day: String(timing?.day ?? "").trim(),
+                  month: String(timing?.month ?? "").trim(),
+                  startTime: String(
+                    timing?.startTime ?? timing?.start_time ?? "",
+                  ).trim(),
+                  stopTime: String(
+                    timing?.stopTime ?? timing?.stop_time ?? "",
+                  ).trim(),
+                };
+              })
             : [],
         };
 
@@ -132,6 +168,31 @@ const OutpatientCenterDetails = () => {
 
     loadDetails();
   }, [id]);
+
+  const timingsByServiceId = useMemo(() => {
+    const map = new Map<
+      number,
+      Array<{
+        day: string;
+        month: string;
+        startTime: string;
+        stopTime: string;
+      }>
+    >();
+
+    (details?.timings ?? []).forEach((timing) => {
+      if (!timing.clinicId) return;
+      if (!map.has(timing.clinicId)) map.set(timing.clinicId, []);
+      map.get(timing.clinicId)?.push({
+        day: timing.day,
+        month: timing.month,
+        startTime: timing.startTime,
+        stopTime: timing.stopTime,
+      });
+    });
+
+    return map;
+  }, [details?.timings]);
 
   if (loading)
     return (
@@ -187,7 +248,55 @@ const OutpatientCenterDetails = () => {
                 <AccordionItem key={service.id} value={`item-${index}`}>
                   <AccordionTrigger>{service.title}</AccordionTrigger>
                   <AccordionContent>
-                    {service.tagline || service.overview || "Details coming soon."}
+                    <div className="space-y-3">
+                      <p>
+                        {service.tagline ||
+                          service.overview ||
+                          "Details coming soon."}
+                      </p>
+
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900">
+                          Clinic timings
+                        </p>
+                        {(() => {
+                          const serviceTimings =
+                            timingsByServiceId.get(service.id) ?? [];
+
+                          if (serviceTimings.length === 0) {
+                            return (
+                              <p className="text-sm text-gray-600 mt-1">
+                                No timings set for this clinic service.
+                              </p>
+                            );
+                          }
+
+                          return (
+                            <ul className="mt-2 space-y-1 text-sm text-gray-700">
+                              {serviceTimings.map((timing, timingIndex) => {
+                                const dayPart = timing.day || "Day not set";
+                                const monthPart = timing.month
+                                  ? ` (${timing.month})`
+                                  : "";
+                                const fromPart =
+                                  timing.startTime || "Start not set";
+                                const toPart = timing.stopTime || "End not set";
+
+                                return (
+                                  <li
+                                    key={`${service.id}-timing-${timingIndex}`}
+                                    className="leading-relaxed"
+                                  >
+                                    {dayPart}
+                                    {monthPart}: {fromPart} - {toPart}
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          );
+                        })()}
+                      </div>
+                    </div>
                   </AccordionContent>
                 </AccordionItem>
               ))}
