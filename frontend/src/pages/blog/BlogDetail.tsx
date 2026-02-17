@@ -1,5 +1,7 @@
 import { blogPosts } from "./BlogList";
 import { useParams } from "react-router";
+import DOMPurify from "dompurify";
+import { addClassesToDescription } from "@/components/services/utilities";
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -50,9 +52,14 @@ const BlogDetail = () => {
           <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 mb-4">
             {blogItem.title}
           </h2>
-          <p className="text-lg leading-relaxed text-gray-700">
-            {blogItem.shortdesc}
-          </p>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(
+                addClassesToDescription(blogItem.shortdesc || "") ?? "",
+              ),
+            }}
+            className="prose prose-gray max-w-none text-lg text-gray-700 leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+          ></div>
         </div>
 
         {/* Section 2 */}
@@ -60,9 +67,14 @@ const BlogDetail = () => {
           <h3 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
             Relationship Dynamics
           </h3>
-          <p className="text-lg leading-relaxed text-gray-700">
-            {blogItem.longdesc}
-          </p>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(
+                addClassesToDescription(blogItem.longdesc || "") ?? "",
+              ),
+            }}
+            className="prose prose-gray max-w-none text-lg text-gray-700 leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+          ></div>
         </div>
 
         {/* Section 3 - Image + List */}
