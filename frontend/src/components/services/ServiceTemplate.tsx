@@ -309,9 +309,14 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
 
                           {/* Feature description */}
                           {f.description && (
-                            <div className="text-sm text-gray-600">
-                              {f.description}
-                            </div>
+                            <div
+                              dangerouslySetInnerHTML={{
+                                __html: DOMPurify.sanitize(
+                                  addClassesToDescription(f.description) ?? "",
+                                ),
+                              }}
+                              className="prose prose-gray max-w-none text-sm text-gray-600 leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+                            ></div>
                           )}
                         </div>
                       </li>
