@@ -90,6 +90,8 @@ const DoctorProfiles: FC = () => {
         const transformed = data.map((doc: any, idx: number) => ({
           ...doc,
           id: doc.id || `doctor-${idx}`,
+          role: doc.role || doc.specialization || "",
+          specialization: doc.specialization || doc.role || "",
           description: doc.bio ? [doc.bio] : [],
           languages: doc.languagesSpoken
             ? doc.languagesSpoken.split(/,|;/).map((s: string) => s.trim())
@@ -100,7 +102,10 @@ const DoctorProfiles: FC = () => {
           socialMediaWebsite: doc.socialMedia ? [doc.socialMedia] : [],
           email: doc.contactEmail || "",
           phone: doc.contactPhone || "",
-          images: doc.images?.map((img: any) => img.url) || [],
+          images:
+            doc.images?.map((img: any) => img.url).filter(Boolean) ||
+            doc.image?.map((img: any) => img.url).filter(Boolean) ||
+            [],
           awardsAndRecognition: doc.awardsAndRecognition
             ? Array.isArray(doc.awardsAndRecognition)
               ? doc.awardsAndRecognition
@@ -280,56 +285,64 @@ const DoctorProfiles: FC = () => {
         {/* Doctors List */}
         <div className="flex-1">
           {paginatedDoctors.length > 0 ? (
-            paginatedDoctors.map((member) => (
-              <div
-                key={member.id}
-                className="flex flex-col md:flex-row bg-white border border-gray-200 rounded-lg shadow-md mb-6 overflow-hidden hover:shadow-lg transition-shadow duration-300"
-              >
-                <div className="p-2">
-                  <img
-                    src={member.images[0]}
-                    alt={member.name}
-                    className="w-full md:w-56 md:h-60 object-cover rounded"
-                  />
-                </div>
-                <div className="md:w-2/3 p-6 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-2xl font-bold font-serif text-red-900 mb-1">
-                      {member.name}
-                    </h3>
-                    <p className="text-sm font-semibold text-gray-700 mb-3">
-                      {member.specialization}
-                    </p>
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: DOMPurify.sanitize(
-                          addClassesToDescription(
-                            truncateBioToThreeSentences(member.bio),
-                          ) ?? "",
-                        ),
-                      }}
-                      className="prose prose-gray max-w-none text-gray-600 text-sm font-sans leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
-                    ></div>
+            paginatedDoctors.map((member) => {
+              const doctorRole =
+                member.role?.trim() || member.specialization?.trim();
+              const doctorImage = member.images[0] || "/placeholder-doctor.png";
+
+              return (
+                <div
+                  key={member.id}
+                  className="flex flex-col md:flex-row bg-white border border-gray-200 rounded-lg shadow-md mb-6 overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                >
+                  <div className="p-2">
+                    <img
+                      src={doctorImage}
+                      alt={member.name}
+                      className="w-full md:w-56 md:h-60 object-cover rounded"
+                    />
                   </div>
-                  <div className="flex flex-wrap gap-3 mt-4">
-                    <Link
-                      to={`/booking-calendar?doctorId=${member.id}`}
-                      className="flex items-center justify-center gap-2 text-red-900 border border-gray-300 px-4 py-2 rounded-md text-sm hover:bg-red-50 hover:border-red-300 transition font-medium"
-                    >
-                      <FaCalendarCheck />
-                      {content.bookingtitle}
-                    </Link>
-                    <Link
-                      to={`/doctor-details/${member.id}`}
-                      className="flex items-center justify-center gap-2 text-red-900 border border-gray-300 px-4 py-2 rounded-md text-sm hover:bg-red-50 hover:border-red-300 transition font-medium"
-                    >
-                      <FaUserMd />
-                      {content.viewprofile}
-                    </Link>
+                  <div className="md:w-2/3 p-6 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-2xl font-bold font-serif text-red-900 mb-2">
+                        {member.name}
+                      </h3>
+                      {doctorRole && (
+                        <p className="inline-flex items-center rounded-full border border-red-100 bg-red-50 px-3 py-1 text-xs md:text-sm font-semibold text-red-800 mb-3">
+                          {doctorRole}
+                        </p>
+                      )}
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(
+                            addClassesToDescription(
+                              truncateBioToThreeSentences(member.bio),
+                            ) ?? "",
+                          ),
+                        }}
+                        className="prose prose-gray max-w-none text-gray-600 text-sm font-sans leading-relaxed prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+                      ></div>
+                    </div>
+                    <div className="flex flex-wrap gap-3 mt-4">
+                      <Link
+                        to={`/booking-calendar?doctorId=${member.id}`}
+                        className="flex items-center justify-center gap-2 text-red-900 border border-gray-300 px-4 py-2 rounded-md text-sm hover:bg-red-50 hover:border-red-300 transition font-medium"
+                      >
+                        <FaCalendarCheck />
+                        {content.bookingtitle}
+                      </Link>
+                      <Link
+                        to={`/doctor-details/${member.id}`}
+                        className="flex items-center justify-center gap-2 text-red-900 border border-gray-300 px-4 py-2 rounded-md text-sm hover:bg-red-50 hover:border-red-300 transition font-medium"
+                      >
+                        <FaUserMd />
+                        {content.viewprofile}
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           ) : (
             <p className="text-center text-gray-500 mt-10">
               {content.noDoctorsFound}
