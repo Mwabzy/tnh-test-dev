@@ -5,6 +5,7 @@ import Heading from "@/components/Heading";
 import ContactForm from "@/components/ContactForm";
 import hospitalview from "@/assets/heroimages/heroimage2.jpg";
 import { fetchDoctors } from "@/api/api";
+import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 
 import { useIntlayer } from "react-intlayer";
 import DOMPurify from "dompurify";
@@ -444,7 +445,7 @@ const DoctorProfiles: FC = () => {
         </div>
       </div>
 
-      <ContactForm contactInfo={{ phone: "" }} />
+      <ContactForm contactInfo={PAGE_CONTACT_INFO} />
     </>
   );
 };

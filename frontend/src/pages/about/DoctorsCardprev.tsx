@@ -3,6 +3,7 @@ import Heading from "@/components/Heading";
 import React from "react";
 import { Link } from "react-router";
 import hospitalview from "@/assets/heroimages/heroimage2.jpg";
+import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 
 type TeamPageProps = {
   title: string;
@@ -46,7 +47,7 @@ const DoctorBrief: React.FC<TeamPageProps> = ({
           </div>
         </div>
       </section>
-      <ContactForm contactInfo={{ phone: "" }} />
+      <ContactForm contactInfo={PAGE_CONTACT_INFO} />
     </>
   );
 };

@@ -1,5 +1,6 @@
 import { FC } from "react";
 import OpportunityTemplate from "./opportunity/OpportunityTemplate";
+import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 
 type TendersProps = {};
 
@@ -229,10 +230,7 @@ const Tenders: FC<TendersProps> = () => {
             image: "https://example.com/john.jpg",
           },
         ]}
-        contactInfo={{
-          emails: [{ type: "general", address: "" }],
-          phone: "123-456-7890",
-        }}
+        contactInfo={PAGE_CONTACT_INFO}
         opportunities={tendersData}
       />
     </div>

@@ -1,5 +1,6 @@
 import ContactForm from "@/components/ContactForm";
 import Heading from "@/components/Heading";
+import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 import React from "react";
 import { Link } from "react-router";
 
@@ -37,7 +38,7 @@ const TeamPage: React.FC<TeamPageProps> = ({ title, description, members }) => {
           </div>
         </div>
       </section>
-      <ContactForm contactInfo={{ phone: "" }} />
+      <ContactForm contactInfo={PAGE_CONTACT_INFO} />
     </>
   );
 };

@@ -1,6 +1,7 @@
 import ContactForm from "@/components/ContactForm";
 import { useState } from "react";
 import { useIntlayer } from "react-intlayer";
+import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 
 const TuitionAndSponsorship = () => {
   const [activeTab, setActiveTab] = useState("basic");
@@ -332,7 +333,7 @@ const TuitionAndSponsorship = () => {
         )}
       </div>
       <div className="border-2 shadow-xl my-2 w-[90%] p-4 rounded-md mx-auto text-gray-800">
-        <ContactForm contactInfo={{ phone: "+254 703 082 000" }} />
+        <ContactForm contactInfo={PAGE_CONTACT_INFO} />
       </div>
     </>
   );

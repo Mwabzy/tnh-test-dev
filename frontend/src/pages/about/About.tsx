@@ -4,6 +4,7 @@ import Opc from "../home/Opc";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import InsuranceSlider from "@/components/InsuranceSlider";
 import ContactForm from "@/components/ContactForm";
+import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 import { useIntlayer } from "react-intlayer";
 
 type AboutProps = object;
@@ -158,17 +159,7 @@ const About: FC<AboutProps> = () => {
         ]}
       />
       <InsuranceSlider />
-      <ContactForm
-        contactInfo={{
-          phone: "+254 703 082 000",
-          emails: [
-            { type: "general", address: "hosp@nbihosp.org" },
-            { type: "medical", address: "medicalenquiries@nbihosp.org" },
-            { type: "service", address: "customer.service@nbihosp.org" },
-            { type: "clinic", address: "clinic@nbihosp.org" },
-          ],
-        }}
-      />
+      <ContactForm contactInfo={PAGE_CONTACT_INFO} />
     </>
   );
 };

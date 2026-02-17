@@ -1,5 +1,6 @@
 import ContactForm from "@/components/ContactForm";
 import Heading from "@/components/Heading";
+import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 import { useIntlayer } from "react-intlayer";
 
 /*  Define the expected timeline item shape */
@@ -67,7 +68,7 @@ export default function AboutCollege() {
 
       <div className="border-2 max-w-7xl shadow-xl my-8 mx-4 p-4 rounded-md md:mx-auto text-gray-800">
         <ContactForm
-          contactInfo={{ phone: "+254 703 082 000" }}
+          contactInfo={PAGE_CONTACT_INFO}
           title="Have any enquiries?"
         />
       </div>

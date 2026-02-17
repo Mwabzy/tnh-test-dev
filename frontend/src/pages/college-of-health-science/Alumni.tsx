@@ -3,6 +3,7 @@ import ContactForm from "@/components/ContactForm";
 import Heading from "@/components/Heading";
 import React from "react";
 import { useIntlayer } from "react-intlayer";
+import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 
 const alumniData = {
   vision:
@@ -102,7 +103,7 @@ const AlumniInfo: React.FC = () => {
         </div>
       </div>
       <div className="border-2 shadow-xl my-8 w-[90%] p-4 rounded-md mx-auto text-gray-800">
-        <ContactForm contactInfo={{ phone: "+254 703 082 000" }} />
+        <ContactForm contactInfo={PAGE_CONTACT_INFO} />
       </div>
     </>
   );

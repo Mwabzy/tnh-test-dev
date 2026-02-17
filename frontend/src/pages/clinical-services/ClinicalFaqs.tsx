@@ -4,6 +4,7 @@ import { FunctionComponent } from "react";
 import FAQs from "../clinics/FAQs";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import ContactForm from "@/components/ContactForm";
+import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 
 interface ClinicalFaqsProps {}
 
@@ -112,13 +113,7 @@ const ClinicalFaqs: FunctionComponent<ClinicalFaqsProps> = () => {
           },
         ]}
         />
-      <ContactForm
-        contactInfo={{
-          phone: "+254 703082000",
-          emails: [
-            { type: "general", address: ""}]
-        }}
-        />
+      <ContactForm contactInfo={PAGE_CONTACT_INFO} />
       </div>
     </>
   );

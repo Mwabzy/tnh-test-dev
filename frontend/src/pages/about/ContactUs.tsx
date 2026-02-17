@@ -8,6 +8,12 @@ import { sendEmail } from "@/api/api";
 
 export default function ContactUs() {
   const content = useIntlayer("aboutUsPage");
+  const deskEmailMap: Record<string, string> = {
+    "General Enquiries": "hosp@nbihosp.org",
+    "International Patients Desk": "medicalenquiries@nbihosp.org",
+    "Medical Liaison Desk": "customer.service@nbihosp.org",
+    "Billing & Insurance": "clinic@nbihosp.org",
+  };
   const [selectedDesk, setSelectedDesk] = useState<string>("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -55,6 +61,8 @@ export default function ContactUs() {
     setSubmitting(true);
     try {
       const department = selectedDesk || "General Enquiries";
+      const recipientEmail =
+        deskEmailMap[department] || deskEmailMap["General Enquiries"];
       const safeName = escapeHtml(name.trim());
       const safeEmail = escapeHtml(email.trim());
       const safePhone = phone.trim() ? escapeHtml(phone.trim()) : "N/A";
@@ -95,7 +103,7 @@ export default function ContactUs() {
       `;
 
       await sendEmail({
-        email: "immanuelmwabili@gmail.com",
+        email: recipientEmail,
         subject: department,
         body,
       });

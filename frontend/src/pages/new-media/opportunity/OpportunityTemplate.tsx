@@ -5,17 +5,15 @@ import OpportunityList from "./OpportunityList";
 import TestimonialCarousel, {
   Testimonial,
 } from "@/components/TestimonialCarousel";
-import ContactForm from "@/components/ContactForm";
+import ContactForm, { ContactInfo } from "@/components/ContactForm";
 import { Opportunity } from "./OpportunityItem";
+import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 
 interface OpportunityTemplateProps {
   title?: string;
   description?: string;
   testimonials?: Testimonial[];
-  contactInfo?: {
-    emails: { type: string; address: string }[];
-    phone: string;
-  };
+  contactInfo?: ContactInfo;
   opportunities?: Opportunity[];
 }
 
@@ -23,10 +21,7 @@ const OpportunityTemplate: FunctionComponent<OpportunityTemplateProps> = ({
   title,
   description,
   testimonials = [],
-  contactInfo = {
-    emails: [{ type: "general", address: "" }],
-    phone: "",
-  },
+  contactInfo = PAGE_CONTACT_INFO,
   opportunities = [],
 }) => {
   return (

@@ -1,5 +1,6 @@
 import { FC } from "react";
 import OpportunityTemplate from "./opportunity/OpportunityTemplate";
+import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 
 type CareersProps = {};
 
@@ -68,10 +69,7 @@ const Careers: FC<CareersProps> = () => {
               "https://www.freepik.com/free-photo/portrait-smart-professional-african-american-man-standing-with-hands-crossed-chest-confident-pose_16080284.htm#fromView=search&page=1&position=10&uuid=4341da1b-d692-4ffc-88ff-f2b7a82b674c&query=people",
           },
         ]}
-        contactInfo={{
-          emails: [{ type: "general", address: "" }],
-          phone: "123-456-7890",
-        }}
+        contactInfo={PAGE_CONTACT_INFO}
         opportunities={careersData}
       />
     </div>

@@ -4,6 +4,7 @@ import ContactForm from "@/components/ContactForm";
 import FAQs from "./FAQs";
 import Heading from "@/components/Heading";
 import ServiceList from "@/pages/clinics/ServiceList";
+import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 import { useIntlayer } from "react-intlayer";
 
 const Clinics = () => {
@@ -18,17 +19,7 @@ const Clinics = () => {
       />
       {/* <ServicesBrief /> */}
       <ServiceList />
-      <ContactForm
-        contactInfo={{
-          phone: "+254 703 082 000",
-          emails: [
-            { type: "general", address: "hosp@nbihosp.org" },
-            { type: "medical", address: "medicalenquiries@nbihosp.org" },
-            { type: "service", address: "customer.service@nbihosp.org" },
-            { type: "clinic", address: "clinic@nbihosp.org" },
-          ],
-        }}
-      />
+      <ContactForm contactInfo={PAGE_CONTACT_INFO} />
       <div className="bg-orange-200 py-20 px-8 mt-8 ">
         <FAQs
           imageAlt="Clinical FAQs"
