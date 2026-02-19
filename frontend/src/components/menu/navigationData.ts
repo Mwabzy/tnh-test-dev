@@ -10,6 +10,7 @@ import { useIntlayer } from "react-intlayer";
 
 export const NAVIGATION_CONTENT = () => {
   const content = useIntlayer("navigationContent");
+  const accreditationPath = "/about-us/accreditation-certification";
   return [
     {
       labelKey: "home",
@@ -46,15 +47,15 @@ export const NAVIGATION_CONTENT = () => {
           items: [
             {
               title: content.local_accreditations,
-              href: "/about-us/accreditation-certification",
+              href: accreditationPath,
             },
             {
               title: content.intl_certifications,
-              href: "/about-us/accreditation-certification",
+              href: accreditationPath,
             },
             {
               title: content.quality_policy,
-              href: "/about-us/accreditation-certification",
+              href: accreditationPath,
             },
           ],
         },
