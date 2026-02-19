@@ -36,7 +36,9 @@ const OpportunityTemplate: FunctionComponent<OpportunityTemplateProps> = ({
           </h2>
           <OpportunityList opportunities={opportunities} />
         </div>
-        <TestimonialCarousel testimonials={testimonials} />
+      </div>
+      <TestimonialCarousel testimonials={testimonials} />
+      <div className="max-w-7xl mx-auto">
         <ContactForm contactInfo={contactInfo} />
       </div>
     </div>
