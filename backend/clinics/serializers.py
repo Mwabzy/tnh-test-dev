@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import ClinicalService, ClinicalServiceFeatureImage, Doctor, Testimonial, ClinicalServiceImage, DoctorImage, OutpatientCenter, ClinicalFAQ, RoomWard
+from .models import ClinicalService, ClinicalServiceFeatureImage, Doctor, Testimonial, ClinicalServiceImage, DoctorImage, OutpatientCenter, OutpatientCenterImage, ClinicalFAQ, RoomWard
 import json
+import re
 from itertools import zip_longest
 from django.conf import settings
 
@@ -224,6 +225,17 @@ class ClinicalServiceFeatureImageSerializer(serializers.ModelSerializer):
  
      def get_url(self, obj):
          return build_media_url(self.context.get("request"), obj.image.url)
+
+
+class OutpatientCenterImageSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = OutpatientCenterImage
+        fields = ["id", "url", "alt"]
+
+    def get_url(self, obj):
+        return build_media_url(self.context.get("request"), obj.image.url)
 
 
 
@@ -542,6 +554,18 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
           many=True,
            required=False)
     timings = serializers.JSONField()
+    image = OutpatientCenterImageSerializer(
+        source="uploaded_images", many=True, read_only=True
+    )
+    images_files = serializers.ListField(
+        child=serializers.ImageField(), write_only=True, required=False
+    )
+    images_files_alt = serializers.ListField(
+        child=serializers.CharField(allow_blank=True), write_only=True, required=False
+    )
+    images_to_delete = serializers.ListField(
+        child=serializers.IntegerField(), write_only=True, required=False
+    )
 
     class Meta:
        model = OutpatientCenter
@@ -558,11 +582,15 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
     "contact",
     "services_offered",
     "timings",
+    "image",
+    "images_files",
+    "images_files_alt",
+    "images_to_delete",
 ]
 
 
     def to_internal_value(self, data):
-        data = dict(data)
+        data = data.copy()
 
         #  JSON fields from FormData 
         json_fields = ["timings", "contact", "services_offered"]
@@ -576,15 +604,32 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
                     raw = raw[0]
 
                 try:
-                    parsed = json.loads(raw)
+                    parsed = (
+                        raw
+                        if isinstance(raw, (list, dict))
+                        else json.loads(raw)
+                    )
 
                     # force int PKs
                     if field == "services_offered":
-                        parsed = [int(pk) for pk in parsed]
-
-                    data[field] = parsed
+                        parsed = [int(pk) for pk in parsed if str(pk).isdigit()]
+                        if hasattr(data, "setlist"):
+                            data.setlist(field, parsed)
+                        else:
+                            data[field] = parsed
+                    else:
+                        # QueryDict stringifies dict/list with single quotes if set directly.
+                        # Store valid JSON strings for multipart submissions.
+                        if hasattr(data, "setlist"):
+                            data[field] = json.dumps(parsed)
+                        else:
+                            data[field] = parsed
                 except Exception:
-                    data[field] = [] if field != "contact" else {}
+                    fallback = [] if field != "contact" else {}
+                    if field == "services_offered" and hasattr(data, "setlist"):
+                        data.setlist(field, [])
+                    else:
+                        data[field] = fallback
 
         #  Plain strings 
         for field in [
@@ -599,8 +644,89 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
             if field in data and isinstance(data[field], list):
                 data[field] = data[field][0]
 
+        for field in ["images_files", "images_files_alt", "images_to_delete"]:
+            if field in data:
+                values = (
+                    data.getlist(field)
+                    if hasattr(data, "getlist")
+                    else (data[field] if isinstance(data[field], list) else [data[field]])
+                )
+                if field == "images_to_delete":
+                    values = [int(v) for v in values if str(v).isdigit()]
+                if hasattr(data, "setlist"):
+                    data.setlist(field, values)
+                else:
+                    data[field] = values
 
         return super().to_internal_value(data)
+
+    def create(self, validated_data):
+        images_files = validated_data.pop("images_files", [])
+        images_alt = validated_data.pop("images_files_alt", [])
+        services_offered = validated_data.pop("services_offered", [])
+
+        instance = OutpatientCenter.objects.create(**validated_data)
+        if services_offered:
+            instance.services_offered.set(services_offered)
+
+        for idx, img in enumerate(images_files):
+            alt_text = images_alt[idx] if idx < len(images_alt) else ""
+            OutpatientCenterImage.objects.create(
+                outpatient_center=instance,
+                image=img,
+                alt=alt_text,
+            )
+
+        return instance
+
+    def update(self, instance, validated_data):
+        images_files = validated_data.pop("images_files", [])
+        images_alt = validated_data.pop("images_files_alt", [])
+        images_to_delete = validated_data.pop("images_to_delete", [])
+        services_offered = validated_data.pop("services_offered", None)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        if services_offered is not None:
+            instance.services_offered.set(services_offered)
+
+        if images_to_delete:
+            OutpatientCenterImage.objects.filter(
+                id__in=images_to_delete,
+                outpatient_center=instance,
+            ).delete()
+
+        raw_data = self.initial_data
+        existing_alt_updates = {}
+        for key in raw_data.keys():
+            match = re.match(r"^images\[(\d+)\]\[(id|alt)\]$", str(key))
+            if not match:
+                continue
+            index, field = match.groups()
+            if index not in existing_alt_updates:
+                existing_alt_updates[index] = {}
+            existing_alt_updates[index][field] = raw_data.get(key)
+
+        for item in existing_alt_updates.values():
+            image_id = item.get("id")
+            if not str(image_id).isdigit():
+                continue
+            OutpatientCenterImage.objects.filter(
+                id=int(image_id),
+                outpatient_center=instance,
+            ).update(alt=item.get("alt") or "")
+
+        for idx, img in enumerate(images_files):
+            alt_text = images_alt[idx] if idx < len(images_alt) else ""
+            OutpatientCenterImage.objects.create(
+                outpatient_center=instance,
+                image=img,
+                alt=alt_text,
+            )
+
+        instance.save()
+        return instance
 
 class ClinicalFAQSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)

@@ -173,7 +173,7 @@ const Hero = () => {
                 <p className="text-lg font-sans">{currentSlide?.description}</p>
                 <div className="flex space-x-4">
                   <Link
-                    to="/clinial-services"
+                    to="/clinical-services"
                     className="bg-white text-black px-5 py-2 rounded-lg font-semibold shadow"
                   >
                     {heroData?.services_button}

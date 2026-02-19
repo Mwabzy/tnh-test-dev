@@ -85,7 +85,7 @@ const Opc: React.FC = () => {
 
         {!loading &&
           !error &&
-          outpatientCenters.slice(0, 6).map((center) => (
+          outpatientCenters.map((center) => (
             <div
               key={center.slug ?? center.id}
               className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"

@@ -174,6 +174,19 @@ class OutpatientCenter(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class OutpatientCenterImage(models.Model):
+    outpatient_center = models.ForeignKey(
+        OutpatientCenter,
+        related_name="uploaded_images",
+        on_delete=models.CASCADE,
+    )
+    image = models.ImageField(upload_to="outpatient_centers/")
+    alt = models.CharField(max_length=255, blank=True, default="")
+
+    def __str__(self):
+        return f"Image for {self.outpatient_center.name}"
     
 class ClinicalFAQ(models.Model):
     brief = models.CharField(max_length=255, blank=True, null=True)

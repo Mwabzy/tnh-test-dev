@@ -249,27 +249,27 @@ const UIRoutes = {
   //     () => import("../pages/clinical-services/MedicalDepartment"),
   //   ),
   // },
-  // LaboratoryServices: {
-  //   name: "navigation.laboratoryServices",
-  //   path: "/clinical-services/laboratory-services",
-  //   component: lazyLoad(
-  //     () => import("../pages/clinical-services/laboratory-services/page"),
-  //   ),
-  // },
-  // PharmacyServices: {
-  //   name: "navigation.pharmacyServices",
-  //   path: "/clinical-services/pharmacy-services",
-  //   component: lazyLoad(
-  //     () => import("../pages/clinical-services/pharmacy-services/page"),
-  //   ),
-  // },
-  // RadiologyServices: {
-  //   name: "navigation.radiologyServices",
-  //   path: "/clinical-services/radiology-services",
-  //   component: lazyLoad(
-  //     () => import("../pages/clinical-services/radiology-services/page"),
-  //   ),
-  // },
+  LaboratoryServices: {
+    name: "navigation.laboratoryServices",
+    path: "a-laboratory-services",
+    component: lazyLoad(
+      () => import("../pages/clinical-services/laboratory-services/page"),
+    ),
+  },
+  PharmacyServices: {
+    name: "navigation.pharmacyServices",
+    path: "a-pharmacy-services",
+    component: lazyLoad(
+      () => import("../pages/clinical-services/pharmacy-services/page"),
+    ),
+  },
+  RadiologyServices: {
+    name: "navigation.radiologyServices",
+    path: "a-radiology-services",
+    component: lazyLoad(
+      () => import("../pages/clinical-services/radiology-services/page"),
+    ),
+  },
 
   Alumni: {
     name: "navigation.alumni",

@@ -249,12 +249,16 @@ export async function fetchOutpatientCenter() {
 }
 
 export async function createOutpatientCenter(data: any) {
-  const res = await api.post(OUTPATIENT_CENTER_API, data);
+  const res = await api.post(OUTPATIENT_CENTER_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return res.data;
 }
 
 export async function updateOutpatientCenter(id: number, data: any) {
-  const res = await api.patch(`${OUTPATIENT_CENTER_API}${id}/`, data);
+  const res = await api.patch(`${OUTPATIENT_CENTER_API}${id}/`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return res.data;
 }
 

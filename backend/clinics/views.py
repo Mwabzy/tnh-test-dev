@@ -209,12 +209,20 @@ class OutpatientCenterViewSet(viewsets.ModelViewSet):
         context["request"] = self.request
         return context
 
+    def _log_validation_errors(self, serializer, label):
+        print(f"\n[{label}] SERIALIZER ERRORS:")
+        for field, errors in serializer.errors.items():
+            print(f"{field}: {errors}")
+        print("===========================\n")
+
     def create(self, request, *args, **kwargs):
         if DEBUG:
             log_request_data(request, "OutpatientCenter CREATE")
 
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        if not serializer.is_valid():
+            self._log_validation_errors(serializer, "OutpatientCenter CREATE")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         instance = serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -225,7 +233,9 @@ class OutpatientCenterViewSet(viewsets.ModelViewSet):
         partial = kwargs.pop("partial", True)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
+        if not serializer.is_valid():
+            self._log_validation_errors(serializer, "OutpatientCenter UPDATE")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         instance = serializer.save()
         return Response(serializer.data)
 
