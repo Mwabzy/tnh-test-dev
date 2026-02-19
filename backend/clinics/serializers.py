@@ -206,10 +206,12 @@ class TestimonialSerializer(serializers.ModelSerializer):
 
 class ClinicalServiceImageSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField()
+    focalX = serializers.FloatField(source="focal_x", required=False)
+    focalY = serializers.FloatField(source="focal_y", required=False)
 
     class Meta:
         model = ClinicalServiceImage
-        fields = ["id", "url", "alt"]
+        fields = ["id", "url", "alt", "focalX", "focalY"]
 
     def get_url(self, obj):
         return build_media_url(self.context.get("request"), obj.image.url)
@@ -251,6 +253,16 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
     images = ClinicalServiceImageSerializer(source="uploaded_images", many=True, read_only=True)
     images_files = serializers.ListField(child=serializers.ImageField(), write_only=True, required=False)
     images_files_alt = serializers.ListField(child=serializers.CharField(allow_blank=True), write_only=True, required=False)
+    images_files_focal_x = serializers.ListField(
+        child=serializers.FloatField(min_value=0, max_value=100),
+        write_only=True,
+        required=False,
+    )
+    images_files_focal_y = serializers.ListField(
+        child=serializers.FloatField(min_value=0, max_value=100),
+        write_only=True,
+        required=False,
+    )
     images_to_delete = serializers.ListField(child=serializers.IntegerField(), write_only=True, required=False)
     features = JSONStringListField(required=False, write_only=True)
     features_read = serializers.SerializerMethodField(read_only=True)
@@ -306,11 +318,25 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
     'images',
     'images_files',
     'images_files_alt',
+    'images_files_focal_x',
+    'images_files_focal_y',
     'images_to_delete',
     'locations',
 ]
 
+    @staticmethod
+    def _normalize_path(value):
+        if value is None:
+            return None
+        if isinstance(value, str):
+            cleaned = value.strip()
+            return cleaned or None
+        return value
+
     def validate(self, attrs):
+        if "path" in attrs:
+            attrs["path"] = self._normalize_path(attrs.get("path"))
+
         ft_on_homepage = attrs.get("ftOnHomepage")
         if ft_on_homepage is None and self.instance is not None:
             ft_on_homepage = self.instance.ftOnHomepage
@@ -389,6 +415,9 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
              val = data[field]
              if isinstance(val, list):
                  data[field] = val[0]
+
+     if "path" in data:
+         data["path"] = self._normalize_path(data.get("path"))
  
      return super().to_internal_value(data)
 
@@ -432,6 +461,8 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         clinics_data = validated_data.pop('clinics', [])
         images_files = validated_data.pop('images_files', [])
         images_files_alt = validated_data.pop('images_files_alt', [])
+        images_files_focal_x = validated_data.pop('images_files_focal_x', [])
+        images_files_focal_y = validated_data.pop('images_files_focal_y', [])
         feature_images = validated_data.pop("feature_images_files", [])
         feature_images_alt = validated_data.pop("feature_images_alt", [])
         feature_images_index = validated_data.pop("feature_images_index", [])
@@ -452,11 +483,19 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
             alt_text = ""
             if index < len(images_files_alt):
                 alt_text = images_files_alt[index]
+            focal_x = 50.0
+            if index < len(images_files_focal_x):
+                focal_x = images_files_focal_x[index]
+            focal_y = 20.0
+            if index < len(images_files_focal_y):
+                focal_y = images_files_focal_y[index]
 
             ClinicalServiceImage.objects.create(
                 clinical_service=service,
                 image=img,
-                alt=alt_text
+                alt=alt_text,
+                focal_x=focal_x,
+                focal_y=focal_y,
             )
         
         for img, index, alt in zip_longest(
@@ -484,6 +523,8 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         clinics_data = validated_data.pop('clinics', None)
         images_files = validated_data.pop('images_files', [])
         images_files_alt = validated_data.pop('images_files_alt', [])
+        images_files_focal_x = validated_data.pop('images_files_focal_x', [])
+        images_files_focal_y = validated_data.pop('images_files_focal_y', [])
         images_to_delete = validated_data.pop('images_to_delete', [])
         feature_images = validated_data.pop("feature_images_files", [])
         feature_images_alt = validated_data.pop("feature_images_alt", [])
@@ -516,11 +557,19 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
             alt_text = ""
             if index < len(images_files_alt):
                 alt_text = images_files_alt[index]
+            focal_x = 50.0
+            if index < len(images_files_focal_x):
+                focal_x = images_files_focal_x[index]
+            focal_y = 20.0
+            if index < len(images_files_focal_y):
+                focal_y = images_files_focal_y[index]
 
             ClinicalServiceImage.objects.create(
                 clinical_service=instance,
                 image=img,
-                alt=alt_text
+                alt=alt_text,
+                focal_x=focal_x,
+                focal_y=focal_y,
             )
 
         for i, img in enumerate(feature_images):

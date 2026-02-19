@@ -9,7 +9,10 @@ import {
   Image,
   Testimonial,
 } from "@/types";
-import { fetchOutpatientCenter, updateImageAlt } from "@/api/api";
+import {
+  fetchOutpatientCenter,
+  updateClinicalServiceImageMeta,
+} from "@/api/api";
 import RichTextEditor from "@/components/RichTextEditor";
 
 interface Props {
@@ -47,6 +50,103 @@ type FeatureForm = Omit<Feature, "image"> & {
 
 const requiredMark = <span className="text-red-600">*</span>;
 
+const clampPercent = (value: number) => Math.max(0, Math.min(100, value));
+
+const toPercentOrDefault = (value: unknown, fallback: number) => {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? clampPercent(parsed) : fallback;
+};
+
+const objectPositionFromFocal = (focalX: number, focalY: number) =>
+  `${focalX}% ${focalY}%`;
+
+interface FocalPointEditorProps {
+  src: string;
+  alt: string;
+  focalX: number;
+  focalY: number;
+  onChange: (focalX: number, focalY: number) => void;
+}
+
+const FocalPointEditor: React.FC<FocalPointEditorProps> = ({
+  src,
+  alt,
+  focalX,
+  focalY,
+  onChange,
+}) => {
+  const updateFromPointer = (event: React.PointerEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return;
+
+    const nextX = clampPercent(((event.clientX - rect.left) / rect.width) * 100);
+    const nextY = clampPercent(
+      ((event.clientY - rect.top) / rect.height) * 100,
+    );
+    onChange(nextX, nextY);
+  };
+
+  return (
+    <div className="space-y-2">
+      <div
+        className="relative w-full max-w-[28rem] aspect-[5/2] rounded border overflow-hidden bg-gray-100 cursor-crosshair touch-none"
+        onPointerDown={(event) => {
+          event.preventDefault();
+          event.currentTarget.setPointerCapture(event.pointerId);
+          updateFromPointer(event);
+        }}
+        onPointerMove={(event) => {
+          if (event.pointerType !== "touch" && event.buttons !== 1) return;
+          updateFromPointer(event);
+        }}
+      >
+        <img
+          src={src}
+          alt={alt}
+          className="w-full h-full object-cover pointer-events-none select-none"
+          style={{ objectPosition: objectPositionFromFocal(focalX, focalY) }}
+          draggable={false}
+        />
+        <div
+          className="absolute w-3 h-3 rounded-full border-2 border-white bg-red-600 shadow pointer-events-none -translate-x-1/2 -translate-y-1/2"
+          style={{ left: `${focalX}%`, top: `${focalY}%` }}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
+        <label className="block">
+          Horizontal ({Math.round(focalX)}%)
+          <input
+            type="range"
+            min={0}
+            max={100}
+            step={1}
+            value={Math.round(focalX)}
+            onChange={(event) => onChange(Number(event.target.value), focalY)}
+            className="w-full"
+          />
+        </label>
+        <label className="block">
+          Vertical ({Math.round(focalY)}%)
+          <input
+            type="range"
+            min={0}
+            max={100}
+            step={1}
+            value={Math.round(focalY)}
+            onChange={(event) => onChange(focalX, Number(event.target.value))}
+            className="w-full"
+          />
+        </label>
+      </div>
+      <p className="text-[11px] text-gray-500">
+        Horizontal movement is subtle on wide card crops; vertical movement is
+        usually more visible.
+      </p>
+    </div>
+  );
+};
+
 const ClinicalServiceForm: React.FC<Props> = ({
   initialData,
   onSave,
@@ -56,6 +156,8 @@ const ClinicalServiceForm: React.FC<Props> = ({
   type NewImage = {
     file: File;
     alt: string;
+    focalX: number;
+    focalY: number;
   };
 
   const [title, setTitle] = useState(initialData?.title || "");
@@ -151,6 +253,8 @@ const ClinicalServiceForm: React.FC<Props> = ({
     (initialData?.images || []).map((img) => ({
       ...img,
       alt: img.alt || "",
+      focalX: toPercentOrDefault(img.focalX, 50),
+      focalY: toPercentOrDefault(img.focalY, 20),
     })),
   );
 
@@ -316,10 +420,32 @@ const ClinicalServiceForm: React.FC<Props> = ({
   const handleImageChange = (
     index: number,
     key: keyof Image,
-    value: string,
+    value: string | number,
   ) => {
     setImages(
       images.map((img, i) => (i === index ? { ...img, [key]: value } : img)),
+    );
+  };
+
+  const handleImageFocalChange = (
+    index: number,
+    focalX: number,
+    focalY: number,
+  ) => {
+    setImages((prev) =>
+      prev.map((img, i) =>
+        i === index ? { ...img, focalX, focalY } : img,
+      ),
+    );
+  };
+
+  const handleNewImageFocalChange = (
+    index: number,
+    focalX: number,
+    focalY: number,
+  ) => {
+    setNewImages((prev) =>
+      prev.map((img, i) => (i === index ? { ...img, focalX, focalY } : img)),
     );
   };
 
@@ -400,6 +526,8 @@ const ClinicalServiceForm: React.FC<Props> = ({
     newImages.forEach((img) => {
       formData.append("images_files", img.file);
       formData.append("images_files_alt", img.alt);
+      formData.append("images_files_focal_x", String(img.focalX));
+      formData.append("images_files_focal_y", String(img.focalY));
     });
 
     // Append IDs of images to delete
@@ -412,13 +540,17 @@ const ClinicalServiceForm: React.FC<Props> = ({
       // Save the service (backend handles new images & deletions)
       await onSave(formData);
 
-      // Update alt text for existing images
+      // Update metadata for existing images (alt + focal point)
       for (const img of images) {
         if (img.id && img.alt !== undefined) {
           try {
-            await updateImageAlt(img.id, img.alt);
+            await updateClinicalServiceImageMeta(img.id, {
+              alt: img.alt,
+              focalX: toPercentOrDefault(img.focalX, 50),
+              focalY: toPercentOrDefault(img.focalY, 20),
+            });
           } catch (err) {
-            console.error("Failed to update image alt:", img.id);
+            console.error("Failed to update image metadata:", img.id);
           }
         }
       }
@@ -895,65 +1027,87 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
         {/* Existing images (already saved) */}
         {images.map((img, i) => (
-          <div key={`existing-${i}`} className="flex gap-2 mb-2 items-center">
-            {img.url && (
-              <img
-                src={img.url}
-                alt={img.alt || ""}
-                className="w-20 h-20 object-cover border"
-              />
-            )}
+          <div key={`existing-${i}`} className="border rounded p-3 mb-3">
+            <div className="flex flex-col md:flex-row gap-3 md:items-start">
+              {img.url && (
+                <FocalPointEditor
+                  src={img.url}
+                  alt={img.alt || ""}
+                  focalX={toPercentOrDefault(img.focalX, 50)}
+                  focalY={toPercentOrDefault(img.focalY, 20)}
+                  onChange={(focalX, focalY) =>
+                    handleImageFocalChange(i, focalX, focalY)
+                  }
+                />
+              )}
 
-            <input
-              type="text"
-              placeholder="Alt text"
-              className="border p-2 grow"
-              value={img.alt}
-              onChange={(e) => handleImageChange(i, "alt", e.target.value)}
-            />
+              <div className="flex-1 space-y-2">
+                <input
+                  type="text"
+                  placeholder="Alt text"
+                  className="border p-2 w-full"
+                  value={img.alt}
+                  onChange={(e) => handleImageChange(i, "alt", e.target.value)}
+                />
+                <p className="text-xs text-gray-500">
+                  Drag on preview to set image focus.
+                </p>
+              </div>
 
-            <button
-              type="button"
-              onClick={() => removeImage(i)}
-              className="text-red-500 cursor-pointer"
-            >
-              ✕ Remove
-            </button>
+              <button
+                type="button"
+                onClick={() => removeImage(i)}
+                className="text-red-500 cursor-pointer"
+              >
+                ✕ Remove
+              </button>
+            </div>
           </div>
         ))}
 
         {/* New images (not yet saved) */}
         {newImages.map((img, idx) => (
-          <div key={`new-${idx}`} className="flex gap-2 mb-2 items-center">
-            <img
-              src={URL.createObjectURL(img.file)}
-              alt=""
-              className="w-20 h-20 object-cover border"
-            />
+          <div key={`new-${idx}`} className="border rounded p-3 mb-3">
+            <div className="flex flex-col md:flex-row gap-3 md:items-start">
+              <FocalPointEditor
+                src={URL.createObjectURL(img.file)}
+                alt={img.alt || ""}
+                focalX={img.focalX}
+                focalY={img.focalY}
+                onChange={(focalX, focalY) =>
+                  handleNewImageFocalChange(idx, focalX, focalY)
+                }
+              />
 
-            <input
-              type="text"
-              placeholder="Alt text"
-              className="border p-2 grow"
-              value={img.alt}
-              onChange={(e) =>
-                setNewImages((prev) =>
-                  prev.map((ni, i) =>
-                    i === idx ? { ...ni, alt: e.target.value } : ni,
-                  ),
-                )
-              }
-            />
+              <div className="flex-1 space-y-2">
+                <input
+                  type="text"
+                  placeholder="Alt text"
+                  className="border p-2 w-full"
+                  value={img.alt}
+                  onChange={(e) =>
+                    setNewImages((prev) =>
+                      prev.map((ni, i) =>
+                        i === idx ? { ...ni, alt: e.target.value } : ni,
+                      ),
+                    )
+                  }
+                />
+                <p className="text-xs text-gray-500">
+                  Drag on preview to set image focus.
+                </p>
+              </div>
 
-            <button
-              type="button"
-              className="text-red-500 cursor-pointer"
-              onClick={() =>
-                setNewImages((prev) => prev.filter((_, i) => i !== idx))
-              }
-            >
-              ✕ Remove
-            </button>
+              <button
+                type="button"
+                className="text-red-500 cursor-pointer"
+                onClick={() =>
+                  setNewImages((prev) => prev.filter((_, i) => i !== idx))
+                }
+              >
+                ✕ Remove
+              </button>
+            </div>
           </div>
         ))}
 
@@ -971,6 +1125,8 @@ const ClinicalServiceForm: React.FC<Props> = ({
             const mapped = Array.from(files).map((file) => ({
               file,
               alt: "",
+              focalX: 50,
+              focalY: 20,
             }));
 
             setNewImages((prev) => [...prev, ...mapped]);

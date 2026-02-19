@@ -92,14 +92,32 @@ export async function deleteClinicalService(id: number) {
   return res.data;
 }
 
+type ClinicalServiceImageMetaPayload = {
+  alt?: string;
+  focalX?: number;
+  focalY?: number;
+};
+
+export async function updateClinicalServiceImageMeta(
+  imageId: number,
+  payload: ClinicalServiceImageMetaPayload,
+) {
+  const formData = new FormData();
+  if (payload.alt !== undefined) formData.append("alt", payload.alt);
+  if (payload.focalX !== undefined) {
+    formData.append("focalX", String(payload.focalX));
+  }
+  if (payload.focalY !== undefined) {
+    formData.append("focalY", String(payload.focalY));
+  }
+
+  return api.patch(`${BASE_URL}/clinical-service-images/${imageId}/`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+}
+
 export async function updateImageAlt(imageId: number, alt: string) {
-  return api.patch(
-    `${BASE_URL}/clinical-service-images/${imageId}/`,
-    { alt },
-    {
-      headers: { "Content-Type": "multipart/form-data" },
-    },
-  );
+  return updateClinicalServiceImageMeta(imageId, { alt });
 }
 
 export async function updateFeatureImageAlt(

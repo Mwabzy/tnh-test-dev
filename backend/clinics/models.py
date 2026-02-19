@@ -58,6 +58,8 @@ class ClinicalServiceImage(models.Model):
     )
     image = models.ImageField(upload_to="clinical_services/")
     alt = models.CharField(max_length=255, blank=True, default="")
+    focal_x = models.FloatField(default=50.0)
+    focal_y = models.FloatField(default=20.0)
 
     def __str__(self):
         return f"Image for {self.clinical_service.title}"

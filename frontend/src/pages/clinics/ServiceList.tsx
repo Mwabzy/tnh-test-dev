@@ -7,6 +7,7 @@ import { useIntlayer } from "react-intlayer";
 import DOMPurify from "dompurify";
 import { addClassesToDescription } from "@/components/services/utilities";
 import { ListWithSidebarSkeleton } from "@/components/layout/page-skeletons";
+import { getImageObjectPosition } from "@/lib/imageFocalPoint";
 
 interface ServiceListProps {
   services?: ClinicalService[];
@@ -189,11 +190,14 @@ const ServiceList: React.FC<ServiceListProps> = () => {
               className="bg-white rounded-lg shadow-md overflow-hidden"
             >
               {item.images?.length > 0 && (
-                <img
-                  className="w-full h-72 object-cover rounded-t-lg"
-                  src={item.images[0].url}
-                  alt={item.images[0].alt || "Service image"}
-                />
+                <div className="w-full h-72 rounded-t-lg overflow-hidden bg-gray-50">
+                  <img
+                    className="w-full h-full object-cover"
+                    style={{ objectPosition: getImageObjectPosition(item.images[0]) }}
+                    src={item.images[0].url}
+                    alt={item.images[0].alt || "Service image"}
+                  />
+                </div>
               )}
 
               <div className="p-6">

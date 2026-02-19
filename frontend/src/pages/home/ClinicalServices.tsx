@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { fetchClinicalServices } from "@/api/api";
 import { ClinicalService } from "@/types";
 import { useIntlayer } from "react-intlayer";
+import { getImageObjectPosition } from "@/lib/imageFocalPoint";
 
 const stripHtml = (value: string) =>
   value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
@@ -50,11 +51,14 @@ const Services = () => {
             className="max-w-sm bg-red-900  rounded-lg  dark:bg-gray-800"
           >
             {item.images?.[0]?.url && (
-              <img
-                className="rounded-t-lg w-full h-56 object-cover"
-                src={item.images[0].url}
-                alt={item.images[0].alt || item.title}
-              />
+              <div className="rounded-t-lg w-full h-56 overflow-hidden bg-white/10">
+                <img
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: getImageObjectPosition(item.images[0]) }}
+                  src={item.images[0].url}
+                  alt={item.images[0].alt || item.title}
+                />
+              </div>
             )}
             <div className="p-5 px-0">
               <h5 className="mb-2 text-xl sm:text-2xl md:text-2xl font-serif  font-bold tracking-tight text-white dark:text-white ">

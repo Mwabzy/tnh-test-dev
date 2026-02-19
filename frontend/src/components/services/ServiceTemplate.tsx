@@ -8,6 +8,7 @@ import DOMPurify from "dompurify";
 import { addClassesToDescription } from "./utilities";
 import { useIntlayer } from "react-intlayer";
 import { fetchOutpatientCenter } from "@/api/api";
+import { getImageObjectPosition } from "@/lib/imageFocalPoint";
 
 export interface ServiceTemplateProps {
   serviceTypes: ClinicalService;
@@ -306,7 +307,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                             <img
                               src={f.image.url}
                               alt={f.image.url || f.title}
-                              className="w-60 h-40 sm:h-48 object-cover rounded-lg mb-2 border border-gray-100"
+                              className="w-60 h-40 sm:h-48 object-cover object-top rounded-lg mb-2 border border-gray-100"
                             />
                           )}
 
@@ -494,7 +495,8 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                   <img
                     src={mainImage.url}
                     alt={mainImage.alt || title}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-48 object-cover bg-gray-50"
+                    style={{ objectPosition: getImageObjectPosition(mainImage) }}
                   />
                   <div className="p-3">
                     <div className="text-sm font-medium text-gray-900">
