@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
+from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer
 from rest_framework.permissions import AllowAny
@@ -33,8 +34,46 @@ class LoginView(APIView):
     # authentication_classes = [] 
 
     def post(self, request):
-        username = request.data.get("username")
-        password = request.data.get("password")
+        username = (request.data.get("username") or "").strip()
+        password = request.data.get("password") or ""
+
+        if not username:
+            return Response(
+                {
+                    "code": "missing_username",
+                    "message": "Username is required.",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if not password:
+            return Response(
+                {
+                    "code": "missing_password",
+                    "message": "Password is required.",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        User = get_user_model()
+        user_by_name = User.objects.filter(username=username).first()
+        if user_by_name is None:
+            return Response(
+                {
+                    "code": "user_not_found",
+                    "message": "No account found with that username.",
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        if not user_by_name.is_active:
+            return Response(
+                {
+                    "code": "account_inactive",
+                    "message": "This account is inactive. Contact administrator.",
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
 
         user = authenticate(username=username, password=password)
 
@@ -49,6 +88,9 @@ class LoginView(APIView):
             })
         else:
             return Response(
-                {"message": "Invalid username or password"},
+                {
+                    "code": "incorrect_password",
+                    "message": "Incorrect password. Please try again.",
+                },
                 status=status.HTTP_401_UNAUTHORIZED
             )

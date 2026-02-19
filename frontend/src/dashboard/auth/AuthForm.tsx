@@ -2,6 +2,35 @@ import React, { useState } from "react";
 import { loginUser, registerUser } from "@/api/api";
 import { useNavigate } from "react-router";
 
+const getAuthErrorMessage = (err: any) => {
+  const data = err?.response?.data;
+
+  if (data?.message && typeof data.message === "string") {
+    return data.message;
+  }
+
+  if (data?.detail && typeof data.detail === "string") {
+    return data.detail;
+  }
+
+  if (typeof data === "string" && data.trim()) {
+    return data;
+  }
+
+  // DRF field-level validation fallback
+  if (data && typeof data === "object") {
+    const firstValue = Object.values(data)[0];
+    if (Array.isArray(firstValue) && firstValue.length > 0) {
+      return String(firstValue[0]);
+    }
+    if (typeof firstValue === "string") {
+      return firstValue;
+    }
+  }
+
+  return err?.message || "Something went wrong.";
+};
+
 const AuthForm: React.FC = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -76,7 +105,7 @@ const AuthForm: React.FC = () => {
         setError(data.message || "Authentication failed.");
       }
     } catch (err: any) {
-      setError(err.message || "Something went wrong.");
+      setError(getAuthErrorMessage(err));
     } finally {
       setLoading(false);
     }
