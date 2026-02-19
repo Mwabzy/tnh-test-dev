@@ -60,9 +60,38 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
         centers.forEach((center: any) => {
           const timings = Array.isArray(center?.timings) ? center.timings : [];
           const matches = timings.filter((t: any) => {
-            const clinicId =
-              t?.clinic ?? t?.clinicId ?? t?.clinic_id ?? t?.clinic?.id;
-            return String(clinicId ?? "") === String(serviceTypes.id);
+            const timingServiceId =
+              t?.clinic ??
+              t?.clinicId ??
+              t?.clinic_id ??
+              t?.clinic?.id ??
+              t?.service ??
+              t?.serviceId ??
+              t?.service_id ??
+              t?.service?.id;
+            const timingServicesOffered = Array.isArray(t?.services_offered)
+              ? t.services_offered
+              : [];
+            const serviceInTimingServices = timingServicesOffered.some(
+              (s: any) =>
+                String(
+                  s?.id ??
+                    s?.clinic ??
+                    s?.clinicId ??
+                    s?.clinic_id ??
+                    s?.service ??
+                    s?.serviceId ??
+                    s?.service_id ??
+                    s ??
+                    "",
+                ) ===
+                String(serviceTypes.id),
+            );
+
+            return (
+              String(timingServiceId ?? "") === String(serviceTypes.id) ||
+              serviceInTimingServices
+            );
           });
 
           if (matches.length === 0) return;
@@ -72,9 +101,23 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
           if (!locationLabel) return;
 
           map[locationLabel] = matches.map((t: any) => ({
-            day: t?.day ?? "",
-            from: t?.startTime ?? t?.start_time ?? "",
-            to: t?.stopTime ?? t?.stop_time ?? "",
+            day: t?.day ?? t?.days ?? t?.weekday ?? "",
+            from:
+              t?.startTime ??
+              t?.start_time ??
+              t?.from ??
+              t?.fromTime ??
+              t?.from_time ??
+              "",
+            to:
+              t?.stopTime ??
+              t?.stop_time ??
+              t?.endTime ??
+              t?.end_time ??
+              t?.to ??
+              t?.toTime ??
+              t?.to_time ??
+              "",
           }));
         });
 
@@ -88,7 +131,8 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
   }, [serviceTypes.id]);
 
   const timingRows = useMemo(() => {
-    const opcLocations = Object.keys(opcTimings || {});
+    const hasOpcTimingData = Object.keys(opcTimings || {}).length > 0;
+    const opcLocations = Object.keys(opcTimings || {}).map((loc) => loc.trim());
     const locs =
       opcLocations.length > 0
         ? opcLocations.slice()
@@ -110,9 +154,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
 
     locs.forEach((loc) => {
       const locationTimings =
-        Object.keys(opcTimings || {}).length > 0
-          ? opcTimings
-          : (serviceTypes as any).locationTimings;
+        hasOpcTimingData ? opcTimings : (serviceTypes as any).locationTimings;
 
       let schedules = locationTimings?.[loc] as Array<any> | undefined;
 
@@ -199,7 +241,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
             time: timeDisplay || "--",
           });
         });
-      } else {
+      } else if (!hasOpcTimingData) {
         // No structured location timings: try to parse `timingsOnOverview` for day and times
         const overviewRaw = (serviceTypes.timingsOnOverview || "")
           .replace(/\s*\([^)]*\)/g, "")
@@ -251,6 +293,8 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
 
     return rows;
   }, [locations, opcTimings, serviceTypes]);
+
+  const hasTimingRows = timingRows.length > 0;
 
   const content = useIntlayer("service_template");
 
@@ -329,7 +373,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                 </div>
               )}
 
-              {isServiceBookable && hasSelectedLocations && (
+              {isServiceBookable && (hasSelectedLocations || hasTimingRows) && (
                 <>
                   {/* Our Clinic Timings (compact) */}
                   <div className="mb-6">

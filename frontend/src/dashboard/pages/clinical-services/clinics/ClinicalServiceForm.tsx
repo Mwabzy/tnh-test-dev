@@ -295,13 +295,40 @@ const ClinicalServiceForm: React.FC<Props> = ({
           })
           .filter(Boolean) as { value: string; label: string }[];
         setLocationOptions(options);
+
+        // Prefill service locations from OPC timings linked to this service id.
+        if (initialData?.id) {
+          const inferredFromTimings = centers
+            .filter((center: any) => {
+              const timings = Array.isArray(center?.timings) ? center.timings : [];
+              return timings.some((t: any) => {
+                const clinicId =
+                  t?.clinic ?? t?.clinicId ?? t?.clinic_id ?? t?.clinic?.id;
+                return String(clinicId ?? "") === String(initialData.id);
+              });
+            })
+            .map((center: any) =>
+              String(
+                center?.name ??
+                  center?.title ??
+                  center?.location ??
+                  center?.slug ??
+                  "",
+              ).trim(),
+            )
+            .filter((label: string) => label.length > 0);
+
+          if (inferredFromTimings.length > 0) {
+            setLocations((prev) => Array.from(new Set([...prev, ...inferredFromTimings])));
+          }
+        }
       } catch {
         toast.error("Failed to load outpatient centers");
       }
     };
 
     loadLocations();
-  }, []);
+  }, [initialData?.id]);
 
   // Feature translation state
   const [openFeatureTranslations, setOpenFeatureTranslations] = useState<

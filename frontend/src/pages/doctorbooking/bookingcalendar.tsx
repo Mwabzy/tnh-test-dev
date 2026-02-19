@@ -1083,8 +1083,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
                   onClick={handleConfirm}
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Submitting..." : "Confirm Booking"}
-                  {content.confirmbooking}
+                  {isSubmitting ? "Submitting..." : content.confirmbooking}
                 </button>
               </div>
             )}
