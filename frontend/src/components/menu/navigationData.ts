@@ -245,11 +245,11 @@ export const NAVIGATION_CONTENT = () => {
         {
           title: content.tenders,
           items: [
-            { title: content.open_tenders, href: "/news/tenders" },
-            { title: content.supplier_info, href: "/news/tenders" },
+            { title: content.open_tenders, href: "#" },
+            { title: content.supplier_info, href: "#" },
             {
               title: content.procurement_guidelines,
-              href: "/news/tenders",
+              href: "#",
             },
           ],
         },
@@ -259,9 +259,9 @@ export const NAVIGATION_CONTENT = () => {
             { title: content.job_vacancies, href: "/news/careers" },
             {
               title: content.volunteer_opportunities,
-              href: "/news/careers",
+              href: "#",
             },
-            { title: content.submit_cv, href: "/news/careers" },
+            { title: content.submit_cv, href: "#" },
           ],
         },
         {

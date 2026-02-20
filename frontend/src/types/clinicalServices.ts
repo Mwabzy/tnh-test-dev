@@ -2,8 +2,6 @@ export interface Image {
   id?: number;
   url: string;
   alt?: string;
-  focalX?: number;
-  focalY?: number;
 }
 
 export interface Feature {
