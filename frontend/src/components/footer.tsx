@@ -26,11 +26,9 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row md:justify-between gap-16">
           <div className="md:w-1/3 ">
             <h3 className="text-xl font-semibold text-white mb-3">
-            {footerdata.subscribeToOurMailingList}
+              {footerdata.subscribeToOurMailingList}
             </h3>
-            <p className="text-white mb-5">
-                {footerdata.stayUpdated}
-            </p>
+            <p className="text-white mb-5">{footerdata.stayUpdated}</p>
 
             <form className="flex flex-col  items-center sm:flex-row gap-3">
               <input
@@ -43,7 +41,7 @@ const Footer = () => {
                 type="submit"
                 className="px-6 py-3 w-30 bg-yellow-600 text-white hover:text-red-900 font-medium rounded-lg hover:bg-white transition"
               >
-               {footerdata.subscribeButton}
+                {footerdata.subscribeButton}
               </button>
             </form>
           </div>
@@ -51,15 +49,17 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row gap-8 md:w-2/3">
             <div className="md:w-1/2">
               <h3 className="text-xl w-2/3 font-semibold text-white mb-3">
-               {footerdata.contactus}
+                {footerdata.contactus}
               </h3>
               <p className="text-white mb-1">{footerdata.hospitalName}</p>
               <p className="text-white mb-1">
                 P.O. Box 30026 - 00100 GPO, Nairobi, Kenya
               </p>
-              <p className="text-white mb-1">{footerdata.phone}: +254 20 2845000</p>
               <p className="text-white mb-1">
-                {footerdata.email}: nbihosp.org
+                {footerdata.phone}: +254 20 2845000
+              </p>
+              <p className="text-white mb-1">
+                {footerdata.email}: hosp@nbihosp.org
                 <a href="mailto:nbihosp.org"></a>
               </p>
             </div>
@@ -110,10 +110,7 @@ const Footer = () => {
         </p>
         <div className="flex  flex-col items-center md:items-start">
           {" "}
-          <span className="mb-5">
-            {" "}
-            {footerdata.getInTouch}{" "}
-          </span>
+          <span className="mb-5"> {footerdata.getInTouch} </span>
           <div className="flex gap-2">
             <Link
               to="https://www.facebook.com/TheNairobiHosp"
