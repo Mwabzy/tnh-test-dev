@@ -1,11 +1,18 @@
 import { FC } from "react";
 import { CSR } from "@/types";
+import DOMPurify from "dompurify";
+
+const sanitizePlainText = (value?: string | null) =>
+  DOMPurify.sanitize(value ?? "", {
+    ALLOWED_TAGS: [],
+    ALLOWED_ATTR: [],
+  }).trim();
 
 interface CsrTableProps {
   data: CSR[];
   onEdit: (csr: CSR) => void;
-  onDelete: (id: number) => void;
-  deletingId?: number | null;
+  onDelete: (id: string) => void;
+  deletingId?: string | null;
 }
 
 const CsrTable: FC<CsrTableProps> = ({
@@ -38,25 +45,27 @@ const CsrTable: FC<CsrTableProps> = ({
             <tr key={csr.id} className="border-b hover:bg-gray-50">
               <td className="p-3 font-medium">{csr.title}</td>
               <td className="p-3">{csr.author}</td>
-              <td className="p-3">{csr.shortdesc}</td>
+              <td className="p-3">
+                {sanitizePlainText(csr.shortdesc ?? csr.short_desc ?? "")}
+              </td>
               <td className="p-3 flex gap-2">
                 <button
                   onClick={() => onEdit(csr)}
                   className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                  disabled={deletingId === csr.id}
+                  disabled={deletingId === String(csr.id)}
                 >
                   Edit
                 </button>
                 <button
-                  onClick={() => onDelete(Number(csr.id))}
+                  onClick={() => onDelete(String(csr.id))}
                   className={`px-3 py-1 rounded text-white ${
-                    deletingId === csr.id
+                    deletingId === String(csr.id)
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-red-500 hover:bg-red-600"
                   }`}
-                  disabled={deletingId === csr.id}
+                  disabled={deletingId === String(csr.id)}
                 >
-                  {deletingId === csr.id ? "Deleting..." : "Delete"}
+                  {deletingId === String(csr.id) ? "Deleting..." : "Delete"}
                 </button>
               </td>
             </tr>

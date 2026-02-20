@@ -22,12 +22,16 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   const [title, setTitle] = useState(initialData?.title || "");
   const [subtitle, setSubtitle] = useState(initialData?.subtitle || "");
   const [blogsubtitle, setBlogsubtitle] = useState(
-    initialData?.blogsubtitle || "",
+    initialData?.blogsubtitle || initialData?.blog_subtitle || "",
   );
 
   // Rich text editor states
-  const [shortdesc, setShortdesc] = useState(initialData?.shortdesc || "");
-  const [longdesc, setLongdesc] = useState(initialData?.longdesc || "");
+  const [shortdesc, setShortdesc] = useState(
+    initialData?.shortdesc || initialData?.short_desc || "",
+  );
+  const [longdesc, setLongdesc] = useState(
+    initialData?.longdesc || initialData?.long_desc || "",
+  );
   const [description, setDescription] = useState(
     initialData?.description || "",
   );
@@ -46,17 +50,17 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   });
 
   const [shortdescTranslations, setShortdescTranslations] = useState({
-    fr: initialData?.shortdesc_fr || "",
-    es: initialData?.shortdesc_es || "",
-    zh: initialData?.shortdesc_zh || "",
-    ru: initialData?.shortdesc_ru || "",
+    fr: initialData?.shortdesc_fr || initialData?.short_desc_fr || "",
+    es: initialData?.shortdesc_es || initialData?.short_desc_es || "",
+    zh: initialData?.shortdesc_zh || initialData?.short_desc_zh || "",
+    ru: initialData?.shortdesc_ru || initialData?.short_desc_ru || "",
   });
 
   const [longdescTranslations, setLongdescTranslations] = useState({
-    fr: initialData?.longdesc_fr || "",
-    es: initialData?.longdesc_es || "",
-    zh: initialData?.longdesc_zh || "",
-    ru: initialData?.longdesc_ru || "",
+    fr: initialData?.longdesc_fr || initialData?.long_desc_fr || "",
+    es: initialData?.longdesc_es || initialData?.long_desc_es || "",
+    zh: initialData?.longdesc_zh || initialData?.long_desc_zh || "",
+    ru: initialData?.longdesc_ru || initialData?.long_desc_ru || "",
   });
 
   // Track which translation panel is open
@@ -72,9 +76,9 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
 
   // Cover image (UPLOAD)
   const [coverImage, setCoverImage] = useState<ImageState | null>(
-    initialData?.coverImage
+    initialData?.coverImage || initialData?.cover_image
       ? {
-          url: initialData.coverImage,
+          url: initialData.coverImage || initialData.cover_image,
           alt: (initialData as any).cover_image_alt || "",
         }
       : null,
@@ -162,11 +166,11 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       fd.append("author", author);
       fd.append("title", title);
       fd.append("subtitle", subtitle);
-      fd.append("blogsubtitle", blogsubtitle);
+      fd.append("blog_subtitle", blogsubtitle);
 
       // Append rich text fields
-      fd.append("shortdesc", shortdesc);
-      fd.append("longdesc", longdesc);
+      fd.append("short_desc", shortdesc);
+      fd.append("long_desc", longdesc);
       fd.append("description", description);
 
       // Append translations
@@ -175,15 +179,15 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       fd.append("description_zh", descriptionTranslations.zh);
       fd.append("description_ru", descriptionTranslations.ru);
 
-      fd.append("shortdesc_fr", shortdescTranslations.fr);
-      fd.append("shortdesc_es", shortdescTranslations.es);
-      fd.append("shortdesc_zh", shortdescTranslations.zh);
-      fd.append("shortdesc_ru", shortdescTranslations.ru);
+      fd.append("short_desc_fr", shortdescTranslations.fr);
+      fd.append("short_desc_es", shortdescTranslations.es);
+      fd.append("short_desc_zh", shortdescTranslations.zh);
+      fd.append("short_desc_ru", shortdescTranslations.ru);
 
-      fd.append("longdesc_fr", longdescTranslations.fr);
-      fd.append("longdesc_es", longdescTranslations.es);
-      fd.append("longdesc_zh", longdescTranslations.zh);
-      fd.append("longdesc_ru", longdescTranslations.ru);
+      fd.append("long_desc_fr", longdescTranslations.fr);
+      fd.append("long_desc_es", longdescTranslations.es);
+      fd.append("long_desc_zh", longdescTranslations.zh);
+      fd.append("long_desc_ru", longdescTranslations.ru);
 
       // Optionally, you can also append plain text versions
       // fd.append("shortdesc_plain", shortdescPlain);

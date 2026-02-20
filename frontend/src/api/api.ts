@@ -248,7 +248,7 @@ export async function createCsr(data: any) {
   return response.data;
 }
 
-export async function updateCsr(id: number, data: any) {
+export async function updateCsr(id: string | number, data: any) {
   const response = await api.patch(`${CSR_API}${id}/`, data, {
     headers: { "Content-Type": "multipart/form-data" },
   });

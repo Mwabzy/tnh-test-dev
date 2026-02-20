@@ -1,8 +1,6 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
-import Link from "@tiptap/extension-link";
-import Underline from "@tiptap/extension-underline";
 
 interface RichTextEditorProps {
   value: string;
@@ -19,14 +17,14 @@ const RichTextEditor = ({
 }: RichTextEditorProps) => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      Link.configure({
-        openOnClick: false,
-        HTMLAttributes: {
-          class: "text-blue-600 hover:text-blue-800 underline",
+      StarterKit.configure({
+        link: {
+          openOnClick: false,
+          HTMLAttributes: {
+            class: "text-blue-600 hover:text-blue-800 underline",
+          },
         },
       }),
-      Underline,
       Placeholder.configure({
         placeholder: placeholder || "Start typing...",
       }),

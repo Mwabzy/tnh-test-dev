@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { FC, useEffect, useState } from "react";
 import { Link } from "react-router";
 import { fetchCsr } from "@/api/api";
+import DOMPurify from "dompurify";
 
 const slideUp = {
   hidden: { opacity: 0, y: 50 },
@@ -34,6 +35,12 @@ const toMediaUrl = (url?: string | null) => {
   return url;
 };
 
+const sanitizePlainText = (value?: string | null) =>
+  DOMPurify.sanitize(value ?? "", {
+    ALLOWED_TAGS: [],
+    ALLOWED_ATTR: [],
+  }).trim();
+
 const normalizeCsr = (row: any): CsrItem => {
   const coverImage = toMediaUrl(row?.coverImage || row?.cover_image || "");
   const images = Array.isArray(row?.image)
@@ -48,7 +55,9 @@ const normalizeCsr = (row: any): CsrItem => {
     title: row?.title ?? "",
     subtitle: row?.subtitle ?? "",
     blogsubtitle: row?.blogsubtitle ?? row?.blog_subtitle ?? "",
-    description: row?.description ?? row?.shortdesc ?? row?.short_desc ?? "",
+    description: sanitizePlainText(
+      row?.description ?? row?.shortdesc ?? row?.short_desc ?? "",
+    ),
     shortdesc: row?.shortdesc ?? row?.short_desc ?? "",
     longdesc: row?.longdesc ?? row?.long_desc ?? "",
     coverImage,

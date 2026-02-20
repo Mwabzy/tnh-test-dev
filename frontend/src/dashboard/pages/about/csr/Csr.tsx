@@ -15,8 +15,8 @@ const Csr = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingCsr, setEditingCsr] = useState<CSR | null>(null);
 
-  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
-  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   // Load CSR list
   useEffect(() => {
@@ -40,13 +40,15 @@ const Csr = () => {
     try {
       if (editingCsr?.id != null) {
         // UPDATE
-        const csrId = Number(editingCsr.id);
-        if (Number.isNaN(csrId)) {
+        const csrId = String(editingCsr.id).trim();
+        if (!csrId) {
           toast.error("Invalid CSR ID");
           return;
         }
         const updated = await updateCsr(csrId, formData);
-        setCsrs((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+        setCsrs((prev) =>
+          prev.map((c) => (String(c.id) === String(updated.id) ? updated : c)),
+        );
         toast.success("CSR updated successfully!");
       } else {
         // CREATE
@@ -68,17 +70,19 @@ const Csr = () => {
     setShowForm(true);
   };
 
-  const handleDeleteClick = (id: number) => setDeleteConfirmId(id);
+  const handleDeleteClick = (id: string) => setDeleteConfirmId(id);
 
   const confirmDelete = async () => {
     if (!deleteConfirmId) return;
 
     setDeletingId(deleteConfirmId);
     try {
-      await deleteCsr(String(deleteConfirmId));
-      setCsrs((prev) => prev.filter((c) => c.id !== deleteConfirmId));
+      await deleteCsr(deleteConfirmId);
+      setCsrs((prev) =>
+        prev.filter((c) => String(c.id) !== String(deleteConfirmId)),
+      );
       toast.success("CSR deleted successfully!");
-    } catch (err: any) {
+    } catch {
       toast.error("Failed to delete CSR");
     } finally {
       setDeletingId(null);
