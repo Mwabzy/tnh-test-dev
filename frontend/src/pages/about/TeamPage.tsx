@@ -53,7 +53,7 @@ const TeamCard: React.FC<TeamMember> = ({ name, role, id, image }) => (
           alt={name}
           className="w-70 h-100 shadow-md mx-auto object-cover rounded-lg mb-4 transform transition-transform duration-800 group-hover:scale-110"
         />
-        <div className="absolute inset-0 rounded-lg group-hover:bg-black/50 transition group-hover:scale-110 duration-800 z-10"></div>
+        <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/85 via-black/35 to-transparent lg:bg-transparent lg:group-hover:bg-black/50 transition group-hover:scale-110 duration-800 z-10"></div>
 
         <div className="absolute bottom-0 w-full p-4 transition-opacity duration-800 opacity-100 md:opacity-0 md:group-hover:opacity-100 z-20">
           <h3 className="mt-4 text-white text-2xl font-bold">{name}</h3>
