@@ -115,7 +115,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
           />
           <input
             className="border p-2 grow"
-            placeholder="Alt text"
+            placeholder="Cover image alt text"
             value={image.alt}
             onChange={(e) => setImage({ ...image, alt: e.target.value })}
           />
@@ -222,6 +222,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         <label className="font-semibold">Author {requiredMark}</label>
         <input
           className="border p-2 w-full"
+          placeholder="Enter author name"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
@@ -234,25 +235,32 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         <label className="font-semibold">Title {requiredMark}</label>
         <input
           className="border p-2 w-full"
+          placeholder="Enter CSR title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         {errors.title && <p className="text-red-600 text-sm">{errors.title}</p>}
       </div>
 
-      <input
-        className="border p-2 w-full"
-        placeholder="Subtitle"
-        value={subtitle}
-        onChange={(e) => setSubtitle(e.target.value)}
-      />
+      <div>
+        <label className="font-semibold">Subtitle</label>
+        <input
+          className="border p-2 w-full"
+          placeholder="Enter subtitle"
+          value={subtitle}
+          onChange={(e) => setSubtitle(e.target.value)}
+        />
+      </div>
 
-      <input
-        className="border p-2 w-full"
-        placeholder="Blog Subtitle"
-        value={blogsubtitle}
-        onChange={(e) => setBlogsubtitle(e.target.value)}
-      />
+      <div>
+        <label className="font-semibold">Blog Subtitle</label>
+        <input
+          className="border p-2 w-full"
+          placeholder="Enter blog subtitle"
+          value={blogsubtitle}
+          onChange={(e) => setBlogsubtitle(e.target.value)}
+        />
+      </div>
 
       {/* Short Description - Rich Text Editor */}
       <div>

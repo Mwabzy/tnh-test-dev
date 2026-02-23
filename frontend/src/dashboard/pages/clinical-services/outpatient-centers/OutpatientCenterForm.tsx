@@ -344,21 +344,27 @@ const OutpatientCenterForm = ({
         {initialData ? "Edit Outpatient Center" : "Add Outpatient Center"}
       </h2>
 
-      <input
-        className="border p-2 w-full"
-        placeholder="Center Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
+      <div>
+        <label className="font-medium block mb-1">Center Name</label>
+        <input
+          className="border p-2 w-full"
+          placeholder="Enter center name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+      </div>
 
-      <input
-        className="border p-2 w-full"
-        placeholder="Location"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        required
-      />
+      <div>
+        <label className="font-medium block mb-1">Center Location</label>
+        <input
+          className="border p-2 w-full"
+          placeholder="Enter center location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          required
+        />
+      </div>
 
       <div>
         <label className="font-medium block mb-1">Description</label>
@@ -420,7 +426,7 @@ const OutpatientCenterForm = ({
             )}
             <input
               type="text"
-              placeholder="Alt text"
+              placeholder="Image alt text"
               className="border p-2 flex-1"
               value={img.alt}
               onChange={(e) => updateExistingAlt(i, e.target.value)}
@@ -445,7 +451,7 @@ const OutpatientCenterForm = ({
             />
             <input
               type="text"
-              placeholder="Alt text"
+              placeholder="Image alt text"
               className="border p-2 flex-1"
               value={img.alt}
               onChange={(e) =>
@@ -505,7 +511,7 @@ const OutpatientCenterForm = ({
               <div className="relative">
                 <input
                   className="border p-2 w-full"
-                  placeholder="Search clinic..."
+                  placeholder="Search clinic/service..."
                   value={
                     selectedClinic
                       ? selectedClinic.title
@@ -687,14 +693,14 @@ const OutpatientCenterForm = ({
 
       <input
         className="border p-2 w-full"
-        placeholder="Phone"
+        placeholder="Enter phone number"
         value={contact.phone}
         onChange={(e) => setContact({ ...contact, phone: e.target.value })}
       />
 
       <input
         className="border p-2 w-full"
-        placeholder="Email"
+        placeholder="Enter email address"
         type="email"
         value={contact.email}
         onChange={(e) => setContact({ ...contact, email: e.target.value })}
