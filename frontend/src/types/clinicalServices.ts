@@ -65,6 +65,10 @@ export interface ContactInfo {
 export interface ClinicalService {
   id: number;
   title: string;
+  title_fr?: string;
+  title_es?: string;
+  title_zh?: string;
+  title_ru?: string;
   path?: string;
   tagline: string;
   tagline_fr?: string;

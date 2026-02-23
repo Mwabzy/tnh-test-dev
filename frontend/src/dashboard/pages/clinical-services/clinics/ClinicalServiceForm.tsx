@@ -169,7 +169,14 @@ const ClinicalServiceForm: React.FC<Props> = ({
   );
 
   // Translation states
-  const [taglineTranslations, _setTaglineTranslations] = useState({
+  const [titleTranslations, setTitleTranslations] = useState({
+    fr: initialData?.title_fr || "",
+    es: initialData?.title_es || "",
+    zh: initialData?.title_zh || "",
+    ru: initialData?.title_ru || "",
+  });
+
+  const [taglineTranslations, setTaglineTranslations] = useState({
     fr: initialData?.tagline_fr || "",
     es: initialData?.tagline_es || "",
     zh: initialData?.tagline_zh || "",
@@ -193,11 +200,11 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
   // Track which translation panel is open
   const [openTranslation, setOpenTranslation] = useState<
-    "tagline" | "overview" | "detailedDescription" | null
+    "title" | "tagline" | "overview" | "detailedDescription" | null
   >(null);
 
   const toggleTranslation = (
-    field: "tagline" | "overview" | "detailedDescription",
+    field: "title" | "tagline" | "overview" | "detailedDescription",
   ) => {
     setOpenTranslation((prev) => (prev === field ? null : field));
   };
@@ -495,6 +502,10 @@ const ClinicalServiceForm: React.FC<Props> = ({
     const formData = new FormData();
 
     formData.append("title", title);
+    formData.append("title_fr", titleTranslations.fr);
+    formData.append("title_es", titleTranslations.es);
+    formData.append("title_zh", titleTranslations.zh);
+    formData.append("title_ru", titleTranslations.ru);
     formData.append("path", path.trim());
     formData.append("tagline", tagline);
     formData.append("tagline_fr", taglineTranslations.fr);
@@ -608,6 +619,36 @@ const ClinicalServiceForm: React.FC<Props> = ({
           />
         </label>
         {errors.title && <p className="text-red-600 text-sm">{errors.title}</p>}
+
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline mt-1 block"
+          onClick={() => toggleTranslation("title")}
+        >
+          {openTranslation === "title"
+            ? "Hide Title Translations"
+            : "Show Title Translations"}
+        </button>
+
+        {openTranslation === "title" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <input
+                key={`title-${lang}`}
+                type="text"
+                className="border p-2 w-full"
+                placeholder={`Title (${lang})`}
+                value={titleTranslations[lang]}
+                onChange={(e) =>
+                  setTitleTranslations((prev) => ({
+                    ...prev,
+                    [lang]: e.target.value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Path */}
@@ -634,7 +675,39 @@ const ClinicalServiceForm: React.FC<Props> = ({
             onChange={(e) => setTagline(e.target.value)}
           />
         </label>
-        {errors.title && <p className="text-red-600 text-sm">{errors.title}</p>}
+        {errors.tagline && (
+          <p className="text-red-600 text-sm">{errors.tagline}</p>
+        )}
+
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline mt-1 block"
+          onClick={() => toggleTranslation("tagline")}
+        >
+          {openTranslation === "tagline"
+            ? "Hide Tagline Translations"
+            : "Show Tagline Translations"}
+        </button>
+
+        {openTranslation === "tagline" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <input
+                key={`tagline-${lang}`}
+                type="text"
+                className="border p-2 w-full"
+                placeholder={`Tagline (${lang})`}
+                value={taglineTranslations[lang]}
+                onChange={(e) =>
+                  setTaglineTranslations((prev) => ({
+                    ...prev,
+                    [lang]: e.target.value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Overview */}
