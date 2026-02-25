@@ -513,7 +513,6 @@ const Navigation: FC<NavigationProps> = () => {
                     href="/convention-center"
                   />
                   <ListItem title="Parking & Transport" href="/parking-transport" />
-                  <ListItem title="Security & Safety" href="/security-safety" />
                 </ul>
               </li>{" "}
               {/* Column 2: Support Services */}
@@ -526,14 +525,6 @@ const Navigation: FC<NavigationProps> = () => {
                   <ListItem
                     title="Laundry & Housekeeping"
                     href="/laundry-services"
-                  />
-                  <ListItem
-                    title="Catering Services"
-                    href="/about-us/board-of-trustees"
-                  />
-                  <ListItem
-                    title="Patient Support Services"
-                    href="/about-us/board-of-management"
                   />
                 </ul>
               </li>

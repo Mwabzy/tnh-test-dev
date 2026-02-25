@@ -284,21 +284,12 @@ export const NAVIGATION_CONTENT = () => {
               href: "/convention-center",
             },
             { title: content.parking_transport, href: "/parking-transport" },
-            { title: content.security_safety, href: "#" },
           ],
         },
         {
           title: content.support_services,
           items: [
             { title: content.laundry, href: "/laundry-services" },
-            {
-              title: content.catering_services,
-              href: "/about-us/board-of-trustees",
-            },
-            {
-              title: content.patient_support_services,
-              href: "/about-us/board-of-management",
-            },
           ],
         },
         {
