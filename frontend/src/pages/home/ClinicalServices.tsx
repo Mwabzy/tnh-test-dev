@@ -4,6 +4,7 @@ import { fetchClinicalServices } from "@/api/api";
 import { ClinicalService } from "@/types";
 import { useIntlayer } from "react-intlayer";
 import { getImageObjectPosition } from "@/lib/imageFocalPoint";
+import { hasAndersonLocation } from "@/lib/serviceFilters";
 
 const stripHtml = (value: string) =>
   value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
@@ -28,9 +29,17 @@ const Services = () => {
     loadServices();
   }, []);
 
-  const servicesToShow = useMemo(
-    () => services.filter((item) => Boolean(item.ftOnHomepage)).slice(0, 3),
+  const clinicalServices = useMemo(
+    () => services.filter((item) => !hasAndersonLocation(item)),
     [services],
+  );
+
+  const servicesToShow = useMemo(
+    () =>
+      clinicalServices
+        .filter((item) => Boolean(item.ftOnHomepage))
+        .slice(0, 3),
+    [clinicalServices],
   );
 
   return (
@@ -91,7 +100,7 @@ const Services = () => {
           </div>
         ))}
       </div>
-      {services.length > 3 && (
+      {clinicalServices.length > 3 && (
         <div className="flex flex-col mt-15 mx-4  items-center justify-between bg-white shadow-md rounded-xl p-6 mb-10">
           {/* Text Section */}
           <div className="text-center md:text-left">

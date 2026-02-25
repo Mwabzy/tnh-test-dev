@@ -8,6 +8,7 @@ import DOMPurify from "dompurify";
 import { addClassesToDescription } from "@/components/services/utilities";
 import { ListWithSidebarSkeleton } from "@/components/layout/page-skeletons";
 import { getImageObjectPosition } from "@/lib/imageFocalPoint";
+import { hasAndersonLocation } from "@/lib/serviceFilters";
 
 interface ServiceListProps {
   services?: ClinicalService[];
@@ -43,17 +44,22 @@ const ServiceList: React.FC<ServiceListProps> = () => {
     loadServices();
   }, []);
 
+  const clinicalServices = useMemo(
+    () => data.filter((service) => !hasAndersonLocation(service)),
+    [data],
+  );
+
   // Generate locations dynamically
   const allLocations = useMemo(() => {
     const locSet = new Set<string>();
-    data.forEach((service) =>
+    clinicalServices.forEach((service) =>
       service.locations?.forEach((loc) => locSet.add(loc)),
     );
     return Array.from(locSet).sort();
-  }, [data]);
+  }, [clinicalServices]);
 
   // Filter logic
-  const filteredServices = data.filter((service) => {
+  const filteredServices = clinicalServices.filter((service) => {
     const matchesSearch = service.title
       .toLowerCase()
       .includes(search.toLowerCase());
@@ -180,7 +186,7 @@ const ServiceList: React.FC<ServiceListProps> = () => {
       <main className="flex-1">
         <p className="mb-6 text-sm text-gray-700">
           {content.displaying} {filteredServices.length} {content.of}{" "}
-          {data.length} {content.clinicalServices}
+          {clinicalServices.length} {content.clinicalServices}
         </p>
 
         <div className="grid grid-cols-1 gap-8 max-w-150">

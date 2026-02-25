@@ -588,7 +588,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                 </div>
               </div>
 
-              {/* Explore Speciality Clinics */}
+              {/* Explore Clinical Services */}
               <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
                 <h4 className="text-sm font-semibold text-gray-900 mb-2">
                   {content.speciality_clinics}

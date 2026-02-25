@@ -68,7 +68,7 @@ const service_template: Dictionary = {
     ],
     speciality_clinics: [
       t({
-        en: "Explore Speciality Clinics",
+        en: "Explore Clinical Services",
         fr: "Explorer les cliniques spécialisées",
         es: "Explorar clínicas especializadas",
         zh: "探索专科诊所",
@@ -77,7 +77,7 @@ const service_template: Dictionary = {
     ],
     speciality_clinics_description: [
       t({
-        en: "Browse all speciality clinics under Anderson Specialty.",
+        en: "Browse all clinical services offered by The Nairobi Hospital.",
         fr: "Parcourez toutes les cliniques spécialisées sous Anderson Specialty.",
         es: "Explore todas las clínicas especializadas bajo Anderson Specialty.",
         zh: "浏览安德森专科下的所有专科诊所。",
@@ -86,7 +86,7 @@ const service_template: Dictionary = {
     ],
     view_clinics: [
       t({
-        en: "View clinics →",
+        en: "View clinical services ->",
         fr: "Voir les cliniques →",
         es: "Ver clínicas →",
         zh: "查看诊所 →",
