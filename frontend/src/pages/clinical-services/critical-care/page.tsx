@@ -1,10 +1,9 @@
 import { FC } from 'react';
 import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
-import { Heart, Activity, Users, Phone, Clock, MonitorSmartphone, ChevronRight } from 'lucide-react';
+import { Heart, Activity, Phone, Clock, MonitorSmartphone, ChevronRight } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
-import ClientsSay from '@/components/ClientsSay';
-import TeamSection from '@/components/TeamSection';
+import TestimonialCarousel from '@/components/TestimonialCarousel';
 
 const CriticalCare: FC = () => {
   return (
@@ -246,43 +245,9 @@ const CriticalCare: FC = () => {
           </div>
         </section>
 
-        {/* Team & Support */}
+        {/* Visiting Information */}
         <section className="container mx-auto px-4 mt-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Medical Team */}
-            <motion.div
-              className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              <Users className="w-8 h-8 text-red-900 mb-4" />
-              <h3 className="text-lg font-semibold mb-4">Our Critical Care Team</h3>
-              <ul className="space-y-2 text-sm text-gray-700">
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-red-900 mt-1" />
-                  Intensive Care Specialists
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-red-900 mt-1" />
-                  Critical Care Nurses
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-red-900 mt-1" />
-                  Respiratory Therapists
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-red-900 mt-1" />
-                  Physiotherapists
-                </li>
-                <li className="flex items-start gap-2">
-                  <ChevronRight className="w-4 h-4 text-red-900 mt-1" />
-                  Clinical Pharmacists
-                </li>
-              </ul>
-            </motion.div>
-
-            {/* Visiting Hours */}
+          <div className="grid grid-cols-1 gap-8">
             <motion.div
               className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"
               initial={{ opacity: 0, x: 20 }}
@@ -303,7 +268,7 @@ const CriticalCare: FC = () => {
         </section>
 
         {/* Contact & Support */}
-        <section className="container mx-auto px-4 mt-16">
+        <section className="container mx-auto px-4 my-16">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
             <h3 className="text-xl font-semibold text-red-900 mb-6">Contact Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -334,25 +299,24 @@ const CriticalCare: FC = () => {
             </div>
           </div>
         </section>
-
-  {/* Client Testimonials */}
-        {/* Clinical Team (inserted before ClientsSay) */}
-        <TeamSection
-          title="Critical Care Team"
-          team={[
-            { name: 'Dr. Rebecca Njoro', title: 'Head of Critical Care', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-            { name: 'Dr. Samuel Awuor', title: 'Intensivist', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-            { name: 'Ms. Mercy Mburu', title: 'Critical Care Nurse Lead', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-            { name: 'Mr. Tom Ochieng', title: 'Respiratory Therapist', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-          ]}
-        />
-
-        <ClientsSay
-          title="What our clients say"
+        <TestimonialCarousel
           testimonials={[
-            { quote: 'Exceptional ICU team, highly skilled and attentive.', name: 'R. Njoro', avatar: '/src/assets/feedback/clients.png' },
-            { quote: 'Our family was kept informed and cared for.', name: 'S. Awuor', avatar: '/src/assets/feedback/clients.png' },
-            { quote: 'Life-saving interventions with great professionalism.', name: 'T. Mburu', avatar: '/src/assets/feedback/clients.png' },
+            {
+              name: "Cate Nyambura",
+              title: "Patient",
+              image:
+                "https://lh3.googleusercontent.com/a-/ALV-UjUOuxfWm6fzqbcmzhp-1rAs8wv4NgfJ9ixm-gRj-wXmHkqFPz-EMg=w72-h72-p-rp-mo-ba8-br100",
+              quote:
+                "Great and excellent service. Took less than an hour to get admitted along with the mandatory COVID test. I was admitted in the Presidential St. Michael Suite and the nurses were attentive, supportive with the best service. Discharge was seamless and everything was sorted easily and the wait staff was very prompt.",
+            },
+            {
+              name: "Jimmy Wanyangu",
+              title: "Patient",
+              image:
+                "https://lh3.googleusercontent.com/a-/ALV-UjW3GTYCl5luQDf88tAC-0e8kklmblsInt5VAmbW7JWEfXQoLNs=w72-h72-p-rp-mo-ba3-br100",
+              quote:
+                "Good customer service,location is perfect within the Hospital's vicinity. Interior decor is superb especially the concrete planters on each table. Most institutions have workers who do not understand courtesy but Nairobi hospital understands importance of courtesy right from the gate I am really impressed !",
+            },
           ]}
         />
 

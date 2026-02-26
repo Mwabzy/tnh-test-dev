@@ -3,8 +3,7 @@ import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
 import { FileText, Clock, Phone, CalendarDays, ClipboardList, ChevronRight } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
-import ClientsSay from '@/components/ClientsSay';
-import TeamSection from '@/components/TeamSection';
+import TestimonialCarousel from '@/components/TestimonialCarousel';
 
 const AdmissionProcess: FC = () => {
   return (
@@ -232,7 +231,7 @@ const AdmissionProcess: FC = () => {
         </section>
 
         {/* Contact Section */}
-        <section className="container mx-auto px-4 mt-16">
+        <section className="container mx-auto px-4 my-16">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
             <h3 className="text-xl font-semibold text-red-900 mb-6">Need Assistance?</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -264,26 +263,26 @@ const AdmissionProcess: FC = () => {
           </div>
         </section>
 
-  {/* Clinical Team (inserted before ClientsSay) */}
-  <TeamSection
-    title="Admissions Team"
-    team={[
-      { name: 'Joel Wasiche', title: 'Credit Controller', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-      { name: 'Esther Odupoyi', title: 'Admissions Manager', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-      { name: 'Kenneth Bodo', title: 'Senior Medical Records Officer', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-      { name: 'Felister Githui', title: 'Patient Liason', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-    ]}
-  />
-
-  {/* Client Testimonials */}
-  <ClientsSay
-    title="What our clients say"
-    testimonials={[
-      { quote: 'Smooth admission experience and helpful staff.', name: 'P. Ouma', avatar: '/src/assets/feedback/clients.png' },
-      { quote: 'Clear pre-admission guidance and fast processing.', name: 'H. Wekesa', avatar: '/src/assets/feedback/clients.png' },
-      { quote: 'Efficient payment and insurance handling.', name: 'L. Kamunge', avatar: '/src/assets/feedback/clients.png' },
-    ]}
-  />
+        <TestimonialCarousel
+          testimonials={[
+            {
+              name: "Cate Nyambura",
+              title: "Patient",
+              image:
+                "https://lh3.googleusercontent.com/a-/ALV-UjUOuxfWm6fzqbcmzhp-1rAs8wv4NgfJ9ixm-gRj-wXmHkqFPz-EMg=w72-h72-p-rp-mo-ba8-br100",
+              quote:
+                "Great and excellent service. Took less than an hour to get admitted along with the mandatory COVID test. I was admitted in the Presidential St. Michael Suite and the nurses were attentive, supportive with the best service. Discharge was seamless and everything was sorted easily and the wait staff was very prompt.",
+            },
+            {
+              name: "Jimmy Wanyangu",
+              title: "Patient",
+              image:
+                "https://lh3.googleusercontent.com/a-/ALV-UjW3GTYCl5luQDf88tAC-0e8kklmblsInt5VAmbW7JWEfXQoLNs=w72-h72-p-rp-mo-ba3-br100",
+              quote:
+                "Good customer service,location is perfect within the Hospital's vicinity. Interior decor is superb especially the concrete planters on each table. Most institutions have workers who do not understand courtesy but Nairobi hospital understands importance of courtesy right from the gate I am really impressed !",
+            },
+          ]}
+        />
 
   {/* Insurance Partners */}
   <InsuranceSlider />

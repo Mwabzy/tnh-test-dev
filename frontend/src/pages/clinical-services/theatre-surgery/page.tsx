@@ -3,8 +3,7 @@ import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
 import { Stethoscope, Clock, Phone, ClipboardCheck, HeartPulse, ChevronRight } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
-import ClientsSay from '@/components/ClientsSay';
-import TeamSection from '@/components/TeamSection';
+import TestimonialCarousel from '@/components/TestimonialCarousel';
 
 const TheatreAndSurgery: FC = () => {
   return (
@@ -243,41 +242,8 @@ const TheatreAndSurgery: FC = () => {
           </div>
         </section>
 
-        {/* Surgical Team */}
-        <section className="container mx-auto px-4 mt-16">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-            <h3 className="text-xl font-semibold text-red-900 mb-6">Our Surgical Team</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div>
-                <h4 className="font-semibold mb-2">Surgeons</h4>
-                <p className="text-sm text-gray-700 mb-4">
-                  Highly skilled specialists across multiple surgical disciplines with extensive experience in complex procedures.
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-2">Anesthesiologists</h4>
-                <p className="text-sm text-gray-700 mb-4">
-                  Expert team providing safe and effective anesthesia care and pain management.
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-2">Theatre Nurses</h4>
-                <p className="text-sm text-gray-700 mb-4">
-                  Specialized nursing staff trained in perioperative care and surgical assistance.
-                </p>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-2">Support Staff</h4>
-                <p className="text-sm text-gray-700 mb-4">
-                  Dedicated technicians, sterile processing team, and support personnel.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Contact Section */}
-        <section className="container mx-auto px-4 mt-16">
+        <section className="container mx-auto px-4 my-16">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
             <h3 className="text-xl font-semibold text-red-900 mb-6">Contact Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -308,25 +274,24 @@ const TheatreAndSurgery: FC = () => {
             </div>
           </div>
         </section>
-
-  {/* Clinical Team (inserted before ClientsSay) */}
-        <TeamSection
-          title="Surgical Team"
-          team={[
-            { name: 'Prof. John Kihara', title: 'Lead Surgeon', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-            { name: 'Dr. Faith Naliaka', title: 'Chief Anaesthesiologist', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-            { name: 'Ms. Susan Wanyoike', title: 'Theatre Nursing Lead', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-            { name: 'Mr. Paul Mwangi', title: 'Theatre Technician', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-          ]}
-        />
-
-        {/* Client Testimonials */}
-        <ClientsSay
-          title="What our clients say about Theatre & Surgery"
+        <TestimonialCarousel
           testimonials={[
-            { quote: 'Highly skilled surgeons and a supportive perioperative team.', name: 'J. Kihara', avatar: '/src/assets/feedback/clients.png' },
-            { quote: 'Excellent anaesthesia care and quick recovery support.', name: 'F. Naliaka', avatar: '/src/assets/feedback/clients.png' },
-            { quote: 'Well-coordinated care from pre-op to discharge.', name: 'S. Wanyoike', avatar: '/src/assets/feedback/clients.png' },
+            {
+              name: "Cate Nyambura",
+              title: "Patient",
+              image:
+                "https://lh3.googleusercontent.com/a-/ALV-UjUOuxfWm6fzqbcmzhp-1rAs8wv4NgfJ9ixm-gRj-wXmHkqFPz-EMg=w72-h72-p-rp-mo-ba8-br100",
+              quote:
+                "Great and excellent service. Took less than an hour to get admitted along with the mandatory COVID test. I was admitted in the Presidential St. Michael Suite and the nurses were attentive, supportive with the best service. Discharge was seamless and everything was sorted easily and the wait staff was very prompt.",
+            },
+            {
+              name: "Jimmy Wanyangu",
+              title: "Patient",
+              image:
+                "https://lh3.googleusercontent.com/a-/ALV-UjW3GTYCl5luQDf88tAC-0e8kklmblsInt5VAmbW7JWEfXQoLNs=w72-h72-p-rp-mo-ba3-br100",
+              quote:
+                "Good customer service,location is perfect within the Hospital's vicinity. Interior decor is superb especially the concrete planters on each table. Most institutions have workers who do not understand courtesy but Nairobi hospital understands importance of courtesy right from the gate I am really impressed !",
+            },
           ]}
         />
 

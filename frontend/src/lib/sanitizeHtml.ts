@@ -1,19 +1,24 @@
-import DOMPurify from "dompurify";
+import DOMPurify, { type Config } from "dompurify";
 
-const htmlConfig: DOMPurify.Config = {
+const htmlConfig: Config = {
   USE_PROFILES: { html: true },
   FORBID_TAGS: ["script", "style", "iframe", "object", "embed", "form"],
   FORBID_ATTR: ["onerror", "onload", "onclick", "onmouseover", "style"],
 };
 
-const plainTextConfig: DOMPurify.Config = {
+const plainTextConfig: Config = {
   ALLOWED_TAGS: [],
   ALLOWED_ATTR: [],
 };
 
+const sanitizeToString = (value: string, config: Config): string => {
+  const sanitized = DOMPurify.sanitize(value, config);
+  return typeof sanitized === "string" ? sanitized : String(sanitized);
+};
+
 export const sanitizeHtml = (value?: string | null): string =>
-  DOMPurify.sanitize(value ?? "", htmlConfig).trim();
+  sanitizeToString(value ?? "", htmlConfig).trim();
 
 export const sanitizePlainText = (value?: string | null): string =>
-  DOMPurify.sanitize(value ?? "", plainTextConfig).trim();
+  sanitizeToString(value ?? "", plainTextConfig).trim();
 

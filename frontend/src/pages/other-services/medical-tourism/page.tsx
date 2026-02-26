@@ -3,8 +3,7 @@ import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
 import { Globe2, Plane, Phone, ChevronRight, Stethoscope, Wallet, Languages } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
-import ClientsSay from '@/components/ClientsSay';
-import TeamSection from '@/components/TeamSection';
+import TestimonialCarousel from '@/components/TestimonialCarousel';
 
 const MedicalTourism: FC = () => {
   return (
@@ -320,7 +319,7 @@ const MedicalTourism: FC = () => {
         </section>
 
         {/* Contact Information */}
-        <section className="container mx-auto px-4 mt-16">
+        <section className="container mx-auto px-4 my-16">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
             <h3 className="text-xl font-semibold text-red-900 mb-6">Contact Our International Patient Office</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -351,25 +350,24 @@ const MedicalTourism: FC = () => {
             </div>
           </div>
         </section>
-
-        {/* Team Section */}
-        <TeamSection
-          title="International Patient Care Team"
-          team={[
-            { name: 'Dr. Sarah Kimani', title: 'Head of International Services', image: '/src/assets/images/image1.png', bio: 'Leading our international patient program with 15+ years of experience.' },
-            { name: 'Ms. Jane Muthoni', title: 'Patient Experience Manager', image: '/src/assets/images/image2.png', bio: 'Ensures seamless patient journey and satisfaction.' },
-            { name: 'Mr. Ahmed Hassan', title: 'Medical Travel Coordinator', image: '/src/assets/images/image3.png', bio: 'Handles travel logistics and accommodation.' },
-            { name: 'Ms. Lucy Chen', title: 'International Liaison Officer', image: '/src/assets/images/image4.png', bio: 'Provides multilingual support and cultural assistance.' }
-          ]}
-        />
-
-        {/* Client Testimonials */}
-        <ClientsSay
-          title="What Our International Patients Say"
+        <TestimonialCarousel
           testimonials={[
-            { quote: 'World-class care with exceptional personal attention.', name: 'Ahmed Al-Sayed', avatar: '/src/assets/images/image1.png', subtitle: 'UAE' },
-            { quote: 'The support team made everything so easy.', name: 'Maria Rodriguez', avatar: '/src/assets/images/image2.png', subtitle: 'Spain' },
-            { quote: 'Excellent medical facilities and caring staff.', name: 'John Smith', avatar: '/src/assets/images/image3.png', subtitle: 'USA' }
+            {
+              name: "Cate Nyambura",
+              title: "Patient",
+              image:
+                "https://lh3.googleusercontent.com/a-/ALV-UjUOuxfWm6fzqbcmzhp-1rAs8wv4NgfJ9ixm-gRj-wXmHkqFPz-EMg=w72-h72-p-rp-mo-ba8-br100",
+              quote:
+                "Great and excellent service. Took less than an hour to get admitted along with the mandatory COVID test. I was admitted in the Presidential St. Michael Suite and the nurses were attentive, supportive with the best service. Discharge was seamless and everything was sorted easily and the wait staff was very prompt.",
+            },
+            {
+              name: "Jimmy Wanyangu",
+              title: "Patient",
+              image:
+                "https://lh3.googleusercontent.com/a-/ALV-UjW3GTYCl5luQDf88tAC-0e8kklmblsInt5VAmbW7JWEfXQoLNs=w72-h72-p-rp-mo-ba3-br100",
+              quote:
+                "Good customer service,location is perfect within the Hospital's vicinity. Interior decor is superb especially the concrete planters on each table. Most institutions have workers who do not understand courtesy but Nairobi hospital understands importance of courtesy right from the gate I am really impressed !",
+            },
           ]}
         />
 

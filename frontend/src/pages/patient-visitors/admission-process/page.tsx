@@ -237,7 +237,7 @@ const AdmissionProcess: FC = () => {
         </section>
 
         {/* Contact & Support */}
-        <section className="container mx-auto px-4 mt-16">
+        <section className="container mx-auto px-4 my-16">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
             <h3 className="text-xl font-semibold text-red-900 mb-6">Need Assistance?</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

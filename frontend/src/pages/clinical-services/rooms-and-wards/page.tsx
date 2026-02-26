@@ -3,8 +3,7 @@ import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
 import { Bed, Wifi, Phone, Star, Users, Coffee, ChevronRight } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
-import ClientsSay from '@/components/ClientsSay';
-import TeamSection from '@/components/TeamSection';
+import TestimonialCarousel from '@/components/TestimonialCarousel';
 
 const RoomsAndWards: FC = () => {
   return (
@@ -252,7 +251,7 @@ const RoomsAndWards: FC = () => {
         </section>
 
         {/* Booking Information */}
-        <section className="container mx-auto px-4 mt-16">
+        <section className="container mx-auto px-4 my-16">
           <div className="bg-gray-50 rounded-2xl p-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div>
@@ -282,27 +281,26 @@ const RoomsAndWards: FC = () => {
             </div>
           </div>
         </section>
-
-  {/* Clinical Team (inserted before ClientsSay) */}
-  <TeamSection
-    title="Rooms & Wards Care Team"
-    team={[
-      { name: 'Ms. Mary Kariuki', title: 'Head of Nursing – Wards', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-      { name: 'Mr. Eric Njeri', title: 'Facilities Manager', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-      { name: 'Ms. Diana Ochieng', title: 'Patient Experience Lead', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-      { name: 'Mr. Peter Mwangi', title: 'Ward Coordinator', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-    ]}
-  />
-
-  {/* Client Testimonials */}
-  <ClientsSay
-    title="What our clients say"
-    testimonials={[
-      { quote: 'Comfortable rooms and attentive nursing staff.', name: 'M. Kariuki', avatar: '/src/assets/feedback/clients.png' },
-      { quote: 'Clean environment and prompt service.', name: 'E. Njeri', avatar: '/src/assets/feedback/clients.png' },
-      { quote: 'Private ward experience exceeded expectations.', name: 'D. Ochieng', avatar: '/src/assets/feedback/clients.png' },
-    ]}
-  />
+        <TestimonialCarousel
+          testimonials={[
+            {
+              name: "Cate Nyambura",
+              title: "Patient",
+              image:
+                "https://lh3.googleusercontent.com/a-/ALV-UjUOuxfWm6fzqbcmzhp-1rAs8wv4NgfJ9ixm-gRj-wXmHkqFPz-EMg=w72-h72-p-rp-mo-ba8-br100",
+              quote:
+                "Great and excellent service. Took less than an hour to get admitted along with the mandatory COVID test. I was admitted in the Presidential St. Michael Suite and the nurses were attentive, supportive with the best service. Discharge was seamless and everything was sorted easily and the wait staff was very prompt.",
+            },
+            {
+              name: "Jimmy Wanyangu",
+              title: "Patient",
+              image:
+                "https://lh3.googleusercontent.com/a-/ALV-UjW3GTYCl5luQDf88tAC-0e8kklmblsInt5VAmbW7JWEfXQoLNs=w72-h72-p-rp-mo-ba3-br100",
+              quote:
+                "Good customer service,location is perfect within the Hospital's vicinity. Interior decor is superb especially the concrete planters on each table. Most institutions have workers who do not understand courtesy but Nairobi hospital understands importance of courtesy right from the gate I am really impressed !",
+            },
+          ]}
+        />
 
   {/* Insurance Partners */}
   <InsuranceSlider />

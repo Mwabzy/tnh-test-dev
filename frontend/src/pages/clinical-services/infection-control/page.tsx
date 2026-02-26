@@ -1,10 +1,9 @@
 import { FC } from 'react';
 import { motion } from 'framer-motion';
 import Heading from '@/components/Heading';
-import { ClipboardCheck, Shield, ChartBar, Microscope, BookOpen, Users2, ChevronRight } from 'lucide-react';
+import { ClipboardCheck, Shield, ChartBar, Microscope, BookOpen, ChevronRight } from 'lucide-react';
 import InsuranceSlider from '@/components/InsuranceSlider';
-import ClientsSay from '@/components/ClientsSay';
-import TeamSection from '@/components/TeamSection';
+import TestimonialCarousel from '@/components/TestimonialCarousel';
 
 const InfectionControl: FC = () => {
   return (
@@ -222,71 +221,8 @@ const InfectionControl: FC = () => {
           </div>
         </section>
 
-        {/* Quality Team */}
-        <section className="container mx-auto px-4 mt-16">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
-            <h3 className="text-xl font-semibold text-red-900 mb-6">Our Quality Team</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div>
-                <Users2 className="w-8 h-8 text-red-900 mb-4" />
-                <h4 className="font-semibold mb-2">Quality Department</h4>
-                <ul className="space-y-2 text-sm text-gray-700">
-                  <li className="flex items-center gap-2">
-                    <ChevronRight className="w-4 h-4 text-red-900" />
-                    Quality Manager
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <ChevronRight className="w-4 h-4 text-red-900" />
-                    Clinical Auditors
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <ChevronRight className="w-4 h-4 text-red-900" />
-                    Process Improvement Specialists
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <Shield className="w-8 h-8 text-red-900 mb-4" />
-                <h4 className="font-semibold mb-2">Infection Control Team</h4>
-                <ul className="space-y-2 text-sm text-gray-700">
-                  <li className="flex items-center gap-2">
-                    <ChevronRight className="w-4 h-4 text-red-900" />
-                    Infection Control Practitioners
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <ChevronRight className="w-4 h-4 text-red-900" />
-                    Microbiologists
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <ChevronRight className="w-4 h-4 text-red-900" />
-                    Link Nurses
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <ClipboardCheck className="w-8 h-8 text-red-900 mb-4" />
-                <h4 className="font-semibold mb-2">Support Services</h4>
-                <ul className="space-y-2 text-sm text-gray-700">
-                  <li className="flex items-center gap-2">
-                    <ChevronRight className="w-4 h-4 text-red-900" />
-                    Environmental Services
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <ChevronRight className="w-4 h-4 text-red-900" />
-                    Sterile Processing
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <ChevronRight className="w-4 h-4 text-red-900" />
-                    Training Coordinators
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Contact Information */}
-        <section className="container mx-auto px-4 mt-16">
+        <section className="container mx-auto px-4 my-16">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
             <h3 className="text-xl font-semibold text-red-900 mb-6">Contact Information</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -317,25 +253,24 @@ const InfectionControl: FC = () => {
             </div>
           </div>
         </section>
-
-  {/* Client Testimonials */}
-        {/* Clinical Team (inserted before ClientsSay) */}
-        <TeamSection
-          title="Quality & Infection Control Team"
-          team={[
-            { name: 'Dr. Victor Kilonzo', title: 'Head of Infection Control', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-            { name: 'Ms. Hannah Muthoni', title: 'Quality Manager', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-            { name: 'Dr. George Otieno', title: 'Microbiologist', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-            { name: 'Ms. Grace Wairimu', title: 'Training Coordinator', image: '/src/assets/doctorsImages/unknown.png', bio: '' },
-          ]}
-        />
-
-        <ClientsSay
-          title="What our clients say about Infection Control"
+        <TestimonialCarousel
           testimonials={[
-            { quote: 'Strict adherence to safety protocols made me feel safe.', name: 'V. Kilonzo', avatar: '/src/assets/feedback/clients.png' },
-            { quote: 'Professional sterilization and hygiene practices.', name: 'H. Muthoni', avatar: '/src/assets/feedback/clients.png' },
-            { quote: 'Clear information on infection prevention at discharge.', name: 'G. Otieno', avatar: '/src/assets/feedback/clients.png' },
+            {
+              name: "Cate Nyambura",
+              title: "Patient",
+              image:
+                "https://lh3.googleusercontent.com/a-/ALV-UjUOuxfWm6fzqbcmzhp-1rAs8wv4NgfJ9ixm-gRj-wXmHkqFPz-EMg=w72-h72-p-rp-mo-ba8-br100",
+              quote:
+                "Great and excellent service. Took less than an hour to get admitted along with the mandatory COVID test. I was admitted in the Presidential St. Michael Suite and the nurses were attentive, supportive with the best service. Discharge was seamless and everything was sorted easily and the wait staff was very prompt.",
+            },
+            {
+              name: "Jimmy Wanyangu",
+              title: "Patient",
+              image:
+                "https://lh3.googleusercontent.com/a-/ALV-UjW3GTYCl5luQDf88tAC-0e8kklmblsInt5VAmbW7JWEfXQoLNs=w72-h72-p-rp-mo-ba3-br100",
+              quote:
+                "Good customer service,location is perfect within the Hospital's vicinity. Interior decor is superb especially the concrete planters on each table. Most institutions have workers who do not understand courtesy but Nairobi hospital understands importance of courtesy right from the gate I am really impressed !",
+            },
           ]}
         />
 
