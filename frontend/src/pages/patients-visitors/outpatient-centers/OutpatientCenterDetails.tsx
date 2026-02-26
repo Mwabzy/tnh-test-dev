@@ -42,6 +42,12 @@ type Opc = {
   }>;
 };
 
+const formatDayLabel = (value: string): string =>
+  value
+    .trim()
+    .toLowerCase()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+
 const OutpatientCenterDetails = () => {
   const { id: rawId } = useParams();
   let id = rawId;
@@ -155,7 +161,7 @@ const OutpatientCenterDetails = () => {
                 const clinicNumber = Number(clinicRaw);
                 return {
                   clinicId: Number.isFinite(clinicNumber) ? clinicNumber : null,
-                  day: String(timing?.day ?? "").trim(),
+                  day: formatDayLabel(String(timing?.day ?? "").trim()),
                   month: String(timing?.month ?? "").trim(),
                   startTime: String(
                     timing?.startTime ?? timing?.start_time ?? "",
@@ -298,7 +304,9 @@ const OutpatientCenterDetails = () => {
                         ) : (
                           <ul className="mt-2 space-y-1.5 text-sm text-gray-700">
                             {serviceTimings.map((timing, timingIndex) => {
-                              const dayPart = timing.day || "Day not set";
+                              const dayPart = timing.day
+                                ? formatDayLabel(timing.day)
+                                : "Day not set";
                               const monthPart = timing.month
                                 ? ` (${timing.month})`
                                 : "";

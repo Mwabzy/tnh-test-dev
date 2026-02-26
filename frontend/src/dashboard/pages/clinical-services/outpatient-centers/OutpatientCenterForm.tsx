@@ -24,6 +24,12 @@ const EMPTY_CONTACT: ContactInfo = {
   email: "",
 };
 
+const formatDayLabel = (value: string): string =>
+  value
+    .trim()
+    .toLowerCase()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+
 const OutpatientCenterForm = ({
   initialData,
   onSave,
@@ -66,7 +72,7 @@ const OutpatientCenterForm = ({
   );
 
   // Add a new state for plain text description (useful for summaries, etc.)
-  const [_descriptionPlainText, setDescriptionPlainText] = useState("");
+  const [, setDescriptionPlainText] = useState("");
 
   const toggleTranslation = () => {
     setOpenTranslation((prev) =>
@@ -75,16 +81,16 @@ const OutpatientCenterForm = ({
   };
 
   const DAYS = [
-    "monday - friday",
-    "monday - saturday",
-    "monday - sunday",
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-    "sunday",
+    "Monday - Friday",
+    "Monday - Saturday",
+    "Monday - Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
   ];
 
   const MONTHS = [
@@ -190,7 +196,7 @@ const OutpatientCenterForm = ({
               : t.clinicId
                 ? String(t.clinicId)
                 : "",
-          day: t.day || "",
+          day: formatDayLabel(t.day || ""),
           month: t.month || "",
           startTime: t.start_time || t.startTime || "",
           stopTime: t.stop_time || t.stopTime || "",
@@ -280,7 +286,7 @@ const OutpatientCenterForm = ({
 
     const cleanedTimings = timings.map((t) => ({
       clinic: t.clinicId ? Number(t.clinicId) : null,
-      day: t.day,
+      day: formatDayLabel(t.day),
       month: t.month || "",
       startTime: t.startTime,
       stopTime: t.stopTime,
@@ -406,7 +412,7 @@ const OutpatientCenterForm = ({
                 </div>
                 <RichTextEditor
                   value={descriptionTranslations[lang]}
-                  onChange={(html, _plainText) => {
+                  onChange={(html) => {
                     setDescriptionTranslations((prev) => ({
                       ...prev,
                       [lang]: html,
@@ -591,7 +597,9 @@ const OutpatientCenterForm = ({
                 onChange={(e) =>
                   setTimings((prev) =>
                     prev.map((row, idx) =>
-                      idx === i ? { ...row, day: e.target.value } : row,
+                      idx === i
+                        ? { ...row, day: formatDayLabel(e.target.value) }
+                        : row,
                     ),
                   )
                 }
@@ -599,7 +607,7 @@ const OutpatientCenterForm = ({
                 <option value="">Day</option>
                 {DAYS.map((d) => (
                   <option key={d} value={d}>
-                    {d.charAt(0).toUpperCase() + d.slice(1)}
+                    {d}
                   </option>
                 ))}
               </select>
