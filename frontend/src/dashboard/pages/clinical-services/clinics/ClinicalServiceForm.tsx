@@ -10,6 +10,7 @@ import {
   Testimonial,
 } from "@/types";
 import {
+  fetchClinicalServiceTranslationPreview,
   fetchOutpatientCenter,
   updateClinicalServiceImageMeta,
 } from "@/api/api";
@@ -48,6 +49,10 @@ type FeatureForm = Omit<Feature, "image"> & {
   description_ru?: string;
 };
 
+const TRANSLATION_LANGS = ["fr", "es", "zh", "ru"] as const;
+type TranslationLanguage = (typeof TRANSLATION_LANGS)[number];
+type TranslationMap = Record<TranslationLanguage, string>;
+
 const requiredMark = <span className="text-red-600">*</span>;
 
 const clampPercent = (value: number) => Math.max(0, Math.min(100, value));
@@ -59,6 +64,27 @@ const toPercentOrDefault = (value: unknown, fallback: number) => {
 
 const objectPositionFromFocal = (focalX: number, focalY: number) =>
   `${focalX}% ${focalY}%`;
+
+const isBlank = (value?: string | null) => !value || value.trim() === "";
+
+const hasMissingTranslation = (translations: TranslationMap) =>
+  TRANSLATION_LANGS.some((lang) => isBlank(translations[lang]));
+
+const fillOnlyEmptyTranslations = (
+  current: TranslationMap,
+  incoming?: Partial<Record<TranslationLanguage, string>>,
+): TranslationMap => {
+  if (!incoming) return current;
+
+  const next: TranslationMap = { ...current };
+  for (const lang of TRANSLATION_LANGS) {
+    const translatedValue = incoming[lang];
+    if (isBlank(next[lang]) && !isBlank(translatedValue)) {
+      next[lang] = translatedValue as string;
+    }
+  }
+  return next;
+};
 
 interface FocalPointEditorProps {
   src: string;
@@ -169,21 +195,21 @@ const ClinicalServiceForm: React.FC<Props> = ({
   );
 
   // Translation states
-  const [titleTranslations, setTitleTranslations] = useState({
+  const [titleTranslations, setTitleTranslations] = useState<TranslationMap>({
     fr: initialData?.title_fr || "",
     es: initialData?.title_es || "",
     zh: initialData?.title_zh || "",
     ru: initialData?.title_ru || "",
   });
 
-  const [taglineTranslations, setTaglineTranslations] = useState({
+  const [taglineTranslations, setTaglineTranslations] = useState<TranslationMap>({
     fr: initialData?.tagline_fr || "",
     es: initialData?.tagline_es || "",
     zh: initialData?.tagline_zh || "",
     ru: initialData?.tagline_ru || "",
   });
 
-  const [overviewTranslations, setOverviewTranslations] = useState({
+  const [overviewTranslations, setOverviewTranslations] = useState<TranslationMap>({
     fr: initialData?.overview_fr || "",
     es: initialData?.overview_es || "",
     zh: initialData?.overview_zh || "",
@@ -191,7 +217,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
   });
 
   const [detailedDescriptionTranslations, setDetailedDescriptionTranslations] =
-    useState({
+    useState<TranslationMap>({
       fr: initialData?.detailedDescription_fr || "",
       es: initialData?.detailedDescription_es || "",
       zh: initialData?.detailedDescription_zh || "",
@@ -273,6 +299,10 @@ const ClinicalServiceForm: React.FC<Props> = ({
   >([]);
 
   const [loading, setLoading] = useState(false);
+  const [isAutoFillingTranslations, setIsAutoFillingTranslations] =
+    useState(false);
+  const [isRegeneratingTranslations, setIsRegeneratingTranslations] =
+    useState(false);
   const [errors, setErrors] = useState<{ title?: string; tagline?: string }>(
     {},
   );
@@ -336,6 +366,81 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
     loadLocations();
   }, [initialData?.id]);
+
+  useEffect(() => {
+    const payload: Record<string, string> = {};
+
+    if (!isBlank(title) && hasMissingTranslation(titleTranslations)) {
+      payload.title = title;
+    }
+    if (!isBlank(tagline) && hasMissingTranslation(taglineTranslations)) {
+      payload.tagline = tagline;
+    }
+    if (!isBlank(overview) && hasMissingTranslation(overviewTranslations)) {
+      payload.overview = overview;
+    }
+    if (
+      !isBlank(detailedDescription) &&
+      hasMissingTranslation(detailedDescriptionTranslations)
+    ) {
+      payload.detailedDescription = detailedDescription;
+    }
+
+    if (Object.keys(payload).length === 0) {
+      return;
+    }
+
+    let cancelled = false;
+    const timer = window.setTimeout(async () => {
+      setIsAutoFillingTranslations(true);
+      try {
+        const translations =
+          await fetchClinicalServiceTranslationPreview(payload);
+        if (cancelled) return;
+
+        if (translations.title) {
+          setTitleTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.title),
+          );
+        }
+        if (translations.tagline) {
+          setTaglineTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.tagline),
+          );
+        }
+        if (translations.overview) {
+          setOverviewTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.overview),
+          );
+        }
+        if (translations.detailedDescription) {
+          setDetailedDescriptionTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.detailedDescription),
+          );
+        }
+      } catch (error) {
+        console.error("Failed to fetch translation preview:", error);
+      } finally {
+        if (!cancelled) {
+          setIsAutoFillingTranslations(false);
+        }
+      }
+    }, 700);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [
+    detailedDescription,
+    detailedDescriptionTranslations,
+    overview,
+    overviewTranslations,
+    tagline,
+    taglineTranslations,
+    title,
+    titleTranslations,
+  ]);
 
   // Feature translation state
   const [openFeatureTranslations, setOpenFeatureTranslations] = useState<
@@ -492,6 +597,78 @@ const ClinicalServiceForm: React.FC<Props> = ({
     setImages(images.filter((_, i) => i !== index));
   };
 
+  const handleRegenerateAllTranslations = async () => {
+    const payload: Record<string, string> = {};
+
+    if (!isBlank(title)) payload.title = title;
+    if (!isBlank(tagline)) payload.tagline = tagline;
+    if (!isBlank(overview)) payload.overview = overview;
+    if (!isBlank(detailedDescription)) {
+      payload.detailedDescription = detailedDescription;
+    }
+
+    if (Object.keys(payload).length === 0) {
+      toast.error("Enter English content first before regenerating.");
+      return;
+    }
+
+    const shouldContinue = window.confirm(
+      "Regenerate all translations from current English content? This will replace existing translated values.",
+    );
+    if (!shouldContinue) {
+      return;
+    }
+
+    setIsRegeneratingTranslations(true);
+    try {
+      const translations =
+        await fetchClinicalServiceTranslationPreview(payload);
+
+      if (payload.title) {
+        setTitleTranslations((prev) => ({
+          fr: translations.title?.fr ?? prev.fr,
+          es: translations.title?.es ?? prev.es,
+          zh: translations.title?.zh ?? prev.zh,
+          ru: translations.title?.ru ?? prev.ru,
+        }));
+      }
+
+      if (payload.tagline) {
+        setTaglineTranslations((prev) => ({
+          fr: translations.tagline?.fr ?? prev.fr,
+          es: translations.tagline?.es ?? prev.es,
+          zh: translations.tagline?.zh ?? prev.zh,
+          ru: translations.tagline?.ru ?? prev.ru,
+        }));
+      }
+
+      if (payload.overview) {
+        setOverviewTranslations((prev) => ({
+          fr: translations.overview?.fr ?? prev.fr,
+          es: translations.overview?.es ?? prev.es,
+          zh: translations.overview?.zh ?? prev.zh,
+          ru: translations.overview?.ru ?? prev.ru,
+        }));
+      }
+
+      if (payload.detailedDescription) {
+        setDetailedDescriptionTranslations((prev) => ({
+          fr: translations.detailedDescription?.fr ?? prev.fr,
+          es: translations.detailedDescription?.es ?? prev.es,
+          zh: translations.detailedDescription?.zh ?? prev.zh,
+          ru: translations.detailedDescription?.ru ?? prev.ru,
+        }));
+      }
+
+      toast.success("Translations regenerated.");
+    } catch (error) {
+      console.error("Failed to regenerate translations:", error);
+      toast.error("Failed to regenerate translations.");
+    } finally {
+      setIsRegeneratingTranslations(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) {
@@ -576,7 +753,43 @@ const ClinicalServiceForm: React.FC<Props> = ({
     setLoading(true);
     try {
       // Save the service (backend handles new images & deletions)
-      await onSave(formData);
+      const savedService = await onSave(formData);
+
+      // Reflect server-filled translations in the open form immediately.
+      if (savedService && typeof savedService === "object") {
+        setTitleTranslations((prev) =>
+          fillOnlyEmptyTranslations(prev, {
+            fr: savedService.title_fr,
+            es: savedService.title_es,
+            zh: savedService.title_zh,
+            ru: savedService.title_ru,
+          }),
+        );
+        setTaglineTranslations((prev) =>
+          fillOnlyEmptyTranslations(prev, {
+            fr: savedService.tagline_fr,
+            es: savedService.tagline_es,
+            zh: savedService.tagline_zh,
+            ru: savedService.tagline_ru,
+          }),
+        );
+        setOverviewTranslations((prev) =>
+          fillOnlyEmptyTranslations(prev, {
+            fr: savedService.overview_fr,
+            es: savedService.overview_es,
+            zh: savedService.overview_zh,
+            ru: savedService.overview_ru,
+          }),
+        );
+        setDetailedDescriptionTranslations((prev) =>
+          fillOnlyEmptyTranslations(prev, {
+            fr: savedService.detailedDescription_fr,
+            es: savedService.detailedDescription_es,
+            zh: savedService.detailedDescription_zh,
+            ru: savedService.detailedDescription_ru,
+          }),
+        );
+      }
 
       // Update metadata for existing images (alt + focal point)
       for (const img of images) {
@@ -607,6 +820,28 @@ const ClinicalServiceForm: React.FC<Props> = ({
 
   return (
     <form onSubmit={handleSubmit} className={`space-y-6 ${disabledClass}`}>
+      {isAutoFillingTranslations && (
+        <p className="text-xs text-blue-600">
+          Auto-filling empty translation fields...
+        </p>
+      )}
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={handleRegenerateAllTranslations}
+          disabled={loading || isRegeneratingTranslations}
+          className={`px-3 py-2 text-sm rounded border ${
+            loading || isRegeneratingTranslations
+              ? "text-gray-400 border-gray-300 cursor-not-allowed"
+              : "text-blue-700 border-blue-300 hover:bg-blue-50"
+          }`}
+        >
+          {isRegeneratingTranslations
+            ? "Regenerating translations..."
+            : "Regenerate all translations"}
+        </button>
+      </div>
+
       {/* Title */}
       <div>
         <label className="font-semibold">

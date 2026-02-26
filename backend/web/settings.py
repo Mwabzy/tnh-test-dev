@@ -141,6 +141,29 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # True in local by default, false in live by default.
 USE_ABSOLUTE_MEDIA_URLS = env.bool("USE_ABSOLUTE_MEDIA_URLS", default=LOCAL_DEV)
 
+# Clinical service auto-translation
+AUTO_TRANSLATE_ON_SAVE = env.bool("AUTO_TRANSLATE_ON_SAVE", default=False)
+AUTO_TRANSLATE_PROVIDER_URL = env(
+    "AUTO_TRANSLATE_PROVIDER_URL",
+    default="https://translate.googleapis.com/translate_a/single",
+)
+AUTO_TRANSLATE_TIMEOUT_SECONDS = env.float(
+    "AUTO_TRANSLATE_TIMEOUT_SECONDS",
+    default=8.0,
+)
+AUTO_TRANSLATE_CACHE_TTL_SECONDS = env.int(
+    "AUTO_TRANSLATE_CACHE_TTL_SECONDS",
+    default=60 * 60 * 24,
+)
+AUTO_TRANSLATE_RATE_LIMIT_WINDOW_SECONDS = env.int(
+    "AUTO_TRANSLATE_RATE_LIMIT_WINDOW_SECONDS",
+    default=60,
+)
+AUTO_TRANSLATE_RATE_LIMIT_MAX_CALLS = env.int(
+    "AUTO_TRANSLATE_RATE_LIMIT_MAX_CALLS",
+    default=200,
+)
+
 # USE_X_FORWARDED_HOST = True
 # SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "http")
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

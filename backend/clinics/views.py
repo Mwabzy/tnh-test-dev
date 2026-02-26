@@ -26,6 +26,7 @@ from .serializers import (
      ClinicalFAQSerializer,
      RoomWardSerializer,
 )
+from .translation import build_clinical_service_translation_preview
 
 DEBUG = True
 
@@ -56,7 +57,7 @@ class ClinicalServiceViewSet(viewsets.ModelViewSet):
     queryset = ClinicalService.objects.all()
     serializer_class = ClinicalServiceSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
@@ -102,6 +103,17 @@ class ClinicalServiceViewSet(viewsets.ModelViewSet):
         service = get_object_or_404(ClinicalService, path=path)
         serializer = self.get_serializer(service)
         return Response(serializer.data)
+
+    @action(
+        detail=False,
+        methods=["post"],
+        url_path="translate-preview",
+        parser_classes=[JSONParser],
+    )
+    def translate_preview(self, request):
+        payload = request.data if isinstance(request.data, dict) else {}
+        translations = build_clinical_service_translation_preview(payload)
+        return Response(translations, status=status.HTTP_200_OK)
 
 
 class DoctorViewSet(viewsets.ModelViewSet):

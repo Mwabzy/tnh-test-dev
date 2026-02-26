@@ -85,6 +85,10 @@ class DoctorImage(models.Model):
 class ClinicalService(models.Model):
     # Basic Info
     title = models.CharField(max_length=100)
+    title_fr = models.CharField(max_length=100, blank=True, null=True)
+    title_es = models.CharField(max_length=100, blank=True, null=True)
+    title_zh = models.CharField(max_length=100, blank=True, null=True)
+    title_ru = models.CharField(max_length=100, blank=True, null=True)
     path = models.CharField(max_length=255, unique=True, blank=True, null=True)
 
     tagline = models.CharField(max_length=255)

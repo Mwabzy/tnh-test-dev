@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import ClinicalService, ClinicalServiceFeatureImage, Doctor, Testimonial, ClinicalServiceImage, DoctorImage, OutpatientCenter, OutpatientCenterImage, ClinicalFAQ, RoomWard
+from .translation import auto_translate_missing_clinical_service_fields
 import json
 import re
 from itertools import zip_longest
@@ -294,6 +295,7 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         fields = [
     'id',
     'title',
+    'title_fr', 'title_es', 'title_zh', 'title_ru',
     'path',
     'tagline', 'tagline_fr', 'tagline_es', 'tagline_zh', 'tagline_ru',
     'overview', 'overview_fr', 'overview_es', 'overview_zh', 'overview_ru',
@@ -387,6 +389,7 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
 
      string_fields = [
           'title',
+          'title_fr', 'title_es', 'title_zh', 'title_ru',
           'path',
           'tagline', 'tagline_fr', 'tagline_es', 'tagline_zh', 'tagline_ru',
           'overview', 'overview_fr', 'overview_es', 'overview_zh', 'overview_ru',
@@ -410,7 +413,16 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
              data[bool_field] = str(val).lower() == 'true'
  
      # Strings 
-     for field in ['title', 'path', 'tagline', 'overview', 'detailedDescription']:
+     for field in [
+         'title',
+         'title_fr', 'title_es', 'title_zh', 'title_ru',
+         'path',
+         'tagline', 'tagline_fr', 'tagline_es', 'tagline_zh', 'tagline_ru',
+         'overview', 'overview_fr', 'overview_es', 'overview_zh', 'overview_ru',
+         'detailedDescription',
+         'detailedDescription_fr', 'detailedDescription_es',
+         'detailedDescription_zh', 'detailedDescription_ru',
+     ]:
          if field in data:
              val = data[field]
              if isinstance(val, list):
@@ -466,6 +478,8 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         feature_images = validated_data.pop("feature_images_files", [])
         feature_images_alt = validated_data.pop("feature_images_alt", [])
         feature_images_index = validated_data.pop("feature_images_index", [])
+
+        validated_data = auto_translate_missing_clinical_service_fields(validated_data)
 
         service = ClinicalService.objects.create(**validated_data)
 
@@ -529,6 +543,11 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         feature_images = validated_data.pop("feature_images_files", [])
         feature_images_alt = validated_data.pop("feature_images_alt", [])
         feature_images_index = validated_data.pop("feature_images_index", [])
+
+        validated_data = auto_translate_missing_clinical_service_fields(
+            validated_data,
+            instance=instance,
+        )
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)

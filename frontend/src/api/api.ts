@@ -72,6 +72,28 @@ export async function fetchClinicalServiceByPath(path: string) {
   return res.data;
 }
 
+type TranslationLang = "fr" | "es" | "zh" | "ru";
+type TranslatableClinicalField =
+  | "title"
+  | "tagline"
+  | "overview"
+  | "detailedDescription";
+
+export type ClinicalServiceTranslationPreviewPayload = Partial<
+  Record<TranslatableClinicalField, string>
+>;
+
+export type ClinicalServiceTranslationPreviewResponse = Partial<
+  Record<TranslatableClinicalField, Partial<Record<TranslationLang, string>>>
+>;
+
+export async function fetchClinicalServiceTranslationPreview(
+  payload: ClinicalServiceTranslationPreviewPayload,
+) {
+  const res = await api.post(`${CLINICS_API}translate-preview/`, payload);
+  return res.data as ClinicalServiceTranslationPreviewResponse;
+}
+
 export async function createClinicalService(data: any) {
   console.log(" Creating Clinical Service with data:", data);
   const res = await api.post(CLINICS_API, data, {
