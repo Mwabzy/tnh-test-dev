@@ -24,6 +24,12 @@ type Contact = {
   email?: string;
 };
 
+type CenterImage = {
+  id?: number;
+  url: string;
+  alt?: string;
+};
+
 type Opc = {
   id: number;
   path?: string | null;
@@ -32,6 +38,7 @@ type Opc = {
   description: string;
   contact?: Contact;
   location: string;
+  images: CenterImage[];
   servicesOffered: number[];
   timings: Array<{
     clinicId: number | null;
@@ -40,6 +47,19 @@ type Opc = {
     startTime: string;
     stopTime: string;
   }>;
+};
+
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "";
+
+const toMediaUrl = (url?: string | null) => {
+  if (!url) return "";
+  if (/^https?:\/\//i.test(url)) return url;
+  try {
+    if (apiBaseUrl) return new URL(url, apiBaseUrl).toString();
+  } catch {
+    // no-op
+  }
+  return url;
 };
 
 const formatDayLabel = (value: string): string =>
@@ -149,6 +169,17 @@ const OutpatientCenterDetails = () => {
           description: found.description ?? "",
           contact: parseContact(found.contact),
           location: found.location ?? "",
+          images: Array.isArray(found.image)
+            ? found.image
+                .map((img: any) => ({
+                  id: Number(img?.id),
+                  url: toMediaUrl(
+                    typeof img === "string" ? img : (img?.url ?? ""),
+                  ),
+                  alt: typeof img === "object" ? (img?.alt ?? "") : "",
+                }))
+                .filter((img: CenterImage) => Boolean(img.url))
+            : [],
           servicesOffered: mergedServiceIds,
           timings: Array.isArray(found.timings)
             ? found.timings.map((timing: any) => {
@@ -250,11 +281,22 @@ const OutpatientCenterDetails = () => {
       <div className="text-center mt-10 text-red-600">Service not found.</div>
     );
 
+  const heroImage = details.images[0]?.url || "";
+  const heroImageAlt = details.images[0]?.alt || details.name;
+
   return (
     <>
-      <section className="bg-red-900 text-white p-5 md:p-16  ">
-        <div className="grid md:grid-cols gap-2 lg:px-36">
-          {/* Text Content */}
+      <section
+        className={`text-white p-5 md:p-16 ${
+          heroImage
+            ? "relative min-h-[260px] md:min-h-[360px] bg-cover bg-center bg-no-repeat"
+            : "bg-red-900"
+        }`}
+        style={heroImage ? { backgroundImage: `url(${heroImage})` } : undefined}
+        aria-label={heroImageAlt}
+      >
+        {heroImage && <div className="absolute inset-0 bg-black/45"></div>}
+        <div className="relative grid md:grid-cols gap-2 lg:px-36">
           <div className="flex flex-col justify-center space-y-4 max-w-xl">
             <h1 className="text-4xl md:text-6xl font-bold leading-tight">
               {details.name}
@@ -352,42 +394,63 @@ const OutpatientCenterDetails = () => {
             Contact Us →
           </button>
         </div> */}
-        <div className="w-full lg:w-[300px] bg-red-50 h-min rounded-xl p-6 shadow-md text-sm text-gray-800">
-          <h3 className="font-semibold mb-4 text-xl">
-            Have Additional Questions?
-          </h3>
-
-          <div className="flex flex-col space-y-2 items-start text-lg">
-            <span className="flex items-center gap-2">
-              <Phone className="h-5 w-5 text-red-900" aria-label="Phone icon" />
-              {details.contact?.phone ? (
-                <a className="text-sm " href={`tel:${details.contact.phone}`}>
-                  {details.contact.phone}
-                </a>
-              ) : (
-                <span className="text-sm text-gray-600">Not available</span>
-              )}
-            </span>
-            <span className="flex items-center gap-2">
-              <Mail className="h-5 w-5 text-red-900" aria-label="Mail icon" />
-              {details.contact?.email ? (
-                <a
-                  className="text-sm"
-                  href={`mailto:${details.contact.email}`}
-                >
-                  {details.contact.email}
-                </a>
-              ) : (
-                <span className="text-sm text-gray-600">Not available</span>
-              )}
-            </span>
-            <span className="flex items-center gap-2">
-              <MapPin
-                className="h-5 w-5 text-red-900"
-                aria-label="Location icon"
+        <div className="w-full lg:w-[360px] flex flex-col gap-4">
+          {heroImage && (
+            <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+              <img
+                src={heroImage}
+                alt={heroImageAlt}
+                className="w-full h-56 object-cover"
               />
-              <span className="text-sm">{details.location}</span>
-            </span>
+              <div className="p-4">
+                <p className="text-xl font-semibold text-gray-900 leading-tight">
+                  {details.name}
+                </p>
+                <p className="text-sm text-gray-600 mt-1">{details.location}</p>
+              </div>
+            </div>
+          )}
+
+          <div className="w-full bg-red-50 h-min rounded-xl p-6 shadow-md text-sm text-gray-800">
+            <h3 className="font-semibold mb-4 text-xl">
+              Have Additional Questions?
+            </h3>
+
+            <div className="flex flex-col space-y-2 items-start text-lg">
+              <span className="flex items-center gap-2">
+                <Phone
+                  className="h-5 w-5 text-red-900"
+                  aria-label="Phone icon"
+                />
+                {details.contact?.phone ? (
+                  <a className="text-sm " href={`tel:${details.contact.phone}`}>
+                    {details.contact.phone}
+                  </a>
+                ) : (
+                  <span className="text-sm text-gray-600">Not available</span>
+                )}
+              </span>
+              <span className="flex items-center gap-2">
+                <Mail className="h-5 w-5 text-red-900" aria-label="Mail icon" />
+                {details.contact?.email ? (
+                  <a
+                    className="text-sm"
+                    href={`mailto:${details.contact.email}`}
+                  >
+                    {details.contact.email}
+                  </a>
+                ) : (
+                  <span className="text-sm text-gray-600">Not available</span>
+                )}
+              </span>
+              <span className="flex items-center gap-2">
+                <MapPin
+                  className="h-5 w-5 text-red-900"
+                  aria-label="Location icon"
+                />
+                <span className="text-sm">{details.location}</span>
+              </span>
+            </div>
           </div>
         </div>
       </div>
