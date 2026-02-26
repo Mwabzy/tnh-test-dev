@@ -235,10 +235,10 @@ export const NAVIGATION_CONTENT = () => {
           title: content.news_media,
           items: [
             { title: content.latest_news, href: "/news" },
-            {
-              title: content.events_and_announcements,
-              href: "/events-announcements",
-            },
+            // {
+            //   title: content.events_and_announcements,
+            //   href: "/events-announcements",
+            // },
             { title: content.health_articles_blogs, href: "/blogs" },
           ],
         },
@@ -246,7 +246,7 @@ export const NAVIGATION_CONTENT = () => {
           title: content.tenders,
           items: [
             { title: content.open_tenders, href: "#" },
-            { title: content.supplier_info, href: "#" },
+            // { title: content.supplier_info, href: "#" },
             {
               title: content.procurement_guidelines,
               href: "#",
@@ -257,10 +257,10 @@ export const NAVIGATION_CONTENT = () => {
           title: content.careers,
           items: [
             { title: content.job_vacancies, href: "/news/careers" },
-            {
-              title: content.volunteer_opportunities,
-              href: "#",
-            },
+            // {
+            //   title: content.volunteer_opportunities,
+            //   href: "#",
+            // },
             { title: content.submit_cv, href: "#" },
           ],
         },
