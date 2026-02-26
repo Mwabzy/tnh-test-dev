@@ -150,6 +150,19 @@ class CSR(models.Model):
         return self.title
 
 
+class CSRImage(models.Model):
+    csr = models.ForeignKey(
+        CSR,
+        related_name="uploaded_images",
+        on_delete=models.CASCADE,
+    )
+    image = models.ImageField(upload_to="csr/images/")
+    alt = models.CharField(max_length=255, blank=True, default="")
+
+    def __str__(self):
+        return f"Image for {self.csr.title}"
+
+
 class Tender(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 

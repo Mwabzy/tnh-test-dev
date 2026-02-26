@@ -1,7 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { CSR } from "@/types";
-import RichTextEditor from "@/components/RichTextEditor"; // Adjust path as needed
+import RichTextEditor from "@/components/RichTextEditor";
 
 interface Props {
   initialData?: CSR | null;
@@ -15,6 +15,17 @@ type ImageState = {
   alt: string;
 };
 
+type ExistingImage = {
+  id: number;
+  url: string;
+  alt: string;
+};
+
+type NewImage = {
+  file: File;
+  alt: string;
+};
+
 const requiredMark = <span className="text-red-600">*</span>;
 
 const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
@@ -25,23 +36,14 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
     initialData?.blogsubtitle || initialData?.blog_subtitle || "",
   );
 
-  // Rich text editor states
   const [shortdesc, setShortdesc] = useState(
     initialData?.shortdesc || initialData?.short_desc || "",
   );
   const [longdesc, setLongdesc] = useState(
     initialData?.longdesc || initialData?.long_desc || "",
   );
-  const [description, setDescription] = useState(
-    initialData?.description || "",
-  );
+  const [description, setDescription] = useState(initialData?.description || "");
 
-  // For plain text extraction (optional)
-  const [_shortdescPlain, setShortdescPlain] = useState("");
-  const [_longdescPlain, setLongdescPlain] = useState("");
-  const [_descriptionPlain, setDescriptionPlain] = useState("");
-
-  // Translation states
   const [descriptionTranslations, setDescriptionTranslations] = useState({
     fr: initialData?.description_fr || "",
     es: initialData?.description_es || "",
@@ -63,7 +65,6 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
     ru: initialData?.longdesc_ru || initialData?.long_desc_ru || "",
   });
 
-  // Track which translation panel is open
   const [openTranslation, setOpenTranslation] = useState<
     "description" | "shortdesc" | "longdesc" | null
   >(null);
@@ -74,7 +75,6 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
     setOpenTranslation((prev) => (prev === field ? null : field));
   };
 
-  // Cover image (UPLOAD)
   const [coverImage, setCoverImage] = useState<ImageState | null>(
     initialData?.coverImage || initialData?.cover_image
       ? {
@@ -85,18 +85,32 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   );
   const [deleteCoverImage, setDeleteCoverImage] = useState(false);
 
+  const [images, setImages] = useState<ExistingImage[]>(
+    Array.isArray(initialData?.image)
+      ? initialData.image
+          .map((img) => ({
+            id: Number(img.id),
+            url: img.url,
+            alt: img.alt || "",
+          }))
+          .filter((img) => Number.isFinite(img.id) && Boolean(img.url))
+      : [],
+  );
+  const [newImages, setNewImages] = useState<NewImage[]>([]);
+  const [imagesToDelete, setImagesToDelete] = useState<number[]>([]);
+
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ author?: string; title?: string }>({});
 
   const validate = () => {
-    const errs: any = {};
+    const errs: { author?: string; title?: string } = {};
     if (!author.trim()) errs.author = "Author is required";
     if (!title.trim()) errs.title = "Title is required";
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
-  const renderImage = (
+  const renderCoverImage = (
     label: string,
     image: ImageState | null,
     setImage: (img: ImageState | null) => void,
@@ -127,7 +141,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
               setImage(null);
             }}
           >
-            ✕
+            x
           </button>
         </div>
       )}
@@ -150,10 +164,40 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         className="text-blue-600 underline text-sm mt-2"
         onClick={() => document.getElementById(inputId)?.click()}
       >
-        + Add Image
+        + Add Cover Image
       </button>
     </div>
   );
+
+  const handleGalleryImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.length) return;
+    const selected = Array.from(e.target.files).map((file) => ({
+      file,
+      alt: "",
+    }));
+    setNewImages((prev) => [...prev, ...selected]);
+    e.target.value = "";
+  };
+
+  const updateExistingAlt = (index: number, alt: string) => {
+    setImages((prev) =>
+      prev.map((img, i) => (i === index ? { ...img, alt } : img)),
+    );
+  };
+
+  const removeExistingImage = (index: number) => {
+    setImages((prev) => {
+      const target = prev[index];
+      if (target?.id != null) {
+        setImagesToDelete((ids) => [...ids, target.id]);
+      }
+      return prev.filter((_, i) => i !== index);
+    });
+  };
+
+  const removeNewImage = (index: number) => {
+    setNewImages((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -168,12 +212,10 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       fd.append("subtitle", subtitle);
       fd.append("blog_subtitle", blogsubtitle);
 
-      // Append rich text fields
       fd.append("short_desc", shortdesc);
       fd.append("long_desc", longdesc);
       fd.append("description", description);
 
-      // Append translations
       fd.append("description_fr", descriptionTranslations.fr);
       fd.append("description_es", descriptionTranslations.es);
       fd.append("description_zh", descriptionTranslations.zh);
@@ -189,12 +231,6 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       fd.append("long_desc_zh", longdescTranslations.zh);
       fd.append("long_desc_ru", longdescTranslations.ru);
 
-      // Optionally, you can also append plain text versions
-      // fd.append("shortdesc_plain", shortdescPlain);
-      // fd.append("longdesc_plain", longdescPlain);
-      // fd.append("description_plain", descriptionPlain);
-
-      // Cover image handling
       if (coverImage?.file) {
         fd.append("cover_image_file", coverImage.file);
         fd.append("cover_image_alt", coverImage.alt);
@@ -205,6 +241,20 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
       if (deleteCoverImage) {
         fd.append("cover_image_delete", "true");
       }
+
+      images.forEach((img, index) => {
+        fd.append(`images[${index}][id]`, String(img.id));
+        fd.append(`images[${index}][alt]`, img.alt || "");
+      });
+
+      newImages.forEach((img) => {
+        fd.append("images_files", img.file);
+        fd.append("images_files_alt", img.alt || "");
+      });
+
+      imagesToDelete.forEach((id) => {
+        fd.append("images_to_delete", String(id));
+      });
 
       await onSave(fd);
       toast.success("CSR saved successfully");
@@ -226,9 +276,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
-        {errors.author && (
-          <p className="text-red-600 text-sm">{errors.author}</p>
-        )}
+        {errors.author && <p className="text-red-600 text-sm">{errors.author}</p>}
       </div>
 
       <div>
@@ -262,14 +310,12 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         />
       </div>
 
-      {/* Short Description - Rich Text Editor */}
       <div>
         <label className="font-semibold">Short Description</label>
         <RichTextEditor
           value={shortdesc}
-          onChange={(html, plainText) => {
+          onChange={(html) => {
             setShortdesc(html);
-            setShortdescPlain(plainText); // Optional: store plain text
           }}
           placeholder="Enter short description..."
           minHeight="150px"
@@ -293,7 +339,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
                 </label>
                 <RichTextEditor
                   value={shortdescTranslations[lang]}
-                  onChange={(html, _plainText) => {
+                  onChange={(html) => {
                     setShortdescTranslations((prev) => ({
                       ...prev,
                       [lang]: html,
@@ -308,14 +354,12 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         )}
       </div>
 
-      {/* Long Description - Rich Text Editor */}
       <div>
         <label className="font-semibold">Long Description</label>
         <RichTextEditor
           value={longdesc}
-          onChange={(html, plainText) => {
+          onChange={(html) => {
             setLongdesc(html);
-            setLongdescPlain(plainText); // Optional: store plain text
           }}
           placeholder="Enter long description..."
           minHeight="200px"
@@ -339,7 +383,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
                 </label>
                 <RichTextEditor
                   value={longdescTranslations[lang]}
-                  onChange={(html, _plainText) => {
+                  onChange={(html) => {
                     setLongdescTranslations((prev) => ({
                       ...prev,
                       [lang]: html,
@@ -354,14 +398,12 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         )}
       </div>
 
-      {/* Description - Rich Text Editor */}
       <div>
         <label className="font-semibold">Description</label>
         <RichTextEditor
           value={description}
-          onChange={(html, plainText) => {
+          onChange={(html) => {
             setDescription(html);
-            setDescriptionPlain(plainText); // Optional: store plain text
           }}
           placeholder="Enter description..."
           minHeight="200px"
@@ -385,7 +427,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
                 </label>
                 <RichTextEditor
                   value={descriptionTranslations[lang]}
-                  onChange={(html, _plainText) => {
+                  onChange={(html) => {
                     setDescriptionTranslations((prev) => ({
                       ...prev,
                       [lang]: html,
@@ -400,13 +442,86 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         )}
       </div>
 
-      {renderImage(
+      {renderCoverImage(
         "Cover Image",
         coverImage,
         setCoverImage,
         setDeleteCoverImage,
         "csr-cover-upload",
       )}
+
+      <div>
+        <label className="font-semibold">Gallery Images</label>
+
+        {images.map((img, i) => (
+          <div key={`existing-${img.id}-${i}`} className="flex gap-2 items-center mt-2">
+            <img
+              src={img.url}
+              className="w-20 h-20 object-cover border"
+              alt={img.alt || "Preview"}
+            />
+            <input
+              className="border p-2 grow"
+              placeholder="Image alt text"
+              value={img.alt}
+              onChange={(e) => updateExistingAlt(i, e.target.value)}
+            />
+            <button
+              type="button"
+              className="text-red-500"
+              onClick={() => removeExistingImage(i)}
+            >
+              x Remove
+            </button>
+          </div>
+        ))}
+
+        {newImages.map((img, i) => (
+          <div key={`new-${i}`} className="flex gap-2 items-center mt-2">
+            <img
+              src={URL.createObjectURL(img.file)}
+              className="w-20 h-20 object-cover border"
+              alt={img.alt || "Preview"}
+            />
+            <input
+              className="border p-2 grow"
+              placeholder="Image alt text"
+              value={img.alt}
+              onChange={(e) =>
+                setNewImages((prev) =>
+                  prev.map((entry, idx) =>
+                    idx === i ? { ...entry, alt: e.target.value } : entry,
+                  ),
+                )
+              }
+            />
+            <button
+              type="button"
+              className="text-red-500"
+              onClick={() => removeNewImage(i)}
+            >
+              x Remove
+            </button>
+          </div>
+        ))}
+
+        <input
+          type="file"
+          hidden
+          id="csr-gallery-upload"
+          accept="image/*"
+          multiple
+          onChange={handleGalleryImageSelect}
+        />
+
+        <button
+          type="button"
+          className="text-blue-600 underline text-sm mt-2"
+          onClick={() => document.getElementById("csr-gallery-upload")?.click()}
+        >
+          + Add Images
+        </button>
+      </div>
 
       <div className="flex justify-end gap-2 pt-4">
         <button

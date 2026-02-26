@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import TeamMember, BlogPost, CSR, Tender, Career, Hero
+from .models import TeamMember, BlogPost, CSR, CSRImage, Tender, Career, Hero
 
 
 # Translation helper
@@ -189,16 +189,47 @@ class BlogPostSerializer(serializers.ModelSerializer):
 
 
 # CSR Serializer
+class CSRImageSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CSRImage
+        fields = ["id", "url", "alt"]
+
+    def get_url(self, obj):
+        if not obj.image:
+            return ""
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.image.url) if request else obj.image.url
+
 
 class CSRSerializer(serializers.ModelSerializer):
-    """Serializer for CSR model with i18n + cover image handling."""
+    """Serializer for CSR model with i18n + multi-image handling."""
 
     description = serializers.SerializerMethodField()
     shortdesc = serializers.SerializerMethodField()
     longdesc = serializers.SerializerMethodField()
 
+    image = CSRImageSerializer(source="uploaded_images", many=True, read_only=True)
+    images_files = serializers.ListField(
+        child=serializers.ImageField(),
+        write_only=True,
+        required=False,
+    )
+    images_files_alt = serializers.ListField(
+        child=serializers.CharField(allow_blank=True),
+        write_only=True,
+        required=False,
+    )
+    images_to_delete = serializers.ListField(
+        child=serializers.IntegerField(),
+        write_only=True,
+        required=False,
+    )
+
     cover_image_file = serializers.ImageField(write_only=True, required=False)
     cover_image_delete = serializers.BooleanField(write_only=True, required=False)
+    cover_image_alt = serializers.CharField(required=False, allow_blank=True)
 
     class Meta:
         model = CSR
@@ -219,31 +250,105 @@ class CSRSerializer(serializers.ModelSerializer):
     def get_longdesc(self, obj):
         return get_translated_field(obj, "long_desc", self._lang())
 
+    def to_internal_value(self, data):
+        data = data.copy()
+
+        for field in ["images_files", "images_files_alt", "images_to_delete"]:
+            if field in data:
+                if hasattr(data, "getlist"):
+                    values = data.getlist(field)
+                else:
+                    raw = data.get(field, [])
+                    values = raw if isinstance(raw, list) else [raw]
+                if field == "images_to_delete":
+                    values = [int(v) for v in values if str(v).isdigit()]
+                if hasattr(data, "setlist"):
+                    data.setlist(field, values)
+                else:
+                    data[field] = values
+
+        return super().to_internal_value(data)
+
     # ---------- create / update ----------
     def create(self, validated_data):
         image_file = validated_data.pop("cover_image_file", None)
         validated_data.pop("cover_image_delete", None)
+        cover_alt = validated_data.pop("cover_image_alt", "")
+        images_files = validated_data.pop("images_files", [])
+        images_alt = validated_data.pop("images_files_alt", [])
+        validated_data.pop("images_to_delete", None)
 
         csr = CSR.objects.create(**validated_data)
 
         if image_file:
             csr.cover_image = image_file
-            csr.save(update_fields=["cover_image"])
+            csr.cover_image_alt = cover_alt
+            csr.save(update_fields=["cover_image", "cover_image_alt"])
+
+        for idx, img in enumerate(images_files):
+            alt_text = images_alt[idx] if idx < len(images_alt) else ""
+            CSRImage.objects.create(csr=csr, image=img, alt=alt_text)
 
         return csr
 
     def update(self, instance, validated_data):
         image_file = validated_data.pop("cover_image_file", None)
         delete_image = validated_data.pop("cover_image_delete", False)
+        cover_alt = validated_data.pop("cover_image_alt", instance.cover_image_alt or "")
+
+        images_files = validated_data.pop("images_files", [])
+        images_alt = validated_data.pop("images_files_alt", [])
+        images_to_delete = validated_data.pop("images_to_delete", [])
 
         if delete_image and instance.cover_image:
             instance.cover_image.delete(save=False)
             instance.cover_image = None
+            instance.cover_image_alt = ""
 
         if image_file:
             if instance.cover_image:
                 instance.cover_image.delete(save=False)
             instance.cover_image = image_file
+            instance.cover_image_alt = cover_alt
+        elif "cover_image_alt" in self.initial_data:
+            instance.cover_image_alt = cover_alt
+
+        if images_to_delete:
+            for csr_image in CSRImage.objects.filter(
+                id__in=images_to_delete,
+                csr=instance,
+            ):
+                if csr_image.image:
+                    csr_image.image.delete(save=False)
+                csr_image.delete()
+
+        raw_data = self.initial_data
+        existing_alt_updates = {}
+        for key in raw_data.keys():
+            if not str(key).startswith("images[") or not str(key).endswith("]"):
+                continue
+            # Format expected: images[index][id], images[index][alt]
+            parts = str(key).replace("]", "").split("[")
+            if len(parts) != 3:
+                continue
+            index = parts[1]
+            field = parts[2]
+            if field not in {"id", "alt"}:
+                continue
+            existing_alt_updates.setdefault(index, {})[field] = raw_data.get(key)
+
+        for item in existing_alt_updates.values():
+            image_id = item.get("id")
+            if not str(image_id).isdigit():
+                continue
+            CSRImage.objects.filter(
+                id=int(image_id),
+                csr=instance,
+            ).update(alt=item.get("alt") or "")
+
+        for idx, img in enumerate(images_files):
+            alt_text = images_alt[idx] if idx < len(images_alt) else ""
+            CSRImage.objects.create(csr=instance, image=img, alt=alt_text)
 
         return super().update(instance, validated_data)
 
