@@ -622,6 +622,7 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
     "id",
     "name",
     "slug",
+    "path",
     "description",
     "description_fr",
     "description_es",
@@ -636,6 +637,20 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
     "images_files_alt",
     "images_to_delete",
 ]
+
+    @staticmethod
+    def _normalize_path(value):
+        if value is None:
+            return None
+        if isinstance(value, str):
+            cleaned = value.strip()
+            return cleaned or None
+        return value
+
+    def validate(self, attrs):
+        if "path" in attrs:
+            attrs["path"] = self._normalize_path(attrs.get("path"))
+        return attrs
 
 
     def to_internal_value(self, data):
@@ -683,6 +698,7 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
         #  Plain strings 
         for field in [
             "name",
+            "path",
             "description",
             "description_fr",
             "description_es",
@@ -692,6 +708,9 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
         ]:
             if field in data and isinstance(data[field], list):
                 data[field] = data[field][0]
+
+        if "path" in data:
+            data["path"] = self._normalize_path(data.get("path"))
 
         for field in ["images_files", "images_files_alt", "images_to_delete"]:
             if field in data:

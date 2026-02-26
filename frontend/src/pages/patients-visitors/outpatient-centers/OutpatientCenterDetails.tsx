@@ -26,6 +26,7 @@ type Contact = {
 
 type Opc = {
   id: number;
+  path?: string | null;
   slug?: string | null;
   name: string;
   description: string;
@@ -42,7 +43,17 @@ type Opc = {
 };
 
 const OutpatientCenterDetails = () => {
-  const { id } = useParams();
+  const { id: rawId } = useParams();
+  let id = rawId;
+
+  if (rawId) {
+    try {
+      id = decodeURIComponent(rawId);
+    } catch {
+      id = rawId;
+    }
+  }
+
   const [details, setDetails] = useState<Opc | null>(null);
   const [services, setServices] = useState<ServiceSummary[]>([]);
   const [loading, setLoading] = useState(true);
@@ -83,7 +94,7 @@ const OutpatientCenterDetails = () => {
           : data?.results ?? data?.data ?? [];
         const found = list.find(
           (item: any) =>
-            String(item.slug ?? item.id) === String(id ?? ""),
+            String(item.path ?? item.slug ?? item.id) === String(id ?? ""),
         );
 
         if (!found) {
@@ -126,6 +137,7 @@ const OutpatientCenterDetails = () => {
 
         const mapped: Opc = {
           id: found.id,
+          path: found.path ?? null,
           slug: found.slug ?? null,
           name: found.name ?? found.title ?? "",
           description: found.description ?? "",

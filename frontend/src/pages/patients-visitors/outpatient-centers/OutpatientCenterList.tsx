@@ -5,6 +5,7 @@ import { fetchOutpatientCenter } from "@/api/api";
 
 type OutpatientCenter = {
   id: number;
+  path?: string | null;
   slug?: string | null;
   name: string;
   location: string;
@@ -26,6 +27,7 @@ const OutpatientCenterList: React.FC = () => {
         const mapped = list
           .map((center: any) => ({
             id: center.id,
+            path: center.path ?? null,
             slug: center.slug ?? null,
             name: center.name ?? center.title ?? "",
             location: center.location ?? "",
@@ -66,7 +68,7 @@ const OutpatientCenterList: React.FC = () => {
             !error &&
             centers.map((opc) => (
               <div
-                key={opc.slug ?? opc.id}
+                key={opc.path ?? opc.slug ?? opc.id}
                 className="border dark:border-gray-700 shadow-xl rounded-lg p-8 text-center hover:shadow-md transition-all"
               >
                 <div className="flex justify-center mb-4">
@@ -78,7 +80,7 @@ const OutpatientCenterList: React.FC = () => {
                 <p className="text-gray-700 mb-2">{opc.location}</p>
 
                 <Link
-                  to={`/outpatient-center/${opc.slug ?? opc.id}`}
+                  to={`/outpatient-center/${encodeURI(String(opc.path ?? opc.slug ?? opc.id))}`}
                   className="bg-yellow-600 hover:bg-red-700 text-white cursor-pointer py-2 px-14 rounded-3xl w-full transition-all"
                 >
                   Learn More

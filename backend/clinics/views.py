@@ -239,6 +239,26 @@ class OutpatientCenterViewSet(viewsets.ModelViewSet):
         instance = serializer.save()
         return Response(serializer.data)
 
+    @action(detail=False, methods=["get"], url_path="by-path")
+    def by_path(self, request):
+        path = request.query_params.get("path")
+        if path is None:
+            return Response(
+                {"detail": "Missing 'path' query parameter."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        path = path.strip().strip("/")
+        if not path:
+            return Response(
+                {"detail": "'path' cannot be empty."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        center = get_object_or_404(OutpatientCenter, path=path)
+        serializer = self.get_serializer(center)
+        return Response(serializer.data)
+
 
 class ClinicalFAQViewSet(viewsets.ModelViewSet):
     queryset = ClinicalFAQ.objects.all()

@@ -116,6 +116,7 @@ export interface outpatientCenter {
   id?: number;
   name: string;
   slug?: string;
+  path?: string;
   description: string;
   description_fr?: string;
   description_es?: string;

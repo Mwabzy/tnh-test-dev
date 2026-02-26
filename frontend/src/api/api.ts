@@ -266,6 +266,11 @@ export async function fetchOutpatientCenter() {
   return res.data;
 }
 
+export async function fetchOutpatientCenterById(id: number) {
+  const res = await api.get(`${OUTPATIENT_CENTER_API}${id}/`);
+  return res.data;
+}
+
 export async function createOutpatientCenter(data: any) {
   const res = await api.post(OUTPATIENT_CENTER_API, data, {
     headers: { "Content-Type": "multipart/form-data" },

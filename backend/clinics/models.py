@@ -153,6 +153,7 @@ class ClinicalServiceFeatureImage(models.Model):
 class OutpatientCenter(models.Model):
     name = models.CharField(max_length=150)
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True)
+    path = models.CharField(max_length=255, unique=True, blank=True, null=True)
 
     description = models.TextField()
     description_fr = models.TextField(blank=True, null=True)

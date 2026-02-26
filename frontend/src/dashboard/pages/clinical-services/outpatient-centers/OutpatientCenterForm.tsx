@@ -31,6 +31,7 @@ const OutpatientCenterForm = ({
   clinics,
 }: Props) => {
   const [name, setName] = useState("");
+  const [path, setPath] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [timings, setTimings] = useState<Timings[]>([]);
@@ -137,6 +138,7 @@ const OutpatientCenterForm = ({
   useEffect(() => {
     if (!initialData) {
       setName("");
+      setPath("");
       setLocation("");
       setDescription("");
       setDescriptionPlainText("");
@@ -153,6 +155,7 @@ const OutpatientCenterForm = ({
     }
 
     setName(initialData.name || "");
+    setPath(initialData.path || "");
     setLocation(initialData.location || "");
     setDescription(initialData.description || "");
     setDescriptionPlainText(
@@ -294,6 +297,7 @@ const OutpatientCenterForm = ({
 
     const formData = new FormData();
     formData.append("name", name);
+    formData.append("path", path.trim());
     formData.append("location", location);
     formData.append("description", description);
 
@@ -354,6 +358,13 @@ const OutpatientCenterForm = ({
           required
         />
       </div>
+
+      <input
+        className="border p-2 w-full"
+        placeholder="Path (URL slug)"
+        value={path}
+        onChange={(e) => setPath(e.target.value)}
+      />
 
       <div>
         <label className="font-medium block mb-1">Center Location</label>

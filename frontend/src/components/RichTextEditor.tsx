@@ -1,4 +1,5 @@
 import { useEditor, EditorContent } from "@tiptap/react";
+import { useEffect } from "react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 
@@ -41,6 +42,15 @@ const RichTextEditor = ({
       },
     },
   });
+
+  useEffect(() => {
+    if (!editor) return;
+    const incoming = value || "";
+    const current = editor.getHTML();
+    if (current !== incoming) {
+      editor.commands.setContent(incoming, { emitUpdate: false });
+    }
+  }, [editor, value]);
 
   const handleLinkInsert = () => {
     const url = window.prompt("Enter URL:");

@@ -6,6 +6,7 @@ import { fetchOutpatientCenter } from "@/api/api";
 
 interface OutpatientCenter {
   id: number;
+  path?: string | null;
   slug?: string | null;
   name: string;
   location: string;
@@ -31,6 +32,7 @@ const Opc: React.FC = () => {
         const mapped = list
           .map((center: any) => ({
             id: center.id,
+            path: center.path ?? null,
             slug: center.slug ?? null,
             name: center.name ?? center.title ?? "",
             location: center.location ?? "",
@@ -87,10 +89,12 @@ const Opc: React.FC = () => {
           !error &&
           outpatientCenters.map((center) => (
             <div
-              key={center.slug ?? center.id}
+              key={center.path ?? center.slug ?? center.id}
               className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
             >
-              <Link to={`/outpatient-center/${center.slug ?? center.id}`}>
+              <Link
+                to={`/outpatient-center/${encodeURI(String(center.path ?? center.slug ?? center.id))}`}
+              >
                 <div className="relative h-48 sm:h-56 md:h-full">
                   {center.imageUrl ? (
                     <img
