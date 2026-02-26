@@ -99,10 +99,7 @@ export const NAVIGATION_CONTENT = () => {
               title: content.radiology_services,
               href: "/service-detail/radiology-services",
             },
-            {
-              title: content.endoscopy_services,
-              href: "/service-detail/endoscopy-services",
-            },
+
             {
               title: content.dental_procedures,
               href: "/service-detail/dental-procedures",
@@ -125,12 +122,12 @@ export const NAVIGATION_CONTENT = () => {
               href: "/service-detail/cath-lab-services",
             },
             {
-              title: content.antenatal_services,
-              href: "/service-detail/antenatal-services",
-            },
-            {
               title: content.renal_services,
               href: "/service-detail/renal-services",
+            },
+            {
+              title: content.endoscopy_services,
+              href: "/service-detail/endoscopy-services",
             },
             {
               title: content.oncology_services,
@@ -141,7 +138,10 @@ export const NAVIGATION_CONTENT = () => {
         {
           title: content.outpatient_services,
           items: [
-            { title: content.chandaria_ae_centre, href: "/outpatient/a-e" },
+            {
+              title: content.chandaria_ae_centre,
+              href: "/outpatient-center/a-e",
+            },
             {
               title: content.capital_outpatient_centre,
               href: "/outpatient-center/capital-opc",
@@ -288,9 +288,7 @@ export const NAVIGATION_CONTENT = () => {
         },
         {
           title: content.support_services,
-          items: [
-            { title: content.laundry, href: "/laundry-services" },
-          ],
+          items: [{ title: content.laundry, href: "/laundry-services" }],
         },
         {
           title: "IMAGE",

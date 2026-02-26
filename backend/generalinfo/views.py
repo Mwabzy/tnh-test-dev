@@ -170,6 +170,11 @@ class CSRViewSet(viewsets.ModelViewSet):
         if instance.cover_image:
             instance.cover_image.delete(save=False)
 
+        for gallery_image in instance.uploaded_images.all():
+            if gallery_image.image:
+                gallery_image.image.delete(save=False)
+            gallery_image.delete()
+
         instance.delete()
         return Response(
             {"detail": "Deleted successfully"},

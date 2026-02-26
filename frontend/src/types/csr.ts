@@ -1,3 +1,9 @@
+type CSRImage = {
+  id?: number;
+  url: string;
+  alt?: string;
+};
+
 export interface CSR {
   id: number | string;
   author: string;
@@ -33,5 +39,5 @@ export interface CSR {
   coverImage?: string;
   cover_image?: string;
   cover_image_alt?: string;
-  image?: string[];
+  image?: CSRImage[];
 }

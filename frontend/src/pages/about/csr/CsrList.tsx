@@ -44,7 +44,11 @@ const sanitizePlainText = (value?: string | null) =>
 const normalizeCsr = (row: any): CsrItem => {
   const coverImage = toMediaUrl(row?.coverImage || row?.cover_image || "");
   const images = Array.isArray(row?.image)
-    ? row.image.map((img: string) => toMediaUrl(img)).filter(Boolean)
+    ? row.image
+        .map((img: string | { url?: string }) =>
+          typeof img === "string" ? toMediaUrl(img) : toMediaUrl(img?.url),
+        )
+        .filter(Boolean)
     : coverImage
       ? [coverImage]
       : [];
