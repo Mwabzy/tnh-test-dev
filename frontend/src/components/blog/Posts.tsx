@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { Blog } from "@/types";
 import { fetchBlogPosts } from "@/api/api";
 import { useEffect, useState } from "react";
+import { sanitizePlainText } from "@/lib/sanitizeHtml";
 
 export type Post = {
   description: ReactNode;
@@ -23,10 +24,15 @@ interface PostsProps {
   posts: Post[];
 }
 
+const truncateText = (value: string, maxLength: number) => {
+  if (value.length <= maxLength) return value;
+  return `${value.slice(0, maxLength).trimEnd()}...`;
+};
+
 const Posts: FunctionComponent<PostsProps> = () => {
   const [data, setData] = useState<Blog[]>([]);
-  const [_loading, setLoading] = useState(true);
-  const [_error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadServices = async () => {
@@ -44,6 +50,18 @@ const Posts: FunctionComponent<PostsProps> = () => {
     loadServices();
   }, []);
 
+  if (loading) {
+    return <div className="py-10 text-center text-gray-600">Loading posts...</div>;
+  }
+
+  if (error) {
+    return <div className="py-10 text-center text-red-600">{error}</div>;
+  }
+
+  if (data.length === 0) {
+    return <div className="py-10 text-center text-gray-600">No posts available.</div>;
+  }
+
   return (
     <div className="grid md:grid-cols-3 gap-8 w-full">
       {data.map((post) => (
@@ -52,7 +70,7 @@ const Posts: FunctionComponent<PostsProps> = () => {
           className="rounded-lg overflow-hidden shadow hover:shadow-md transition"
         >
           <img
-            src={post.image}
+            src={post.image || post.cover_image || ""}
             alt={post.title}
             className="w-full h-56 rounded-lg transform transition duration-300 hover:scale-105 hover:brightness-90 object-cover"
           />
@@ -63,12 +81,23 @@ const Posts: FunctionComponent<PostsProps> = () => {
             <h3 className="text-xl font-semibold text-gray-800 mt-2">
               {post.title}
             </h3>
-            <p className="text-gray-600 mt-2 text-sm">{post.longdesc}</p>
+            <p className="text-gray-600 mt-2 text-sm">
+              {truncateText(
+                sanitizePlainText(
+                  post.shortdesc ||
+                    post.short_desc ||
+                    post.longdesc ||
+                    post.long_desc ||
+                    "",
+                ),
+                180,
+              )}
+            </p>
             <Link
               to={`/blog/${post.id}`}
               className="inline-flex items-center text-red-900 font-medium mt-4 hover:underline"
             >
-              Read More <span className="ml-1 ">→</span>
+              Read More <span className="ml-1">-&gt;</span>
             </Link>
           </div>
         </div>

@@ -31,10 +31,20 @@ const BlogForm: React.FC<Props> = ({
   const [subtitle, setSubtitle] = useState(initialData?.subtitle ?? "");
   const [author, setAuthor] = useState(initialData?.author ?? "");
   const [category, setCategory] = useState(initialData?.category ?? "");
-  const [shortdesc, setShortdesc] = useState(initialData?.shortdesc ?? "");
-  const [longdesc, setLongdesc] = useState(initialData?.longdesc ?? "");
+  const [shortdesc, setShortdesc] = useState(
+    initialData?.shortdesc ?? initialData?.short_desc ?? "",
+  );
+  const [longdesc, setLongdesc] = useState(
+    initialData?.longdesc ?? initialData?.long_desc ?? "",
+  );
+  const [spotlightTitle, setSpotlightTitle] = useState(
+    initialData?.spotlight_title ?? "",
+  );
+  const [spotlightPoints, setSpotlightPoints] = useState(
+    initialData?.spotlight_points ?? "",
+  );
   const [isFeatured, setIsFeatured] = useState(
-    initialData?.isFeatured ?? false,
+    initialData?.isFeatured ?? initialData?.is_featured ?? false,
   );
 
   // Translation states
@@ -52,27 +62,25 @@ const BlogForm: React.FC<Props> = ({
     ru: initialData?.category_ru || "",
   });
 
-  const [shortdescTranslations, setShortdescTranslations] = useState({
-    fr: initialData?.shortdesc_fr || "",
-    es: initialData?.shortdesc_es || "",
-    zh: initialData?.shortdesc_zh || "",
-    ru: initialData?.shortdesc_ru || "",
-  });
-
-  const [longdescTranslations, setLongdescTranslations] = useState({
-    fr: initialData?.longdesc_fr || "",
-    es: initialData?.longdesc_es || "",
-    zh: initialData?.longdesc_zh || "",
-    ru: initialData?.longdesc_ru || "",
-  });
-
   // Toggle translations visibility
   const [openTranslation, setOpenTranslation] = useState<
-    "subtitle" | "category" | "shortdesc" | "longdesc" | null
+    | "subtitle"
+    | "category"
+    | "shortdesc"
+    | "longdesc"
+    | "spotlightTitle"
+    | "spotlightPoints"
+    | null
   >(null);
 
   const toggleTranslation = (
-    field: "subtitle" | "category" | "shortdesc" | "longdesc",
+    field:
+      | "subtitle"
+      | "category"
+      | "shortdesc"
+      | "longdesc"
+      | "spotlightTitle"
+      | "spotlightPoints",
   ) => {
     setOpenTranslation((prev) => (prev === field ? null : field));
   };
@@ -103,18 +111,33 @@ const BlogForm: React.FC<Props> = ({
 
   // New state for rich text translations
   const [shortdescHTMLTranslations, setShortdescHTMLTranslations] = useState({
-    fr: "",
-    es: "",
-    zh: "",
-    ru: "",
+    fr: initialData?.shortdesc_fr || initialData?.short_desc_fr || "",
+    es: initialData?.shortdesc_es || initialData?.short_desc_es || "",
+    zh: initialData?.shortdesc_zh || initialData?.short_desc_zh || "",
+    ru: initialData?.shortdesc_ru || initialData?.short_desc_ru || "",
   });
 
   const [longdescHTMLTranslations, setLongdescHTMLTranslations] = useState({
-    fr: "",
-    es: "",
-    zh: "",
-    ru: "",
+    fr: initialData?.longdesc_fr || initialData?.long_desc_fr || "",
+    es: initialData?.longdesc_es || initialData?.long_desc_es || "",
+    zh: initialData?.longdesc_zh || initialData?.long_desc_zh || "",
+    ru: initialData?.longdesc_ru || initialData?.long_desc_ru || "",
   });
+
+  const [spotlightTitleTranslations, setSpotlightTitleTranslations] = useState({
+    fr: initialData?.spotlight_title_fr || "",
+    es: initialData?.spotlight_title_es || "",
+    zh: initialData?.spotlight_title_zh || "",
+    ru: initialData?.spotlight_title_ru || "",
+  });
+
+  const [spotlightPointsTranslations, setSpotlightPointsTranslations] =
+    useState({
+      fr: initialData?.spotlight_points_fr || "",
+      es: initialData?.spotlight_points_es || "",
+      zh: initialData?.spotlight_points_zh || "",
+      ru: initialData?.spotlight_points_ru || "",
+    });
 
   const validate = () => {
     const errs: FormErrors = {};
@@ -213,24 +236,34 @@ const BlogForm: React.FC<Props> = ({
       fd.append("is_featured", String(isFeatured));
       fd.append("subtitle", subtitle);
       fd.append("category", category);
+      fd.append("spotlight_title", spotlightTitle);
+      fd.append("spotlight_points", spotlightPoints);
       fd.append("short_desc", shortdesc);
       fd.append("long_desc", longdesc);
-
-      // Store translations in blog_subtitle as JSON
-      const translationsData = {
-        subtitle: subtitleTranslations,
-        category: categoryTranslations,
-        short_desc: {
-          // Send both HTML and plain text translations
-          text: shortdescTranslations,
-          html: shortdescHTMLTranslations,
-        },
-        long_desc: {
-          text: longdescTranslations,
-          html: longdescHTMLTranslations,
-        },
-      };
-      fd.append("blog_subtitle", JSON.stringify(translationsData));
+      fd.append("subtitle_fr", subtitleTranslations.fr);
+      fd.append("subtitle_es", subtitleTranslations.es);
+      fd.append("subtitle_zh", subtitleTranslations.zh);
+      fd.append("subtitle_ru", subtitleTranslations.ru);
+      fd.append("category_fr", categoryTranslations.fr);
+      fd.append("category_es", categoryTranslations.es);
+      fd.append("category_zh", categoryTranslations.zh);
+      fd.append("category_ru", categoryTranslations.ru);
+      fd.append("short_desc_fr", shortdescHTMLTranslations.fr);
+      fd.append("short_desc_es", shortdescHTMLTranslations.es);
+      fd.append("short_desc_zh", shortdescHTMLTranslations.zh);
+      fd.append("short_desc_ru", shortdescHTMLTranslations.ru);
+      fd.append("long_desc_fr", longdescHTMLTranslations.fr);
+      fd.append("long_desc_es", longdescHTMLTranslations.es);
+      fd.append("long_desc_zh", longdescHTMLTranslations.zh);
+      fd.append("long_desc_ru", longdescHTMLTranslations.ru);
+      fd.append("spotlight_title_fr", spotlightTitleTranslations.fr);
+      fd.append("spotlight_title_es", spotlightTitleTranslations.es);
+      fd.append("spotlight_title_zh", spotlightTitleTranslations.zh);
+      fd.append("spotlight_title_ru", spotlightTitleTranslations.ru);
+      fd.append("spotlight_points_fr", spotlightPointsTranslations.fr);
+      fd.append("spotlight_points_es", spotlightPointsTranslations.es);
+      fd.append("spotlight_points_zh", spotlightPointsTranslations.zh);
+      fd.append("spotlight_points_ru", spotlightPointsTranslations.ru);
 
       // Handle images according to serializer
       if (coverImage?.file) {
@@ -385,14 +418,8 @@ const BlogForm: React.FC<Props> = ({
         <label className="font-medium block mb-1">Short Description</label>
         <RichTextEditor
           value={shortdesc}
-          onChange={(html, plainText) => {
-            // Store HTML for main language
+          onChange={(html) => {
             setShortdesc(html);
-            // Store plain text for translations
-            setShortdescTranslations((prev) => ({
-              ...prev,
-              en: plainText, // Optional: store English plain text
-            }));
           }}
           placeholder="Enter short description..."
           minHeight="150px"
@@ -416,14 +443,10 @@ const BlogForm: React.FC<Props> = ({
                 </label>
                 <RichTextEditor
                   value={shortdescHTMLTranslations[lang]}
-                  onChange={(html, plainText) => {
+                  onChange={(html) => {
                     setShortdescHTMLTranslations((prev) => ({
                       ...prev,
                       [lang]: html,
-                    }));
-                    setShortdescTranslations((prev) => ({
-                      ...prev,
-                      [lang]: plainText,
                     }));
                   }}
                   placeholder={`Enter short description in ${lang}...`}
@@ -440,12 +463,8 @@ const BlogForm: React.FC<Props> = ({
         <label className="font-medium block mb-1">Full Content</label>
         <RichTextEditor
           value={longdesc}
-          onChange={(html, plainText) => {
+          onChange={(html) => {
             setLongdesc(html);
-            setLongdescTranslations((prev) => ({
-              ...prev,
-              en: plainText,
-            }));
           }}
           placeholder="Enter full content..."
           minHeight="300px"
@@ -469,18 +488,95 @@ const BlogForm: React.FC<Props> = ({
                 </label>
                 <RichTextEditor
                   value={longdescHTMLTranslations[lang]}
-                  onChange={(html, plainText) => {
+                  onChange={(html) => {
                     setLongdescHTMLTranslations((prev) => ({
                       ...prev,
                       [lang]: html,
                     }));
-                    setLongdescTranslations((prev) => ({
-                      ...prev,
-                      [lang]: plainText,
-                    }));
                   }}
                   placeholder={`Enter full content in ${lang}...`}
                   minHeight="200px"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div>
+        <label className="font-medium block mb-1">Spotlight Title</label>
+        <input
+          className="border p-2 w-full rounded"
+          placeholder="Spotlight title"
+          value={spotlightTitle}
+          onChange={(e) => setSpotlightTitle(e.target.value)}
+        />
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline mt-1 block"
+          onClick={() => toggleTranslation("spotlightTitle")}
+        >
+          {openTranslation === "spotlightTitle"
+            ? "Hide Spotlight Title Translations"
+            : "Show Spotlight Title Translations"}
+        </button>
+
+        {openTranslation === "spotlightTitle" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <input
+                key={lang}
+                type="text"
+                placeholder={`Spotlight title (${lang})`}
+                className="border p-2 w-full rounded"
+                value={spotlightTitleTranslations[lang]}
+                onChange={(e) =>
+                  setSpotlightTitleTranslations((prev) => ({
+                    ...prev,
+                    [lang]: e.target.value,
+                  }))
+                }
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div>
+        <label className="font-medium block mb-1">Spotlight Points</label>
+        <RichTextEditor
+          value={spotlightPoints}
+          onChange={(html) => setSpotlightPoints(html)}
+          placeholder="Enter spotlight points..."
+          minHeight="140px"
+        />
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline mt-3 block"
+          onClick={() => toggleTranslation("spotlightPoints")}
+        >
+          {openTranslation === "spotlightPoints"
+            ? "Hide Spotlight Points Translations"
+            : "Show Spotlight Points Translations"}
+        </button>
+
+        {openTranslation === "spotlightPoints" && (
+          <div className="space-y-4 mt-3">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <div key={lang} className="border p-3 rounded bg-gray-50">
+                <label className="block mb-2 text-sm font-medium text-gray-700">
+                  Spotlight Points ({lang.toUpperCase()})
+                </label>
+                <RichTextEditor
+                  value={spotlightPointsTranslations[lang]}
+                  onChange={(html) => {
+                    setSpotlightPointsTranslations((prev) => ({
+                      ...prev,
+                      [lang]: html,
+                    }));
+                  }}
+                  placeholder={`Enter spotlight points in ${lang}...`}
+                  minHeight="120px"
                 />
               </div>
             ))}

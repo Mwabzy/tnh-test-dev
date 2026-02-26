@@ -134,7 +134,6 @@ const Bloglist = () => {
           <div className="">
             <Posts posts={blogPosts} />
           </div>
-          Post
         </motion.div>
       </section>
     </>

@@ -49,16 +49,16 @@ const LatestNews = () => {
 
   const handleSave = async (data: FormData) => {
     try {
-      data.append("group", group); // mark this item as NEWS group
-      const item = Object.fromEntries(data) as unknown as Blog;
+      data.set("group", group); // mark this item as NEWS group
+      data.set("type", "news");
 
       if (editingItem?.id) {
-        const updated = await updateBlogPosts(editingItem.id, item);
+        const updated = await updateBlogPosts(editingItem.id, data);
         setItems((prev) =>
           prev.map((i) => (i.id === updated.id ? updated : i)),
         );
       } else {
-        const created = await createBlogPosts(item);
+        const created = await createBlogPosts(data);
         setItems((prev) => [created, ...prev]);
       }
 

@@ -49,18 +49,16 @@ const ArticlesBlog = () => {
 
   const handleSave = async (data: FormData) => {
     try {
-      // Add group info
-      data.append("group", group);
-
-      const blog: Blog = Object.fromEntries(data) as unknown as Blog;
+      data.set("group", group);
+      data.set("type", "article");
 
       if (editingBlog?.id) {
-        const updated = await updateBlogPosts(editingBlog.id, blog);
+        const updated = await updateBlogPosts(editingBlog.id, data);
         setBlogs((prev) =>
           prev.map((b) => (b.id === updated.id ? updated : b)),
         );
       } else {
-        const created = await createBlogPosts(blog);
+        const created = await createBlogPosts(data);
         setBlogs((prev) => [created, ...prev]);
       }
 

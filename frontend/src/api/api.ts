@@ -205,7 +205,7 @@ export const fetchBlogPosts = async () => {
 };
 
 export const fetchBlogPostById = async (id: string) => {
-  const response = await api.get(`${BLOGS_API}/${id}`);
+  const response = await api.get(`${BLOGS_API}${id}/`);
   return response.data;
 };
 

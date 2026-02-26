@@ -71,6 +71,18 @@ class BlogPost(models.Model):
     long_desc_zh = models.TextField(blank=True)
     long_desc_ru = models.TextField(blank=True)
 
+    spotlight_title = models.CharField(max_length=255, blank=True, default="")
+    spotlight_title_fr = models.CharField(max_length=255, blank=True, default="")
+    spotlight_title_es = models.CharField(max_length=255, blank=True, default="")
+    spotlight_title_zh = models.CharField(max_length=255, blank=True, default="")
+    spotlight_title_ru = models.CharField(max_length=255, blank=True, default="")
+
+    spotlight_points = models.TextField(blank=True, default="")
+    spotlight_points_fr = models.TextField(blank=True, default="")
+    spotlight_points_es = models.TextField(blank=True, default="")
+    spotlight_points_zh = models.TextField(blank=True, default="")
+    spotlight_points_ru = models.TextField(blank=True, default="")
+
     category = models.CharField(max_length=100)
 
     date = models.DateField(auto_now_add=True)
