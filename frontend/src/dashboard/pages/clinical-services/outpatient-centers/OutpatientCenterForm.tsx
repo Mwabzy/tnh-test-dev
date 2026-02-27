@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { ContactInfo, outpatientCenter, Timings, Image } from "@/types";
 import RichTextEditor from "@/components/RichTextEditor"; // Adjust the import path as needed
+import { fetchOutpatientCenterTranslationPreview } from "@/api/api";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
+import toast from "react-hot-toast";
 
 export type Clinic = {
   id: number;
@@ -22,6 +25,31 @@ type NewImage = {
 const EMPTY_CONTACT: ContactInfo = {
   phone: "",
   email: "",
+};
+
+const TRANSLATION_LANGS = ["fr", "es", "zh", "ru"] as const;
+type TranslationLanguage = (typeof TRANSLATION_LANGS)[number];
+type TranslationMap = Record<TranslationLanguage, string>;
+
+const isBlank = (value?: string | null) => !value || value.trim() === "";
+
+const hasMissingTranslation = (translations: TranslationMap) =>
+  TRANSLATION_LANGS.some((lang) => isBlank(translations[lang]));
+
+const fillOnlyEmptyTranslations = (
+  current: TranslationMap,
+  incoming?: Partial<Record<TranslationLanguage, string>>,
+) => {
+  if (!incoming) return current;
+
+  const next = { ...current };
+  for (const lang of TRANSLATION_LANGS) {
+    const translatedValue = incoming[lang];
+    if (isBlank(next[lang]) && !isBlank(translatedValue)) {
+      next[lang] = translatedValue as string;
+    }
+  }
+  return next;
 };
 
 const formatDayLabel = (value: string): string =>
@@ -57,9 +85,12 @@ const OutpatientCenterForm = ({
   const [newImages, setNewImages] = useState<NewImage[]>([]);
   const [imagesToDelete, setImagesToDelete] = useState<number[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [isRegeneratingTranslations, setIsRegeneratingTranslations] =
+    useState(false);
 
   /* Translation state for description */
-  const [descriptionTranslations, setDescriptionTranslations] = useState({
+  const [descriptionTranslations, setDescriptionTranslations] =
+    useState<TranslationMap>({
     fr: initialData?.description_fr || "",
     es: initialData?.description_es || "",
     zh: initialData?.description_zh || "",
@@ -248,6 +279,35 @@ const OutpatientCenterForm = ({
     }
   }, [initialData]);
 
+  useEffect(() => {
+    if (isBlank(description) || !hasMissingTranslation(descriptionTranslations)) {
+      return;
+    }
+
+    let cancelled = false;
+    const timer = window.setTimeout(async () => {
+      try {
+        const translations = await fetchOutpatientCenterTranslationPreview({
+          description: sanitizeHtml(description),
+        });
+        if (cancelled) return;
+
+        if (translations.description) {
+          setDescriptionTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.description),
+          );
+        }
+      } catch (error) {
+        console.error("Failed to auto-fill outpatient center translations:", error);
+      }
+    }, 700);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [description, descriptionTranslations]);
+
   /* Image handlers */
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -284,6 +344,24 @@ const OutpatientCenterForm = ({
     e.preventDefault();
     setSubmitting(true); // start loader
 
+    let nextDescriptionTranslations = { ...descriptionTranslations };
+    if (!isBlank(description) && hasMissingTranslation(nextDescriptionTranslations)) {
+      try {
+        const translations = await fetchOutpatientCenterTranslationPreview({
+          description: sanitizeHtml(description),
+        });
+        if (translations.description) {
+          nextDescriptionTranslations = fillOnlyEmptyTranslations(
+            nextDescriptionTranslations,
+            translations.description,
+          );
+          setDescriptionTranslations(nextDescriptionTranslations);
+        }
+      } catch (error) {
+        console.error("Failed to backfill outpatient center translations:", error);
+      }
+    }
+
     const cleanedTimings = timings.map((t) => ({
       clinic: t.clinicId ? Number(t.clinicId) : null,
       day: formatDayLabel(t.day),
@@ -305,12 +383,12 @@ const OutpatientCenterForm = ({
     formData.append("name", name);
     formData.append("path", path.trim());
     formData.append("location", location);
-    formData.append("description", description);
+    formData.append("description", sanitizeHtml(description));
 
-    formData.append("description_fr", descriptionTranslations.fr);
-    formData.append("description_es", descriptionTranslations.es);
-    formData.append("description_zh", descriptionTranslations.zh);
-    formData.append("description_ru", descriptionTranslations.ru);
+    formData.append("description_fr", sanitizeHtml(nextDescriptionTranslations.fr));
+    formData.append("description_es", sanitizeHtml(nextDescriptionTranslations.es));
+    formData.append("description_zh", sanitizeHtml(nextDescriptionTranslations.zh));
+    formData.append("description_ru", sanitizeHtml(nextDescriptionTranslations.ru));
 
     formData.append("timings", JSON.stringify(cleanedTimings));
     formData.append("services_offered", JSON.stringify(selectedServices));
@@ -341,8 +419,41 @@ const OutpatientCenterForm = ({
 
   // Handler for description changes from RichTextEditor
   const handleDescriptionChange = (html: string, plainText: string) => {
-    setDescription(html);
+    setDescription(sanitizeHtml(html));
     setDescriptionPlainText(plainText);
+  };
+
+  const handleRegenerateAllTranslations = async () => {
+    if (isBlank(description)) {
+      toast.error("Enter English content first before regenerating.");
+      return;
+    }
+
+    const shouldContinue = window.confirm(
+      "Regenerate all translations from current English content? This will replace existing translated values.",
+    );
+    if (!shouldContinue) return;
+
+    setIsRegeneratingTranslations(true);
+    try {
+      const translations = await fetchOutpatientCenterTranslationPreview({
+        description: sanitizeHtml(description),
+      });
+
+      setDescriptionTranslations((prev) => ({
+        fr: translations.description?.fr ?? prev.fr,
+        es: translations.description?.es ?? prev.es,
+        zh: translations.description?.zh ?? prev.zh,
+        ru: translations.description?.ru ?? prev.ru,
+      }));
+
+      toast.success("Translations regenerated.");
+    } catch (error) {
+      console.error("Failed to regenerate outpatient center translations:", error);
+      toast.error("Failed to regenerate translations.");
+    } finally {
+      setIsRegeneratingTranslations(false);
+    }
   };
 
   return (
@@ -350,9 +461,21 @@ const OutpatientCenterForm = ({
       className="border p-6 rounded space-y-4 bg-white"
       onSubmit={handleSubmit}
     >
-      <h2 className="text-xl font-semibold">
-        {initialData ? "Edit Outpatient Center" : "Add Outpatient Center"}
-      </h2>
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="text-xl font-semibold">
+          {initialData ? "Edit Outpatient Center" : "Add Outpatient Center"}
+        </h2>
+        <button
+          type="button"
+          onClick={handleRegenerateAllTranslations}
+          disabled={submitting || isRegeneratingTranslations}
+          className="px-3 py-2 text-sm rounded border bg-white disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {isRegeneratingTranslations
+            ? "Regenerating..."
+            : "Regenerate All Translations"}
+        </button>
+      </div>
 
       <div>
         <label className="font-medium block mb-1">Center Name</label>
@@ -415,7 +538,7 @@ const OutpatientCenterForm = ({
                   onChange={(html) => {
                     setDescriptionTranslations((prev) => ({
                       ...prev,
-                      [lang]: html,
+                      [lang]: sanitizeHtml(html),
                     }));
                   }}
                   placeholder={`Enter description in ${lang.toUpperCase()}...`}

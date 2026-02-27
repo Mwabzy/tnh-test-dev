@@ -1,7 +1,9 @@
-import { useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import type { Blog } from "@/types";
 import RichTextEditor from "@/components/RichTextEditor";
+import { fetchBlogTranslationPreview } from "@/api/api";
+import { sanitizeHtml, sanitizePlainText } from "@/lib/sanitizeHtml";
 
 interface Props {
   initialData?: Blog | null;
@@ -19,6 +21,31 @@ type ImageState = {
 type FormErrors = {
   title?: string;
   author?: string;
+};
+
+const TRANSLATION_LANGS = ["fr", "es", "zh", "ru"] as const;
+type TranslationLanguage = (typeof TRANSLATION_LANGS)[number];
+type TranslationMap = Record<TranslationLanguage, string>;
+
+const isBlank = (value?: string | null) => !value || value.trim() === "";
+
+const hasMissingTranslation = (translations: TranslationMap) =>
+  TRANSLATION_LANGS.some((lang) => isBlank(translations[lang]));
+
+const fillOnlyEmptyTranslations = (
+  current: TranslationMap,
+  incoming?: Partial<Record<TranslationLanguage, string>>,
+) => {
+  if (!incoming) return current;
+
+  const next = { ...current };
+  for (const lang of TRANSLATION_LANGS) {
+    const translatedValue = incoming[lang];
+    if (isBlank(next[lang]) && !isBlank(translatedValue)) {
+      next[lang] = translatedValue as string;
+    }
+  }
+  return next;
 };
 
 const BlogForm: React.FC<Props> = ({
@@ -95,30 +122,36 @@ const BlogForm: React.FC<Props> = ({
   const mainInputRef = useRef<HTMLInputElement | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(false);
+  const [isRegeneratingTranslations, setIsRegeneratingTranslations] =
+    useState(false);
 
   // New state for rich text translations
-  const [shortdescHTMLTranslations, setShortdescHTMLTranslations] = useState({
+  const [shortdescHTMLTranslations, setShortdescHTMLTranslations] =
+    useState<TranslationMap>({
     fr: initialData?.shortdesc_fr || initialData?.short_desc_fr || "",
     es: initialData?.shortdesc_es || initialData?.short_desc_es || "",
     zh: initialData?.shortdesc_zh || initialData?.short_desc_zh || "",
     ru: initialData?.shortdesc_ru || initialData?.short_desc_ru || "",
   });
 
-  const [longdescHTMLTranslations, setLongdescHTMLTranslations] = useState({
+  const [longdescHTMLTranslations, setLongdescHTMLTranslations] =
+    useState<TranslationMap>({
     fr: initialData?.longdesc_fr || initialData?.long_desc_fr || "",
     es: initialData?.longdesc_es || initialData?.long_desc_es || "",
     zh: initialData?.longdesc_zh || initialData?.long_desc_zh || "",
     ru: initialData?.longdesc_ru || initialData?.long_desc_ru || "",
   });
 
-  const [spotlightTitleTranslations, setSpotlightTitleTranslations] = useState({
+  const [spotlightTitleTranslations, setSpotlightTitleTranslations] =
+    useState<TranslationMap>({
     fr: initialData?.spotlight_title_fr || "",
     es: initialData?.spotlight_title_es || "",
     zh: initialData?.spotlight_title_zh || "",
     ru: initialData?.spotlight_title_ru || "",
   });
 
-  const [contentTitleTranslations, setContentTitleTranslations] = useState({
+  const [contentTitleTranslations, setContentTitleTranslations] =
+    useState<TranslationMap>({
     fr: initialData?.blog_subtitle_fr || "",
     es: initialData?.blog_subtitle_es || "",
     zh: initialData?.blog_subtitle_zh || "",
@@ -126,7 +159,7 @@ const BlogForm: React.FC<Props> = ({
   });
 
   const [spotlightPointsTranslations, setSpotlightPointsTranslations] =
-    useState({
+    useState<TranslationMap>({
       fr: initialData?.spotlight_points_fr || "",
       es: initialData?.spotlight_points_es || "",
       zh: initialData?.spotlight_points_zh || "",
@@ -140,6 +173,92 @@ const BlogForm: React.FC<Props> = ({
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
+
+  useEffect(() => {
+    const payload: {
+      short_desc?: string;
+      long_desc?: string;
+      blog_subtitle?: string;
+      spotlight_title?: string;
+      spotlight_points?: string;
+    } = {};
+
+    if (!isBlank(shortdesc) && hasMissingTranslation(shortdescHTMLTranslations)) {
+      payload.short_desc = sanitizeHtml(shortdesc);
+    }
+    if (!isBlank(longdesc) && hasMissingTranslation(longdescHTMLTranslations)) {
+      payload.long_desc = sanitizeHtml(longdesc);
+    }
+    if (!isBlank(contentTitle) && hasMissingTranslation(contentTitleTranslations)) {
+      payload.blog_subtitle = sanitizePlainText(contentTitle);
+    }
+    if (
+      !isBlank(spotlightTitle) &&
+      hasMissingTranslation(spotlightTitleTranslations)
+    ) {
+      payload.spotlight_title = sanitizePlainText(spotlightTitle);
+    }
+    if (
+      !isBlank(spotlightPoints) &&
+      hasMissingTranslation(spotlightPointsTranslations)
+    ) {
+      payload.spotlight_points = sanitizeHtml(spotlightPoints);
+    }
+
+    if (Object.keys(payload).length === 0) return;
+
+    let cancelled = false;
+    const timer = window.setTimeout(async () => {
+      try {
+        const translations = await fetchBlogTranslationPreview(payload);
+        if (cancelled) return;
+
+        if (translations.short_desc) {
+          setShortdescHTMLTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.short_desc),
+          );
+        }
+        if (translations.long_desc) {
+          setLongdescHTMLTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.long_desc),
+          );
+        }
+        if (translations.blog_subtitle) {
+          setContentTitleTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.blog_subtitle),
+          );
+        }
+        if (translations.spotlight_title) {
+          setSpotlightTitleTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.spotlight_title),
+          );
+        }
+        if (translations.spotlight_points) {
+          setSpotlightPointsTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.spotlight_points),
+          );
+        }
+      } catch (error) {
+        console.error("Failed to auto-fill blog translations:", error);
+      }
+    }, 700);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [
+    shortdesc,
+    shortdescHTMLTranslations,
+    longdesc,
+    longdescHTMLTranslations,
+    contentTitle,
+    contentTitleTranslations,
+    spotlightTitle,
+    spotlightTitleTranslations,
+    spotlightPoints,
+    spotlightPointsTranslations,
+  ]);
 
   const renderImageField = (
     label: string,
@@ -212,6 +331,91 @@ const BlogForm: React.FC<Props> = ({
     </div>
   );
 
+  const handleRegenerateAllTranslations = async () => {
+    const payload: {
+      short_desc?: string;
+      long_desc?: string;
+      blog_subtitle?: string;
+      spotlight_title?: string;
+      spotlight_points?: string;
+    } = {};
+
+    if (!isBlank(shortdesc)) payload.short_desc = sanitizeHtml(shortdesc);
+    if (!isBlank(longdesc)) payload.long_desc = sanitizeHtml(longdesc);
+    if (!isBlank(contentTitle)) {
+      payload.blog_subtitle = sanitizePlainText(contentTitle);
+    }
+    if (!isBlank(spotlightTitle)) {
+      payload.spotlight_title = sanitizePlainText(spotlightTitle);
+    }
+    if (!isBlank(spotlightPoints)) {
+      payload.spotlight_points = sanitizeHtml(spotlightPoints);
+    }
+
+    if (Object.keys(payload).length === 0) {
+      toast.error("Enter English content first before regenerating.");
+      return;
+    }
+
+    const shouldContinue = window.confirm(
+      "Regenerate all translations from current English content? This will replace existing translated values.",
+    );
+    if (!shouldContinue) return;
+
+    setIsRegeneratingTranslations(true);
+    try {
+      const translations = await fetchBlogTranslationPreview(payload);
+
+      if (payload.short_desc) {
+        setShortdescHTMLTranslations((prev) => ({
+          fr: translations.short_desc?.fr ?? prev.fr,
+          es: translations.short_desc?.es ?? prev.es,
+          zh: translations.short_desc?.zh ?? prev.zh,
+          ru: translations.short_desc?.ru ?? prev.ru,
+        }));
+      }
+      if (payload.long_desc) {
+        setLongdescHTMLTranslations((prev) => ({
+          fr: translations.long_desc?.fr ?? prev.fr,
+          es: translations.long_desc?.es ?? prev.es,
+          zh: translations.long_desc?.zh ?? prev.zh,
+          ru: translations.long_desc?.ru ?? prev.ru,
+        }));
+      }
+      if (payload.blog_subtitle) {
+        setContentTitleTranslations((prev) => ({
+          fr: translations.blog_subtitle?.fr ?? prev.fr,
+          es: translations.blog_subtitle?.es ?? prev.es,
+          zh: translations.blog_subtitle?.zh ?? prev.zh,
+          ru: translations.blog_subtitle?.ru ?? prev.ru,
+        }));
+      }
+      if (payload.spotlight_title) {
+        setSpotlightTitleTranslations((prev) => ({
+          fr: translations.spotlight_title?.fr ?? prev.fr,
+          es: translations.spotlight_title?.es ?? prev.es,
+          zh: translations.spotlight_title?.zh ?? prev.zh,
+          ru: translations.spotlight_title?.ru ?? prev.ru,
+        }));
+      }
+      if (payload.spotlight_points) {
+        setSpotlightPointsTranslations((prev) => ({
+          fr: translations.spotlight_points?.fr ?? prev.fr,
+          es: translations.spotlight_points?.es ?? prev.es,
+          zh: translations.spotlight_points?.zh ?? prev.zh,
+          ru: translations.spotlight_points?.ru ?? prev.ru,
+        }));
+      }
+
+      toast.success("Translations regenerated.");
+    } catch (error) {
+      console.error("Failed to regenerate blog translations:", error);
+      toast.error("Failed to regenerate translations.");
+    } finally {
+      setIsRegeneratingTranslations(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) {
@@ -222,6 +426,87 @@ const BlogForm: React.FC<Props> = ({
     setLoading(true);
 
     try {
+      let nextContentTitleTranslations = { ...contentTitleTranslations };
+      let nextShortdescTranslations = { ...shortdescHTMLTranslations };
+      let nextLongdescTranslations = { ...longdescHTMLTranslations };
+      let nextSpotlightTitleTranslations = { ...spotlightTitleTranslations };
+      let nextSpotlightPointsTranslations = { ...spotlightPointsTranslations };
+
+      const previewPayload: {
+        short_desc?: string;
+        long_desc?: string;
+        blog_subtitle?: string;
+        spotlight_title?: string;
+        spotlight_points?: string;
+      } = {};
+
+      if (!isBlank(shortdesc) && hasMissingTranslation(nextShortdescTranslations)) {
+        previewPayload.short_desc = sanitizeHtml(shortdesc);
+      }
+      if (!isBlank(longdesc) && hasMissingTranslation(nextLongdescTranslations)) {
+        previewPayload.long_desc = sanitizeHtml(longdesc);
+      }
+      if (!isBlank(contentTitle) && hasMissingTranslation(nextContentTitleTranslations)) {
+        previewPayload.blog_subtitle = sanitizePlainText(contentTitle);
+      }
+      if (
+        !isBlank(spotlightTitle) &&
+        hasMissingTranslation(nextSpotlightTitleTranslations)
+      ) {
+        previewPayload.spotlight_title = sanitizePlainText(spotlightTitle);
+      }
+      if (
+        !isBlank(spotlightPoints) &&
+        hasMissingTranslation(nextSpotlightPointsTranslations)
+      ) {
+        previewPayload.spotlight_points = sanitizeHtml(spotlightPoints);
+      }
+
+      if (Object.keys(previewPayload).length > 0) {
+        try {
+          const translations = await fetchBlogTranslationPreview(previewPayload);
+
+          if (translations.blog_subtitle) {
+            nextContentTitleTranslations = fillOnlyEmptyTranslations(
+              nextContentTitleTranslations,
+              translations.blog_subtitle,
+            );
+          }
+          if (translations.short_desc) {
+            nextShortdescTranslations = fillOnlyEmptyTranslations(
+              nextShortdescTranslations,
+              translations.short_desc,
+            );
+          }
+          if (translations.long_desc) {
+            nextLongdescTranslations = fillOnlyEmptyTranslations(
+              nextLongdescTranslations,
+              translations.long_desc,
+            );
+          }
+          if (translations.spotlight_title) {
+            nextSpotlightTitleTranslations = fillOnlyEmptyTranslations(
+              nextSpotlightTitleTranslations,
+              translations.spotlight_title,
+            );
+          }
+          if (translations.spotlight_points) {
+            nextSpotlightPointsTranslations = fillOnlyEmptyTranslations(
+              nextSpotlightPointsTranslations,
+              translations.spotlight_points,
+            );
+          }
+        } catch (error) {
+          console.error("Failed to backfill blog translations:", error);
+        }
+      }
+
+      setContentTitleTranslations(nextContentTitleTranslations);
+      setShortdescHTMLTranslations(nextShortdescTranslations);
+      setLongdescHTMLTranslations(nextLongdescTranslations);
+      setSpotlightTitleTranslations(nextSpotlightTitleTranslations);
+      setSpotlightPointsTranslations(nextSpotlightPointsTranslations);
+
       const fd = new FormData();
       const categoryByGroup: Record<Props["group"], string> = {
         ARTICLES: "Articles",
@@ -230,38 +515,50 @@ const BlogForm: React.FC<Props> = ({
       };
 
       // Basic fields - match Django model
-      fd.append("title", title);
-      fd.append("author", author);
+      fd.append("title", sanitizePlainText(title));
+      fd.append("author", sanitizePlainText(author));
       fd.append("date", publishDate);
       fd.append("is_featured", String(isFeatured));
       // Hidden compatibility fields required by backend model.
-      fd.append("subtitle", title);
-      fd.append("category", categoryByGroup[group]);
-      fd.append("blog_subtitle", contentTitle);
-      fd.append("spotlight_title", spotlightTitle);
-      fd.append("spotlight_points", spotlightPoints);
-      fd.append("short_desc", shortdesc);
-      fd.append("long_desc", longdesc);
-      fd.append("blog_subtitle_fr", contentTitleTranslations.fr);
-      fd.append("blog_subtitle_es", contentTitleTranslations.es);
-      fd.append("blog_subtitle_zh", contentTitleTranslations.zh);
-      fd.append("blog_subtitle_ru", contentTitleTranslations.ru);
-      fd.append("short_desc_fr", shortdescHTMLTranslations.fr);
-      fd.append("short_desc_es", shortdescHTMLTranslations.es);
-      fd.append("short_desc_zh", shortdescHTMLTranslations.zh);
-      fd.append("short_desc_ru", shortdescHTMLTranslations.ru);
-      fd.append("long_desc_fr", longdescHTMLTranslations.fr);
-      fd.append("long_desc_es", longdescHTMLTranslations.es);
-      fd.append("long_desc_zh", longdescHTMLTranslations.zh);
-      fd.append("long_desc_ru", longdescHTMLTranslations.ru);
-      fd.append("spotlight_title_fr", spotlightTitleTranslations.fr);
-      fd.append("spotlight_title_es", spotlightTitleTranslations.es);
-      fd.append("spotlight_title_zh", spotlightTitleTranslations.zh);
-      fd.append("spotlight_title_ru", spotlightTitleTranslations.ru);
-      fd.append("spotlight_points_fr", spotlightPointsTranslations.fr);
-      fd.append("spotlight_points_es", spotlightPointsTranslations.es);
-      fd.append("spotlight_points_zh", spotlightPointsTranslations.zh);
-      fd.append("spotlight_points_ru", spotlightPointsTranslations.ru);
+      fd.append("subtitle", sanitizePlainText(title));
+      fd.append("category", sanitizePlainText(categoryByGroup[group]));
+      fd.append("blog_subtitle", sanitizePlainText(contentTitle));
+      fd.append("spotlight_title", sanitizePlainText(spotlightTitle));
+      fd.append("spotlight_points", sanitizeHtml(spotlightPoints));
+      fd.append("short_desc", sanitizeHtml(shortdesc));
+      fd.append("long_desc", sanitizeHtml(longdesc));
+      fd.append("blog_subtitle_fr", sanitizePlainText(nextContentTitleTranslations.fr));
+      fd.append("blog_subtitle_es", sanitizePlainText(nextContentTitleTranslations.es));
+      fd.append("blog_subtitle_zh", sanitizePlainText(nextContentTitleTranslations.zh));
+      fd.append("blog_subtitle_ru", sanitizePlainText(nextContentTitleTranslations.ru));
+      fd.append("short_desc_fr", sanitizeHtml(nextShortdescTranslations.fr));
+      fd.append("short_desc_es", sanitizeHtml(nextShortdescTranslations.es));
+      fd.append("short_desc_zh", sanitizeHtml(nextShortdescTranslations.zh));
+      fd.append("short_desc_ru", sanitizeHtml(nextShortdescTranslations.ru));
+      fd.append("long_desc_fr", sanitizeHtml(nextLongdescTranslations.fr));
+      fd.append("long_desc_es", sanitizeHtml(nextLongdescTranslations.es));
+      fd.append("long_desc_zh", sanitizeHtml(nextLongdescTranslations.zh));
+      fd.append("long_desc_ru", sanitizeHtml(nextLongdescTranslations.ru));
+      fd.append(
+        "spotlight_title_fr",
+        sanitizePlainText(nextSpotlightTitleTranslations.fr),
+      );
+      fd.append(
+        "spotlight_title_es",
+        sanitizePlainText(nextSpotlightTitleTranslations.es),
+      );
+      fd.append(
+        "spotlight_title_zh",
+        sanitizePlainText(nextSpotlightTitleTranslations.zh),
+      );
+      fd.append(
+        "spotlight_title_ru",
+        sanitizePlainText(nextSpotlightTitleTranslations.ru),
+      );
+      fd.append("spotlight_points_fr", sanitizeHtml(nextSpotlightPointsTranslations.fr));
+      fd.append("spotlight_points_es", sanitizeHtml(nextSpotlightPointsTranslations.es));
+      fd.append("spotlight_points_zh", sanitizeHtml(nextSpotlightPointsTranslations.zh));
+      fd.append("spotlight_points_ru", sanitizeHtml(nextSpotlightPointsTranslations.ru));
 
       // Handle images according to serializer
       if (coverImage?.file) {
@@ -302,6 +599,18 @@ const BlogForm: React.FC<Props> = ({
           {group}
         </span>
       </div>
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={handleRegenerateAllTranslations}
+          disabled={loading || isRegeneratingTranslations}
+          className="px-3 py-2 text-sm rounded border bg-white disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {isRegeneratingTranslations
+            ? "Regenerating..."
+            : "Regenerate All Translations"}
+        </button>
+      </div>
 
       {/* Title */}
       <div>
@@ -310,7 +619,7 @@ const BlogForm: React.FC<Props> = ({
           className="border p-2 w-full rounded"
           placeholder="Title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => setTitle(sanitizePlainText(e.target.value))}
         />
         {errors.title && (
           <p className="text-red-600 text-sm mt-1">{errors.title}</p>
@@ -324,7 +633,7 @@ const BlogForm: React.FC<Props> = ({
           className="border p-2 w-full rounded"
           placeholder="Author"
           value={author}
-          onChange={(e) => setAuthor(e.target.value)}
+          onChange={(e) => setAuthor(sanitizePlainText(e.target.value))}
         />
         {errors.author && (
           <p className="text-red-600 text-sm mt-1">{errors.author}</p>
@@ -347,7 +656,7 @@ const BlogForm: React.FC<Props> = ({
         <RichTextEditor
           value={shortdesc}
           onChange={(html) => {
-            setShortdesc(html);
+            setShortdesc(sanitizeHtml(html));
           }}
           placeholder="Enter short description..."
           minHeight="150px"
@@ -374,7 +683,7 @@ const BlogForm: React.FC<Props> = ({
                   onChange={(html) => {
                     setShortdescHTMLTranslations((prev) => ({
                       ...prev,
-                      [lang]: html,
+                      [lang]: sanitizeHtml(html),
                     }));
                   }}
                   placeholder={`Enter short description in ${lang}...`}
@@ -392,7 +701,7 @@ const BlogForm: React.FC<Props> = ({
           className="border p-2 w-full rounded"
           placeholder="Content title"
           value={contentTitle}
-          onChange={(e) => setContentTitle(e.target.value)}
+          onChange={(e) => setContentTitle(sanitizePlainText(e.target.value))}
         />
         <button
           type="button"
@@ -416,7 +725,7 @@ const BlogForm: React.FC<Props> = ({
                 onChange={(e) =>
                   setContentTitleTranslations((prev) => ({
                     ...prev,
-                    [lang]: e.target.value,
+                    [lang]: sanitizePlainText(e.target.value),
                   }))
                 }
               />
@@ -431,7 +740,7 @@ const BlogForm: React.FC<Props> = ({
         <RichTextEditor
           value={longdesc}
           onChange={(html) => {
-            setLongdesc(html);
+            setLongdesc(sanitizeHtml(html));
           }}
           placeholder="Enter full content..."
           minHeight="300px"
@@ -458,7 +767,7 @@ const BlogForm: React.FC<Props> = ({
                   onChange={(html) => {
                     setLongdescHTMLTranslations((prev) => ({
                       ...prev,
-                      [lang]: html,
+                      [lang]: sanitizeHtml(html),
                     }));
                   }}
                   placeholder={`Enter full content in ${lang}...`}
@@ -476,7 +785,7 @@ const BlogForm: React.FC<Props> = ({
           className="border p-2 w-full rounded"
           placeholder="Spotlight title"
           value={spotlightTitle}
-          onChange={(e) => setSpotlightTitle(e.target.value)}
+          onChange={(e) => setSpotlightTitle(sanitizePlainText(e.target.value))}
         />
         <button
           type="button"
@@ -500,7 +809,7 @@ const BlogForm: React.FC<Props> = ({
                 onChange={(e) =>
                   setSpotlightTitleTranslations((prev) => ({
                     ...prev,
-                    [lang]: e.target.value,
+                    [lang]: sanitizePlainText(e.target.value),
                   }))
                 }
               />
@@ -513,7 +822,7 @@ const BlogForm: React.FC<Props> = ({
         <label className="font-medium block mb-1">Spotlight Points</label>
         <RichTextEditor
           value={spotlightPoints}
-          onChange={(html) => setSpotlightPoints(html)}
+          onChange={(html) => setSpotlightPoints(sanitizeHtml(html))}
           placeholder="Enter spotlight points..."
           minHeight="140px"
         />
@@ -539,7 +848,7 @@ const BlogForm: React.FC<Props> = ({
                   onChange={(html) => {
                     setSpotlightPointsTranslations((prev) => ({
                       ...prev,
-                      [lang]: html,
+                      [lang]: sanitizeHtml(html),
                     }));
                   }}
                   placeholder={`Enter spotlight points in ${lang}...`}

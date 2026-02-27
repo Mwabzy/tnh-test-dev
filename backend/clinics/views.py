@@ -26,7 +26,11 @@ from .serializers import (
      ClinicalFAQSerializer,
      RoomWardSerializer,
 )
-from .translation import build_clinical_service_translation_preview
+from .translation import (
+    build_clinical_service_translation_preview,
+    build_doctor_translation_preview,
+    build_outpatient_center_translation_preview,
+)
 
 DEBUG = True
 
@@ -164,6 +168,17 @@ class DoctorViewSet(viewsets.ModelViewSet):
    
         instance = serializer.save()
         return Response(serializer.data)
+
+    @action(
+        detail=False,
+        methods=["post"],
+        url_path="translate-preview",
+        parser_classes=[JSONParser],
+    )
+    def translate_preview(self, request):
+        payload = request.data if isinstance(request.data, dict) else {}
+        translations = build_doctor_translation_preview(payload)
+        return Response(translations, status=status.HTTP_200_OK)
     
 class TestimonialViewSet(viewsets.ModelViewSet):
     queryset = Testimonial.objects.all()
@@ -270,6 +285,17 @@ class OutpatientCenterViewSet(viewsets.ModelViewSet):
         center = get_object_or_404(OutpatientCenter, path=path)
         serializer = self.get_serializer(center)
         return Response(serializer.data)
+
+    @action(
+        detail=False,
+        methods=["post"],
+        url_path="translate-preview",
+        parser_classes=[JSONParser],
+    )
+    def translate_preview(self, request):
+        payload = request.data if isinstance(request.data, dict) else {}
+        translations = build_outpatient_center_translation_preview(payload)
+        return Response(translations, status=status.HTTP_200_OK)
 
 
 class ClinicalFAQViewSet(viewsets.ModelViewSet):

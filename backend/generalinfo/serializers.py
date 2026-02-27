@@ -1,5 +1,9 @@
 from rest_framework import serializers
 from .models import TeamMember, BlogPost, CSR, CSRImage, Tender, Career, Hero
+from .translation import (
+    auto_translate_missing_blogpost_fields,
+    auto_translate_missing_csr_fields,
+)
 
 
 # Translation helper
@@ -138,6 +142,7 @@ class BlogPostSerializer(serializers.ModelSerializer):
         image_delete = validated_data.pop("image_delete", False)
         cover_alt = validated_data.pop("cover_image_alt", "")
         image_alt = validated_data.pop("image_alt", "")
+        validated_data = auto_translate_missing_blogpost_fields(validated_data)
 
         instance = super().create(validated_data)
 
@@ -165,6 +170,10 @@ class BlogPostSerializer(serializers.ModelSerializer):
         image_delete = validated_data.pop("image_delete", False)
         cover_alt = validated_data.pop("cover_image_alt", instance.cover_image_alt or "")
         image_alt = validated_data.pop("image_alt", instance.image_alt or "")
+        validated_data = auto_translate_missing_blogpost_fields(
+            validated_data,
+            instance=instance,
+        )
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
@@ -277,6 +286,7 @@ class CSRSerializer(serializers.ModelSerializer):
         images_files = validated_data.pop("images_files", [])
         images_alt = validated_data.pop("images_files_alt", [])
         validated_data.pop("images_to_delete", None)
+        validated_data = auto_translate_missing_csr_fields(validated_data)
 
         csr = CSR.objects.create(**validated_data)
 
@@ -299,6 +309,10 @@ class CSRSerializer(serializers.ModelSerializer):
         images_files = validated_data.pop("images_files", [])
         images_alt = validated_data.pop("images_files_alt", [])
         images_to_delete = validated_data.pop("images_to_delete", [])
+        validated_data = auto_translate_missing_csr_fields(
+            validated_data,
+            instance=instance,
+        )
 
         if delete_image and instance.cover_image:
             instance.cover_image.delete(save=False)

@@ -1,6 +1,10 @@
 from rest_framework import serializers
 from .models import ClinicalService, ClinicalServiceFeatureImage, Doctor, Testimonial, ClinicalServiceImage, DoctorImage, OutpatientCenter, OutpatientCenterImage, ClinicalFAQ, RoomWard
-from .translation import auto_translate_missing_clinical_service_fields
+from .translation import (
+    auto_translate_missing_clinical_service_fields,
+    auto_translate_missing_doctor_fields,
+    auto_translate_missing_outpatient_center_fields,
+)
 import json
 import re
 from itertools import zip_longest
@@ -162,6 +166,7 @@ class DoctorSerializer(serializers.ModelSerializer):
         services_ids = validated_data.pop('services_offered_ids', [])
         images_files = validated_data.pop('images_files', [])
         images_alt = validated_data.pop('images_files_alt', [])
+        validated_data = auto_translate_missing_doctor_fields(validated_data)
 
         doctor = Doctor.objects.create(**validated_data)
 
@@ -179,6 +184,10 @@ class DoctorSerializer(serializers.ModelSerializer):
         images_files = validated_data.pop('images_files', [])
         images_alt = validated_data.pop('images_files_alt', [])
         images_to_delete = validated_data.pop('images_to_delete', [])
+        validated_data = auto_translate_missing_doctor_fields(
+            validated_data,
+            instance=instance,
+        )
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
@@ -751,6 +760,9 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
         images_files = validated_data.pop("images_files", [])
         images_alt = validated_data.pop("images_files_alt", [])
         services_offered = validated_data.pop("services_offered", [])
+        validated_data = auto_translate_missing_outpatient_center_fields(
+            validated_data
+        )
 
         instance = OutpatientCenter.objects.create(**validated_data)
         if services_offered:
@@ -771,6 +783,10 @@ class OutpatientCenterSerializer(serializers.ModelSerializer):
         images_alt = validated_data.pop("images_files_alt", [])
         images_to_delete = validated_data.pop("images_to_delete", [])
         services_offered = validated_data.pop("services_offered", None)
+        validated_data = auto_translate_missing_outpatient_center_fields(
+            validated_data,
+            instance=instance,
+        )
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)

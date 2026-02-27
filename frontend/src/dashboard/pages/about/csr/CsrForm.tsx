@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { CSR } from "@/types";
 import RichTextEditor from "@/components/RichTextEditor";
+import { fetchCsrTranslationPreview } from "@/api/api";
+import { sanitizeHtml, sanitizePlainText } from "@/lib/sanitizeHtml";
 
 interface Props {
   initialData?: CSR | null;
@@ -28,6 +30,31 @@ type NewImage = {
 
 const requiredMark = <span className="text-red-600">*</span>;
 
+const TRANSLATION_LANGS = ["fr", "es", "zh", "ru"] as const;
+type TranslationLanguage = (typeof TRANSLATION_LANGS)[number];
+type TranslationMap = Record<TranslationLanguage, string>;
+
+const isBlank = (value?: string | null) => !value || value.trim() === "";
+
+const hasMissingTranslation = (translations: TranslationMap) =>
+  TRANSLATION_LANGS.some((lang) => isBlank(translations[lang]));
+
+const fillOnlyEmptyTranslations = (
+  current: TranslationMap,
+  incoming?: Partial<Record<TranslationLanguage, string>>,
+) => {
+  if (!incoming) return current;
+
+  const next = { ...current };
+  for (const lang of TRANSLATION_LANGS) {
+    const translatedValue = incoming[lang];
+    if (isBlank(next[lang]) && !isBlank(translatedValue)) {
+      next[lang] = translatedValue as string;
+    }
+  }
+  return next;
+};
+
 const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   const [author, setAuthor] = useState(initialData?.author || "");
   const [title, setTitle] = useState(initialData?.title || "");
@@ -44,21 +71,21 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   );
   const [description, setDescription] = useState(initialData?.description || "");
 
-  const [descriptionTranslations, setDescriptionTranslations] = useState({
+  const [descriptionTranslations, setDescriptionTranslations] = useState<TranslationMap>({
     fr: initialData?.description_fr || "",
     es: initialData?.description_es || "",
     zh: initialData?.description_zh || "",
     ru: initialData?.description_ru || "",
   });
 
-  const [shortdescTranslations, setShortdescTranslations] = useState({
+  const [shortdescTranslations, setShortdescTranslations] = useState<TranslationMap>({
     fr: initialData?.shortdesc_fr || initialData?.short_desc_fr || "",
     es: initialData?.shortdesc_es || initialData?.short_desc_es || "",
     zh: initialData?.shortdesc_zh || initialData?.short_desc_zh || "",
     ru: initialData?.shortdesc_ru || initialData?.short_desc_ru || "",
   });
 
-  const [longdescTranslations, setLongdescTranslations] = useState({
+  const [longdescTranslations, setLongdescTranslations] = useState<TranslationMap>({
     fr: initialData?.longdesc_fr || initialData?.long_desc_fr || "",
     es: initialData?.longdesc_es || initialData?.long_desc_es || "",
     zh: initialData?.longdesc_zh || initialData?.long_desc_zh || "",
@@ -100,7 +127,67 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   const [imagesToDelete, setImagesToDelete] = useState<number[]>([]);
 
   const [loading, setLoading] = useState(false);
+  const [isRegeneratingTranslations, setIsRegeneratingTranslations] =
+    useState(false);
   const [errors, setErrors] = useState<{ author?: string; title?: string }>({});
+
+  useEffect(() => {
+    const payload: {
+      description?: string;
+      short_desc?: string;
+      long_desc?: string;
+    } = {};
+
+    if (!isBlank(description) && hasMissingTranslation(descriptionTranslations)) {
+      payload.description = sanitizeHtml(description);
+    }
+    if (!isBlank(shortdesc) && hasMissingTranslation(shortdescTranslations)) {
+      payload.short_desc = sanitizeHtml(shortdesc);
+    }
+    if (!isBlank(longdesc) && hasMissingTranslation(longdescTranslations)) {
+      payload.long_desc = sanitizeHtml(longdesc);
+    }
+
+    if (Object.keys(payload).length === 0) return;
+
+    let cancelled = false;
+    const timer = window.setTimeout(async () => {
+      try {
+        const translations = await fetchCsrTranslationPreview(payload);
+        if (cancelled) return;
+
+        if (translations.description) {
+          setDescriptionTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.description),
+          );
+        }
+        if (translations.short_desc) {
+          setShortdescTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.short_desc),
+          );
+        }
+        if (translations.long_desc) {
+          setLongdescTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.long_desc),
+          );
+        }
+      } catch (error) {
+        console.error("Failed to auto-fill CSR translations:", error);
+      }
+    }, 700);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [
+    description,
+    descriptionTranslations,
+    shortdesc,
+    shortdescTranslations,
+    longdesc,
+    longdescTranslations,
+  ]);
 
   const validate = () => {
     const errs: { author?: string; title?: string } = {};
@@ -199,6 +286,67 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
     setNewImages((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleRegenerateAllTranslations = async () => {
+    const payload: {
+      description?: string;
+      short_desc?: string;
+      long_desc?: string;
+    } = {};
+
+    if (!isBlank(description)) payload.description = sanitizeHtml(description);
+    if (!isBlank(shortdesc)) payload.short_desc = sanitizeHtml(shortdesc);
+    if (!isBlank(longdesc)) payload.long_desc = sanitizeHtml(longdesc);
+
+    if (Object.keys(payload).length === 0) {
+      toast.error("Enter English content first before regenerating.");
+      return;
+    }
+
+    const shouldContinue = window.confirm(
+      "Regenerate all translations from current English content? This will replace existing translated values.",
+    );
+    if (!shouldContinue) return;
+
+    setIsRegeneratingTranslations(true);
+    try {
+      const translations = await fetchCsrTranslationPreview(payload);
+
+      if (payload.description) {
+        setDescriptionTranslations((prev) => ({
+          fr: translations.description?.fr ?? prev.fr,
+          es: translations.description?.es ?? prev.es,
+          zh: translations.description?.zh ?? prev.zh,
+          ru: translations.description?.ru ?? prev.ru,
+        }));
+      }
+
+      if (payload.short_desc) {
+        setShortdescTranslations((prev) => ({
+          fr: translations.short_desc?.fr ?? prev.fr,
+          es: translations.short_desc?.es ?? prev.es,
+          zh: translations.short_desc?.zh ?? prev.zh,
+          ru: translations.short_desc?.ru ?? prev.ru,
+        }));
+      }
+
+      if (payload.long_desc) {
+        setLongdescTranslations((prev) => ({
+          fr: translations.long_desc?.fr ?? prev.fr,
+          es: translations.long_desc?.es ?? prev.es,
+          zh: translations.long_desc?.zh ?? prev.zh,
+          ru: translations.long_desc?.ru ?? prev.ru,
+        }));
+      }
+
+      toast.success("Translations regenerated.");
+    } catch (error) {
+      console.error("Failed to regenerate CSR translations:", error);
+      toast.error("Failed to regenerate translations.");
+    } finally {
+      setIsRegeneratingTranslations(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return toast.error("Fix form errors");
@@ -206,30 +354,79 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
     setLoading(true);
 
     try {
+      let nextDescriptionTranslations = { ...descriptionTranslations };
+      let nextShortdescTranslations = { ...shortdescTranslations };
+      let nextLongdescTranslations = { ...longdescTranslations };
+
+      const previewPayload: {
+        description?: string;
+        short_desc?: string;
+        long_desc?: string;
+      } = {};
+      if (!isBlank(description) && hasMissingTranslation(nextDescriptionTranslations)) {
+        previewPayload.description = sanitizeHtml(description);
+      }
+      if (!isBlank(shortdesc) && hasMissingTranslation(nextShortdescTranslations)) {
+        previewPayload.short_desc = sanitizeHtml(shortdesc);
+      }
+      if (!isBlank(longdesc) && hasMissingTranslation(nextLongdescTranslations)) {
+        previewPayload.long_desc = sanitizeHtml(longdesc);
+      }
+
+      if (Object.keys(previewPayload).length > 0) {
+        try {
+          const translations = await fetchCsrTranslationPreview(previewPayload);
+          if (translations.description) {
+            nextDescriptionTranslations = fillOnlyEmptyTranslations(
+              nextDescriptionTranslations,
+              translations.description,
+            );
+          }
+          if (translations.short_desc) {
+            nextShortdescTranslations = fillOnlyEmptyTranslations(
+              nextShortdescTranslations,
+              translations.short_desc,
+            );
+          }
+          if (translations.long_desc) {
+            nextLongdescTranslations = fillOnlyEmptyTranslations(
+              nextLongdescTranslations,
+              translations.long_desc,
+            );
+          }
+        } catch (error) {
+          console.error("Failed to backfill CSR translations:", error);
+        }
+      }
+
+      setDescriptionTranslations(nextDescriptionTranslations);
+      setShortdescTranslations(nextShortdescTranslations);
+      setLongdescTranslations(nextLongdescTranslations);
+
       const fd = new FormData();
-      fd.append("author", author);
-      fd.append("title", title);
-      fd.append("subtitle", subtitle);
-      fd.append("blog_subtitle", blogsubtitle);
+      fd.append("author", sanitizePlainText(author));
+      fd.append("title", sanitizePlainText(title));
+      fd.append("subtitle", sanitizePlainText(subtitle));
+      fd.append("blog_subtitle", sanitizePlainText(blogsubtitle));
 
-      fd.append("short_desc", shortdesc);
-      fd.append("long_desc", longdesc);
-      fd.append("description", description);
+      fd.append("short_desc", sanitizeHtml(shortdesc));
+      fd.append("long_desc", sanitizeHtml(longdesc));
+      fd.append("description", sanitizeHtml(description));
 
-      fd.append("description_fr", descriptionTranslations.fr);
-      fd.append("description_es", descriptionTranslations.es);
-      fd.append("description_zh", descriptionTranslations.zh);
-      fd.append("description_ru", descriptionTranslations.ru);
+      fd.append("description_fr", sanitizeHtml(nextDescriptionTranslations.fr));
+      fd.append("description_es", sanitizeHtml(nextDescriptionTranslations.es));
+      fd.append("description_zh", sanitizeHtml(nextDescriptionTranslations.zh));
+      fd.append("description_ru", sanitizeHtml(nextDescriptionTranslations.ru));
 
-      fd.append("short_desc_fr", shortdescTranslations.fr);
-      fd.append("short_desc_es", shortdescTranslations.es);
-      fd.append("short_desc_zh", shortdescTranslations.zh);
-      fd.append("short_desc_ru", shortdescTranslations.ru);
+      fd.append("short_desc_fr", sanitizeHtml(nextShortdescTranslations.fr));
+      fd.append("short_desc_es", sanitizeHtml(nextShortdescTranslations.es));
+      fd.append("short_desc_zh", sanitizeHtml(nextShortdescTranslations.zh));
+      fd.append("short_desc_ru", sanitizeHtml(nextShortdescTranslations.ru));
 
-      fd.append("long_desc_fr", longdescTranslations.fr);
-      fd.append("long_desc_es", longdescTranslations.es);
-      fd.append("long_desc_zh", longdescTranslations.zh);
-      fd.append("long_desc_ru", longdescTranslations.ru);
+      fd.append("long_desc_fr", sanitizeHtml(nextLongdescTranslations.fr));
+      fd.append("long_desc_es", sanitizeHtml(nextLongdescTranslations.es));
+      fd.append("long_desc_zh", sanitizeHtml(nextLongdescTranslations.zh));
+      fd.append("long_desc_ru", sanitizeHtml(nextLongdescTranslations.ru));
 
       if (coverImage?.file) {
         fd.append("cover_image_file", coverImage.file);
@@ -268,13 +465,26 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={handleRegenerateAllTranslations}
+          disabled={loading || isRegeneratingTranslations}
+          className="px-3 py-2 text-sm rounded border bg-white disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {isRegeneratingTranslations
+            ? "Regenerating..."
+            : "Regenerate All Translations"}
+        </button>
+      </div>
+
       <div>
         <label className="font-semibold">Author {requiredMark}</label>
         <input
           className="border p-2 w-full"
           placeholder="Enter author name"
           value={author}
-          onChange={(e) => setAuthor(e.target.value)}
+          onChange={(e) => setAuthor(sanitizePlainText(e.target.value))}
         />
         {errors.author && <p className="text-red-600 text-sm">{errors.author}</p>}
       </div>
@@ -285,7 +495,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
           className="border p-2 w-full"
           placeholder="Enter CSR title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => setTitle(sanitizePlainText(e.target.value))}
         />
         {errors.title && <p className="text-red-600 text-sm">{errors.title}</p>}
       </div>
@@ -296,7 +506,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
           className="border p-2 w-full"
           placeholder="Enter subtitle"
           value={subtitle}
-          onChange={(e) => setSubtitle(e.target.value)}
+          onChange={(e) => setSubtitle(sanitizePlainText(e.target.value))}
         />
       </div>
 
@@ -306,7 +516,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
           className="border p-2 w-full"
           placeholder="Enter blog subtitle"
           value={blogsubtitle}
-          onChange={(e) => setBlogsubtitle(e.target.value)}
+          onChange={(e) => setBlogsubtitle(sanitizePlainText(e.target.value))}
         />
       </div>
 
@@ -315,7 +525,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         <RichTextEditor
           value={shortdesc}
           onChange={(html) => {
-            setShortdesc(html);
+            setShortdesc(sanitizeHtml(html));
           }}
           placeholder="Enter short description..."
           minHeight="150px"
@@ -342,7 +552,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
                   onChange={(html) => {
                     setShortdescTranslations((prev) => ({
                       ...prev,
-                      [lang]: html,
+                      [lang]: sanitizeHtml(html),
                     }));
                   }}
                   placeholder={`Enter short description in ${lang}...`}
@@ -359,7 +569,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         <RichTextEditor
           value={longdesc}
           onChange={(html) => {
-            setLongdesc(html);
+            setLongdesc(sanitizeHtml(html));
           }}
           placeholder="Enter long description..."
           minHeight="200px"
@@ -386,7 +596,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
                   onChange={(html) => {
                     setLongdescTranslations((prev) => ({
                       ...prev,
-                      [lang]: html,
+                      [lang]: sanitizeHtml(html),
                     }));
                   }}
                   placeholder={`Enter long description in ${lang}...`}
@@ -403,7 +613,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
         <RichTextEditor
           value={description}
           onChange={(html) => {
-            setDescription(html);
+            setDescription(sanitizeHtml(html));
           }}
           placeholder="Enter description..."
           minHeight="200px"
@@ -430,7 +640,7 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
                   onChange={(html) => {
                     setDescriptionTranslations((prev) => ({
                       ...prev,
-                      [lang]: html,
+                      [lang]: sanitizeHtml(html),
                     }));
                   }}
                   placeholder={`Enter description in ${lang}...`}

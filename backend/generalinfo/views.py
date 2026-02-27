@@ -19,6 +19,10 @@ from .serializers import (
     CareerSerializer,
     HeroSerializer,
 )
+from .translation import (
+    build_blogpost_translation_preview,
+    build_csr_translation_preview,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -120,6 +124,17 @@ class BlogPostViewSet(viewsets.ModelViewSet):
         kwargs['partial'] = True
         return self.update(request, *args, **kwargs)
 
+    @action(
+        detail=False,
+        methods=["post"],
+        url_path="translate-preview",
+        parser_classes=[parsers.JSONParser],
+    )
+    def translate_preview(self, request):
+        payload = request.data if isinstance(request.data, dict) else {}
+        translations = build_blogpost_translation_preview(payload)
+        return Response(translations, status=status.HTTP_200_OK)
+
 
 class CSRViewSet(viewsets.ModelViewSet):
     """ViewSet for managing CSR entries with image upload support."""
@@ -180,6 +195,17 @@ class CSRViewSet(viewsets.ModelViewSet):
             {"detail": "Deleted successfully"},
             status=status.HTTP_204_NO_CONTENT
         )
+
+    @action(
+        detail=False,
+        methods=["post"],
+        url_path="translate-preview",
+        parser_classes=[parsers.JSONParser],
+    )
+    def translate_preview(self, request):
+        payload = request.data if isinstance(request.data, dict) else {}
+        translations = build_csr_translation_preview(payload)
+        return Response(translations, status=status.HTTP_200_OK)
     
 
 class SendEmailViewSet(viewsets.ViewSet):

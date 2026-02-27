@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ClinicalService, Image } from "@/types";
 import { Doctor } from "@/types/clinicalServices";
 import Select from "react-select";
 import toast from "react-hot-toast";
 import RichTextEditor from "@/components/RichTextEditor"; // Adjust path as needed
+import { fetchDoctorTranslationPreview } from "@/api/api";
+import { sanitizeHtml, sanitizePlainText } from "@/lib/sanitizeHtml";
 
 interface DoctorFormProps {
   initialData?: Doctor | null;
@@ -15,6 +17,31 @@ interface DoctorFormProps {
 type NewImage = {
   file: File;
   alt: string;
+};
+
+const TRANSLATION_LANGS = ["fr", "es", "zh", "ru"] as const;
+type TranslationLanguage = (typeof TRANSLATION_LANGS)[number];
+type TranslationMap = Record<TranslationLanguage, string>;
+
+const isBlank = (value?: string | null) => !value || value.trim() === "";
+
+const hasMissingTranslation = (translations: TranslationMap) =>
+  TRANSLATION_LANGS.some((lang) => isBlank(translations[lang]));
+
+const fillOnlyEmptyTranslations = (
+  current: TranslationMap,
+  incoming?: Partial<Record<TranslationLanguage, string>>,
+) => {
+  if (!incoming) return current;
+
+  const next = { ...current };
+  for (const lang of TRANSLATION_LANGS) {
+    const translatedValue = incoming[lang];
+    if (isBlank(next[lang]) && !isBlank(translatedValue)) {
+      next[lang] = translatedValue as string;
+    }
+  }
+  return next;
 };
 
 const DoctorForm = ({
@@ -52,15 +79,17 @@ const DoctorForm = ({
 
   const [serviceInput, setServiceInput] = useState("");
   const [saving, setSaving] = useState(false);
+  const [isRegeneratingTranslations, setIsRegeneratingTranslations] =
+    useState(false);
   // Translation state
-  const [roleTranslations, setRoleTranslations] = useState({
+  const [roleTranslations, setRoleTranslations] = useState<TranslationMap>({
     fr: initialData?.role_fr || "",
     es: initialData?.role_es || "",
     zh: initialData?.role_zh || "",
     ru: initialData?.role_ru || "",
   });
 
-  const [bioTranslations, setBioTranslations] = useState({
+  const [bioTranslations, setBioTranslations] = useState<TranslationMap>({
     fr: initialData?.bio_fr || "",
     es: initialData?.bio_es || "",
     zh: initialData?.bio_zh || "",
@@ -74,6 +103,44 @@ const DoctorForm = ({
   const toggleTranslation = (field: "role" | "bio") => {
     setOpenTranslation((prev) => (prev === field ? null : field));
   };
+
+  useEffect(() => {
+    const payload: { role?: string; bio?: string } = {};
+    if (!isBlank(role) && hasMissingTranslation(roleTranslations)) {
+      payload.role = sanitizePlainText(role);
+    }
+    if (!isBlank(bio) && hasMissingTranslation(bioTranslations)) {
+      payload.bio = sanitizeHtml(bio);
+    }
+
+    if (Object.keys(payload).length === 0) return;
+
+    let cancelled = false;
+    const timer = window.setTimeout(async () => {
+      try {
+        const translations = await fetchDoctorTranslationPreview(payload);
+        if (cancelled) return;
+
+        if (translations.role) {
+          setRoleTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.role),
+          );
+        }
+        if (translations.bio) {
+          setBioTranslations((prev) =>
+            fillOnlyEmptyTranslations(prev, translations.bio),
+          );
+        }
+      } catch (error) {
+        console.error("Failed to auto-fill doctor translations:", error);
+      }
+    }, 700);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [role, bio, roleTranslations, bioTranslations]);
 
   /* Filtered Services for search */
   const filteredServices = availableServices.filter((s) => {
@@ -136,7 +203,7 @@ const DoctorForm = ({
 
   /* Bio editor handler */
   const handleBioChange = (html: string, _plainText: string) => {
-    setBio(html);
+    setBio(sanitizeHtml(html));
   };
 
   /* Bio translation handlers */
@@ -145,9 +212,92 @@ const DoctorForm = ({
     (html: string, _plainText: string) => {
       setBioTranslations((prev) => ({
         ...prev,
-        [lang]: html,
+        [lang]: sanitizeHtml(html),
       }));
     };
+
+  const backfillMissingTranslations = async () => {
+    let nextRoleTranslations = { ...roleTranslations };
+    let nextBioTranslations = { ...bioTranslations };
+
+    const payload: { role?: string; bio?: string } = {};
+    if (!isBlank(role) && hasMissingTranslation(nextRoleTranslations)) {
+      payload.role = sanitizePlainText(role);
+    }
+    if (!isBlank(bio) && hasMissingTranslation(nextBioTranslations)) {
+      payload.bio = sanitizeHtml(bio);
+    }
+
+    if (Object.keys(payload).length === 0) {
+      return { nextRoleTranslations, nextBioTranslations };
+    }
+
+    try {
+      const translations = await fetchDoctorTranslationPreview(payload);
+      if (translations.role) {
+        nextRoleTranslations = fillOnlyEmptyTranslations(
+          nextRoleTranslations,
+          translations.role,
+        );
+      }
+      if (translations.bio) {
+        nextBioTranslations = fillOnlyEmptyTranslations(
+          nextBioTranslations,
+          translations.bio,
+        );
+      }
+    } catch (error) {
+      console.error("Failed to backfill doctor translations:", error);
+    }
+
+    return { nextRoleTranslations, nextBioTranslations };
+  };
+
+  const handleRegenerateAllTranslations = async () => {
+    const payload: { role?: string; bio?: string } = {};
+    if (!isBlank(role)) payload.role = sanitizePlainText(role);
+    if (!isBlank(bio)) payload.bio = sanitizeHtml(bio);
+
+    if (Object.keys(payload).length === 0) {
+      toast.error("Enter English content first before regenerating.");
+      return;
+    }
+
+    const shouldContinue = window.confirm(
+      "Regenerate all translations from current English content? This will replace existing translated values.",
+    );
+    if (!shouldContinue) return;
+
+    setIsRegeneratingTranslations(true);
+    try {
+      const translations = await fetchDoctorTranslationPreview(payload);
+
+      if (payload.role) {
+        setRoleTranslations((prev) => ({
+          fr: translations.role?.fr ?? prev.fr,
+          es: translations.role?.es ?? prev.es,
+          zh: translations.role?.zh ?? prev.zh,
+          ru: translations.role?.ru ?? prev.ru,
+        }));
+      }
+
+      if (payload.bio) {
+        setBioTranslations((prev) => ({
+          fr: translations.bio?.fr ?? prev.fr,
+          es: translations.bio?.es ?? prev.es,
+          zh: translations.bio?.zh ?? prev.zh,
+          ru: translations.bio?.ru ?? prev.ru,
+        }));
+      }
+
+      toast.success("Translations regenerated.");
+    } catch (error) {
+      console.error("Failed to regenerate doctor translations:", error);
+      toast.error("Failed to regenerate translations.");
+    } finally {
+      setIsRegeneratingTranslations(false);
+    }
+  };
 
   /* Submit */
   const handleSubmit = async (e: React.FormEvent) => {
@@ -155,21 +305,26 @@ const DoctorForm = ({
     setSaving(true);
 
     try {
+      const { nextRoleTranslations, nextBioTranslations } =
+        await backfillMissingTranslations();
+      setRoleTranslations(nextRoleTranslations);
+      setBioTranslations(nextBioTranslations);
+
       const formData = new FormData();
 
       formData.append("name", name);
-      formData.append("role", role);
-      formData.append("role_fr", roleTranslations.fr);
-      formData.append("role_es", roleTranslations.es);
-      formData.append("role_zh", roleTranslations.zh);
-      formData.append("role_ru", roleTranslations.ru);
+      formData.append("role", sanitizePlainText(role));
+      formData.append("role_fr", sanitizePlainText(nextRoleTranslations.fr));
+      formData.append("role_es", sanitizePlainText(nextRoleTranslations.es));
+      formData.append("role_zh", sanitizePlainText(nextRoleTranslations.zh));
+      formData.append("role_ru", sanitizePlainText(nextRoleTranslations.ru));
 
       // Use HTML content from rich text editor
-      formData.append("bio", bio);
-      formData.append("bio_fr", bioTranslations.fr);
-      formData.append("bio_es", bioTranslations.es);
-      formData.append("bio_zh", bioTranslations.zh);
-      formData.append("bio_ru", bioTranslations.ru);
+      formData.append("bio", sanitizeHtml(bio));
+      formData.append("bio_fr", sanitizeHtml(nextBioTranslations.fr));
+      formData.append("bio_es", sanitizeHtml(nextBioTranslations.es));
+      formData.append("bio_zh", sanitizeHtml(nextBioTranslations.zh));
+      formData.append("bio_ru", sanitizeHtml(nextBioTranslations.ru));
       formData.append("services_offered_ids", JSON.stringify(servicesOffered));
       formData.append(
         "research_publications",
@@ -201,9 +356,21 @@ const DoctorForm = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 p-4 border rounded">
-      <h2 className="text-xl font-serif font-semibold">
-        {initialData?.id ? "Edit Doctor" : "Add Doctor"}
-      </h2>
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="text-xl font-serif font-semibold">
+          {initialData?.id ? "Edit Doctor" : "Add Doctor"}
+        </h2>
+        <button
+          type="button"
+          onClick={handleRegenerateAllTranslations}
+          disabled={saving || isRegeneratingTranslations}
+          className="px-3 py-2 text-sm rounded border bg-white disabled:opacity-60 disabled:cursor-not-allowed"
+        >
+          {isRegeneratingTranslations
+            ? "Regenerating..."
+            : "Regenerate All Translations"}
+        </button>
+      </div>
 
       {/* Name */}
       <label className="font-medium">Doctor's Name</label>
@@ -219,7 +386,7 @@ const DoctorForm = ({
         type="text"
         className="border p-2 w-full"
         value={role}
-        onChange={(e) => setRole(e.target.value)}
+        onChange={(e) => setRole(sanitizePlainText(e.target.value))}
       />
 
       <button
@@ -244,7 +411,7 @@ const DoctorForm = ({
               onChange={(e) =>
                 setRoleTranslations((prev) => ({
                   ...prev,
-                  [lang]: e.target.value,
+                  [lang]: sanitizePlainText(e.target.value),
                 }))
               }
             />

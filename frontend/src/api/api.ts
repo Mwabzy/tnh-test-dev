@@ -110,6 +110,87 @@ export async function fetchClinicalServiceTranslationPreview(
   return res.data as ClinicalServiceTranslationPreviewResponse;
 }
 
+type TranslatableDoctorField = "role" | "bio";
+type TranslatableOutpatientCenterField = "description";
+type TranslatableBlogField =
+  | "title"
+  | "subtitle"
+  | "blog_subtitle"
+  | "short_desc"
+  | "long_desc"
+  | "spotlight_title"
+  | "spotlight_points"
+  | "category";
+type TranslatableCsrField =
+  | "title"
+  | "subtitle"
+  | "blog_subtitle"
+  | "description"
+  | "short_desc"
+  | "long_desc";
+
+export type DoctorTranslationPreviewPayload = Partial<
+  Record<TranslatableDoctorField, string>
+>;
+export type DoctorTranslationPreviewResponse = Partial<
+  Record<TranslatableDoctorField, Partial<Record<TranslationLang, string>>>
+>;
+
+export type OutpatientCenterTranslationPreviewPayload = Partial<
+  Record<TranslatableOutpatientCenterField, string>
+>;
+export type OutpatientCenterTranslationPreviewResponse = Partial<
+  Record<
+    TranslatableOutpatientCenterField,
+    Partial<Record<TranslationLang, string>>
+  >
+>;
+
+export type BlogTranslationPreviewPayload = Partial<
+  Record<TranslatableBlogField, string>
+>;
+export type BlogTranslationPreviewResponse = Partial<
+  Record<TranslatableBlogField, Partial<Record<TranslationLang, string>>>
+>;
+
+export type CsrTranslationPreviewPayload = Partial<
+  Record<TranslatableCsrField, string>
+>;
+export type CsrTranslationPreviewResponse = Partial<
+  Record<TranslatableCsrField, Partial<Record<TranslationLang, string>>>
+>;
+
+export async function fetchDoctorTranslationPreview(
+  payload: DoctorTranslationPreviewPayload,
+) {
+  const res = await api.post(`${DOCTORS_API}translate-preview/`, payload);
+  return res.data as DoctorTranslationPreviewResponse;
+}
+
+export async function fetchOutpatientCenterTranslationPreview(
+  payload: OutpatientCenterTranslationPreviewPayload,
+) {
+  const res = await api.post(
+    `${OUTPATIENT_CENTER_API}translate-preview/`,
+    payload,
+  );
+  return res.data as OutpatientCenterTranslationPreviewResponse;
+}
+
+export async function fetchBlogTranslationPreview(
+  payload: BlogTranslationPreviewPayload,
+) {
+  const res = await api.post(`${BLOGS_API}translate-preview/`, payload);
+  return res.data as BlogTranslationPreviewResponse;
+}
+
+export async function fetchCsrTranslationPreview(
+  payload: CsrTranslationPreviewPayload,
+) {
+  const res = await api.post(`${CSR_API}translate-preview/`, payload);
+  return res.data as CsrTranslationPreviewResponse;
+}
+
 export async function createClinicalService(data: any) {
   console.log(" Creating Clinical Service with data:", data);
   const res = await api.post(CLINICS_API, data, {

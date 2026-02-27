@@ -23,6 +23,15 @@ FEATURE_TRANSLATABLE_FIELDS = {
     "description": {"html": True},
 }
 
+DOCTOR_TRANSLATABLE_FIELDS = {
+    "role": {"html": False},
+    "bio": {"html": True},
+}
+
+OUTPATIENT_CENTER_TRANSLATABLE_FIELDS = {
+    "description": {"html": True},
+}
+
 _HTML_TAG_RE = re.compile(r"(<[^>]+>)")
 _MISSING = object()
 
@@ -206,20 +215,20 @@ class TranslationEngine:
         return "".join(parts)
 
 
-def auto_translate_missing_clinical_service_fields(validated_data, instance=None):
-    """
-    Fill missing ClinicalService translation fields from English source values.
-    Existing non-empty translations are preserved.
-    """
-    if not getattr(settings, "AUTO_TRANSLATE_ON_SAVE", False):
-        return validated_data
+def _auto_translate_model_fields(
+    validated_data,
+    field_config,
+    instance=None,
+    translator=None,
+):
+    translator = translator or TranslationEngine()
 
-    translator = TranslationEngine()
-
-    for source_field, config in TRANSLATABLE_FIELDS.items():
+    for source_field, config in field_config.items():
         source_value = validated_data.get(source_field, _MISSING)
         if source_value is _MISSING and instance is not None:
             source_value = getattr(instance, source_field, None)
+        if source_value is _MISSING:
+            continue
 
         if _is_blank(source_value):
             continue
@@ -228,7 +237,11 @@ def auto_translate_missing_clinical_service_fields(validated_data, instance=None
 
         for lang in TARGET_LANGUAGES:
             translated_field = f"{source_field}_{lang}"
-            existing_value = getattr(instance, translated_field, None) if instance is not None else None
+            existing_value = (
+                getattr(instance, translated_field, None)
+                if instance is not None
+                else None
+            )
             incoming_value = validated_data.get(translated_field, _MISSING)
 
             # Preserve existing value unless user provided a non-empty explicit update.
@@ -251,6 +264,53 @@ def auto_translate_missing_clinical_service_fields(validated_data, instance=None
                 continue
 
             validated_data[translated_field] = translated_value
+
+    return validated_data
+
+
+def _build_translation_preview_from_fields(payload, field_config, translator=None):
+    translator = translator or TranslationEngine()
+    preview = {}
+
+    for source_field, config in field_config.items():
+        source_value = payload.get(source_field)
+        if _is_blank(source_value):
+            continue
+
+        is_html = bool(config.get("html"))
+        translated = {}
+
+        for lang in TARGET_LANGUAGES:
+            translated_value = translator.translate(
+                text=source_value,
+                target_lang=lang,
+                is_html=is_html,
+            )
+            if not _is_blank(translated_value):
+                translated[lang] = translated_value
+
+        if translated:
+            preview[source_field] = translated
+
+    return preview
+
+
+def auto_translate_missing_clinical_service_fields(validated_data, instance=None):
+    """
+    Fill missing ClinicalService translation fields from English source values.
+    Existing non-empty translations are preserved.
+    """
+    if not getattr(settings, "AUTO_TRANSLATE_ON_SAVE", False):
+        return validated_data
+
+    translator = TranslationEngine()
+
+    validated_data = _auto_translate_model_fields(
+        validated_data=validated_data,
+        field_config=TRANSLATABLE_FIELDS,
+        instance=instance,
+        translator=translator,
+    )
 
     incoming_features = validated_data.get("features", _MISSING)
     if incoming_features is _MISSING or not isinstance(incoming_features, list):
@@ -315,6 +375,28 @@ def auto_translate_missing_clinical_service_fields(validated_data, instance=None
     return validated_data
 
 
+def auto_translate_missing_doctor_fields(validated_data, instance=None):
+    if not getattr(settings, "AUTO_TRANSLATE_ON_SAVE", False):
+        return validated_data
+
+    return _auto_translate_model_fields(
+        validated_data=validated_data,
+        field_config=DOCTOR_TRANSLATABLE_FIELDS,
+        instance=instance,
+    )
+
+
+def auto_translate_missing_outpatient_center_fields(validated_data, instance=None):
+    if not getattr(settings, "AUTO_TRANSLATE_ON_SAVE", False):
+        return validated_data
+
+    return _auto_translate_model_fields(
+        validated_data=validated_data,
+        field_config=OUTPATIENT_CENTER_TRANSLATABLE_FIELDS,
+        instance=instance,
+    )
+
+
 def build_clinical_service_translation_preview(payload):
     """
     Build translation preview for provided English source fields.
@@ -328,27 +410,11 @@ def build_clinical_service_translation_preview(payload):
         return {}
 
     translator = TranslationEngine()
-    preview = {}
-
-    for source_field, config in TRANSLATABLE_FIELDS.items():
-        source_value = payload.get(source_field)
-        if _is_blank(source_value):
-            continue
-
-        is_html = bool(config.get("html"))
-        translated = {}
-
-        for lang in TARGET_LANGUAGES:
-            translated_value = translator.translate(
-                text=source_value,
-                target_lang=lang,
-                is_html=is_html,
-            )
-            if not _is_blank(translated_value):
-                translated[lang] = translated_value
-
-        if translated:
-            preview[source_field] = translated
+    preview = _build_translation_preview_from_fields(
+        payload=payload,
+        field_config=TRANSLATABLE_FIELDS,
+        translator=translator,
+    )
 
     features_payload = payload.get("features")
     if isinstance(features_payload, list):
@@ -384,3 +450,23 @@ def build_clinical_service_translation_preview(payload):
         preview["features"] = features_preview
 
     return preview
+
+
+def build_doctor_translation_preview(payload):
+    if not getattr(settings, "AUTO_TRANSLATE_ON_SAVE", False):
+        return {}
+
+    return _build_translation_preview_from_fields(
+        payload=payload,
+        field_config=DOCTOR_TRANSLATABLE_FIELDS,
+    )
+
+
+def build_outpatient_center_translation_preview(payload):
+    if not getattr(settings, "AUTO_TRANSLATE_ON_SAVE", False):
+        return {}
+
+    return _build_translation_preview_from_fields(
+        payload=payload,
+        field_config=OUTPATIENT_CENTER_TRANSLATABLE_FIELDS,
+    )
