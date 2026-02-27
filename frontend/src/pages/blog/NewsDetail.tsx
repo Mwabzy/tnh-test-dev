@@ -7,8 +7,10 @@ import { sanitizeHtml } from "@/lib/sanitizeHtml";
 type NewsItemDetail = {
   title?: string;
   subtitle?: string;
+  blog_subtitle?: string;
   author?: string;
   category?: string;
+  spotlight_title?: string;
   image?: string;
   cover_image?: string;
   shortdesc?: string;
@@ -72,9 +74,12 @@ const NewsDetail = () => {
   }
 
   const heroImage = newsItem.cover_image || newsItem.image || "";
-  const subtitleText = String(newsItem.subtitle || "");
+  const subtitleText = String(newsItem.subtitle || newsItem.title || "");
   const shortDescription = newsItem.shortdesc || newsItem.short_desc || "";
   const longDescription = newsItem.longdesc || newsItem.long_desc || "";
+  const contentTitle = String(
+    newsItem.blog_subtitle || newsItem.spotlight_title || "Content Title",
+  );
 
   return (
     <div>
@@ -126,7 +131,7 @@ const NewsDetail = () => {
 
         <div>
           <h3 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
-            Relationship Dynamics
+            {contentTitle}
           </h3>
           <div
             dangerouslySetInnerHTML={{

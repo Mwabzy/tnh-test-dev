@@ -8,6 +8,7 @@ type BlogPostDetail = {
   id?: string;
   title?: string;
   subtitle?: string;
+  blog_subtitle?: string;
   author?: string;
   category?: string;
   image?: string;
@@ -89,7 +90,10 @@ const BlogDetail = () => {
   const spotlightPoints = blogItem.spotlight_points || "";
   const detailsImage = blogItem.image || heroImage;
   const showSpotlightContent = Boolean(spotlightTitle || spotlightPoints);
-  const subtitleText = String(blogItem.subtitle || "");
+  const subtitleText = String(blogItem.subtitle || blogItem.title || "");
+  const contentTitle = String(
+    blogItem.blog_subtitle || spotlightTitle || "Content Title",
+  );
 
   return (
     <div>
@@ -141,7 +145,7 @@ const BlogDetail = () => {
 
         <div>
           <h3 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
-            Relationship Dynamics
+            {contentTitle}
           </h3>
           <div
             dangerouslySetInnerHTML={{

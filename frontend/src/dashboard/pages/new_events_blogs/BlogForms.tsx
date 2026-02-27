@@ -28,14 +28,15 @@ const BlogForm: React.FC<Props> = ({
   onCancel,
 }) => {
   const [title, setTitle] = useState(initialData?.title ?? "");
-  const [subtitle, setSubtitle] = useState(initialData?.subtitle ?? "");
   const [author, setAuthor] = useState(initialData?.author ?? "");
-  const [category, setCategory] = useState(initialData?.category ?? "");
   const [shortdesc, setShortdesc] = useState(
     initialData?.shortdesc ?? initialData?.short_desc ?? "",
   );
   const [longdesc, setLongdesc] = useState(
     initialData?.longdesc ?? initialData?.long_desc ?? "",
+  );
+  const [contentTitle, setContentTitle] = useState(
+    initialData?.blog_subtitle ?? "",
   );
   const [spotlightTitle, setSpotlightTitle] = useState(
     initialData?.spotlight_title ?? "",
@@ -47,27 +48,11 @@ const BlogForm: React.FC<Props> = ({
     initialData?.isFeatured ?? initialData?.is_featured ?? false,
   );
 
-  // Translation states
-  const [subtitleTranslations, setSubtitleTranslations] = useState({
-    fr: initialData?.subtitle_fr || "",
-    es: initialData?.subtitle_es || "",
-    zh: initialData?.subtitle_zh || "",
-    ru: initialData?.subtitle_ru || "",
-  });
-
-  const [categoryTranslations, setCategoryTranslations] = useState({
-    fr: initialData?.category_fr || "",
-    es: initialData?.category_es || "",
-    zh: initialData?.category_zh || "",
-    ru: initialData?.category_ru || "",
-  });
-
   // Toggle translations visibility
   const [openTranslation, setOpenTranslation] = useState<
-    | "subtitle"
-    | "category"
     | "shortdesc"
     | "longdesc"
+    | "contentTitle"
     | "spotlightTitle"
     | "spotlightPoints"
     | null
@@ -75,10 +60,9 @@ const BlogForm: React.FC<Props> = ({
 
   const toggleTranslation = (
     field:
-      | "subtitle"
-      | "category"
       | "shortdesc"
       | "longdesc"
+      | "contentTitle"
       | "spotlightTitle"
       | "spotlightPoints",
   ) => {
@@ -129,6 +113,13 @@ const BlogForm: React.FC<Props> = ({
     es: initialData?.spotlight_title_es || "",
     zh: initialData?.spotlight_title_zh || "",
     ru: initialData?.spotlight_title_ru || "",
+  });
+
+  const [contentTitleTranslations, setContentTitleTranslations] = useState({
+    fr: initialData?.blog_subtitle_fr || "",
+    es: initialData?.blog_subtitle_es || "",
+    zh: initialData?.blog_subtitle_zh || "",
+    ru: initialData?.blog_subtitle_ru || "",
   });
 
   const [spotlightPointsTranslations, setSpotlightPointsTranslations] =
@@ -229,25 +220,28 @@ const BlogForm: React.FC<Props> = ({
 
     try {
       const fd = new FormData();
+      const categoryByGroup: Record<Props["group"], string> = {
+        ARTICLES: "Articles",
+        EVENTS: "Events & Announcements",
+        NEWS: "News",
+      };
 
       // Basic fields - match Django model
       fd.append("title", title);
       fd.append("author", author);
       fd.append("is_featured", String(isFeatured));
-      fd.append("subtitle", subtitle);
-      fd.append("category", category);
+      // Hidden compatibility fields required by backend model.
+      fd.append("subtitle", title);
+      fd.append("category", categoryByGroup[group]);
+      fd.append("blog_subtitle", contentTitle);
       fd.append("spotlight_title", spotlightTitle);
       fd.append("spotlight_points", spotlightPoints);
       fd.append("short_desc", shortdesc);
       fd.append("long_desc", longdesc);
-      fd.append("subtitle_fr", subtitleTranslations.fr);
-      fd.append("subtitle_es", subtitleTranslations.es);
-      fd.append("subtitle_zh", subtitleTranslations.zh);
-      fd.append("subtitle_ru", subtitleTranslations.ru);
-      fd.append("category_fr", categoryTranslations.fr);
-      fd.append("category_es", categoryTranslations.es);
-      fd.append("category_zh", categoryTranslations.zh);
-      fd.append("category_ru", categoryTranslations.ru);
+      fd.append("blog_subtitle_fr", contentTitleTranslations.fr);
+      fd.append("blog_subtitle_es", contentTitleTranslations.es);
+      fd.append("blog_subtitle_zh", contentTitleTranslations.zh);
+      fd.append("blog_subtitle_ru", contentTitleTranslations.ru);
       fd.append("short_desc_fr", shortdescHTMLTranslations.fr);
       fd.append("short_desc_es", shortdescHTMLTranslations.es);
       fd.append("short_desc_zh", shortdescHTMLTranslations.zh);
@@ -319,46 +313,6 @@ const BlogForm: React.FC<Props> = ({
         )}
       </div>
 
-      {/* Subtitle */}
-      <div>
-        <label className="font-medium block mb-1">Subtitle</label>
-        <input
-          className="border p-2 w-full rounded"
-          placeholder="Subtitle"
-          value={subtitle}
-          onChange={(e) => setSubtitle(e.target.value)}
-        />
-        <button
-          type="button"
-          className="text-blue-600 text-sm underline mt-1 block"
-          onClick={() => toggleTranslation("subtitle")}
-        >
-          {openTranslation === "subtitle"
-            ? "Hide Subtitle Translations"
-            : "Show Subtitle Translations"}
-        </button>
-
-        {openTranslation === "subtitle" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
-            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
-              <input
-                key={lang}
-                type="text"
-                placeholder={`Subtitle (${lang})`}
-                className="border p-2 w-full rounded"
-                value={subtitleTranslations[lang]}
-                onChange={(e) =>
-                  setSubtitleTranslations((prev) => ({
-                    ...prev,
-                    [lang]: e.target.value,
-                  }))
-                }
-              />
-            ))}
-          </div>
-        )}
-      </div>
-
       {/* Author */}
       <div>
         <label className="font-medium block mb-1">Author *</label>
@@ -370,46 +324,6 @@ const BlogForm: React.FC<Props> = ({
         />
         {errors.author && (
           <p className="text-red-600 text-sm mt-1">{errors.author}</p>
-        )}
-      </div>
-
-      {/* Category */}
-      <div>
-        <label className="font-medium block mb-1">Category</label>
-        <input
-          className="border p-2 w-full rounded"
-          placeholder="Category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        />
-        <button
-          type="button"
-          className="text-blue-600 text-sm underline mt-1 block"
-          onClick={() => toggleTranslation("category")}
-        >
-          {openTranslation === "category"
-            ? "Hide Category Translations"
-            : "Show Category Translations"}
-        </button>
-
-        {openTranslation === "category" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
-            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
-              <input
-                key={lang}
-                type="text"
-                placeholder={`Category (${lang})`}
-                className="border p-2 w-full rounded"
-                value={categoryTranslations[lang]}
-                onChange={(e) =>
-                  setCategoryTranslations((prev) => ({
-                    ...prev,
-                    [lang]: e.target.value,
-                  }))
-                }
-              />
-            ))}
-          </div>
         )}
       </div>
 
@@ -453,6 +367,45 @@ const BlogForm: React.FC<Props> = ({
                   minHeight="120px"
                 />
               </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div>
+        <label className="font-medium block mb-1">Content Title</label>
+        <input
+          className="border p-2 w-full rounded"
+          placeholder="Content title"
+          value={contentTitle}
+          onChange={(e) => setContentTitle(e.target.value)}
+        />
+        <button
+          type="button"
+          className="text-blue-600 text-sm underline mt-1 block"
+          onClick={() => toggleTranslation("contentTitle")}
+        >
+          {openTranslation === "contentTitle"
+            ? "Hide Content Title Translations"
+            : "Show Content Title Translations"}
+        </button>
+
+        {openTranslation === "contentTitle" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+            {(["fr", "es", "zh", "ru"] as const).map((lang) => (
+              <input
+                key={lang}
+                type="text"
+                placeholder={`Content title (${lang})`}
+                className="border p-2 w-full rounded"
+                value={contentTitleTranslations[lang]}
+                onChange={(e) =>
+                  setContentTitleTranslations((prev) => ({
+                    ...prev,
+                    [lang]: e.target.value,
+                  }))
+                }
+              />
             ))}
           </div>
         )}
