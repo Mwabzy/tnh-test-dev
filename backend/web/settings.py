@@ -142,7 +142,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 USE_ABSOLUTE_MEDIA_URLS = env.bool("USE_ABSOLUTE_MEDIA_URLS", default=LOCAL_DEV)
 
 # Clinical service auto-translation
-AUTO_TRANSLATE_ON_SAVE = env.bool("AUTO_TRANSLATE_ON_SAVE", default=False)
+AUTO_TRANSLATE_ON_SAVE = env.bool("AUTO_TRANSLATE_ON_SAVE", default=True)
 AUTO_TRANSLATE_PROVIDER_URL = env(
     "AUTO_TRANSLATE_PROVIDER_URL",
     default="https://translate.googleapis.com/translate_a/single",

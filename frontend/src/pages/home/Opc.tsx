@@ -43,7 +43,7 @@ const Opc: React.FC = () => {
               null,
           }))
           .filter((c: OutpatientCenter) => c.id && c.name);
-        setOutpatientCenters(mapped);
+        setOutpatientCenters(mapped.slice(0, 7));
         setError(null);
       } catch {
         setError("Failed to load outpatient centers.");
