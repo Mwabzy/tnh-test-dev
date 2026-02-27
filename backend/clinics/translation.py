@@ -18,6 +18,11 @@ TRANSLATABLE_FIELDS = {
     "detailedDescription": {"html": True},
 }
 
+FEATURE_TRANSLATABLE_FIELDS = {
+    "title": {"html": False},
+    "description": {"html": True},
+}
+
 _HTML_TAG_RE = re.compile(r"(<[^>]+>)")
 _MISSING = object()
 
@@ -247,6 +252,66 @@ def auto_translate_missing_clinical_service_fields(validated_data, instance=None
 
             validated_data[translated_field] = translated_value
 
+    incoming_features = validated_data.get("features", _MISSING)
+    if incoming_features is _MISSING or not isinstance(incoming_features, list):
+        return validated_data
+
+    existing_features = []
+    if instance is not None and isinstance(getattr(instance, "features", None), list):
+        existing_features = instance.features
+
+    translated_features = []
+    for index, feature in enumerate(incoming_features):
+        if not isinstance(feature, dict):
+            translated_features.append(feature)
+            continue
+
+        existing_feature = {}
+        if index < len(existing_features) and isinstance(existing_features[index], dict):
+            existing_feature = existing_features[index]
+
+        translated_feature = dict(feature)
+
+        for source_field, config in FEATURE_TRANSLATABLE_FIELDS.items():
+            source_value = translated_feature.get(source_field, _MISSING)
+            if source_value is _MISSING:
+                source_value = existing_feature.get(source_field)
+
+            if _is_blank(source_value):
+                continue
+
+            is_html = bool(config.get("html"))
+
+            for lang in TARGET_LANGUAGES:
+                translated_field = f"{source_field}_{lang}"
+                existing_value = existing_feature.get(translated_field)
+                incoming_value = translated_feature.get(translated_field, _MISSING)
+
+                # Preserve existing non-empty translation when request sends blank/missing.
+                if not _is_blank(existing_value):
+                    if incoming_value is _MISSING or _is_blank(incoming_value):
+                        translated_feature[translated_field] = existing_value
+                        continue
+
+                # Respect explicit non-empty user input.
+                if incoming_value is not _MISSING and not _is_blank(incoming_value):
+                    continue
+
+                translated_value = translator.translate(
+                    text=source_value,
+                    target_lang=lang,
+                    is_html=is_html,
+                )
+
+                if _is_blank(translated_value):
+                    continue
+
+                translated_feature[translated_field] = translated_value
+
+        translated_features.append(translated_feature)
+
+    validated_data["features"] = translated_features
+
     return validated_data
 
 
@@ -284,5 +349,38 @@ def build_clinical_service_translation_preview(payload):
 
         if translated:
             preview[source_field] = translated
+
+    features_payload = payload.get("features")
+    if isinstance(features_payload, list):
+        features_preview = []
+        for feature in features_payload:
+            if not isinstance(feature, dict):
+                features_preview.append({})
+                continue
+
+            feature_preview = {}
+            for source_field, config in FEATURE_TRANSLATABLE_FIELDS.items():
+                source_value = feature.get(source_field)
+                if _is_blank(source_value):
+                    continue
+
+                is_html = bool(config.get("html"))
+                translated = {}
+
+                for lang in TARGET_LANGUAGES:
+                    translated_value = translator.translate(
+                        text=source_value,
+                        target_lang=lang,
+                        is_html=is_html,
+                    )
+                    if not _is_blank(translated_value):
+                        translated[lang] = translated_value
+
+                if translated:
+                    feature_preview[source_field] = translated
+
+            features_preview.append(feature_preview)
+
+        preview["features"] = features_preview
 
     return preview

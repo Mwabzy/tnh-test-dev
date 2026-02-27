@@ -79,6 +79,37 @@ class ClinicalServiceAutoTranslationUnitTests(TestCase):
         "clinics.translation.TranslationEngine._call_provider",
         side_effect=_fake_provider_response,
     )
+    def test_backfills_missing_feature_translations_without_overwriting_existing(self, _mock_provider):
+        payload = {
+            "title": "Cardiology",
+            "tagline": "Heart experts",
+            "overview": "<p>Advanced diagnostics</p>",
+            "detailedDescription": "<p>In-depth details</p>",
+            "features": [
+                {
+                    "title": "Fast triage",
+                    "title_fr": "Triage manuel",
+                    "description": "<p>Immediate assessment</p>",
+                }
+            ],
+        }
+
+        result = auto_translate_missing_clinical_service_fields(payload.copy())
+        first_feature = result["features"][0]
+
+        self.assertEqual(first_feature["title_fr"], "Triage manuel")
+        self.assertEqual(first_feature["title_es"], "es:Fast triage")
+        self.assertIn("<p>", first_feature["description_fr"])
+        self.assertIn("fr:Immediate assessment", first_feature["description_fr"])
+
+    @override_settings(
+        AUTO_TRANSLATE_ON_SAVE=True,
+        AUTO_TRANSLATE_RATE_LIMIT_MAX_CALLS=1000,
+    )
+    @patch(
+        "clinics.translation.TranslationEngine._call_provider",
+        side_effect=_fake_provider_response,
+    )
     def test_update_does_not_clear_existing_translation_when_blank_is_sent(self, _mock_provider):
         instance = ClinicalService.objects.create(
             title="Orthopedics",
@@ -99,6 +130,51 @@ class ClinicalServiceAutoTranslationUnitTests(TestCase):
 
         self.assertNotIn("tagline_fr", result)
         self.assertEqual(result["tagline_es"], "es:Updated english tagline")
+
+    @override_settings(
+        AUTO_TRANSLATE_ON_SAVE=True,
+        AUTO_TRANSLATE_RATE_LIMIT_MAX_CALLS=1000,
+    )
+    @patch(
+        "clinics.translation.TranslationEngine._call_provider",
+        side_effect=_fake_provider_response,
+    )
+    def test_update_features_preserves_existing_translation_when_blank_is_sent(self, _mock_provider):
+        instance = ClinicalService.objects.create(
+            title="Orthopedics",
+            tagline="Bone care",
+            overview="<p>Overview</p>",
+            detailedDescription="<p>Details</p>",
+            features=[
+                {
+                    "title": "Fracture care",
+                    "title_fr": "Prise en charge des fractures",
+                    "description": "<p>24/7 support</p>",
+                    "description_fr": "<p>Support 24h/24</p>",
+                }
+            ],
+        )
+        update_payload = {
+            "features": [
+                {
+                    "title": "Fracture care",
+                    "title_fr": "",
+                    "description": "<p>24/7 support updated</p>",
+                    "description_fr": "",
+                }
+            ]
+        }
+
+        result = auto_translate_missing_clinical_service_fields(
+            update_payload.copy(),
+            instance=instance,
+        )
+        first_feature = result["features"][0]
+
+        self.assertEqual(first_feature["title_fr"], "Prise en charge des fractures")
+        self.assertEqual(first_feature["description_fr"], "<p>Support 24h/24</p>")
+        self.assertEqual(first_feature["title_es"], "es:Fracture care")
+        self.assertIn("es:24/7 support updated", first_feature["description_es"])
 
     @override_settings(
         AUTO_TRANSLATE_CACHE_TTL_SECONDS=300,
@@ -186,10 +262,46 @@ class ClinicalServiceAutoTranslationIntegrationTests(APITestCase):
         "clinics.translation.TranslationEngine._call_provider",
         side_effect=_fake_provider_response,
     )
+    def test_create_endpoint_auto_translates_feature_fields(self, _mock_provider):
+        payload = {
+            "title": "Accident and Emergency",
+            "tagline": "Rapid response care",
+            "overview": "<p>Emergency support</p>",
+            "detailedDescription": "<p>Round-the-clock treatment</p>",
+            "features": (
+                '[{"title":"Fast triage","description":"<p>Immediate assessment</p>"}]'
+            ),
+        }
+
+        response = self.client.post(
+            "/api/v1/clinical-services/",
+            data=payload,
+            format="multipart",
+        )
+
+        self.assertEqual(response.status_code, 201, response.data)
+        service = ClinicalService.objects.get(pk=response.data["id"])
+
+        self.assertIsInstance(service.features, list)
+        self.assertEqual(service.features[0]["title_fr"], "fr:Fast triage")
+        self.assertIn("<p>", service.features[0]["description_es"])
+        self.assertIn("es:Immediate assessment", service.features[0]["description_es"])
+
+    @override_settings(
+        AUTO_TRANSLATE_ON_SAVE=True,
+        AUTO_TRANSLATE_RATE_LIMIT_MAX_CALLS=1000,
+    )
+    @patch(
+        "clinics.translation.TranslationEngine._call_provider",
+        side_effect=_fake_provider_response,
+    )
     def test_translate_preview_endpoint_returns_translations(self, _mock_provider):
         payload = {
             "title": "Cardiology",
             "overview": "<p>Heart care</p>",
+            "features": [
+                {"title": "Fast triage", "description": "<p>Immediate assessment</p>"}
+            ],
         }
 
         response = self.client.post(
@@ -202,3 +314,8 @@ class ClinicalServiceAutoTranslationIntegrationTests(APITestCase):
         self.assertEqual(response.data["title"]["fr"], "fr:Cardiology")
         self.assertIn("<p>", response.data["overview"]["fr"])
         self.assertIn("fr:Heart care", response.data["overview"]["fr"])
+        self.assertEqual(response.data["features"][0]["title"]["fr"], "fr:Fast triage")
+        self.assertIn(
+            "fr:Immediate assessment",
+            response.data["features"][0]["description"]["fr"],
+        )

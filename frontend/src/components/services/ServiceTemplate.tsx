@@ -4,11 +4,11 @@ import Heading from "../Heading";
 import { Mail, MapPin, Phone } from "lucide-react";
 import ClientsSay from "../ClientsSay";
 import { Link } from "react-router";
-import DOMPurify from "dompurify";
 import { addClassesToDescription } from "./utilities";
 import { useIntlayer } from "react-intlayer";
 import { fetchOutpatientCenter } from "@/api/api";
 import { getImageObjectPosition } from "@/lib/imageFocalPoint";
+import { sanitizeHtml } from "@/lib/sanitizeHtml";
 
 export interface ServiceTemplateProps {
   serviceTypes: ClinicalService;
@@ -319,9 +319,8 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
               </h2>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(
-                    addClassesToDescription(detailedDescription as string) ??
-                      "",
+                  __html: sanitizeHtml(
+                    addClassesToDescription(detailedDescription as string) ?? "",
                   ),
                 }}
                 className="prose prose-gray max-w-none text-gray-700 leading-relaxed mb-6 prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
@@ -359,7 +358,7 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                           {f.description && (
                             <div
                               dangerouslySetInnerHTML={{
-                                __html: DOMPurify.sanitize(
+                                __html: sanitizeHtml(
                                   addClassesToDescription(f.description) ?? "",
                                 ),
                               }}

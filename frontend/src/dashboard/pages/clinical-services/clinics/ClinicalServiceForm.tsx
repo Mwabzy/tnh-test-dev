@@ -13,6 +13,7 @@ import {
   fetchClinicalServiceTranslationPreview,
   fetchOutpatientCenter,
   updateClinicalServiceImageMeta,
+  type ClinicalServiceTranslationPreviewPayload,
 } from "@/api/api";
 import RichTextEditor from "@/components/RichTextEditor";
 
@@ -85,6 +86,12 @@ const fillOnlyEmptyTranslations = (
   }
   return next;
 };
+
+const getFeatureTranslationValue = (
+  feature: FeatureForm,
+  field: "title" | "description",
+  lang: TranslationLanguage,
+) => feature[`${field}_${lang}` as keyof FeatureForm] as string | undefined;
 
 interface FocalPointEditorProps {
   src: string;
@@ -368,7 +375,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
   }, [initialData?.id]);
 
   useEffect(() => {
-    const payload: Record<string, string> = {};
+    const payload: ClinicalServiceTranslationPreviewPayload = {};
 
     if (!isBlank(title) && hasMissingTranslation(titleTranslations)) {
       payload.title = title;
@@ -384,6 +391,34 @@ const ClinicalServiceForm: React.FC<Props> = ({
       hasMissingTranslation(detailedDescriptionTranslations)
     ) {
       payload.detailedDescription = detailedDescription;
+    }
+
+    const featuresPayload = features.map((feature) => {
+      const featurePayload: { title?: string; description?: string } = {};
+
+      if (
+        !isBlank(feature.title) &&
+        TRANSLATION_LANGS.some((lang) =>
+          isBlank(getFeatureTranslationValue(feature, "title", lang)),
+        )
+      ) {
+        featurePayload.title = feature.title;
+      }
+
+      if (
+        !isBlank(feature.description) &&
+        TRANSLATION_LANGS.some((lang) =>
+          isBlank(getFeatureTranslationValue(feature, "description", lang)),
+        )
+      ) {
+        featurePayload.description = feature.description;
+      }
+
+      return featurePayload;
+    });
+
+    if (featuresPayload.some((feature) => feature.title || feature.description)) {
+      payload.features = featuresPayload;
     }
 
     if (Object.keys(payload).length === 0) {
@@ -418,6 +453,42 @@ const ClinicalServiceForm: React.FC<Props> = ({
             fillOnlyEmptyTranslations(prev, translations.detailedDescription),
           );
         }
+
+        if (translations.features) {
+          setFeatures((prev) =>
+            prev.map((feature, index) => {
+              const translatedFeature = translations.features?.[index];
+              if (!translatedFeature) return feature;
+
+              const nextFeature = { ...feature };
+              for (const lang of TRANSLATION_LANGS) {
+                const titleKey = `title_${lang}` as keyof FeatureForm;
+                const descriptionKey = `description_${lang}` as keyof FeatureForm;
+                const translatedTitle = translatedFeature.title?.[lang];
+                const translatedDescription =
+                  translatedFeature.description?.[lang];
+
+                if (
+                  isBlank(nextFeature[titleKey] as string | undefined) &&
+                  !isBlank(translatedTitle)
+                ) {
+                  (nextFeature[titleKey] as string | undefined) =
+                    translatedTitle;
+                }
+
+                if (
+                  isBlank(nextFeature[descriptionKey] as string | undefined) &&
+                  !isBlank(translatedDescription)
+                ) {
+                  (nextFeature[descriptionKey] as string | undefined) =
+                    translatedDescription;
+                }
+              }
+
+              return nextFeature;
+            }),
+          );
+        }
       } catch (error) {
         console.error("Failed to fetch translation preview:", error);
       } finally {
@@ -440,6 +511,7 @@ const ClinicalServiceForm: React.FC<Props> = ({
     taglineTranslations,
     title,
     titleTranslations,
+    features,
   ]);
 
   // Feature translation state
@@ -598,13 +670,23 @@ const ClinicalServiceForm: React.FC<Props> = ({
   };
 
   const handleRegenerateAllTranslations = async () => {
-    const payload: Record<string, string> = {};
+    const payload: ClinicalServiceTranslationPreviewPayload = {};
 
     if (!isBlank(title)) payload.title = title;
     if (!isBlank(tagline)) payload.tagline = tagline;
     if (!isBlank(overview)) payload.overview = overview;
     if (!isBlank(detailedDescription)) {
       payload.detailedDescription = detailedDescription;
+    }
+
+    const featuresPayload = features.map((feature) => ({
+      title: isBlank(feature.title) ? undefined : feature.title,
+      description: isBlank(feature.description)
+        ? undefined
+        : feature.description,
+    }));
+    if (featuresPayload.some((feature) => feature.title || feature.description)) {
+      payload.features = featuresPayload;
     }
 
     if (Object.keys(payload).length === 0) {
@@ -658,6 +740,34 @@ const ClinicalServiceForm: React.FC<Props> = ({
           zh: translations.detailedDescription?.zh ?? prev.zh,
           ru: translations.detailedDescription?.ru ?? prev.ru,
         }));
+      }
+
+      if (payload.features && translations.features) {
+        setFeatures((prev) =>
+          prev.map((feature, index) => {
+            const translatedFeature = translations.features?.[index];
+            if (!translatedFeature) return feature;
+
+            const nextFeature = { ...feature };
+            for (const lang of TRANSLATION_LANGS) {
+              const titleKey = `title_${lang}` as keyof FeatureForm;
+              const descriptionKey = `description_${lang}` as keyof FeatureForm;
+
+              const translatedTitle = translatedFeature.title?.[lang];
+              const translatedDescription = translatedFeature.description?.[lang];
+
+              if (!isBlank(translatedTitle)) {
+                (nextFeature[titleKey] as string | undefined) = translatedTitle;
+              }
+              if (!isBlank(translatedDescription)) {
+                (nextFeature[descriptionKey] as string | undefined) =
+                  translatedDescription;
+              }
+            }
+
+            return nextFeature;
+          }),
+        );
       }
 
       toast.success("Translations regenerated.");
@@ -789,6 +899,42 @@ const ClinicalServiceForm: React.FC<Props> = ({
             ru: savedService.detailedDescription_ru,
           }),
         );
+
+        if (Array.isArray(savedService.features_read)) {
+          setFeatures((prev) =>
+            prev.map((feature, index) => {
+              const savedFeature = savedService.features_read?.[index];
+              if (!savedFeature) return feature;
+
+              const nextFeature = { ...feature };
+              for (const lang of TRANSLATION_LANGS) {
+                const titleKey = `title_${lang}` as keyof FeatureForm;
+                const descriptionKey = `description_${lang}` as keyof FeatureForm;
+
+                const savedTitle = savedFeature[titleKey] as string | undefined;
+                const savedDescription = savedFeature[descriptionKey] as
+                  | string
+                  | undefined;
+
+                if (
+                  isBlank(nextFeature[titleKey] as string | undefined) &&
+                  !isBlank(savedTitle)
+                ) {
+                  (nextFeature[titleKey] as string | undefined) = savedTitle;
+                }
+                if (
+                  isBlank(nextFeature[descriptionKey] as string | undefined) &&
+                  !isBlank(savedDescription)
+                ) {
+                  (nextFeature[descriptionKey] as string | undefined) =
+                    savedDescription;
+                }
+              }
+
+              return nextFeature;
+            }),
+          );
+        }
       }
 
       // Update metadata for existing images (alt + focal point)

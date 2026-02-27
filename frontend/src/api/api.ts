@@ -78,14 +78,30 @@ type TranslatableClinicalField =
   | "tagline"
   | "overview"
   | "detailedDescription";
+type TranslatableClinicalFeatureField = "title" | "description";
+
+type ClinicalServiceFeatureTranslationPreviewPayload = Partial<
+  Record<TranslatableClinicalFeatureField, string>
+>;
+
+type ClinicalServiceFeatureTranslationPreviewResponse = Partial<
+  Record<
+    TranslatableClinicalFeatureField,
+    Partial<Record<TranslationLang, string>>
+  >
+>;
 
 export type ClinicalServiceTranslationPreviewPayload = Partial<
   Record<TranslatableClinicalField, string>
->;
+> & {
+  features?: ClinicalServiceFeatureTranslationPreviewPayload[];
+};
 
 export type ClinicalServiceTranslationPreviewResponse = Partial<
   Record<TranslatableClinicalField, Partial<Record<TranslationLang, string>>>
->;
+> & {
+  features?: ClinicalServiceFeatureTranslationPreviewResponse[];
+};
 
 export async function fetchClinicalServiceTranslationPreview(
   payload: ClinicalServiceTranslationPreviewPayload,
