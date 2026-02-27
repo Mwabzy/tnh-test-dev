@@ -51,6 +51,7 @@ export interface Blog {
   spotlight_points_es?: string;
   spotlight_points_zh?: string;
   spotlight_points_ru?: string;
+  date?: string;
   cover_image?: string;
   coverImage?: string;
   image?: string;

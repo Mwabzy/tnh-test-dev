@@ -29,6 +29,9 @@ const BlogForm: React.FC<Props> = ({
 }) => {
   const [title, setTitle] = useState(initialData?.title ?? "");
   const [author, setAuthor] = useState(initialData?.author ?? "");
+  const [publishDate, setPublishDate] = useState(
+    initialData?.date?.slice(0, 10) ?? new Date().toISOString().slice(0, 10),
+  );
   const [shortdesc, setShortdesc] = useState(
     initialData?.shortdesc ?? initialData?.short_desc ?? "",
   );
@@ -229,6 +232,7 @@ const BlogForm: React.FC<Props> = ({
       // Basic fields - match Django model
       fd.append("title", title);
       fd.append("author", author);
+      fd.append("date", publishDate);
       fd.append("is_featured", String(isFeatured));
       // Hidden compatibility fields required by backend model.
       fd.append("subtitle", title);
@@ -325,6 +329,16 @@ const BlogForm: React.FC<Props> = ({
         {errors.author && (
           <p className="text-red-600 text-sm mt-1">{errors.author}</p>
         )}
+      </div>
+
+      <div>
+        <label className="font-medium block mb-1">Date</label>
+        <input
+          type="date"
+          className="border p-2 w-full rounded"
+          value={publishDate}
+          onChange={(e) => setPublishDate(e.target.value)}
+        />
       </div>
 
       {/* Short Description - Replaced with Rich Text Editor */}

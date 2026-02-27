@@ -111,7 +111,7 @@ class BlogPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogPost
         fields = "__all__"
-        read_only_fields = ("id", "date", "created_at")
+        read_only_fields = ("id", "created_at")
 
     # ---------- language ----------
     def _lang(self):

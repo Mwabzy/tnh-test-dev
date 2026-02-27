@@ -85,7 +85,7 @@ class BlogPost(models.Model):
 
     category = models.CharField(max_length=100)
 
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField(default=timezone.now)
 
     cover_image = models.ImageField(upload_to="blog/covers/", blank=True, null=True)
     cover_image_alt = models.CharField(max_length=255, blank=True)

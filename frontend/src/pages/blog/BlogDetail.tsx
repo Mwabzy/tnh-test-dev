@@ -3,6 +3,7 @@ import { addClassesToDescription } from "@/components/services/utilities";
 import { useEffect, useState } from "react";
 import { fetchBlogPostById } from "@/api/api";
 import { sanitizeHtml } from "@/lib/sanitizeHtml";
+import { BlogDetailSkeleton } from "@/components/layout/page-skeletons";
 
 type BlogPostDetail = {
   id?: string;
@@ -57,11 +58,7 @@ const BlogDetail = () => {
   }, [id]);
 
   if (loading) {
-    return (
-      <div className="max-w-3xl mx-auto px-4 py-16 text-center text-gray-600">
-        Loading blog post...
-      </div>
-    );
+    return <BlogDetailSkeleton />;
   }
 
   if (!blogItem) {
