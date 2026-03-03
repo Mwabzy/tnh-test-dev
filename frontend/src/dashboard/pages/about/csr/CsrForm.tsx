@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { CSR } from "@/types";
+import RegenerateTranslationsButton from "@/dashboard/components/RegenerateTranslationsButton";
 import RichTextEditor from "@/components/RichTextEditor";
 import { fetchCsrTranslationPreview } from "@/api/api";
 import { sanitizeHtml, sanitizePlainText } from "@/lib/sanitizeHtml";
@@ -466,16 +467,11 @@ const CsrForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="flex justify-end">
-        <button
-          type="button"
+        <RegenerateTranslationsButton
           onClick={handleRegenerateAllTranslations}
           disabled={loading || isRegeneratingTranslations}
-          className="px-3 py-2 text-sm rounded border bg-white disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          {isRegeneratingTranslations
-            ? "Regenerating..."
-            : "Regenerate All Translations"}
-        </button>
+          isLoading={isRegeneratingTranslations}
+        />
       </div>
 
       <div>

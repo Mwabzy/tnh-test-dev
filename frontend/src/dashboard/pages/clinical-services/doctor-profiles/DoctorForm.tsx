@@ -3,6 +3,7 @@ import { ClinicalService, Image } from "@/types";
 import { Doctor } from "@/types/clinicalServices";
 import Select from "react-select";
 import toast from "react-hot-toast";
+import RegenerateTranslationsButton from "@/dashboard/components/RegenerateTranslationsButton";
 import RichTextEditor from "@/components/RichTextEditor"; // Adjust path as needed
 import { fetchDoctorTranslationPreview } from "@/api/api";
 import { sanitizeHtml, sanitizePlainText } from "@/lib/sanitizeHtml";
@@ -360,16 +361,11 @@ const DoctorForm = ({
         <h2 className="text-xl font-serif font-semibold">
           {initialData?.id ? "Edit Doctor" : "Add Doctor"}
         </h2>
-        <button
-          type="button"
+        <RegenerateTranslationsButton
           onClick={handleRegenerateAllTranslations}
           disabled={saving || isRegeneratingTranslations}
-          className="px-3 py-2 text-sm rounded border bg-white disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          {isRegeneratingTranslations
-            ? "Regenerating..."
-            : "Regenerate All Translations"}
-        </button>
+          isLoading={isRegeneratingTranslations}
+        />
       </div>
 
       {/* Name */}

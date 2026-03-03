@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ContactInfo, outpatientCenter, Timings, Image } from "@/types";
+import RegenerateTranslationsButton from "@/dashboard/components/RegenerateTranslationsButton";
 import RichTextEditor from "@/components/RichTextEditor"; // Adjust the import path as needed
 import { fetchOutpatientCenterTranslationPreview } from "@/api/api";
 import { sanitizeHtml } from "@/lib/sanitizeHtml";
@@ -465,16 +466,11 @@ const OutpatientCenterForm = ({
         <h2 className="text-xl font-semibold">
           {initialData ? "Edit Outpatient Center" : "Add Outpatient Center"}
         </h2>
-        <button
-          type="button"
+        <RegenerateTranslationsButton
           onClick={handleRegenerateAllTranslations}
           disabled={submitting || isRegeneratingTranslations}
-          className="px-3 py-2 text-sm rounded border bg-white disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          {isRegeneratingTranslations
-            ? "Regenerating..."
-            : "Regenerate All Translations"}
-        </button>
+          isLoading={isRegeneratingTranslations}
+        />
       </div>
 
       <div>

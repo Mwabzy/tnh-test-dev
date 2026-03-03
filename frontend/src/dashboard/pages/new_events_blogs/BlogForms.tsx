@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import type { Blog } from "@/types";
+import RegenerateTranslationsButton from "@/dashboard/components/RegenerateTranslationsButton";
 import RichTextEditor from "@/components/RichTextEditor";
 import { fetchBlogTranslationPreview } from "@/api/api";
 import { sanitizeHtml, sanitizePlainText } from "@/lib/sanitizeHtml";
@@ -600,16 +601,11 @@ const BlogForm: React.FC<Props> = ({
         </span>
       </div>
       <div className="flex justify-end">
-        <button
-          type="button"
+        <RegenerateTranslationsButton
           onClick={handleRegenerateAllTranslations}
           disabled={loading || isRegeneratingTranslations}
-          className="px-3 py-2 text-sm rounded border bg-white disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          {isRegeneratingTranslations
-            ? "Regenerating..."
-            : "Regenerate All Translations"}
-        </button>
+          isLoading={isRegeneratingTranslations}
+        />
       </div>
 
       {/* Title */}

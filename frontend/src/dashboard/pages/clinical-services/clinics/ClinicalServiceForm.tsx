@@ -15,6 +15,7 @@ import {
   updateClinicalServiceImageMeta,
   type ClinicalServiceTranslationPreviewPayload,
 } from "@/api/api";
+import RegenerateTranslationsButton from "@/dashboard/components/RegenerateTranslationsButton";
 import RichTextEditor from "@/components/RichTextEditor";
 import { sanitizeHtml, sanitizePlainText } from "@/lib/sanitizeHtml";
 
@@ -1046,20 +1047,11 @@ const ClinicalServiceForm: React.FC<Props> = ({
         </p>
       )}
       <div className="flex justify-end">
-        <button
-          type="button"
+        <RegenerateTranslationsButton
           onClick={handleRegenerateAllTranslations}
           disabled={loading || isRegeneratingTranslations}
-          className={`px-3 py-2 text-sm rounded border ${
-            loading || isRegeneratingTranslations
-              ? "text-gray-400 border-gray-300 cursor-not-allowed"
-              : "text-blue-700 border-blue-300 hover:bg-blue-50"
-          }`}
-        >
-          {isRegeneratingTranslations
-            ? "Regenerating translations..."
-            : "Regenerate all translations"}
-        </button>
+          isLoading={isRegeneratingTranslations}
+        />
       </div>
 
       {/* Title */}
