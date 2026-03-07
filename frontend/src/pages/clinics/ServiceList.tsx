@@ -16,7 +16,7 @@ interface ServiceListProps {
 
 const ITEMS_PER_PAGE = 6;
 
-const ServiceList: React.FC<ServiceListProps> = () => {
+const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
   const [data, setData] = useState<ClinicalService[]>([]);
   const [search, setSearch] = useState("");
   const [locations, setLocations] = useState<string[]>([]);
@@ -27,39 +27,43 @@ const ServiceList: React.FC<ServiceListProps> = () => {
 
   const content = useIntlayer("clinicalistContent");
 
-  // Fetching via API instance
-  useEffect(() => {
-    const loadServices = async () => {
-      try {
-        setLoading(true);
-        const services = await fetchClinicalServices();
-        setData(services);
-      } catch (err) {
-        console.error("Error fetching services:", err);
-        setError("Unable to load services.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadServices();
-  }, []);
+  // // Fetching via API instance
+  // useEffect(() => {
+  //   const loadServices = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const services = await fetchClinicalServices();
+  //       setData(services);
+  //     } catch (err) {
+  //       console.error("Error fetching services:", err);
+  //       setError("Unable to load services.");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   loadServices();
+  // }, []);
 
-  const clinicalServices = useMemo(
-    () => data.filter((service) => !hasAndersonLocation(service)),
-    [data],
-  );
+  // const clinicalServices = useMemo(
+  //   () => services?.filter((service) => !hasAndersonLocation(service)),
+  //   [data],
+  // );
+
+  const clinicalServices = services ?? [];
+
+  console.log("Clinical Services:", services);
 
   // Generate locations dynamically
   const allLocations = useMemo(() => {
     const locSet = new Set<string>();
-    clinicalServices.forEach((service) =>
+    clinicalServices?.forEach((service) =>
       service.locations?.forEach((loc) => locSet.add(loc)),
     );
     return Array.from(locSet).sort();
   }, [clinicalServices]);
 
   // Filter logic
-  const filteredServices = clinicalServices.filter((service) => {
+  const filteredServices = clinicalServices?.filter((service) => {
     const matchesSearch = service.title
       .toLowerCase()
       .includes(search.toLowerCase());
@@ -71,10 +75,12 @@ const ServiceList: React.FC<ServiceListProps> = () => {
     return matchesSearch && matchesLocation && matchesLetter;
   });
 
+  console.log("Filtered Services:", filteredServices);
+
   // Pagination
-  const totalPages = Math.ceil(filteredServices.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredServices!.length / ITEMS_PER_PAGE) || 1;
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentServices = filteredServices.slice(
+  const currentServices = filteredServices?.slice(
     startIndex,
     startIndex + ITEMS_PER_PAGE,
   );
@@ -185,12 +191,12 @@ const ServiceList: React.FC<ServiceListProps> = () => {
       {/* Service Cards */}
       <main className="flex-1">
         <p className="mb-6 text-sm text-gray-700">
-          {content.displaying} {filteredServices.length} {content.of}{" "}
-          {clinicalServices.length} {content.clinicalServices}
+          {content.displaying} {filteredServices?.length} {content.of}{" "}
+          {clinicalServices?.length} {content.clinicalServices}
         </p>
 
         <div className="grid grid-cols-1 gap-8 max-w-150">
-          {currentServices.map((item) => (
+          {currentServices?.map((item) => (
             <div
               key={item.id}
               className="bg-white rounded-lg shadow-md overflow-hidden"
@@ -199,7 +205,9 @@ const ServiceList: React.FC<ServiceListProps> = () => {
                 <div className="w-full h-72 rounded-t-lg overflow-hidden bg-gray-50">
                   <img
                     className="w-full h-full object-cover"
-                    style={{ objectPosition: getImageObjectPosition(item.images[0]) }}
+                    style={{
+                      objectPosition: getImageObjectPosition(item.images[0]),
+                    }}
                     src={item.images[0].url}
                     alt={item.images[0].alt || "Service image"}
                   />
@@ -227,13 +235,11 @@ const ServiceList: React.FC<ServiceListProps> = () => {
                 )}
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  {(
-                    item.hasReadMore ??
+                  {(item.hasReadMore ??
                     (item as ClinicalService & { isReadMore?: boolean })
                       .isReadMore ??
                     (item as ClinicalService & { isreadmore?: boolean })
-                      .isreadmore
-                  ) && (
+                      .isreadmore) && (
                     <Link
                       to={`/service-detail/${encodeURI(item.path || String(item.id))}`}
                       className="flex items-center gap-2 text-red-900 px-4 py-2 rounded-md hover:bg-red-900 hover:text-white transition w-full sm:w-auto"

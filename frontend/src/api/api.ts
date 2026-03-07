@@ -18,7 +18,7 @@ const TENDERS_API = "/tenders/";
 const HERO_API = "/hero/";
 
 // Axios Instance
-const api = axios.create({
+export const api = axios.create({
   baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
@@ -230,9 +230,13 @@ export async function updateClinicalServiceImageMeta(
     formData.append("focalY", String(payload.focalY));
   }
 
-  return api.patch(`${BASE_URL}/clinical-service-images/${imageId}/`, formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+  return api.patch(
+    `${BASE_URL}/clinical-service-images/${imageId}/`,
+    formData,
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+    },
+  );
 }
 
 export async function updateImageAlt(imageId: number, alt: string) {

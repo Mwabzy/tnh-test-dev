@@ -9,9 +9,21 @@ import {
   deleteClinicalService,
   fetchDoctors,
 } from "@/api/api";
+
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { fetchServices } from "@/store/servicesSlice";
+
 import toast from "react-hot-toast";
 
 const ClinicalServices = () => {
+  const dispatch = useAppDispatch();
+  const servicesList = useAppSelector((state) => state.services.services);
+  console.log("Services from Redux:", servicesList);
+
+  useEffect(() => {
+    dispatch(fetchServices());
+  }, [dispatch]);
+
   const [services, setServices] = useState<ClinicalService[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -68,7 +80,9 @@ const ClinicalServices = () => {
           .includes(normalizedQuery);
         const locationMatch = Array.isArray(service.locations)
           ? service.locations.some((loc) =>
-              String(loc ?? "").toLowerCase().includes(normalizedQuery),
+              String(loc ?? "")
+                .toLowerCase()
+                .includes(normalizedQuery),
             )
           : false;
 

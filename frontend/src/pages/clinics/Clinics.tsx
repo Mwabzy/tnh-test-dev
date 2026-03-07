@@ -6,8 +6,19 @@ import Heading from "@/components/Heading";
 import ServiceList from "@/pages/clinics/ServiceList";
 import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 import { useIntlayer } from "react-intlayer";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { useEffect } from "react";
+import { fetchServices } from "@/store/servicesSlice";
 
 const Clinics = () => {
+  const dispatch = useAppDispatch();
+  const servicesList = useAppSelector((state) => state.services.services);
+  console.log("Services from Redux:", servicesList);
+
+  useEffect(() => {
+    dispatch(fetchServices());
+  }, [dispatch]);
+
   const content = useIntlayer("clinicalistContent");
   return (
     <div>
@@ -18,7 +29,7 @@ const Clinics = () => {
         style="background"
       />
       {/* <ServicesBrief /> */}
-      <ServiceList />
+      <ServiceList services={servicesList} />
       <ContactForm contactInfo={PAGE_CONTACT_INFO} />
       <div className="bg-orange-200 py-20 px-8 mt-8 ">
         <FAQs

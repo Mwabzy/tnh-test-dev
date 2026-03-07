@@ -1,6 +1,6 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.shortcuts import get_object_or_404
@@ -60,8 +60,12 @@ def log_request_data(request, label="Request"):
 class ClinicalServiceViewSet(viewsets.ModelViewSet):
     queryset = ClinicalService.objects.all()
     serializer_class = ClinicalServiceSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    
     parser_classes = [MultiPartParser, FormParser, JSONParser]
+    def get_permissions(self):
+        if self.action in ["create", "update", "partial_update", "destroy"]:
+            return [IsAuthenticatedOrReadOnly()]
+        return [AllowAny()]
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
