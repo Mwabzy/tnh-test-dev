@@ -53,7 +53,7 @@ const heroContent: Dictionary = {
           zh: "从预防到康复，我们致力于在通往更健康未来的每一步与您同行。",
           ru: "От профилактики до восстановления мы стремимся идти с вами на каждом этапе пути к более здоровому будущему.",
         }),
-        imageKey: "accident",
+        imageKey: "ccu",
       },
       {
         title: t({
@@ -70,7 +70,7 @@ const heroContent: Dictionary = {
           zh: "我们提供希望、治愈和一个以患者为先的支持环境。",
           ru: "Мы предлагаем надежду, исцеление и поддерживающую среду, где пациенты стоят на первом месте.",
         }),
-        imageKey: "hospitalview",
+        imageKey: "renal",
       },
     ],
     services_button: t({

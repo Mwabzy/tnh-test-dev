@@ -51,11 +51,11 @@ const featuresContent: Dictionary = {
     ],
     clinical_services: [
       t({
-        en: "International Patient Services",
-        fr: "Services aux patients internationaux",
-        es: "Servicios para pacientes internacionales",
-        zh: "国际患者服务",
-        ru: "Услуги для международных пациентов",
+        en: "Medical Tourism Services",
+        fr: "Services de tourisme médical",
+        es: "Servicios de turismo médico",
+        zh: "医疗旅游服务",
+        ru: "Услуги медицинского туризма",
       }),
     ],
     clinical_services_description: [

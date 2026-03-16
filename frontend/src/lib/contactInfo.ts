@@ -14,6 +14,6 @@ export const PAGE_CONTACT_INFO: PageContactInfo = {
     { type: "general", address: "hosp@nbihosp.org" },
     { type: "medical", address: "medicalenquiries@nbihosp.org" },
     { type: "service", address: "customer.service@nbihosp.org" },
-    { type: "clinic", address: "clinic@nbihosp.org" },
+   
   ],
 };

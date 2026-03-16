@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { useIntlayer } from "react-intlayer";
 
+import main_image from "@/assets/convention-images/main_image.jpg";
+import amphitheatre from "@/assets/convention-images/amphitheatre.jpg";
+import room4x25 from "@/assets/convention-images/4x25.jpg";
+import room4x16 from "@/assets/convention-images/4x16.jpg";
+import banquet from "@/assets/convention-images/banquet_hall.jpg";
+import plenary from "@/assets/convention-images/plenary.jpg";
+import collapsible from "@/assets/convention-images/collapsible.jpg";
+
 import {
   Wifi,
   MicVocal,
@@ -91,7 +99,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
 )}
 
       {/* Previous Button */}
-      <button
+      {/* <button
       onClick={(e) => {
         e.stopPropagation();
         handlePrev();
@@ -101,10 +109,10 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-7 h-7">
         <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
       </svg>
-    </button>
+    </button> */}
 
     {/* NEXT BUTTON */}
-    <button
+    {/* <button
       onClick={(e) => {
         e.stopPropagation();
         handleNext();
@@ -114,7 +122,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-7 h-7">
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
       </svg>
-    </button>
+    </button> */}
     </div>
   );
 };
@@ -126,6 +134,47 @@ const steps = [
   { title: "Projectors and smart boards", icon: <Projector /> },
   { title: "Air conditioner", icon: <AirVent /> },
   { title: "Catering services", icon: <UtensilsCrossed /> },
+];
+
+const conventionCards = [
+  {
+    title: "Banquet Hall",
+    seats: "1 x 750-seater",
+    description:
+      "Spacious halls suitable for conferences, seminars & exhibitions.",
+    images: [banquet],
+  },
+  {
+    title: "Amphitheater",
+    seats: "1 x 380-seater",
+    description:
+      "Spacious halls suitable for conferences, seminars & exhibitions.",
+    images: [amphitheatre],
+  },
+  {
+    title: "Capacity Collapsible Room",
+    seats: "1 x 150-seater",
+    description: "Premium amenities with modern equipment for all events.",
+    images: [collapsible],
+  },
+  {
+    title: "Plenary Room",
+    seats: "1 x 80-seater Room",
+    description: "Easily accessible with beautiful surrounding views.",
+    images: [plenary],
+  },
+  {
+    title: "Meeting Room",
+    seats: "4 x 25-seater",
+    description: "Easily accessible with beautiful surrounding views.",
+    images: [room4x25],
+  },
+  {
+    title: "Meeting Room",
+    seats: "4 x 16-seater",
+    description: "Easily accessible with beautiful surrounding views.",
+    images: [room4x16],
+  },
 ];
 
 const ConventionCenter = () => {
@@ -154,7 +203,7 @@ const ConventionCenter = () => {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
           <div className="flex justify-center mt-5 md:w-1/2">
             <img
-              src="https://cms.thenairobihosp.org/uploads/who_we_are_8fbeb1073c.jpg"
+              src={main_image}
               alt=""
               className="max-h-[60vh] object-cover rounded-lg shadow-lg w-full"
             />
@@ -227,58 +276,7 @@ const ConventionCenter = () => {
 
         {/* CARDS */}
         <div className="max-w-7xl mx-auto mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              title: "Amphitheater",
-              seats: "1 × 350-seated hall",
-              description:
-                "Spacious halls suitable for conferences, seminars & exhibitions.",
-              images: [
-                "https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=800",
-                "https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=800",
-              ],
-            },
-            {
-              title: "Capacity Collapsible Room",
-              seats: "1 × 150-seater hall",
-              description:
-                "Premium amenities with modern equipment for all events.",
-              images: [
-                "https://images.pexels.com/photos/2747449/pexels-photo-2747449.jpeg?auto=compress&cs=tinysrgb&w=800",
-                "https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=800",
-              ],
-            },
-            {
-              title: "Plenary Room",
-              seats: "1 × 80-seater Room",
-              description:
-                "Easily accessible with beautiful surrounding views.",
-              images: [
-                "https://images.pexels.com/photos/2675268/pexels-photo-2675268.jpeg?auto=compress&cs=tinysrgb&w=800",
-                "https://images.pexels.com/photos/380769/pexels-photo-380769.jpeg?auto=compress&cs=tinysrgb&w=800",
-              ],
-            },
-            {
-              title: "Meeting Room",
-              seats: "4 × 25-seater Room",
-              description:
-                "Easily accessible with beautiful surrounding views.",
-              images: [
-                "https://images.pexels.com/photos/2675268/pexels-photo-2675268.jpeg?auto=compress&cs=tinysrgb&w=800",
-                "https://images.pexels.com/photos/380769/pexels-photo-380769.jpeg?auto=compress&cs=tinysrgb&w=800",
-              ],
-            },
-            {
-              title: "Meeting Room",
-              seats: "4 × 16-seater Room",
-              description:
-                "Easily accessible with beautiful surrounding views.",
-              images: [
-                "https://images.pexels.com/photos/2675268/pexels-photo-2675268.jpeg?auto=compress&cs=tinysrgb&w=800",
-                "https://images.pexels.com/photos/380769/pexels-photo-380769.jpeg?auto=compress&cs=tinysrgb&w=800",
-              ],
-            },
-          ].map((card, i) => (
+          {conventionCards.map((card, i) => (
             <div
               key={i}
               className="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-xl transition"
@@ -336,3 +334,5 @@ const ConventionCenter = () => {
 };
 
 export default ConventionCenter;
+
+

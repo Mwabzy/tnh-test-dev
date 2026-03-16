@@ -1,5 +1,7 @@
-import accident from "../../assets/heroimages/heroimage1.jpg";
-import hospitalview from "../../assets/heroimages/heroimage2.jpg";
+import accident from "../../assets/heroimages/westernentrance.jpg";
+import hospitalview from "../../assets/heroimages/ct_scan.jpg";
+import ccuCentre from "../../assets/heroimages/ccu_centre.jpg";
+import renal from "../../assets/heroimages/renal.jpg";
 
 import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,6 +11,8 @@ import { useState, useEffect } from "react";
 const imageMap: Record<string, string> = {
   accident: accident,
   hospitalview: hospitalview,
+  ccu: ccuCentre,
+  renal: renal,
 };
 
 const Hero = () => {

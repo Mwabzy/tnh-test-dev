@@ -176,20 +176,21 @@ const navigationContent: Dictionary = {
     ],
     csr: [
       t({
-        en: "Corporate Social Responsibility",
-        fr: "Responsabilité sociale de l'entreprise",
-        es: "Responsabilidad social corporativa",
-        zh: "企业社会责任",
-        ru: "Корпоративная социальная ответственность",
+        en: "Corporate Sustainability & Responsibility",
+        fr: "Durabilité et responsabilité sociétale de l'entreprise",
+        es: "Sostenibilidad y responsabilidad corporativa",
+        zh: "企业可持续发展与责任",
+        ru: "Корпоративная устойчивость и ответственность",
       }),
     ],
+    
     leadership_image_caption: [
-      t({
-        en: "Leadership & Governance at the Nairobi Hospital",
-        fr: "Leadership et gouvernance à l'hôpital de Nairobi",
-        es: "Liderazgo y gobernanza en el Hospital de Nairobi",
-        zh: "内罗毕医院的领导力与治理",
-        ru: "Лидерство и управление в Найробийской больнице",
+     t({
+        en: "Healthcare with a difference",
+        fr: "Des soins de santé avec une différence",
+        es: "Atención médica con una diferencia",
+        zh: "与众不同的医疗保健",
+        ru: "Медицинское обслуживание с разницей",
       }),
     ],
     clinical: [
@@ -455,13 +456,13 @@ const navigationContent: Dictionary = {
     ],
     image_caption: [
       t({
-        en: "Leadership & Governance at the Nairobi Hospital",
-        fr: "Leadership et gouvernance à l'hôpital de Nairobi",
-        es: "Liderazgo y gobernanza en el Hospital de Nairobi",
-        zh: "内罗毕医院的领导力与治理",
-        ru: "Лидерство и управление в Найробийской больнице",
+        en: "Healthcare with a difference",
+        fr: "Des soins de santé avec une différence",
+        es: "Atención médica con una diferencia",
+        zh: "与众不同的医疗保健",
+        ru: "Медицинское обслуживание с разницей",
       }),
-    ],  
+    ],
     school_info: [
       t({
         en: "School Information",
@@ -518,11 +519,11 @@ const navigationContent: Dictionary = {
     ],
     college_image_caption: [
       t({
-        en: "School of Health Sciences Alumni Network",
-        fr: "Réseau des anciens de l'École des sciences de la santé",
-        es: "Red de exalumnos de la Escuela de Ciencias de la Salud",
-        zh: "健康科学学院校友网络",
-        ru: "Сеть выпускников Школы медицинских наук",
+        en: "Healthcare with a difference",
+        fr: "Des soins de santé avec une différence",
+        es: "Atención médica con una diferencia",
+        zh: "与众不同的医疗保健",
+        ru: "Медицинское обслуживание с разницей",
       }),
     ],
     news_media: [
@@ -634,12 +635,12 @@ const navigationContent: Dictionary = {
       }),
     ],
     careers_image_caption: [
-      t({
-        en: "Join Our Team - Volunteer Opportunities at The Nairobi Hospital",
-        fr: "Rejoignez notre équipe - Opportunités de bénévolat à l'hôpital de Nairobi",
-        es: "Únase a nuestro equipo: oportunidades de voluntariado en el Hospital de Nairobi",  
-        zh: "加入我们的团队——内罗毕医院的志愿者机会",
-        ru: "Присоединяйтесь к нашей команде - возможности для волонтеров в Найробийской больнице",
+     t({
+        en: "Healthcare with a difference",
+        fr: "Des soins de santé avec une différence",
+        es: "Atención médica con una diferencia",
+        zh: "与众不同的医疗保健",
+        ru: "Медицинское обслуживание с разницей",
       }),
     ],
     facility_services: [
@@ -715,12 +716,12 @@ const navigationContent: Dictionary = {
       }),
     ],
     other_services_image_caption: [
-      t({
-        en: "Cleaning & Housekeeping at The Nairobi Hospital",
-        fr: "Nettoyage et entretien ménager à l'hôpital de Nairobi",
-        es: "Limpieza y mantenimiento en el Hospital de Nairobi",
-        zh: "内罗毕医院的清洁与家政",
-        ru: "Уборка и хозяйственные услуги в Найробийской больнице",
+    t({
+        en: "Healthcare with a difference",
+        fr: "Des soins de santé avec une différence",
+        es: "Atención médica con una diferencia",
+        zh: "与众不同的医疗保健",
+        ru: "Медицинское обслуживание с разницей",
       }),
     ],
   },

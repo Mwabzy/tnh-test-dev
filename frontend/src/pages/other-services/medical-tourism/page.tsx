@@ -328,15 +328,15 @@ const MedicalTourism: FC = () => {
                 <p className="text-sm text-gray-700">
                   International Helpline<br />
                   Tel: +254 (0)703 082 000<br />
-                  Email: international@nairobihospital.org
+                  Email: medicalenquiries@nbihosp.org
                 </p>
               </div>
               <div>
                 <h4 className="font-semibold mb-2">Travel Support</h4>
                 <p className="text-sm text-gray-700">
                   Mon - Fri: 8:00 AM - 5:00 PM<br />
-                  Tel: +254 (0)703 082 301<br />
-                  Email: travel@nairobihospital.org
+                  Tel: +254 (0)703 082 000<br />
+                  Email: medicalenquiries@nbihosp.org
                 </p>
               </div>
               <div>

@@ -24,13 +24,13 @@ const ParkingTransport = () => {
           </ul>
         </div>
 
-        <div className="flex flex-col items-center justify-center w-full md:w-2/5 bg-yellow-500 rounded-lg shadow-lg px-6 py-4 text-white mt-8 md:mt-0">
+        <div className="flex flex-col items-center justify-center w-full md:w-2/5 rounded-lg shadow-lg px-6 py-4 text-black  mt-8 md:mt-0">
           <h2 className="text-2xl font-semibold mb-4">
             {content.parkingFees.title}
           </h2>
           <div className="overflow-x-auto rounded-lg w-full">
             <table className="min-w-full bg-white border border-gray-300">
-              <thead className="bg-yellow-400 text-white">
+              <thead className="bg-red-900 text-white">
                 <tr>
                   <th className="py-3 px-4 text-left text-sm font-semibold">
                     Duration
