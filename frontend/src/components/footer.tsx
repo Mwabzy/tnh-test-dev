@@ -5,6 +5,7 @@ import { FaLinkedinIn } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
+import { FaTiktok } from "react-icons/fa";
 import { Link } from "react-router";
 import { useIntlayer } from "react-intlayer";
 // import { useState } from "react";
@@ -149,6 +150,13 @@ const Footer = () => {
             >
               {" "}
               <FaInstagram className="w-10 h-10 cursor-pointer" />
+            </Link>
+            <Link
+              to="https://www.tiktok.com/@thenairobihospital/"
+              className="cursor-pointer"
+            >
+              {" "}
+              <FaTiktok className="w-10 h-10 cursor-pointer" />
             </Link>
           </div>
         </div>
