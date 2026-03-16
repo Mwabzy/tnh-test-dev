@@ -1,55 +1,36 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router";
 import { ClinicalService } from "@/types";
 import { FaCalendarCheck, FaChevronRight } from "react-icons/fa";
-import { fetchClinicalServices } from "@/api/api";
 import { useIntlayer } from "react-intlayer";
 import DOMPurify from "dompurify";
 import { addClassesToDescription } from "@/components/services/utilities";
 import { ListWithSidebarSkeleton } from "@/components/layout/page-skeletons";
 import { getImageObjectPosition } from "@/lib/imageFocalPoint";
-import { hasAndersonLocation } from "@/lib/serviceFilters";
 
 interface ServiceListProps {
   services?: ClinicalService[];
+  loading?: boolean;
+  error?: string | null;
 }
 
 const ITEMS_PER_PAGE = 6;
 
-const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
-  const [data, setData] = useState<ClinicalService[]>([]);
+const ServiceList: React.FC<ServiceListProps> = ({
+  services,
+  loading,
+  error,
+}) => {
   const [search, setSearch] = useState("");
   const [locations, setLocations] = useState<string[]>([]);
   const [letterFilter, setLetterFilter] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   const content = useIntlayer("clinicalistContent");
 
-  // // Fetching via API instance
-  // useEffect(() => {
-  //   const loadServices = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const services = await fetchClinicalServices();
-  //       setData(services);
-  //     } catch (err) {
-  //       console.error("Error fetching services:", err);
-  //       setError("Unable to load services.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   loadServices();
-  // }, []);
-
-  // const clinicalServices = useMemo(
-  //   () => services?.filter((service) => !hasAndersonLocation(service)),
-  //   [data],
-  // );
-
   const clinicalServices = services ?? [];
+  const isLoading = loading ?? services === undefined;
+  const errorMessage = error ?? null;
 
   console.log("Clinical Services:", services);
 
@@ -106,10 +87,12 @@ const ServiceList: React.FC<ServiceListProps> = ({ services }) => {
     setCurrentPage(1);
   };
 
-  if (loading) return <ListWithSidebarSkeleton />;
+  if (isLoading) return <ListWithSidebarSkeleton />;
 
-  if (error)
-    return <div className="py-20 text-center text-red-600">{error}</div>;
+  if (errorMessage)
+    return (
+      <div className="py-20 text-center text-red-600">{errorMessage}</div>
+    );
 
   return (
     <div className="py-16 px-6 flex flex-col md:flex-row justify-center max-w-7xl mx-auto gap-8">

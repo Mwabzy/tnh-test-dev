@@ -21,7 +21,7 @@ interface ContactFormProps {
   title?: string;
 }
 
-const CONTACT_FORM_RECIPIENT = "immanuelmwabili@gmail.com";
+const CONTACT_FORM_RECIPIENT = "iansmithxv@gmail.com";
 
 const ContactForm = ({
   contactInfo,

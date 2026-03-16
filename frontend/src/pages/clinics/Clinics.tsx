@@ -12,8 +12,8 @@ import { fetchServices } from "@/store/servicesSlice";
 
 const Clinics = () => {
   const dispatch = useAppDispatch();
-  const servicesList = useAppSelector((state) => state.services.services);
-  console.log("Services from Redux:", servicesList);
+  const { services, loading, error } = useAppSelector((state) => state.services);
+  console.log("Services from Redux:", services);
 
   useEffect(() => {
     dispatch(fetchServices());
@@ -29,7 +29,7 @@ const Clinics = () => {
         style="background"
       />
       {/* <ServicesBrief /> */}
-      <ServiceList services={servicesList} />
+      <ServiceList services={services} loading={loading} error={error} />
       <ContactForm contactInfo={PAGE_CONTACT_INFO} />
       <div className="bg-orange-200 py-20 px-8 mt-8 ">
         <FAQs

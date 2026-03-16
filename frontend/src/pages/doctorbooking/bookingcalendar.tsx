@@ -598,7 +598,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
       `;
 
       const response = await sendEmail({
-        email: "immanuelmwabili@gmail.com",
+        email: "iansmithxv@gmail.com",
         subject: `Booking Request - ${serviceName}`,
         body,
         service: booking.service,
