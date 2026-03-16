@@ -63,7 +63,7 @@ export const NAVIGATION_CONTENT = () => {
           title: content.documents,
           items: [
             { title: content.plan, href: "/about/strategic-plan" },
-            { title: content.csr, href: "/about/csr" },
+            
           ],
         },
         {
@@ -240,6 +240,7 @@ export const NAVIGATION_CONTENT = () => {
             //   href: "/events-announcements",
             // },
             { title: content.health_articles_blogs, href: "/blogs" },
+            { title: content.csr, href: "/about/csr" },
           ],
         },
         {
