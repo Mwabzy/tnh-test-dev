@@ -6,6 +6,7 @@ export interface Image {
 
 export interface Doctor {
   id: number;
+  order?: number;
   name: string;
   role: string;
   bio: string;

@@ -9,11 +9,22 @@ import { useIntlayer } from "react-intlayer";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { useEffect } from "react";
 import { fetchServices } from "@/store/servicesSlice";
+import { ClinicalService } from "@/types";
 
 const Clinics = () => {
   const dispatch = useAppDispatch();
   const { services, loading, error } = useAppSelector((state) => state.services);
   console.log("Services from Redux:", services);
+
+  const sortByOrder = (list: ClinicalService[]) =>
+    [...list].sort((a, b) => {
+      const orderA = a.order ?? 0;
+      const orderB = b.order ?? 0;
+      if (orderA !== orderB) return orderA - orderB;
+      return (a.id ?? 0) - (b.id ?? 0);
+    });
+
+  const orderedServices = sortByOrder(services);
 
   useEffect(() => {
     dispatch(fetchServices());
@@ -29,7 +40,11 @@ const Clinics = () => {
         style="background"
       />
       {/* <ServicesBrief /> */}
-      <ServiceList services={services} loading={loading} error={error} />
+      <ServiceList
+        services={orderedServices}
+        loading={loading}
+        error={error}
+      />
       <ContactForm contactInfo={PAGE_CONTACT_INFO} />
       <div className="bg-orange-200 py-20 px-8 mt-8 ">
         <FAQs

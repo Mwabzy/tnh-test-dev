@@ -22,6 +22,14 @@ const AndersonList: React.FC<andersonListProps> = () => {
 
   const content = useIntlayer("andersonContent");
 
+  const sortByOrder = (list: ClinicalService[]) =>
+    [...list].sort((a, b) => {
+      const orderA = a.order ?? 0;
+      const orderB = b.order ?? 0;
+      if (orderA !== orderB) return orderA - orderB;
+      return (a.id ?? 0) - (b.id ?? 0);
+    });
+
   // Fetching via API instance
   useEffect(() => {
     const loadServices = async () => {
@@ -29,7 +37,7 @@ const AndersonList: React.FC<andersonListProps> = () => {
         setLoading(true);
         const services = await fetchClinicalServices();
         console.log("Fetched services:", services);
-        setData(services);
+        setData(sortByOrder(Array.isArray(services) ? services : []));
       } catch (err) {
         console.error("Error fetching services:", err);
         setError("Unable to load services.");
@@ -53,7 +61,8 @@ const AndersonList: React.FC<andersonListProps> = () => {
   // });
 
   // Filter logic - only show services with "Anderson" location
-  const filteredServices = data ? (data.filter((service) => {
+  const filteredServices = data
+    ? data.filter((service) => {
     const hasAndersonLocation = service.locations?.some((loc) =>
       loc.toLowerCase().includes("anderson"),
     );
@@ -65,7 +74,8 @@ const AndersonList: React.FC<andersonListProps> = () => {
       !letterFilter || service.title.charAt(0).toUpperCase() === letterFilter;
 
     return hasAndersonLocation && matchesSearch && matchesLetter;
-  })) : [];
+  })
+    : [];
 
   // Pagination
   const totalPages = Math.ceil(filteredServices.length / ITEMS_PER_PAGE);

@@ -8,6 +8,7 @@ import {
   updateDoctor,
   deleteDoctor,
   fetchClinicalServices,
+  reorderDoctors,
 } from "@/api/api";
 import toast from "react-hot-toast";
 
@@ -23,6 +24,22 @@ const DoctorsPage = () => {
   );
   const [locationQuery, setLocationQuery] = useState("");
 
+  const sortByOrder = (list: Doctor[]) =>
+    [...list].sort((a, b) => {
+      const orderA = a.order ?? 0;
+      const orderB = b.order ?? 0;
+      if (orderA !== orderB) return orderA - orderB;
+      return (a.id ?? 0) - (b.id ?? 0);
+    });
+
+  const applySubsetOrder = (fullList: Doctor[], subset: Doctor[]) => {
+    const subsetIds = new Set(subset.map((item) => item.id));
+    let subsetIndex = 0;
+    return fullList.map((item) =>
+      subsetIds.has(item.id) ? subset[subsetIndex++] : item,
+    );
+  };
+
   // Load doctors on mount
   useEffect(() => {
     async function loadDoctors() {
@@ -30,7 +47,7 @@ const DoctorsPage = () => {
       try {
         const data = await fetchDoctors();
         console.log("Fetched data from API:", data);
-        setDoctors(data);
+        setDoctors(sortByOrder(Array.isArray(data) ? data : []));
         setError(null);
       } catch (err) {
         setError("Error loading doctors");
@@ -63,13 +80,13 @@ const DoctorsPage = () => {
           doctor as FormData
         );
         setDoctors((prev) =>
-          prev.map((d) => (d.id === updated.id ? updated : d))
+          sortByOrder(prev.map((d) => (d.id === updated.id ? updated : d))),
         );
         toast.success("Doctor updated successfully!");
       } else {
         // CREATE
         const newDoctor = await createDoctor(doctor as FormData);
-        setDoctors((prev) => [...prev, newDoctor]);
+        setDoctors((prev) => sortByOrder([...prev, newDoctor]));
         toast.success("Doctor created successfully!");
       }
 
@@ -91,6 +108,26 @@ const DoctorsPage = () => {
       toast.error("Failed to delete doctor");
     } finally {
       setDeletingId(null);
+    }
+  };
+
+  const handleReorder = async (nextOrder: Doctor[]) => {
+    const previous = doctors;
+    const merged = applySubsetOrder(doctors, nextOrder);
+    setDoctors(merged);
+
+    try {
+      const orderedIds = merged
+        .map((item) => item.id)
+        .filter((id): id is number => typeof id === "number");
+      if (orderedIds.length !== merged.length) {
+        throw new Error("Missing doctor id for reorder.");
+      }
+      await reorderDoctors(orderedIds);
+      toast.success("Order updated successfully!");
+    } catch (err: any) {
+      setDoctors(previous);
+      toast.error(`Failed to update order: ${err?.message ?? "Unknown error"}`);
     }
   };
 
@@ -163,6 +200,7 @@ const DoctorsPage = () => {
           }}
           onDelete={handleDeleteDoctor}
           deletingId={deletingId}
+          onReorder={handleReorder}
         />
       )}
     </div>

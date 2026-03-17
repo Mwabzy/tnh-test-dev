@@ -7,6 +7,7 @@ import {
   createTeamMember,
   updateTeamMember,
   deleteTeamMember,
+  reorderTeamMembers,
 } from "@/api/api";
 import toast from "react-hot-toast";
 
@@ -24,6 +25,14 @@ const BoardManagement = () => {
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
+  const sortByOrder = (list: TeamMember[]) =>
+    [...list].sort((a, b) => {
+      const orderA = a.order ?? 0;
+      const orderB = b.order ?? 0;
+      if (orderA !== orderB) return orderA - orderB;
+      return a.id.localeCompare(b.id);
+    });
+
   // Load members filtered by group
   useEffect(() => {
     async function loadMembers() {
@@ -31,7 +40,7 @@ const BoardManagement = () => {
       try {
         const data: TeamMember[] = await fetchTeamMembers();
         const filtered = data.filter((m: TeamMember) => m.group === group);
-        setMembers(filtered);
+        setMembers(sortByOrder(filtered));
         setError(null);
       } catch (err: any) {
         setError(err.message || "Error loading team members");
@@ -59,11 +68,11 @@ const BoardManagement = () => {
       if (editingMember) {
         const updated = await updateTeamMember(editingMember.id, member);
         setMembers((prev) =>
-          prev.map((m) => (m.id === updated.id ? updated : m)),
+          sortByOrder(prev.map((m) => (m.id === updated.id ? updated : m))),
         );
       } else {
         const created = await createTeamMember(member);
-        setMembers((prev) => [...prev, created]);
+        setMembers((prev) => sortByOrder([...prev, created]));
       }
 
       setShowForm(false);
@@ -86,6 +95,19 @@ const BoardManagement = () => {
       toast.error(`Error deleting member: ${err.message}`);
     } finally {
       setDeletingId(null);
+    }
+  };
+
+  const handleReorder = async (nextOrder: TeamMember[]) => {
+    const previous = members;
+    setMembers(nextOrder);
+
+    try {
+      await reorderTeamMembers(nextOrder.map((item) => item.id));
+      toast.success("Order updated successfully!");
+    } catch (err: any) {
+      setMembers(previous);
+      toast.error(`Failed to update order: ${err?.message ?? "Unknown error"}`);
     }
   };
 
@@ -122,6 +144,7 @@ const BoardManagement = () => {
           }}
           onDelete={handleDeleteClick}
           deletingId={deletingId}
+          onReorder={handleReorder}
         />
       )}
 

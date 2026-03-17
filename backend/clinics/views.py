@@ -4,6 +4,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.shortcuts import get_object_or_404
+from django.db import transaction
 
 from .models import (
     ClinicalService,
@@ -58,7 +59,7 @@ def log_request_data(request, label="Request"):
 
 # ClinicalService
 class ClinicalServiceViewSet(viewsets.ModelViewSet):
-    queryset = ClinicalService.objects.all()
+    queryset = ClinicalService.objects.all().order_by("order", "id")
     serializer_class = ClinicalServiceSerializer
     
     parser_classes = [MultiPartParser, FormParser, JSONParser]
@@ -123,13 +124,61 @@ class ClinicalServiceViewSet(viewsets.ModelViewSet):
         translations = build_clinical_service_translation_preview(payload)
         return Response(translations, status=status.HTTP_200_OK)
 
+    @action(
+        detail=False,
+        methods=["patch"],
+        url_path="reorder",
+        parser_classes=[JSONParser],
+    )
+    def reorder(self, request):
+        ordered_ids = request.data.get("ordered_ids") or request.data.get(
+            "orderedIds"
+        )
+
+        if not isinstance(ordered_ids, list) or len(ordered_ids) == 0:
+            return Response(
+                {"detail": "ordered_ids must be a non-empty list."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            ordered_ids = [int(pk) for pk in ordered_ids]
+        except (TypeError, ValueError):
+            return Response(
+                {"detail": "ordered_ids must contain integers."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if len(set(ordered_ids)) != len(ordered_ids):
+            return Response(
+                {"detail": "ordered_ids must not contain duplicates."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        existing_ids = set(
+            ClinicalService.objects.filter(id__in=ordered_ids).values_list(
+                "id", flat=True
+            )
+        )
+        if len(existing_ids) != len(ordered_ids):
+            return Response(
+                {"detail": "One or more ids do not exist."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        with transaction.atomic():
+            for index, pk in enumerate(ordered_ids, start=1):
+                ClinicalService.objects.filter(pk=pk).update(order=index)
+
+        return Response({"status": "ok", "updated": len(ordered_ids)})
+
 
 class DoctorViewSet(viewsets.ModelViewSet):
-    queryset = Doctor.objects.all()
+    queryset = Doctor.objects.all().order_by("order", "id")
     serializer_class = DoctorSerializer
     
     permission_classes = [IsAuthenticatedOrReadOnly]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
@@ -183,6 +232,52 @@ class DoctorViewSet(viewsets.ModelViewSet):
         payload = request.data if isinstance(request.data, dict) else {}
         translations = build_doctor_translation_preview(payload)
         return Response(translations, status=status.HTTP_200_OK)
+
+    @action(
+        detail=False,
+        methods=["patch"],
+        url_path="reorder",
+        parser_classes=[JSONParser],
+    )
+    def reorder(self, request):
+        ordered_ids = request.data.get("ordered_ids") or request.data.get(
+            "orderedIds"
+        )
+
+        if not isinstance(ordered_ids, list) or len(ordered_ids) == 0:
+            return Response(
+                {"detail": "ordered_ids must be a non-empty list."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            ordered_ids = [int(pk) for pk in ordered_ids]
+        except (TypeError, ValueError):
+            return Response(
+                {"detail": "ordered_ids must contain integers."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if len(set(ordered_ids)) != len(ordered_ids):
+            return Response(
+                {"detail": "ordered_ids must not contain duplicates."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        existing_ids = set(
+            Doctor.objects.filter(id__in=ordered_ids).values_list("id", flat=True)
+        )
+        if len(existing_ids) != len(ordered_ids):
+            return Response(
+                {"detail": "One or more ids do not exist."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        with transaction.atomic():
+            for index, pk in enumerate(ordered_ids, start=1):
+                Doctor.objects.filter(pk=pk).update(order=index)
+
+        return Response({"status": "ok", "updated": len(ordered_ids)})
     
 class TestimonialViewSet(viewsets.ModelViewSet):
     queryset = Testimonial.objects.all()

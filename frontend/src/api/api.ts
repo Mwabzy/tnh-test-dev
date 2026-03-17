@@ -216,6 +216,13 @@ export async function deleteClinicalService(id: number) {
   return res.data;
 }
 
+export async function reorderClinicalServices(orderedIds: number[]) {
+  const res = await api.patch(`${CLINICS_API}reorder/`, {
+    ordered_ids: orderedIds,
+  });
+  return res.data;
+}
+
 type ClinicalServiceImageMetaPayload = {
   alt?: string;
   focalX?: number;
@@ -293,6 +300,13 @@ export async function deleteDoctor(id: number) {
   return res.data;
 }
 
+export async function reorderDoctors(orderedIds: number[]) {
+  const res = await api.patch(`${DOCTORS_API}reorder/`, {
+    ordered_ids: orderedIds,
+  });
+  return res.data;
+}
+
 // TEAM MEMBERS
 
 export async function fetchTeamMembers() {
@@ -322,6 +336,13 @@ export async function updateTeamMember(id: string, data: any) {
 
 export async function deleteTeamMember(id: string) {
   const res = await api.delete(`${TEAM_API}${id}/`);
+  return res.data;
+}
+
+export async function reorderTeamMembers(orderedIds: string[]) {
+  const res = await api.patch(`${TEAM_API}reorder/`, {
+    ordered_ids: orderedIds,
+  });
   return res.data;
 }
 

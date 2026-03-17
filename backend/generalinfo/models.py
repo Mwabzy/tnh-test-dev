@@ -8,6 +8,7 @@ class TeamMember(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     name = models.CharField(max_length=255)
+    order = models.PositiveIntegerField(default=0, db_index=True)
 
     role = models.CharField(max_length=255)
     role_fr = models.CharField(max_length=255, blank=True)
@@ -32,6 +33,15 @@ class TeamMember(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if self.pk is None and not self.order:
+            qs = TeamMember.objects.all()
+            if self.group:
+                qs = qs.filter(group=self.group)
+            max_order = qs.aggregate(models.Max("order")).get("order__max") or 0
+            self.order = max_order + 1
+        super().save(*args, **kwargs)
 
 
 class BlogPost(models.Model):

@@ -28,6 +28,7 @@ const truncateBioToThreeSentences = (
 // Doctor type
 type Doctor = {
   id: string;
+  order?: number;
   name: string;
   role?: string;
   images: string[];
@@ -114,7 +115,15 @@ const DoctorProfiles: FC = () => {
         setLoading(true);
         const data = await fetchDoctors();
         console.log("Fetched doctors data:", data);
-        const transformed = data.map((doc: any, idx: number) => {
+        const ordered = Array.isArray(data)
+          ? [...data].sort((a: any, b: any) => {
+              const orderA = a.order ?? 0;
+              const orderB = b.order ?? 0;
+              if (orderA !== orderB) return orderA - orderB;
+              return (a.id ?? 0) - (b.id ?? 0);
+            })
+          : [];
+        const transformed = ordered.map((doc: any, idx: number) => {
           const doctorLocations = extractDoctorLocations(doc);
 
           return {

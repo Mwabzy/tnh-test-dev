@@ -24,6 +24,7 @@ type TeamMember = {
   image: string;
   description: string;
   group: string;
+  order?: number;
 };
 
 // export const teamMembers: TeamMember[] = [
@@ -213,13 +214,21 @@ const SeniorManagement: FC<TeamPageProps> = () => {
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [_error, setError] = useState<string | null>(null);
 
+  const sortByOrder = (list: TeamMember[]) =>
+    [...list].sort((a, b) => {
+      const orderA = a.order ?? 0;
+      const orderB = b.order ?? 0;
+      if (orderA !== orderB) return orderA - orderB;
+      return a.id.localeCompare(b.id);
+    });
+
   useEffect(() => {
     async function loadMembers() {
       setLoading(true);
       try {
         const data: TeamMember[] = await fetchTeamMembers();
         const filtered = data.filter((m: TeamMember) => m.group === group);
-        setMembers(filtered);
+        setMembers(sortByOrder(filtered));
         setError(null);
       } catch (err: any) {
         setError(err.message || "Error loading team members");

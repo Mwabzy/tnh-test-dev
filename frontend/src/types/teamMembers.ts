@@ -1,6 +1,7 @@
 export interface TeamMember {
   image_alt: string;
   id: string;
+  order?: number;
   name: string;
   role: string;
   role_fr?: string;

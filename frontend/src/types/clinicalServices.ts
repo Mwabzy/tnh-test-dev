@@ -32,6 +32,7 @@ export interface FeatureImage {
 
 export interface Doctor {
   id?: number;
+  order?: number;
   name: string;
   role: string;
   role_fr?: string;
@@ -64,6 +65,7 @@ export interface ContactInfo {
 
 export interface ClinicalService {
   id: number;
+  order?: number;
   title: string;
   title_fr?: string;
   title_es?: string;

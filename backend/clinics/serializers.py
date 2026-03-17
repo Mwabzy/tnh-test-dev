@@ -54,6 +54,7 @@ class SlimDoctorSerializer(serializers.ModelSerializer):
         model = Doctor
         fields = [
             'id',
+            'order',
             'name',
             'role', 'role_fr', 'role_es', 'role_zh', 'role_ru',
             'bio', 'bio_fr', 'bio_es', 'bio_zh', 'bio_ru',
@@ -97,6 +98,7 @@ class DoctorSerializer(serializers.ModelSerializer):
         model = Doctor
         fields = [
             "id",
+            "order",
             "name",
             "role", "role_fr", "role_es", "role_zh", "role_ru",
             "bio", "bio_fr", "bio_es", "bio_zh", "bio_ru",
@@ -303,6 +305,7 @@ class ClinicalServiceSerializer(serializers.ModelSerializer):
         model = ClinicalService
         fields = [
     'id',
+    'order',
     'title',
     'title_fr', 'title_es', 'title_zh', 'title_ru',
     'path',

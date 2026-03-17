@@ -46,10 +46,10 @@ def log_request_data(request, label="Request"):
 class TeamMemberViewSet(viewsets.ModelViewSet):
     """ViewSet for managing team members with image upload support."""
     
-    queryset = TeamMember.objects.all()
+    queryset = TeamMember.objects.all().order_by("order", "id")
     serializer_class = TeamMemberSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    parser_classes = (MultiPartParser, FormParser)
+    parser_classes = (MultiPartParser, FormParser, parsers.JSONParser)
     
     def create(self, request, *args, **kwargs):
         logger.info("Creating new team member - User: %s", request.user)
@@ -74,6 +74,48 @@ class TeamMemberViewSet(viewsets.ModelViewSet):
         self.perform_update(serializer)
         
         return Response(serializer.data)
+
+    @action(
+        detail=False,
+        methods=["patch"],
+        url_path="reorder",
+        parser_classes=[parsers.JSONParser],
+    )
+    def reorder(self, request):
+        ordered_ids = request.data.get("ordered_ids") or request.data.get(
+            "orderedIds"
+        )
+
+        if not isinstance(ordered_ids, list) or len(ordered_ids) == 0:
+            return Response(
+                {"detail": "ordered_ids must be a non-empty list."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        ordered_ids = [str(pk) for pk in ordered_ids]
+        if len(set(ordered_ids)) != len(ordered_ids):
+            return Response(
+                {"detail": "ordered_ids must not contain duplicates."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        existing_ids = set(
+            str(pk)
+            for pk in TeamMember.objects.filter(id__in=ordered_ids).values_list(
+                "id", flat=True
+            )
+        )
+        if len(existing_ids) != len(ordered_ids):
+            return Response(
+                {"detail": "One or more ids do not exist."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        with transaction.atomic():
+            for index, pk in enumerate(ordered_ids, start=1):
+                TeamMember.objects.filter(pk=pk).update(order=index)
+
+        return Response({"status": "ok", "updated": len(ordered_ids)})
 
 
 class BlogPostViewSet(viewsets.ModelViewSet):

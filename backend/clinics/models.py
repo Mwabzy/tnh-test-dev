@@ -6,6 +6,7 @@ from django.db import models
 
 class Doctor(models.Model):
     name = models.CharField(max_length=100)
+    order = models.PositiveIntegerField(default=0, db_index=True)
 
     role = models.CharField(max_length=100)
     role_fr = models.CharField(max_length=100, blank=True, null=True)
@@ -28,6 +29,13 @@ class Doctor(models.Model):
     research_publications = models.JSONField(default=list, blank=True)
     awards = models.JSONField(default=list, blank=True)
 
+    def save(self, *args, **kwargs):
+        if self.pk is None and not self.order:
+            max_order = Doctor.objects.aggregate(models.Max("order")).get(
+                "order__max"
+            ) or 0
+            self.order = max_order + 1
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -90,6 +98,7 @@ class ClinicalService(models.Model):
     title_zh = models.CharField(max_length=100, blank=True, null=True)
     title_ru = models.CharField(max_length=100, blank=True, null=True)
     path = models.CharField(max_length=255, unique=True, blank=True, null=True)
+    order = models.PositiveIntegerField(default=0, db_index=True)
 
     tagline = models.CharField(max_length=255)
     tagline_fr = models.CharField(max_length=255, blank=True, null=True)
@@ -138,6 +147,14 @@ class ClinicalService(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if self.pk is None and not self.order:
+            max_order = ClinicalService.objects.aggregate(models.Max("order")).get(
+                "order__max"
+            ) or 0
+            self.order = max_order + 1
+        super().save(*args, **kwargs)
     
 
 class ClinicalServiceFeatureImage(models.Model):
