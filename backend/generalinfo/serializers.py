@@ -472,9 +472,9 @@ class TenderSerializer(serializers.ModelSerializer):
 
 class CareerSerializer(serializers.ModelSerializer):
     title = serializers.CharField()
+    referenceNumber = serializers.CharField(source="reference_number")
+    isPublished = serializers.BooleanField(source="is_published", required=False)
     location = serializers.CharField()
-    description = serializers.CharField()
-    requirements = serializers.CharField()
     opportunityType = serializers.CharField(source="opportunity_type")
     datePosted = serializers.DateField(source="posted_date")
     closingDate = serializers.DateField(source="closing_date", required=False, allow_null=True)
@@ -484,10 +484,10 @@ class CareerSerializer(serializers.ModelSerializer):
         model = Career
         fields = (
             "id",
+            "referenceNumber",
+            "isPublished",
             "title",
             "location",
-            "description",
-            "requirements",
             "opportunityType",
             "datePosted",
             "closingDate",

@@ -246,11 +246,11 @@ export const NAVIGATION_CONTENT = () => {
         {
           title: content.tenders,
           items: [
-            { title: content.open_tenders, href: "#" },
+            { title: content.open_tenders, href: "/news/tenders" },
             // { title: content.supplier_info, href: "#" },
             {
               title: content.procurement_guidelines,
-              href: "#",
+              href: "/news/tenders",
             },
           ],
         },

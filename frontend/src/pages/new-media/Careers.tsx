@@ -21,17 +21,27 @@ const Careers: FC<CareersProps> = () => {
               ? response.data
               : [];
 
-        const mapped: Opportunity[] = items.map((item: any) => ({
-          opportunity: String(item?.opportunity ?? item?.title ?? "").trim(),
-          description: String(item?.description ?? "").trim(),
-          location: item?.location ? String(item.location).trim() : undefined,
-          opportunityType: String(
-            item?.opportunityType ?? item?.opportunity_type ?? "Career",
-          ).trim(),
-          datePosted: String(item?.datePosted ?? item?.date_posted ?? "").trim(),
-          closingDate: item?.closingDate ?? item?.closing_date ?? undefined,
-          fileUrl: String(item?.fileUrl ?? item?.file_url ?? item?.file ?? ""),
-        }));
+        const mapped: Opportunity[] = items
+          .filter((item: any) => {
+            const isPublished =
+              item?.isPublished ?? item?.is_published ?? true;
+            return Boolean(isPublished);
+          })
+          .map((item: any) => ({
+            opportunity: String(item?.opportunity ?? item?.title ?? "").trim(),
+            referenceNumber: String(
+              item?.referenceNumber ?? item?.reference_number ?? "",
+            ).trim(),
+            location: item?.location ? String(item.location).trim() : undefined,
+            opportunityType: String(
+              item?.opportunityType ?? item?.opportunity_type ?? "Career",
+            ).trim(),
+            datePosted: String(
+              item?.datePosted ?? item?.date_posted ?? "",
+            ).trim(),
+            closingDate: item?.closingDate ?? item?.closing_date ?? undefined,
+            fileUrl: String(item?.fileUrl ?? item?.file_url ?? item?.file ?? ""),
+          }));
 
         setOpportunities(mapped);
       } catch (error) {
@@ -48,22 +58,22 @@ const Careers: FC<CareersProps> = () => {
       <OpportunityTemplate
         title="Join Our Team"
         description="Explore exciting career opportunities with us."
-        testimonials={[
-          {
-            name: "Jane Doe",
-            title: "Software Engineer",
-            quote: "Working here has been a transformative experience.",
-            image:
-              "https://www.freepik.com/free-psd/happy-woman-dancing-isolated_269178755.htm#fromView=search&page=1&position=11&uuid=4341da1b-d692-4ffc-88ff-f2b7a82b674c&query=peoplee.jpg",
-          },
-          {
-            name: "John Smith",
-            title: "Product Manager",
-            quote: "The team is incredibly supportive and innovative.",
-            image:
-              "https://www.freepik.com/free-photo/portrait-smart-professional-african-american-man-standing-with-hands-crossed-chest-confident-pose_16080284.htm#fromView=search&page=1&position=10&uuid=4341da1b-d692-4ffc-88ff-f2b7a82b674c&query=people",
-          },
-        ]}
+        // testimonials={[
+        //   {
+        //     name: "Jane Doe",
+        //     title: "Software Engineer",
+        //     quote: "Working here has been a transformative experience.",
+        //     image:
+        //       "https://www.freepik.com/free-psd/happy-woman-dancing-isolated_269178755.htm#fromView=search&page=1&position=11&uuid=4341da1b-d692-4ffc-88ff-f2b7a82b674c&query=peoplee.jpg",
+        //   },
+        //   {
+        //     name: "John Smith",
+        //     title: "Product Manager",
+        //     quote: "The team is incredibly supportive and innovative.",
+        //     image:
+        //       "https://www.freepik.com/free-photo/portrait-smart-professional-african-american-man-standing-with-hands-crossed-chest-confident-pose_16080284.htm#fromView=search&page=1&position=10&uuid=4341da1b-d692-4ffc-88ff-f2b7a82b674c&query=people",
+        //   },
+        // ]}
         contactInfo={PAGE_CONTACT_INFO}
         opportunities={opportunities}
       />

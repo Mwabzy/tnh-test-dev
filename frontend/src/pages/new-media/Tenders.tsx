@@ -24,7 +24,6 @@ const Tenders: FC<TendersProps> = () => {
         const mapped: Opportunity[] = items.map((item: any) => ({
           opportunity: String(item?.opportunity ?? item?.title ?? "").trim(),
           referenceNumber: item?.referenceNumber ?? item?.reference_number,
-          description: String(item?.description ?? "").trim(),
           opportunityType: String(
             item?.opportunityType ?? item?.opportunity_type ?? "Tender",
           ).trim(),

@@ -6,26 +6,35 @@ interface OpportunityListProps {
 }
 
 const OpportunityList: FC<OpportunityListProps> = ({ opportunities }) => {
-  const action = (fileUrl?: string) => {
-    if (fileUrl) {
-      window.open(fileUrl, "_blank");
-    } else {
-      alert("No file available for this opportunity.");
-    }
-  };
-
   return (
-    <div className="w-[95%] md:w-full flex flex-col items-center justify-center gap-4 mx-auto container">
-      {opportunities.map((opportunity, index) => (
-        <OpportunityItem
-          key={index}
-          opportunity={{
-            ...opportunity,
-            fileUrl: opportunity.fileUrl ?? ""
-          }}
-          action={action}
-        />
-      ))}
+    <div className="w-[95%] md:w-full flex flex-col items-center justify-center mx-auto container">
+      <div className="w-full overflow-x-auto">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-red-900 text-white text-sm uppercase tracking-wide">
+              <th className="p-3 text-left">Reference Number</th>
+              <th className="p-3 text-left">Vacant Position</th>
+              <th className="p-3 text-left">Closing Date</th>
+              <th className="p-3 text-left">Action</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white">
+            {opportunities.map((opportunity, index) => (
+              <OpportunityItem
+                key={
+                  opportunity.referenceNumber ??
+                  opportunity.opportunity ??
+                  index
+                }
+                opportunity={{
+                  ...opportunity,
+                  fileUrl: opportunity.fileUrl ?? "",
+                }}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

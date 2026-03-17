@@ -9,14 +9,14 @@ interface CareerFormProps {
 }
 
 const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
+  const [referenceNumber, setReferenceNumber] = useState(
+    initialData?.referenceNumber ?? "",
+  );
+  const [isPublished, setIsPublished] = useState(
+    initialData?.isPublished ?? true,
+  );
   const [title, setTitle] = useState(initialData?.title ?? "");
-  const [description, setDescription] = useState(
-    initialData?.description ?? "",
-  );
   const [location, setLocation] = useState(initialData?.location ?? "");
-  const [requirements, setRequirements] = useState(
-    initialData?.requirements ?? "",
-  );
   const [opportunityType, setOpportunityType] = useState(
     initialData?.opportunityType ?? "",
   );
@@ -39,10 +39,10 @@ const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
 
     try {
       const formData = new FormData();
+      formData.append("referenceNumber", referenceNumber);
+      formData.append("isPublished", String(isPublished));
       formData.append("title", title);
-      formData.append("description", description);
       formData.append("location", location);
-      formData.append("requirements", requirements);
       formData.append("opportunityType", opportunityType);
       formData.append("datePosted", datePosted);
       if (closingDate) {
@@ -65,12 +65,24 @@ const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4 p-4 border rounded">
       <h2 className="text-xl font-serif font-semibold">
-        {initialData?.id ? "Edit Career Opportunity" : "Add Career Opportunity"}
+        {initialData?.id ? "Edit Job Listing" : "Add Job Listing"}
       </h2>
 
       {/* Opportunity Title */}
       <div>
-        <label className="font-medium block mb-1">Opportunity Title</label>
+        <label className="font-medium block mb-1">REF. Number</label>
+        <input
+          type="text"
+          className="border p-2 w-full"
+          value={referenceNumber}
+          onChange={(e) => setReferenceNumber(e.target.value)}
+          required
+        />
+      </div>
+
+      {/* Job Name */}
+      <div>
+        <label className="font-medium block mb-1">Job Name</label>
         <input
           type="text"
           className="border p-2 w-full"
@@ -80,16 +92,17 @@ const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
         />
       </div>
 
-      {/* Description */}
+      {/* Publish Status */}
       <div>
-        <label className="font-medium block mb-1">Description</label>
-        <textarea
+        <label className="font-medium block mb-1">Publish Status</label>
+        <select
           className="border p-2 w-full"
-          rows={3}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
+          value={isPublished ? "published" : "unpublished"}
+          onChange={(e) => setIsPublished(e.target.value === "published")}
+        >
+          <option value="published">Published</option>
+          <option value="unpublished">Unpublished</option>
+        </select>
       </div>
 
       {/* Location */}
@@ -108,9 +121,9 @@ const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
         </select>
       </div>
 
-      {/* Opportunity Type */}
+      {/* Job Type */}
       <div>
-        <label className="font-medium block mb-1">Opportunity Type</label>
+        <label className="font-medium block mb-1">Job Type</label>
         <select
           className="border p-2 w-full"
           value={opportunityType}
@@ -145,18 +158,6 @@ const CareerForm = ({ initialData, onSave, onCancel }: CareerFormProps) => {
           className="border p-2 w-full"
           value={closingDate}
           onChange={(e) => setClosingDate(e.target.value)}
-        />
-      </div>
-
-      {/* Requirements */}
-      <div>
-        <label className="font-medium block mb-1">Requirements</label>
-        <textarea
-          className="border p-2 w-full"
-          rows={3}
-          value={requirements}
-          onChange={(e) => setRequirements(e.target.value)}
-          required
         />
       </div>
 

@@ -195,6 +195,9 @@ class Tender(models.Model):
 class Career(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
+    reference_number = models.CharField(max_length=100, blank=True, default="")
+    is_published = models.BooleanField(default=True, db_index=True)
+
     title = models.CharField(max_length=255)
     title_fr = models.CharField(max_length=255, blank=True)
     title_es = models.CharField(max_length=255, blank=True)
@@ -206,18 +209,6 @@ class Career(models.Model):
     location_es = models.CharField(max_length=255, blank=True)
     location_zh = models.CharField(max_length=255, blank=True)
     location_ru = models.CharField(max_length=255, blank=True)
-
-    description = models.TextField()
-    description_fr = models.TextField(blank=True)
-    description_es = models.TextField(blank=True)
-    description_zh = models.TextField(blank=True)
-    description_ru = models.TextField(blank=True)
-
-    requirements = models.TextField()
-    requirements_fr = models.TextField(blank=True)
-    requirements_es = models.TextField(blank=True)
-    requirements_zh = models.TextField(blank=True)
-    requirements_ru = models.TextField(blank=True)
 
     opportunity_type = models.CharField(max_length=50, blank=True, default="")
     closing_date = models.DateField(blank=True, null=True)

@@ -17,6 +17,7 @@ const CareersPage = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingJob, setEditingJob] = useState<JobListing | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
   // Load job listings on mount
   useEffect(() => {
@@ -71,6 +72,28 @@ const CareersPage = () => {
     }
   };
 
+  const handleTogglePublish = async (job: JobListing) => {
+    if (!job?.id) return;
+    const nextStatus = !(job.isPublished ?? true);
+    const formData = new FormData();
+    formData.append("isPublished", String(nextStatus));
+
+    setTogglingId(job.id);
+    try {
+      const updated = await updateJobListing(job.id, formData);
+      setJobs((prev) =>
+        prev.map((j) => (j.id === job.id ? { ...j, ...updated } : j)),
+      );
+      toast.success(
+        nextStatus ? "Job published successfully!" : "Job unpublished.",
+      );
+    } catch (err) {
+      toast.error("Failed to update publish status");
+    } finally {
+      setTogglingId(null);
+    }
+  };
+
   return (
     <div>
       <div className="flex justify-between mb-6">
@@ -113,7 +136,9 @@ const CareersPage = () => {
             setShowForm(true);
           }}
           onDelete={handleDeleteJob}
+          onTogglePublish={handleTogglePublish}
           deletingId={deletingId}
+          togglingId={togglingId}
         />
       )}
     </div>
