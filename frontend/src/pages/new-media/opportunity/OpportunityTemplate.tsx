@@ -8,6 +8,7 @@ import TestimonialCarousel, {
 import ContactForm, { ContactInfo } from "@/components/ContactForm";
 import { Opportunity } from "./OpportunityItem";
 import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
+import { ReactNode } from "react";
 
 interface OpportunityTemplateProps {
   title?: string;
@@ -15,6 +16,7 @@ interface OpportunityTemplateProps {
   testimonials?: Testimonial[];
   contactInfo?: ContactInfo;
   opportunities?: Opportunity[];
+  renderList?: (opportunities: Opportunity[]) => ReactNode;
 }
 
 const OpportunityTemplate: FunctionComponent<OpportunityTemplateProps> = ({
@@ -23,6 +25,7 @@ const OpportunityTemplate: FunctionComponent<OpportunityTemplateProps> = ({
   testimonials = [],
   contactInfo = PAGE_CONTACT_INFO,
   opportunities = [],
+  renderList,
 }) => {
   return (
     <div>
@@ -34,7 +37,11 @@ const OpportunityTemplate: FunctionComponent<OpportunityTemplateProps> = ({
           <h2 className="text-4xl font-semibold text-center font-serif mb-8">
             Join us and shape <br /> the future together
           </h2>
-          <OpportunityList opportunities={opportunities} />
+          {renderList ? (
+            renderList(opportunities)
+          ) : (
+            <OpportunityList opportunities={opportunities} />
+          )}
         </div>
       </div>
       {testimonials.length > 0 && (

@@ -429,7 +429,7 @@ class SendEmailSerializer(serializers.Serializer):
 
 class TenderSerializer(serializers.ModelSerializer):
     referenceNumber = serializers.CharField(source="reference_number")
-    opportunityType = serializers.CharField(source="opportunity_type")
+    isPublished = serializers.BooleanField(source="is_published", required=False)
     datePosted = serializers.DateField(source="date_posted")
     closingDate = serializers.DateField(source="closing_date")
 
@@ -442,8 +442,7 @@ class TenderSerializer(serializers.ModelSerializer):
             "id",
             "opportunity",
             "referenceNumber",
-            "description",
-            "opportunityType",
+            "isPublished",
             "datePosted",
             "closingDate",
             "file",

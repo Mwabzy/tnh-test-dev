@@ -178,8 +178,7 @@ class Tender(models.Model):
 
     opportunity = models.CharField(max_length=255)
     reference_number = models.CharField(max_length=100)
-    description = models.TextField()
-    opportunity_type = models.CharField(max_length=50, default="Tender")
+    is_published = models.BooleanField(default=True, db_index=True)
     date_posted = models.DateField()
     closing_date = models.DateField()
 

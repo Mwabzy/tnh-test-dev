@@ -5,14 +5,18 @@ interface TendersDashboardTableProps {
   data: TenderListing[];
   onEdit: (tender: TenderListing) => void;
   onDelete: (id: string) => void;
+  onTogglePublish: (tender: TenderListing) => void;
   deletingId?: string | null;
+  togglingId?: string | null;
 }
 
 const TendersDashboardTable: FC<TendersDashboardTableProps> = ({
   data,
   onEdit,
   onDelete,
+  onTogglePublish,
   deletingId = null,
+  togglingId = null,
 }) => {
   if (data.length === 0) {
     return (
@@ -32,9 +36,7 @@ const TendersDashboardTable: FC<TendersDashboardTableProps> = ({
           <tr className="bg-gray-100 text-left">
             <th className="p-3">Opportunity</th>
             <th className="p-3">Reference Number</th>
-            <th className="p-3">Description</th>
-            <th className="p-3">Type</th>
-            <th className="p-3">Date Posted</th>
+            <th className="p-3">Status</th>
             <th className="p-3">Closing Date</th>
             <th className="p-3">Actions</th>
           </tr>
@@ -46,19 +48,42 @@ const TendersDashboardTable: FC<TendersDashboardTableProps> = ({
               <td className="p-3 text-sm text-gray-700">
                 {tender.referenceNumber}
               </td>
-              <td className="p-3">{tender.description}</td>
               <td className="p-3">
-                <span className="px-2 py-1 bg-orange-100 text-orange-600 rounded text-sm">
-                  {tender.opportunityType}
-                </span>
+                {(() => {
+                  const isPublished = tender.isPublished !== false;
+                  return (
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`px-2 py-1 rounded text-sm ${
+                          isPublished
+                            ? "bg-green-100 text-green-700"
+                            : "bg-gray-200 text-gray-600"
+                        }`}
+                      >
+                        {isPublished ? "Published" : "Unpublished"}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => onTogglePublish(tender)}
+                        disabled={togglingId === tender.id}
+                        className={`text-xs px-2 py-1 rounded border ${
+                          togglingId === tender.id
+                            ? "border-gray-300 text-gray-400 cursor-not-allowed"
+                            : "border-gray-400 text-gray-700 hover:bg-gray-100"
+                        }`}
+                      >
+                        {togglingId === tender.id
+                          ? "Saving..."
+                          : isPublished
+                            ? "Unpublish"
+                            : "Publish"}
+                      </button>
+                    </div>
+                  );
+                })()}
               </td>
               <td className="p-3 text-sm text-gray-600">
-                {tender.datePosted}
-              </td>
-              <td className="p-3">
-                <span className="px-2 py-1 bg-orange-100 text-orange-600 rounded text-sm">
-                  {tender.closingDate}
-                </span>
+                {tender.closingDate}
               </td>
               <td className="p-3 flex gap-2">
                 <button

@@ -3,6 +3,7 @@ import { FC } from "react";
 
 export interface Opportunity {
   opportunity: string;
+  description?: string;
   location?: string;
   referenceNumber?: string;
   opportunityType: string;

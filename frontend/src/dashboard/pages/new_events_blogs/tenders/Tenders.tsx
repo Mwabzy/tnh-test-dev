@@ -19,6 +19,7 @@ const TendersPage = () => {
     null,
   );
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadTenders() {
@@ -72,6 +73,28 @@ const TendersPage = () => {
     }
   };
 
+  const handleTogglePublish = async (tender: TenderListing) => {
+    if (!tender?.id) return;
+    const nextStatus = !(tender.isPublished ?? true);
+    const formData = new FormData();
+    formData.append("isPublished", String(nextStatus));
+
+    setTogglingId(tender.id);
+    try {
+      const updated = await updateTender(tender.id, formData);
+      setTenders((prev) =>
+        prev.map((t) => (t.id === tender.id ? { ...t, ...updated } : t)),
+      );
+      toast.success(
+        nextStatus ? "Tender published successfully!" : "Tender unpublished.",
+      );
+    } catch (err) {
+      toast.error("Failed to update publish status");
+    } finally {
+      setTogglingId(null);
+    }
+  };
+
   return (
     <div>
       <div className="flex justify-between mb-6">
@@ -114,7 +137,9 @@ const TendersPage = () => {
             setShowForm(true);
           }}
           onDelete={handleDeleteTender}
+          onTogglePublish={handleTogglePublish}
           deletingId={deletingId}
+          togglingId={togglingId}
         />
       )}
     </div>

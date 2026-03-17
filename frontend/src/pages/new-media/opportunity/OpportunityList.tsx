@@ -18,7 +18,7 @@ const OpportunityList: FC<OpportunityListProps> = ({ opportunities }) => {
               <th className="p-3 text-left">Action</th>
             </tr>
           </thead>
-          <tbody className="bg-white">
+          <tbody>
             {opportunities.map((opportunity, index) => (
               <OpportunityItem
                 key={

@@ -262,7 +262,7 @@ export const NAVIGATION_CONTENT = () => {
             //   title: content.volunteer_opportunities,
             //   href: "#",
             // },
-            { title: content.submit_cv, href: "#" },
+            { title: content.submit_cv, href: "/news/careers" },
           ],
         },
         {

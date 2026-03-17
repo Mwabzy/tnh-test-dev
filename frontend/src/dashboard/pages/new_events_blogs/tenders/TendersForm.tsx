@@ -12,14 +12,8 @@ const TendersForm = ({ initialData, onSave, onCancel }: TendersFormProps) => {
   const [opportunity, setOpportunity] = useState(
     initialData?.opportunity ?? "",
   );
-  const [description, setDescription] = useState(
-    initialData?.description ?? "",
-  );
   const [referenceNumber, setReferenceNumber] = useState(
     initialData?.referenceNumber ?? "",
-  );
-  const [opportunityType, setOpportunityType] = useState(
-    initialData?.opportunityType ?? "Tender",
   );
   const [datePosted, setDatePosted] = useState(initialData?.datePosted ?? "");
   const [closingDate, setClosingDate] = useState(
@@ -46,8 +40,6 @@ const TendersForm = ({ initialData, onSave, onCancel }: TendersFormProps) => {
 
       formData.append("opportunity", opportunity);
       formData.append("referenceNumber", referenceNumber);
-      formData.append("description", description);
-      formData.append("opportunityType", opportunityType);
       formData.append("datePosted", datePosted);
       formData.append("closingDate", closingDate);
 
@@ -92,29 +84,6 @@ const TendersForm = ({ initialData, onSave, onCancel }: TendersFormProps) => {
           onChange={(e) => setReferenceNumber(e.target.value)}
           required
         />
-      </div>
-
-      <div>
-        <label className="font-medium block mb-1">Description</label>
-        <textarea
-          className="border p-2 w-full"
-          rows={3}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
-      </div>
-
-      <div>
-        <label className="font-medium block mb-1">Opportunity Type</label>
-        <select
-          className="border p-2 w-full"
-          value={opportunityType}
-          onChange={(e) => setOpportunityType(e.target.value as "Tender")}
-          required
-        >
-          <option value="Tender">Tender</option>
-        </select>
       </div>
 
       <div>

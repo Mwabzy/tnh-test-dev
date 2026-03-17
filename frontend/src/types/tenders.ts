@@ -2,8 +2,7 @@ export interface TenderListing {
   id: string;
   opportunity: string;
   referenceNumber: string;
-  description: string;
-  opportunityType: "Tender";
+  isPublished?: boolean;
   datePosted: string;
   closingDate: string;
   fileUrl: string;
