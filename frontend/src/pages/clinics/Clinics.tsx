@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { useEffect } from "react";
 import { fetchServices } from "@/store/servicesSlice";
 import { ClinicalService } from "@/types";
+import { isAndersonOnlyService } from "@/lib/serviceFilters";
 
 const Clinics = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +26,9 @@ const Clinics = () => {
     });
 
   const orderedServices = sortByOrder(services);
+  const clinicServices = orderedServices.filter(
+    (service) => !isAndersonOnlyService(service),
+  );
 
   useEffect(() => {
     dispatch(fetchServices());
@@ -40,11 +44,7 @@ const Clinics = () => {
         style="background"
       />
       {/* <ServicesBrief /> */}
-      <ServiceList
-        services={orderedServices}
-        loading={loading}
-        error={error}
-      />
+      <ServiceList services={clinicServices} loading={loading} error={error} />
       <ContactForm contactInfo={PAGE_CONTACT_INFO} />
       <div className="bg-orange-200 py-20 px-8 mt-8 ">
         <FAQs

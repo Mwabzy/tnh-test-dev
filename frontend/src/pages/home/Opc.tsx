@@ -59,7 +59,7 @@ const Opc: React.FC = () => {
     <div className="px-4 py-10 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Top-left title section */}
-        <div className="flex flex-col justify-center bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+        <div className="flex flex-col justify-between bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-48 sm:h-56 lg:h-56">
           <h2 className="text-3xl font-serif font-bold mb-3">
             {opcdata.opctitle}
           </h2>
@@ -95,7 +95,7 @@ const Opc: React.FC = () => {
               <Link
                 to={`/outpatient-center/${encodeURI(String(center.path ?? center.slug ?? center.id))}`}
               >
-                <div className="relative h-48 sm:h-56 md:h-full">
+                <div className="relative h-48 sm:h-56 lg:h-56">
                   {center.imageUrl ? (
                     <img
                       src={center.imageUrl}

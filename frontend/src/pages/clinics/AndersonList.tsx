@@ -5,6 +5,7 @@ import { FaCalendarCheck, FaChevronRight } from "react-icons/fa";
 import { fetchClinicalServices } from "@/api/api";
 import { useIntlayer } from "react-intlayer";
 import DOMPurify from "dompurify";
+import { hasAndersonLocation } from "@/lib/serviceFilters";
 
 interface andersonListProps {
   services?: ClinicalService[];
@@ -63,18 +64,15 @@ const AndersonList: React.FC<andersonListProps> = () => {
   // Filter logic - only show services with "Anderson" location
   const filteredServices = data
     ? data.filter((service) => {
-    const hasAndersonLocation = service.locations?.some((loc) =>
-      loc.toLowerCase().includes("anderson"),
-    );
+        const matchesSearch = service.title
+          .toLowerCase()
+          .includes(search.toLowerCase());
+        const matchesLetter =
+          !letterFilter ||
+          service.title.charAt(0).toUpperCase() === letterFilter;
 
-    const matchesSearch = service.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
-    const matchesLetter =
-      !letterFilter || service.title.charAt(0).toUpperCase() === letterFilter;
-
-    return hasAndersonLocation && matchesSearch && matchesLetter;
-  })
+        return hasAndersonLocation(service) && matchesSearch && matchesLetter;
+      })
     : [];
 
   // Pagination
