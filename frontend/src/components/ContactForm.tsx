@@ -133,7 +133,7 @@ const ContactForm = ({
               >
                 <Mail className="text-red-900" />
                 <span className="text-lg font-serif font-medium text-red-900">
-                  {email.type.charAt(0).toUpperCase() + email.type.slice(1)}
+                  {email.type.charAt(0).toUpperCase() + email.type.slice(1)}{" "}
                   {content.formenquiries}
                 </span>
                 <span className="text-lg font-serif">{email.address}</span>

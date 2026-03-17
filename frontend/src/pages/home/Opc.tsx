@@ -59,16 +59,16 @@ const Opc: React.FC = () => {
     <div className="px-4 py-10 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Top-left title section */}
-        <div className="flex flex-col justify-between bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-48 sm:h-56 lg:h-56">
+        <div className="flex flex-col bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-48 sm:h-56 lg:h-56">
           <h2 className="text-3xl font-serif font-bold mb-3">
             {opcdata.opctitle}
           </h2>
-          <p className="text-gray-600 font-sans mb-6 text-sm">
+          <p className="text-gray-600 font-sans text-sm">
             {opcdata.opcdesc}.
           </p>
           <Link
             to="/outpatient-centers"
-            className="border border-red-700 text-red-700 px-4 py-2 font-sans rounded-full w-fit hover:bg-blue-50 transition"
+            className="mt-auto border border-red-700 text-red-700 px-4 py-2 font-sans rounded-full w-fit hover:bg-blue-50 transition"
           >
             {opcdata.explorelocation_button}
           </Link>

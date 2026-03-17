@@ -254,8 +254,8 @@ const ConventionCenter = () => {
 
       {/* CARD SECTION */}
       <section className="bg-white py-20 px-6 md:px-16">
-        <div className="max-w-4xl ml-50 text-left">
-          <h2 className="text-xl md:text-3xl font-extrabold text-[#0A0A23] leading-snug">
+        <div className="max-w-7xl mx-auto text-left">
+          <h2 className="text-2xl sm:text-3xl md:text-3xl font-extrabold text-[#0A0A23] leading-snug">
             {Array.isArray(content.years)
               ? content.years[0]?.value ?? ""
               : content.years}
@@ -323,9 +323,12 @@ const ConventionCenter = () => {
               Call us: +254 703 082 000
             </a>
 
-            <button className="border border-black px-6 py-3 rounded-full font-semibold hover:bg-black hover:text-white transition">
+            <a
+              href="/contact-us"
+              className="border border-black px-6 py-3 rounded-full font-semibold hover:bg-black hover:text-white transition"
+            >
               Make a booking
-            </button>
+            </a>
           </div>
         </div>
       </div>

@@ -86,11 +86,13 @@ const CsrDetail = () => {
     loadCsrDetail();
   }, [id]);
 
+  const coverImage = csrItem?.coverImage ?? "";
+
   const galleryImages = useMemo(() => {
     if (!csrItem) return [] as string[];
-    if (csrItem.image.length > 0) return csrItem.image;
-    return csrItem.coverImage ? [csrItem.coverImage] : [];
-  }, [csrItem]);
+    const images = Array.isArray(csrItem.image) ? csrItem.image : [];
+    return images.filter((url) => Boolean(url) && url !== coverImage);
+  }, [csrItem, coverImage]);
 
   if (loading) {
     return <div className="py-20 text-center text-gray-600">Loading...</div>;
@@ -117,36 +119,57 @@ const CsrDetail = () => {
         style="background"
       />
 
-      <div className="max-w-6xl mx-auto px-4 py-12 space-y-8">
-        <div className="bg-white rounded-2xl shadow p-8">
-          <h1 className="text-3xl font-serif text-gray-900 mb-3">
-            {csrItem.title}
-          </h1>
+      <div className="max-w-6xl mx-auto px-4 py-12 space-y-10">
+        <div className="bg-white rounded-2xl shadow p-6 md:p-8">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] items-start">
+            <div className="relative overflow-hidden rounded-2xl bg-slate-100 aspect-[4/3] lg:aspect-[5/6]">
+              {coverImage ? (
+                <img
+                  src={coverImage}
+                  alt={csrItem.title || "CSR cover"}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-100 to-slate-200" />
+              )}
+            </div>
 
-          {csrItem.author && (
-            <p className="text-sm text-gray-500 mb-6">By {csrItem.author}</p>
-          )}
+            <div className="space-y-4">
+              <p className="text-xs uppercase tracking-[0.25em] text-red-700 font-semibold">
+                CSR Story
+              </p>
+              <h1 className="text-3xl font-serif text-gray-900">
+                {csrItem.title}
+              </h1>
 
-          {csrItem.shortdesc && (
-            <div
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(
-                  addClassesToDescription(csrItem.shortdesc) ?? "",
-                ),
-              }}
-              className="prose prose-gray max-w-none text-gray-700 mb-6 prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
-            ></div>
-          )}
+              {csrItem.author && (
+                <p className="text-sm text-gray-500">By {csrItem.author}</p>
+              )}
+
+              {csrItem.shortdesc && (
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(
+                      addClassesToDescription(csrItem.shortdesc) ?? "",
+                    ),
+                  }}
+                  className="prose prose-gray max-w-none text-gray-700 prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+                ></div>
+              )}
+            </div>
+          </div>
 
           {csrItem.longdesc && (
-            <div
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(
-                  addClassesToDescription(csrItem.longdesc) ?? "",
-                ),
-              }}
-              className="prose prose-gray max-w-none text-gray-700 prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
-            ></div>
+            <div className="mt-8 pt-8 border-t border-slate-200">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(
+                    addClassesToDescription(csrItem.longdesc) ?? "",
+                  ),
+                }}
+                className="prose prose-gray max-w-none text-gray-700 prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
+              ></div>
+            </div>
           )}
         </div>
 
@@ -155,12 +178,14 @@ const CsrDetail = () => {
             {galleryImages.map((imageUrl, index) => (
               <div
                 key={`${csrItem.id}-${index}`}
-                className="bg-white rounded-2xl overflow-hidden shadow"
+                className={`bg-white rounded-2xl overflow-hidden shadow ${
+                  index === 0 ? "sm:col-span-2 lg:col-span-2" : ""
+                }`}
               >
                 <img
                   src={imageUrl}
                   alt={`${csrItem.title} ${index + 1}`}
-                  className="w-full h-56 object-cover"
+                  className="w-full h-full object-cover aspect-[4/3]"
                 />
               </div>
             ))}

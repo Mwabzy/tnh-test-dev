@@ -70,7 +70,7 @@ const About: FC<AboutProps> = () => {
         </div>
       </div>
 
-      <div className="py-8 max-w-7xl mx-auto">
+      <div className="py-8 max-w-7xl mx-auto px-4 sm:px-6 2xl:px-0">
         <div className="flex justify-between items-center mt-11 w-full flex-col md:flex-row">
           <div className="w-[80%] md:w-[50%]">
             <h1 className="text-4xl font-medium font-serif text-left text-red-900">
