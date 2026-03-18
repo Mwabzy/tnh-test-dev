@@ -33,7 +33,7 @@ const EventsAnnouncements = () => {
         const hasGroup = data.some(
           (item: Blog) => typeof item.group === "string" && item.group.length,
         );
-        setItems(hasGroup ? data.filter((item) => item.group === group) : data);
+        setItems(hasGroup ? data.filter((item: Blog) => item.group === group) : data);
         setError(null);
       } catch (err: any) {
         setError(err.message || "Error loading events & announcements");
