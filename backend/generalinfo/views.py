@@ -9,7 +9,18 @@ from rest_framework.decorators import action
 from django.db import IntegrityError, transaction
 from web.send_email import send_email
 
-from .models import TeamMember, BlogPost, CSR, Tender, Career, Hero, Appointment
+from .models import (
+    TeamMember,
+    BlogPost,
+    CSR,
+    Tender,
+    Career,
+    PublicStatement,
+    Interview,
+    CorporateDocument,
+    Hero,
+    Appointment,
+)
 from .serializers import (
     TeamMemberSerializer,
     BlogPostSerializer,
@@ -17,6 +28,9 @@ from .serializers import (
     SendEmailSerializer,
     TenderSerializer,
     CareerSerializer,
+    PublicStatementSerializer,
+    InterviewSerializer,
+    CorporateDocumentSerializer,
     HeroSerializer,
 )
 from .translation import (
@@ -357,6 +371,33 @@ class CareerViewSet(viewsets.ModelViewSet):
     
     queryset = Career.objects.all().order_by("-posted_date")
     serializer_class = CareerSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = (MultiPartParser, FormParser)
+
+
+class PublicStatementViewSet(viewsets.ModelViewSet):
+    """ViewSet for managing public statements."""
+
+    queryset = PublicStatement.objects.all().order_by("-created_at")
+    serializer_class = PublicStatementSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = (MultiPartParser, FormParser)
+
+
+class InterviewViewSet(viewsets.ModelViewSet):
+    """ViewSet for managing interview videos."""
+
+    queryset = Interview.objects.all().order_by("-created_at")
+    serializer_class = InterviewSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = (parsers.JSONParser,)
+
+
+class CorporateDocumentViewSet(viewsets.ModelViewSet):
+    """ViewSet for managing corporate documents."""
+
+    queryset = CorporateDocument.objects.all().order_by("-created_at")
+    serializer_class = CorporateDocumentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     parser_classes = (MultiPartParser, FormParser)
 

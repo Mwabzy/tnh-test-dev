@@ -105,22 +105,33 @@ export const collegeHealthSciences = [
 
 export const newsMedia = [
   {
-    title: "News",
+    title: "News Articles",
     href: "/dashboard/latest-news",
     description:
-      "Information about the new services available at the Nairobi Hospital.",
-  },
-  {
-    title: "Events & Announcements",
-    href: "/dashboard/events-announcements",
-    description:
-      "Information about the events and announcements at the Nairobi Hospital.",
+      "Manage news articles and updates from The Nairobi Hospital.",
   },
   {
     title: "Health Articles & Blogs",
     href: "/dashboard/blog-posts",
     description:
       "Information about health articles and blogs available at the Nairobi Hospital.",
+  },
+  {
+    title: "Public Statements",
+    href: "/dashboard/public-statements",
+    description:
+      "Manage official public statements and their downloadable files.",
+  },
+  {
+    title: "Interviews",
+    href: "/dashboard/interviews",
+    description: "Manage interview videos shown on the public site.",
+  },
+  {
+    title: "Corporate Documents",
+    href: "/dashboard/corporate-documents",
+    description:
+      "Manage corporate documents available for public viewing.",
   },
   {
     title: "Tenders",

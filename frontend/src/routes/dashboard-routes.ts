@@ -64,19 +64,41 @@ const DashboardRoutes = {
     ),
   },
 
-  eventsAnnouncements: {
-    name: "Events & Announcements",
-    path: "events-announcements",
-    component: lazyLoad(
-      () => import("@/dashboard/pages/new_events_blogs/EventsAnnouncememnts"),
-    ),
-  },
-
   latestNews: {
-    name: "Latest News",
+    name: "News Articles",
     path: "latest-news",
     component: lazyLoad(
       () => import("@/dashboard/pages/new_events_blogs/LatestNews"),
+    ),
+  },
+  publicStatements: {
+    name: "Public Statements",
+    path: "public-statements",
+    component: lazyLoad(
+      () =>
+        import(
+          "@/dashboard/pages/new_events_blogs/public-statements/PublicStatements"
+        ),
+    ),
+  },
+  interviews: {
+    name: "Interviews",
+    path: "interviews",
+    component: lazyLoad(
+      () =>
+        import(
+          "@/dashboard/pages/new_events_blogs/interviews/Interviews"
+        ),
+    ),
+  },
+  corporateDocuments: {
+    name: "Corporate Documents",
+    path: "corporate-documents",
+    component: lazyLoad(
+      () =>
+        import(
+          "@/dashboard/pages/new_events_blogs/corporate-documents/CorporateDocuments"
+        ),
     ),
   },
   CSR: {

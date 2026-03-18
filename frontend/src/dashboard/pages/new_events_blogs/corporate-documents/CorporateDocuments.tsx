@@ -1,75 +1,67 @@
-import { useState, useEffect } from "react";
-import BlogTable from "./BlogTable";
-import BlogForm from "./BlogForms";
-import type { Blog } from "@/types";
-import {
-  fetchBlogPosts,
-  createBlogPosts,
-  updateBlogPosts,
-  deleteBlogPosts,
-} from "@/api/api";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { CorporateDocument } from "@/types";
+import {
+  fetchCorporateDocuments,
+  createCorporateDocument,
+  updateCorporateDocument,
+  deleteCorporateDocument,
+} from "@/api/api";
+import CorporateDocumentsForm from "./CorporateDocumentsForm";
+import CorporateDocumentsTable from "./CorporateDocumentsTable";
 
-const LatestNews = () => {
-  const group = "NEWS"; // unique group for Latest News
-  const title = "News Articles";
-
-  const [items, setItems] = useState<Blog[]>([]);
+const CorporateDocumentsPage = () => {
+  const [documents, setDocuments] = useState<CorporateDocument[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [showForm, setShowForm] = useState(false);
-  const [editingItem, setEditingItem] = useState<Blog | null>(null);
+  const [editingDocument, setEditingDocument] =
+    useState<CorporateDocument | null>(null);
 
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
-  // Load news posts
   useEffect(() => {
-    async function loadItems() {
+    async function loadDocuments() {
       setLoading(true);
       try {
-        const data = await fetchBlogPosts();
-        const hasGroup = data.some(
-          (item: Blog) => typeof item.group === "string" && item.group.length,
-        );
-        setItems(hasGroup ? data.filter((item) => item.group === group) : data);
+        const data = await fetchCorporateDocuments();
+        setDocuments(data);
         setError(null);
       } catch (err: any) {
-        setError(err.message || "Error loading news");
+        setError(err.message || "Error loading corporate documents");
       } finally {
         setLoading(false);
       }
     }
 
-    loadItems();
+    loadDocuments();
   }, []);
 
   const handleAdd = () => {
-    setEditingItem(null);
+    setEditingDocument(null);
     setShowForm(true);
   };
 
   const handleSave = async (data: FormData) => {
     try {
-      data.set("group", group); // mark this item as NEWS group
-      data.set("type", "news");
-
-      if (editingItem?.id) {
-        const updated = await updateBlogPosts(editingItem.id, data);
-        setItems((prev) =>
-          prev.map((i) => (i.id === updated.id ? updated : i)),
+      if (editingDocument?.id) {
+        const updated = await updateCorporateDocument(editingDocument.id, data);
+        setDocuments((prev) =>
+          prev.map((item) => (item.id === updated.id ? updated : item)),
         );
       } else {
-        const created = await createBlogPosts(data);
-        setItems((prev) => [created, ...prev]);
+        const created = await createCorporateDocument(data);
+        setDocuments((prev) => [created, ...prev]);
       }
 
       setShowForm(false);
-      setEditingItem(null);
+      setEditingDocument(null);
       toast.success("Saved successfully!");
     } catch (err: any) {
-      toast.error(`Error saving item: ${err.message}`);
+      toast.error(`Error saving document: ${err.message}`);
     }
   };
 
@@ -80,58 +72,79 @@ const LatestNews = () => {
 
     try {
       setDeletingId(deleteConfirmId);
-      await deleteBlogPosts(deleteConfirmId);
-      setItems((prev) => prev.filter((i) => i.id !== deleteConfirmId));
+      await deleteCorporateDocument(deleteConfirmId);
+      setDocuments((prev) => prev.filter((item) => item.id !== deleteConfirmId));
       setDeleteConfirmId(null);
       toast.success("Deleted successfully!");
     } catch (err: any) {
-      toast.error(`Error deleting item: ${err.message}`);
+      toast.error(`Error deleting document: ${err.message}`);
     } finally {
       setDeletingId(null);
+    }
+  };
+
+  const handleTogglePublish = async (document: CorporateDocument) => {
+    if (!document.id) return;
+    const isPublished = document.isPublished !== false;
+    const formData = new FormData();
+    formData.append("isPublished", String(!isPublished));
+
+    try {
+      setTogglingId(document.id);
+      const updated = await updateCorporateDocument(document.id, formData);
+      setDocuments((prev) =>
+        prev.map((item) => (item.id === updated.id ? updated : item)),
+      );
+      toast.success(isPublished ? "Unpublished" : "Published");
+    } catch (err: any) {
+      toast.error(`Error updating status: ${err.message}`);
+    } finally {
+      setTogglingId(null);
     }
   };
 
   return (
     <div>
       <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-bold">{title}</h1>
+        <h1 className="text-2xl font-bold">Corporate Documents</h1>
 
         {!showForm && !loading && (
           <button
             onClick={handleAdd}
             className="px-4 py-2 bg-green-600 text-white rounded"
           >
-            Add News Article
+            Add Document
           </button>
         )}
       </div>
 
       {loading ? (
-        <p>Loading News...</p>
+        <p>Loading documents...</p>
       ) : error ? (
         <p className="text-red-500 mb-4">{error}</p>
       ) : showForm ? (
-        <BlogForm
-          initialData={editingItem}
+        <CorporateDocumentsForm
+          initialData={editingDocument}
           onSave={handleSave}
           onCancel={() => setShowForm(false)}
-          group={"NEWS"}
         />
       ) : (
-        <BlogTable
-          data={items}
-          onEdit={(item: Blog) => {
-            setEditingItem(item);
+        <CorporateDocumentsTable
+          data={documents}
+          onEdit={(item) => {
+            setEditingDocument(item);
             setShowForm(true);
           }}
           onDelete={handleDeleteClick}
+          onTogglePublish={handleTogglePublish}
           deletingId={deletingId}
+          togglingId={togglingId}
         />
       )}
 
       {deleteConfirmId &&
         (() => {
-          const item = items.find((i) => i.id === deleteConfirmId);
+          const item = documents.find((i) => i.id === deleteConfirmId);
           return (
             <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
               <div className="bg-white p-6 rounded shadow-lg w-96">
@@ -161,4 +174,4 @@ const LatestNews = () => {
   );
 };
 
-export default LatestNews;
+export default CorporateDocumentsPage;

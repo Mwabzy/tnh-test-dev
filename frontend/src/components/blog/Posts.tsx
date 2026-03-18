@@ -20,8 +20,22 @@ export type Post = {
   image: string;
 };
 
+type PostLike = {
+  id: string | number;
+  title: string;
+  category?: string;
+  shortdesc?: string;
+  short_desc?: string;
+  longdesc?: string;
+  long_desc?: string;
+  image?: string;
+  cover_image?: string;
+  coverImage?: string;
+};
+
 interface PostsProps {
-  posts: Post[];
+  posts?: PostLike[];
+  group?: Blog["group"];
 }
 
 const truncateText = (value: string, maxLength: number) => {
@@ -29,26 +43,49 @@ const truncateText = (value: string, maxLength: number) => {
   return `${value.slice(0, maxLength).trimEnd()}...`;
 };
 
-const Posts: FunctionComponent<PostsProps> = () => {
-  const [data, setData] = useState<Blog[]>([]);
-  const [loading, setLoading] = useState(true);
+const Posts: FunctionComponent<PostsProps> = ({ posts, group }) => {
+  const [data, setData] = useState<PostLike[]>(posts ?? []);
+  const [loading, setLoading] = useState(!posts);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (posts) {
+      setData(posts);
+      setLoading(false);
+      return;
+    }
+
+    let isMounted = true;
+
     const loadServices = async () => {
       try {
         setLoading(true);
         const services = await fetchBlogPosts();
-        setData(services);
+        const hasGroup =
+          group &&
+          services.some(
+            (post: Blog) => typeof post.group === "string" && post.group.length,
+          );
+        const filtered = hasGroup
+          ? services.filter((post: Blog) => post.group === group)
+          : services;
+        if (!isMounted) return;
+        setData(filtered);
       } catch (err) {
         console.error("Error fetching services:", err);
+        if (!isMounted) return;
         setError("Unable to load services.");
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
     loadServices();
-  }, []);
+    return () => {
+      isMounted = false;
+    };
+  }, [posts, group]);
 
   if (loading) {
     return <div className="py-10 text-center text-gray-600">Loading posts...</div>;
@@ -70,7 +107,7 @@ const Posts: FunctionComponent<PostsProps> = () => {
           className="rounded-lg overflow-hidden shadow hover:shadow-md transition"
         >
           <img
-            src={post.image || post.cover_image || ""}
+            src={post.image || post.cover_image || post.coverImage || ""}
             alt={post.title}
             className="w-full h-56 rounded-lg transform transition duration-300 hover:scale-105 hover:brightness-90 object-cover"
           />

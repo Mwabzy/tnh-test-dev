@@ -1,75 +1,67 @@
-import { useState, useEffect } from "react";
-import BlogTable from "./BlogTable";
-import BlogForm from "./BlogForms";
-import type { Blog } from "@/types";
-import {
-  fetchBlogPosts,
-  createBlogPosts,
-  updateBlogPosts,
-  deleteBlogPosts,
-} from "@/api/api";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { Interview } from "@/types";
+import {
+  fetchInterviews,
+  createInterview,
+  updateInterview,
+  deleteInterview,
+} from "@/api/api";
+import InterviewsForm from "./InterviewsForm";
+import InterviewsTable from "./InterviewsTable";
 
-const LatestNews = () => {
-  const group = "NEWS"; // unique group for Latest News
-  const title = "News Articles";
-
-  const [items, setItems] = useState<Blog[]>([]);
+const InterviewsPage = () => {
+  const [interviews, setInterviews] = useState<Interview[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [showForm, setShowForm] = useState(false);
-  const [editingItem, setEditingItem] = useState<Blog | null>(null);
+  const [editingInterview, setEditingInterview] =
+    useState<Interview | null>(null);
 
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
-  // Load news posts
   useEffect(() => {
-    async function loadItems() {
+    async function loadInterviews() {
       setLoading(true);
       try {
-        const data = await fetchBlogPosts();
-        const hasGroup = data.some(
-          (item: Blog) => typeof item.group === "string" && item.group.length,
-        );
-        setItems(hasGroup ? data.filter((item) => item.group === group) : data);
+        const data = await fetchInterviews();
+        setInterviews(data);
         setError(null);
       } catch (err: any) {
-        setError(err.message || "Error loading news");
+        setError(err.message || "Error loading interviews");
       } finally {
         setLoading(false);
       }
     }
 
-    loadItems();
+    loadInterviews();
   }, []);
 
   const handleAdd = () => {
-    setEditingItem(null);
+    setEditingInterview(null);
     setShowForm(true);
   };
 
-  const handleSave = async (data: FormData) => {
+  const handleSave = async (payload: Interview) => {
     try {
-      data.set("group", group); // mark this item as NEWS group
-      data.set("type", "news");
-
-      if (editingItem?.id) {
-        const updated = await updateBlogPosts(editingItem.id, data);
-        setItems((prev) =>
-          prev.map((i) => (i.id === updated.id ? updated : i)),
+      if (editingInterview?.id) {
+        const updated = await updateInterview(editingInterview.id, payload);
+        setInterviews((prev) =>
+          prev.map((item) => (item.id === updated.id ? updated : item)),
         );
       } else {
-        const created = await createBlogPosts(data);
-        setItems((prev) => [created, ...prev]);
+        const created = await createInterview(payload);
+        setInterviews((prev) => [created, ...prev]);
       }
 
       setShowForm(false);
-      setEditingItem(null);
+      setEditingInterview(null);
       toast.success("Saved successfully!");
     } catch (err: any) {
-      toast.error(`Error saving item: ${err.message}`);
+      toast.error(`Error saving interview: ${err.message}`);
     }
   };
 
@@ -80,58 +72,79 @@ const LatestNews = () => {
 
     try {
       setDeletingId(deleteConfirmId);
-      await deleteBlogPosts(deleteConfirmId);
-      setItems((prev) => prev.filter((i) => i.id !== deleteConfirmId));
+      await deleteInterview(deleteConfirmId);
+      setInterviews((prev) => prev.filter((item) => item.id !== deleteConfirmId));
       setDeleteConfirmId(null);
       toast.success("Deleted successfully!");
     } catch (err: any) {
-      toast.error(`Error deleting item: ${err.message}`);
+      toast.error(`Error deleting interview: ${err.message}`);
     } finally {
       setDeletingId(null);
+    }
+  };
+
+  const handleTogglePublish = async (interview: Interview) => {
+    if (!interview.id) return;
+    const isPublished = interview.isPublished !== false;
+
+    try {
+      setTogglingId(interview.id);
+      const updated = await updateInterview(interview.id, {
+        isPublished: !isPublished,
+      });
+      setInterviews((prev) =>
+        prev.map((item) => (item.id === updated.id ? updated : item)),
+      );
+      toast.success(isPublished ? "Unpublished" : "Published");
+    } catch (err: any) {
+      toast.error(`Error updating status: ${err.message}`);
+    } finally {
+      setTogglingId(null);
     }
   };
 
   return (
     <div>
       <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-bold">{title}</h1>
+        <h1 className="text-2xl font-bold">Interviews</h1>
 
         {!showForm && !loading && (
           <button
             onClick={handleAdd}
             className="px-4 py-2 bg-green-600 text-white rounded"
           >
-            Add News Article
+            Add Interview
           </button>
         )}
       </div>
 
       {loading ? (
-        <p>Loading News...</p>
+        <p>Loading interviews...</p>
       ) : error ? (
         <p className="text-red-500 mb-4">{error}</p>
       ) : showForm ? (
-        <BlogForm
-          initialData={editingItem}
+        <InterviewsForm
+          initialData={editingInterview}
           onSave={handleSave}
           onCancel={() => setShowForm(false)}
-          group={"NEWS"}
         />
       ) : (
-        <BlogTable
-          data={items}
-          onEdit={(item: Blog) => {
-            setEditingItem(item);
+        <InterviewsTable
+          data={interviews}
+          onEdit={(item) => {
+            setEditingInterview(item);
             setShowForm(true);
           }}
           onDelete={handleDeleteClick}
+          onTogglePublish={handleTogglePublish}
           deletingId={deletingId}
+          togglingId={togglingId}
         />
       )}
 
       {deleteConfirmId &&
         (() => {
-          const item = items.find((i) => i.id === deleteConfirmId);
+          const item = interviews.find((i) => i.id === deleteConfirmId);
           return (
             <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
               <div className="bg-white p-6 rounded shadow-lg w-96">
@@ -161,4 +174,4 @@ const LatestNews = () => {
   );
 };
 
-export default LatestNews;
+export default InterviewsPage;

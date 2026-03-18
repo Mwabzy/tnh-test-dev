@@ -1,5 +1,16 @@
 from rest_framework import serializers
-from .models import TeamMember, BlogPost, CSR, CSRImage, Tender, Career, Hero
+from .models import (
+    TeamMember,
+    BlogPost,
+    CSR,
+    CSRImage,
+    Tender,
+    Career,
+    PublicStatement,
+    Interview,
+    CorporateDocument,
+    Hero,
+)
 from .translation import (
     auto_translate_missing_blogpost_fields,
     auto_translate_missing_csr_fields,
@@ -503,6 +514,102 @@ class CareerSerializer(serializers.ModelSerializer):
             return ""
         request = self.context.get("request")
         return request.build_absolute_uri(obj.file.url) if request else obj.file.url
+
+
+class PublicStatementSerializer(serializers.ModelSerializer):
+    isPublished = serializers.BooleanField(source="is_published", required=False)
+    fileUrl = serializers.SerializerMethodField(read_only=True)
+    existingFileUrl = serializers.CharField(
+        write_only=True,
+        required=False,
+        allow_blank=True,
+    )
+
+    class Meta:
+        model = PublicStatement
+        fields = (
+            "id",
+            "title",
+            "isPublished",
+            "file",
+            "fileUrl",
+            "existingFileUrl",
+            "created_at",
+        )
+        read_only_fields = ("id", "fileUrl", "created_at")
+        extra_kwargs = {
+            "file": {"required": False, "allow_null": True},
+        }
+
+    def get_fileUrl(self, obj):
+        if not obj.file:
+            return ""
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.file.url) if request else obj.file.url
+
+    def create(self, validated_data):
+        validated_data.pop("existingFileUrl", None)
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        validated_data.pop("existingFileUrl", None)
+        return super().update(instance, validated_data)
+
+
+class CorporateDocumentSerializer(serializers.ModelSerializer):
+    isPublished = serializers.BooleanField(source="is_published", required=False)
+    fileUrl = serializers.SerializerMethodField(read_only=True)
+    existingFileUrl = serializers.CharField(
+        write_only=True,
+        required=False,
+        allow_blank=True,
+    )
+
+    class Meta:
+        model = CorporateDocument
+        fields = (
+            "id",
+            "title",
+            "isPublished",
+            "file",
+            "fileUrl",
+            "existingFileUrl",
+            "created_at",
+        )
+        read_only_fields = ("id", "fileUrl", "created_at")
+        extra_kwargs = {
+            "file": {"required": False, "allow_null": True},
+        }
+
+    def get_fileUrl(self, obj):
+        if not obj.file:
+            return ""
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.file.url) if request else obj.file.url
+
+    def create(self, validated_data):
+        validated_data.pop("existingFileUrl", None)
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        validated_data.pop("existingFileUrl", None)
+        return super().update(instance, validated_data)
+
+
+class InterviewSerializer(serializers.ModelSerializer):
+    isPublished = serializers.BooleanField(source="is_published", required=False)
+    videoUrl = serializers.CharField(source="video_url")
+
+    class Meta:
+        model = Interview
+        fields = (
+            "id",
+            "title",
+            "videoUrl",
+            "isPublished",
+            "created_at",
+        )
+        read_only_fields = ("id", "created_at")
 
 class HeroSerializer(serializers.ModelSerializer):
     title = serializers.CharField()

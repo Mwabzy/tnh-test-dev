@@ -6,6 +6,9 @@ from .views import (
     SendEmailViewSet,
     TenderViewSet,
     CareerViewSet,
+    PublicStatementViewSet,
+    InterviewViewSet,
+    CorporateDocumentViewSet,
     HeroViewSet,
 )
 
@@ -16,6 +19,9 @@ router.register('csr', CSRViewSet, basename='csr')
 router.register('send_email', SendEmailViewSet, basename="send_email" )
 router.register('tenders', TenderViewSet, basename='tenders')
 router.register('careers', CareerViewSet, basename='careers')
+router.register('public-statements', PublicStatementViewSet, basename='public-statements')
+router.register('interviews', InterviewViewSet, basename='interviews')
+router.register('corporate-documents', CorporateDocumentViewSet, basename='corporate-documents')
 router.register('hero', HeroViewSet, basename='hero')
 
 urlpatterns = router.urls

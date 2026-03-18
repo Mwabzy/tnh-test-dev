@@ -15,6 +15,9 @@ const ROOM_WARDS_API = "/room-wards/";
 const BOOKING_API = "/send_email/";
 const CAREERS_API = "/careers/";
 const TENDERS_API = "/tenders/";
+const PUBLIC_STATEMENTS_API = "/public-statements/";
+const INTERVIEWS_API = "/interviews/";
+const CORPORATE_DOCUMENTS_API = "/corporate-documents/";
 const HERO_API = "/hero/";
 
 // Axios Instance
@@ -560,6 +563,80 @@ export async function updateTender(id: string, data: any) {
 
 export async function deleteTender(id: string) {
   const res = await api.delete(`${TENDERS_API}${id}/`);
+  return res.data;
+}
+
+// PUBLIC STATEMENTS
+
+export async function fetchPublicStatements() {
+  const res = await api.get(PUBLIC_STATEMENTS_API);
+  return res.data;
+}
+
+export async function createPublicStatement(data: any) {
+  const res = await api.post(PUBLIC_STATEMENTS_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+}
+
+export async function updatePublicStatement(id: string, data: any) {
+  const res = await api.patch(`${PUBLIC_STATEMENTS_API}${id}/`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+}
+
+export async function deletePublicStatement(id: string) {
+  const res = await api.delete(`${PUBLIC_STATEMENTS_API}${id}/`);
+  return res.data;
+}
+
+// INTERVIEWS
+
+export async function fetchInterviews() {
+  const res = await api.get(INTERVIEWS_API);
+  return res.data;
+}
+
+export async function createInterview(data: any) {
+  const res = await api.post(INTERVIEWS_API, data);
+  return res.data;
+}
+
+export async function updateInterview(id: string, data: any) {
+  const res = await api.patch(`${INTERVIEWS_API}${id}/`, data);
+  return res.data;
+}
+
+export async function deleteInterview(id: string) {
+  const res = await api.delete(`${INTERVIEWS_API}${id}/`);
+  return res.data;
+}
+
+// CORPORATE DOCUMENTS
+
+export async function fetchCorporateDocuments() {
+  const res = await api.get(CORPORATE_DOCUMENTS_API);
+  return res.data;
+}
+
+export async function createCorporateDocument(data: any) {
+  const res = await api.post(CORPORATE_DOCUMENTS_API, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+}
+
+export async function updateCorporateDocument(id: string, data: any) {
+  const res = await api.patch(`${CORPORATE_DOCUMENTS_API}${id}/`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
+}
+
+export async function deleteCorporateDocument(id: string) {
+  const res = await api.delete(`${CORPORATE_DOCUMENTS_API}${id}/`);
   return res.data;
 }
 

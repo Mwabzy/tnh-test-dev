@@ -4,4 +4,7 @@ export * from "./teamMembers";
 export * from "./blogs";
 export * from "./careers";
 export * from "./tenders";
+export * from "./publicStatements";
+export * from "./interviews";
+export * from "./corporateDocuments";
 export * from "./hero";

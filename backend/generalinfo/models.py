@@ -218,6 +218,45 @@ class Career(models.Model):
     def __str__(self):
         return self.title
 
+
+class PublicStatement(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    title = models.CharField(max_length=255)
+    is_published = models.BooleanField(default=True, db_index=True)
+    file = models.FileField(upload_to="public_statements/", blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Interview(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    title = models.CharField(max_length=255)
+    video_url = models.URLField(max_length=500)
+    is_published = models.BooleanField(default=True, db_index=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
+class CorporateDocument(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    title = models.CharField(max_length=255)
+    is_published = models.BooleanField(default=True, db_index=True)
+    file = models.FileField(upload_to="corporate_documents/", blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
 class Hero(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
