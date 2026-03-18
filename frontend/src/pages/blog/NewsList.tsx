@@ -1,5 +1,7 @@
 import Posts, { Post } from "@/components/blog/Posts";
 import { motion } from "framer-motion";
+import { useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slideUp = {
   hidden: { opacity: 0, y: 50 },
@@ -120,7 +122,84 @@ export const blogPosts = [
   },
 ] as Post[];
 
+const publicStatements = [
+  { id: 1, title: "TNH News Letter" },
+  { id: 2, title: "Old Mutual General Insurance Kenya Suspension Lift" },
+  { id: 3, title: "First Assurance Suspension Lift" },
+  { id: 4, title: "Position Statement" },
+  { id: 5, title: "TNH Privacy Notice" },
+  { id: 6, title: "Notification of New Chairman" },
+  { id: 7, title: "Changes in Senior Leadership" },
+  { id: 8, title: "Announcement of Election of Board Members" },
+  { id: 9, title: "Annual General Meeting Poll Results Announcement 2024" },
+  { id: 10, title: "Kenya Hospital Association AGM Voting Results 2024" },
+  { id: 11, title: "Notice of Annual General Meeting for the Year 2024" },
+  { id: 12, title: "Notification of the Date for the Conduct of AGM 2024" },
+];
+
+const corporateDocuments = [
+  { id: 1, title: "Corporate Governance Charter" },
+  { id: 2, title: "Strategic Plan Highlights 2024–2028" },
+  { id: 3, title: "Annual Report 2024" },
+  { id: 4, title: "Quality & Safety Policy" },
+  { id: 5, title: "Sustainability Report 2024" },
+  { id: 6, title: "Code of Conduct" },
+  { id: 7, title: "Procurement Policy" },
+  { id: 8, title: "Risk Management Framework" },
+  { id: 9, title: "Patient Rights & Responsibilities" },
+  { id: 10, title: "Data Protection & Privacy Policy" },
+  { id: 11, title: "Corporate Social Responsibility Report" },
+  { id: 12, title: "Board Committee Terms of Reference" },
+];
+
+const interviewVideos = [
+  {
+    id: 1,
+    title: "Interview 1",
+    url: "https://www.youtube.com/embed/ysz5S6PUM-U",
+  },
+  {
+    id: 2,
+    title: "Interview 2",
+    url: "https://www.youtube.com/embed/tgbNymZ7vqY",
+  },
+  {
+    id: 3,
+    title: "Interview 3",
+    url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  },
+  {
+    id: 4,
+    title: "Interview 4",
+    url: "https://www.youtube.com/embed/aqz-KE-bpKQ",
+  },
+  {
+    id: 5,
+    title: "Interview 5",
+    url: "https://www.youtube.com/embed/oUFJJNQGwhk",
+  },
+];
+
 const newslist = () => {
+  const [showAllStatements, setShowAllStatements] = useState(false);
+  const [showAllDocuments, setShowAllDocuments] = useState(false);
+  const interviewsRef = useRef<HTMLDivElement | null>(null);
+
+  const visibleStatements = showAllStatements
+    ? publicStatements
+    : publicStatements.slice(0, 6);
+
+  const visibleDocuments = showAllDocuments
+    ? corporateDocuments
+    : corporateDocuments.slice(0, 6);
+
+  const scrollInterviews = (direction: "left" | "right") => {
+    if (!interviewsRef.current) return;
+    const { clientWidth } = interviewsRef.current;
+    const scrollAmount = direction === "left" ? -clientWidth : clientWidth;
+    interviewsRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+  };
+
   return (
     <>
       <section className="px-6 py-12 max-w-7xl mx-auto">
@@ -134,7 +213,7 @@ const newslist = () => {
           <div className="flex justify-between items-center mb-8">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
-                Latest News
+                News Articles
               </h2>
               <p className="text-2xl md:text-gray-600 mt-2">
                 Stay informed about the latest news around The Nairobi Hospital.
@@ -146,6 +225,133 @@ const newslist = () => {
             <Posts posts={blogPosts} />
           </div>
         </motion.div>
+      </section>
+
+      <section className="px-6 py-12 max-w-7xl mx-auto">
+        <div className="mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+            Public Statements
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {visibleStatements.map((item) => (
+            <div
+              key={item.id}
+              className="rounded-xl bg-[#F7EFEF] p-5 shadow-sm flex flex-col gap-4"
+            >
+              <p className="text-sm font-semibold text-red-900">{item.title}</p>
+              <button
+                type="button"
+                className="w-fit inline-flex items-center gap-2 rounded-full bg-[#B86A14] px-4 py-2 text-sm font-semibold text-white"
+              >
+                View
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {publicStatements.length > 6 && (
+          <div className="mt-8">
+            <button
+              type="button"
+              onClick={() => setShowAllStatements((prev) => !prev)}
+              className="inline-flex items-center gap-2 text-red-900 font-semibold hover:underline"
+            >
+              {showAllStatements ? "View less" : "View more"}
+              {!showAllStatements && <span aria-hidden>→</span>}
+            </button>
+          </div>
+        )}
+      </section>
+
+      <section className="px-6 py-12 max-w-7xl mx-auto">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+            Interviews
+          </h2>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => scrollInterviews("left")}
+              className="h-10 w-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100"
+              aria-label="Previous interviews"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollInterviews("right")}
+              className="h-10 w-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100"
+              aria-label="Next interviews"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        <div
+          ref={interviewsRef}
+          className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2"
+        >
+          {interviewVideos.map((video) => (
+            <div
+              key={video.id}
+              className="snap-start w-full sm:w-[60%] md:w-[48%] lg:w-[32%] flex-shrink-0"
+            >
+              <div className="aspect-video rounded-xl overflow-hidden shadow-md bg-black">
+                <iframe
+                  src={video.url}
+                  title={video.title}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+              <p className="mt-3 text-sm font-semibold text-red-900">
+                {video.title}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="px-6 py-12 max-w-7xl mx-auto">
+        <div className="mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+            Corporate Documents
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {visibleDocuments.map((item) => (
+            <div
+              key={item.id}
+              className="rounded-xl bg-[#F7EFEF] p-5 shadow-sm flex flex-col gap-4"
+            >
+              <p className="text-sm font-semibold text-red-900">{item.title}</p>
+              <button
+                type="button"
+                className="w-fit inline-flex items-center gap-2 rounded-full bg-[#B86A14] px-4 py-2 text-sm font-semibold text-white"
+              >
+                View
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {corporateDocuments.length > 6 && (
+          <div className="mt-8">
+            <button
+              type="button"
+              onClick={() => setShowAllDocuments((prev) => !prev)}
+              className="inline-flex items-center gap-2 text-red-900 font-semibold hover:underline"
+            >
+              {showAllDocuments ? "View less" : "View more"}
+              {!showAllDocuments && <span aria-hidden>→</span>}
+            </button>
+          </div>
+        )}
       </section>
     </>
   );
