@@ -8,6 +8,13 @@ import {
 } from "lucide-react";
 import { useIntlayer } from "react-intlayer";
 
+import about from "@/assets/navigation_images/about.jpg";
+import cicely from "@/assets/navigation_images/cicely.jpg";
+import clinical from "@/assets/navigation_images/clinical.png";
+import facilities from "@/assets/navigation_images/facilities.jpg";
+import news from "@/assets/navigation_images/news.jpg";
+
+
 export const NAVIGATION_CONTENT = () => {
   const content = useIntlayer("navigationContent");
   const accreditationPath = "/about-us/accreditation-certification";
@@ -68,8 +75,7 @@ export const NAVIGATION_CONTENT = () => {
         },
         {
           title: "IMAGE",
-          image:
-            "https://cms.thenairobihosp.org/uploads/nai_hospital_1ce6949b74.jpg",
+          image: about,
           link: "/about-us",
           caption: content.leadership_image_caption,
         },
@@ -186,8 +192,7 @@ export const NAVIGATION_CONTENT = () => {
         },
         {
           title: "IMAGE",
-          image:
-            "https://cms.thenairobihosp.org/uploads/920x400_7286e9039b.jpg",
+          image: clinical,
           link: "/clinical/medical-specialties",
           caption: content.image_caption,
         },
@@ -220,8 +225,7 @@ export const NAVIGATION_CONTENT = () => {
         },
         {
           title: "IMAGE",
-          image:
-            "https://cms.thenairobihosp.org/uploads/Cicely_Mc_Donell_580x500_b4d2c6689e.jpg",
+          image: cicely,
           link: "/college/student-alumni",
           caption: content.college_image_caption,
         },
@@ -267,7 +271,7 @@ export const NAVIGATION_CONTENT = () => {
         },
         {
           title: "IMAGE",
-          image: "https://thenairobihosp.org/_nuxt/img/news-letter.064bc5a.png",
+          image: news,
           link: "/careers/volunteer",
           caption: content.careers_image_caption,
         },
@@ -293,8 +297,7 @@ export const NAVIGATION_CONTENT = () => {
         },
         {
           title: "IMAGE",
-          image:
-            "https://cms.thenairobihosp.org/uploads/920x400_Cleaning_9b5e69704e.jpg",
+          image: facilities,
           link: "/about-us/board-of-management",
           caption: content.other_services_image_caption,
         },
