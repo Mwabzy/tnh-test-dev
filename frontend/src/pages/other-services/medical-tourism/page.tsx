@@ -335,7 +335,7 @@ const MedicalTourism: FC = () => {
                 <h4 className="font-semibold mb-2">Travel Support</h4>
                 <p className="text-sm text-gray-700">
                   Mon - Fri: 8:00 AM - 5:00 PM<br />
-                  Tel: +254 (0)703 082 000<br />
+                  Tel: +254 (0)703 082 036<br />
                   Email: medicalenquiries@nbihosp.org
                 </p>
               </div>
@@ -343,7 +343,7 @@ const MedicalTourism: FC = () => {
                 <h4 className="font-semibold mb-2">WhatsApp Support</h4>
                 <p className="text-sm text-gray-700">
                   24/7 WhatsApp Line<br />
-                  Tel: +254 (0)703 082 000<br />
+                  Tel: +254 (0)703 082 057<br />
                   Available in multiple languages
                 </p>
               </div>
