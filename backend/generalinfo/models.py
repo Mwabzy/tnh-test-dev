@@ -94,6 +94,8 @@ class BlogPost(models.Model):
     spotlight_points_ru = models.TextField(blank=True, default="")
 
     category = models.CharField(max_length=100)
+    group = models.CharField(max_length=50, blank=True, default="", db_index=True)
+    type = models.CharField(max_length=50, blank=True, default="")
 
     date = models.DateField(default=timezone.now)
 

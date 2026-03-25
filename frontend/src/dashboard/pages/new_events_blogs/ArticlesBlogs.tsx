@@ -30,10 +30,7 @@ const ArticlesBlog = () => {
       setLoading(true);
       try {
         const data = await fetchBlogPosts();
-        const hasGroup = data.some(
-          (item: Blog) => typeof item.group === "string" && item.group.length,
-        );
-        setBlogs(hasGroup ? data.filter((item: Blog) => item.group === group) : data);
+        setBlogs(data.filter((item: Blog) => item.group === group));
         setError(null);
       } catch (err: any) {
         setError(err.message || "Error loading blogs");

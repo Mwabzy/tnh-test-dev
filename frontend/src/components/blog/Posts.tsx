@@ -61,12 +61,7 @@ const Posts: FunctionComponent<PostsProps> = ({ posts, group }) => {
       try {
         setLoading(true);
         const services = await fetchBlogPosts();
-        const hasGroup =
-          group &&
-          services.some(
-            (post: Blog) => typeof post.group === "string" && post.group.length,
-          );
-        const filtered = hasGroup
+        const filtered = group
           ? services.filter((post: Blog) => post.group === group)
           : services;
         if (!isMounted) return;
