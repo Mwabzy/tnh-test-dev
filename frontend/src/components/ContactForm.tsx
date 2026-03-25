@@ -123,7 +123,12 @@ const ContactForm = ({
             <span className="text-lg font-serif font-medium text-red-900">
               {content.formcontact}
             </span>
-            <span className="text-lg font-serif">{contactInfo.phone}</span>
+            <a
+              href={`tel:${contactInfo.phone.replace(/[^+\\d]/g, "")}`}
+              className="text-lg font-serif text-black hover:underline"
+            >
+              {contactInfo.phone}
+            </a>
           </div>
           {contactInfo.emails && contactInfo.emails.length > 0 ? (
             contactInfo.emails.map((email, index) => (
@@ -136,7 +141,12 @@ const ContactForm = ({
                   {email.type.charAt(0).toUpperCase() + email.type.slice(1)}{" "}
                   {content.formenquiries}
                 </span>
-                <span className="text-lg font-serif">{email.address}</span>
+                <a
+                  href={`mailto:${email.address}`}
+                  className="text-lg font-serif text-black hover:underline"
+                >
+                  {email.address}
+                </a>
               </div>
             ))
           ) : (
