@@ -4,8 +4,12 @@ import { ClinicalService } from "@/types";
 import ServiceTemplate from "@/components/services/ServiceTemplate";
 import ServiceList from "@/pages/clinics/ServiceList";
 import Heading from "@/components/Heading";
-import { fetchClinicalServiceById, fetchClinicalServiceByPath } from "@/api/api";
+import {
+  fetchClinicalServiceById,
+  fetchClinicalServiceByPath,
+} from "@/api/api";
 import { ServiceDetailSkeleton } from "@/components/layout/page-skeletons";
+import { applyDocumentSeo, trimMetaDescription } from "@/lib/seoDom";
 
 const ServiceDetail = () => {
   const params = useParams<{ "*": string }>();
@@ -62,6 +66,22 @@ const ServiceDetail = () => {
 
     fetchService();
   }, [path]);
+
+  useEffect(() => {
+    if (!service) return;
+
+    const description = trimMetaDescription(
+      service.tagline || service.overview || "",
+      "Explore this clinical service at The Nairobi Hospital.",
+    );
+
+    applyDocumentSeo({
+      title: `${service.title} | The Nairobi Hospital`,
+      description,
+      canonicalPath: window.location.pathname,
+      image: service.images?.[0]?.url,
+    });
+  }, [service]);
 
   if (loading) return <ServiceDetailSkeleton />;
 

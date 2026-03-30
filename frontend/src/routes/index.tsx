@@ -1,5 +1,5 @@
 import { RoutesPath, UIRoutesType } from "./routes-path";
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import { JSX } from "react";
 import Layout from "@/components/layout/layout";
 import DashboardLayout from "@/dashboard/DashboardLayout";
@@ -20,11 +20,32 @@ import NotFound from "@/dashboard/pages/NotFound";
 //   // Optional: navigate to dashboard home
 // };
 
+const legacyRedirects = [
+  { from: "/who-we-are", to: "/about-us" },
+  { from: "/board-of-management", to: "/about-us/board-of-management" },
+  { from: "/board-of-trustees", to: "/about-us/board-of-trustees" },
+  { from: "/senior-management-team", to: "/about-us/senior-management" },
+  {
+    from: "/accreditation-and-certification",
+    to: "/about-us/accreditation-certification",
+  },
+  { from: "/inpatients/rooms-and-wards", to: "/inpatient/rooms-wards" },
+  { from: "/inpatients/admission-and-discharge", to: "/inpatient/admission" },
+  { from: "/inpatients/high-critical-care", to: "/inpatient/critical-care" },
+];
+
 export function AppRoutes(): JSX.Element {
   return (
     <Routes>
       {/* Protected Routes */}
       <Route element={<Layout />}>
+        {legacyRedirects.map((redirect) => (
+          <Route
+            key={redirect.from}
+            path={redirect.from}
+            element={<Navigate to={redirect.to} replace />}
+          />
+        ))}
         {Object.entries(RoutesPath).map(([key, route]) => {
           const typedRoute = route as UIRoutesType;
           return (

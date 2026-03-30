@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "tsc -b && vite build",
+    "seo": "node scripts/generate-seo-files.mjs",
+    "prerender": "node scripts/prerender-public-routes.mjs",
+    "build": "node scripts/generate-seo-files.mjs && tsc -b && vite build && node scripts/prerender-public-routes.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "translate": "pnpm dlx intlayer dictionaries build"

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { addClassesToDescription } from "@/components/services/utilities";
 import { fetchBlogPostById } from "@/api/api";
 import { sanitizeHtml } from "@/lib/sanitizeHtml";
+import { applyDocumentSeo, trimMetaDescription } from "@/lib/seoDom";
 
 type NewsItemDetail = {
   title?: string;
@@ -80,6 +81,20 @@ const NewsDetail = () => {
   const contentTitle = String(
     newsItem.blog_subtitle || newsItem.spotlight_title || "Content Title",
   );
+
+  useEffect(() => {
+    if (!newsItem) return;
+
+    applyDocumentSeo({
+      title: `${newsItem.title || subtitleText} | The Nairobi Hospital`,
+      description: trimMetaDescription(
+        shortDescription || longDescription,
+        "Read this news update from The Nairobi Hospital.",
+      ),
+      canonicalPath: window.location.pathname,
+      image: heroImage || undefined,
+    });
+  }, [heroImage, longDescription, newsItem, shortDescription, subtitleText]);
 
   return (
     <div>
