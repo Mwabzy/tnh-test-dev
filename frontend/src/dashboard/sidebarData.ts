@@ -8,7 +8,7 @@ export const clinicalSection = [
     href: "/dashboard/doctor-profiles",
   },
   {
-    title: "Outpatient Centers",
+    title: "Locations/Timings",
     href: "/dashboard/outpatient-centers",
   },
   {
@@ -144,5 +144,32 @@ export const newsMedia = [
     href: "/dashboard/careers",
     description:
       "Information about the career opportunities available at the Nairobi Hospital.",
+  },
+];
+
+export const userEnquiries = [
+  {
+    title: "Recipient Emails",
+    href: "/dashboard/user-enquiries/recipient-emails",
+  },
+  {
+    title: "Bookings",
+    href: "/dashboard/user-enquiries/bookings",
+  },
+  {
+    title: "General enquiries",
+    href: "/dashboard/user-enquiries/general-enquiries",
+  },
+  {
+    title: "Medical enquiries",
+    href: "/dashboard/user-enquiries/medical-enquiries",
+  },
+  {
+    title: "School of Nursing",
+    href: "/dashboard/user-enquiries/school-of-nursing",
+  },
+  {
+    title: "Job enquiries",
+    href: "/dashboard/user-enquiries/job-enquiries",
   },
 ];

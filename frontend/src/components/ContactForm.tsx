@@ -1,8 +1,14 @@
 import { Mail, Phone } from "lucide-react";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useIntlayer } from "react-intlayer";
-import { sendEmail } from "@/api/api";
+import { fetchRecipientEmailSettings, sendEmail } from "@/api/api";
 import toast from "react-hot-toast";
+import {
+  buildRecipientEmailMap,
+  getUserEnquiryRecipient,
+  USER_ENQUIRY_SUBJECT_OPTIONS,
+  USER_ENQUIRY_RECIPIENT_MAP,
+} from "@/config/userEnquiries";
 
 // Define the shape of an email entry
 interface EmailEntry {
@@ -21,8 +27,6 @@ interface ContactFormProps {
   title?: string;
 }
 
-const CONTACT_FORM_RECIPIENT = "iansmithxv@gmail.com";
-
 const ContactForm = ({
   contactInfo,
   title = "Contact Us",
@@ -30,9 +34,31 @@ const ContactForm = ({
   const content = useIntlayer("contact_form");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [subject, setSubject] = useState("");
+  const [jobTitle, setJobTitle] = useState("");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [recipientMap, setRecipientMap] = useState(USER_ENQUIRY_RECIPIENT_MAP);
+
+  useEffect(() => {
+    let active = true;
+    const loadRecipientSettings = async () => {
+      try {
+        const settings = await fetchRecipientEmailSettings();
+        if (active) {
+          setRecipientMap(buildRecipientEmailMap(settings));
+        }
+      } catch (error) {
+        console.error("Failed to load recipient email settings:", error);
+      }
+    };
+
+    loadRecipientSettings();
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const escapeHtml = (value: string) =>
     value
@@ -50,11 +76,26 @@ const ContactForm = ({
 
     const trimmedName = name.trim();
     const trimmedEmail = email.trim();
+    const trimmedPhone = phone.trim();
     const trimmedSubject = subject.trim();
+    const trimmedJobTitle = jobTitle.trim();
     const trimmedMessage = message.trim();
+    const recipientEmail =
+      recipientMap[trimmedSubject as keyof typeof recipientMap] ??
+      getUserEnquiryRecipient(trimmedSubject);
+    const isJobEnquiry = trimmedSubject === "Job enquiries";
+    const emailSubject =
+      isJobEnquiry && trimmedJobTitle
+        ? `${trimmedSubject} (${trimmedJobTitle})`
+        : trimmedSubject;
 
     if (!trimmedName || !trimmedEmail || !trimmedSubject || !trimmedMessage) {
       toast.error("Please fill in all fields.");
+      return;
+    }
+
+    if (isJobEnquiry && !trimmedJobTitle) {
+      toast.error("Please enter the job title.");
       return;
     }
 
@@ -76,13 +117,17 @@ const ContactForm = ({
             <td style="padding: 6px 0;">${escapeHtml(trimmedEmail)}</td>
           </tr>
           <tr>
+            <td style="padding: 6px 0; font-weight: 600;">Phone Number</td>
+            <td style="padding: 6px 0;">${trimmedPhone ? escapeHtml(trimmedPhone) : "N/A"}</td>
+          </tr>
+          <tr>
             <td style="padding: 6px 0; font-weight: 600;">Subject</td>
-            <td style="padding: 6px 0;">${escapeHtml(trimmedSubject)}</td>
+            <td style="padding: 6px 0;">${escapeHtml(emailSubject)}</td>
           </tr>
         </table>
 
         <div style="margin-top: 16px;">
-          <div style="font-weight: 600; margin-bottom: 6px;">Share Your Message</div>
+          <div style="font-weight: 600; margin-bottom: 6px;">Message Below</div>
           <div style="padding: 12px; border: 1px solid #e5e7eb; border-radius: 6px; background: #f9fafb;">
             ${formatMultiline(trimmedMessage)}
           </div>
@@ -93,15 +138,22 @@ const ContactForm = ({
     setSubmitting(true);
     try {
       await sendEmail({
-        email: CONTACT_FORM_RECIPIENT,
-        subject: trimmedSubject,
+        email: recipientEmail,
+        subject: emailSubject,
         body,
+        enquiryCategory: trimmedSubject,
+        enquiryName: trimmedName,
+        enquiryEmail: trimmedEmail,
+        enquiryPhone: trimmedPhone,
+        enquiryMessage: trimmedMessage,
       });
 
       toast.success("sent");
       setName("");
       setEmail("");
+      setPhone("");
       setSubject("");
+      setJobTitle("");
       setMessage("");
     } catch (error) {
       toast.error("Failed to send message.");
@@ -175,12 +227,39 @@ const ContactForm = ({
               className="p-3 border rounded-md focus:outline-none focus:ring-2 bg-white focus:ring-[#133f3f]"
             />
             <input
-              type="text"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              placeholder="Subject"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Phone (optional)"
               className="p-3 border rounded-md focus:outline-none focus:ring-2 bg-white focus:ring-[#133f3f]"
             />
+            <select
+              value={subject}
+              onChange={(e) => {
+                const nextSubject = e.target.value;
+                setSubject(nextSubject);
+                if (nextSubject !== "Job enquiries") {
+                  setJobTitle("");
+                }
+              }}
+              className="p-3 border rounded-md focus:outline-none focus:ring-2 bg-white focus:ring-[#133f3f]"
+            >
+              <option value="">Select a subject</option>
+              {USER_ENQUIRY_SUBJECT_OPTIONS.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+            {subject === "Job enquiries" && (
+              <input
+                type="text"
+                value={jobTitle}
+                onChange={(e) => setJobTitle(e.target.value)}
+                placeholder="Job Title"
+                className="p-3 border rounded-md focus:outline-none focus:ring-2 bg-white focus:ring-[#133f3f]"
+              />
+            )}
             <textarea
               placeholder="Message"
               rows={5}

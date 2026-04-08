@@ -283,6 +283,63 @@ class Hero(models.Model):
         return self.title
 
 
+class UserEnquiry(models.Model):
+    CATEGORY_BOOKINGS = "Bookings"
+    CATEGORY_GENERAL = "General enquiries"
+    CATEGORY_MEDICAL = "Medical enquiries"
+    CATEGORY_NURSING = "School of Nursing"
+    CATEGORY_JOBS = "Job enquiries"
+
+    CATEGORY_CHOICES = [
+        (CATEGORY_BOOKINGS, "Bookings"),
+        (CATEGORY_GENERAL, "General enquiries"),
+        (CATEGORY_MEDICAL, "Medical enquiries"),
+        (CATEGORY_NURSING, "School of Nursing"),
+        (CATEGORY_JOBS, "Job enquiries"),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, db_index=True)
+    full_name = models.CharField(max_length=255)
+    email = models.EmailField()
+    phone = models.CharField(max_length=50, blank=True)
+    message = models.TextField(blank=True)
+    recipient_email = models.EmailField()
+
+    service = models.CharField(max_length=255, blank=True)
+    doctor = models.CharField(max_length=255, blank=True)
+    location = models.CharField(max_length=255, blank=True)
+    appointment_date = models.DateField(blank=True, null=True)
+    appointment_time = models.TimeField(blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.category}: {self.full_name}"
+
+
+class RecipientEmailSetting(models.Model):
+    category = models.CharField(
+        max_length=100,
+        choices=UserEnquiry.CATEGORY_CHOICES,
+        unique=True,
+    )
+    email = models.EmailField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["category"]
+
+    def __str__(self):
+        return f"{self.category}: {self.email}"
+
+
 class Appointment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 

@@ -10,6 +10,8 @@ from .views import (
     InterviewViewSet,
     CorporateDocumentViewSet,
     HeroViewSet,
+    UserEnquiryViewSet,
+    RecipientEmailSettingViewSet,
 )
 
 router = DefaultRouter()
@@ -23,5 +25,7 @@ router.register('public-statements', PublicStatementViewSet, basename='public-st
 router.register('interviews', InterviewViewSet, basename='interviews')
 router.register('corporate-documents', CorporateDocumentViewSet, basename='corporate-documents')
 router.register('hero', HeroViewSet, basename='hero')
+router.register('user-enquiries', UserEnquiryViewSet, basename='user-enquiries')
+router.register('recipient-email-settings', RecipientEmailSettingViewSet, basename='recipient-email-settings')
 
 urlpatterns = router.urls

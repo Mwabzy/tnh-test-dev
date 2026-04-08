@@ -5,11 +5,17 @@ import {
   sendEmail,
   fetchClinicalServices,
   fetchOutpatientCenter,
+  fetchRecipientEmailSettings,
 } from "@/api/api"; // Add this import
 import { ClinicalService, Doctor } from "@/types";
 import { fetchDoctorById } from "@/api/api";
 import { useIntlayer } from "react-intlayer";
 import toast from "react-hot-toast";
+import {
+  buildRecipientEmailMap,
+  getUserEnquiryRecipient,
+  USER_ENQUIRY_RECIPIENT_MAP,
+} from "@/config/userEnquiries";
 
 interface CalendarWithTimesProps {
   onDateSelected?: (date: Date) => void;
@@ -491,6 +497,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
+  const [recipientMap, setRecipientMap] = useState(USER_ENQUIRY_RECIPIENT_MAP);
 
   const isReadyForDetails = Boolean(
     selectedLocation && selectedDate && selectedTime,
@@ -589,7 +596,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
           </table>
 
           <div style="margin-top: 16px;">
-            <div style="font-weight: 600; margin-bottom: 6px;">Share Your Message</div>
+            <div style="font-weight: 600; margin-bottom: 6px;">Message Below</div>
             <div style="padding: 12px; border: 1px solid #e5e7eb; border-radius: 6px; background: #f9fafb;">
               ${safeMessage}
             </div>
@@ -598,9 +605,15 @@ const BookingPage: React.FC<BookingPageProps> = ({
       `;
 
       const response = await sendEmail({
-        email: "iansmithxv@gmail.com",
+        email:
+          recipientMap.Bookings ?? getUserEnquiryRecipient("Bookings"),
         subject: `Booking Request - ${serviceName}`,
         body,
+        enquiryCategory: "Bookings",
+        enquiryName: booking.name,
+        enquiryEmail: booking.email,
+        enquiryPhone: booking.phone,
+        enquiryMessage: booking.additionalInfo,
         service: booking.service,
         doctor: booking.doctor,
         location: booking.location,
@@ -709,6 +722,25 @@ const BookingPage: React.FC<BookingPageProps> = ({
     };
 
     loadOutpatientCenters();
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    const loadRecipientSettings = async () => {
+      try {
+        const settings = await fetchRecipientEmailSettings();
+        if (active) {
+          setRecipientMap(buildRecipientEmailMap(settings));
+        }
+      } catch (error) {
+        console.error("Failed to load recipient email settings:", error);
+      }
+    };
+
+    loadRecipientSettings();
+    return () => {
+      active = false;
+    };
   }, []);
 
   useEffect(() => {

@@ -6,6 +6,7 @@ import {
   collegeHealthSciences,
   newsMedia,
   aboutPages,
+  userEnquiries,
 } from "./sidebarData";
 import Logo from "@/components/menu/Logo";
 import { Link } from "react-router";
@@ -23,6 +24,7 @@ const Sidebar: FC = () => {
     { title: "Other Services", key: "other", items: otherServices },
     { title: "College", key: "college", items: collegeHealthSciences },
     { title: "News & Media", key: "news", items: newsMedia },
+    { title: "User Enquiries", key: "user-enquiries", items: userEnquiries },
   ];
 
   return (

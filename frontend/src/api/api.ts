@@ -19,6 +19,8 @@ const PUBLIC_STATEMENTS_API = "/public-statements/";
 const INTERVIEWS_API = "/interviews/";
 const CORPORATE_DOCUMENTS_API = "/corporate-documents/";
 const HERO_API = "/hero/";
+const USER_ENQUIRIES_API = "/user-enquiries/";
+const RECIPIENT_EMAIL_SETTINGS_API = "/recipient-email-settings/";
 
 // Axios Instance
 export const api = axios.create({
@@ -668,5 +670,47 @@ export async function updateHero(id: number, data: any) {
 
 export async function deleteHero(id: number) {
   const res = await api.delete(`${HERO_API}${id}/`);
+  return res.data;
+}
+
+// USER ENQUIRIES
+export async function fetchUserEnquiries(category?: string) {
+  const token = localStorage.getItem("token");
+  const res = await api.get(USER_ENQUIRIES_API, {
+    params: category ? { category } : undefined,
+    headers:
+      token && token !== "null" && token !== "undefined"
+        ? { Authorization: `Bearer ${token}` }
+        : undefined,
+  });
+  return res.data;
+}
+
+export async function createUserEnquiry(data: any) {
+  const res = await api.post(USER_ENQUIRIES_API, data);
+  return res.data;
+}
+
+export async function updateUserEnquiry(id: string, data: any) {
+  const res = await api.patch(`${USER_ENQUIRIES_API}${id}/`, data);
+  return res.data;
+}
+
+export async function deleteUserEnquiry(id: string) {
+  const res = await api.delete(`${USER_ENQUIRIES_API}${id}/`);
+  return res.data;
+}
+
+// RECIPIENT EMAIL SETTINGS
+export async function fetchRecipientEmailSettings() {
+  const res = await api.get(RECIPIENT_EMAIL_SETTINGS_API);
+  return res.data;
+}
+
+export async function updateRecipientEmailSetting(
+  id: string | number,
+  data: any,
+) {
+  const res = await api.patch(`${RECIPIENT_EMAIL_SETTINGS_API}${id}/`, data);
   return res.data;
 }

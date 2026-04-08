@@ -2,7 +2,7 @@ import logging
 
 
 from rest_framework import viewsets, status, parsers
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import action
@@ -20,6 +20,8 @@ from .models import (
     CorporateDocument,
     Hero,
     Appointment,
+    UserEnquiry,
+    RecipientEmailSetting,
 )
 from .serializers import (
     TeamMemberSerializer,
@@ -32,6 +34,8 @@ from .serializers import (
     InterviewSerializer,
     CorporateDocumentSerializer,
     HeroSerializer,
+    UserEnquirySerializer,
+    RecipientEmailSettingSerializer,
 )
 from .translation import (
     build_blogpost_translation_preview,
@@ -43,6 +47,15 @@ logger = logging.getLogger(__name__)
 
 
 DEBUG = True
+
+
+DEFAULT_RECIPIENT_EMAILS = {
+    UserEnquiry.CATEGORY_BOOKINGS: "iansmithxv@gmail.com",
+    UserEnquiry.CATEGORY_GENERAL: "iansmithm3@gmail.com",
+    UserEnquiry.CATEGORY_MEDICAL: "smithke98@gmail.com",
+    UserEnquiry.CATEGORY_NURSING: "morgansmithk2@gmail.com",
+    UserEnquiry.CATEGORY_JOBS: "smithcarter254@gmail.com",
+}
 
 
 # Helper function to print all incoming form data, including files
@@ -267,6 +280,17 @@ class CSRViewSet(viewsets.ModelViewSet):
 class SendEmailViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
 
+    def _resolve_recipient_email(self, category, fallback_email):
+        if not category:
+            return fallback_email
+
+        configured_email = (
+            RecipientEmailSetting.objects.filter(category=category)
+            .values_list("email", flat=True)
+            .first()
+        )
+        return configured_email or DEFAULT_RECIPIENT_EMAILS.get(category, fallback_email)
+
     def _build_appointment_payload(self, validated_data):
         if "appointmentDate" not in validated_data:
             return None
@@ -283,20 +307,61 @@ class SendEmailViewSet(viewsets.ViewSet):
             "additional_info": validated_data.get("additionalInfo", ""),
         }
 
+    def _build_user_enquiry_payload(self, validated_data):
+        category = validated_data.get("enquiryCategory")
+        if not category and "appointmentDate" in validated_data:
+            category = UserEnquiry.CATEGORY_BOOKINGS
+
+        if not category:
+            return None
+
+        recipient_email = self._resolve_recipient_email(
+            category,
+            validated_data["email"],
+        )
+
+        return {
+            "category": category,
+            "full_name": validated_data.get("enquiryName")
+            or validated_data.get("name", ""),
+            "email": validated_data.get("enquiryEmail")
+            or validated_data.get("patientEmail", ""),
+            "phone": validated_data.get("enquiryPhone")
+            or validated_data.get("phone", ""),
+            "message": validated_data.get("enquiryMessage")
+            or validated_data.get("additionalInfo", ""),
+            "recipient_email": recipient_email,
+            "service": validated_data.get("service", ""),
+            "doctor": validated_data.get("doctor", ""),
+            "location": validated_data.get("location", ""),
+            "appointment_date": validated_data.get("appointmentDate"),
+            "appointment_time": validated_data.get("appointmentTime"),
+        }
+
     def _send(self, request):
         serializer = SendEmailSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         validated_data = serializer.validated_data
-        recipient_email = validated_data["email"]
+        category = validated_data.get("enquiryCategory")
+        if not category and "appointmentDate" in validated_data:
+            category = UserEnquiry.CATEGORY_BOOKINGS
+        recipient_email = self._resolve_recipient_email(
+            category,
+            validated_data["email"],
+        )
         subject = validated_data["subject"]
         body = validated_data["body"]
         appointment_payload = self._build_appointment_payload(validated_data)
+        user_enquiry_payload = self._build_user_enquiry_payload(validated_data)
 
         try:
-            if appointment_payload:
+            if appointment_payload or user_enquiry_payload:
                 with transaction.atomic():
-                    Appointment.objects.create(**appointment_payload)
+                    if appointment_payload:
+                        Appointment.objects.create(**appointment_payload)
+                    if user_enquiry_payload:
+                        UserEnquiry.objects.create(**user_enquiry_payload)
                     send_email(
                         recipient_email=recipient_email,
                         subject=subject,
@@ -328,6 +393,27 @@ class SendEmailViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'], url_path="send_email")
     def send_email(self, request):
         return self._send(request)
+
+
+class UserEnquiryViewSet(viewsets.ModelViewSet):
+    queryset = UserEnquiry.objects.all().order_by("-created_at")
+    serializer_class = UserEnquirySerializer
+    permission_classes = [IsAuthenticated]
+    parser_classes = (parsers.JSONParser,)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        category = self.request.query_params.get("category")
+        if category:
+            queryset = queryset.filter(category=category)
+        return queryset
+
+
+class RecipientEmailSettingViewSet(viewsets.ModelViewSet):
+    queryset = RecipientEmailSetting.objects.all().order_by("category")
+    serializer_class = RecipientEmailSettingSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = (parsers.JSONParser,)
 
 
 class TenderViewSet(viewsets.ModelViewSet):

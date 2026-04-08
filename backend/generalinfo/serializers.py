@@ -10,6 +10,8 @@ from .models import (
     Interview,
     CorporateDocument,
     Hero,
+    UserEnquiry,
+    RecipientEmailSetting,
 )
 from .translation import (
     auto_translate_missing_blogpost_fields,
@@ -386,6 +388,15 @@ class SendEmailSerializer(serializers.Serializer):
     subject = serializers.CharField(required=True)
     body = serializers.CharField(required=True)
 
+    enquiryCategory = serializers.ChoiceField(
+        choices=UserEnquiry.CATEGORY_CHOICES,
+        required=False,
+    )
+    enquiryName = serializers.CharField(required=False, allow_blank=True)
+    enquiryEmail = serializers.EmailField(required=False)
+    enquiryPhone = serializers.CharField(required=False, allow_blank=True)
+    enquiryMessage = serializers.CharField(required=False, allow_blank=True)
+
     # Optional booking metadata used to reserve appointment slots.
     appointmentDate = serializers.DateField(
         required=False,
@@ -434,6 +445,53 @@ class SendEmailSerializer(serializers.Serializer):
                 )
 
         return attrs
+
+
+class UserEnquirySerializer(serializers.ModelSerializer):
+    recipientEmail = serializers.EmailField(source="recipient_email")
+    fullName = serializers.CharField(source="full_name")
+    appointmentDate = serializers.DateField(
+        source="appointment_date",
+        required=False,
+        allow_null=True,
+    )
+    appointmentTime = serializers.TimeField(
+        source="appointment_time",
+        required=False,
+        allow_null=True,
+    )
+    createdAt = serializers.DateTimeField(source="created_at", read_only=True)
+    updatedAt = serializers.DateTimeField(source="updated_at", read_only=True)
+
+    class Meta:
+        model = UserEnquiry
+        fields = (
+            "id",
+            "category",
+            "fullName",
+            "email",
+            "phone",
+            "message",
+            "recipientEmail",
+            "service",
+            "doctor",
+            "location",
+            "appointmentDate",
+            "appointmentTime",
+            "createdAt",
+            "updatedAt",
+        )
+        read_only_fields = ("id", "createdAt", "updatedAt")
+
+
+class RecipientEmailSettingSerializer(serializers.ModelSerializer):
+    createdAt = serializers.DateTimeField(source="created_at", read_only=True)
+    updatedAt = serializers.DateTimeField(source="updated_at", read_only=True)
+
+    class Meta:
+        model = RecipientEmailSetting
+        fields = ("id", "category", "email", "createdAt", "updatedAt")
+        read_only_fields = ("id", "createdAt", "updatedAt")
 
 
 # Tender Serializer

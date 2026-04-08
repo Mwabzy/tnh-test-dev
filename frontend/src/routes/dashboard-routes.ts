@@ -150,6 +150,48 @@ const DashboardRoutes = {
       () => import("@/dashboard/pages/clinical-services/rooms-wards/RoomWards"),
     ),
   },
+  enquiryBookings: {
+    name: "Bookings",
+    path: "user-enquiries/bookings",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/user-enquiries/Bookings"),
+    ),
+  },
+  enquiryRecipients: {
+    name: "Recipient Emails",
+    path: "user-enquiries/recipient-emails",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/user-enquiries/RecipientEmailSettings"),
+    ),
+  },
+  enquiryGeneral: {
+    name: "General enquiries",
+    path: "user-enquiries/general-enquiries",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/user-enquiries/GeneralEnquiries"),
+    ),
+  },
+  enquiryMedical: {
+    name: "Medical enquiries",
+    path: "user-enquiries/medical-enquiries",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/user-enquiries/MedicalEnquiries"),
+    ),
+  },
+  enquiryNursing: {
+    name: "School of Nursing",
+    path: "user-enquiries/school-of-nursing",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/user-enquiries/SchoolOfNursingEnquiries"),
+    ),
+  },
+  enquiryJobs: {
+    name: "Job enquiries",
+    path: "user-enquiries/job-enquiries",
+    component: lazyLoad(
+      () => import("@/dashboard/pages/user-enquiries/JobEnquiries"),
+    ),
+  },
 };
 
 export const DashboardRoutesPath: Record<

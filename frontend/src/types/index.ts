@@ -8,3 +8,5 @@ export * from "./publicStatements";
 export * from "./interviews";
 export * from "./corporateDocuments";
 export * from "./hero";
+export * from "./userEnquiries";
+export * from "./recipientEmailSettings";
