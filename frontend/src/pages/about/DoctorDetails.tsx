@@ -6,6 +6,7 @@ import { useIntlayer } from "react-intlayer";
 import DOMPurify from "dompurify";
 import { addClassesToDescription } from "@/components/services/utilities";
 import { FaCalendarCheck } from "react-icons/fa";
+import { applyDocumentSeo, trimMetaDescription } from "@/lib/seoDom";
 
 export interface Doctor {
   id: string | number;
@@ -111,6 +112,28 @@ const DoctorDetails: FC = () => {
     : [];
 
   const firstParagraph = descriptionArray.length > 0 ? descriptionArray[0] : "";
+
+  useEffect(() => {
+    if (!doctor) return;
+
+    const description = trimMetaDescription(
+      `${doctor.role || ""} ${firstParagraph}`.trim(),
+      `${doctor.name} profile at The Nairobi Hospital.`,
+    );
+    const primaryImage =
+      Array.isArray(doctor.images) && doctor.images.length > 0
+        ? doctor.images[0].url
+        : Array.isArray(doctor.image) && doctor.image.length > 0
+          ? doctor.image[0].url
+          : undefined;
+
+    applyDocumentSeo({
+      title: `${doctor.name} | The Nairobi Hospital`,
+      description,
+      canonicalPath: window.location.pathname,
+      image: primaryImage,
+    });
+  }, [doctor, firstParagraph]);
 
   return (
     <div className="bg-gray-50 min-h-screen py-10 px-4 sm:px-6 lg:px-8">

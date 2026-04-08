@@ -1,6 +1,18 @@
 import { Link } from "react-router";
+import { useEffect } from "react";
+import { applyDocumentSeo } from "@/lib/seoDom";
 
 const NotFound: React.FC = () => {
+  useEffect(() => {
+    applyDocumentSeo({
+      title: "Page Not Found | The Nairobi Hospital",
+      description:
+        "The page you requested could not be found on The Nairobi Hospital website.",
+      canonicalPath: window.location.pathname,
+      noindex: true,
+    });
+  }, []);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
       <div className="text-center max-w-md">
@@ -35,4 +47,3 @@ const NotFound: React.FC = () => {
 };
 
 export default NotFound;
-

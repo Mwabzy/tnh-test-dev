@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /dashboard/auth
+
+Sitemap: https://thenairobihosp.org/sitemap.xml

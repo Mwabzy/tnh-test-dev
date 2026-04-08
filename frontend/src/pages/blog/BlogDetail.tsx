@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { fetchBlogPostById } from "@/api/api";
 import { sanitizeHtml } from "@/lib/sanitizeHtml";
 import { BlogDetailSkeleton } from "@/components/layout/page-skeletons";
+import { applyDocumentSeo, trimMetaDescription } from "@/lib/seoDom";
 
 type BlogPostDetail = {
   id?: string;
@@ -91,6 +92,27 @@ const BlogDetail = () => {
   const contentTitle = String(
     blogItem.blog_subtitle || spotlightTitle || "Content Title",
   );
+
+  useEffect(() => {
+    if (!blogItem) return;
+
+    applyDocumentSeo({
+      title: `${blogItem.title || subtitleText} | The Nairobi Hospital`,
+      description: trimMetaDescription(
+        shortDescription || longDescription,
+        "Read this article from The Nairobi Hospital.",
+      ),
+      canonicalPath: window.location.pathname,
+      image: heroImage || detailsImage || undefined,
+    });
+  }, [
+    blogItem,
+    detailsImage,
+    heroImage,
+    longDescription,
+    shortDescription,
+    subtitleText,
+  ]);
 
   return (
     <div>

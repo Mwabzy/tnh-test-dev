@@ -11,6 +11,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import DOMPurify from "dompurify";
 import { addClassesToDescription } from "@/components/services/utilities";
 import { fetchClinicalServices, fetchOutpatientCenter } from "@/api/api";
+import { applyDocumentSeo, trimMetaDescription } from "@/lib/seoDom";
 
 type ServiceSummary = {
   id: number;
@@ -117,7 +118,7 @@ const OutpatientCenterDetails = () => {
         const data = await fetchOutpatientCenter();
         const list = Array.isArray(data)
           ? data
-          : data?.results ?? data?.data ?? [];
+          : (data?.results ?? data?.data ?? []);
         const found = list.find(
           (item: any) =>
             String(item.path ?? item.slug ?? item.id) === String(id ?? ""),
@@ -151,9 +152,7 @@ const OutpatientCenterDetails = () => {
               .map((service: any) =>
                 typeof service === "object" ? service?.id : service,
               )
-              .filter((serviceId: any) =>
-                Number.isFinite(Number(serviceId)),
-              )
+              .filter((serviceId: any) => Number.isFinite(Number(serviceId)))
               .map((serviceId: any) => Number(serviceId))
           : [];
 
@@ -212,7 +211,7 @@ const OutpatientCenterDetails = () => {
           const servicesData = await fetchClinicalServices();
           const serviceList = Array.isArray(servicesData)
             ? servicesData
-            : servicesData?.results ?? servicesData?.data ?? [];
+            : (servicesData?.results ?? servicesData?.data ?? []);
           const byId = new Map(
             serviceList.map((s: any) => [
               s.id,
@@ -240,6 +239,22 @@ const OutpatientCenterDetails = () => {
 
     loadDetails();
   }, [id]);
+
+  useEffect(() => {
+    if (!details) return;
+
+    const description = trimMetaDescription(
+      `${details.description} ${details.location}`.trim(),
+      `${details.name} outpatient center at The Nairobi Hospital.`,
+    );
+
+    applyDocumentSeo({
+      title: `${details.name} | The Nairobi Hospital`,
+      description,
+      canonicalPath: window.location.pathname,
+      image: details.images?.[0]?.url,
+    });
+  }, [details]);
 
   const timingsByServiceId = useMemo(() => {
     const map = new Map<
