@@ -44,7 +44,7 @@ const ListItem = React.forwardRef<
 ));
 ListItem.displayName = "ListItem";
 
-export const NavigationDesktop: React.FC = () => {
+export const NavigationDesktop: React.FC = React.memo(() => {
   const content = useIntlayer("navigationContent");
   const navigationItems = NAVIGATION_CONTENT();
 
@@ -121,4 +121,5 @@ export const NavigationDesktop: React.FC = () => {
       })}
     </Menubar>
   );
-};
+});
+NavigationDesktop.displayName = "NavigationDesktop";

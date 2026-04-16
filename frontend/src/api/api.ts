@@ -1,7 +1,9 @@
+import { getPayload, isAuthenticated, isTokenValid } from "@/utils/auth";
 import axios from "axios";
 
 //import { CSR } from "@/types";
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
+console.log("API Base URL:", BASE_URL);
 // const BASE_URL = "http://localhost:8000/api/v1";
 
 const CLINICS_API = "/clinical-services/";
@@ -33,11 +35,8 @@ export const api = axios.create({
 // Attach token only for write operations (public GETs should not require auth)
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  const method = (config.method ?? "get").toLowerCase();
-  const isRead = method === "get" || method === "head" || method === "options";
-  const hasToken = token && token !== "null" && token !== "undefined";
 
-  if (!isRead && hasToken) {
+  if (isAuthenticated(token) && isTokenValid(getPayload(token))) {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
