@@ -16,7 +16,7 @@ type StaticSeoEntry = {
 
 const STATIC_SEO: Record<string, StaticSeoEntry> = {
   "/": {
-    title: "Leading Private Hospital in Nairobi, Kenya",
+    title: " Homepage | The Nairobi Hospital",
     description:
       "Access doctors, specialist clinics, diagnostics, inpatient care, outpatient centers, and patient services at The Nairobi Hospital.",
   },

@@ -1,4 +1,4 @@
-import accident from "../../assets/heroimages/westernentrance.jpg";
+import accident from "../../assets/heroimages/westernblurredplates.jpg";
 import hospitalview from "../../assets/heroimages/ct_scan.jpg";
 import ccuCentre from "../../assets/heroimages/ccu_centre.jpg";
 import renal from "../../assets/heroimages/renal.jpg";

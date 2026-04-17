@@ -18,6 +18,7 @@ export default function ContactUs() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [jobTitle, setJobTitle] = useState("");
   const [message, setMessage] = useState("");
   const [consent, setConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -69,6 +70,9 @@ export default function ContactUs() {
     if (!email.trim()) e.email = "Please enter an email.";
     else if (!/^\S+@\S+\.\S+$/.test(email)) e.email = "Enter a valid email.";
     // Phone is optional to reduce friction on the form
+    if (selectedDesk === "Job enquiries" && !jobTitle.trim()) {
+      e.jobTitle = "Please enter the job title.";
+    }
     if (!message.trim()) e.message = "Please enter a message.";
     if (!consent) e.consent = "Please confirm we may contact you back.";
     setErrors(e);
@@ -81,6 +85,11 @@ export default function ContactUs() {
     setSubmitting(true);
     try {
       const department = selectedDesk || "General enquiries";
+      const trimmedJobTitle = jobTitle.trim();
+      const emailSubject =
+        department === "Job enquiries" && trimmedJobTitle
+          ? `${department} (${trimmedJobTitle})`
+          : department;
       const recipientEmail =
         recipientMap[department as keyof typeof recipientMap] ??
         getUserEnquiryRecipient(department);
@@ -110,7 +119,7 @@ export default function ContactUs() {
             </tr>
             <tr>
               <td style="padding: 6px 0; font-weight: 600;">Subject</td>
-              <td style="padding: 6px 0;">${safeSubject}</td>
+              <td style="padding: 6px 0;">${escapeHtml(emailSubject)}</td>
             </tr>
           </table>
 
@@ -125,7 +134,7 @@ export default function ContactUs() {
 
       await sendEmail({
         email: recipientEmail,
-        subject: department,
+        subject: emailSubject,
         body,
         enquiryCategory: department,
         enquiryName: name.trim(),
@@ -138,6 +147,7 @@ export default function ContactUs() {
       setName("");
       setEmail("");
       setPhone("");
+      setJobTitle("");
       setMessage("");
       setConsent(false);
       setSelectedDesk("");
@@ -455,7 +465,13 @@ export default function ContactUs() {
               </label>
               <select
                 value={selectedDesk}
-                onChange={(e) => setSelectedDesk(e.target.value)}
+                onChange={(e) => {
+                  const nextDesk = e.target.value;
+                  setSelectedDesk(nextDesk);
+                  if (nextDesk !== "Job enquiries") {
+                    setJobTitle("");
+                  }
+                }}
                 className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-red-900 focus:outline-none"
               >
                 <option value="">Select a subject</option>
@@ -465,6 +481,25 @@ export default function ContactUs() {
                   </option>
                 ))}
               </select>
+              {selectedDesk === "Job enquiries" && (
+                <div className="mt-4">
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Job Title
+                  </label>
+                  <input
+                    value={jobTitle}
+                    onChange={(e) => setJobTitle(e.target.value)}
+                    type="text"
+                    placeholder="Enter job title"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-red-900 focus:outline-none"
+                  />
+                  {errors.jobTitle && (
+                    <p className="text-xs text-red-600 mt-1">
+                      {errors.jobTitle}
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
 
             <div>
@@ -528,7 +563,7 @@ export default function ContactUs() {
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="text-red-900" />
-                <span>support@nbihosp.org</span>
+                <span>hosp@nbihosp.org</span>
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="text-red-900" />
@@ -536,8 +571,6 @@ export default function ContactUs() {
               </div>
             </div>
           </div>
-
-          {/* Quick contacts were removed to simplify the page; use the desk cards or the form above */}
 
           {/* Google Map Placeholder */}
           <div className="rounded-2xl overflow-hidden shadow-md">
