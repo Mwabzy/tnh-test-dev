@@ -96,7 +96,7 @@ export default function ContactUs() {
       const safeName = escapeHtml(name.trim());
       const safeEmail = escapeHtml(email.trim());
       const safePhone = phone.trim() ? escapeHtml(phone.trim()) : "N/A";
-      const safeSubject = escapeHtml(department);
+    //  const safeSubject = escapeHtml(department);
       const safeMessage = message.trim()
         ? formatMultiline(message.trim())
         : "N/A";
