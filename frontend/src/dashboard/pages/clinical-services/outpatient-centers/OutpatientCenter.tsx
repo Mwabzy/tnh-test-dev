@@ -4,18 +4,22 @@ import OutpatientCenterTable from "./OutpatientCenterTable";
 import OutpatientCenterForm from "./OutpatientCenterForm";
 import { outpatientCenter } from "@/types";
 import {
-  fetchOutpatientCenter,
-  createOutpatientCenter,
-  updateOutpatientCenter,
-  deleteOutpatientCenter,
   fetchClinicalServices,
 } from "@/api/api";
 import toast from "react-hot-toast";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import {
+  createOutpatientCenterEntry,
+  deleteOutpatientCenterEntry,
+  fetchOutpatientCenters,
+  updateOutpatientCenterEntry,
+} from "@/store/outpatientCentersSlice";
 
 const OutpatientCenterPage = () => {
-  const [centers, setCenters] = useState<outpatientCenter[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const { centers, loading, error, initialized } = useAppSelector(
+    (state) => state.outpatientCenters,
+  );
 
   const [showForm, setShowForm] = useState(false);
   const [editingCenter, setEditingCenter] = useState<outpatientCenter | null>(
@@ -48,24 +52,13 @@ const OutpatientCenterPage = () => {
 
   /* -------------------- Load centers -------------------- */
   useEffect(() => {
-    const loadCenters = async () => {
-      try {
-        setLoading(true);
-        const data = await fetchOutpatientCenter();
-        setCenters(data);
-      } catch {
-        setError("Failed to load outpatient centers");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadCenters();
-  }, []);
+    if (!initialized && !loading) {
+      void dispatch(fetchOutpatientCenters());
+    }
+  }, [dispatch, initialized, loading]);
 
   /* -------------------- UI actions -------------------- */
   const startCreate = () => {
-    setError(null);
     setEditingCenter(null);
     setShowForm(true);
   };
@@ -84,23 +77,22 @@ const OutpatientCenterPage = () => {
   /* -------------------- Save (CREATE or UPDATE) -------------------- */
   const handleSave = async (payload: outpatientCenter | FormData) => {
     try {
-      let saved: outpatientCenter;
-
-      // UPDATE
       if (editingCenter?.id) {
-        saved = await updateOutpatientCenter(editingCenter.id, payload);
-        setCenters((prev) => prev.map((c) => (c.id === saved.id ? saved : c)));
+        await dispatch(
+          updateOutpatientCenterEntry({
+            id: editingCenter.id,
+            payload,
+          }),
+        ).unwrap();
         toast.success("Center updated");
-      }
-      // CREATE
-      else {
-        saved = await createOutpatientCenter(payload);
-        setCenters((prev) => [...prev, saved]);
+      } else {
+        await dispatch(createOutpatientCenterEntry(payload)).unwrap();
         toast.success("Center created");
       }
 
       closeForm();
-    } catch {
+    } catch (saveError) {
+      console.error("Failed to save outpatient center:", saveError);
       toast.error("Failed to save center");
     }
   };
@@ -109,10 +101,10 @@ const OutpatientCenterPage = () => {
   const handleDelete = async (id: number) => {
     setDeletingId(id);
     try {
-      await deleteOutpatientCenter(id);
-      setCenters((prev) => prev.filter((c) => c.id !== id));
+      await dispatch(deleteOutpatientCenterEntry(id)).unwrap();
       toast.success("Center deleted");
-    } catch {
+    } catch (deleteError) {
+      console.error("Failed to delete outpatient center:", deleteError);
       toast.error("Failed to delete center");
     } finally {
       setDeletingId(null);

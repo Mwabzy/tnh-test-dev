@@ -1,36 +1,31 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import DoctorDashboardTable from "./DoctorDashboardTable";
 import DoctorForm from "./DoctorForm";
-import { Doctor, ClinicalService } from "@/types";
-import {
-  fetchDoctors,
-  createDoctor,
-  updateDoctor,
-  deleteDoctor,
-  fetchClinicalServices,
-  reorderDoctors,
-} from "@/api/api";
+import { Doctor } from "@/types";
 import toast from "react-hot-toast";
+import type { AppDispatch, RootState } from "@/store";
+import {
+  createDoctorEntry,
+  deleteDoctorEntry,
+  fetchDoctorsList,
+  reorderDoctorEntries,
+  updateDoctorEntry,
+} from "@/store/doctorsSlice";
+import { fetchServices } from "@/store/servicesSlice";
 
 const DoctorsPage = () => {
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [loading, setLoading] = useState(true); // page-level loading
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const { doctors, loading, error, initialized } = useSelector(
+    (state: RootState) => state.doctors,
+  );
+  const availableServices = useSelector(
+    (state: RootState) => state.services.services,
+  );
   const [showForm, setShowForm] = useState(false);
   const [editingDoctor, setEditingDoctor] = useState<Doctor | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
-  const [availableServices, setAvailableServices] = useState<ClinicalService[]>(
-    []
-  );
   const [locationQuery, setLocationQuery] = useState("");
-
-  const sortByOrder = (list: Doctor[]) =>
-    [...list].sort((a, b) => {
-      const orderA = a.order ?? 0;
-      const orderB = b.order ?? 0;
-      if (orderA !== orderB) return orderA - orderB;
-      return (a.id ?? 0) - (b.id ?? 0);
-    });
 
   const applySubsetOrder = (fullList: Doctor[], subset: Doctor[]) => {
     const subsetIds = new Set(subset.map((item) => item.id));
@@ -42,51 +37,30 @@ const DoctorsPage = () => {
 
   // Load doctors on mount
   useEffect(() => {
-    async function loadDoctors() {
-      setLoading(true);
-      try {
-        const data = await fetchDoctors();
-        console.log("Fetched data from API:", data);
-        setDoctors(sortByOrder(Array.isArray(data) ? data : []));
-        setError(null);
-      } catch (err) {
-        setError("Error loading doctors");
-      } finally {
-        setLoading(false);
-      }
+    if (!initialized && !loading) {
+      void dispatch(fetchDoctorsList());
     }
-    loadDoctors();
-  }, []);
+  }, [dispatch, initialized, loading]);
 
   // Load clinical services
   useEffect(() => {
-    async function loadServices() {
-      try {
-        const services = await fetchClinicalServices();
-        setAvailableServices(services);
-      } catch (err) {
-        console.error("Failed to load services", err);
-      }
+    if (availableServices.length === 0) {
+      void dispatch(fetchServices());
     }
-    loadServices();
-  }, []);
+  }, [availableServices.length, dispatch]);
 
   const handleSaveDoctor = async (doctor: Doctor | FormData) => {
     try {
       if (editingDoctor?.id) {
-        // UPDATE
-        const updated = await updateDoctor(
-          editingDoctor.id,
-          doctor as FormData
-        );
-        setDoctors((prev) =>
-          sortByOrder(prev.map((d) => (d.id === updated.id ? updated : d))),
-        );
+        await dispatch(
+          updateDoctorEntry({
+            id: editingDoctor.id,
+            payload: doctor as FormData,
+          }),
+        ).unwrap();
         toast.success("Doctor updated successfully!");
       } else {
-        // CREATE
-        const newDoctor = await createDoctor(doctor as FormData);
-        setDoctors((prev) => sortByOrder([...prev, newDoctor]));
+        await dispatch(createDoctorEntry(doctor as FormData)).unwrap();
         toast.success("Doctor created successfully!");
       }
 
@@ -101,8 +75,7 @@ const DoctorsPage = () => {
   const handleDeleteDoctor = async (id: number) => {
     setDeletingId(id);
     try {
-      await deleteDoctor(id);
-      setDoctors((prev) => prev.filter((doctor) => doctor.id !== id));
+      await dispatch(deleteDoctorEntry(id)).unwrap();
       toast.success("Doctor deleted successfully!");
     } catch (err) {
       toast.error("Failed to delete doctor");
@@ -112,9 +85,7 @@ const DoctorsPage = () => {
   };
 
   const handleReorder = async (nextOrder: Doctor[]) => {
-    const previous = doctors;
     const merged = applySubsetOrder(doctors, nextOrder);
-    setDoctors(merged);
 
     try {
       const orderedIds = merged
@@ -123,10 +94,10 @@ const DoctorsPage = () => {
       if (orderedIds.length !== merged.length) {
         throw new Error("Missing doctor id for reorder.");
       }
-      await reorderDoctors(orderedIds);
+      await dispatch(reorderDoctorEntries(orderedIds)).unwrap();
       toast.success("Order updated successfully!");
     } catch (err: any) {
-      setDoctors(previous);
+      void dispatch(fetchDoctorsList());
       toast.error(`Failed to update order: ${err?.message ?? "Unknown error"}`);
     }
   };

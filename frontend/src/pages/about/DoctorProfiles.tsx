@@ -1,15 +1,17 @@
 import { FC, useState, useEffect, useMemo } from "react";
 import { Link } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import { FaUserMd, FaCalendarCheck } from "react-icons/fa";
 import Heading from "@/components/Heading";
 import ContactForm from "@/components/ContactForm";
 import hospitalview from "@/assets/heroimages/heroimage2.jpg";
-import { fetchDoctors } from "@/api/api";
 import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 
 import { useIntlayer } from "react-intlayer";
 import DOMPurify from "dompurify";
 import { addClassesToDescription } from "@/components/services/utilities";
+import type { AppDispatch, RootState } from "@/store";
+import { fetchDoctorsList } from "@/store/doctorsSlice";
 
 // Truncate bio to first 3 sentences
 const truncateBioToThreeSentences = (
@@ -25,39 +27,10 @@ const truncateBioToThreeSentences = (
   return result;
 };
 
-// Doctor type
-type Doctor = {
-  id: string;
-  order?: number;
-  name: string;
-  role?: string;
+type Doctor = RootState["doctors"]["doctors"][number] & {
   images: string[];
-  bio: string;
-  services_offered?: {
-    id: number;
-    title?: string;
-    locations?: string[];
-  }[];
-  specialization?: string;
-  medicalQualifications?: string;
-  yearsOfExperience?: string;
-  languagesSpoken?: string;
-  contactEmail?: string;
-  contactPhone?: string;
-  clinicDepartment?: string;
-  schedule?: string[];
-  location?: string;
-  locations?: string[];
-  licensingDetails?: string;
-  servicesOffered?: string[];
-  awardsAndRecognition?: string[];
-  ResearchAndPublications?: string[];
-  socialMedia?: string;
   description?: string[];
-  languages?: string[];
-  email?: string;
-  phone?: string;
-  socialMediaWebsite?: string[];
+  schedule?: string[];
 };
 
 const ITEMS_PER_PAGE = 6;
@@ -96,9 +69,10 @@ const extractDoctorLocations = (doctor: any): string[] => {
 };
 
 const DoctorProfiles: FC = () => {
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const { doctors: storedDoctors, loading, error, initialized } = useSelector(
+    (state: RootState) => state.doctors,
+  );
 
   const [searchTerm, setSearchTerm] = useState("");
   const [specialtyClinic, setSpecialtyClinic] = useState("");
@@ -108,67 +82,32 @@ const DoctorProfiles: FC = () => {
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-  // Fetch doctors from API
   useEffect(() => {
-    const loadDoctors = async () => {
-      try {
-        setLoading(true);
-        const data = await fetchDoctors();
-        console.log("Fetched doctors data:", data);
-        const ordered = Array.isArray(data)
-          ? [...data].sort((a: any, b: any) => {
-              const orderA = a.order ?? 0;
-              const orderB = b.order ?? 0;
-              if (orderA !== orderB) return orderA - orderB;
-              return (a.id ?? 0) - (b.id ?? 0);
-            })
-          : [];
-        const transformed = ordered.map((doc: any, idx: number) => {
-          const doctorLocations = extractDoctorLocations(doc);
+    if (!initialized && !loading) {
+      void dispatch(fetchDoctorsList());
+    }
+  }, [dispatch, initialized, loading]);
 
-          return {
-            ...doc,
-            id: doc.id || `doctor-${idx}`,
-            role: doc.role || doc.specialization || "",
-            specialization: doc.specialization || doc.role || "",
-            description: doc.bio ? [doc.bio] : [],
-            languages: doc.languagesSpoken
-              ? doc.languagesSpoken.split(/,|;/).map((s: string) => s.trim())
+  const doctors = useMemo<Doctor[]>(
+    () =>
+      storedDoctors.map((doc) => {
+        const doctorLocations = extractDoctorLocations(doc);
+        return {
+          ...doc,
+          id: String(doc.id ?? `doctor-${doc.name}`),
+          description: doc.bio ? [doc.bio] : [],
+          schedule: Array.isArray(doc.schedule)
+            ? doc.schedule
+            : typeof doc.schedule === "string"
+              ? doc.schedule.split(/,|;|\n/).map((s) => s.trim()).filter(Boolean)
               : [],
-            schedule: doc.schedule
-              ? doc.schedule.split(/,|;|\n/).map((s: string) => s.trim())
-              : [],
-            socialMediaWebsite: doc.socialMedia ? [doc.socialMedia] : [],
-            email: doc.contactEmail || "",
-            phone: doc.contactPhone || "",
-            locations: doctorLocations,
-            location: doctorLocations[0] || "",
-            images:
-              doc.images?.map((img: any) => img.url).filter(Boolean) ||
-              doc.image?.map((img: any) => img.url).filter(Boolean) ||
-              [],
-            awardsAndRecognition: doc.awardsAndRecognition
-              ? Array.isArray(doc.awardsAndRecognition)
-                ? doc.awardsAndRecognition
-                : [doc.awardsAndRecognition]
-              : [],
-            ResearchAndPublications: doc.researchAndPublications
-              ? Array.isArray(doc.researchAndPublications)
-                ? doc.researchAndPublications
-                : [doc.researchAndPublications]
-              : [],
-          };
-        });
-        setDoctors(transformed);
-      } catch (err) {
-        console.error(err);
-        setError("Failed to load doctors.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadDoctors();
-  }, []);
+          images: (doc.images ?? doc.image ?? []).map((img) => img.url).filter(Boolean),
+          locations: doctorLocations,
+          location: doctorLocations[0] || doc.location || "",
+        };
+      }),
+    [storedDoctors],
+  );
 
   const locations = useMemo(() => {
     const unique = new Set<string>();

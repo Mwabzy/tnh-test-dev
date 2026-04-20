@@ -6,9 +6,10 @@ import ClientsSay from "../ClientsSay";
 import { Link } from "react-router";
 import { addClassesToDescription } from "./utilities";
 import { useIntlayer } from "react-intlayer";
-import { fetchOutpatientCenter } from "@/api/api";
 import { getImageObjectPosition } from "@/lib/imageFocalPoint";
 import { sanitizeHtml } from "@/lib/sanitizeHtml";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { fetchOutpatientCenters } from "@/store/outpatientCentersSlice";
 
 export interface ServiceTemplateProps {
   serviceTypes: ClinicalService;
@@ -43,92 +44,84 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
   const [opcTimings, setOpcTimings] = useState<
     Record<string, Array<{ day: string; from: string; to: string }>>
   >({});
+  const dispatch = useAppDispatch();
+  const { centers, loading: outpatientCentersLoading, initialized } =
+    useAppSelector((state) => state.outpatientCenters);
 
   useEffect(() => {
-    const loadOpcTimings = async () => {
-      try {
-        const data = await fetchOutpatientCenter();
-        const centers = Array.isArray(data)
-          ? data
-          : (data?.results ?? data?.data ?? []);
+    if (!initialized && !outpatientCentersLoading) {
+      void dispatch(fetchOutpatientCenters());
+    }
+  }, [dispatch, initialized, outpatientCentersLoading]);
 
-        const map: Record<
-          string,
-          Array<{ day: string; from: string; to: string }>
-        > = {};
+  useEffect(() => {
+    const map: Record<string, Array<{ day: string; from: string; to: string }>> =
+      {};
 
-        centers.forEach((center: any) => {
-          const timings = Array.isArray(center?.timings) ? center.timings : [];
-          const matches = timings.filter((t: any) => {
-            const timingServiceId =
-              t?.clinic ??
-              t?.clinicId ??
-              t?.clinic_id ??
-              t?.clinic?.id ??
-              t?.service ??
-              t?.serviceId ??
-              t?.service_id ??
-              t?.service?.id;
-            const timingServicesOffered = Array.isArray(t?.services_offered)
-              ? t.services_offered
-              : [];
-            const serviceInTimingServices = timingServicesOffered.some(
-              (s: any) =>
-                String(
-                  s?.id ??
-                    s?.clinic ??
-                    s?.clinicId ??
-                    s?.clinic_id ??
-                    s?.service ??
-                    s?.serviceId ??
-                    s?.service_id ??
-                    s ??
-                    "",
-                ) ===
-                String(serviceTypes.id),
-            );
+    centers.forEach((center) => {
+      const timings = Array.isArray(center?.timings) ? center.timings : [];
+      const matches = timings.filter((t: any) => {
+        const timingServiceId =
+          t?.clinic ??
+          t?.clinicId ??
+          t?.clinic_id ??
+          t?.clinic?.id ??
+          t?.service ??
+          t?.serviceId ??
+          t?.service_id ??
+          t?.service?.id;
+        const timingServicesOffered = Array.isArray(t?.services_offered)
+          ? t.services_offered
+          : [];
+        const serviceInTimingServices = timingServicesOffered.some(
+          (s: any) =>
+            String(
+              s?.id ??
+                s?.clinic ??
+                s?.clinicId ??
+                s?.clinic_id ??
+                s?.service ??
+                s?.serviceId ??
+                s?.service_id ??
+                s ??
+                "",
+            ) === String(serviceTypes.id),
+        );
 
-            return (
-              String(timingServiceId ?? "") === String(serviceTypes.id) ||
-              serviceInTimingServices
-            );
-          });
+        return (
+          String(timingServiceId ?? "") === String(serviceTypes.id) ||
+          serviceInTimingServices
+        );
+      });
 
-          if (matches.length === 0) return;
+      if (matches.length === 0) return;
 
-          const locationLabel =
-            center?.name ?? center?.title ?? center?.location ?? "";
-          if (!locationLabel) return;
+      const locationLabel = center?.name ?? center?.location ?? "";
+      if (!locationLabel) return;
 
-          map[locationLabel] = matches.map((t: any) => ({
-            day: t?.day ?? t?.days ?? t?.weekday ?? "",
-            from:
-              t?.startTime ??
-              t?.start_time ??
-              t?.from ??
-              t?.fromTime ??
-              t?.from_time ??
-              "",
-            to:
-              t?.stopTime ??
-              t?.stop_time ??
-              t?.endTime ??
-              t?.end_time ??
-              t?.to ??
-              t?.toTime ??
-              t?.to_time ??
-              "",
-          }));
-        });
+      map[locationLabel] = matches.map((t: any) => ({
+        day: t?.day ?? t?.days ?? t?.weekday ?? "",
+        from:
+          t?.startTime ??
+          t?.start_time ??
+          t?.from ??
+          t?.fromTime ??
+          t?.from_time ??
+          "",
+        to:
+          t?.stopTime ??
+          t?.stop_time ??
+          t?.endTime ??
+          t?.end_time ??
+          t?.to ??
+          t?.toTime ??
+          t?.to_time ??
+          "",
+      }));
+    });
 
-        setOpcTimings(map);
-      } catch {
-        setOpcTimings({});
-      }
-    };
-
-    loadOpcTimings();
-  }, [serviceTypes.id]);
+    setOpcTimings(map);
+  }, [centers, serviceTypes.id]);
 
   const timingRows = useMemo(() => {
     const hasOpcTimingData = Object.keys(opcTimings || {}).length > 0;

@@ -3,7 +3,6 @@ import DashboardTable from "./DashboardTable";
 import { Doctor, ClinicalService } from "@/types";
 import ClinicalServiceForm from "./ClinicalServiceForm";
 import {
-  fetchClinicalServices,
   createClinicalService,
   updateClinicalService,
   deleteClinicalService,
@@ -12,22 +11,23 @@ import {
 } from "@/api/api";
 
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { fetchServices } from "@/store/servicesSlice";
+import {
+  fetchServices,
+  removeService,
+  reorderServices,
+  upsertService,
+} from "@/store/servicesSlice";
 
 import toast from "react-hot-toast";
 
 const ClinicalServices = () => {
   const dispatch = useAppDispatch();
-  const servicesList = useAppSelector((state) => state.services.services);
-  console.log("Services from Redux:", servicesList);
+  const { services, loading, error } = useAppSelector((state) => state.services);
 
   useEffect(() => {
     dispatch(fetchServices());
   }, [dispatch]);
 
-  const [services, setServices] = useState<ClinicalService[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [AvailableDoctors, setAvailableDoctors] = useState<Doctor[]>([]);
 
   const [showForm, setShowForm] = useState(false);
@@ -39,13 +39,13 @@ const ClinicalServices = () => {
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
-  const sortByOrder = (list: ClinicalService[]) =>
-    [...list].sort((a, b) => {
-      const orderA = a.order ?? 0;
-      const orderB = b.order ?? 0;
-      if (orderA !== orderB) return orderA - orderB;
-      return (a.id ?? 0) - (b.id ?? 0);
-    });
+  // const sortByOrder = (list: ClinicalService[]) =>
+  //   [...list].sort((a, b) => {
+  //     const orderA = a.order ?? 0;
+  //     const orderB = b.order ?? 0;
+  //     if (orderA !== orderB) return orderA - orderB;
+  //     return (a.id ?? 0) - (b.id ?? 0);
+  //   });
 
   const applySubsetOrder = (
     fullList: ClinicalService[],
@@ -57,23 +57,6 @@ const ClinicalServices = () => {
       subsetIds.has(item.id) ? subset[subsetIndex++] : item,
     );
   };
-
-  useEffect(() => {
-    async function loadServices() {
-      setLoading(true);
-      try {
-        const data = await fetchClinicalServices();
-        console.log("Clinical data:", data);
-        setServices(sortByOrder(Array.isArray(data) ? data : []));
-        setError(null);
-      } catch (err: any) {
-        setError(err.message || "Error loading clinical services");
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadServices();
-  }, []);
 
   useEffect(() => {
     async function loadDoctors() {
@@ -153,17 +136,10 @@ const ClinicalServices = () => {
         }
       }
 
-      setServices((prev) =>
-        sortByOrder(
-          editingService
-            ? prev.map((s) => (s.id === result.id ? result : s))
-            : [...prev, result],
-        ),
-      );
+      dispatch(upsertService(result));
 
       setShowForm(false);
       setEditingService(null);
-      setError(null);
       toast.success("Clinical service saved successfully!");
     } catch (err: any) {
       toast.error(`Error saving service: ${err.message}`);
@@ -179,7 +155,7 @@ const ClinicalServices = () => {
     try {
       setDeletingId(deleteConfirmId);
       await deleteClinicalService(deleteConfirmId);
-      setServices((prev) => prev.filter((s) => s.id !== deleteConfirmId));
+      dispatch(removeService(deleteConfirmId));
       setDeleteConfirmId(null);
       toast.success("Deleted successfully!");
     } catch (err: any) {
@@ -192,13 +168,13 @@ const ClinicalServices = () => {
   const handleReorder = async (nextOrder: ClinicalService[]) => {
     const previous = services;
     const merged = applySubsetOrder(services, nextOrder);
-    setServices(merged);
+    dispatch(reorderServices(merged.map((item) => item.id)));
 
     try {
       await reorderClinicalServices(merged.map((item) => item.id));
       toast.success("Order updated successfully!");
     } catch (err: any) {
-      setServices(previous);
+      dispatch(reorderServices(previous.map((item) => item.id)));
       toast.error(`Failed to update order: ${err?.message ?? "Unknown error"}`);
     }
   };

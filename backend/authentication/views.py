@@ -1,11 +1,12 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth import authenticate
-from django.contrib.auth import get_user_model
-from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import RegisterSerializer
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.exceptions import ValidationError
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from .serializers import CustomTokenObtainPairSerializer, RegisterSerializer
 
 
 
@@ -29,68 +30,24 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class LoginView(APIView):
+class LoginView(TokenObtainPairView):
     permission_classes = [AllowAny]
-    # authentication_classes = [] 
+    serializer_class = CustomTokenObtainPairSerializer
 
-    def post(self, request):
-        username = (request.data.get("username") or "").strip()
-        password = request.data.get("password") or ""
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
 
-        if not username:
-            return Response(
-                {
-                    "code": "missing_username",
-                    "message": "Username is required.",
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        try:
+            serializer.is_valid(raise_exception=True)
+        except ValidationError as exc:
+            data = exc.detail
+            code = data.get("code")
+            status_code = {
+                "missing_username": status.HTTP_400_BAD_REQUEST,
+                "missing_password": status.HTTP_400_BAD_REQUEST,
+                "user_not_found": status.HTTP_401_UNAUTHORIZED,
+                "incorrect_password": status.HTTP_401_UNAUTHORIZED,
+            }.get(code, status.HTTP_400_BAD_REQUEST)
+            return Response(data, status=status_code)
 
-        if not password:
-            return Response(
-                {
-                    "code": "missing_password",
-                    "message": "Password is required.",
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        User = get_user_model()
-        user_by_name = User.objects.filter(username=username).first()
-        if user_by_name is None:
-            return Response(
-                {
-                    "code": "user_not_found",
-                    "message": "No account found with that username.",
-                },
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
-
-        if not user_by_name.is_active:
-            return Response(
-                {
-                    "code": "account_inactive",
-                    "message": "This account is inactive. Contact administrator.",
-                },
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        user = authenticate(username=username, password=password)
-
-        if user is not None:
-            refresh = RefreshToken.for_user(user)
-            return Response({
-                "token": str(refresh.access_token),
-                "user": {
-                    "username": user.username,
-                    "email": user.email,
-                }
-            })
-        else:
-            return Response(
-                {
-                    "code": "incorrect_password",
-                    "message": "Incorrect password. Please try again.",
-                },
-                status=status.HTTP_401_UNAUTHORIZED
-            )
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
