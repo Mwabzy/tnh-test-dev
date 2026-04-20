@@ -6,6 +6,9 @@ import InsuranceSlider from "@/components/InsuranceSlider";
 import ContactForm from "@/components/ContactForm";
 import { PAGE_CONTACT_INFO } from "@/lib/contactInfo";
 import { useIntlayer } from "react-intlayer";
+import { Eye } from "lucide-react";
+import { Goal } from "lucide-react";
+import hospimage from "@/assets/images/TNH-22.jpg";
 
 type AboutProps = object;
 
@@ -31,7 +34,7 @@ const About: FC<AboutProps> = () => {
 
           <div className="flex justify-center mt-11">
             <img
-              src="https://cms.thenairobihosp.org/uploads/who_we_are_8fbeb1073c.jpg"
+              src={hospimage}
               alt="About Image"
               className="max-h-[60vh] object-cover rounded-lg shadow-lg w-full md:max-h-[50vh]"
             />
@@ -39,11 +42,8 @@ const About: FC<AboutProps> = () => {
 
           <div className="flex items-center justify-center mt-11 gap-4 w-full flex-col md:flex-row">
             <div className="p-6 rounded-xl text-center bg-gray-50 w-full md:w-1/2 min-h-[200px]">
-              <div className="flex items-center justify-center">
-                <img
-                  src="https://cms.thenairobihosp.org/uploads/Frame_37f3952532.svg"
-                  alt="Vision"
-                />
+              <div className="flex items-center justify-center ">
+                <Eye size={32} color="#B71C1C" />
               </div>
               <h3 className="text-lg font-semibold text-red-800 mb-2">
                 {content.visionTitle}
@@ -54,10 +54,7 @@ const About: FC<AboutProps> = () => {
             </div>
             <div className="p-6 rounded-xl text-center bg-gray-50 w-full md:w-1/2 min-h-[200px]">
               <div className="flex items-center justify-center">
-                <img
-                  src="https://cms.thenairobihosp.org/uploads/mission_97f94cb17a.svg"
-                  alt="Mission"
-                />
+                <Goal size={32} color="#B71C1C" />
               </div>
               <h3 className="text-lg font-semibold text-red-800 mb-2">
                 {content.missionTitle}

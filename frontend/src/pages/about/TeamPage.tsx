@@ -45,23 +45,26 @@ const TeamPage: React.FC<TeamPageProps> = ({ title, description, members }) => {
 
 //layout for cards
 const TeamCard: React.FC<TeamMember> = ({ name, role, id, image }) => (
-  <div className="relative bg-grey-300 rounded-lg overflow-hidden text-center p-3">
-    <Link to={`/member-page/${id}`}>
-      <div className="group relative ">
-        <img
-          src={image}
-          alt={name}
-          className="w-70 h-100 shadow-md mx-auto object-cover rounded-lg mb-4 transform transition-transform duration-800 group-hover:scale-110"
-        />
-        <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/85 via-black/35 to-transparent lg:bg-transparent lg:group-hover:bg-black/50 transition group-hover:scale-110 duration-800 z-10"></div>
+  <Link to={`/member-page/${id}`}>
+    <div className="group relative rounded-lg overflow-hidden">
+      {/* Image */}
+      <img
+        src={image}
+        alt={name}
+        className="w-full h-[320px] object-cover 
+        transition-transform duration-500 ease-in-out 
+        group-hover:scale-110"
+      />
 
-        <div className="absolute bottom-0 w-full p-4 transition-opacity duration-800 opacity-100 md:opacity-0 md:group-hover:opacity-100 z-20">
-          <h3 className="mt-4 text-white text-2xl font-bold">{name}</h3>
-          <p className=" text-white text-sm mt-1">{role}</p>
-        </div>
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition duration-500"></div>
+
+      {/* Text */}
+      <div className="absolute bottom-0 w-full p-4 z-20">
+        <h3 className="text-white text-lg font-bold drop-shadow-md">{name}</h3>
+        <p className="text-white text-sm drop-shadow-md">{role}</p>
       </div>
-    </Link>
-  </div>
+    </div>
+  </Link>
 );
-
 export default TeamPage;
