@@ -1,6 +1,7 @@
 import Heading from "@/components/Heading";
 import React, { useEffect, useState } from "react";
 import { useIntlayer } from "react-intlayer";
+import Milestone from "@/assets/images/image3.png";
 
 // Main History Section
 const History: React.FC = () => {
@@ -20,7 +21,7 @@ const History: React.FC = () => {
             <div className="flex flex-col md:flex-row gap-4 item-center">
               <div>
                 <img
-                  src="https://cms.thenairobihosp.org/uploads/key_milestones_2133f54e6e.jpg"
+                  src={Milestone}
                   alt="Milestone Visual"
                   className="rounded-md shadow"
                 />

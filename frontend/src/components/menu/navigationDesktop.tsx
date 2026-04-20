@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 
 // Helper function to extract string from IntlayerNode
 const getLabel = (data: any): string => {
-  if (typeof data === 'string') return data;
+  if (typeof data === "string") return data;
   if (Array.isArray(data) && data.length > 0 && data[0]?.value) {
     return String(data[0].value);
   }
@@ -30,7 +30,7 @@ const ListItem = React.forwardRef<
         ref={ref}
         className={cn(
           "flex flex-col justify-center items-start cursor-pointer select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:-translate-x-1 duration-100 hover:text-red-700",
-          className
+          className,
         )}
         {...props}
       >
@@ -49,7 +49,7 @@ export const NavigationDesktop: React.FC = React.memo(() => {
   const navigationItems = NAVIGATION_CONTENT();
 
   return (
-    <Menubar className="flex-col md:flex-row border-none shadow-none bg-inherit text-sm font-medium">
+    <Menubar className="flex-col md:flex-row border-none  shadow-none bg-inherit text-sm font-medium">
       {navigationItems.map((item, idx) => {
         const label = getLabel(content[item.labelKey as keyof typeof content]);
 
@@ -111,7 +111,7 @@ export const NavigationDesktop: React.FC = React.memo(() => {
                           ))}
                         </ul>
                       </li>
-                    ) : null
+                    ) : null,
                   )}
                 </ul>
               </MenubarContent>
