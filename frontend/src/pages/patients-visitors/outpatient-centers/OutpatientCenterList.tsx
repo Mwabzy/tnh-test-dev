@@ -1,49 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Hospital } from "lucide-react";
 import { Link } from "react-router";
-import { fetchOutpatientCenter } from "@/api/api";
-
-type OutpatientCenter = {
-  id: number;
-  path?: string | null;
-  slug?: string | null;
-  name: string;
-  location: string;
-};
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { fetchOutpatientCenters } from "@/store/outpatientCentersSlice";
 
 const OutpatientCenterList: React.FC = () => {
-  const [centers, setCenters] = useState<OutpatientCenter[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const { centers, loading, error, initialized } = useAppSelector(
+    (state) => state.outpatientCenters,
+  );
 
   useEffect(() => {
-    const loadCenters = async () => {
-      try {
-        setLoading(true);
-        const data = await fetchOutpatientCenter();
-        const list = Array.isArray(data)
-          ? data
-          : data?.results ?? data?.data ?? [];
-        const mapped = list
-          .map((center: any) => ({
-            id: center.id,
-            path: center.path ?? null,
-            slug: center.slug ?? null,
-            name: center.name ?? center.title ?? "",
-            location: center.location ?? "",
-          }))
-          .filter((c: OutpatientCenter) => c.id && c.name);
-        setCenters(mapped);
-        setError(null);
-      } catch {
-        setError("Failed to load outpatient centers.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadCenters();
-  }, []);
+    if (!initialized && !loading) {
+      void dispatch(fetchOutpatientCenters());
+    }
+  }, [dispatch, initialized, loading]);
 
   return (
     <>

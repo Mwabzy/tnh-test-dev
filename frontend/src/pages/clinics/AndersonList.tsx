@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import { ClinicalService } from "@/types";
 import { FaCalendarCheck, FaChevronRight } from "react-icons/fa";
-import { fetchClinicalServices } from "@/api/api";
 import { useIntlayer } from "react-intlayer";
 import DOMPurify from "dompurify";
 import { hasAndersonLocation } from "@/lib/serviceFilters";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { fetchServices } from "@/store/servicesSlice";
 
 interface andersonListProps {
   services?: ClinicalService[];
@@ -14,12 +15,11 @@ interface andersonListProps {
 const ITEMS_PER_PAGE = 6;
 
 const AndersonList: React.FC<andersonListProps> = () => {
-  const [data, setData] = useState<ClinicalService[]>([]);
+  const dispatch = useAppDispatch();
+  const { services, loading, error } = useAppSelector((state) => state.services);
   const [search, setSearch] = useState("");
   const [letterFilter, setLetterFilter] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   const content = useIntlayer("andersonContent");
 
@@ -31,23 +31,9 @@ const AndersonList: React.FC<andersonListProps> = () => {
       return (a.id ?? 0) - (b.id ?? 0);
     });
 
-  // Fetching via API instance
   useEffect(() => {
-    const loadServices = async () => {
-      try {
-        setLoading(true);
-        const services = await fetchClinicalServices();
-        console.log("Fetched services:", services);
-        setData(sortByOrder(Array.isArray(services) ? services : []));
-      } catch (err) {
-        console.error("Error fetching services:", err);
-        setError("Unable to load services.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadServices();
-  }, []);
+    dispatch(fetchServices());
+  }, [dispatch]);
 
   // Filter logic
 
@@ -62,8 +48,8 @@ const AndersonList: React.FC<andersonListProps> = () => {
   // });
 
   // Filter logic - only show services with "Anderson" location
-  const filteredServices = data
-    ? data.filter((service) => {
+  const filteredServices = services
+    ? sortByOrder(services).filter((service) => {
         const matchesSearch = service.title
           .toLowerCase()
           .includes(search.toLowerCase());

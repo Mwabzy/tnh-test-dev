@@ -10,8 +10,10 @@ import {
 import { Mail, MapPin, Phone } from "lucide-react";
 import DOMPurify from "dompurify";
 import { addClassesToDescription } from "@/components/services/utilities";
-import { fetchClinicalServices, fetchOutpatientCenter } from "@/api/api";
+import { fetchClinicalServices } from "@/api/api";
 import { applyDocumentSeo, trimMetaDescription } from "@/lib/seoDom";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { fetchOutpatientCenters } from "@/store/outpatientCentersSlice";
 
 type ServiceSummary = {
   id: number;
@@ -83,8 +85,21 @@ const OutpatientCenterDetails = () => {
 
   const [details, setDetails] = useState<Opc | null>(null);
   const [services, setServices] = useState<ServiceSummary[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingServices, setLoadingServices] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const {
+    centers,
+    loading: loadingCenters,
+    error: centersError,
+    initialized,
+  } = useAppSelector((state) => state.outpatientCenters);
+
+  useEffect(() => {
+    if (!initialized && !loadingCenters) {
+      void dispatch(fetchOutpatientCenters());
+    }
+  }, [dispatch, initialized, loadingCenters]);
 
   useEffect(() => {
     const parseContact = (value: any): Contact => {
@@ -112,133 +127,124 @@ const OutpatientCenterDetails = () => {
       return {};
     };
 
-    const loadDetails = async () => {
+    if (!initialized && loadingCenters) {
+      return;
+    }
+
+    if (centersError) {
+      setError(centersError);
+      return;
+    }
+
+    const found = centers.find(
+      (item) => String(item.path ?? item.slug ?? item.id) === String(id ?? ""),
+    );
+
+    if (!found) {
+      setDetails(null);
+      if (initialized) {
+        setError("Service not found.");
+      }
+      return;
+    }
+
+    const timingServiceIds = Array.isArray(found.timings)
+      ? found.timings
+          .map((timing: any) => {
+            const clinicNumber = Number(timing?.clinicId ?? null);
+            return Number.isFinite(clinicNumber) ? clinicNumber : null;
+          })
+          .filter((serviceId: number | null): serviceId is number =>
+            Number.isFinite(serviceId),
+          )
+      : [];
+
+    const declaredServiceIds = Array.isArray(found.services_offered)
+      ? found.services_offered
+          .map((service: any) =>
+            typeof service === "object" ? service?.id : service,
+          )
+          .filter((serviceId: any) => Number.isFinite(Number(serviceId)))
+          .map((serviceId: any) => Number(serviceId))
+      : [];
+
+    const mergedServiceIds = Array.from(
+      new Set([...declaredServiceIds, ...timingServiceIds]),
+    );
+
+    const mapped: Opc = {
+      id: Number(found.id),
+      path: found.path ?? null,
+      slug: found.slug ?? null,
+      name: found.name ?? "",
+      description: found.description ?? "",
+      contact: parseContact(found.contact),
+      location: found.location ?? "",
+      images: Array.isArray(found.image)
+        ? found.image
+            .map((img) => ({
+              id: Number(img?.id),
+              url: toMediaUrl(img?.url ?? ""),
+              alt: img?.alt ?? "",
+            }))
+            .filter((img: CenterImage) => Boolean(img.url))
+        : [],
+      servicesOffered: mergedServiceIds,
+      timings: Array.isArray(found.timings)
+        ? found.timings.map((timing: any) => {
+            const clinicNumber = Number(timing?.clinicId ?? null);
+            return {
+              clinicId: Number.isFinite(clinicNumber) ? clinicNumber : null,
+              day: formatDayLabel(String(timing?.day ?? "").trim()),
+              month: String(timing?.month ?? "").trim(),
+              startTime: String(timing?.startTime ?? "").trim(),
+              stopTime: String(timing?.stopTime ?? "").trim(),
+            };
+          })
+        : [],
+    };
+
+    setDetails(mapped);
+    setError(null);
+  }, [centers, centersError, id, initialized, loadingCenters]);
+
+  useEffect(() => {
+    const loadServices = async () => {
+      if (!details || details.servicesOffered.length === 0) {
+        setServices([]);
+        return;
+      }
+
       try {
-        setLoading(true);
-        const data = await fetchOutpatientCenter();
-        const list = Array.isArray(data)
-          ? data
-          : (data?.results ?? data?.data ?? []);
-        const found = list.find(
-          (item: any) =>
-            String(item.path ?? item.slug ?? item.id) === String(id ?? ""),
+        setLoadingServices(true);
+        const servicesData = await fetchClinicalServices();
+        const serviceList = Array.isArray(servicesData)
+          ? servicesData
+          : (servicesData?.results ?? servicesData?.data ?? []);
+        const byId = new Map(
+          serviceList.map((s: any) => [
+            s.id,
+            {
+              id: s.id,
+              title: s.title ?? "",
+              tagline: s.tagline ?? "",
+              overview: s.overview ?? "",
+            },
+          ]),
         );
-
-        if (!found) {
-          setDetails(null);
-          setError("Service not found.");
-          return;
-        }
-
-        const timingServiceIds = Array.isArray(found.timings)
-          ? found.timings
-              .map((timing: any) => {
-                const clinicRaw =
-                  timing?.clinicId ??
-                  timing?.clinic_id ??
-                  timing?.clinic?.id ??
-                  timing?.clinic ??
-                  null;
-                const clinicNumber = Number(clinicRaw);
-                return Number.isFinite(clinicNumber) ? clinicNumber : null;
-              })
-              .filter((serviceId: number | null): serviceId is number =>
-                Number.isFinite(serviceId),
-              )
-          : [];
-
-        const declaredServiceIds = Array.isArray(found.services_offered)
-          ? found.services_offered
-              .map((service: any) =>
-                typeof service === "object" ? service?.id : service,
-              )
-              .filter((serviceId: any) => Number.isFinite(Number(serviceId)))
-              .map((serviceId: any) => Number(serviceId))
-          : [];
-
-        const mergedServiceIds = Array.from(
-          new Set([...declaredServiceIds, ...timingServiceIds]),
-        );
-
-        const mapped: Opc = {
-          id: found.id,
-          path: found.path ?? null,
-          slug: found.slug ?? null,
-          name: found.name ?? found.title ?? "",
-          description: found.description ?? "",
-          contact: parseContact(found.contact),
-          location: found.location ?? "",
-          images: Array.isArray(found.image)
-            ? found.image
-                .map((img: any) => ({
-                  id: Number(img?.id),
-                  url: toMediaUrl(
-                    typeof img === "string" ? img : (img?.url ?? ""),
-                  ),
-                  alt: typeof img === "object" ? (img?.alt ?? "") : "",
-                }))
-                .filter((img: CenterImage) => Boolean(img.url))
-            : [],
-          servicesOffered: mergedServiceIds,
-          timings: Array.isArray(found.timings)
-            ? found.timings.map((timing: any) => {
-                const clinicRaw =
-                  timing?.clinicId ??
-                  timing?.clinic_id ??
-                  timing?.clinic?.id ??
-                  timing?.clinic ??
-                  null;
-                const clinicNumber = Number(clinicRaw);
-                return {
-                  clinicId: Number.isFinite(clinicNumber) ? clinicNumber : null,
-                  day: formatDayLabel(String(timing?.day ?? "").trim()),
-                  month: String(timing?.month ?? "").trim(),
-                  startTime: String(
-                    timing?.startTime ?? timing?.start_time ?? "",
-                  ).trim(),
-                  stopTime: String(
-                    timing?.stopTime ?? timing?.stop_time ?? "",
-                  ).trim(),
-                };
-              })
-            : [],
-        };
-
-        setDetails(mapped);
-        setError(null);
-
-        if (mapped.servicesOffered.length > 0) {
-          const servicesData = await fetchClinicalServices();
-          const serviceList = Array.isArray(servicesData)
-            ? servicesData
-            : (servicesData?.results ?? servicesData?.data ?? []);
-          const byId = new Map(
-            serviceList.map((s: any) => [
-              s.id,
-              {
-                id: s.id,
-                title: s.title ?? "",
-                tagline: s.tagline ?? "",
-                overview: s.overview ?? "",
-              },
-            ]),
-          );
-          const matched = mapped.servicesOffered
-            .map((serviceId) => byId.get(serviceId))
-            .filter(Boolean) as ServiceSummary[];
-          setServices(matched);
-        } else {
-          setServices([]);
-        }
+        const matched = details.servicesOffered
+          .map((serviceId) => byId.get(serviceId))
+          .filter(Boolean) as ServiceSummary[];
+        setServices(matched);
       } catch {
         setError("Failed to load outpatient center.");
       } finally {
-        setLoading(false);
+        setLoadingServices(false);
       }
     };
 
-    loadDetails();
-  }, [id]);
+    void loadServices();
+  }, [details]);
 
   useEffect(() => {
     if (!details) return;
@@ -281,7 +287,7 @@ const OutpatientCenterDetails = () => {
     return map;
   }, [details?.timings]);
 
-  if (loading)
+  if (loadingCenters || loadingServices || (!initialized && !details))
     return (
       <div className="text-center mt-10 text-gray-500">
         Loading outpatient center...

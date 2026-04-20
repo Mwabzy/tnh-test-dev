@@ -128,6 +128,7 @@ export interface outpatientCenter {
   location: string;
   timings: Timings[];
   image: Image[];
+  services_offered?: Array<number | ClinicalService>;
 }
 
 export interface clinicalFaq {

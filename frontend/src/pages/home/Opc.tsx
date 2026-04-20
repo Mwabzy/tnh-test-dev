@@ -1,59 +1,23 @@
 // App.tsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router";
 import { useIntlayer } from "react-intlayer";
-import { fetchOutpatientCenter } from "@/api/api";
-
-interface OutpatientCenter {
-  id: number;
-  path?: string | null;
-  slug?: string | null;
-  name: string;
-  location: string;
-  imageUrl?: string | null;
-}
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { fetchOutpatientCenters } from "@/store/outpatientCentersSlice";
 
 const Opc: React.FC = () => {
   const opcdata = useIntlayer("heroContent");
-  const [outpatientCenters, setOutpatientCenters] = useState<
-    OutpatientCenter[]
-  >([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch = useAppDispatch();
+  const { centers, loading, error, initialized } = useAppSelector(
+    (state) => state.outpatientCenters,
+  );
+  const outpatientCenters = centers.slice(0, 7);
 
   useEffect(() => {
-    const loadCenters = async () => {
-      try {
-        setLoading(true);
-        const data = await fetchOutpatientCenter();
-        const list = Array.isArray(data)
-          ? data
-          : data?.results ?? data?.data ?? [];
-        const mapped = list
-          .map((center: any) => ({
-            id: center.id,
-            path: center.path ?? null,
-            slug: center.slug ?? null,
-            name: center.name ?? center.title ?? "",
-            location: center.location ?? "",
-            imageUrl:
-              center.image?.[0]?.url ??
-              center.image?.url ??
-              center.imageUrl ??
-              null,
-          }))
-          .filter((c: OutpatientCenter) => c.id && c.name);
-        setOutpatientCenters(mapped.slice(0, 7));
-        setError(null);
-      } catch {
-        setError("Failed to load outpatient centers.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadCenters();
-  }, []);
+    if (!initialized && !loading) {
+      void dispatch(fetchOutpatientCenters());
+    }
+  }, [dispatch, initialized, loading]);
 
   return (
     <div className="px-4 py-10 max-w-7xl mx-auto">
@@ -96,9 +60,9 @@ const Opc: React.FC = () => {
                 to={`/outpatient-center/${encodeURI(String(center.path ?? center.slug ?? center.id))}`}
               >
                 <div className="relative h-48 sm:h-56 lg:h-56">
-                  {center.imageUrl ? (
+                  {center.image?.[0]?.url ? (
                     <img
-                      src={center.imageUrl}
+                      src={center.image[0].url}
                       alt={center.name}
                       className="object-cover w-full h-full"
                       loading="lazy"

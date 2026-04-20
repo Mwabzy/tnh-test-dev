@@ -492,7 +492,7 @@ const OutpatientCenterForm = ({
       />
 
       <div>
-        <label className="font-medium block mb-1">Center Location</label>
+        <label className="font-medium block mb-1">Physical Location</label>
         <input
           className="border p-2 w-full"
           placeholder="Enter center location"

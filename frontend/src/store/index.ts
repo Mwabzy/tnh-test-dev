@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { outpatientCentersReducer } from "./outpatientCentersSlice";
 import { servicesReducer } from "./servicesSlice";
 
 export const store = configureStore({
   reducer: {
+    outpatientCenters: outpatientCentersReducer,
     services: servicesReducer,
   },
 });

@@ -1,4 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 
 import { api } from "@/api/api";
 
@@ -12,6 +16,14 @@ interface ServiceState {
   loading: boolean;
   error: string | null;
 }
+
+const sortByOrder = (list: ClinicalService[]) =>
+  [...list].sort((a, b) => {
+    const orderA = a.order ?? 0;
+    const orderB = b.order ?? 0;
+    if (orderA !== orderB) return orderA - orderB;
+    return (a.id ?? 0) - (b.id ?? 0);
+  });
 
 const initialState: ServiceState = {
   services: [],
@@ -38,7 +50,51 @@ export const fetchServices = createAsyncThunk(
 const servicesSlice = createSlice({
   name: "services",
   initialState,
-  reducers: {},
+  reducers: {
+    setServices: (state, action: PayloadAction<ClinicalService[]>) => {
+      state.services = sortByOrder(action.payload);
+    },
+    upsertService: (state, action: PayloadAction<ClinicalService>) => {
+      const nextService = action.payload;
+      const existingIndex = state.services.findIndex(
+        (service) => service.id === nextService.id,
+      );
+
+      if (existingIndex >= 0) {
+        state.services[existingIndex] = nextService;
+      } else {
+        state.services.push(nextService);
+      }
+
+      state.services = sortByOrder(state.services);
+    },
+    removeService: (state, action: PayloadAction<number>) => {
+      state.services = state.services.filter(
+        (service) => service.id !== action.payload,
+      );
+    },
+    reorderServices: (state, action: PayloadAction<number[]>) => {
+      const orderLookup = new Map(
+        action.payload.map((id, index) => [id, index] as const),
+      );
+
+      state.services = [...state.services].sort((a, b) => {
+        const indexA = orderLookup.get(a.id ?? -1);
+        const indexB = orderLookup.get(b.id ?? -1);
+
+        if (indexA === undefined && indexB === undefined) {
+          const orderA = a.order ?? 0;
+          const orderB = b.order ?? 0;
+          if (orderA !== orderB) return orderA - orderB;
+          return (a.id ?? 0) - (b.id ?? 0);
+        }
+
+        if (indexA === undefined) return 1;
+        if (indexB === undefined) return -1;
+        return indexA - indexB;
+      });
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchServices.pending, (state) => {
@@ -47,7 +103,7 @@ const servicesSlice = createSlice({
       })
       .addCase(fetchServices.fulfilled, (state, action) => {
         state.loading = false;
-        state.services = action.payload;
+        state.services = sortByOrder(action.payload);
       })
       .addCase(fetchServices.rejected, (state, action) => {
         state.loading = false;
@@ -56,5 +112,7 @@ const servicesSlice = createSlice({
   },
 });
 
+export const { setServices, upsertService, removeService, reorderServices } =
+  servicesSlice.actions;
 export const servicesReducer = servicesSlice.reducer;
 export default servicesSlice.reducer;
