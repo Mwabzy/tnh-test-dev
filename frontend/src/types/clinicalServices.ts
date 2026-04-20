@@ -45,10 +45,26 @@ export interface Doctor {
   bio_zh?: string;
   bio_ru?: string;
   images?: Image[];
+  image?: Image[];
   services_offered?: ClinicalService[];
   research_publications?: string[];
+  researchAndPublications?: string[] | string;
   awards?: string[];
+  awardsAndRecognition?: string[] | string;
   locations?: string[];
+  location?: string;
+  description?: string[] | string;
+  schedule?: string[] | string;
+  languages?: string[];
+  languagesSpoken?: string;
+  email?: string;
+  phone?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  clinicDepartment?: string;
+  licensingDetails?: string;
+  socialMedia?: string;
+  socialMediaWebsite?: string[];
 }
 
 export interface Testimonial {

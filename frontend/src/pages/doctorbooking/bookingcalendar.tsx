@@ -1,14 +1,12 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Calendar } from "@/components/ui/calendar";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
 import {
   sendEmail,
-  fetchClinicalServices,
-  fetchOutpatientCenter,
   fetchRecipientEmailSettings,
-} from "@/api/api"; // Add this import
+} from "@/api/api";
+import { useDispatch, useSelector } from "react-redux";
 import { ClinicalService, Doctor } from "@/types";
-import { fetchDoctorById } from "@/api/api";
 import { useIntlayer } from "react-intlayer";
 import toast from "react-hot-toast";
 import {
@@ -16,6 +14,10 @@ import {
   getUserEnquiryRecipient,
   USER_ENQUIRY_RECIPIENT_MAP,
 } from "@/config/userEnquiries";
+import type { AppDispatch, RootState } from "@/store";
+import { fetchDoctorEntry, fetchDoctorsList } from "@/store/doctorsSlice";
+import { fetchOutpatientCenters } from "@/store/outpatientCentersSlice";
+import { fetchServices } from "@/store/servicesSlice";
 
 interface CalendarWithTimesProps {
   onDateSelected?: (date: Date) => void;
@@ -124,8 +126,24 @@ const BookingPage: React.FC<BookingPageProps> = ({
   doctors = [],
   services = [],
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const storedDoctors = useSelector((state: RootState) => state.doctors.doctors);
+  const doctorsLoading = useSelector((state: RootState) => state.doctors.loading);
+  const doctorsInitialized = useSelector(
+    (state: RootState) => state.doctors.initialized,
+  );
+  const storedServices = useSelector((state: RootState) => state.services.services);
+  const servicesLoading = useSelector((state: RootState) => state.services.loading);
+  const outpatientCenters = useSelector(
+    (state: RootState) => state.outpatientCenters.centers,
+  );
+  const timingsLoading = useSelector(
+    (state: RootState) => state.outpatientCenters.loading,
+  );
+  const timingsInitialized = useSelector(
+    (state: RootState) => state.outpatientCenters.initialized,
+  );
   const location = useLocation();
-  const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
 
   const serviceIdParam = searchParams.get("serviceId");
@@ -133,11 +151,14 @@ const BookingPage: React.FC<BookingPageProps> = ({
   const doctorNameParam = searchParams.get("doctorName");
   const doctorTitleParam = searchParams.get("doctorTitle");
 
-  const [clinicalServices, setClinicalServices] =
-    useState<ClinicalService[]>(services);
-  const [isLoadingServices, setIsLoadingServices] = useState(false);
-  const [opcCenters, setOpcCenters] = useState<any[]>([]);
-  const [isLoadingTimings, setIsLoadingTimings] = useState(false);
+  const clinicalServices = useMemo(
+    () => (storedServices.length > 0 ? storedServices : services),
+    [services, storedServices],
+  );
+  const availableDoctors = useMemo(
+    () => (storedDoctors.length > 0 ? storedDoctors : doctors),
+    [doctors, storedDoctors],
+  );
 
   const serviceId = serviceIdParam ? Number(serviceIdParam) : null;
   const isDoctorBooking = Boolean(doctorIdParam);
@@ -153,24 +174,13 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
   const doctorIdNum = doctorIdParam ? Number(doctorIdParam) : null;
 
-  const [fetchedDoctor, setFetchedDoctor] = useState<Doctor | null>(null);
-  const [isLoadingDoctor, setIsLoadingDoctor] = useState(false);
-
   // Get doctor information
   const doctorInfo = useMemo(() => {
     if (!isDoctorBooking || !doctorIdParam) return null;
 
-    // Priority 1: Use fetched doctor data (has complete services_offered)
-    if (fetchedDoctor) {
-      console.log("Using fetched doctor:", fetchedDoctor); // Debug log
-      return fetchedDoctor;
-    }
-
-    // Priority 2: Check props
-    const doctor = doctors.find((d) => d.id === doctorIdNum);
+    const doctor = availableDoctors.find((d) => d.id === doctorIdNum);
     if (doctor) return doctor;
 
-    // Priority 3: Fallback with URL params
     return {
       id: Number(doctorIdParam),
       name: doctorNameParam || "Doctor",
@@ -182,11 +192,10 @@ const BookingPage: React.FC<BookingPageProps> = ({
   }, [
     isDoctorBooking,
     doctorIdParam,
-    fetchedDoctor, // Add this dependency
     doctorNameParam,
     doctorTitleParam,
     doctorServices,
-    doctors,
+    availableDoctors,
     doctorIdNum,
   ]);
 
@@ -434,7 +443,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
     if (!activeServiceId) return map;
 
-    opcCenters.forEach((center) => {
+    outpatientCenters.forEach((center) => {
       const timings = Array.isArray(center?.timings) ? center.timings : [];
       const matches = timings.filter((t: any) => {
         const clinicId =
@@ -460,7 +469,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
     });
 
     return map;
-  }, [opcCenters, activeServiceId]);
+  }, [outpatientCenters, activeServiceId]);
 
   const locationTimings = useMemo(() => {
     if (!selectedLocation) return [];
@@ -684,45 +693,23 @@ const BookingPage: React.FC<BookingPageProps> = ({
     }
   }, [doctorInfo]);
 
-  // Fetch clinical services when not in doctor booking mode
   useEffect(() => {
-    const loadClinicalServices = async () => {
-      if (isDoctorBooking || clinicalServices.length > 0) return;
-
-      setIsLoadingServices(true);
-      try {
-        const data = await fetchClinicalServices();
-        setClinicalServices(data);
-      } catch (error) {
-        console.error("Error fetching clinical services:", error);
-        // Optionally show error message to user
-      } finally {
-        setIsLoadingServices(false);
-      }
-    };
-
-    loadClinicalServices();
-  }, [isDoctorBooking]);
+    if (!isDoctorBooking && clinicalServices.length === 0 && !servicesLoading) {
+      void dispatch(fetchServices());
+    }
+  }, [clinicalServices.length, dispatch, isDoctorBooking, servicesLoading]);
 
   useEffect(() => {
-    const loadOutpatientCenters = async () => {
-      setIsLoadingTimings(true);
-      try {
-        const data = await fetchOutpatientCenter();
-        const centers = Array.isArray(data)
-          ? data
-          : data?.results ?? data?.data ?? [];
-        setOpcCenters(centers);
-      } catch (error) {
-        console.error("Error fetching outpatient centers:", error);
-        setOpcCenters([]);
-      } finally {
-        setIsLoadingTimings(false);
-      }
-    };
+    if (!timingsInitialized && !timingsLoading) {
+      void dispatch(fetchOutpatientCenters());
+    }
+  }, [dispatch, timingsInitialized, timingsLoading]);
 
-    loadOutpatientCenters();
-  }, []);
+  useEffect(() => {
+    if (!doctorsInitialized && !doctorsLoading) {
+      void dispatch(fetchDoctorsList());
+    }
+  }, [dispatch, doctorsInitialized, doctorsLoading]);
 
   useEffect(() => {
     let active = true;
@@ -809,44 +796,10 @@ const BookingPage: React.FC<BookingPageProps> = ({
     setSelectedTime(null);
   }, [selectedServiceId]);
 
-  // Fetch doctor data when doctorId is in URL
-  // Fetch doctor data when doctorId is in URL
   useEffect(() => {
-    const loadDoctor = async () => {
-      if (!doctorIdParam) return;
-
-      setIsLoadingDoctor(true);
-      try {
-        const doctorData = await fetchDoctorById(Number(doctorIdParam));
-        console.log("=== DOCTOR DATA FETCHED ===");
-        console.log("Full doctor data:", doctorData);
-        console.log("Services offered:", doctorData.services_offered);
-        console.log("Services length:", doctorData.services_offered?.length);
-
-        // ADD THESE NEW LOGS
-        if (
-          doctorData.services_offered &&
-          doctorData.services_offered.length > 0
-        ) {
-          console.log("First service object:", doctorData.services_offered[0]);
-          console.log("First service ID:", doctorData.services_offered[0]?.id);
-          console.log(
-            "First service title:",
-            doctorData.services_offered[0]?.title,
-          );
-        }
-
-        console.log("=========================");
-        setFetchedDoctor(doctorData);
-      } catch (error) {
-        console.error("Error fetching doctor:", error);
-      } finally {
-        setIsLoadingDoctor(false);
-      }
-    };
-
-    loadDoctor();
-  }, [doctorIdParam]);
+    if (!doctorIdParam || doctorInfo) return;
+    void dispatch(fetchDoctorEntry(Number(doctorIdParam)));
+  }, [dispatch, doctorIdParam, doctorInfo]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-red-50 py-12 px-4">
@@ -945,7 +898,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
             {/* Doctor Info */}
             {isDoctorBooking && (
               <div className="bg-gradient-to-br from-red-50 to-white p-6 rounded-xl shadow-md border-l-4 border-red-900 hover:shadow-lg transition-shadow">
-                {isLoadingDoctor ? (
+                {doctorsLoading && !doctorInfo?.services_offered?.length ? (
                   <div className="text-center py-4 text-gray-600">
                     {content.loadingDoctorInfo}
                   </div>
@@ -970,7 +923,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
             {/* Service & Location */}
             <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow border border-gray-100">
               {/* DOCTOR BOOKING - Show service selector */}
-              {isDoctorBooking && doctorInfo && !isLoadingDoctor && (
+              {isDoctorBooking && doctorInfo && (
                 <div className="mb-6">
                   <label className="block font-semibold text-gray-800 mb-3 flex items-center gap-2">
                     <span className="w-6 h-6 rounded-full bg-red-900 text-white text-xs flex items-center justify-center">
@@ -1015,10 +968,10 @@ const BookingPage: React.FC<BookingPageProps> = ({
                       const val = e.target.value;
                       setSelectedServiceId(val ? Number(val) : null);
                     }}
-                    disabled={isLoadingServices}
+                    disabled={servicesLoading}
                   >
                     <option value="">
-                      {isLoadingServices
+                      {servicesLoading
                         ? "Loading services..."
                         : "-- choose a service --"}
                     </option>
@@ -1068,7 +1021,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
                   selectedTime={selectedTime}
                   onTimeSelected={setSelectedTime}
                   isDateAvailable={(d) =>
-                    !isLoadingTimings && getSlotsForDate(d).length > 0
+                    !timingsLoading && getSlotsForDate(d).length > 0
                   }
                 />
               </div>

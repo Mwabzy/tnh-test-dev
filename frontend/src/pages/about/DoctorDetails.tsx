@@ -1,12 +1,15 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router";
-import { fetchDoctorById, fetchClinicalServiceById } from "@/api/api";
+import { useDispatch, useSelector } from "react-redux";
 import { ClinicalService } from "@/types";
 import { useIntlayer } from "react-intlayer";
 import DOMPurify from "dompurify";
 import { addClassesToDescription } from "@/components/services/utilities";
 import { FaCalendarCheck } from "react-icons/fa";
 import { applyDocumentSeo, trimMetaDescription } from "@/lib/seoDom";
+import type { AppDispatch, RootState } from "@/store";
+import { fetchDoctorEntry, fetchDoctorsList } from "@/store/doctorsSlice";
+import { fetchServices } from "@/store/servicesSlice";
 
 export interface Doctor {
   id: string | number;
@@ -32,48 +35,62 @@ export interface Doctor {
 
 const DoctorDetails: FC = () => {
   const { id } = useParams();
-  const [doctor, setDoctor] = useState<Doctor | null>(null);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch<AppDispatch>();
+  const { doctors, loading: doctorsLoading, initialized } = useSelector(
+    (state: RootState) => state.doctors,
+  );
+  const services = useSelector((state: RootState) => state.services.services);
+  const servicesLoading = useSelector((state: RootState) => state.services.loading);
   const [error, setError] = useState<string | null>(null);
-  const [servicesOffered, setServicesOffered] = useState<ClinicalService[]>([]);
 
   const content = useIntlayer("doctorContent");
+  const numericId = Number(id);
+  const doctor = useMemo(
+    () => doctors.find((entry) => Number(entry.id) === numericId) ?? null,
+    [doctors, numericId],
+  );
+  const servicesOffered = useMemo(
+    () =>
+      (doctor?.services_offered ?? [])
+        .map((service) =>
+          services.find((entry) => entry.id === service.id) ?? service,
+        )
+        .filter(Boolean) as ClinicalService[],
+    [doctor, services],
+  );
 
   useEffect(() => {
     if (!id) return;
-
-    const numericId = Number(id);
     if (isNaN(numericId)) {
       setError("Invalid doctor ID.");
       return;
     }
+    if (!initialized && !doctorsLoading) {
+      void dispatch(fetchDoctorsList());
+    }
+    if (services.length === 0 && !servicesLoading) {
+      void dispatch(fetchServices());
+    }
+    if (!doctor) {
+      void dispatch(fetchDoctorEntry(numericId))
+        .unwrap()
+        .then(() => setError(null))
+        .catch(() => setError("Failed to load doctor data."));
+    } else {
+      setError(null);
+    }
+  }, [
+    dispatch,
+    doctor,
+    doctorsLoading,
+    id,
+    initialized,
+    numericId,
+    services.length,
+    servicesLoading,
+  ]);
 
-    setLoading(true);
-
-    fetchDoctorById(numericId)
-      .then(async (doctorData) => {
-        setDoctor(doctorData);
-
-        if (!doctorData.services_offered?.length) {
-          setServicesOffered([]);
-          return;
-        }
-
-        // Fetch ONLY required services
-        const services = await Promise.all(
-          doctorData.services_offered.map((service: ClinicalService) =>
-            fetchClinicalServiceById(service.id),
-          ),
-        );
-        console.log("Fetched services offered:", services);
-        setServicesOffered(services);
-        setError(null);
-      })
-      .catch(() => setError("Failed to load doctor data."))
-      .finally(() => setLoading(false));
-  }, [id]);
-
-  if (loading)
+  if (doctorsLoading && !doctor)
     return <p className="text-center mt-10 text-gray-600">Loading...</p>;
   if (error || !doctor)
     return (
