@@ -153,7 +153,6 @@ export const normalizeDoctor = (doctor: unknown): Doctor => {
   const bio = typeof entry.bio === "string" ? entry.bio : "";
 
   return {
-    ...(entry as Doctor),
     id:
       typeof entry.id === "number"
         ? entry.id
@@ -172,8 +171,11 @@ export const normalizeDoctor = (doctor: unknown): Doctor => {
     images,
     image: images,
     description:
-      entry.description ??
-      (bio ? [bio] : []),
+      typeof entry.description === "string" || Array.isArray(entry.description)
+        ? entry.description
+        : bio
+          ? [bio]
+          : undefined,
     services_offered: servicesOffered,
     research_publications: normalizeTextList(
       entry.research_publications ?? entry.researchAndPublications,
@@ -227,6 +229,14 @@ export const normalizeDoctor = (doctor: unknown): Doctor => {
     socialMediaWebsite: normalizeTextList(
       entry.socialMediaWebsite ?? entry.socialMedia,
     ),
+    role_fr: typeof entry.role_fr === "string" ? entry.role_fr : undefined,
+    role_es: typeof entry.role_es === "string" ? entry.role_es : undefined,
+    role_zh: typeof entry.role_zh === "string" ? entry.role_zh : undefined,
+    role_ru: typeof entry.role_ru === "string" ? entry.role_ru : undefined,
+    bio_fr: typeof entry.bio_fr === "string" ? entry.bio_fr : undefined,
+    bio_es: typeof entry.bio_es === "string" ? entry.bio_es : undefined,
+    bio_zh: typeof entry.bio_zh === "string" ? entry.bio_zh : undefined,
+    bio_ru: typeof entry.bio_ru === "string" ? entry.bio_ru : undefined,
   };
 };
 

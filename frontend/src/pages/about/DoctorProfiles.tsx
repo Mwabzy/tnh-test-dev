@@ -27,7 +27,14 @@ const truncateBioToThreeSentences = (
   return result;
 };
 
-type Doctor = RootState["doctors"]["doctors"][number] & {
+type Doctor = {
+  id: string;
+  name: string;
+  role?: string;
+  bio: string;
+  clinicDepartment?: string;
+  locations?: string[];
+  location?: string;
   images: string[];
   description?: string[];
   schedule?: string[];
@@ -90,11 +97,14 @@ const DoctorProfiles: FC = () => {
 
   const doctors = useMemo<Doctor[]>(
     () =>
-      storedDoctors.map((doc) => {
+              storedDoctors.map((doc) => {
         const doctorLocations = extractDoctorLocations(doc);
         return {
-          ...doc,
           id: String(doc.id ?? `doctor-${doc.name}`),
+          name: doc.name,
+          role: doc.role,
+          bio: doc.bio,
+          clinicDepartment: doc.clinicDepartment,
           description: doc.bio ? [doc.bio] : [],
           schedule: Array.isArray(doc.schedule)
             ? doc.schedule
@@ -305,8 +315,7 @@ const DoctorProfiles: FC = () => {
         <div className="flex-1">
           {paginatedDoctors.length > 0 ? (
             paginatedDoctors.map((member) => {
-              const doctorRole =
-                member.role?.trim() || member.specialization?.trim();
+              const doctorRole = member.role?.trim();
               const doctorImage = member.images[0] || "/placeholder-doctor.png";
 
               return (

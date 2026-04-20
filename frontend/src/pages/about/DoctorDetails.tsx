@@ -129,6 +129,14 @@ const DoctorDetails: FC = () => {
     : [];
 
   const firstParagraph = descriptionArray.length > 0 ? descriptionArray[0] : "";
+  const scheduleItems = Array.isArray(doctor.schedule)
+    ? doctor.schedule
+    : typeof doctor.schedule === "string"
+      ? doctor.schedule
+          .split(/,|;|\n/)
+          .map((item) => item.trim())
+          .filter(Boolean)
+      : [];
 
   useEffect(() => {
     if (!doctor) return;
@@ -246,11 +254,11 @@ const DoctorDetails: FC = () => {
               </div>
             )}
 
-            {doctor.schedule && doctor.schedule.length > 0 && (
+            {scheduleItems.length > 0 && (
               <div className="mt-6">
                 <span className="font-semibold text-gray-700">Schedule:</span>
                 <ul className="list-disc list-inside mt-1 text-gray-700 space-y-1">
-                  {doctor.schedule.map((item, i) => (
+                  {scheduleItems.map((item: string, i: number) => (
                     <li key={i}>{item}</li>
                   ))}
                 </ul>

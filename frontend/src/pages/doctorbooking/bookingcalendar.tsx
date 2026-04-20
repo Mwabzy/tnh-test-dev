@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Calendar } from "@/components/ui/calendar";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import {
   sendEmail,
   fetchRecipientEmailSettings,
@@ -144,6 +144,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
     (state: RootState) => state.outpatientCenters.initialized,
   );
   const location = useLocation();
+  const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
 
   const serviceIdParam = searchParams.get("serviceId");
@@ -453,7 +454,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
       if (matches.length === 0) return;
 
-      const label = center?.name ?? center?.title ?? center?.location ?? "";
+      const label = center?.name ?? center?.location ?? "";
       if (!label) return;
 
       if (!map[label]) map[label] = [];

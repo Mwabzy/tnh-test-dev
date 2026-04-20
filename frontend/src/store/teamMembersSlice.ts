@@ -46,7 +46,6 @@ export const normalizeTeamMember = (member: unknown): TeamMember => {
       : {};
 
   return {
-    ...(entry as TeamMember),
     id: typeof entry.id === "string" ? entry.id : String(entry.id ?? ""),
     image_alt: typeof entry.image_alt === "string" ? entry.image_alt : "",
     name: typeof entry.name === "string" ? entry.name : "",
@@ -61,6 +60,30 @@ export const normalizeTeamMember = (member: unknown): TeamMember => {
         : Number.isFinite(Number(entry.order))
           ? Number(entry.order)
           : undefined,
+    role_fr: typeof entry.role_fr === "string" ? entry.role_fr : undefined,
+    role_es: typeof entry.role_es === "string" ? entry.role_es : undefined,
+    role_zh: typeof entry.role_zh === "string" ? entry.role_zh : undefined,
+    role_ru: typeof entry.role_ru === "string" ? entry.role_ru : undefined,
+    description_fr:
+      typeof entry.description_fr === "string"
+        ? entry.description_fr
+        : undefined,
+    description_es:
+      typeof entry.description_es === "string"
+        ? entry.description_es
+        : undefined,
+    description_zh:
+      typeof entry.description_zh === "string"
+        ? entry.description_zh
+        : undefined,
+    description_ru:
+      typeof entry.description_ru === "string"
+        ? entry.description_ru
+        : undefined,
+    group_fr: typeof entry.group_fr === "string" ? entry.group_fr : undefined,
+    group_es: typeof entry.group_es === "string" ? entry.group_es : undefined,
+    group_zh: typeof entry.group_zh === "string" ? entry.group_zh : undefined,
+    group_ru: typeof entry.group_ru === "string" ? entry.group_ru : undefined,
   };
 };
 
