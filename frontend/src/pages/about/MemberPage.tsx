@@ -1,9 +1,14 @@
 // import { teamMembers } from "./SeniorManagement";
 import { useParams } from "react-router";
-import { FC, useState, useEffect } from "react";
-import { fetchTeamMembers } from "@/api/api";
+import { FC, useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import DOMPurify from "dompurify";
 import { addClassesToDescription } from "@/components/services/utilities";
+import type { AppDispatch, RootState } from "@/store";
+import {
+  fetchTeamMemberEntry,
+  fetchTeamMembersList,
+} from "@/store/teamMembersSlice";
 
 // export interface TeamMember {
 //   id: string;
@@ -27,35 +32,45 @@ interface MemberPageProps {
 }
 
 const MemberPage: FC<MemberPageProps> = () => {
-  const [_loading, setLoading] = useState(true);
-  const [members, setMembers] = useState<TeamMember[]>([]);
-  const [_error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const { id } = useParams();
+  const { members, loading, initialized } = useSelector(
+    (state: RootState) => state.teamMembers,
+  );
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function loadMembers() {
-      setLoading(true);
-      try {
-        const data: TeamMember[] = await fetchTeamMembers();
-
-        setMembers(data);
-        setError(null);
-      } catch (err: any) {
-        setError(err.message || "Error loading team members");
-      } finally {
-        setLoading(false);
-      }
+    if (!initialized && !loading) {
+      void dispatch(fetchTeamMembersList());
     }
-    loadMembers();
-  }, []);
+  }, [dispatch, initialized, loading]);
 
-  const { id } = useParams();
+  useEffect(() => {
+    if (!id) return;
+    const existing = members.find((person) => person.id === id);
+    if (!existing) {
+      void dispatch(fetchTeamMemberEntry(id))
+        .unwrap()
+        .then(() => setError(null))
+        .catch(() => setError("Error loading team member"));
+    } else {
+      setError(null);
+    }
+  }, [dispatch, id, members]);
 
-  const user = members.find((person) => person.id === id)!;
+  const user = useMemo(
+    () => members.find((person) => person.id === id),
+    [id, members],
+  );
 
   return (
     <>
       <div className="bg-white text-gray-800 font-sans p-6 max-w-5xl mx-auto">
-        {user && (
+        {loading && !user ? (
+          <p>Loading...</p>
+        ) : error || !user ? (
+          <p className="text-red-600">{error || "Member not found."}</p>
+        ) : (
           <>
             <div>
               <div className="flex flex-col md:flex-row items-start md:items-center gap-6">

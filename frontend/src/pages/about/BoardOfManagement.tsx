@@ -1,7 +1,9 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useIntlayer } from "react-intlayer";
 import TeamPage from "./TeamPage";
-import { fetchTeamMembers } from "@/api/api";
+import type { AppDispatch, RootState } from "@/store";
+import { fetchTeamMembersList } from "@/store/teamMembersSlice";
 
 type TeamPageProps = {
   title: string;
@@ -21,11 +23,12 @@ type TeamMember = {
 
 
 const BoardOfManagement: FC<TeamPageProps> = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const content = useIntlayer("aboutTeamPages");
   const group = "BM";
-  const [_loading, setLoading] = useState(true);
-  const [members, setMembers] = useState<TeamMember[]>([]);
-  const [_error, setError] = useState<string | null>(null);
+  const { members: allMembers, loading, initialized } = useSelector(
+    (state: RootState) => state.teamMembers,
+  );
 
   const sortByOrder = (list: TeamMember[]) =>
     [...list].sort((a, b) => {
@@ -36,21 +39,15 @@ const BoardOfManagement: FC<TeamPageProps> = () => {
     });
 
   useEffect(() => {
-    async function loadMembers() {
-      setLoading(true);
-      try {
-        const data: TeamMember[] = await fetchTeamMembers();
-        const filtered = data.filter((m: TeamMember) => m.group === group);
-        setMembers(sortByOrder(filtered));
-        setError(null);
-      } catch (err: any) {
-        setError(err.message || "Error loading team members");
-      } finally {
-        setLoading(false);
-      }
+    if (!initialized && !loading) {
+      void dispatch(fetchTeamMembersList());
     }
-    loadMembers();
-  }, [group]);
+  }, [dispatch, initialized, loading]);
+
+  const members = useMemo(
+    () => sortByOrder(allMembers.filter((m) => m.group === group)),
+    [allMembers],
+  );
 
   return (
     <>

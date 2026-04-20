@@ -1,23 +1,25 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import TeamMembersTable from "./TeamMembersTable";
 import TeamMemberForm from "./TeamMemberForm";
 import { TeamMember } from "@/types";
-import {
-  fetchTeamMembers,
-  createTeamMember,
-  updateTeamMember,
-  deleteTeamMember,
-  reorderTeamMembers,
-} from "@/api/api";
 import toast from "react-hot-toast";
+import type { AppDispatch, RootState } from "@/store";
+import {
+  createTeamMemberEntry,
+  deleteTeamMemberEntry,
+  fetchTeamMembersList,
+  reorderTeamMemberEntries,
+  updateTeamMemberEntry,
+} from "@/store/teamMembersSlice";
 
 const BoardOfTrustees = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const group = "BT";
   const title = "Board Of Trustees";
-
-  const [members, setMembers] = useState<TeamMember[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { members: allMembers, loading, error, initialized } = useSelector(
+    (state: RootState) => state.teamMembers,
+  );
 
   const [showForm, setShowForm] = useState(false);
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
@@ -32,24 +34,13 @@ const BoardOfTrustees = () => {
       if (orderA !== orderB) return orderA - orderB;
       return a.id.localeCompare(b.id);
     });
+  const members = sortByOrder(allMembers.filter((m) => m.group === group));
 
-  // Load members filtered by group
   useEffect(() => {
-    async function loadMembers() {
-      setLoading(true);
-      try {
-        const data: TeamMember[] = await fetchTeamMembers();
-        const filtered = data.filter((m: TeamMember) => m.group === group);
-        setMembers(sortByOrder(filtered));
-        setError(null);
-      } catch (err: any) {
-        setError(err.message || "Error loading team members");
-      } finally {
-        setLoading(false);
-      }
+    if (!initialized && !loading) {
+      void dispatch(fetchTeamMembersList());
     }
-    loadMembers();
-  }, [group]);
+  }, [dispatch, initialized, loading]);
 
   const handleAdd = () => {
     setEditingMember(null);
@@ -66,13 +57,11 @@ const BoardOfTrustees = () => {
       }
 
       if (editingMember) {
-        const updated = await updateTeamMember(editingMember.id, member);
-        setMembers((prev) =>
-          sortByOrder(prev.map((m) => (m.id === updated.id ? updated : m))),
-        );
+        await dispatch(
+          updateTeamMemberEntry({ id: editingMember.id, payload: member }),
+        ).unwrap();
       } else {
-        const created = await createTeamMember(member);
-        setMembers((prev) => sortByOrder([...prev, created]));
+        await dispatch(createTeamMemberEntry(member)).unwrap();
       }
 
       setShowForm(false);
@@ -87,8 +76,7 @@ const BoardOfTrustees = () => {
     if (!deleteConfirmId) return;
     try {
       setDeletingId(deleteConfirmId);
-      await deleteTeamMember(deleteConfirmId);
-      setMembers((prev) => prev.filter((m) => m.id !== deleteConfirmId));
+      await dispatch(deleteTeamMemberEntry(deleteConfirmId)).unwrap();
       setDeleteConfirmId(null);
       toast.success("Deleted successfully!");
     } catch (err: any) {
@@ -99,14 +87,13 @@ const BoardOfTrustees = () => {
   };
 
   const handleReorder = async (nextOrder: TeamMember[]) => {
-    const previous = members;
-    setMembers(nextOrder);
-
     try {
-      await reorderTeamMembers(nextOrder.map((item) => item.id));
+      await dispatch(
+        reorderTeamMemberEntries(nextOrder.map((item) => item.id)),
+      ).unwrap();
       toast.success("Order updated successfully!");
     } catch (err: any) {
-      setMembers(previous);
+      void dispatch(fetchTeamMembersList());
       toast.error(`Failed to update order: ${err?.message ?? "Unknown error"}`);
     }
   };
