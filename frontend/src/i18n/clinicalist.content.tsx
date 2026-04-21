@@ -219,6 +219,15 @@ const clinicalistContent: Dictionary = {
         ru: "Врачи, соответствующие вашим фильтрам, не найдены.",
       }),
     ],
+    VisitingHours: [
+      t({
+        en: "Visiting Hours",
+        fr: "Heures de visite",
+        es: "Horario de visitas",
+        zh: "探视时间",
+        ru: "Часы посещения",
+      }),
+    ],
   },
 };
 export default clinicalistContent;
