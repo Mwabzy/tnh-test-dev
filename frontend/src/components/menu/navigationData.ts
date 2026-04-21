@@ -14,7 +14,6 @@ import clinical from "@/assets/navigation_images/clinical.png";
 import facilities from "@/assets/navigation_images/facilities.jpg";
 import news from "@/assets/navigation_images/news.jpg";
 
-
 export const NAVIGATION_CONTENT = () => {
   const content = useIntlayer("navigationContent");
   const accreditationPath = "/about-us/accreditation-certification";
@@ -68,10 +67,7 @@ export const NAVIGATION_CONTENT = () => {
         },
         {
           title: content.documents,
-          items: [
-            { title: content.plan, href: "/about/strategic-plan" },
-            
-          ],
+          items: [{ title: content.plan, href: "/about/strategic-plan" }],
         },
         {
           title: "IMAGE",
@@ -177,6 +173,10 @@ export const NAVIGATION_CONTENT = () => {
         {
           title: content.inpatient_services,
           items: [
+            {
+              title: content.visiting_hours,
+              href: "/inpatient/visiting-hours",
+            },
             { title: content.admission_process, href: "/inpatient/admission" },
             { title: content.rooms_and_wards, href: "/inpatient/rooms-wards" },
             {

@@ -93,7 +93,7 @@ const navigationContent: Dictionary = {
         ru: "Корпоративное управление",
       }),
     ],
-    trustees: [ 
+    trustees: [
       t({
         en: "Board of Trustees",
         fr: "Conseil des fiduciaires",
@@ -113,7 +113,7 @@ const navigationContent: Dictionary = {
     ],
     seniormanagement: [
       t({
-        en: "Senior Management",  
+        en: "Senior Management",
         fr: "Haute direction",
         es: "Alta dirección",
         zh: "高级管理层",
@@ -140,7 +140,7 @@ const navigationContent: Dictionary = {
     ],
     intl_certifications: [
       t({
-        en: "International Certifications", 
+        en: "International Certifications",
         fr: "Certifications internationales",
         es: "Certificaciones internacionales",
         zh: "国际认证",
@@ -183,9 +183,9 @@ const navigationContent: Dictionary = {
         ru: "Корпоративная устойчивость и ответственность",
       }),
     ],
-    
+
     leadership_image_caption: [
-     t({
+      t({
         en: "Healthcare with a difference",
         fr: "Des soins de santé avec une différence",
         es: "Atención médica con una diferencia",
@@ -228,7 +228,7 @@ const navigationContent: Dictionary = {
         zh: "药房服务",
         ru: "Аптечные услуги",
       }),
-    ],  
+    ],
     laboratory_services: [
       t({
         en: "Laboratory Services",
@@ -315,10 +315,11 @@ const navigationContent: Dictionary = {
         en: "Renal Services",
         fr: "Services rénaux",
         es: "Servicios renales",
-        zh: "肾脏服务", 
+        zh: "肾脏服务",
         ru: "Почечные услуги",
       }),
-    ], oncology_services: [
+    ],
+    oncology_services: [
       t({
         en: "Oncology Services",
         fr: "Services d'oncologie",
@@ -329,14 +330,14 @@ const navigationContent: Dictionary = {
     ],
     outpatient_services: [
       t({
-        en: "Outpatient Services",  
+        en: "Outpatient Services",
         fr: "Services ambulatoires",
         es: "Servicios ambulatorios",
         zh: "门诊服务",
         ru: "Амбулаторные услуги",
       }),
     ],
-    chandaria_ae_centre: [  
+    chandaria_ae_centre: [
       t({
         en: "Chandaria A&E Centre",
         fr: "Centre A&E Chandaria",
@@ -347,7 +348,7 @@ const navigationContent: Dictionary = {
     ],
     capital_outpatient_centre: [
       t({
-        en: "Capital Outpatient Centre",  
+        en: "Capital Outpatient Centre",
         fr: "Centre ambulatoire Capital",
         es: "Centro Ambulatorio Capital",
         zh: "首都门诊中心",
@@ -393,10 +394,10 @@ const navigationContent: Dictionary = {
     warwick_outpatient_centre: [
       t({
         en: "Warwick Outpatient Centre",
-        fr: "Centre ambulatoire Warwick",  
+        fr: "Centre ambulatoire Warwick",
         es: "Centro Ambulatorio Warwick",
-        zh: "沃里克门诊中心", 
-        ru: "Амбулаторный центр Уоррик", 
+        zh: "沃里克门诊中心",
+        ru: "Амбулаторный центр Уоррик",
       }),
     ],
     inpatient_services: [
@@ -406,6 +407,16 @@ const navigationContent: Dictionary = {
         es: "Atención de pacientes hospitalizados y cuidados intensivos",
         zh: "住院和重症护理",
         ru: "Стационарная и интенсивная терапия",
+      }),
+    ],
+
+    visiting_hours: [
+      t({
+        en: "Visiting Hours",
+        fr: "Heures de visite",
+        es: "Horas de visita",
+        zh: "探视时间",
+        ru: "Часы посещения",
       }),
     ],
 
@@ -428,7 +439,7 @@ const navigationContent: Dictionary = {
       }),
     ],
     critical_care_services: [
-      t({ 
+      t({
         en: "Critical Care Services",
         fr: "Services de soins intensifs",
         es: "Servicios de cuidados intensivos",
@@ -507,13 +518,13 @@ const navigationContent: Dictionary = {
         zh: "额外服务",
         ru: "Дополнительно",
       }),
-    ],  
+    ],
     alumni: [
       t({
         en: "Alumni Network",
         fr: "Réseau des anciens",
         es: "Red de exalumnos",
-        zh: "校友网络", 
+        zh: "校友网络",
         ru: "Сетевой Alumni",
       }),
     ],
@@ -544,7 +555,7 @@ const navigationContent: Dictionary = {
         ru: "Последние новости",
       }),
     ],
-    events_and_announcements: [ 
+    events_and_announcements: [
       t({
         en: "Events & Announcements",
         fr: "Événements et annonces",
@@ -612,7 +623,7 @@ const navigationContent: Dictionary = {
         en: "Job Vacancies",
         fr: "Offres d'emploi",
         es: "Ofertas de trabajo",
-        zh: "职位空缺", 
+        zh: "职位空缺",
         ru: "Вакансии",
       }),
     ],
@@ -635,7 +646,7 @@ const navigationContent: Dictionary = {
       }),
     ],
     careers_image_caption: [
-     t({
+      t({
         en: "Healthcare with a difference",
         fr: "Des soins de santé avec une différence",
         es: "Atención médica con una diferencia",
@@ -716,7 +727,7 @@ const navigationContent: Dictionary = {
       }),
     ],
     other_services_image_caption: [
-    t({
+      t({
         en: "Healthcare with a difference",
         fr: "Des soins de santé avec une différence",
         es: "Atención médica con una diferencia",

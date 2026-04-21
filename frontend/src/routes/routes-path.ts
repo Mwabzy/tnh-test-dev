@@ -403,6 +403,11 @@ const UIRoutes = {
       () => import("../pages/clinical-services/infection-control/page"),
     ),
   },
+  VisitingHours: {
+    name: "navigation.visitingHours",
+    path: "/inpatient/visiting-hours",
+    component: lazyLoad(() => import("../pages/clinics/VisitingHours")),
+  },
 };
 
 export const RoutesPath: Record<keyof typeof UIRoutes, UIRoutesType> = UIRoutes;
