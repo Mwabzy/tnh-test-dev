@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
+    "intlayer:build": "intlayer dictionaries build",
+    "intlayer:watch": "intlayer dictionaries build --watch",
     "seo": "node scripts/generate-seo-files.mjs",
     "prerender": "node scripts/prerender-public-routes.mjs",
     "build": "node scripts/generate-seo-files.mjs && tsc -b && vite build && node scripts/prerender-public-routes.mjs",

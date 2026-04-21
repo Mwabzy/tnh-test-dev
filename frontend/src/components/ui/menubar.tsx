@@ -12,7 +12,7 @@ function Menubar({
     <MenubarPrimitive.Root
       data-slot="menubar"
       className={cn(
-        "bg-background flex h-9 mx-5 gap-2 rounded-md border p-1 shadow-xs",
+        "flex h-9 mx-5 gap-2 rounded-md border-none bg-white/90 p-1 shadow-none",
         className
       )}
       {...props}
@@ -54,7 +54,7 @@ function MenubarTrigger({
     <MenubarPrimitive.Trigger
       data-slot="menubar-trigger"
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground flex items-center rounded-sm px-2 py-1 text-xs 2xl:text-sm font-medium outline-hidden select-none",
+        "flex items-center rounded-sm px-2 py-1 text-xs 2xl:text-sm font-medium outline-hidden select-none transition-colors hover:text-red-900 focus:bg-transparent focus:text-red-900 data-[state=open]:bg-transparent data-[state=open]:text-red-900",
         className
       )}
       {...props}
@@ -77,7 +77,7 @@ function MenubarContent({
         alignOffset={alignOffset}
         sideOffset={sideOffset}
         className={cn(
-          "bg-popover mt-4 w-screen max-w-full text-popover-foreground data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[12rem] origin-(--radix-menubar-content-transform-origin) overflow-hidden rounded-none border p-1 shadow-md",
+          "mt-4 w-screen max-w-full border border-white/60 bg-white/90 text-popover-foreground data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[12rem] origin-(--radix-menubar-content-transform-origin) overflow-hidden rounded-none p-1 shadow-md backdrop-blur-md",
           className
         )}
         {...props}

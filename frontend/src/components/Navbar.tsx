@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className="bg-white/90 pb-4 backdrop-blur-md h-[80px] py-3 flex items-center sticky top-11 z-[150] shadow-lg px-4 w-full">
+      <nav className="bg-white pb-4 h-[80px] py-3 flex items-center sticky top-11 z-[150] shadow-lg px-4 w-full">
         <div className="flex-1">
           <Logo orientation="vertical" type="both" size="small" />
         </div>
