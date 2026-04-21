@@ -89,10 +89,11 @@ const AuthForm: React.FC = () => {
         data = await loginUser(username, password);
       }
 
-      if (data.token) {
-        console.log("Token received:", data.token);
-        console.log("User data", data.user);
-        localStorage.setItem("token", data.token);
+      const token = data.token || data.access;
+
+      if (token) {
+        console.log("Token received:", token);
+        localStorage.setItem("token", token);
         try {
           const storedToken = localStorage.getItem("token");
           console.log("Token in localStorage after setting:", storedToken);
