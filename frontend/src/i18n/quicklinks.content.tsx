@@ -21,6 +21,15 @@ const quickLinksContent: Dictionary = {
         ru: "Свяжитесь с нами",
       }),
     ],
+    visiting_hours: [
+      t({
+        en: "Visiting Hours",
+        fr: "Heures de visite",
+        es: "Horario de visitas",
+        zh: "探访时间",
+        ru: "Часы посещений",
+      }),
+    ],
     emergency: [
       t({
         en: "Emergency :+254 703 082000",
