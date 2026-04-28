@@ -33,15 +33,16 @@ export const api = axios.create({
 });
 
 // Attach token only for write operations (public GETs should not require auth)
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
 
-  if (isAuthenticated(token) && isTokenValid(getPayload(token))) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
+// api.interceptors.request.use((config) => {
+//   const token = localStorage.getItem("token");
 
-  return config;
-});
+//   if (isAuthenticated(token) && isTokenValid(getPayload(token))) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+
+//   return config;
+// });
 
 // AUTH
 
