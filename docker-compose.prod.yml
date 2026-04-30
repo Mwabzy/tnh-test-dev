@@ -21,8 +21,6 @@ services:
         - postgres
     env_file:
       - backend/.prod.env
-    # ports:
-    #   - 8080:8080
     expose:
       - "8080"
     volumes:
