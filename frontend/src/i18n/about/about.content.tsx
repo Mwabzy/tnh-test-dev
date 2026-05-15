@@ -42,11 +42,11 @@ const servicesSection: Dictionary = {
     ],
     visionDescription: [
       t({
-        en: "The renowned modern patient-centered healthcare facility in an atmosphere of trust, safety and comfort.",
-        fr: "L'établissement de santé moderne centré sur le patient, reconnu pour son atmosphère de confiance, de sécurité et de confort.",
-        es: "La reconocida instalación de atención médica centrada en el paciente en un ambiente de confianza, seguridad y comodidad.",
-        zh: "以信任、安全和舒适的氛围著称的现代以患者为中心的医疗设施。",
-        ru: "Известное современное учреждение здравоохранения, ориентированное на пациента, в атмосфере доверия, безопасности и комфорта.",
+        en: "The renowned patient-centered healthcare facility in an atmosphere of trust, safety and comfort.",
+        fr: "L'établissement de santé centré sur le patient, reconnu pour son atmosphère de confiance, de sécurité et de confort.",
+        es: "La reconocida institución de atención médica centrada en el paciente en un ambiente de confianza, seguridad y comodidad.",
+        zh: "以信任、安全和舒适氛围著称的以患者为中心的医疗机构。",
+        ru: "Известное медицинское учреждение, ориентированное на пациента, в атмосфере доверия, безопасности и комфорта.",
       }),
     ],
     missionTitle: [
@@ -59,13 +59,13 @@ const servicesSection: Dictionary = {
       }),
     ],
     missionDescription: [
-      t({
-        en: "To offer exceptional multi-specialty healthcare services by harnessing innovative, dynamic & integrational patient-centered strategies, towards achieving sustainable growth.",
-        fr: "Offrir des services de santé multi-spécialités exceptionnels en exploit  ant des stratégies centrées sur le patient, innovantes, dynamiques et intégratives, pour atteindre une croissance durable.",
-        es: "Ofrecer servicios de salud multi-especialidades excepcionales aprovechando estrategias centradas en el paciente, innovadoras, dinámicas e integradoras, para lograr un crecimiento sostenible.",
-        zh: "通过利用创新、动态和综合的以患者为中心的策略，提供卓越的多专业医疗服务，实现可持续增长。",
-        ru: "Предоставление исключительных многопрофильных медицинских услуг с использованием инновационных, динамичных и интеграционных стратегий, ориентированных на пациента, для достижения устойчивого роста.",
-      }),
+  t({
+      en: "To offer exceptional multi-specialty healthcare services by harnessing innovative, dynamic & integrational people-centered strategies, towards achieving sustainable growth.",
+      fr: "Offrir des services de santé multispecialités exceptionnels en exploitant des stratégies innovantes, dynamiques et intégratives centrées sur les personnes, afin d’atteindre une croissance durable.",
+      es: "Ofrecer servicios de salud multiespecialidad excepcionales mediante estrategias innovadoras, dinámicas e integradoras centradas en las personas, para lograr un crecimiento sostenible.",
+      zh: "通过采用创新、动态和综合性的以人为中心的策略，提供卓越的多专科医疗服务，实现可持续发展。",
+      ru: "Предоставлять исключительные многопрофильные медицинские услуги, используя инновационные, динамичные и комплексные стратегии, ориентированные на людей, для достижения устойчивого роста.",
+     }),
     ],
     sectionTitle: [
       t({
