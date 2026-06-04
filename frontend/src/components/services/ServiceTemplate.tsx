@@ -45,8 +45,11 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
     Record<string, Array<{ day: string; from: string; to: string }>>
   >({});
   const dispatch = useAppDispatch();
-  const { centers, loading: outpatientCentersLoading, initialized } =
-    useAppSelector((state) => state.outpatientCenters);
+  const {
+    centers,
+    loading: outpatientCentersLoading,
+    initialized,
+  } = useAppSelector((state) => state.outpatientCenters);
 
   useEffect(() => {
     if (!initialized && !outpatientCentersLoading) {
@@ -55,8 +58,10 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
   }, [dispatch, initialized, outpatientCentersLoading]);
 
   useEffect(() => {
-    const map: Record<string, Array<{ day: string; from: string; to: string }>> =
-      {};
+    const map: Record<
+      string,
+      Array<{ day: string; from: string; to: string }>
+    > = {};
 
     centers.forEach((center) => {
       const timings = Array.isArray(center?.timings) ? center.timings : [];
@@ -146,8 +151,9 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
     }> = [];
 
     locs.forEach((loc) => {
-      const locationTimings =
-        hasOpcTimingData ? opcTimings : (serviceTypes as any).locationTimings;
+      const locationTimings = hasOpcTimingData
+        ? opcTimings
+        : (serviceTypes as any).locationTimings;
 
       let schedules = locationTimings?.[loc] as Array<any> | undefined;
 
@@ -313,7 +319,8 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
               <div
                 dangerouslySetInnerHTML={{
                   __html: sanitizeHtml(
-                    addClassesToDescription(detailedDescription as string) ?? "",
+                    addClassesToDescription(detailedDescription as string) ??
+                      "",
                   ),
                 }}
                 className="prose prose-gray max-w-none text-gray-700 leading-relaxed mb-6 prose-ul:list-disc prose-ol:list-decimal prose-ul:pl-6 prose-ol:pl-6"
@@ -532,7 +539,9 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                     src={mainImage.url}
                     alt={mainImage.alt || title}
                     className="w-full h-48 object-cover bg-gray-50"
-                    style={{ objectPosition: getImageObjectPosition(mainImage) }}
+                    style={{
+                      objectPosition: getImageObjectPosition(mainImage),
+                    }}
                   />
                   <div className="p-3">
                     <div className="text-sm font-medium text-gray-900">
@@ -550,23 +559,23 @@ const ServiceTemplate: React.FC<ServiceTemplateProps> = ({ serviceTypes }) => {
                 </h4>
                 <div className="space-y-3 mb-4">
                   <a
-                    href={`tel:${contact?.phone?.trim() || "+254700000001"}`}
+                    href={`tel:${contact?.phone?.trim() || "+254703082000"}`}
                     className="flex items-center gap-3 text-sm text-gray-700"
                   >
                     <Phone className="h-4 w-4 text-red-900" />
                     <span className="font-medium">
-                      {contact?.phone?.trim() || "+254 700 000 001"}
+                      {contact?.phone?.trim() || "+254703082000"}
                     </span>
                   </a>
                   <a
                     href={`mailto:${
-                      contact?.email?.trim() || "neurology@nbihosp.org"
+                      contact?.email?.trim() || "medicalenquiries@nbihosp.org"
                     }`}
                     className="flex items-center gap-3 text-sm text-gray-700"
                   >
                     <Mail className="h-4 w-4 text-red-900" />
                     <span className="font-medium">
-                      {contact?.email?.trim() || "neurology@nbihosp.org"}
+                      {contact?.email?.trim() || "medicalenquiries@nbihosp.org"}
                     </span>
                   </a>
                   <div className="flex items-start gap-3 text-sm text-gray-700">
