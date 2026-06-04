@@ -92,11 +92,11 @@ const OutpatientCenterForm = ({
   /* Translation state for description */
   const [descriptionTranslations, setDescriptionTranslations] =
     useState<TranslationMap>({
-    fr: initialData?.description_fr || "",
-    es: initialData?.description_es || "",
-    zh: initialData?.description_zh || "",
-    ru: initialData?.description_ru || "",
-  });
+      fr: initialData?.description_fr || "",
+      es: initialData?.description_es || "",
+      zh: initialData?.description_zh || "",
+      ru: initialData?.description_ru || "",
+    });
 
   // Track which translation panel is open
   const [openTranslation, setOpenTranslation] = useState<"description" | null>(
@@ -142,29 +142,53 @@ const OutpatientCenterForm = ({
 
   const HOURS = [
     "12:00 AM",
+    "12:30 AM",
     "1:00 AM",
+    "1:30 AM",
     "2:00 AM",
+    "2:30 AM",
     "3:00 AM",
+    "3:30 AM",
     "4:00 AM",
+    "4:30 AM",
     "5:00 AM",
+    "5:30 AM",
     "6:00 AM",
+    "6:30 AM",
     "7:00 AM",
+    "7:30 AM",
     "8:00 AM",
+    "8:30 AM",
     "9:00 AM",
+    "9:30 AM",
     "10:00 AM",
+    "10:30 AM",
     "11:00 AM",
+    "11:30 AM",
     "12:00 PM",
+    "12:30 PM",
     "1:00 PM",
+    "1:30 PM",
     "2:00 PM",
+    "2:30 PM",
     "3:00 PM",
+    "3:30 PM",
     "4:00 PM",
+    "4:30 PM",
     "5:00 PM",
+    "5:30 PM",
     "6:00 PM",
+    "6:30 PM",
     "7:00 PM",
+    "7:30 PM",
     "8:00 PM",
+    "8:30 PM",
     "9:00 PM",
+    "9:30 PM",
     "10:00 PM",
+    "10:30 PM",
     "11:00 PM",
+    "11:30 PM",
   ];
 
   const getValidEndTimes = (startTime: string) => {
@@ -281,7 +305,10 @@ const OutpatientCenterForm = ({
   }, [initialData]);
 
   useEffect(() => {
-    if (isBlank(description) || !hasMissingTranslation(descriptionTranslations)) {
+    if (
+      isBlank(description) ||
+      !hasMissingTranslation(descriptionTranslations)
+    ) {
       return;
     }
 
@@ -299,7 +326,10 @@ const OutpatientCenterForm = ({
           );
         }
       } catch (error) {
-        console.error("Failed to auto-fill outpatient center translations:", error);
+        console.error(
+          "Failed to auto-fill outpatient center translations:",
+          error,
+        );
       }
     }, 700);
 
@@ -346,7 +376,10 @@ const OutpatientCenterForm = ({
     setSubmitting(true); // start loader
 
     let nextDescriptionTranslations = { ...descriptionTranslations };
-    if (!isBlank(description) && hasMissingTranslation(nextDescriptionTranslations)) {
+    if (
+      !isBlank(description) &&
+      hasMissingTranslation(nextDescriptionTranslations)
+    ) {
       try {
         const translations = await fetchOutpatientCenterTranslationPreview({
           description: sanitizeHtml(description),
@@ -359,7 +392,10 @@ const OutpatientCenterForm = ({
           setDescriptionTranslations(nextDescriptionTranslations);
         }
       } catch (error) {
-        console.error("Failed to backfill outpatient center translations:", error);
+        console.error(
+          "Failed to backfill outpatient center translations:",
+          error,
+        );
       }
     }
 
@@ -386,10 +422,22 @@ const OutpatientCenterForm = ({
     formData.append("location", location);
     formData.append("description", sanitizeHtml(description));
 
-    formData.append("description_fr", sanitizeHtml(nextDescriptionTranslations.fr));
-    formData.append("description_es", sanitizeHtml(nextDescriptionTranslations.es));
-    formData.append("description_zh", sanitizeHtml(nextDescriptionTranslations.zh));
-    formData.append("description_ru", sanitizeHtml(nextDescriptionTranslations.ru));
+    formData.append(
+      "description_fr",
+      sanitizeHtml(nextDescriptionTranslations.fr),
+    );
+    formData.append(
+      "description_es",
+      sanitizeHtml(nextDescriptionTranslations.es),
+    );
+    formData.append(
+      "description_zh",
+      sanitizeHtml(nextDescriptionTranslations.zh),
+    );
+    formData.append(
+      "description_ru",
+      sanitizeHtml(nextDescriptionTranslations.ru),
+    );
 
     formData.append("timings", JSON.stringify(cleanedTimings));
     formData.append("services_offered", JSON.stringify(selectedServices));
@@ -450,7 +498,10 @@ const OutpatientCenterForm = ({
 
       toast.success("Translations regenerated.");
     } catch (error) {
-      console.error("Failed to regenerate outpatient center translations:", error);
+      console.error(
+        "Failed to regenerate outpatient center translations:",
+        error,
+      );
       toast.error("Failed to regenerate translations.");
     } finally {
       setIsRegeneratingTranslations(false);
