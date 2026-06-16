@@ -59,6 +59,7 @@ services:
     restart: unless-stopped
     environment:
       DISABLE_TEMPLATE_GENERATION: "true"
+    user: root
     command: >
       /bin/sh -c "
         rm -f /etc/nginx/conf.d/default.conf &&
