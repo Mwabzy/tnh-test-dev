@@ -55,7 +55,7 @@ services:
 
   waf:
     image: owasp/modsecurity-crs:nginx
-    container_name: waf
+    container_name: tnhweb_waf
     restart: unless-stopped
     environment:
       DISABLE_TEMPLATE_GENERATION: "true"
