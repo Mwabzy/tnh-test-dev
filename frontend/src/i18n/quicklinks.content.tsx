@@ -3,6 +3,15 @@ import { t, type Dictionary } from "intlayer";
 const quickLinksContent: Dictionary = {
   key: "quickLinksContent",
   content: {
+    find_a_doctor: [
+      t({
+        en: "Find a Doctor",
+        fr: "Trouver un médecin",
+        es: "Encontrar un médico",
+        zh: "查找医生",
+        ru: "Найти врача",
+      }),
+    ],
     bookingtitle: [
       t({
         en: "Book an appointment",

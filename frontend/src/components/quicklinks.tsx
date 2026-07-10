@@ -1,4 +1,4 @@
-import { Phone, Ambulance, ClipboardClock, Clock3 } from "lucide-react";
+import { Phone, Ambulance, ClipboardClock, Clock3, Stethoscope } from "lucide-react";
 import { Link } from "react-router";
 import { useIntlayer } from "react-intlayer";
 
@@ -15,6 +15,11 @@ const Quicklinks = () => {
         <Link to={`/booking-calendar?serviceId=1`} className="flex items-center space-x-1 sm:space-x-2 min-w-0">
           <ClipboardClock className="w-4 h-4 text-yellow-400 shrink-0" />
           <span className="font-semibold text-[11px] sm:text-sm leading-none whitespace-nowrap">{content.bookingtitle}</span>
+        </Link>
+
+        <Link to="/doctor-profiles" className="flex items-center space-x-1 sm:space-x-2 min-w-0">
+          <Stethoscope className="w-4 h-4 text-yellow-400 shrink-0" />
+          <span className="font-semibold text-[11px] sm:text-sm leading-none whitespace-nowrap">{content.find_a_doctor}</span>
         </Link>
 
         <Link to="/contact-us" className="flex items-center space-x-1 sm:space-x-2 min-w-0">
