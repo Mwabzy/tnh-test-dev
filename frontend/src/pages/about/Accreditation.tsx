@@ -49,6 +49,7 @@ const Accreditation = () => {
               <li>ISO 14001:2015 Environmental Management System (EMS)</li>
               <li>Scope covers main Hospital and the Outpatient Centres</li>
               <li>ISO 22000:2018 Food Safety Management System (FSMS)</li>
+              <li>ISO 45001:2018 Occupational Health and Safety</li>
               <li>
                 Scope covers procurement of food items, food production and food
                 service
