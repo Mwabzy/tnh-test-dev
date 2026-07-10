@@ -15,6 +15,16 @@ import { applyDocumentSeo, trimMetaDescription } from "@/lib/seoDom";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { fetchOutpatientCenters } from "@/store/outpatientCentersSlice";
 
+const DAY_ORDER: Record<string, number> = {
+  monday: 0, mon: 0,
+  tuesday: 1, tue: 1,
+  wednesday: 2, wed: 2,
+  thursday: 3, thu: 3,
+  friday: 4, fri: 4,
+  saturday: 5, sat: 5,
+  sunday: 6, sun: 6,
+};
+
 type ServiceSummary = {
   id: number;
   title: string;
@@ -281,6 +291,14 @@ const OutpatientCenterDetails = () => {
         month: timing.month,
         startTime: timing.startTime,
         stopTime: timing.stopTime,
+      });
+    });
+
+    map.forEach((entries) => {
+      entries.sort((a, b) => {
+        const aOrder = DAY_ORDER[a.day?.toLowerCase()] ?? 99;
+        const bOrder = DAY_ORDER[b.day?.toLowerCase()] ?? 99;
+        return aOrder - bOrder;
       });
     });
 

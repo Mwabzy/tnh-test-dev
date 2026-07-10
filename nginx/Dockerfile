@@ -26,8 +26,6 @@ RUN apk add --no-cache openssl curl coreutils
 # Copy config and startup script
 COPY nginx/conf/nginx.conf /etc/nginx/conf.d/default.conf
 COPY nginx/manager.sh /manager.sh
-RUN mkdir -p /var/www/.well-known/pki-validation
-COPY nginx/conf/3D5DAEEA00D00E562F7470DDFF884748.txt /var/www/.well-known/pki-validation
 # Copy frontend build from previous stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
