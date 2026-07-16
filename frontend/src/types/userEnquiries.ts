@@ -8,6 +8,9 @@ export const USER_ENQUIRY_CATEGORIES = [
 
 export type UserEnquiryCategory = (typeof USER_ENQUIRY_CATEGORIES)[number];
 
+export const EMAIL_STATUS_SENT = "email sent";
+export const EMAIL_STATUS_FAILED = "email not sent";
+
 export interface UserEnquiry {
   id: string;
   category: UserEnquiryCategory;
@@ -21,6 +24,7 @@ export interface UserEnquiry {
   location?: string;
   appointmentDate?: string | null;
   appointmentTime?: string | null;
+  emailStatus?: string;
   createdAt: string;
   updatedAt: string;
 }

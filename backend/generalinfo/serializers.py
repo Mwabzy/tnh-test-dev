@@ -462,6 +462,7 @@ class UserEnquirySerializer(serializers.ModelSerializer):
     )
     createdAt = serializers.DateTimeField(source="created_at", read_only=True)
     updatedAt = serializers.DateTimeField(source="updated_at", read_only=True)
+    emailStatus = serializers.CharField(source="email_status", read_only=True)
 
     class Meta:
         model = UserEnquiry
@@ -478,10 +479,11 @@ class UserEnquirySerializer(serializers.ModelSerializer):
             "location",
             "appointmentDate",
             "appointmentTime",
+            "emailStatus",
             "createdAt",
             "updatedAt",
         )
-        read_only_fields = ("id", "createdAt", "updatedAt")
+        read_only_fields = ("id", "createdAt", "updatedAt", "emailStatus")
 
 
 class RecipientEmailSettingSerializer(serializers.ModelSerializer):

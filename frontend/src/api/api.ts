@@ -15,6 +15,7 @@ const OUTPATIENT_CENTER_API = "/outpatient-centers/";
 const CLINICAL_FAQS_API = "/clinical-faqs/";
 const ROOM_WARDS_API = "/room-wards/";
 const BOOKING_API = "/send_email/";
+const BOOKED_SLOTS_API = "/booked-slots/";
 const CAREERS_API = "/careers/";
 const TENDERS_API = "/tenders/";
 const PUBLIC_STATEMENTS_API = "/public-statements/";
@@ -448,6 +449,15 @@ export async function deleteOutpatientCenter(id: number) {
 export async function sendEmail(data: any) {
   const res = await api.post(BOOKING_API, data);
   return res.data;
+}
+
+export async function fetchBookedSlots(params: {
+  service: string;
+  location: string;
+  date: string;
+}): Promise<string[]> {
+  const res = await api.get(BOOKED_SLOTS_API, { params });
+  return res.data?.booked ?? [];
 }
 // ---------------- CLINICAL FAQS ----------------
 export async function fetchClinicalFaqs() {

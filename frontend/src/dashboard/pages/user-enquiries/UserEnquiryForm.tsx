@@ -6,6 +6,7 @@ import {
   USER_ENQUIRY_RECIPIENT_MAP,
 } from "@/config/userEnquiries";
 import toast from "react-hot-toast";
+import EmailStatusBadge from "./EmailStatusBadge";
 
 interface UserEnquiryFormProps {
   category: UserEnquiryCategory;
@@ -163,6 +164,15 @@ const UserEnquiryForm = ({
           />
         </div>
       </div>
+
+      {initialData?.id && (
+        <div>
+          <label className="font-medium block mb-1">Email Status</label>
+          <div className="border p-2 w-full bg-gray-100">
+            <EmailStatusBadge status={initialData.emailStatus} />
+          </div>
+        </div>
+      )}
 
       {isBookingCategory && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

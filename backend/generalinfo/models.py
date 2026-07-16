@@ -298,6 +298,16 @@ class UserEnquiry(models.Model):
         (CATEGORY_JOBS, "Job enquiries"),
     ]
 
+    EMAIL_STATUS_PENDING = "pending"
+    EMAIL_STATUS_SENT = "email sent"
+    EMAIL_STATUS_FAILED = "email not sent"
+
+    EMAIL_STATUS_CHOICES = [
+        (EMAIL_STATUS_PENDING, "Pending"),
+        (EMAIL_STATUS_SENT, "Email sent"),
+        (EMAIL_STATUS_FAILED, "Email not sent"),
+    ]
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, db_index=True)
@@ -312,6 +322,12 @@ class UserEnquiry(models.Model):
     location = models.CharField(max_length=255, blank=True)
     appointment_date = models.DateField(blank=True, null=True)
     appointment_time = models.TimeField(blank=True, null=True)
+
+    email_status = models.CharField(
+        max_length=20,
+        choices=EMAIL_STATUS_CHOICES,
+        default=EMAIL_STATUS_PENDING,
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -355,7 +371,7 @@ class Appointment(models.Model):
     patient_email = models.EmailField()
     additional_info = models.TextField(blank=True)
 
-    # Prevent double booking for the same location/date/time.
+    # Prevent double booking of the same service at the same location/date/time.
     slot_key = models.CharField(max_length=512, unique=True, editable=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -367,6 +383,7 @@ class Appointment(models.Model):
     def build_slot_key(self) -> str:
         return "|".join(
             [
+                self._normalize(self.service),
                 self._normalize(self.location),
                 self.appointment_date.isoformat(),
                 self.appointment_time.strftime("%H:%M"),

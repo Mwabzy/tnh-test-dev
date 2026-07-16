@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { UserEnquiry, UserEnquiryCategory } from "@/types";
+import EmailStatusBadge from "./EmailStatusBadge";
 
 interface UserEnquiryTableProps {
   category: UserEnquiryCategory;
@@ -41,6 +42,7 @@ const UserEnquiryTable: FC<UserEnquiryTableProps> = ({
             ) : (
               <th className="p-3">User Email</th>
             )}
+            <th className="p-3">Email Status</th>
             <th className="p-3">Actions</th>
           </tr>
         </thead>
@@ -59,6 +61,9 @@ const UserEnquiryTable: FC<UserEnquiryTableProps> = ({
               ) : (
                 <td className="p-3">{enquiry.email}</td>
               )}
+              <td className="p-3">
+                <EmailStatusBadge status={enquiry.emailStatus} />
+              </td>
               <td className="p-3 flex gap-2">
                 <button
                   onClick={() => onEdit(enquiry)}

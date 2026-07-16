@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router";
 import {
   sendEmail,
   fetchRecipientEmailSettings,
+  fetchBookedSlots,
 } from "@/api/api";
 import { useDispatch, useSelector } from "react-redux";
 import { ClinicalService, Doctor } from "@/types";
@@ -252,6 +253,12 @@ const BookingPage: React.FC<BookingPageProps> = ({
 
   const formatMultiline = (value: string) =>
     escapeHtml(value).replace(/\r?\n/g, "<br />");
+
+  const formatDateKey = (date: Date) =>
+    `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+      2,
+      "0",
+    )}-${String(date.getDate()).padStart(2, "0")}`;
 
   const SLOT_INTERVAL_MINUTES = 30;
   const DAY_INDEX: Record<string, number> = {
@@ -514,12 +521,13 @@ const BookingPage: React.FC<BookingPageProps> = ({
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const serviceName = useMemo(
+    () => (isDoctorBooking ? selectedService : selectedServiceFromList?.title),
+    [isDoctorBooking, selectedService, selectedServiceFromList],
+  );
+
   // Replace your entire handleConfirm function with this:
   const handleConfirm = async () => {
-    const serviceName = isDoctorBooking
-      ? selectedService
-      : selectedServiceFromList?.title;
-
     if (!serviceName || !selectedLocation || !selectedDate || !selectedTime) {
       toast.error(
         "Please select service, location, date and time before confirming.",
@@ -533,9 +541,7 @@ const BookingPage: React.FC<BookingPageProps> = ({
       return;
     }
 
-    const appointmentDate = `${selectedDate.getFullYear()}-${String(
-      selectedDate.getMonth() + 1,
-    ).padStart(2, "0")}-${String(selectedDate.getDate()).padStart(2, "0")}`;
+    const appointmentDate = formatDateKey(selectedDate);
 
     const booking = {
       service: serviceName,
@@ -669,10 +675,51 @@ const BookingPage: React.FC<BookingPageProps> = ({
     return buildSlotsFromRanges(ranges);
   };
 
+  // Times already taken for this service/location/date, so the calendar can
+  // hide them instead of failing on submit.
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!serviceName || !selectedLocation || !selectedDate) {
+      setBookedSlots([]);
+      return;
+    }
+
+    let cancelled = false;
+    fetchBookedSlots({
+      service: serviceName,
+      location: selectedLocation,
+      date: formatDateKey(selectedDate),
+    })
+      .then((booked) => {
+        if (!cancelled) setBookedSlots(booked);
+      })
+      .catch((error) => {
+        // Fall back to showing every slot; submitting still guards against
+        // double booking.
+        console.error("Could not load booked slots:", error);
+        if (!cancelled) setBookedSlots([]);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [serviceName, selectedLocation, selectedDate]);
+
   const availableSlots = useMemo(
-    () => getSlotsForDate(selectedDate),
-    [selectedDate, timingRulesByDay],
+    () =>
+      getSlotsForDate(selectedDate).filter(
+        (slot) => !bookedSlots.includes(slot),
+      ),
+    [selectedDate, timingRulesByDay, bookedSlots],
   );
+
+  // Drop a selection that has just been taken by someone else.
+  useEffect(() => {
+    if (selectedTime && bookedSlots.includes(selectedTime)) {
+      setSelectedTime(null);
+    }
+  }, [bookedSlots, selectedTime]);
 
   // Prefill state from query params
   useEffect(() => {

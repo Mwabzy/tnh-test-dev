@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import action
 from django.db import IntegrityError, transaction
+from django.utils.dateparse import parse_date
 from web.send_email import send_email
 
 from .models import (
@@ -355,27 +356,23 @@ class SendEmailViewSet(viewsets.ViewSet):
         appointment_payload = self._build_appointment_payload(validated_data)
         user_enquiry_payload = self._build_user_enquiry_payload(validated_data)
 
+        enquiry = None
         try:
             if appointment_payload or user_enquiry_payload:
                 with transaction.atomic():
                     if appointment_payload:
                         Appointment.objects.create(**appointment_payload)
                     if user_enquiry_payload:
-                        UserEnquiry.objects.create(**user_enquiry_payload)
-                    send_email(
-                        recipient_email=recipient_email,
-                        subject=subject,
-                        body=body,
-                    )
-            else:
-                send_email(
-                    recipient_email=recipient_email,
-                    subject=subject,
-                    body=body,
+                        enquiry = UserEnquiry.objects.create(**user_enquiry_payload)
+        except IntegrityError as e:
+            # Only a slot_key collision means the slot is taken; any other
+            # integrity error is a real bug and must not be reported as one.
+            if "slot_key" not in str(e):
+                logger.error(f"Integrity error creating booking: {e}", exc_info=True)
+                return Response(
+                    {"error": "Failed to create booking. Please try again."},
+                    status=500,
                 )
-
-            return Response({"status": "Email sent successfully"}, status=200)
-        except IntegrityError:
             return Response(
                 {
                     "error": "This slot has already been booked. Please choose another time.",
@@ -383,9 +380,37 @@ class SendEmailViewSet(viewsets.ViewSet):
                 },
                 status=409,
             )
+
+        # Sent outside the transaction so a delivery failure is recorded against
+        # the enquiry instead of discarding the booking.
+        try:
+            send_email(
+                recipient_email=recipient_email,
+                subject=subject,
+                body=body,
+            )
         except Exception as e:
             logger.error(f"Failed to send email to {recipient_email}: {e}", exc_info=True)
+            if enquiry:
+                enquiry.email_status = UserEnquiry.EMAIL_STATUS_FAILED
+                enquiry.save(update_fields=["email_status"])
+                # The booking itself was saved, so this is a success for the
+                # patient; staff chase the delivery failure from the dashboard.
+                return Response(
+                    {
+                        "status": "Booking saved, notification email pending",
+                        "emailStatus": UserEnquiry.EMAIL_STATUS_FAILED,
+                    },
+                    status=200,
+                )
+            # Nothing was persisted, so a failure here loses the message.
             return Response({"error": f"Failed to send email: {str(e)}"}, status=500)
+
+        if enquiry:
+            enquiry.email_status = UserEnquiry.EMAIL_STATUS_SENT
+            enquiry.save(update_fields=["email_status"])
+
+        return Response({"status": "Email sent successfully"}, status=200)
 
     def create(self, request, *args, **kwargs):
         return self._send(request)
@@ -393,6 +418,45 @@ class SendEmailViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'], url_path="send_email")
     def send_email(self, request):
         return self._send(request)
+
+
+class BookedSlotViewSet(viewsets.ViewSet):
+    """Read-only view of which times are taken, so the calendar can hide them.
+
+    Only times are returned; the calendar is public and must never see
+    patient details.
+    """
+
+    permission_classes = [AllowAny]
+
+    def list(self, request):
+        service = request.query_params.get("service", "")
+        location = request.query_params.get("location", "")
+        date = parse_date(request.query_params.get("date", "") or "")
+
+        if not service or not location or not date:
+            return Response(
+                {"error": "service, location and date query params are required."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # Mirrors Appointment.build_slot_key so this matches the unique
+        # constraint exactly.
+        prefix = "|".join(
+            [
+                Appointment._normalize(service),
+                Appointment._normalize(location),
+                date.isoformat(),
+                "",
+            ]
+        )
+        booked = (
+            Appointment.objects.filter(slot_key__startswith=prefix)
+            .order_by("appointment_time")
+            .values_list("appointment_time", flat=True)
+        )
+
+        return Response({"booked": [t.strftime("%H:%M") for t in booked]})
 
 
 class UserEnquiryViewSet(viewsets.ModelViewSet):

@@ -29,48 +29,55 @@ def get_access_token():
 # Microsoft Graph API URL
 GRAPH_API_URL = f"https://graph.microsoft.com/v1.0/users/{settings.MICROSOFT_EMAIL_SENDER}/sendMail"
 
+class EmailSendError(Exception):
+    """Raised when an email could not be handed off to Microsoft Graph."""
+
+
 def send_email(recipient_email, subject, body, cc_emails=None):
-    """Send an email using Microsoft Graph API."""
-    try:
-        access_token = get_access_token()  # Get token from settings
+    """Send an email using Microsoft Graph API.
 
-        # Normalize recipients to list
-        to_emails = [recipient_email] if isinstance(recipient_email, str) else recipient_email or []
-        cc_emails = [cc_emails] if isinstance(cc_emails, str) else (cc_emails or [])
+    Raises EmailSendError if the message was not accepted, so callers can
+    record the failure rather than reporting a success that never happened.
+    """
+    access_token = get_access_token()  # Get token from settings
 
-        # Validate emails
-        to_emails = [email for email in to_emails if EMAIL_REGEX.fullmatch(email)]
-        cc_emails = [email for email in cc_emails if EMAIL_REGEX.fullmatch(email)]
+    # Normalize recipients to list
+    to_emails = [recipient_email] if isinstance(recipient_email, str) else recipient_email or []
+    cc_emails = [cc_emails] if isinstance(cc_emails, str) else (cc_emails or [])
 
-        if not to_emails:
-            logger.warning("❌ No valid recipient emails provided. Email not sent.")
-            return
+    # Validate emails
+    to_emails = [email for email in to_emails if EMAIL_REGEX.fullmatch(email)]
+    cc_emails = [email for email in cc_emails if EMAIL_REGEX.fullmatch(email)]
 
-        message = {
-            "subject": subject,
-            "body": {"contentType": "HTML", "content": body},
-            "from": {"emailAddress": {"address": settings.MICROSOFT_EMAIL_SENDER}},
-            "toRecipients": [{"emailAddress": {"address": email}} for email in to_emails],
-        }
+    if not to_emails:
+        logger.warning("❌ No valid recipient emails provided. Email not sent.")
+        raise EmailSendError(f"No valid recipient email in {recipient_email!r}")
 
-        # Add CC if provided
-        if cc_emails:
-            message["ccRecipients"] = [{"emailAddress": {"address": email}} for email in cc_emails]
+    message = {
+        "subject": subject,
+        "body": {"contentType": "HTML", "content": body},
+        "from": {"emailAddress": {"address": settings.MICROSOFT_EMAIL_SENDER}},
+        "toRecipients": [{"emailAddress": {"address": email}} for email in to_emails],
+    }
 
-        email_message = {"message": message}
+    # Add CC if provided
+    if cc_emails:
+        message["ccRecipients"] = [{"emailAddress": {"address": email}} for email in cc_emails]
 
-        headers = {
-            "Authorization": f"Bearer {access_token}",
-            "Content-Type": "application/json",
-        }
+    email_message = {"message": message}
 
-        response = requests.post(GRAPH_API_URL, json=email_message, headers=headers)
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
 
-        if response.status_code == 202:
-            logger.info(f"✅ Email sent to {to_emails} (CC: {cc_emails}) at {timezone.now()}")
-        else:
-            logger.error(f"❌ Failed to send email to {to_emails} at {timezone.now()}. "
-                         f"Status: {response.status_code}, Response: {response.text}")
+    response = requests.post(GRAPH_API_URL, json=email_message, headers=headers)
 
-    except Exception as e:
-        logger.error(f"❌ Exception occurred while sending email to {recipient_email} at {timezone.now()}: {e}", exc_info=True)
+    if response.status_code != 202:
+        logger.error(f"❌ Failed to send email to {to_emails} at {timezone.now()}. "
+                     f"Status: {response.status_code}, Response: {response.text}")
+        raise EmailSendError(
+            f"Graph API returned {response.status_code}: {response.text}"
+        )
+
+    logger.info(f"✅ Email sent to {to_emails} (CC: {cc_emails}) at {timezone.now()}")
